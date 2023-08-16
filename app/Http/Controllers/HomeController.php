@@ -21,8 +21,20 @@ class HomeController extends Controller
     }
     public function Login()
     {
-        return view('user.login');
+        $countries = DB::table('country')->get();
+        return view('user.login',compact('countries'));
     }
+    public function getStates($country)
+    {
+        $states = DB::table('state')->where('country_id', $country)->get();
+        return response()->json($states);
+    }
+    public function getDistricts($state)
+    {
+        $districts = DB::table('district')->where('state_id', $state)->get();
+        return response()->json($districts);
+    }
+
     public function RegisterPage(Request $request)
     {
 
@@ -710,6 +722,99 @@ class HomeController extends Controller
                 return response()->json(['result' => 2]);
             }
         }
+
+    }
+
+
+
+    public function MobLoginOTPgenrte(Request $request)
+    {
+        $logn_mob = $request->input('logn_mob');
+        $loggedUserIp = $_SERVER['REMOTE_ADDR'];
+        $time=date('Y-m-d H:i:s');
+        $UserAccount = new UserAccount();
+        $LogDetails = new LogDetails();
+        $OTPGenModel = new OTPGenerate();
+        $random_chars = '';
+        $mobile = $logn_mob;
+        $userAccuntData = UserAccount::where('mobno', $mobile)->get();
+        $cnt = count($userAccuntData);
+        if($cnt>0)
+        {
+            foreach ($userAccuntData as $row) {
+
+                $id = $row->id;
+                $fname = $row->name;
+                $email = $row->email;
+                $mobno = $row->mobno;
+            }
+            $request->session()->put('mobno', $mobno);
+            $msg="Your One Time Password is ";
+                $characters = array(
+                "1","2","3","4","5","6","7","8","9"
+            );
+            $keys = array();
+            while (count($keys) < 6) {
+                $x = mt_rand(0, count($characters) - 1);
+                if (!in_array($x, $keys)) {
+                    $keys[] = $x;
+                }
+            }
+            foreach ($keys as $key) {
+                $random_chars.= $characters[$key];
+            }
+            $message='The OTP has been send to your registered mobile number, '.$msg.' : '.$random_chars;
+            $otpMobData = $OTPGenModel->where(['otpmsgtype' => $mobno])->get();
+            if(count($otpMobData)>0)
+            {
+                foreach($otpMobData as $row)
+                {
+                    $otpid=$row->id;
+
+                    $data = [
+                        'otp' 			=> $random_chars,
+                        'updated_by' 	=> $id,
+                        'updated_at' 	=> $time
+                    ];
+                    $OTPGenModel->where('id', $otpid)->update($data);
+                }
+                    //Mail::to($email)->send($emailid);
+                    $msg = "Mobile Number : " . $mobno . " User Reg ID " . $id. " OTP is " . $message;
+                    $logdata = [
+                        'user_id'       => $email,
+                        'ip_address'    => $loggedUserIp,
+                        'log_time'      => $time,
+                        'status'        => $msg
+                    ];
+                    $LogDetails->insert($logdata);
+            }
+            else{
+                    $data = [
+                        'user_id' 	    => $id,
+                        'otpmsgtype' 	=> $mobno,
+                        'otp' 			=> $random_chars,
+                        'created_time' 	=> $time
+                    ];
+                    $OTPGenModel->insert($data);
+                    //Mail::to($email)->send($emailid);
+                    $msg = "Email ID : " . $email . " User Reg ID " . $id. " OTP is " . $message;
+                    $logdata = [
+                        'user_id'       => $email,
+                        'ip_address'    => $loggedUserIp,
+                        'log_time'      => $time,
+                        'status'        => $msg
+                    ];
+                    $LogDetails->insert($logdata);
+                }
+
+
+                return response()->json(['result' => 3,'mesge'=>$message,'sendto'=>$mobno]);
+
+        }
+        else{
+            return response()->json(['result' => 2]);
+        }
+
 
     }
 

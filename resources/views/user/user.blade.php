@@ -1,3 +1,3 @@
-@include('user.includes.header')
+@include('includes.header')
 @yield('content')
-@include('user.includes.footer')
+@include('includes.footer')
