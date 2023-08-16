@@ -27,6 +27,7 @@
         .success-message {
             color: green;
         }
+        
         #loading-image {
             position: fixed;
             top: 50%;
