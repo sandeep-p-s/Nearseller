@@ -19,7 +19,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('index',[HomeController::class,'index'])->name('Home');
-Route::get('login',[HomeController::class,'Login'])->name('Login');
+Route::get('login',[HomeController::class,'Login'])->name('login');
 Route::post('register', [HomeController::class, 'RegisterPage'])->name('Register');
 Route::get('verifyMail/{verificationToken}', [HomeController::class, 'VerifyMailPage'])->name('verifyMail');
 Route::post('existemail',[HomeController::class,'ExistEmailCheck'])->name('existemail');
