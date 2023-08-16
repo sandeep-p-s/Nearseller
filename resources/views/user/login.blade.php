@@ -212,24 +212,46 @@
 
                             <div id="sellerreg" style="display: none;">
                                 <form id="SellerRegForm">
-                                    <div class="form-outline mb-4">
-                                        <input type="text" id="s_name" name="s_name" class="form-control form-control-lg" placeholder="Enter Name" />
+                                    <div class="form-outline mb-3">
+                                        <input type="text" id="" class="form-control form-control-lg"  placeholder="Shop Name" />
                                     </div>
-                                    <div class="form-outline mb-4">
-                                        <input type="email" id="s_emid" name="s_emid" class="form-control form-control-lg" placeholder="Enter Email" />
+                                    <div class="form-outline mb-3">
+                                        <input type="text" id="" class="form-control form-control-lg"  placeholder="Owner Name" />
                                     </div>
-                                    <div class="form-outline mb-4">
-                                        <input type="text" id="s_mobno" name="s_mobno" class="form-control form-control-lg" placeholder="Enter Mobile No" />
+                                    <div class="form-outline mb-3">
+                                        <input type="text" id="" class="form-control form-control-lg" placeholder="Enter Mobile No" />
                                     </div>
-                                    <div class="form-outline mb-4">
-                                        <input type="password" id="s_paswd" name="s_paswd" class="form-control form-control-lg" placeholder="Enter Password" />
+                                    <div class="form-outline mb-3">
+                                        <input type="email" id="" class="form-control form-control-lg" placeholder="Enter Email" />
                                     </div>
-                                    <div class="form-outline mb-4">
-                                        <input type="password" id="s_rpaswd" name="s_rpaswd" class="form-control form-control-lg" placeholder="Re-Enter password" />
+                                    <div class="form-outline mb-3">
+                                        <input type="text" id="" class="form-control form-control-lg" placeholder="Referral ID" />
+                                    </div>
+                                    <div class="form-outline mb-3">
+                                        <select class="form-select form-control form-control-lg" aria-label="Default select example">
+                                            <option >Business Type</option><br/>
+                                            <option value="1">Affiliate</option><br/>
+                                            <option value="2">Seller</option>
+                                          </select>
+                                    </div>
+                                    <div class="form-outline mb-3">
+                                        <select class="form-select form-control form-control-lg" aria-label="Default select example">
+                                            <option >Shop Type/Service Type</option><br/>
+                                            <option value="1">Affiliate</option><br/>
+                                            <option value="2">Seller</option>
+                                          </select>
+                                    </div>
+                                    <div class="form-outline mb-3">
+                                        <select class="form-select form-control form-control-lg" aria-label="Default select example">
+                                            <option >Shop Adding Executive Name</option><br/>
+                                            <option value="1">Affiliate</option><br/>
+                                            <option value="2">Seller</option>
+                                          </select>
                                     </div>
 
-                                    <div class="form-outline mb-4">
-                                        <input type="hidden" id="regval" name="regval" class="form-control form-control-lg" value="2" />
+                                    <div class="checkbox form-check-inline">
+                                        <input type="checkbox" id="inlineCheckbox1" value="option1">
+                                        <label class="terms_text" for="inlineCheckbox1"> Accept Terms & Conditions </label>
                                     </div>
                                     <p class="small mb-5 pb-lg-2 float-end" id="login_form">Already have an account?<a href="#" style="color:#432791;">Sign in</a></p>
                                     <div class="pt-1 mb-4 loginform_btn">
@@ -243,23 +265,55 @@
                             <div id="affiliatereg" style="display: none;">
                                 <form id="AffiliateRegForm">
 
-                                    <div class="form-outline mb-4">
-                                        <input type="text" id="a_name" name="a_name" class="form-control form-control-lg" placeholder="Enter Name" />
+                                    <div class="form-outline mb-3">
+                                        <input type="text" id="" class="form-control form-control-lg" placeholder="Name" />
                                     </div>
-                                    <div class="form-outline mb-4">
-                                        <input type="email" id="a_emid" name="a_emid" class="form-control form-control-lg" placeholder="Enter Email" />
+                                    <div class="form-outline mb-3">
+                                        <input type="text" id="" class="form-control form-control-lg"  placeholder="Mobile Number" />
                                     </div>
-                                    <div class="form-outline mb-4">
-                                        <input type="text" id="a_mobno" name="a_mobno" class="form-control form-control-lg" placeholder="Enter Mobile No" />
+                                    <div class="form-outline mb-3">
+                                        <input type="date" id="" class="form-control form-control-lg" placeholder="Date of birth" />
                                     </div>
-                                    <div class="form-outline mb-4">
-                                        <input type="password" id="a_paswd" name="a_paswd" class="form-control form-control-lg" placeholder="Enter Password" />
+                                    <div class="form-outline mb-3">
+                                        <input type="email" id="" class="form-control form-control-lg" placeholder="Referral ID" />
                                     </div>
-                                    <div class="form-outline mb-4">
-                                        <input type="password" id="a_rpaswd" name="a_rpaswd" class="form-control form-control-lg" placeholder="Re-Enter password" />
+
+                                    <div class="form-outline mb-3">
+                                        <input type="email" id="" class="form-control form-control-lg"  placeholder="Aadhaar Number" />
                                     </div>
-                                    <div class="form-outline mb-4">
-                                        <input type="hidden" id="regval" name="regval" class="form-control form-control-lg" value="3" />
+                                    <div class="form-outline mb-3">
+                                        <input type="email" id="" class="form-control form-control-lg"  placeholder="Locality" />
+                                    </div>
+                                    <div class="form-outline mb-3">
+                                        <select class="form-select form-control form-control-lg"
+                                            aria-label="Default select example" id="country">
+                                            <option value="Select Country">Select country</option>
+                                                @foreach ($countries as $country)
+                                                    <option value="{{ $country->id }}">{{ $country->country_name }}</option>
+                                                @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-outline mb-3">
+                                        <select class="form-select form-control form-control-lg"
+                                            aria-label="Default select example" id="state">
+
+                                        </select>
+                                    </div>
+                                    <div class="form-outline mb-3">
+                                        <select class="form-select form-control form-control-lg"
+                                            aria-label="Default select example" id="district">
+
+                                        </select>
+                                    </div>
+                                    <div class="form-outline mb-3">
+                                        <label class="mb10">Upload aadhaar</label>
+                                        <input type="file" id="" class="form-control form-control-lg" placeholder="Upload Aadhaar (front & back)" />
+                                    </div>
+
+                                    <div class="checkbox form-check-inline">
+                                        <input type="checkbox" id="inlineCheckbox1" value="option1">
+                                        <label class="terms_text" for="inlineCheckbox1"> Accept Terms & Conditions
+                                        </label>
                                     </div>
                                 </form>
                                 <p class="small mb-5 pb-lg-2 float-end" id="login_form">Already have an account?<a href="#" style="color:#432791;">Sign in</a></p>
@@ -269,17 +323,7 @@
 
                             </div>
 
-
-
-
-
-
-
                         </div>
-
-
-
-
 
                         <div class="Reset_password" style="display: none;" id="password_reset">
                             <h5 class="mb-3 pb-3 mt-5 text-center">Reset Password</h5>
@@ -322,22 +366,6 @@
                                 <div id="newpasswd-message" class="text-center" style="display: none;"></div>
                             </form>
                         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                 </div>
 
@@ -501,7 +529,31 @@
             });
         });
 
+        $(document).ready(function () {
+            $('#country').change(function () {
+                var countryId = $(this).val();
+                if (countryId) {
+                    $.get("/getStates/" + countryId, function (data) {
+                        $('#state').empty().append('<option value="">Select State</option>');
+                        $.each(data, function (index, state) {
+                            $('#state').append('<option value="' + state.id + '">' + state.state_name + '</option>');
+                        });
+                    });
+                }
+            });
 
+            $('#state').change(function () {
+                var stateId = $(this).val();
+                if (stateId) {
+                    $.get("/getDistricts/" + stateId, function (data) {
+                        $('#district').empty().append('<option value="">Select District</option>');
+                        $.each(data, function (index, district) {
+                            $('#district').append('<option value="' + district.id + '">' + district.district_name + '</option>');
+                        });
+                    });
+                }
+            });
+        });
 
 
         $(document).ready(function() {

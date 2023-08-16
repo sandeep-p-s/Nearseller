@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use App\Models\UserAccount;
+use DB;
+use Exception;
 use App\Models\LogDetails;
 use App\Models\OTPGenerate;
-
+use App\Models\UserAccount;
+use Illuminate\Http\Request;
 use App\Mail\EmailVerification;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Exception;
-use DB;
+
 class HomeController extends Controller
 {
     public function index()
@@ -21,7 +21,18 @@ class HomeController extends Controller
     }
     public function Login()
     {
-        return view('user.login');
+        $countries = DB::table('country')->get();
+        return view('user.login',compact('countries'));
+    }
+    public function getStates($country)
+    {
+        $states = DB::table('state')->where('country_id', $country)->get();
+        return response()->json($states);
+    }
+    public function getDistricts($state)
+    {
+        $districts = DB::table('district')->where('state_id', $state)->get();
+        return response()->json($districts);
     }
     public function RegisterPage(Request $request)
     {
