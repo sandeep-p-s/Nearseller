@@ -1,0 +1,89 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  img
+  {
+    width: 100%;
+}
+.dropdown-hover:hover>.dropdown-menu {
+    display: inline-block;
+    }
+    
+    .dropdown-hover>.dropdown-toggle:active {
+    /*Without this, clicking will make it sticky*/
+    pointer-events: none;
+    }
+    .nav-link
+    {
+        color: #000 !important;
+        font-size: 12px;
+    }
+    
+/* ..........search ...............*/
+
+    .searchInputWrapper {
+        position: relative;
+      }
+      
+      .searchInput {
+        width: 20rem;
+        height: 2rem;
+        padding: 0 1rem;
+        border-radius: 2rem;
+        border: 1px solid #ccc;
+        transition: transform 0.1s ease-in-out;
+      }
+      
+      ::placeholder {
+        color: #a1a1a1;
+      }
+      
+      /* hide the placeholder text on focus */
+      :focus::placeholder {
+        text-indent: -999px;
+      }
+      
+      /* .searchInput:focus {
+        outline: none;
+        transform: scale(1.1);
+        transition: all 0.1s ease-in-out;
+      }
+       */
+      .searchInputIcon {
+        position: absolute;
+        right: 3.8rem;
+        top: 0.5rem;
+        color: #a1a1a1;
+        transition: all 0.1s ease-in-out;
+      }
+      
+      .container:focus-within > .searchInputWrapper > .searchInputIcon {
+        right: 0.2rem;
+      }
+.cart i, .user i
+{
+    height: 40px;
+    width: 40px;
+    background: #fff;
+    margin: 5px;
+    text-align: center;
+    line-height: 2.5;
+    border-radius: 4px;
+}      
+/* .container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  } */
+
+  /* carousel */
+  .section_wrapper
+  {
+    max-width: 1700px;
+    margin: auto;
+    width: 95%;
+  }
