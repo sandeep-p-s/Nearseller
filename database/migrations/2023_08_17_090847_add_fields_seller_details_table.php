@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('district', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('state_id');
-            $table->string('district_name')->nullable();
-            $table->string('status',1)->default('Y')->nullable();
-            $table->timestamps();
-
+        Schema::table('seller_details', function (Blueprint $table) {
+            $table->integer('shop_service_type')->after('busnes_type')->nullable();
         });
+
+
     }
 
     /**
@@ -26,6 +23,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('district');
+        Schema::table('seller_details', function (Blueprint $table) {
+            $table->dropColumn('shop_service_type');
+        });
     }
 };

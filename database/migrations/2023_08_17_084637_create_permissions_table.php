@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('district', function (Blueprint $table) {
+        Schema::create('permissions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('state_id');
-            $table->string('district_name')->nullable();
-            $table->string('status',1)->default('Y')->nullable();
+            $table->string('name');
             $table->timestamps();
-
         });
     }
 
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('district');
+        Schema::dropIfExists('permissions');
     }
 };
