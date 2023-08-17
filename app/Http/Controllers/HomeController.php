@@ -161,7 +161,7 @@ class HomeController extends Controller
         if ($countm > 0) {
             $userchkid = $userAccuntData[0]->id;
             if ($userAccuntData[0]->user_status == 'Y') {
-                return redirect()->route('Login')->withErrors(['error' =>  'Already Verified Your Registered Email ID!']);
+                return redirect()->route('login')->withErrors(['error' =>  'Already Verified Your Registered Email ID!']);
             }
             $data = [
                 'user_status' => 'Y',
@@ -179,7 +179,7 @@ class HomeController extends Controller
             ];
 
             $LogDetails->insert($logdata);
-            return redirect()->route('Login')->with('success', 'Email ID verified. You can now login to your account.');
+            return redirect()->route('login')->with('success', 'Email ID verified. You can now login to your account.');
 
         } else {
             $msg = "Email ID Verification Failed. verification Failed Email ID : " . $username . " User Reg ID " . $userregid;
@@ -191,7 +191,7 @@ class HomeController extends Controller
                 'status'        => $msg
             ];
             $LogDetails->insert($logdata);
-            return redirect()->route('Login')->withErrors(['error' => 'Email ID Verification Failed. Please check your Details.']);
+            return redirect()->route('login')->withErrors(['error' => 'Email ID Verification Failed. Please check your Details.']);
         }
     }
 
