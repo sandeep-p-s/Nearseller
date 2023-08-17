@@ -21,8 +21,12 @@ class HomeController extends Controller
     }
     public function Login()
     {
-        $countries = DB::table('country')->get();
-        return view('user.login',compact('countries'));
+         $countries      = DB::table('country')->get();
+         $business       = DB::table('business_type')->where('status','Y')->get();
+        // $shopservice    = DB::table('shopservice')->where('status','Y')->get();
+         $executives     = DB::table('executives')->where(['executive_type' => 1, 'status' => 'Y'])->get();
+
+        return view('user.login',compact('countries','business','executives'));
     }
     public function getStates($country)
     {
@@ -56,7 +60,7 @@ class HomeController extends Controller
             $user->email = $request->u_emid;
             $user->mobno = $request->u_mobno;
             $user->password = Hash::make($request->u_paswd);
-            $user->user_type=4;
+            $user->role_id=4;
             $user->forgot_pass=$request->u_paswd;
             $user->user_status='N';
             $submt=$user->save();
@@ -90,6 +94,8 @@ class HomeController extends Controller
                 //return redirect()->route('login')->with('error', 'Registration Failed!');
             }
         }
+
+
     }
 
 
@@ -221,7 +227,13 @@ class HomeController extends Controller
                     $fname = $row->name;
                     $email = $row->email;
                     $mobno = $row->mobno;
+                    $role_id = $row->role_id;
+                    $approved = $row->approved;
                 }
+                if (($role_id != 4 && $role_id != 1) && $approved !== 'Y') {
+                    return response()->json(['result' => 5,'mesge'=>'Not Approved.Please contact adminstrator','sendto'=>$email]);
+                }
+
                 $request->session()->put('emailid', $email);
 				 $characters = array(
 					"1","2","3","4","5","6","7","8","9"
@@ -308,6 +320,11 @@ class HomeController extends Controller
                     $fname = $row->name;
                     $email = $row->email;
                     $mobno = $row->mobno;
+                    $role_id = $row->role_id;
+                    $approved = $row->approved;
+                }
+                if (($role_id != 4 && $role_id != 1) && $approved !== 'Y') {
+                    return response()->json(['result' => 5,'mesge'=>'Not Approved.Please contact adminstrator','sendto'=>$mobno]);
                 }
                 $request->session()->put('mobno', $mobno);
                 $msg="Your One Time Password is ";
@@ -403,6 +420,8 @@ class HomeController extends Controller
                     $fname = $row->name;
                     $email = $row->email;
                     $mobno = $row->mobno;
+                    $role_id = $row->role_id;
+                    $approved = $row->approved;
                 }
 
                 $OTPGenerate = OTPGenerate::where('otpmsgtype', $email)->get();
@@ -481,6 +500,8 @@ class HomeController extends Controller
                     $fname = $row->name;
                     $email = $row->email;
                     $mobno = $row->mobno;
+                    $role_id = $row->role_id;
+                    $approved = $row->approved;
                 }
                 $OTPGenerate = OTPGenerate::where('otpmsgtype', $mobno)->get();
                 $cntmob = count($OTPGenerate);
@@ -567,9 +588,11 @@ class HomeController extends Controller
                     $fname = $row->name;
                     $email = $row->email;
                     $mobno = $row->mobno;
+                    $role_id = $row->role_id;
+                    $approved = $row->approved;
                 }
 
-                $OTPGenerate = OTPGenerate::where('otpmsgtype', $email,'otp',$otpval)->get();
+                $OTPGenerate = OTPGenerate::where('otpmsgtype', $email)->where('otp', $otpval)->get();
                 $cntmail = count($OTPGenerate);
                     if($cntmail>0)
                     {
@@ -606,8 +629,10 @@ class HomeController extends Controller
                     $fname = $row->name;
                     $email = $row->email;
                     $mobno = $row->mobno;
+                    $role_id = $row->role_id;
+                    $approved = $row->approved;
                 }
-                $OTPGenerate = OTPGenerate::where('otpmsgtype', $mobno,'otp',$otpval)->get();
+                $OTPGenerate = OTPGenerate::where('otpmsgtype', $mobno)->where('otp', $otpval)->get();
                 $cntmob = count($OTPGenerate);
                 if($cntmob>0)
                 {
@@ -659,6 +684,8 @@ class HomeController extends Controller
                     $fname  = $row->name;
                     $email  = $row->email;
                     $mobno  = $row->mobno;
+                    $role_id = $row->role_id;
+                    $approved = $row->approved;
                 }
                 $data = [
                     'forgot_pass' => $request->newpaswd,
@@ -698,6 +725,8 @@ class HomeController extends Controller
                     $fname  = $row->name;
                     $email  = $row->email;
                     $mobno  = $row->mobno;
+                    $role_id = $row->role_id;
+                    $approved = $row->approved;
                 }
                 $data = [
                     'forgot_pass' => $request->newpaswd,
@@ -747,6 +776,11 @@ class HomeController extends Controller
                 $fname = $row->name;
                 $email = $row->email;
                 $mobno = $row->mobno;
+                $role_id = $row->role_id;
+                $approved = $row->approved;
+            }
+            if (($role_id != 4 && $role_id != 1) && $approved !== 'Y') {
+                return response()->json(['result' => 5,'mesge'=>'Not Approved.Please contact adminstrator','sendto'=>$mobno]);
             }
             $request->session()->put('mobno', $mobno);
             $msg="Your One Time Password is ";
@@ -817,6 +851,29 @@ class HomeController extends Controller
 
 
     }
+
+        public function EmailLoginPage(Request $request)
+        {
+            $request->validate([
+                'emailid' => 'required|email',
+                'passwd' => 'required|min:6',
+            ]);
+            $email = $request->input('emailid');
+            $password = $request->input('passwd');
+            $user = DB::table('user_account')->where('email', $email)->first();
+            if ($user && Hash::check($password, $user->password)) {
+                $role_id = $user->role_id;
+                $approved = $user->approved;
+                $emailid = $user->email;
+                if (($role_id != 4 && $role_id != 1) && $approved !== 'Y') {
+                    return response()->json(['result' => 5,'mesge'=>'Not Approved.Please contact adminstrator','sendto'=>$email]);
+                }
+
+                return response()->json(['result' => 3,'mesge' => 'Successfully Logged In.','sendto' => $email]);
+            } else {
+                return response()->json(['result' => 2,'mesge' => 'Invalid email or password.']);
+            }
+        }
 
 
 

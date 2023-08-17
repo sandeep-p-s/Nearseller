@@ -23,25 +23,28 @@ class UserLoggedController extends Controller
                 $logtype=$valuexplode[1];
                 if($logtype=='mob')
                 {
+                    echo "mob";
                     $userAccuntData = UserAccount::where('mobno', $emlormobno)->get();
                     foreach ($userAccuntData as $row) {
                         $id = $row->id;
                         $fname = $row->name;
                         $email = $row->email;
                         $mobno = $row->mobno;
-                        $user_type = $row->user_type;
+                        $role_id = $row->role_id;
                     }
 
 
                 }
                 else if($logtype=='eml')
                 {
+                    echo "eml";
                     $userAccuntData = UserAccount::where('email', $emlormobno)->get();
                     foreach ($userAccuntData as $row) {
                         $id = $row->id;
                         $fname = $row->name;
                         $email = $row->email;
                         $mobno = $row->mobno;
+                        $role_id = $row->role_id;
                     }
 
 

@@ -33,6 +33,8 @@ Route::controller(HomeController::class)->group(function (){
     Route::post('mobotpgenrte','MobLoginOTPgenrte')->name('mobotpgenrte');
     Route::get('/getDistricts/{state}', 'getDistricts')->name('getDistricts');    ;
     Route::get('/getStates/{country}', 'getStates')->name('getStates');
+    Route::post('EmailLogin','EmailLoginPage')->name('EmailLogin');
+
 });
 
 Route::controller(UserLoggedController::class)->group(function (){
