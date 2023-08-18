@@ -51,7 +51,7 @@
                     <th align="left" valign="top" style="padding-left:30px;padding-right:15px;padding-bottom:10px;
                     font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">&nbsp;Web Site :&nbsp;</th>
                     <td align="left" valign="top" style="padding-left:15px;padding-right:30px;padding-bottom:10px;
-                    font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">http://nearseller/</td>
+                    font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">http://nearsellerdemo/</td>
                 </tr>
 
                 </table>
@@ -65,7 +65,7 @@
                     <table border="0" cellspacing="0" cellpadding="0">
                         <tr>
                         <td align="left" style="border-radius: 3px;" bgcolor="#426899">
-                            <a href="http://nearseller/verifyMail/{{ $verificationToken }}" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif;
+                            <a href="http://nearsellerdemo/verifyMail/{{ $verificationToken }}" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif;
                             color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; padding: 11px 22px;
                             border-radius: 2px; border: 1px solid #426899; display: inline-block;">Verify</a>
                         </td>
