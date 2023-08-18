@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use Exception;
-use App\Models\LogDetails;
-use App\Models\OTPGenerate;
-use App\Models\UserAccount;
 use Illuminate\Http\Request;
-use App\Mail\EmailVerification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
+use App\Models\UserAccount;
+use App\Models\LogDetails;
+use App\Models\OTPGenerate;
 
+use App\Mail\EmailVerification;
+use Illuminate\Support\Facades\Mail;
+use Exception;
+use DB;
 class HomeController extends Controller
 {
     public function index()
@@ -21,7 +21,7 @@ class HomeController extends Controller
     }
     public function Login()
     {
-        $countries      = DB::table('country')->get();
+         $countries      = DB::table('country')->get();
          $business       = DB::table('business_type')->where('status','Y')->get();
         // $shopservice    = DB::table('shopservice')->where('status','Y')->get();
          $executives     = DB::table('executives')->where(['executive_type' => 1, 'status' => 'Y'])->get();
