@@ -21,7 +21,12 @@ class HomeController extends Controller
     }
     public function Login()
     {
-        return view('user.login');
+        $countries      = DB::table('country')->get();
+         $business       = DB::table('business_type')->where('status','Y')->get();
+        // $shopservice    = DB::table('shopservice')->where('status','Y')->get();
+         $executives     = DB::table('executives')->where(['executive_type' => 1, 'status' => 'Y'])->get();
+
+        return view('user.login',compact('countries','business','executives'));
     }
     public function getStates($country)
     {
