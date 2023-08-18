@@ -203,49 +203,24 @@
 
                             <div id="sellerreg" style="display: none;">
                                 <form id="SellerRegForm">
-                                    <div class="form-outline mb-3">
-                                        <input type="text" id="s_name" name="s_name" class="form-control form-control-lg"  placeholder="Shop Name" required  tabindex="1" />
+                                    <div class="form-outline mb-4">
+                                        <input type="text" id="s_name" name="s_name" class="form-control form-control-lg" placeholder="Enter Name" />
                                     </div>
-                                    <div class="form-outline mb-3">
-                                        <input type="text" id="s_ownername" name="s_ownername" class="form-control form-control-lg"  placeholder="Owner Name" required tabindex="2" />
+                                    <div class="form-outline mb-4">
+                                        <input type="email" id="s_emid" name="s_emid" class="form-control form-control-lg" placeholder="Enter Email" />
                                     </div>
-                                    <div class="form-outline mb-3">
-                                        <input type="text" id="s_mobno" name="s_mobno" class="form-control form-control-lg" placeholder="Enter Mobile No" required tabindex="3" />
+                                    <div class="form-outline mb-4">
+                                        <input type="text" id="s_mobno" name="s_mobno" class="form-control form-control-lg" placeholder="Enter Mobile No" />
                                     </div>
-                                    <div class="form-outline mb-3">
-                                        <input type="email" id="s_email" name="s_email" class="form-control form-control-lg" placeholder="Enter Email" required tabindex="4" />
+                                    <div class="form-outline mb-4">
+                                        <input type="password" id="s_paswd" name="s_paswd" class="form-control form-control-lg" placeholder="Enter Password" />
                                     </div>
-                                    <div class="form-outline mb-3">
-                                        <input type="text" id="s_refralid" name="s_refralid" class="form-control form-control-lg" placeholder="Referral ID" tabindex="5"/>
-                                    </div>
-                                    <div class="form-outline mb-3">
-                                        <select class="form-select form-control form-control-lg" id="s_busnestype" name="s_busnestype"  required tabindex="6">
-                                            <option >Business Type</option><br/>
-                                                @foreach ($business as $busnes)
-                                                    <option value="{{ $busnes->id }}">{{ $busnes->business_name }}</option>
-                                                @endforeach
-                                          </select>
-                                    </div>
-                                    <div class="form-outline mb-3">
-                                        <select class="form-select form-control form-control-lg" id="s_shopservice" name="s_shopservice" required tabindex="7">
-                                            <option >Shop/Service Type</option><br/>
-                                            <option value="1">test 1</option><br/>
-                                            <option value="2">test 2</option>
-                                          </select>
-                                    </div>
-                                    <div class="form-outline mb-3">
-                                        <select class="form-select form-control form-control-lg" id="s_shopexectename" name="s_shopexectename" required tabindex="8" >
-                                            <option >Shop Adding Executive Name</option><br/>
-                                                @foreach ($executives as $exec)
-                                                    <option value="{{ $exec->id }}">{{ $exec->executive_name }}</option>
-                                                @endforeach
-                                          </select>
+                                    <div class="form-outline mb-4">
+                                        <input type="password" id="s_rpaswd" name="s_rpaswd" class="form-control form-control-lg" placeholder="Re-Enter password" />
                                     </div>
 
-                                    <div class="checkbox form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="termcondtn" name="termcondtn" value="1" required tabindex="9" >
-
-                                        <label class="terms_text" for="inlineCheckbox1"> Accept Terms & Conditions </label>
+                                    <div class="form-outline mb-4">
+                                        <input type="hidden" id="regval" name="regval" class="form-control form-control-lg" value="2" />
                                     </div>
                                     <p class="small mb-5 pb-lg-2 float-end" id="login_form_shop">Already have an account?<a href="#" style="color:#432791;">Sign in</a></p>
 
@@ -277,8 +252,8 @@
                                     <div class="form-outline mb-3">
                                         <input type="email" id="" class="form-control form-control-lg"  placeholder="Aadhaar Number" />
                                     </div>
-                                    <div class="form-outline mb-3">
-                                        <input type="email" id="" class="form-control form-control-lg"  placeholder="Locality" />
+                                    <div class="form-outline mb-4">
+                                        <input type="hidden" id="regval" name="regval" class="form-control form-control-lg" value="3" />
                                     </div>
                                     <div class="form-outline mb-3">
                                         <select class="form-select form-control form-control-lg"
@@ -320,17 +295,7 @@
 
                             </div>
 
-
-
-
-
-
-
                         </div>
-
-
-
-
 
                         <div class="Reset_password" style="display: none;" id="password_reset">
                             <h5 class="mb-3 pb-3 mt-5 text-center">Reset Password</h5>
@@ -616,19 +581,6 @@
             });
         });
 
-        $(document).ready(function () {
-            $('#country').change(function () {
-                $('#district').empty();
-                var countryId = $(this).val();
-                if (countryId) {
-                    $.get("/getStates/" + countryId, function (data) {
-                        $('#state').empty().append('<option value="">Select State</option>');
-                        $.each(data, function (index, state) {
-                            $('#state').append('<option value="' + state.id + '">' + state.state_name + '</option>');
-                        });
-                    });
-                }
-            });
 
             $('#state').change(function () {
                 var stateId = $(this).val();
