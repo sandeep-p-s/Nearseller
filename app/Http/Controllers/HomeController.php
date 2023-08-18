@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use Exception;
-use App\Models\LogDetails;
-use App\Models\OTPGenerate;
-use App\Models\UserAccount;
 use Illuminate\Http\Request;
-use App\Mail\EmailVerification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
+use App\Models\UserAccount;
+use App\Models\LogDetails;
+use App\Models\OTPGenerate;
 
+
+use App\Mail\EmailVerification;
+
+use Illuminate\Support\Facades\Mail;
+use Exception;
+use DB;
 class HomeController extends Controller
 {
     public function index()
@@ -21,8 +23,12 @@ class HomeController extends Controller
     }
     public function Login()
     {
-        $countries = DB::table('country')->get();
-        return view('user.login',compact('countries'));
+         $countries      = DB::table('country')->get();
+         $business       = DB::table('business_type')->where('status','Y')->get();
+        // $shopservice    = DB::table('shopservice')->where('status','Y')->get();
+         $executives     = DB::table('executives')->where(['executive_type' => 1, 'status' => 'Y'])->get();
+
+        return view('user.login',compact('countries','business','executives'));
     }
     public function getStates($country)
     {
@@ -55,7 +61,7 @@ class HomeController extends Controller
             $user->email = $request->u_emid;
             $user->mobno = $request->u_mobno;
             $user->password = Hash::make($request->u_paswd);
-            $user->user_type=4;
+            $user->role_id=4;
             $user->forgot_pass=$request->u_paswd;
             $user->user_status='N';
             $submt=$user->save();
@@ -220,7 +226,13 @@ class HomeController extends Controller
                     $fname = $row->name;
                     $email = $row->email;
                     $mobno = $row->mobno;
+                    $role_id = $row->role_id;
+                    $approved = $row->approved;
                 }
+                if (($role_id != 4 && $role_id != 1) && $approved !== 'Y') {
+                    return response()->json(['result' => 5,'mesge'=>'Not Approved.Please contact adminstrator','sendto'=>$email]);
+                }
+
                 $request->session()->put('emailid', $email);
 				 $characters = array(
 					"1","2","3","4","5","6","7","8","9"
@@ -307,6 +319,11 @@ class HomeController extends Controller
                     $fname = $row->name;
                     $email = $row->email;
                     $mobno = $row->mobno;
+                    $role_id = $row->role_id;
+                    $approved = $row->approved;
+                }
+                if (($role_id != 4 && $role_id != 1) && $approved !== 'Y') {
+                    return response()->json(['result' => 5,'mesge'=>'Not Approved.Please contact adminstrator','sendto'=>$mobno]);
                 }
                 $request->session()->put('mobno', $mobno);
                 $msg="Your One Time Password is ";
@@ -402,6 +419,8 @@ class HomeController extends Controller
                     $fname = $row->name;
                     $email = $row->email;
                     $mobno = $row->mobno;
+                    $role_id = $row->role_id;
+                    $approved = $row->approved;
                 }
 
                 $OTPGenerate = OTPGenerate::where('otpmsgtype', $email)->get();
@@ -480,6 +499,8 @@ class HomeController extends Controller
                     $fname = $row->name;
                     $email = $row->email;
                     $mobno = $row->mobno;
+                    $role_id = $row->role_id;
+                    $approved = $row->approved;
                 }
                 $OTPGenerate = OTPGenerate::where('otpmsgtype', $mobno)->get();
                 $cntmob = count($OTPGenerate);
@@ -566,9 +587,11 @@ class HomeController extends Controller
                     $fname = $row->name;
                     $email = $row->email;
                     $mobno = $row->mobno;
+                    $role_id = $row->role_id;
+                    $approved = $row->approved;
                 }
 
-                $OTPGenerate = OTPGenerate::where('otpmsgtype', $email,'otp',$otpval)->get();
+                $OTPGenerate = OTPGenerate::where('otpmsgtype', $email)->where('otp', $otpval)->get();
                 $cntmail = count($OTPGenerate);
                     if($cntmail>0)
                     {
@@ -605,8 +628,10 @@ class HomeController extends Controller
                     $fname = $row->name;
                     $email = $row->email;
                     $mobno = $row->mobno;
+                    $role_id = $row->role_id;
+                    $approved = $row->approved;
                 }
-                $OTPGenerate = OTPGenerate::where('otpmsgtype', $mobno,'otp',$otpval)->get();
+                $OTPGenerate = OTPGenerate::where('otpmsgtype', $mobno)->where('otp', $otpval)->get();
                 $cntmob = count($OTPGenerate);
                 if($cntmob>0)
                 {
@@ -658,6 +683,8 @@ class HomeController extends Controller
                     $fname  = $row->name;
                     $email  = $row->email;
                     $mobno  = $row->mobno;
+                    $role_id = $row->role_id;
+                    $approved = $row->approved;
                 }
                 $data = [
                     'forgot_pass' => $request->newpaswd,
@@ -697,6 +724,8 @@ class HomeController extends Controller
                     $fname  = $row->name;
                     $email  = $row->email;
                     $mobno  = $row->mobno;
+                    $role_id = $row->role_id;
+                    $approved = $row->approved;
                 }
                 $data = [
                     'forgot_pass' => $request->newpaswd,
@@ -723,6 +752,127 @@ class HomeController extends Controller
         }
 
     }
+
+
+
+    public function MobLoginOTPgenrte(Request $request)
+    {
+        $logn_mob = $request->input('logn_mob');
+        $loggedUserIp = $_SERVER['REMOTE_ADDR'];
+        $time=date('Y-m-d H:i:s');
+        $UserAccount = new UserAccount();
+        $LogDetails = new LogDetails();
+        $OTPGenModel = new OTPGenerate();
+        $random_chars = '';
+        $mobile = $logn_mob;
+        $userAccuntData = UserAccount::where('mobno', $mobile)->get();
+        $cnt = count($userAccuntData);
+        if($cnt>0)
+        {
+            foreach ($userAccuntData as $row) {
+
+                $id = $row->id;
+                $fname = $row->name;
+                $email = $row->email;
+                $mobno = $row->mobno;
+                $role_id = $row->role_id;
+                $approved = $row->approved;
+            }
+            if (($role_id != 4 && $role_id != 1) && $approved !== 'Y') {
+                return response()->json(['result' => 5,'mesge'=>'Not Approved.Please contact adminstrator','sendto'=>$mobno]);
+            }
+            $request->session()->put('mobno', $mobno);
+            $msg="Your One Time Password is ";
+                $characters = array(
+                "1","2","3","4","5","6","7","8","9"
+            );
+            $keys = array();
+            while (count($keys) < 6) {
+                $x = mt_rand(0, count($characters) - 1);
+                if (!in_array($x, $keys)) {
+                    $keys[] = $x;
+                }
+            }
+            foreach ($keys as $key) {
+                $random_chars.= $characters[$key];
+            }
+            $message='The OTP has been send to your registered mobile number, '.$msg.' : '.$random_chars;
+            $otpMobData = $OTPGenModel->where(['otpmsgtype' => $mobno])->get();
+            if(count($otpMobData)>0)
+            {
+                foreach($otpMobData as $row)
+                {
+                    $otpid=$row->id;
+
+                    $data = [
+                        'otp' 			=> $random_chars,
+                        'updated_by' 	=> $id,
+                        'updated_at' 	=> $time
+                    ];
+                    $OTPGenModel->where('id', $otpid)->update($data);
+                }
+                    //Mail::to($email)->send($emailid);
+                    $msg = "Mobile Number : " . $mobno . " User Reg ID " . $id. " OTP is " . $message;
+                    $logdata = [
+                        'user_id'       => $email,
+                        'ip_address'    => $loggedUserIp,
+                        'log_time'      => $time,
+                        'status'        => $msg
+                    ];
+                    $LogDetails->insert($logdata);
+            }
+            else{
+                    $data = [
+                        'user_id' 	    => $id,
+                        'otpmsgtype' 	=> $mobno,
+                        'otp' 			=> $random_chars,
+                        'created_time' 	=> $time
+                    ];
+                    $OTPGenModel->insert($data);
+                    //Mail::to($email)->send($emailid);
+                    $msg = "Email ID : " . $email . " User Reg ID " . $id. " OTP is " . $message;
+                    $logdata = [
+                        'user_id'       => $email,
+                        'ip_address'    => $loggedUserIp,
+                        'log_time'      => $time,
+                        'status'        => $msg
+                    ];
+                    $LogDetails->insert($logdata);
+                }
+
+
+                return response()->json(['result' => 3,'mesge'=>$message,'sendto'=>$mobno]);
+
+        }
+        else{
+            return response()->json(['result' => 2]);
+        }
+
+
+    }
+
+        public function EmailLoginPage(Request $request)
+        {
+            $request->validate([
+                'emailid' => 'required|email',
+                'passwd' => 'required|min:6',
+            ]);
+            $email = $request->input('emailid');
+            $password = $request->input('passwd');
+            $user = DB::table('user_account')->where('email', $email)->first();
+            if ($user && Hash::check($password, $user->password)) {
+                $role_id = $user->role_id;
+                $approved = $user->approved;
+                $emailid = $user->email;
+                if (($role_id != 4 && $role_id != 1) && $approved !== 'Y') {
+                    return response()->json(['result' => 5,'mesge'=>'Not Approved.Please contact adminstrator','sendto'=>$email]);
+                }
+
+                return response()->json(['result' => 3,'mesge' => 'Successfully Logged In.','sendto' => $email]);
+            } else {
+                return response()->json(['result' => 2,'mesge' => 'Invalid email or password.']);
+            }
+        }
 
 
 

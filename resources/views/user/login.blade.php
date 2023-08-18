@@ -90,36 +90,43 @@
                             </div>
                         </fieldset>
 
-                        <form>
-                            <div class="emailform">
-                                <div class="form-outline mb-4">
-                                    <input type="email" id="emailormob" class="form-control form-control-lg"
-                                        placeholder="Email/ Mobile No" />
-                                </div>
-                                <div class="form-outline mb-4">
-                                    <input type="password" id="passwd" name="passwd" class="form-control form-control-lg"
-                                        placeholder="password" />
-                                </div>
-                                <p class="small mb-5 pb-lg-2 float-end" id="forget"><a class="" href="#"
-                                        style="color:#432791;">Forgot password?</a></p>
-                                <div class="pt-1 mb-4 loginform_btn">
-                                    <button class="btn btn-info btn-lg btn-block" type="button">Login</button>
-                                </div>
-                            </div>
-                        </form>
 
-                        <form>
-                            <div style="display: none;" id="Login" class="mobileform">
-                                <div class="form-outline mb-4">
-                                    <input type="text" id="" class="form-control form-control-lg"
-                                        placeholder="Mobile No" />
-                                </div>
-                                <div class="pt-1 mb-4 loginform_btn">
-                                    <button class="btn btn-info btn-lg btn-block" type="button"
-                                        id="Generate_Otp">Generate OTP</button>
-                                </div>
+                            <div class="emailform">
+                                <form id="userEmailForm">
+                                    <div class="form-outline mb-4">
+                                        <input type="email" id="emailid" name="emailid" class="form-control form-control-lg" placeholder="Email"  onchange="checkemilmob(this.value,'3')" required />
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        <input type="password" id="passwd" name="passwd" class="form-control form-control-lg" placeholder="password" required />
+                                    </div>
+                                    <p class="small mb-5 pb-lg-2 float-end" id="forget"><a class="" href="#" style="color:#432791;">Forgot password?</a></p>
+                                    <div class="pt-1 mb-4 loginform_btn">
+                                        <button class="btn btn-info btn-lg btn-block" type="submit">Login</button>
+                                    </div>
+                                    <div id="errinemaillogn-message"  class="text-center" style="display: none;"></div>
+                                    <div id="emailnotapproved-message"  class="text-center" style="display: none;"></div>
+                                    <div id="emailnotregister-message"  class="text-center" style="display: none;"></div>
+                                </form>
                             </div>
-                        </form>
+
+
+
+                            <div style="display: none;" id="Login" class="mobileform">
+                                <form id="userMobForm">
+                                    <div class="form-outline mb-4">
+
+                                        <input type="text" id="logn_mob" name="logn_mob" class="form-control form-control-lg" placeholder="Enter Mobile No"  onchange="checkemilmob(this.value,'1')" required />
+                                    </div>
+                                    <div id="moblogn-message" class="text-center" style="display: none;"></div>
+                                    <div class="pt-1 mb-4 loginform_btn">
+                                        <button class="btn btn-info btn-lg btn-block" type="submit">Generate OTP</button>
+
+                                    </div>
+                                    <div id="errinmoblogn-message"  class="text-center" style="display: none;"></div>
+                                    <div id="usernotapproved-message"  class="text-center" style="display: none;"></div>
+                                </form>
+                            </div>
+
                         <div>
                             <p class="text-center" id="signup">Don't have an account? <a href="#" class="" style="color: #452896;">Sign Up</a></p>
                         </div>
@@ -213,49 +220,54 @@
                             <div id="sellerreg" style="display: none;">
                                 <form id="SellerRegForm">
                                     <div class="form-outline mb-3">
-                                        <input type="text" id="" class="form-control form-control-lg"  placeholder="Shop Name" />
+                                        <input type="text" id="s_name" name="s_name" class="form-control form-control-lg"  placeholder="Shop Name" required  tabindex="1" />
                                     </div>
                                     <div class="form-outline mb-3">
-                                        <input type="text" id="" class="form-control form-control-lg"  placeholder="Owner Name" />
+                                        <input type="text" id="s_ownername" name="s_ownername" class="form-control form-control-lg"  placeholder="Owner Name" required tabindex="2" />
                                     </div>
                                     <div class="form-outline mb-3">
-                                        <input type="text" id="" class="form-control form-control-lg" placeholder="Enter Mobile No" />
+                                        <input type="text" id="s_mobno" name="s_mobno" class="form-control form-control-lg" placeholder="Enter Mobile No" required tabindex="3" />
                                     </div>
                                     <div class="form-outline mb-3">
-                                        <input type="email" id="" class="form-control form-control-lg" placeholder="Enter Email" />
+                                        <input type="email" id="s_email" name="s_email" class="form-control form-control-lg" placeholder="Enter Email" required tabindex="4" />
                                     </div>
                                     <div class="form-outline mb-3">
-                                        <input type="text" id="" class="form-control form-control-lg" placeholder="Referral ID" />
+                                        <input type="text" id="s_refralid" name="s_refralid" class="form-control form-control-lg" placeholder="Referral ID" tabindex="5"/>
                                     </div>
                                     <div class="form-outline mb-3">
-                                        <select class="form-select form-control form-control-lg" aria-label="Default select example">
+                                        <select class="form-select form-control form-control-lg" id="s_busnestype" name="s_busnestype"  required tabindex="6">
                                             <option >Business Type</option><br/>
-                                            <option value="1">Affiliate</option><br/>
-                                            <option value="2">Seller</option>
+                                                @foreach ($business as $busnes)
+                                                    <option value="{{ $busnes->id }}">{{ $busnes->business_name }}</option>
+                                                @endforeach
                                           </select>
                                     </div>
                                     <div class="form-outline mb-3">
-                                        <select class="form-select form-control form-control-lg" aria-label="Default select example">
-                                            <option >Shop Type/Service Type</option><br/>
-                                            <option value="1">Affiliate</option><br/>
-                                            <option value="2">Seller</option>
+                                        <select class="form-select form-control form-control-lg" id="s_shopservice" name="s_shopservice" required tabindex="7">
+                                            <option >Shop/Service Type</option><br/>
+                                            <option value="1">test 1</option><br/>
+                                            <option value="2">test 2</option>
                                           </select>
                                     </div>
                                     <div class="form-outline mb-3">
-                                        <select class="form-select form-control form-control-lg" aria-label="Default select example">
+                                        <select class="form-select form-control form-control-lg" id="s_shopexectename" name="s_shopexectename" required tabindex="8" >
                                             <option >Shop Adding Executive Name</option><br/>
-                                            <option value="1">Affiliate</option><br/>
-                                            <option value="2">Seller</option>
+                                                @foreach ($executives as $exec)
+                                                    <option value="{{ $exec->id }}">{{ $exec->executive_name }}</option>
+                                                @endforeach
                                           </select>
                                     </div>
 
                                     <div class="checkbox form-check-inline">
-                                        <input type="checkbox" id="inlineCheckbox1" value="option1">
+                                        <input class="form-check-input" type="checkbox" id="termcondtn" name="termcondtn" value="1" required tabindex="9" >
+
                                         <label class="terms_text" for="inlineCheckbox1"> Accept Terms & Conditions </label>
                                     </div>
-                                    <p class="small mb-5 pb-lg-2 float-end" id="login_form">Already have an account?<a href="#" style="color:#432791;">Sign in</a></p>
+                                    <p class="small mb-5 pb-lg-2 float-end" id="login_form_shop">Already have an account?<a href="#" style="color:#432791;">Sign in</a></p>
+
+
                                     <div class="pt-1 mb-4 loginform_btn">
-                                        <button class="btn btn-info btn-lg btn-block" type="submit">Sign Up</button>
+                                        <button class="btn btn-info btn-lg btn-block" type="submit">Continue</button>
                                     </div>
                                 </form>
                             </div>
@@ -315,11 +327,12 @@
                                         <label class="terms_text" for="inlineCheckbox1"> Accept Terms & Conditions
                                         </label>
                                     </div>
-                                </form>
-                                <p class="small mb-5 pb-lg-2 float-end" id="login_form">Already have an account?<a href="#" style="color:#432791;">Sign in</a></p>
+
+                                    <p class="small mb-5 pb-lg-2 float-end" id="login_form_afiliate">Already have an account?<a href="#" style="color:#432791;">Sign in</a></p>
                                     <div class="pt-1 mb-4 loginform_btn">
                                         <button class="btn btn-info btn-lg btn-block" type="submit">Sign Up</button>
                                     </div>
+                                </form>
 
                             </div>
 
@@ -329,8 +342,9 @@
                             <h5 class="mb-3 pb-3 mt-5 text-center">Reset Password</h5>
                             <form id="ResetPasswd">
                                 <div class="form-outline mb-4">
-                                    <input type="text" id="emal_mob" name="emal_mob" class="form-control form-control-lg" placeholder="Enter Email/Mobile No"  onchange="checkemilmob(this.value)" />
+                                    <input type="text" id="emal_mob" name="emal_mob" class="form-control form-control-lg" placeholder="Enter Email/Mobile No"  onchange="checkemilmob(this.value,'2')" required />
                                 </div>
+                                <div id="restfirst-message" class="text-center" style="display: none;"></div>
                                 <div class="pt-1 mb-4 loginform_btn">
                                     <!-- Button trigger modal -->
                                 <button type="submit" class="btn btn-primary loginform_btn">
@@ -340,6 +354,8 @@
                                 <div class="pt-1 mb-4 back_btn">
                                     <button class="btn btn-info btn-lg btn-block" type="button" id="back_to_page">Back</button>
                                 </div>
+                                <div id="notapproved-message" class="text-center" style="display: none;"></div>
+                                <div id="notfounddata-message" class="text-center" style="display: none;"></div>
 
                             </form>
                         </div>
@@ -350,10 +366,10 @@
                             <form id="ResetNewPasswd">
                                 <div class="form-outline mb-4">
                                     <input type="hidden" id="sentovalhid" name="sentovalhid" />
-                                    <input type="password" id="newpaswd" name="newpaswd" class="form-control form-control-lg" placeholder="Enter New Password" />
+                                    <input type="password" id="newpaswd" name="newpaswd" class="form-control form-control-lg" placeholder="Enter New Password" required />
                                 </div>
                                 <div class="form-outline mb-4">
-                                    <input type="password" id="confirmpaswd" name="confirmpaswd" class="form-control form-control-lg" placeholder="Re-Enter New Password" />
+                                    <input type="password" id="confirmpaswd" name="confirmpaswd" class="form-control form-control-lg" placeholder="Re-Enter New Password" required />
                                 </div>
 
                                 <div class="pt-1 mb-4 loginform_btn">
@@ -361,7 +377,7 @@
                                 <button type="submit" class="btn btn-primary loginform_btn">Submit</button>
                                 </div>
                                 <div class="pt-1 mb-4 back_btn">
-                                    <button class="btn btn-info btn-lg btn-block" type="button" id="back_to_page">Back</button>
+                                    <button class="btn btn-info btn-lg btn-block" type="button" id="back_to_pages">Back</button>
                                 </div>
                                 <div id="newpasswd-message" class="text-center" style="display: none;"></div>
                             </form>
@@ -400,22 +416,58 @@
             <h5 class="modal-title text-center mb-2" id="staticBackdropLabel">Verify OTP</h5>
             <p class="text-center">The OTP has been send to your registered email id</p>
             <div class="d-flex flex-row mt-3 justify-content-center">
-                <input type="text" id="firstbox" name="firstbox" tabindex="1" maxlength="1" class="form-control otp-input" autofocus="" />
-                <input type="text" id="secndbox" name="secndbox" tabindex="2" maxlength="1" class="form-control otp-input" />
-                <input type="text" id="thirdbox" name="thirdbox" tabindex="3" maxlength="1" class="form-control otp-input" />
-                <input type="text"  id="fourthbox" name="fourthbox" tabindex="4" maxlength="1" class="form-control otp-input" />
-                <input type="text"  id="fifthbox" name="fifthbox" tabindex="5" maxlength="1" class="form-control otp-input" />
-                <input type="text"  id="sixtbox" name="sixtbox" tabindex="6" maxlength="1" class="form-control otp-input" />
+                <input type="text" id="firstbox" name="firstbox" tabindex="1" maxlength="1" class="form-control otp-input" autofocus="" required />
+                <input type="text" id="secndbox" name="secndbox" tabindex="2" maxlength="1"  class="form-control otp-input" required />
+                <input type="text" id="thirdbox" name="thirdbox" tabindex="3" maxlength="1"  class="form-control otp-input" required />
+                <input type="text"  id="fourthbox" name="fourthbox" tabindex="4" maxlength="1"  class="form-control otp-input" required />
+                <input type="text"  id="fifthbox" name="fifthbox" tabindex="5" maxlength="1"  class="form-control otp-input" required />
+                <input type="text"  id="sixtbox" name="sixtbox" tabindex="6" maxlength="1"  class="form-control otp-input" required />
             </div>
             <p class="text-center mt-3 text-secondary" id="timer">Enter OTP within <span id="countdown">00:59</span></p>
             <p class="text-center">If you didn't receive the code <a href="#" style="color: #452896;" id="resendBtn">Resend OTP</a></p>
-            <a href="#"><button class="btn btn-primary"  data-bs-dismiss="modal"  id="VerifyBtn" >Verify</button></a>
+            <button class="btn btn-primary"  data-bs-dismiss="modal"   id="VerifyBtn" type="button" >Verify</button>
             </div>
             <div id="restpass-message" class="text-center" style="display: none;"></div>
+            <div id="resetpassotp-message" class="text-center" style="display: none;"></div>
 
         </div>
         </div>
     </div>
+
+
+    <div class="modal fade" id="mobileotpstatic" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="mobileOtpLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="btnh-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="sentootpmobno" name="sentootpmobno" />
+            <h5 class="modal-title text-center mb-2" id="mobileOtpLabel">Verify OTP</h5>
+            <p class="text-center">The OTP has been send to your mobile number</p>
+            <div class="d-flex flex-row mt-3 justify-content-center">
+                <input type="text" id="m_firstbox" name="m_firstbox" tabindex="1" maxlength="1" class="form-control otp-inputs" autofocus="" required />
+                <input type="text" id="m_secndbox" name="m_secndbox" tabindex="2" maxlength="1" class="form-control otp-inputs" required />
+                <input type="text" id="m_thirdbox" name="m_thirdbox" tabindex="3" maxlength="1" class="form-control otp-inputs" required />
+                <input type="text"  id="m_fourthbox" name="m_fourthbox" tabindex="4" maxlength="1" class="form-control otp-inputs" required />
+                <input type="text"  id="m_fifthbox" name="m_fifthbox" tabindex="5" maxlength="1" class="form-control otp-inputs" required />
+                <input type="text"  id="m_sixtbox" name="m_sixtbox" tabindex="6" maxlength="1" class="form-control otp-inputs" required />
+            </div>
+            <p class="text-center mt-3 text-secondary" id="timer">Enter OTP within <span id="m_countdown">00:59</span></p>
+            <p class="text-center">If you didn't receive the code <a href="#" style="color: #452896;" id="m_resendBtnMob">Resend OTP</a></p>
+            <a href="#"><button class="btn btn-primary"  data-bs-dismiss="modal"  id="m_VerifyBtn" >Verify</button></a>
+            </div>
+            <div id="mobotp-message" class="text-center" style="display: none;"></div>
+            <div id="otpentered-message" class="text-center" style="display: none;"></div>
+        </div>
+        </div>
+    </div>
+
+
+
+
+
+
 
     {{-- <script src="{{ asset('js/jquery.min.js') }}"></script> --}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -432,6 +484,7 @@
                 $(".sign_up").hide();
                 $(".verify_otp").hide();
                 $(".Reset_password").hide();
+                $(".Resetnew_password").hide();
             });
             $("#mobile").click(function () {
                 $(".login_credentails").show();
@@ -440,6 +493,7 @@
                 $(".sign_up").hide();
                 $(".verify_otp").hide();
                 $(".Reset_password").hide();
+                $(".Resetnew_password").hide();
 
             });
 
@@ -454,6 +508,7 @@
                 $("#userreg").show();
                 $("#sellerreg").hide();
                 $("#affiliatereg").hide();
+                $(".Resetnew_password").hide();
 
 
             });
@@ -468,6 +523,7 @@
                 $("#userreg").hide();
                 $("#sellerreg").show();
                 $("#affiliatereg").hide();
+                $(".Resetnew_password").hide();
 
             });
 
@@ -481,6 +537,7 @@
                 $("#userreg").hide();
                 $("#sellerreg").hide();
                 $("#affiliatereg").show();
+                $(".Resetnew_password").hide();
 
             });
 
@@ -492,6 +549,7 @@
                 $(".sign_up").hide();
                 $(".verify_otp").show();
                 $(".Reset_password").hide();
+                $(".Resetnew_password").hide();
 
             });
             $("#signup").click(function () {
@@ -501,6 +559,7 @@
                 $(".sign_up").show();
                 $(".verify_otp").hide();
                 $(".Reset_password").hide();
+                $(".Resetnew_password").hide();
 
             });
             $("#login_form").click(function () {
@@ -510,7 +569,30 @@
                 $(".sign_up").hide();
                 $(".verify_otp").hide();
                 $(".Reset_password").hide();
+                $(".Resetnew_password").hide();
             });
+
+            $("#login_form_shop").click(function () {
+                $(".login_credentails").show();
+                $(".emailform").show();
+                $(".mobileform").hide();
+                $(".sign_up").hide();
+                $(".verify_otp").hide();
+                $(".Reset_password").hide();
+                $(".Resetnew_password").hide();
+            });
+
+            $("#login_form_afiliate").click(function () {
+                $(".login_credentails").show();
+                $(".emailform").show();
+                $(".mobileform").hide();
+                $(".sign_up").hide();
+                $(".verify_otp").hide();
+                $(".Reset_password").hide();
+                $(".Resetnew_password").hide();
+            });
+
+
             $("#forget").click(function () {
                 $(".login_credentails").hide();
                 $(".emailform").hide();
@@ -518,6 +600,7 @@
                 $(".sign_up").hide();
                 $(".verify_otp").hide();
                 $(".Reset_password").show();
+                $(".Resetnew_password").hide();
             });
             $("#back_to_page").click(function () {
                 $(".login_credentails").show();
@@ -526,11 +609,22 @@
                 $(".sign_up").hide();
                 $(".verify_otp").hide();
                 $(".Reset_password").hide();
+                $(".Resetnew_password").hide();
+            });
+            $("#back_to_pages").click(function () {
+                $(".login_credentails").show();
+                $(".emailform").show();
+                $(".mobileform").hide();
+                $(".sign_up").hide();
+                $(".verify_otp").hide();
+                $(".Reset_password").hide();
+                $(".Resetnew_password").hide();
             });
         });
 
         $(document).ready(function () {
             $('#country').change(function () {
+                $('#district').empty();
                 var countryId = $(this).val();
                 if (countryId) {
                     $.get("/getStates/" + countryId, function (data) {
@@ -704,6 +798,17 @@
                                 $('#staticBackdrop').modal('show');
 
                             }
+                            else if(response.result==5)
+                            {
+                                $('#notapproved-message').text(mobemailmesge).fadeIn();
+                                $('#notapproved-message').addClass('error');
+                                setTimeout(function() {
+                                $('#notapproved-message').fadeOut();
+                                }, 5000);
+                                $('#loading-image').fadeOut();
+                                $('#loading-overlay').fadeOut();
+
+                            }
                             else if(response.result==2)
                             {
                                 $('#restpass-message').text('Error in Data.').fadeIn();
@@ -806,6 +911,182 @@
                 }
             });
 
+            $('#userMobForm').validate({
+                rules: {
+
+                    logn_mob: {
+                        required: true,
+                        digits: true,
+                        minlength: 10,
+                        maxlength: 10,
+                        pattern: /^(?!0+$)\d+$/
+                    },
+
+                },
+                messages: {
+                    logn_mob: {
+                        pattern: "Please enter a valid 10-digit mobile number without leading zeroes."
+                    }
+                }
+            });
+
+            $('#userMobForm').submit(function(e) {
+                e.preventDefault();
+                if ($(this).valid()) {
+                    var formData = $(this).serialize();
+                    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                    $('#loading-overlay').fadeIn();
+                    $('#loading-image').fadeIn();
+                    //$('#userRegForm').hide();
+                    $.ajax({
+                        url: '{{ route("mobotpgenrte") }}',
+                        type: 'POST',
+                        data: formData,
+                        headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                        },
+                        success: function(response) {
+                        var mobotpmessage=response.mesge;
+                        var sentovalue=response.sendto;
+                        $('#sentootpmobno').val(sentovalue);
+                            if(response.result==3)
+                            {
+                                //$('#restpass-message').text('OTP Successfully sent your registered mobile number.').fadeIn();
+                                $('#mobotp-message').text(mobotpmessage).fadeIn();
+                                $('#mobotp-message').addClass('success-message');
+                                setTimeout(function() {
+                                $('#mobotp-message').fadeOut();
+                                }, 10000);
+                                $('#loading-image').fadeOut();
+                                $('#loading-overlay').fadeOut();
+                                $('#mobileotpstatic').modal('show');
+
+                            }
+                            else if(response.result==5)
+                            {
+                                //$('#restpass-message').text('OTP Successfully sent your registered mobile number.').fadeIn();
+                                $('#usernotapproved-message').text(mobotpmessage).fadeIn();
+                                $('#usernotapproved-message').addClass('error');
+                                setTimeout(function() {
+                                $('#usernotapproved-message').fadeOut();
+                                }, 10000);
+                                $('#loading-image').fadeOut();
+                                $('#loading-overlay').fadeOut();
+
+                            }
+
+                            else if(response.result==2)
+                            {
+                                $('#mobotp-message').text('Error in Data.').fadeIn();
+                                $('#mobotp-message').addClass('error');
+                                setTimeout(function() {
+                                $('#mobotp-message').fadeOut();
+                                }, 5000);
+                                $('#loading-image').fadeOut();
+                                $('#loading-overlay').fadeOut();
+                                $('#mobileotpstatic').modal('hide');
+                            }
+
+                        }
+
+                    });
+                }
+            });
+
+
+            $('#userEmailForm').validate({
+                rules: {
+
+                    emailid: {
+                        required: true,
+                        maxlength: 75,
+                        email: true
+                    },
+                    passwd: {
+                        required: true,
+                        minlength: 6,
+                    },
+
+                },
+            });
+
+            $('#userEmailForm').submit(function(e) {
+                e.preventDefault();
+                if ($(this).valid()) {
+                    var formData = $(this).serialize();
+                    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                    $('#loading-overlay').fadeIn();
+                    $('#loading-image').fadeIn();
+                    //$('#userRegForm').hide();
+                    $.ajax({
+                        url: '{{ route("EmailLogin") }}',
+                        type: 'POST',
+                        data: formData,
+                        headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                        },
+                        success: function(response)
+                        {
+                            var sentovalue=response.sendto;
+                            var msage=response.mesge;
+                            var logtype='eml';
+                            var passingvalue=sentovalue+'-'+logtype;
+                            if(response.result==3)
+                                {
+                                    $('#errinemaillogn-message').text('Successfully Logged In.').fadeIn();
+                                    $('#errinemaillogn-message').addClass('success-message');
+                                    setTimeout(function() {
+                                    $('#errinemaillogn-message').fadeOut();
+                                    }, 5000);
+                                    $('#loading-image').fadeOut();
+                                    $('#loading-overlay').fadeOut();
+                                    var utf8Bytes = unescape(encodeURIComponent(passingvalue));
+                                    var mobencode = btoa(utf8Bytes);
+                                    var form = document.createElement('form');
+                                    form.method = 'post';
+                                    form.action = '{{ route("LoggedPage", ["sentoval" => ":sentoval"]) }}'.replace(':sentoval', mobencode);
+                                    form.style.display = 'none';
+                                    var csrfInput = document.createElement('input');
+                                    csrfInput.type = 'hidden';
+                                    csrfInput.name = '_token';
+                                    csrfInput.value = $('meta[name="csrf-token"]').attr('content');
+                                    form.appendChild(csrfInput);
+                                    document.body.appendChild(form);
+                                    form.submit();
+
+
+                                }
+                                else if(response.result==5){
+                                    $('#emailnotapproved-message').text(msage).fadeIn();
+                                    $('#emailnotapproved-message').addClass('error');
+                                    setTimeout(function() {
+                                    $('#emailnotapproved-message').fadeOut();
+                                    }, 5000);
+                                    $('#loading-image').fadeOut();
+                                    $('#loading-overlay').fadeOut();
+
+                                }
+                            else{
+                                    $('#errinemaillogn-message').text(msage).fadeIn();
+                                    $('#errinemaillogn-message').addClass('error');
+                                    setTimeout(function() {
+                                    $('#errinemaillogn-message').fadeOut();
+                                    }, 5000);
+
+                                    $('#loading-image').fadeOut();
+                                    $('#loading-overlay').fadeOut();
+
+                                }
+                        }
+
+                    });
+                }
+            });
+
+
+
+
+
 
 
         });
@@ -884,76 +1165,200 @@
 
 
 
-    $('#VerifyBtn').click(function()
-        {
-        $('#loading-overlay').fadeIn();
-        $('#loading-image').fadeIn();
-        var sentoval= $('#sentoval').val();
-        var firstbox= $('#firstbox').val();
-        var secndbox= $('#secndbox').val();
-        var thirdbox= $('#thirdbox').val();
-        var fourthbox= $('#fourthbox').val();
-        var fifthbox= $('#fifthbox').val();
-        var sixtbox= $('#sixtbox').val();
+        $('#VerifyBtn').click(function()
+            {
 
-        var otpval=firstbox+''+secndbox+''+thirdbox+''+fourthbox+''+fifthbox+''+sixtbox;
-
-        var csrfToken = $('meta[name="csrf-token"]').attr('content');
-        $.ajax({
-            url: '{{ route("verifyOTP") }}',
-                    type: 'POST',
-                    data: {sentoval:sentoval,otpval:otpval},
-                    headers: {
-                    'X-CSRF-TOKEN': csrfToken
-                    },
-            success:function(response)
-                {
-                    var mobemailmesge=response.mesge;
-                    var sentovalue=response.sendto;
-                    $('#sentovalhid').val(sentovalue);
-                    if(response.result==1)
+                $('#loading-overlay').fadeIn();
+                $('#loading-image').fadeIn();
+                var sentoval= $('#sentoval').val();
+                var firstbox= $('#firstbox').val();
+                var secndbox= $('#secndbox').val();
+                var thirdbox= $('#thirdbox').val();
+                var fourthbox= $('#fourthbox').val();
+                var fifthbox= $('#fifthbox').val();
+                var sixtbox= $('#sixtbox').val();
+                var otpval=firstbox+''+secndbox+''+thirdbox+''+fourthbox+''+fifthbox+''+sixtbox;
+                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    url: '{{ route("verifyOTP") }}',
+                            type: 'POST',
+                            data: {sentoval:sentoval,otpval:otpval},
+                            headers: {
+                            'X-CSRF-TOKEN': csrfToken
+                            },
+                    success:function(response)
                         {
-                            $('#newpasswd-message').text(mobemailmesge).fadeIn();
-                            $('#newpasswd-message').addClass('success-message');
-                            setTimeout(function() {
-                            $('#newpasswd-message').fadeOut();
-                            }, 5000);
-                            //$('#emal_mob').val('');
-                            $('#loading-image').fadeOut();
-                            $('#loading-overlay').fadeOut();
-                            $('#passwordnew_reset').show();
-                            $('#password_reset').hide();
+                            var mobemailmesge=response.mesge;
+                            var sentovalue=response.sendto;
+                            $('#sentovalhid').val(sentovalue);
+                            if(response.result==1)
+                                {
+                                    $('#newpasswd-message').text(mobemailmesge).fadeIn();
+                                    $('#newpasswd-message').addClass('success-message');
+                                    setTimeout(function() {
+                                    $('#newpasswd-message').fadeOut();
+                                    }, 5000);
+                                    //$('#emal_mob').val('');
+                                    $('#loading-image').fadeOut();
+                                    $('#loading-overlay').fadeOut();
+                                    $('#passwordnew_reset').show();
+                                    $('#password_reset').hide();
+                                    $('.otp-input').val('');
+
+                                }
+                                else if(response.result==3)
+                                {
+                                    //$('#restpass-message').text('OTP Successfully sent your registered mobile number.').fadeIn();
+                                    $('#newpasswd-message').text(mobemailmesge).fadeIn();
+                                    $('#newpasswd-message').addClass('success-message');
+                                    setTimeout(function() {
+                                    $('#newpasswd-message').fadeOut();
+                                    }, 5000);
+                                    $('#loading-image').fadeOut();
+                                    $('#loading-overlay').fadeOut();
+                                    $('#passwordnew_reset').show();
+                                    $('#password_reset').hide();
+                                    $('.otp-input').val('');
+                                }
+                                else if(response.result==2)
+                                {
+                                    $('#notfounddata-message').text('Error in Data.').fadeIn();
+                                    $('#notfounddata-message').addClass('error');
+                                    setTimeout(function() {
+                                    $('#notfounddata-message').fadeOut();
+                                    }, 5000);
+                                    // $('#emal_mob').val('');
+                                    $('#loading-image').fadeOut();
+                                    $('#loading-overlay').fadeOut();
+                                    $('.otp-input').val('');
+                                }
 
                         }
-                        else if(response.result==3)
-                        {
-                            //$('#restpass-message').text('OTP Successfully sent your registered mobile number.').fadeIn();
-                            $('#newpasswd-message').text(mobemailmesge).fadeIn();
-                            $('#newpasswd-message').addClass('success-message');
-                            setTimeout(function() {
-                            $('#newpasswd-message').fadeOut();
-                            }, 5000);
-                            $('#loading-image').fadeOut();
-                            $('#loading-overlay').fadeOut();
-                            $('#passwordnew_reset').show();
-                            $('#password_reset').hide();
-                        }
-                        else if(response.result==2)
-                        {
-                            $('#newpasswd-message').text('Error in Data.').fadeIn();
-                            $('#newpasswd-message').addClass('error');
-                            setTimeout(function() {
-                            $('#newpasswd-message').fadeOut();
-                            }, 5000);
-                            // $('#emal_mob').val('');
-                            $('#loading-image').fadeOut();
-                            $('#loading-overlay').fadeOut();
-                        }
+                });
 
-                }
+            });
+
+
+        $('#m_resendBtnMob').click(function()
+            {
+            $('#loading-overlay').fadeIn();
+            $('#loading-image').fadeIn();
+            var sentoval= $('#sentootpmobno').val();
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                url: '{{ route("regenerateotp") }}',
+                        type: 'POST',
+                        data: {sentoval:sentoval},
+                        headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                        },
+                success:function(response)
+                    {
+                        var mobemailmesge=response.mesge;
+                        var sentovalue=response.sendto;
+                        if(response.result==3)
+                            {
+                                //$('#restpass-message').text('OTP Successfully sent your registered mobile number.').fadeIn();
+                                $('#mobotp-message').text(mobemailmesge).fadeIn();
+                                $('#mobotp-message').addClass('success-message');
+                                setTimeout(function() {
+                                $('#mobotp-message').fadeOut();
+                                }, 10000);
+                                // $('#emal_mob').val('');
+                                $('#loading-image').fadeOut();
+                                $('#loading-overlay').fadeOut();
+
+
+                            }
+                            else if(response.result==2)
+                            {
+                                $('#mobotp-message').text('Error in Data.').fadeIn();
+                                $('#mobotp-message').addClass('error');
+                                setTimeout(function() {
+                                $('#mobotp-message').fadeOut();
+                                }, 5000);
+                                // $('#emal_mob').val('');
+                                $('#loading-image').fadeOut();
+                                $('#loading-overlay').fadeOut();
+
+                            }
+
+                    }
+            });
+
         });
 
-    });
+
+
+        $('#m_VerifyBtn').click(function()
+            {
+
+
+                $('#loading-overlay').fadeIn();
+                $('#loading-image').fadeIn();
+                var sentoval= $('#sentootpmobno').val();
+                var logtype='mob';
+                var passingvalue=sentoval+'-'+logtype;
+                var firstbox= $('#m_firstbox').val();
+                var secndbox= $('#m_secndbox').val();
+                var thirdbox= $('#m_thirdbox').val();
+                var fourthbox= $('#m_fourthbox').val();
+                var fifthbox= $('#m_fifthbox').val();
+                var sixtbox= $('#m_sixtbox').val();
+                var otpval=firstbox+''+secndbox+''+thirdbox+''+fourthbox+''+fifthbox+''+sixtbox;
+
+                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    url: '{{ route("verifyOTP") }}',
+                            type: 'POST',
+                            data: {sentoval:sentoval,otpval:otpval},
+                            headers: {
+                            'X-CSRF-TOKEN': csrfToken
+                            },
+                    success:function(response)
+                        {
+                            if(response.result==3)
+                                {
+                                    $('#errinmoblogn-message').text('Successfully Logged In.').fadeIn();
+                                    $('#errinmoblogn-message').addClass('success-message');
+                                    setTimeout(function() {
+                                    $('#errinmoblogn-message').fadeOut();
+                                    }, 5000);
+                                    $('#loading-image').fadeOut();
+                                    $('#loading-overlay').fadeOut();
+                                    var utf8Bytes = unescape(encodeURIComponent(passingvalue)); // Convert to UTF-8 binary
+                                    var mobencode = btoa(utf8Bytes);
+                                    var form = document.createElement('form');
+                                    form.method = 'post';
+                                    form.action = '{{ route("LoggedPage", ["sentoval" => ":sentoval"]) }}'.replace(':sentoval', mobencode);
+                                    form.style.display = 'none';
+                                    var csrfInput = document.createElement('input');
+                                    csrfInput.type = 'hidden';
+                                    csrfInput.name = '_token';
+                                    csrfInput.value = $('meta[name="csrf-token"]').attr('content');
+                                    form.appendChild(csrfInput);
+                                    document.body.appendChild(form);
+                                    form.submit();
+
+
+                                }
+                            else{
+                                    $('#errinmoblogn-message').text('Error in Data.').fadeIn();
+                                    $('#errinmoblogn-message').addClass('error');
+                                    setTimeout(function() {
+                                    $('#errinmoblogn-message').fadeOut();
+                                    }, 5000);
+
+                                    $('#loading-image').fadeOut();
+                                    $('#loading-overlay').fadeOut();
+
+                                }
+                        }
+                });
+
+        });
+
+
 
 
 
@@ -1049,7 +1454,7 @@
 
 	}
 
-    function checkemilmob(emailmob)
+    function checkemilmob(emailmob,numr)
 	{
             $('#loading-overlay').fadeIn();
             $('#loading-image').fadeIn();
@@ -1063,14 +1468,37 @@
                         },
                 success:function(data)
 					{
-                        if(data.result==1)
+                        if((data.result==1) && (numr==2))
                         {
-                            $('#restpass-message').text('Data Not Found').fadeIn();
-                            $('#restpass-message').addClass('error');
+                            $('#restfirst-message').text('Email ID not registered').fadeIn();
+                            $('#restfirst-message').addClass('error');
                             setTimeout(function() {
-                            $('#restpass-message').fadeOut();
+                            $('#restfirst-message').fadeOut();
                             }, 5000);
                             $("#emal_mob").val('');
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                        }
+
+                        else if((data.result==1) && (numr==3))
+                        {
+                            $('#emailnotregister-message').text('Email ID not registered').fadeIn();
+                            $('#emailnotregister-message').addClass('error');
+                            setTimeout(function() {
+                            $('#emailnotregister-message').fadeOut();
+                            }, 5000);
+                            $("#emailid").val('');
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                        }
+                        else if((data.result==1) && (numr==1))
+                        {
+                            $('#moblogn-message').text('Mobile number not registered').fadeIn();
+                            $('#moblogn-message').addClass('error');
+                            setTimeout(function() {
+                            $('#moblogn-message').fadeOut();
+                            }, 5000);
+                            $("#logn_mob").val('');
                             $('#loading-image').fadeOut();
                             $('#loading-overlay').fadeOut();
                         }
@@ -1142,10 +1570,10 @@
             $('#firstbox').focus();
         });
 
-        $('#staticBackdrop').on('hide.bs.modal', function() {
-            $('.otp-input').val('');
-            clearInterval(interval);
-        });
+                // $('#staticBackdrop').on('hide.bs.modal', function() {
+                //     $('.otp-input').val('');
+                //     clearInterval(interval);
+                // });
 
         $('#resendBtn').click(function() {
             clearInterval(interval);
@@ -1171,18 +1599,88 @@
     });
 
 
+            $(document).ready(function() {
+                var m_countdown = 120;
+                var m_interval;
 
+                $('.otp-inputs').on('input', function(e) {
+                    var input = $(this);
+                    var val = input.val();
+                    val = val.replace(/\D/g, '');
+                    input.val(val);
 
+                    var nextInput = input.next('.otp-inputs');
+                    var prevInput = input.prev('.otp-inputs');
 
+                    if (val.length > 0) {
+                        if (nextInput.length > 0) {
+                            nextInput.focus();
+                        }
+                    } else {
+                        if (prevInput.length > 0) {
+                            prevInput.focus();
+                        }
+                    }
+                });
 
+                $('.otp-inputs').on('keydown', function(e) {
+                    if (e.which === 8 && $(this).val() === '') { // Backspace key
+                        e.preventDefault();
+                        var prevInput = $(this).prev('.otp-inputs');
+                        if (prevInput.length > 0) {
+                            prevInput.focus();
+                        }
+                    }
+                });
 
+                function startTimer() {
+                    m_interval = setInterval(function() {
+                        m_countdown--;
+                        var m_minutes = Math.floor(m_countdown / 60);
+                        var m_seconds = m_countdown % 60;
+                        var m_formattedTime = (m_minutes < 10 ? '0' : '') + m_minutes + ':' + (m_seconds < 10 ? '0' : '') + m_seconds;
 
+                        $('#m_countdown').text(m_formattedTime);
 
+                        if (m_countdown <= 0) {
+                            clearInterval(m_interval);
+                            $('#mobileotpstatic').modal('hide'); // Close the modal
+                        }
+                    }, 1000);
+                }
 
+                $('#mobileotpstatic').on('shown.bs.modal', function() {
+                    startTimer();
+                    $('#m_firstbox').focus();
+                });
 
+                // $('#mobileotpstatic').on('hide.bs.modal', function() {
+                //     $('.otp-inputs').val('');
+                //     clearInterval(m_interval);
+                // });
 
+                $('#m_resendBtnMob').click(function() {
+                    clearInterval(m_interval);
+                    m_countdown = 120;
+                    $('#m_countdown').text('00:59');
+                    startTimer();
+                });
 
+                $('#m_firstbox').on('paste', function(e) {
+                    e.preventDefault();
+                    var m_pastedValue = e.originalEvent.clipboardData.getData('text');
+                    m_distributeOTPValue(m_pastedValue);
+                });
 
+                function m_distributeOTPValue(otpValue) {
+                    var m_otpArray = otpValue.trim().split('');
+                    $('.otp-inputs').each(function(index) {
+                        if (m_otpArray[index]) {
+                            $(this).val(m_otpArray[index]);
+                        }
+                    });
+                }
+            });
 
     </script>
     </body>
