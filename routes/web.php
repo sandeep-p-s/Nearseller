@@ -34,6 +34,8 @@ Route::controller(HomeController::class)->group(function (){
     Route::get('/getDistricts/{state}', 'getDistricts')->name('getDistricts');    ;
     Route::get('/getStates/{country}', 'getStates')->name('getStates');
     Route::post('EmailLogin','EmailLoginPage')->name('EmailLogin');
+    Route::post('sellerRegisteration','sellerRegisterationPage')->name('sellerRegisteration');
+
 
 });
 

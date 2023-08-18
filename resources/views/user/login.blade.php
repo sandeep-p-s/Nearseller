@@ -165,13 +165,13 @@
                                         <label for="u_name" class="error"></label>
                                     </div>
                                     <div class="form-outline  mb-2">
-                                        <input tabindex="2"  type="email" id="u_emid" name="u_emid" class="form-control form-control-lg" maxlength="50" placeholder="Enter Email" required   onchange="exstemilid(this.value)" />
+                                        <input tabindex="2"  type="email" id="u_emid" name="u_emid" class="form-control form-control-lg" maxlength="50" placeholder="Enter Email" required   onchange="exstemilid(this.value,'1')" />
                                         <label for="u_emid" class="error"></label>
                                         <div id="uemil-message"  class="text-center" style="display: none;"></div>
                                     </div>
 
                                     <div class="form-outline  mb-2">
-                                        <input  tabindex="3"  type="text" id="u_mobno" name="u_mobno" class="form-control form-control-lg" maxlength="10" placeholder="Enter Mobile No" required   onchange="exstmobno(this.value)" />
+                                        <input  tabindex="3"  type="text" id="u_mobno" name="u_mobno" class="form-control form-control-lg" maxlength="10" placeholder="Enter Mobile No" required   onchange="exstmobno(this.value,'1')" />
                                         <label for="u_mobno" class="error"></label>
                                         <div id="umob-message"  class="text-center" style="display: none;"></div>
                                     </div>
@@ -203,56 +203,165 @@
 
                             <div id="sellerreg" style="display: none;">
                                 <form id="SellerRegForm">
-                                    <div class="form-outline mb-3">
-                                        <input type="text" id="s_name" name="s_name" class="form-control form-control-lg"  placeholder="Shop Name" required  tabindex="1" />
-                                    </div>
-                                    <div class="form-outline mb-3">
-                                        <input type="text" id="s_ownername" name="s_ownername" class="form-control form-control-lg"  placeholder="Owner Name" required tabindex="2" />
-                                    </div>
-                                    <div class="form-outline mb-3">
-                                        <input type="text" id="s_mobno" name="s_mobno" class="form-control form-control-lg" placeholder="Enter Mobile No" required tabindex="3" />
-                                    </div>
-                                    <div class="form-outline mb-3">
-                                        <input type="email" id="s_email" name="s_email" class="form-control form-control-lg" placeholder="Enter Email" required tabindex="4" />
-                                    </div>
-                                    <div class="form-outline mb-3">
-                                        <input type="text" id="s_refralid" name="s_refralid" class="form-control form-control-lg" placeholder="Referral ID" tabindex="5"/>
-                                    </div>
-                                    <div class="form-outline mb-3">
-                                        <select class="form-select form-control form-control-lg" id="s_busnestype" name="s_busnestype"  required tabindex="6">
-                                            <option >Business Type</option><br/>
-                                                @foreach ($business as $busnes)
-                                                    <option value="{{ $busnes->id }}">{{ $busnes->business_name }}</option>
-                                                @endforeach
-                                          </select>
-                                    </div>
-                                    <div class="form-outline mb-3">
-                                        <select class="form-select form-control form-control-lg" id="s_shopservice" name="s_shopservice" required tabindex="7">
-                                            <option >Shop/Service Type</option><br/>
-                                            <option value="1">test 1</option><br/>
-                                            <option value="2">test 2</option>
-                                          </select>
-                                    </div>
-                                    <div class="form-outline mb-3">
-                                        <select class="form-select form-control form-control-lg" id="s_shopexectename" name="s_shopexectename" required tabindex="8" >
-                                            <option >Shop Adding Executive Name</option><br/>
-                                                @foreach ($executives as $exec)
-                                                    <option value="{{ $exec->id }}">{{ $exec->executive_name }}</option>
-                                                @endforeach
-                                          </select>
+                                    <div id="sellerfirst">
+                                        <div class="form-outline mb-3">
+                                            <input type="text" id="s_name" name="s_name" class="form-control form-control-lg" maxlength="50"  placeholder="Shop Name" required  tabindex="1" />
+                                            <label for="s_name" class="error"></label>
+                                        </div>
+                                        <div class="form-outline mb-3">
+                                            <input type="text" id="s_ownername" name="s_ownername" class="form-control form-control-lg"  maxlength="50"   placeholder="Owner Name" required tabindex="2" />
+                                            <label for="s_ownername" class="error"></label>
+                                        </div>
+                                        <div class="form-outline mb-3">
+                                            <input type="text" id="s_mobno" name="s_mobno" class="form-control form-control-lg"  maxlength="10"  placeholder="Enter Mobile No" required tabindex="3"  onchange="exstmobno(this.value,'2')" />
+                                            <label for="s_mobno" class="error"></label>
+                                            <div id="smob-message"  class="text-center" style="display: none;"></div>
+                                        </div>
+                                        <div class="form-outline mb-3">
+                                            <input type="email" id="s_email" name="s_email" class="form-control form-control-lg"  maxlength="35"  placeholder="Enter Email" required tabindex="4"  onchange="exstemilid(this.value,'2')" />
+                                            <label for="s_email" class="error"></label>
+                                            <div id="semil-message"  class="text-center" style="display: none;"></div>
+                                        </div>
+                                        <div class="form-outline mb-3">
+                                            <input type="text" id="s_refralid" name="s_refralid" class="form-control form-control-lg"  maxlength="50"  placeholder="Referral ID" tabindex="5"/>
+                                        </div>
+                                        <div class="form-outline mb-3">
+                                            <select class="form-select form-control form-control-lg" id="s_busnestype" name="s_busnestype"  required tabindex="6">
+                                                <option value="" >Business Type</option><br/>
+                                                    @foreach ($business as $busnes)
+                                                        <option value="{{ $busnes->id }}">{{ $busnes->business_name }}</option>
+                                                    @endforeach
+                                            </select>
+                                            <label for="s_busnestype" class="error"></label>
+                                        </div>
+                                        <div class="form-outline mb-3">
+                                            <select class="form-select form-control form-control-lg" id="s_shopservice" name="s_shopservice" required tabindex="7">
+                                                <option value="">Shop/Service Type</option><br/>
+                                                <option value="1">test 1</option><br/>
+                                                <option value="2">test 2</option>
+                                            </select>
+                                            <label for="s_shopservice" class="error"></label>
+                                        </div>
+                                        <div class="form-outline mb-3">
+                                            <select class="form-select form-control form-control-lg" id="s_shopexectename" name="s_shopexectename" required tabindex="8" >
+                                                <option value="">Shop Adding Executive Name</option><br/>
+                                                    @foreach ($executives as $exec)
+                                                        <option value="{{ $exec->id }}">{{ $exec->executive_name }}</option>
+                                                    @endforeach
+                                            </select>
+                                            <label for="s_shopexectename" class="error"></label>
+                                        </div>
+                                        <p class="small mb-3 pb-lg-2 float-end" id="login_form_shopfirst">Already have an account?<a href="#" style="color:#432791;">Sign in</a></p>
+                                        <div class="pt-1 mb-4 loginform_btn">
+                                            <button class="btn btn-primary loginform_btn" type="button" id="sellerSecondPage"  tabindex="9">Continue</button>
+                                        </div>
                                     </div>
 
-                                    <div class="checkbox form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="termcondtn" name="termcondtn" value="1" required tabindex="9" >
 
-                                        <label class="terms_text" for="inlineCheckbox1"> Accept Terms & Conditions </label>
+
+
+
+                                    <div id="sellersecond" style="display: none;">
+
+                                        <div class="form-outline mb-3">
+                                            <input type="text" id="s_lisence" name="s_lisence" class="form-control form-control-lg"  maxlength="25"  placeholder="License Number" required  tabindex="10"/>
+                                            <label for="s_lisence" class="error"></label>
+                                        </div>
+                                        <div class="form-outline mb-3">
+                                            <input type="text" id="s_buldingorhouseno" name="s_buldingorhouseno"  maxlength="100"  class="form-control form-control-lg" placeholder="Building/House Name & Number" required  tabindex="11" />
+                                            <label for="s_buldingorhouseno" class="error"></label>
+                                        </div>
+                                        <div class="form-outline mb-3">
+                                            <input type="text" id="s_locality" name="s_locality"  maxlength="100"  class="form-control form-control-lg"placeholder="Locality" required  tabindex="12" />
+                                            <label for="s_locality" class="error"></label>
+                                        </div>
+                                        <div class="form-outline mb-3">
+                                            <input type="text" id="s_villagetown" name="s_villagetown"  maxlength="100"  class="form-control form-control-lg" placeholder="Village/Town/Municipality" required  tabindex="13" />
+                                            <label for="s_villagetown" class="error"></label>
+                                        </div>
+                                        <div class="form-outline mb-3">
+                                            <select class="form-select form-control form-control-lg" name="country"  aria-label="Default select example" id="country" required  tabindex="14" >
+                                                <option value="">Select country</option>
+                                                    @foreach ($countries as $country)
+                                                        <option value="{{ $country->id }}">{{ $country->country_name }}</option>
+                                                    @endforeach
+                                            </select>
+                                            <label for="country" class="error"></label>
+                                        </div>
+                                        <div class="form-outline mb-3">
+                                            <select class="form-select form-control form-control-lg" name="state" aria-label="Default select example" id="state" required  tabindex="15">
+
+                                            </select>
+                                            <label for="state" class="error"></label>
+                                        </div>
+                                        <div class="form-outline mb-3">
+                                            <select class="form-select form-control form-control-lg" aria-label="Default select example" id="district" name="district" required  tabindex="16">
+
+                                            </select>
+                                            <label for="district" class="error"></label>
+                                        </div>
+                                        <div class="form-outline mb-3">
+                                            <input type="text" id="s_pincode" name="s_pincode"  maxlength="6"  class="form-control form-control-lg" placeholder="Pin Code" required  tabindex="17" />
+                                            <label for="s_pincode" class="error"></label>
+                                        </div>
+                                        <div class="form-outline mb-3">
+                                            <input type="text" id="s_googlelink" name="s_googlelink"   id class="form-control form-control-lg"   placeholder="Google map link location" required  tabindex="18" />
+                                            <label for="s_googlelink" class="error"></label>
+                                        </div>
+                                        <div class="form-outline mb-3">
+                                            <input type="file" id="s_photo" name="s_photo" class="form-control form-control-lg" placeholder="Shop Photo" required tabindex="19" accept="image/jpeg, image/png" />
+                                            <label for="s_photo" class="error"></label>
+                                        </div>
+                                        <div class="image-preview" style="display: none;">
+                                            <img id="preview" src="#" alt="Preview" style="max-width: 100px;" />
+                                            <button type="button" id="remove-preview" class="btn btn-danger">Remove</button>
+                                        </div>
+
+
+
+                                        <div class="form-outline mb-3">
+                                            <input type="text" id="s_gstno" name="s_gstno"  maxlength="25"  class="form-control form-control-lg" placeholder="GST Number" required   tabindex="20" />
+                                            <label for="s_gstno" class="error"></label>
+                                        </div>
+                                        <div class="form-outline mb-3">
+                                            <input type="text" id="s_panno" name="s_panno"  maxlength="12"  class="form-control form-control-lg" placeholder="PAN Number" required  tabindex="21" />
+                                            <label for="s_panno" class="error"></label>
+                                        </div>
+
+
+                                        <div class="form-outline mb-3">
+                                            <input type="date" id="s_establishdate" name="s_establishdate"  maxlength="10"  class="form-control form-control-lg" placeholder="Establishment date"  tabindex="22" />
+                                            <label for="s_establishdate" class="error"></label>
+                                        </div>
+
+
+                                        <div class="form-outline  mb-2">
+                                            <input  tabindex="23" type="password" id="s_paswd" name="s_paswd"  maxlength="10"  class="form-control form-control-lg" maxlength="10" placeholder="Enter Password" required />
+                                            <label for="s_shopexectename" class="error"></label>
+                                            <label for="s_paswd" class="error"></label>
+                                        </div>
+                                        <div class="form-outline  mb-2">
+                                            <input  tabindex="24" type="password" id="s_rpaswd" name="s_rpaswd"  maxlength="10"  class="form-control form-control-lg" maxlength="10" placeholder="Re-Enter password" required />
+                                            <label for="s_rpaswd" class="error"></label>
+                                        </div>
+
+
+                                        <div class="checkbox form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="s_termcondtn" name="s_termcondtn" value="1" required tabindex="25" >
+                                            <label class="s_termcondtn" for="inlineCheckbox1"> Accept Terms & Conditions </label>
+                                        </div>
+
+                                        <p class="small mb-3 pb-lg-2 float-end" id="login_form_shopsecond">Already have an account?<a href="#" style="color:#432791;">Sign in</a></p>
+
+                                        <div class="pt-1 mb-4 loginform_btn btn-group">
+                                             <button class="btn btn-info btn-lg btn-block" type="button"  id="sellerFirstPage"  tabindex="26" >Back</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                             <button class="btn btn-primary loginform_btn mb-2" type="submit"  tabindex="27"  >Submit</button>
+                                        </div>
+
+
+
                                     </div>
-                                    <p class="small mb-5 pb-lg-2 float-end" id="login_form_shop">Already have an account?<a href="#" style="color:#432791;">Sign in</a></p>
 
-
-                                    <div class="pt-1 mb-4 loginform_btn">
-                                        <button class="btn btn-info btn-lg btn-block" type="submit">Continue</button>
-                                    </div>
                                 </form>
                             </div>
 
@@ -492,6 +601,20 @@
             });
 
 
+            // $("#sellerSecondPage").click(function () {
+            //     $("#sellersecond").show();
+            //     $("#sellerfirst").hide();
+            // });
+
+            $("#sellerFirstPage").click(function () {
+                $("#sellersecond").hide();
+                $("#sellerfirst").show();
+            });
+
+
+
+
+
             $("#userreg_r").click(function () {
                 $(".login_credentails").hide();
                 $(".mobileform").hide();
@@ -503,6 +626,8 @@
                 $("#sellerreg").hide();
                 $("#affiliatereg").hide();
                 $(".Resetnew_password").hide();
+                $("#sellersecond").hide();
+                $("#sellerfirst").hide();
 
 
             });
@@ -518,6 +643,9 @@
                 $("#sellerreg").show();
                 $("#affiliatereg").hide();
                 $(".Resetnew_password").hide();
+                $("#sellersecond").hide();
+                $("#sellerfirst").show();
+
 
             });
 
@@ -532,6 +660,8 @@
                 $("#sellerreg").hide();
                 $("#affiliatereg").show();
                 $(".Resetnew_password").hide();
+                $("#sellersecond").hide();
+                $("#sellerfirst").hide();
 
             });
 
@@ -566,7 +696,7 @@
                 $(".Resetnew_password").hide();
             });
 
-            $("#login_form_shop").click(function () {
+            $("#login_form_shopfirst").click(function () {
                 $(".login_credentails").show();
                 $(".emailform").show();
                 $(".mobileform").hide();
@@ -575,6 +705,17 @@
                 $(".Reset_password").hide();
                 $(".Resetnew_password").hide();
             });
+            $("#login_form_shopsecond").click(function () {
+                $(".login_credentails").show();
+                $(".emailform").show();
+                $(".mobileform").hide();
+                $(".sign_up").hide();
+                $(".verify_otp").hide();
+                $(".Reset_password").hide();
+                $(".Resetnew_password").hide();
+            });
+
+
 
             $("#login_form_afiliate").click(function () {
                 $(".login_credentails").show();
@@ -685,9 +826,6 @@
                 }
             });
 
-            $.validator.addMethod("strongPassword", function(value, element) {
-                return this.optional(element) || /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/.test(value);
-            }, "Password must contain at least one letter, one number, and one special character.");
 
 
             $('#userRegForm').submit(function(e) {
@@ -1071,6 +1209,268 @@
 
 
 
+                $("#SellerRegForm").validate({
+                    rules: {
+                        s_name: {
+                            required: true,
+                            pattern: /^[A-Za-z\s\.]+$/,
+                        },
+                        s_ownername: {
+                            required: true,
+                            pattern: /^[A-Za-z\s\.]+$/,
+                        },
+                        s_mobno: {
+                            required: true,
+                            digits: true,
+                            minlength: 10,
+                        },
+                        s_email: {
+                            required: true,
+                            email: true,
+                        },
+
+                        s_busnestype: {
+                            required: true,
+
+                        },
+                        s_shopservice: {
+                            required: true,
+
+                        },
+                        s_shopexectename: {
+                            required: true,
+
+                        },
+                        s_lisence: {
+                            required: true,
+                        },
+                        s_buldingorhouseno: {
+                            required: true,
+                        },
+
+                        s_locality: {
+                            required: true,
+                        },
+
+                        s_villagetown: {
+                            required: true,
+                        },
+
+                        s_cntry: {
+                            required: true,
+                            numericOnly: true
+                        },
+                        s_state: {
+                            required: true,
+
+                        },
+                        s_district: {
+                            required: true,
+
+                        },
+                        s_pincode: {
+                            required: true,
+
+                        },
+                        s_googlelink: {
+                            required: true,
+                        },
+                        s_gstno: {
+                            required: true,
+                        },
+                        s_panno: {
+                            required: true,
+                        },
+                        s_establishdate: {
+                            required: true,
+                        },
+                        s_termcondtn: {
+                            required: true,
+                        },
+                        s_photo: {
+                            required: true,
+                            extension: 'jpg|jpeg|png',
+                        },
+                        s_paswd: {
+                            required: true,
+                            minlength: 6,
+                            strongPassword: true
+                        },
+                        s_rpaswd: {
+                            required: true,
+                            equalTo: "#s_paswd"
+                        },
+
+                    },
+                    messages: {
+                        s_name: {
+                            pattern: "Only characters, spaces, and dots are allowed.",
+                        },
+                        s_ownername: {
+                            pattern: "Only characters, spaces, and dots are allowed.",
+                        },
+                        s_mobno: {
+                            digits: "Please enter a valid mobile number.",
+                        },
+                        s_email: {
+                            email: "Please enter a valid email address.",
+                        },
+                        s_photo: {
+                            extension: "Only JPG and PNG files are allowed.",
+                        },
+                        s_lisence: {
+                            required: "Please enter the license number.",
+                            maxlength: "License number must not exceed 25 characters."
+                        },
+                        s_buldingorhouseno: {
+                            required: "Please enter building/house name and number.",
+                            maxlength: "Building/house name and number must not exceed 100 characters."
+                        },
+                        s_locality: {
+                            required: "Please enter the locality.",
+                            maxlength: "Locality must not exceed 100 characters."
+                        },
+                        s_villagetown: {
+                            required: "Please enter village/town/municipality.",
+                            maxlength: "Village/town/municipality must not exceed 100 characters."
+                        },
+                        country: {
+                            required: "Please select a country."
+                        },
+                        state: {
+                            required: "Please select a state."
+                        },
+                        district: {
+                            required: "Please select a district."
+                        },
+                        s_pincode: {
+                            required: "Please enter the pin code.",
+                            maxlength: "Pin code must be 6 digits."
+                        },
+                        s_googlelink: {
+                            required: "Please enter the Google map link location."
+                        },
+                        s_gstno: {
+                            required: "Please enter the GST number.",
+                            maxlength: "GST number must not exceed 25 characters."
+                        },
+                        s_panno: {
+                            required: "Please enter the PAN number.",
+                            maxlength: "PAN number must not exceed 12 characters."
+                        },
+                        s_establishdate: {
+                            required: "Please select the establishment date."
+                        },
+                        s_termcondtn: {
+                            required: "Please accept the terms and conditions."
+                        }
+                    },
+        });
+
+        $("#sellerSecondPage").click(function() {
+            if ($("#SellerRegForm").valid()) {
+                $("#sellerfirst").hide();
+                $("#sellersecond").show();
+            }
+        });
+
+        $("#sellerFirstPage").click(function() {
+            $("#sellersecond").hide();
+            $("#sellerfirst").show();
+        });
+
+
+
+
+
+        $("#s_photo").change(function() {
+            if (this.files && this.files[0]) {
+                readURL(this);
+                $(".image-preview").show();
+            }
+        });
+
+        $("#remove-preview").click(function() {
+            $("#s_photo").val("");
+            $("#preview").attr("src", "#");
+            $(".image-preview").hide();
+        });
+
+
+
+            $('#SellerRegForm').submit(function(e) {
+                e.preventDefault();
+                if ($(this).valid()) {
+                    var formData = $(this).serialize();
+                    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                    $('#loading-overlay').fadeIn();
+                    $('#loading-image').fadeIn();
+                    //$('#userRegForm').hide();
+                    $.ajax({
+                        url: '{{ route("sellerRegisteration") }}',
+                        type: 'POST',
+                        data: formData,
+                        headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            $('#ureg-message').text('Registration successful. Please verify email and login!').fadeIn();
+                            $('#ureg-message').addClass('success-message');
+                            setTimeout(function() {
+                                $('#ureg-message').fadeOut();
+                            }, 5000); // 5000 milliseconds = 5 seconds
+                            $("#u_name").val('');
+                            $("#u_emid").val('');
+                            $("#u_mobno").val('');
+                            $("#u_paswd").val('');
+                            $("#u_rpaswd").val('');
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                            //$('#userRegForm').show();
+
+                        },
+                        error: function(xhr) {
+                            console.log(xhr.responseText);
+                            $('#ureg-message').text('Registration failed.').fadeIn();
+                            $('#ureg-message').addClass('error');
+                            setTimeout(function() {
+                                $('#ureg-message').fadeOut();
+                            }, 5000); // 5000 milliseconds = 5 seconds
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                            //$('#userRegForm').show();
+
+                        }
+                    });
+                }
+            });
+
+
+
+
+
+            $('#s_photo').change(function() {
+                var file = this.files[0];
+                var fileType = file.type;
+                if (fileType !== 'image/jpeg' && fileType !== 'image/png') {
+                    alert("Only JPG and PNG files are allowed for photo upload.");
+                    $(this).val('');
+                } else {
+                    // Display a preview of the uploaded image if needed
+                }
+            });
+
+            $('#s_name, #s_ownername').on('input', function() {
+                var value = $(this).val();
+                value = value.replace(/[^A-Za-z\s\.]+/, '');
+                $(this).val(value);
+            });
+
+
+            $.validator.addMethod("strongPassword", function(value, element) {
+                return this.optional(element) || /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/.test(value);
+            }, "Password must contain at least one letter, one number, and one special character.");
 
 
 
@@ -1349,7 +1749,7 @@
 
 
 
-    function exstemilid(u_emid)
+    function exstemilid(u_emid,checkval)
 	{
             $('#loading-overlay').fadeIn();
             $('#loading-image').fadeIn();
@@ -1363,7 +1763,7 @@
                         },
                 success:function(data)
 					{
-                        if(data.result==1)
+                        if(data.result==1 && checkval==1)
                         {
                             $('#uemil-message').text('Email ID Already Exists.').fadeIn();
                             $('#uemil-message').addClass('error');
@@ -1374,7 +1774,7 @@
                             $('#loading-image').fadeOut();
                             $('#loading-overlay').fadeOut();
                         }
-                        else if(data.result==3)
+                        else if(data.result==3 && checkval==1)
                         {
                             $('#uemil-message').text('Error in Data').fadeIn();
                             $('#uemil-message').addClass('error');
@@ -1384,6 +1784,31 @@
                             $('#loading-image').fadeOut();
                             $('#loading-overlay').fadeOut();
                         }
+                        else if(data.result==1 && checkval==2)
+                        {
+                            $('#semil-message').text('Email ID Already Exists.').fadeIn();
+                            $('#semil-message').addClass('error');
+                            setTimeout(function() {
+                            $('#semil-message').fadeOut();
+                            }, 5000);
+                            $('#s_email').val('');
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                        }
+                        else if(data.result==3 && checkval==2)
+                        {
+                            $('#semil-message').text('Error in Data').fadeIn();
+                            $('#semil-message').addClass('error');
+                            setTimeout(function() {
+                            $('#semil-message').fadeOut();
+                            }, 5000);
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                        }
+
+
+
+
                         else
                         {
                             $('#loading-image').fadeOut();
@@ -1394,7 +1819,7 @@
 
 	}
 
-    function exstmobno(u_mobno)
+    function exstmobno(u_mobno,checkval)
 	{
             $('#loading-overlay').fadeIn();
             $('#loading-image').fadeIn();
@@ -1408,7 +1833,7 @@
                         },
                 success:function(data)
 					{
-                        if(data.result==1)
+                        if(data.result==1 && checkval==1)
                         {
                             $('#umob-message').text('Mobile Number Already Exists.').fadeIn();
                             $('#umob-message').addClass('error');
@@ -1419,12 +1844,33 @@
                             $('#loading-image').fadeOut();
                             $('#loading-overlay').fadeOut();
                         }
-                        else if(data.result==3)
+                        else if(data.result==3 && checkval==1)
                         {
                             $('#umob-message').text('Error in Data').fadeIn();
                             $('#umob-message').addClass('error');
                             setTimeout(function() {
                             $('#umob-message').fadeOut();
+                            }, 5000);
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                        }
+                        else if(data.result==1 && checkval==2)
+                        {
+                            $('#smob-message').text('Mobile Number Already Exists.').fadeIn();
+                            $('#smob-message').addClass('error');
+                            setTimeout(function() {
+                            $('#smob-message').fadeOut();
+                            }, 5000);
+                            $('#s_mobno').val('');
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                        }
+                        else if(data.result==3 && checkval==2)
+                        {
+                            $('#smob-message').text('Error in Data').fadeIn();
+                            $('#smob-message').addClass('error');
+                            setTimeout(function() {
+                            $('#smob-message').fadeOut();
                             }, 5000);
                             $('#loading-image').fadeOut();
                             $('#loading-overlay').fadeOut();
@@ -1668,13 +2114,13 @@
 
 
 
-
-
-
-
-
-
-
+            function readURL(input) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $("#preview").attr("src", e.target.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
 
 
 
