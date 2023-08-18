@@ -39,12 +39,6 @@ class HomeController extends Controller
         return response()->json($districts);
     }
 
-
-
-
-
-
-
     public function RegisterPage(Request $request)
     {
 
