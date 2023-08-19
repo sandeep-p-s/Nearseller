@@ -1,8 +1,10 @@
 <?php
 
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\UserLoggedController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserLoggedController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,3 +43,5 @@ Route::controller(HomeController::class)->group(function (){
 Route::controller(UserLoggedController::class)->group(function (){
     Route::post('LoggedPage/{sentoval}', 'LoggedUserPage')->name('LoggedPage');
 });
+    Route::get('/admin/dashboard', [AdminController::class,'dashboard'])->name('admin.dashboard');
+    Route::get('/homepage', [UserController::class,'homepage'])->name('user.main');
