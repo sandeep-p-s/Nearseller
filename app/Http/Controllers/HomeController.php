@@ -229,6 +229,11 @@ class HomeController extends Controller
                     $mobno = $row->mobno;
                     $role_id = $row->role_id;
                     $approved = $row->approved;
+                    $user_status = $row->user_status;
+                }
+
+                if($user_status!='Y'){
+                        return response()->json(['result' => 5,'mesge'=>'Inactive User. Please verify your register email.','sendto'=>$email]);
                 }
                 if (($role_id != 4 && $role_id != 1) && $approved !== 'Y') {
                     return response()->json(['result' => 5,'mesge'=>'Not Approved.Please contact adminstrator','sendto'=>$email]);
@@ -322,6 +327,11 @@ class HomeController extends Controller
                     $mobno = $row->mobno;
                     $role_id = $row->role_id;
                     $approved = $row->approved;
+                    $user_status = $row->user_status;
+                }
+
+                if($user_status!='Y'){
+                        return response()->json(['result' => 5,'mesge'=>'Inactive User. Please verify your register email.','sendto'=>$mobno]);
                 }
                 if (($role_id != 4 && $role_id != 1) && $approved !== 'Y') {
                     return response()->json(['result' => 5,'mesge'=>'Not Approved.Please contact adminstrator','sendto'=>$mobno]);
@@ -596,15 +606,19 @@ class HomeController extends Controller
                 $cntmail = count($OTPGenerate);
                     if($cntmail>0)
                     {
-                    $msg = "Email ID : " . $email . " User Reg ID " . $id. " Verify OTP is " . $otpval;
-                    $logdata = [
-                        'user_id'       => $email,
-                        'ip_address'    => $loggedUserIp,
-                        'log_time'      => $time,
-                        'status'        => $msg
-                    ];
-                    $LogDetails->insert($logdata);
-                    return response()->json(['result' => 1,'mesge'=>'OTP Successfully Verified','sendto'=>$email]);
+                        $data = [
+                            'email_verify' => 'Y',
+                        ];
+                        UserAccount::where('id', $id)->update($data);
+                        $msg = "Email ID : " . $email . " User Reg ID " . $id. " Verify OTP is " . $otpval;
+                        $logdata = [
+                            'user_id'       => $email,
+                            'ip_address'    => $loggedUserIp,
+                            'log_time'      => $time,
+                            'status'        => $msg
+                        ];
+                        $LogDetails->insert($logdata);
+                        return response()->json(['result' => 1,'mesge'=>'OTP Successfully Verified','sendto'=>$email]);
                     }
                     else{
                         return response()->json(['result' => 2]);
@@ -632,10 +646,15 @@ class HomeController extends Controller
                     $role_id = $row->role_id;
                     $approved = $row->approved;
                 }
+
                 $OTPGenerate = OTPGenerate::where('otpmsgtype', $mobno)->where('otp', $otpval)->get();
                 $cntmob = count($OTPGenerate);
                 if($cntmob>0)
                 {
+                    $data = [
+                        'mobile_verify' => 'Y',
+                    ];
+                    UserAccount::where('id', $id)->update($data);
                     $msg = "Mobile Number : " . $mobno . " User Reg ID " . $id. " Verify OTP is " . $otpval;
                     $logdata = [
                         'user_id'       => $email,
@@ -778,7 +797,16 @@ class HomeController extends Controller
                 $mobno = $row->mobno;
                 $role_id = $row->role_id;
                 $approved = $row->approved;
+                $user_status = $row->user_status;
+
             }
+
+            if($user_status!='Y')
+            {
+                return response()->json(['result' => 5,'mesge'=>'Inactive User. Please verify your register email.','sendto'=>$mobno]);
+            }
+
+
             if (($role_id != 4 && $role_id != 1) && $approved !== 'Y') {
                 return response()->json(['result' => 5,'mesge'=>'Not Approved.Please contact adminstrator','sendto'=>$mobno]);
             }
@@ -865,11 +893,15 @@ class HomeController extends Controller
                 $role_id = $user->role_id;
                 $approved = $user->approved;
                 $emailid = $user->email;
+                $user_status = $user->user_status;
+                if($user_status!='Y'){
+                        return response()->json(['result' => 5,'mesge'=>'Inactive User. Please verify your register email.','sendto'=>$emailid]);
+                }
                 if (($role_id != 4 && $role_id != 1) && $approved !== 'Y') {
-                    return response()->json(['result' => 5,'mesge'=>'Not Approved.Please contact adminstrator','sendto'=>$email]);
+                    return response()->json(['result' => 5,'mesge'=>'Not Approved.Please contact adminstrator','sendto'=>$emailid]);
                 }
 
-                return response()->json(['result' => 3,'mesge' => 'Successfully Logged In.','sendto' => $email]);
+                return response()->json(['result' => 3,'mesge' => 'Successfully Logged In.','sendto' => $emailid]);
             } else {
                 return response()->json(['result' => 2,'mesge' => 'Invalid email or password.']);
             }
