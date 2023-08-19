@@ -731,7 +731,7 @@ class HomeController extends Controller
             }
 
         else
-        {//jjj
+        {
             $email = null;
             $mobile = $emal_mob;
             $userAccuntData = UserAccount::where('mobno', $mobile)->get();
