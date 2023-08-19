@@ -32,19 +32,33 @@ class UserLoggedController extends Controller
 
             $role = $userAccount->role->role_name;
             //echo "<pre>";print_r($role);exit;
-            // Redirect based on user's role
+            
             if ($role === 'Super_admin') {
                 return redirect()->route('admin.dashboard');
+
             } elseif ($role === 'Seller') {
                 return redirect()->route('seller.dashboard');
-            } elseif ($role === 'affiliate') {
+
+            } elseif ($role === 'Affiliate') {
                 return redirect()->route('affiliate.dashboard');
+
             } elseif ($role === 'Customer') {
-                return redirect()->route('user.main');
+                return redirect()->route('user.products');
+
+            } elseif ($role === 'Affiliate_coordinator') {
+                return redirect()->route('affiliate_coordinator.dashboard');
+
+            } elseif ($role === 'Product_adding_executive') {
+                return redirect()->route('product_add_executive.dashboard');
+
+            } elseif ($role === 'HR') {
+                return redirect()->route('hr.dashboard');
+
+            } elseif ($role === 'Shop_coordinator') {
+                return redirect()->route('shop_coordinator.dashboard');
             }
         } else {
-            // Handle case when user is not found
-            // For example, show an error message or redirect to a general error page
+            return redirect()->route('login');
         }
 
     }

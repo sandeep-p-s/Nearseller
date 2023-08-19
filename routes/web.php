@@ -43,5 +43,6 @@ Route::controller(HomeController::class)->group(function (){
 Route::controller(UserLoggedController::class)->group(function (){
     Route::post('LoggedPage/{sentoval}', 'LoggedUserPage')->name('LoggedPage');
 });
-    Route::get('/admin/dashboard', [AdminController::class,'dashboard'])->name('admin.dashboard');
-    Route::get('/homepage', [UserController::class,'homepage'])->name('user.main');
+    Route::get('/admin/dashboard', [AdminController::class,'admindashboard'])->name('admin.dashboard');
+    Route::get('/products', [UserController::class,'homepage'])->name('user.products');
+    Route::get('/seller/dashboard', [AdminController::class,'sellerdashboard'])->name('seller.dashboard');

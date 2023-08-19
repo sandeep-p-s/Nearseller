@@ -8,6 +8,6 @@ class UserController extends Controller
 {
     public function homepage()
     {
-        return view('user.main');
+        return view('user.products');
     }
 }
