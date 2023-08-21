@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -13,7 +12,6 @@ use App\Models\SellerDetails;
 use App\Mail\EmailVerification;
 use Illuminate\Support\Facades\Mail;
 use Exception;
-use Carbon\Carbon;
 use DB;
 class HomeController extends Controller
 {
@@ -909,9 +907,11 @@ class HomeController extends Controller
             }
         }
 
+
         function sellerRegisterationPage(Request $request)
         {
-            echo $request->file('s_photo');exit;
+            $loggedUserIp=$_SERVER['REMOTE_ADDR'];
+            $time=date('Y-m-d H:i:s');
             $validatedData = $request->validate([
                 's_name' => 'required|max:50',
                 's_ownername' => 'required|max:50',
@@ -930,7 +930,7 @@ class HomeController extends Controller
                 'district' => 'required',
                 's_pincode' => 'required|max:6',
                 's_googlelink' => 'required',
-                's_photo' => 'required|image|mimes:jpeg,png|max:20',
+                's_photo' => 'required|image|mimes:jpeg,png|max:1024',
                 's_gstno' => 'required|max:25',
                 's_panno' => 'required|max:12',
                 's_establishdate' => 'required|date',
@@ -939,8 +939,11 @@ class HomeController extends Controller
                 's_termcondtn' => 'accepted',
             ]);
 
-            $sellerDetail = new SellerDetail();
-            $sellerDetail->fill($validatedData);
+            $sellerDetail = new SellerDetails();
+            //echo "<pre>";print_r($validatedData);exit;
+            //$sellerDetail->fill($validatedData);
+            //echo "<pre>";print_r($sellerDetail);exit;
+
             $sellerDetail->shop_name = $request->input('s_name');
             $sellerDetail->owner_name = $request->input('s_ownername');
             $sellerDetail->shop_email = $request->input('s_email');
@@ -961,8 +964,7 @@ class HomeController extends Controller
             $sellerDetail->googlemap = $request->input('s_googlelink');
             $sellerDetail->shop_gstno = $request->input('s_gstno');
             $sellerDetail->shop_panno = $request->input('s_panno');
-            $s_establishdate = Carbon::createFromFormat('d-m-Y', $request->input('s_establishdate'))->format('Y-m-d');
-            $sellerDetail->establish_date = $s_establishdate;
+            $sellerDetail->establish_date = $request->input('s_establishdate');
 
             if ($request->hasFile('s_photo')) {
                 $file = $request->file('s_photo');
@@ -970,12 +972,36 @@ class HomeController extends Controller
                 $file->move(public_path('uploads/shopimages'), $fileName);
                 $sellerDetail->shop_photo = $fileName;
             }
-
             $shopreg=$sellerDetail->save();
             if($shopreg>0){
-                return response()->json(['result' => 1,'mesge' => 'Successfully Registered']);
+                $user = new UserAccount();
+                $user->name = $request->s_name;
+                $user->email = $request->s_email;
+                $user->mobno = $request->s_mobno;
+                $user->password = Hash::make($request->s_paswd);
+                $user->role_id=2;
+                $user->forgot_pass=$request->s_paswd;
+                $user->user_status='N';
+                $submt=$user->save();
+                $lastRegId = $user->toSql();
+                $last_id = $user->id;
+                $msg="Registration Success! ".$request->s_email." register id : ".$last_id;
+                    $LogDetails = new LogDetails();
+                    $LogDetails->user_id = $request->s_email;
+                    $LogDetails->ip_address = $loggedUserIp;
+                    $LogDetails->log_time = $time;
+                    $LogDetails->status = $msg;
+                    $LogDetails->save();
+                    $valencodemm=$lastRegId."-".$request->s_email;
+                    $valsmm=base64_encode($valencodemm);
+                    $verificationToken = base64_encode($last_id . '-' . $request->s_email);
+                    $checkval="1";
+                    $message='';
+                    $email = new EmailVerification($verificationToken, $request->u_name, $request->s_email, $checkval, $message);
+                    Mail::to($request->s_email)->send($email);
+
             } else {
-                return response()->json(['result' => 2,'mesge' => 'Error in Data']);
+
             }
         }
 

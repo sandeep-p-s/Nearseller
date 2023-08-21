@@ -205,10 +205,8 @@
 
 
                             <div id="sellerreg" style="display: none;">
-                                <div class="form-outline  mb-2">
-                                    <div id="shopreg-message"  class="text-center" style="display: none;"></div>
-                                </div>
-                                <form id="SellerRegForm">
+
+                                <form id="SellerRegForm" enctype="multipart/form-data" method="POST">
                                     <div id="sellerfirst">
                                         <div class="form-outline mb-3">
                                             <input type="text" id="s_name" name="s_name" class="form-control form-control-lg" maxlength="50"  placeholder="Shop Name" required  tabindex="1" />
@@ -260,6 +258,9 @@
                                         <p class="small mb-3 pb-lg-2 float-end" id="login_form_shopfirst">Already have an account?<a href="#" style="color:#432791;">Sign in</a></p>
                                         <div class="pt-1 mb-4 loginform_btn">
                                             <button class="btn btn-primary loginform_btn" type="button" id="sellerSecondPage"  tabindex="9">Continue</button>
+                                        </div>
+                                        <div class="form-outline  mb-2">
+                                            <div id="shopreg-message"  class="text-center" style="display: none;"></div>
                                         </div>
                                     </div>
 
@@ -315,7 +316,7 @@
                                             <label for="s_googlelink" class="error"></label>
                                         </div>
                                         <div class="form-outline mb-3">
-                                            <input type="file" id="s_photo" name="s_photo" class="form-control form-control-lg" placeholder="Shop Photo" required tabindex="19" accept="image/jpeg, image/png" />
+                                            <input type="file" id="s_photo" name="s_photo" class="form-control form-control-lg" placeholder="Shop Photo" required tabindex="19" accept="image/jpeg, image/png"  />
                                             <label for="s_photo" class="error"></label>
                                         </div>
                                         <div class="image-preview" style="display: none;">
@@ -335,8 +336,8 @@
                                         </div>
 
 
-                                        <div class="form-outline mb-3">
-                                            <input type="date" id="s_establishdate" name="s_establishdate"  maxlength="10"  class="form-control form-control-lg" placeholder="Establishment date"  tabindex="22" />
+                                        <div class="form-outline mb-3">Establishment Date
+                                            <input type="date" id="s_establishdate" name="s_establishdate"  maxlength="10"  class="form-control form-control-lg" placeholder="Establishment Date"  tabindex="22" />
                                             <label for="s_establishdate" class="error"></label>
                                         </div>
 
@@ -366,6 +367,8 @@
 
 
 
+
+
                                     </div>
 
                                 </form>
@@ -377,54 +380,69 @@
                                 <form id="AffiliateRegForm">
 
                                     <div class="form-outline mb-3">
-                                        <input type="text" id="" class="form-control form-control-lg" placeholder="Name" />
+                                        <input type="text" id="a_name" name="a_name" class="form-control form-control-lg" placeholder="Name" required tabindex="1" maxlength="25" />
+                                        <label for="a_name" class="error"></label>
                                     </div>
                                     <div class="form-outline mb-3">
-                                        <input type="text" id="" class="form-control form-control-lg"  placeholder="Mobile Number" />
+                                        <input type="text" id="a_mobno" name="a_mobno" class="form-control form-control-lg"  maxlength="10"  placeholder="Enter Mobile No" required tabindex="3"  onchange="exstmobno(this.value,'3')" />
+                                        <label for="s_mobno" class="error"></label>
+                                        <div id="amob-message"  class="text-center" style="display: none;"></div>
                                     </div>
                                     <div class="form-outline mb-3">
-                                        <input type="date" id="" class="form-control form-control-lg" placeholder="Date of birth" />
-                                    </div>
-                                    <div class="form-outline mb-3">
-                                        <input type="email" id="" class="form-control form-control-lg" placeholder="Referral ID" />
+                                        <input type="email" id="a_email" name="a_email" class="form-control form-control-lg"  maxlength="35"  placeholder="Enter Email" required tabindex="4"  onchange="exstemilid(this.value,'3')" />
+                                        <label for="s_email" class="error"></label>
+                                        <div id="aemil-message"  class="text-center" style="display: none;"></div>
                                     </div>
 
                                     <div class="form-outline mb-3">
-                                        <input type="email" id="" class="form-control form-control-lg"  placeholder="Aadhaar Number" />
+                                        <input type="date" id="a_dob" name="a_dob" class="form-control form-control-lg" placeholder="Date of birth" required tabindex="4" maxlength="10" />
+                                        <label for="a_dob" class="error"></label>
                                     </div>
                                     <div class="form-outline mb-3">
-                                        <input type="email" id="" class="form-control form-control-lg"  placeholder="Locality" />
+                                        <input type="text" id="a_refralid" name="a_refralid" class="form-control form-control-lg" placeholder="Referral ID" tabindex="5"  />
+                                        <label for="a_refralid" class="error"></label>
+                                    </div>
+
+                                    <div class="form-outline mb-3">
+                                        <input type="text" id="a_aadharno" name="a_aadharno" class="form-control form-control-lg"  placeholder="Aadhaar Number" maxlength="12" required tabindex="6" />
+                                        <label for="a_aadharno" class="error"></label>
+                                    </div>
+                                    <div class="form-outline mb-3">
+                                        <input type="text" id="a_locality" name="a_locality" class="form-control form-control-lg"  placeholder="Locality" required tabindex="7" />
+                                        <label for="a_aadharno" class="error"></label>
                                     </div>
                                     <div class="form-outline mb-3">
                                         <select class="form-select form-control form-control-lg"
-                                            aria-label="Default select example" id="country">
+                                            aria-label="Default select example" id="a_country" name="a_country" required tabindex="8">
                                             <option value="Select Country">Select country</option>
                                                 @foreach ($countries as $country)
                                                     <option value="{{ $country->id }}">{{ $country->country_name }}</option>
                                                 @endforeach
                                         </select>
+                                        <label for="a_country" class="error"></label>
                                     </div>
                                     <div class="form-outline mb-3">
-                                        <select class="form-select form-control form-control-lg"
-                                            aria-label="Default select example" id="state">
+                                        <select class="form-select form-control form-control-lg" aria-label="Default select example" id="a_state" name="a_state" required tabindex="9">
 
                                         </select>
+                                        <label for="a_state" class="error"></label>
                                     </div>
                                     <div class="form-outline mb-3">
-                                        <select class="form-select form-control form-control-lg"
-                                            aria-label="Default select example" id="district">
+                                        <select class="form-select form-control form-control-lg" aria-label="Default select example" id="a_district" name="a_district" required tabindex="10">
 
                                         </select>
+                                        <label for="a_district" class="error"></label>
                                     </div>
                                     <div class="form-outline mb-3">
                                         <label class="mb10">Upload aadhaar</label>
-                                        <input type="file" id="" class="form-control form-control-lg" placeholder="Upload Aadhaar (front & back)" />
+                                        <input type="file" id="uplodadhar" name="uplodadhar" class="form-control form-control-lg" placeholder="Upload Aadhaar (front & back)" required tabindex="11" />
+                                        <label for="uplodadhar" class="error"></label>
                                     </div>
 
                                     <div class="checkbox form-check-inline">
-                                        <input type="checkbox" id="inlineCheckbox1" value="option1">
-                                        <label class="terms_text" for="inlineCheckbox1"> Accept Terms & Conditions
-                                        </label>
+                                        <input class="form-check-input" type="checkbox" id="a_termcondtn" name="a_termcondtn" value="1" required tabindex="12" >
+                                        <label class="inlineCheckbox1" for="inlineCheckbox1"> Accept Terms & Conditions </label>
+
                                     </div>
 
                                     <p class="small mb-5 pb-lg-2 float-end" id="login_form_afiliate">Already have an account?<a href="#" style="color:#432791;">Sign in</a></p>
@@ -577,8 +595,8 @@
 
 
 
-
-    {{-- <script src="{{ asset('js/jquery.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('js/jquery.min.js') }}"></,script>
+    <script src="{{ asset('js/jquery.min_upgrade.js') }}"></script> --}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ asset('js/bootstrap.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
@@ -777,6 +795,20 @@
                 }
             });
 
+            $('#a_country').change(function () {
+                $('#a_district').empty();
+                var countryId = $(this).val();
+                if (countryId) {
+                    $.get("/getStates/" + countryId, function (data) {
+                        $('#a_state').empty().append('<option value="">Select State</option>');
+                        $.each(data, function (index, state) {
+                            $('#a_state').append('<option value="' + state.id + '">' + state.state_name + '</option>');
+                        });
+                    });
+                }
+            });
+
+
             $('#state').change(function () {
                 var stateId = $(this).val();
                 if (stateId) {
@@ -788,6 +820,21 @@
                     });
                 }
             });
+
+            $('#a_state').change(function () {
+                var stateId = $(this).val();
+                if (stateId) {
+                    $.get("/getDistricts/" + stateId, function (data) {
+                        $('#a_district').empty().append('<option value="">Select District</option>');
+                        $.each(data, function (index, district) {
+                            $('#a_district').append('<option value="' + district.id + '">' + district.district_name + '</option>');
+                        });
+                    });
+                }
+            });
+
+
+
         });
 
 
@@ -1276,6 +1323,8 @@
                         },
                         s_pincode: {
                             required: true,
+                            digits: true,
+                            minlength: 6,
 
                         },
                         s_googlelink: {
@@ -1371,47 +1420,20 @@
                             required: "Please accept the terms and conditions."
                         }
                     },
-        });
+                });
 
-        $("#sellerSecondPage").click(function() {
-            if ($("#SellerRegForm").valid()) {
-                $("#sellerfirst").hide();
-                $("#sellersecond").show();
-            }
-        });
-
-        $("#sellerFirstPage").click(function() {
-            $("#sellersecond").hide();
-            $("#sellerfirst").show();
-        });
-
-
-
-
-
-        $("#s_photo").change(function() {
-            if (this.files && this.files[0]) {
-                readURL(this);
-                $(".image-preview").show();
-            }
-        });
-
-        $("#remove-preview").click(function() {
-            $("#s_photo").val("");
-            $("#preview").attr("src", "#");
-            $(".image-preview").hide();
-        });
-
-        $('#s_photo').change(function() {
-                var file = this.files[0];
-                var fileType = file.type;
-                if (fileType !== 'image/jpeg' && fileType !== 'image/png') {
-                    alert("Only JPG and PNG files are allowed for photo upload.");
-                    $(this).val('');
-                } else {
-
+            $("#sellerSecondPage").click(function() {
+                if ($("#SellerRegForm").valid()) {
+                    $("#sellerfirst").hide();
+                    $("#sellersecond").show();
                 }
             });
+
+            $("#sellerFirstPage").click(function() {
+                $("#sellersecond").hide();
+                $("#sellerfirst").show();
+            });
+
 
             $('#s_name, #s_ownername').on('input', function() {
                 var value = $(this).val();
@@ -1429,19 +1451,23 @@
             $('#SellerRegForm').submit(function(e) {
                 e.preventDefault();
                 if ($(this).valid()) {
-                    var formData = $(this).serialize();
+                    //var formData = $(this).serialize();
                     var csrfToken = $('meta[name="csrf-token"]').attr('content');
                     $('#loading-overlay').fadeIn();
                     $('#loading-image').fadeIn();
                     //$('#userRegForm').hide();
                     $.ajax({
                         url: '{{ route("sellerRegisteration") }}',
-                        type: 'POST',
-                        data: formData,
+                        type: "POST",
+                        data:  new FormData(this),
+                        contentType: false,
+                        cache: false,
+                        processData:false,
                         headers: {
                         'X-CSRF-TOKEN': csrfToken
                         },
                         success: function(response) {
+
                             console.log(response);
                             $('#shopreg-message').text('Registration successful. Please verify email and login!').fadeIn();
                             $('#shopreg-message').addClass('success-message');
@@ -1451,7 +1477,9 @@
                             $('#SellerRegForm')[0].reset();
                             $('#loading-image').fadeOut();
                             $('#loading-overlay').fadeOut();
-                            $('#sellerreg').show();
+                            $('#sellerfirst').show();
+                            $('#sellersecond').hide();
+
 
                         },
                         error: function(xhr) {
@@ -1480,9 +1508,31 @@
         });
 
 
+        $("#s_photo").change(function() {
+            if (this.files && this.files[0]) {
+                var file = this.files[0];
+                var fileType = file.type;
+                var maxSizeKB = 1024;
+                if (fileType !== 'image/jpeg' && fileType !== 'image/png') {
+                    alert("Only JPG and PNG files are allowed for photo upload.");
+                    $(this).val('');
+                    $(".image-preview").hide();
+                } else if (file.size > maxSizeKB * 1024) {
+                    alert("File size exceeds 1MB.");
+                    $(this).val('');
+                    $(".image-preview").hide();
+                } else {
+                    readURL(this);
+                    $(".image-preview").show();
+                }
+            }
+        });
 
-
-
+        $("#remove-preview").click(function() {
+            $("#s_photo").val("");
+            $("#preview").attr("src", "#");
+            $(".image-preview").hide();
+        });
 
 
 
@@ -2124,6 +2174,8 @@
                 };
                 reader.readAsDataURL(input.files[0]);
             }
+
+
 
 
 
