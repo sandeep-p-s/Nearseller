@@ -205,6 +205,9 @@
 
 
                             <div id="sellerreg" style="display: none;">
+                                <div class="form-outline  mb-2">
+                                    <div id="shopreg-message"  class="text-center" style="display: none;"></div>
+                                </div>
                                 <form id="SellerRegForm">
                                     <div id="sellerfirst">
                                         <div class="form-outline mb-3">
@@ -317,7 +320,7 @@
                                         </div>
                                         <div class="image-preview" style="display: none;">
                                             <img id="preview" src="#" alt="Preview" style="max-width: 100px;" />
-                                            <button type="button" id="remove-preview" class="btn btn-danger">Remove</button>
+                                            <button type="button" id="remove-preview" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                         </div>
 
 
@@ -1399,6 +1402,28 @@
             $(".image-preview").hide();
         });
 
+        $('#s_photo').change(function() {
+                var file = this.files[0];
+                var fileType = file.type;
+                if (fileType !== 'image/jpeg' && fileType !== 'image/png') {
+                    alert("Only JPG and PNG files are allowed for photo upload.");
+                    $(this).val('');
+                } else {
+
+                }
+            });
+
+            $('#s_name, #s_ownername').on('input', function() {
+                var value = $(this).val();
+                value = value.replace(/[^A-Za-z\s\.]+/, '');
+                $(this).val(value);
+            });
+
+
+            $.validator.addMethod("strongPassword", function(value, element) {
+                return this.optional(element) || /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/.test(value);
+            }, "Password must contain at least one letter, one number, and one special character.");
+
 
 
             $('#SellerRegForm').submit(function(e) {
@@ -1418,31 +1443,26 @@
                         },
                         success: function(response) {
                             console.log(response);
-                            $('#ureg-message').text('Registration successful. Please verify email and login!').fadeIn();
-                            $('#ureg-message').addClass('success-message');
+                            $('#shopreg-message').text('Registration successful. Please verify email and login!').fadeIn();
+                            $('#shopreg-message').addClass('success-message');
                             setTimeout(function() {
-                                $('#ureg-message').fadeOut();
+                                $('#shopreg-message').fadeOut();
                             }, 5000); // 5000 milliseconds = 5 seconds
-                            $("#u_name").val('');
-                            $("#u_emid").val('');
-                            $("#u_mobno").val('');
-                            $("#u_paswd").val('');
-                            $("#u_rpaswd").val('');
+                            $('#SellerRegForm')[0].reset();
                             $('#loading-image').fadeOut();
                             $('#loading-overlay').fadeOut();
-                            //$('#userRegForm').show();
+                            $('#sellerreg').show();
 
                         },
                         error: function(xhr) {
                             console.log(xhr.responseText);
-                            $('#ureg-message').text('Registration failed.').fadeIn();
-                            $('#ureg-message').addClass('error');
+                            $('#shopreg-message').text('Registration failed.').fadeIn();
+                            $('#shopreg-message').addClass('error');
                             setTimeout(function() {
-                                $('#ureg-message').fadeOut();
-                            }, 5000); // 5000 milliseconds = 5 seconds
+                                $('#shopreg-message').fadeOut();
+                            }, 5000);
                             $('#loading-image').fadeOut();
                             $('#loading-overlay').fadeOut();
-                            //$('#userRegForm').show();
 
                         }
                     });
@@ -1453,27 +1473,7 @@
 
 
 
-            $('#s_photo').change(function() {
-                var file = this.files[0];
-                var fileType = file.type;
-                if (fileType !== 'image/jpeg' && fileType !== 'image/png') {
-                    alert("Only JPG and PNG files are allowed for photo upload.");
-                    $(this).val('');
-                } else {
-                    // Display a preview of the uploaded image if needed
-                }
-            });
 
-            $('#s_name, #s_ownername').on('input', function() {
-                var value = $(this).val();
-                value = value.replace(/[^A-Za-z\s\.]+/, '');
-                $(this).val(value);
-            });
-
-
-            $.validator.addMethod("strongPassword", function(value, element) {
-                return this.optional(element) || /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/.test(value);
-            }, "Password must contain at least one letter, one number, and one special character.");
 
 
 
