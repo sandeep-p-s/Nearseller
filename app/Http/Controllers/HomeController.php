@@ -8,10 +8,12 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\UserAccount;
 use App\Models\LogDetails;
 use App\Models\OTPGenerate;
+use App\Models\SellerDetails;
 
 use App\Mail\EmailVerification;
 use Illuminate\Support\Facades\Mail;
 use Exception;
+use Carbon\Carbon;
 use DB;
 class HomeController extends Controller
 {
@@ -906,6 +908,77 @@ class HomeController extends Controller
                 return response()->json(['result' => 2,'mesge' => 'Invalid email or password.']);
             }
         }
+
+        function sellerRegisterationPage(Request $request)
+        {
+            echo $request->file('s_photo');exit;
+            $validatedData = $request->validate([
+                's_name' => 'required|max:50',
+                's_ownername' => 'required|max:50',
+                's_mobno' => 'required|max:10',
+                's_email' => 'required|email|max:35',
+                's_refralid' => 'max:50',
+                's_busnestype' => 'required',
+                's_shopservice' => 'required',
+                's_shopexectename' => 'required',
+                's_lisence' => 'required|max:25',
+                's_buldingorhouseno' => 'required|max:100',
+                's_locality' => 'required|max:100',
+                's_villagetown' => 'required|max:100',
+                'country' => 'required',
+                'state' => 'required',
+                'district' => 'required',
+                's_pincode' => 'required|max:6',
+                's_googlelink' => 'required',
+                's_photo' => 'required|image|mimes:jpeg,png|max:20',
+                's_gstno' => 'required|max:25',
+                's_panno' => 'required|max:12',
+                's_establishdate' => 'required|date',
+                's_paswd' => 'required|max:10',
+                's_rpaswd' => 'required|same:s_paswd',
+                's_termcondtn' => 'accepted',
+            ]);
+
+            $sellerDetail = new SellerDetail();
+            $sellerDetail->fill($validatedData);
+            $sellerDetail->shop_name = $request->input('s_name');
+            $sellerDetail->owner_name = $request->input('s_ownername');
+            $sellerDetail->shop_email = $request->input('s_email');
+            $sellerDetail->shop_mobno = $request->input('s_mobno');
+            $sellerDetail->referal_id = $request->input('s_refralid');
+            $sellerDetail->busnes_type = $request->input('s_busnestype');
+            $sellerDetail->shop_service_type = $request->input('s_shopservice');
+            $sellerDetail->shop_executive = $request->input('s_shopexectename');
+            $sellerDetail->term_condition = $request->has('s_termcondtn') ? 1 : 0;
+            $sellerDetail->shop_licence = $request->input('s_lisence');
+            $sellerDetail->house_name_no = $request->input('s_buldingorhouseno');
+            $sellerDetail->locality = $request->input('s_locality');
+            $sellerDetail->village = $request->input('s_villagetown');
+            $sellerDetail->country = $request->input('country');
+            $sellerDetail->state = $request->input('state');
+            $sellerDetail->district = $request->input('district');
+            $sellerDetail->pincode = $request->input('s_pincode');
+            $sellerDetail->googlemap = $request->input('s_googlelink');
+            $sellerDetail->shop_gstno = $request->input('s_gstno');
+            $sellerDetail->shop_panno = $request->input('s_panno');
+            $s_establishdate = Carbon::createFromFormat('d-m-Y', $request->input('s_establishdate'))->format('Y-m-d');
+            $sellerDetail->establish_date = $s_establishdate;
+
+            if ($request->hasFile('s_photo')) {
+                $file = $request->file('s_photo');
+                $fileName = time() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('uploads/shopimages'), $fileName);
+                $sellerDetail->shop_photo = $fileName;
+            }
+
+            $shopreg=$sellerDetail->save();
+            if($shopreg>0){
+                return response()->json(['result' => 1,'mesge' => 'Successfully Registered']);
+            } else {
+                return response()->json(['result' => 2,'mesge' => 'Error in Data']);
+            }
+        }
+
 
 
 
