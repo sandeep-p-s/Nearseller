@@ -35,7 +35,7 @@ Route::controller(HomeController::class)->group(function (){
     Route::get('/getStates/{country}', 'getStates')->name('getStates');
     Route::post('EmailLogin','EmailLoginPage')->name('EmailLogin');
     Route::post('sellerRegisteration','sellerRegisterationPage')->name('sellerRegisteration');
-
+    Route::post('affiliatorRegisteration','affiliatorRegisterationPage')->name('affiliatorRegisteration');
 
 });
 
