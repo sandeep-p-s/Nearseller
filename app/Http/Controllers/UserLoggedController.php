@@ -32,7 +32,7 @@ class UserLoggedController extends Controller
 
             $role = $userAccount->role->role_name;
             //echo "<pre>";print_r($role);exit;
-            
+
             if ($role === 'Super_admin') {
                 return redirect()->route('admin.dashboard');
 
@@ -60,6 +60,12 @@ class UserLoggedController extends Controller
         } else {
             return redirect()->route('login');
         }
+    }
 
+    public function logout()
+    {
+        Auth::logout();
+
+        return redirect('/login');
     }
 }

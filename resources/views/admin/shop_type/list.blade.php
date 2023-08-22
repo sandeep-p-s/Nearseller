@@ -38,9 +38,9 @@
                     <li class="nav-item"><a class="nav-link" href="{{ route('list.businesstype') }}"><i
                                 class="ti-control-record"></i>Business
                             Type</a></li>
-                    <li class="nav-item"><a class="nav-link" href="shop_type_table.html"><i
+                    <li class="nav-item"><a class="nav-link" href="#"><i
                                 class="ti-control-record"></i>Shop Type</a></li>
-                    <li class="nav-item"><a class="nav-link" href="service_type_table.html"><i
+                    <li class="nav-item"><a class="nav-link" href="{{ route('list.servicetype') }}"><i
                                 class="ti-control-record"></i>Service Type</a></li>
                 </ul>
             </li>

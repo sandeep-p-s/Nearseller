@@ -35,9 +35,9 @@
                 <a href="javascript: void(0);" aria-expanded="false"><span>Types</span><span class="menu-arrow"><i
                             class="mdi mdi-chevron-right"></i></span></a>
                 <ul class="nav-second-level mm-collapse" aria-expanded="false" style="height: 0px;">
-                    <li class="nav-item"><a class="nav-link" href="#"><i class="ti-control-record"></i>Business
-                            Type</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('list.shoptype') }}"><i
+                    <li class="nav-item"><a class="nav-link" href="{{ route('list.businesstype') }}"><i
+                                class="ti-control-record"></i>Business Type</a></li>
+                    <li class="nav-item"><a class="nav-link" href="shop_type_table.html"><i
                                 class="ti-control-record"></i>Shop Type</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('list.servicetype') }}"><i
                                 class="ti-control-record"></i>Service Type</a></li>
@@ -140,80 +140,41 @@
                         <div class="page-title-box">
                             <div class="row">
                                 <div class="col">
-                                    <h4 class="page-title">Business Type</h4>
+                                    <h4 class="page-title">Add Service Type</h4>
 
                                 </div>
-                                <div class="col-auto align-self-center">
-                                    <a href="{{ route('add.businesstype') }}"><button type="button"
-                                            class="btn add_btn ">Add Business Type </button></a>
-                                </div><!--end col-->
-
 
                             </div><!--end row-->
                         </div><!--end page-title-box-->
-                        @if (session('success'))
-                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                {{ session('success') }}
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                        @endif
-                        @if (session('error'))
-                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                {{ session('error') }}
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                        @endif
                     </div><!--end col-->
-                </div><!--end row-->
-                <!-- end page title end breadcrumb -->
+                </div> <!--end row-->
+
+
                 <div class="row">
-                    <div class="col-12">
+
+
+
+                    <div class="col-lg-6">
                         <div class="card">
-
                             <div class="card-body">
-                                <table id="datatable" class="table table-bordered dt-responsive nowrap"
-                                    style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Business Type</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($businesstype as $bt)
-                                            <tr>
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $bt->business_name }}</td>
-                                                <td>
-                                                    <div class="btn-group mb-2 mb-md-0">
-                                                        <button type="button" class="btn view_btn dropdown-toggle"
-                                                            data-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false">Action <i
-                                                                class="mdi mdi-chevron-down"></i></button>
-                                                        <div class="dropdown-menu">
-                                                            <a class="dropdown-item view_btn1"
-                                                                href="{{ route('edit.businesstype', $bt->id) }}">Edit</a>
-                                                            <a class="dropdown-item delete_btn"
-                                                                href="{{ route('delete.businesstype', $bt->id) }}"
-                                                                onclick="return confirm('Are you sure you want to delete?')">Delete</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
+                                <form method="POST" action="{{ route('store.service_type') }}">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="addShopType">Add Service Type</label>
+                                        <input type="text" class="form-control mb15" id="service_name"
+                                            placeholder="Enter service type" name="service_name" required>
+                                        <button type="submit" class="btn view_btn">Add</button>
+                                    </div>
+                                </form>
+                            </div><!--end card-body-->
+                        </div><!--end card-->
 
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                    </div> <!--end col-->
 
-                            </div>
-                        </div>
-                    </div> <!-- end col -->
-                </div> <!-- end row -->
+                </div><!--end row-->
+
+
+                <!-- end page title end breadcrumb -->
 
             </div><!-- container -->
         @endsection

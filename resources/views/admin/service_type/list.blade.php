@@ -35,12 +35,13 @@
                 <a href="javascript: void(0);" aria-expanded="false"><span>Types</span><span class="menu-arrow"><i
                             class="mdi mdi-chevron-right"></i></span></a>
                 <ul class="nav-second-level mm-collapse" aria-expanded="false" style="height: 0px;">
-                    <li class="nav-item"><a class="nav-link" href="#"><i class="ti-control-record"></i>Business
+                    <li class="nav-item"><a class="nav-link" href="{{ route('list.businesstype') }}"><i
+                                class="ti-control-record"></i>Business
                             Type</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('list.shoptype') }}"><i
                                 class="ti-control-record"></i>Shop Type</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('list.servicetype') }}"><i
-                                class="ti-control-record"></i>Service Type</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="ti-control-record"></i>Service
+                            Type</a></li>
                 </ul>
             </li>
             <hr class="hr-dashed hr-menu">
@@ -140,12 +141,12 @@
                         <div class="page-title-box">
                             <div class="row">
                                 <div class="col">
-                                    <h4 class="page-title">Business Type</h4>
+                                    <h4 class="page-title">Service Type</h4>
 
                                 </div>
                                 <div class="col-auto align-self-center">
-                                    <a href="{{ route('add.businesstype') }}"><button type="button"
-                                            class="btn add_btn ">Add Business Type </button></a>
+                                    <a href="{{ route('add.servicetype') }}"><button type="button"
+                                            class="btn add_btn ">Add Service Type</button></a>
                                 </div><!--end col-->
 
 
@@ -180,15 +181,29 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>Business Type</th>
+                                            <th>Service Type</th>
+                                            <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($businesstype as $bt)
+                                        @foreach ($servicetype as $srt)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $bt->business_name }}</td>
+                                                <td>{{ $srt->service_name }}</td>
+                                                <td>
+                                                    @if ($srt->status === 'active')
+                                                        <button type="button" class="btn approve_btn">
+                                                            {{ $srt->status }}
+                                                        </button>
+                                                    @else
+                                                        <button type="button" class="btn delete_btn">
+                                                            {{ $srt->status }}
+                                                        </button>
+                                                    @endif
+                                                    {{-- <button type="button" class="btn approve_btn ">{{ $srt->status }}</button> --}}
+                                                </td>
+
                                                 <td>
                                                     <div class="btn-group mb-2 mb-md-0">
                                                         <button type="button" class="btn view_btn dropdown-toggle"
@@ -197,9 +212,9 @@
                                                                 class="mdi mdi-chevron-down"></i></button>
                                                         <div class="dropdown-menu">
                                                             <a class="dropdown-item view_btn1"
-                                                                href="{{ route('edit.businesstype', $bt->id) }}">Edit</a>
+                                                                href="{{ route('edit.servicetype', $srt->id) }}">Edit</a>
                                                             <a class="dropdown-item delete_btn"
-                                                                href="{{ route('delete.businesstype', $bt->id) }}"
+                                                                href="{{ route('delete.servicetype', $srt->id) }}"
                                                                 onclick="return confirm('Are you sure you want to delete?')">Delete</a>
                                                         </div>
                                                     </div>

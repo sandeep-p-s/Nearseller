@@ -4,9 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\BusinessTypeController;
 use App\Http\Controllers\ShopTypeController;
 use App\Http\Controllers\UserLoggedController;
+use App\Http\Controllers\ServiceTypeController;
+use App\Http\Controllers\BusinessTypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +45,8 @@ Route::controller(HomeController::class)->group(function (){
 
 Route::controller(UserLoggedController::class)->group(function (){
     Route::post('LoggedPage/{sentoval}', 'LoggedUserPage')->name('LoggedPage');
+    Route::get('/logout', 'logout')->name('logout');
+
 });
 Route::controller(AdminController::class)->group(function (){
     Route::get('/admin/dashboard', 'admindashboard')->name('admin.dashboard');
@@ -66,6 +69,15 @@ Route::controller(ShopTypeController::class)->group(function (){
     Route::get('shopedit/{id}', 'edit_shop_type')->name('edit.shoptype');
     Route::post('shopupdate/{id}', 'update_shop_type')->name('update.shoptype');
     Route::get('shopdelete/{id}', 'delete_shop_type')->name('delete.shoptype');
+});
+
+Route::controller(ServiceTypeController::class)->group(function (){
+    Route::get('listservicetype', 'list_service_type')->name('list.servicetype');
+    Route::get('addservicetype', 'add_service_type')->name('add.servicetype');
+    Route::post('saveservicetype', 'store_service_type')->name('store.service_type');
+    Route::get('serviceedit/{id}', 'edit_service_type')->name('edit.servicetype');
+    Route::post('serviceupdate/{id}', 'update_service_type')->name('update.servicetype');
+    Route::get('servicedelete/{id}', 'delete_service_type')->name('delete.servicetype');
 });
 
     Route::get('/products', [UserController::class,'homepage'])->name('user.products');

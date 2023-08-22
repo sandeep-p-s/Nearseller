@@ -39,7 +39,7 @@
                                 class="ti-control-record"></i>Business Type</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('list.shoptype') }}"><i
                                 class="ti-control-record"></i>Shop Type</a></li>
-                    <li class="nav-item"><a class="nav-link" href="service_type_table.html"><i
+                    <li class="nav-item"><a class="nav-link" href="{{ route('list.servicetype') }}"><i
                                 class="ti-control-record"></i>Service Type</a></li>
                 </ul>
             </li>
@@ -102,7 +102,7 @@
                             <a class="dropdown-item" href="#"><i data-feather="settings"
                                     class="align-self-center icon-xs icon-dual mr-1"></i> Settings</a>
                             <div class="dropdown-divider mb-0"></div>
-                            <a class="dropdown-item" href="#"><i data-feather="power"
+                            <a class="dropdown-item" href="{{ route('logout') }}"><i data-feather="power"
                                     class="align-self-center icon-xs icon-dual mr-1"></i> Logout</a>
                         </div>
                     </li>
