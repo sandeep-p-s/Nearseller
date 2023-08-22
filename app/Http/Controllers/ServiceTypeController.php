@@ -1,0 +1,75 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use DB;
+use App\Models\ServiceType;
+use Illuminate\Http\Request;
+
+class ServiceTypeController extends Controller
+{
+    public function list_service_type()
+    {
+        $servicetype = DB::table('service_types')->get();
+        return view('admin.service_type.list', compact('servicetype'));
+    }
+
+    public function add_service_type()
+    {
+        return view('admin.service_type.add');
+    }
+
+    public function store_service_type(Request $request)
+    {
+        $request->validate([
+            'service_name' => 'required|string|max:255',
+        ]);
+
+        $servicetype = new ServiceType;
+        $servicetype->service_name = $request->service_name;
+        $servicetype->save();
+
+        return redirect()->route('list.servicetype')->with('success', 'Service Type added successfully.');
+    }
+
+    public function edit_service_type($id)
+    {
+        $servicetype = ServiceType::find($id);
+
+        if (!$servicetype) {
+            return redirect()->route('list.servicetype')->with('error', 'Service Type not found.');
+        }
+
+        return view('admin.service_type.edit', compact('servicetype'));
+    }
+
+    public function update_shop_type(Request $request, $id)
+    {
+        $servicetype = ServiceType::find($id);
+        if (!$servicetype) {
+            return redirect()->route('list.servicetype')->with('error', 'Service Type not found.');
+        }
+
+        $request->validate([
+            'service_name' => 'required|string|max:255',
+        ]);
+
+        $servicetype->service_name = $request->service_name;
+        $servicetype->save();
+
+        return redirect()->route('list.servicetype')->with('success', 'Service Type added successfully.');
+    }
+
+    public function delete_service_type($id)
+    {
+        $servicetype = ServiceType::find($id);
+
+        if (!$servicetype) {
+            return redirect()->route('list.servicetype')->with('error', 'Service Type not found.');
+        }
+
+        $servicetype->delete();
+
+        return redirect()->route('list.servicetype')->with('success', 'Service Type deleted successfully.');
+    }
+}

@@ -17,6 +17,7 @@
         rel="stylesheet">
     <link rel='stylesheet' type='text/css' media='screen' href='{{ asset('css/main.css') }}'>
     <link rel='stylesheet' type='text/css' media='screen' href='{{ asset('css/responsive.css') }}'>
+    <link rel='stylesheet' type='text/css' media='screen' href='{{ asset('css/menu.css') }}'>
     <script src='{{ asset('js/jquery.min.js') }}'></script>
     <script src='{{ asset('js/bootstrap.js') }}'></script>
     <script src='{{ asset('js/main.js') }}'></script>
@@ -26,7 +27,7 @@
     <nav class="navbar navbar-expand-md bg-body-tertiary">
         <div class="container-fluid" style="padding: 0;">
 
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand" href="#">
                 <img src="{{ asset('img/header_logo.png') }}" alt="">
             </a>
 
@@ -52,7 +53,7 @@
                 </div>
                 <ul class="navbar-nav mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="product.html">Products</a>
+                        <a class="nav-link active" aria-current="page" href="{{ route('user.products') }}">Products</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="services.html">Services</a>
