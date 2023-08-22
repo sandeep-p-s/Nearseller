@@ -316,12 +316,19 @@
                                             <label for="s_googlelink" class="error"></label>
                                         </div>
                                         <div class="form-outline mb-3">
-                                            <input type="file" id="s_photo" name="s_photo" class="form-control form-control-lg" placeholder="Shop Photo" required tabindex="19" accept="image/jpeg, image/png"  />
+                                            <input type="file" id="s_photo"  multiple=""  name="s_photo[]" class="form-control form-control-lg" placeholder="Shop Photo" required tabindex="19" accept="image/jpeg, image/png"  />
                                             <label for="s_photo" class="error"></label>
                                         </div>
-                                        <div class="image-preview" style="display: none;">
+                                        {{-- <div class="image-preview" style="display: none;">
                                             <img id="preview" src="#" alt="Preview" style="max-width: 100px;" />
                                             <button type="button" id="remove-preview" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div> --}}
+
+
+                                        <div class="col-md-12">
+                                            <div class="form-group" align="left">
+                                                    <div id="image-preview" class="row"></div>
+                                            </div>
                                         </div>
 
 
@@ -344,7 +351,6 @@
 
                                         <div class="form-outline  mb-2">
                                             <input  tabindex="23" type="password" id="s_paswd" name="s_paswd"  maxlength="10"  class="form-control form-control-lg" maxlength="10" placeholder="Enter Password" required />
-                                            <label for="s_shopexectename" class="error"></label>
                                             <label for="s_paswd" class="error"></label>
                                         </div>
                                         <div class="form-outline  mb-2">
@@ -355,7 +361,7 @@
 
                                         <div class="checkbox form-check-inline">
                                             <input class="form-check-input" type="checkbox" id="s_termcondtn" name="s_termcondtn" value="1" required tabindex="25" >
-                                            <label class="s_termcondtn" for="inlineCheckbox1"> Accept Terms & Conditions </label>
+                                            <label class="inlineCheckbox1" for="s_termcondtn"> Accept Terms & Conditions </label>
                                         </div>
 
                                         <p class="small mb-3 pb-lg-2 float-end" id="login_form_shopsecond">Already have an account?<a href="#" style="color:#432791;">Sign in</a></p>
@@ -365,10 +371,6 @@
                                              <button class="btn btn-primary loginform_btn mb-2" type="submit"  tabindex="27"  >Submit</button>
                                         </div>
 
-
-
-
-
                                     </div>
 
                                 </form>
@@ -377,25 +379,25 @@
 
 
                             <div id="affiliatereg" style="display: none;">
-                                <form id="AffiliateRegForm">
+                                <form id="AffiliateRegForm"  enctype="multipart/form-data" method="POST">
 
                                     <div class="form-outline mb-3">
                                         <input type="text" id="a_name" name="a_name" class="form-control form-control-lg" placeholder="Name" required tabindex="1" maxlength="25" />
                                         <label for="a_name" class="error"></label>
                                     </div>
                                     <div class="form-outline mb-3">
-                                        <input type="text" id="a_mobno" name="a_mobno" class="form-control form-control-lg"  maxlength="10"  placeholder="Enter Mobile No" required tabindex="3"  onchange="exstmobno(this.value,'3')" />
+                                        <input type="text" id="a_mobno" name="a_mobno" class="form-control form-control-lg"  maxlength="10"  placeholder="Enter Mobile No" required tabindex="2"  onchange="exstmobno(this.value,'3')" />
                                         <label for="s_mobno" class="error"></label>
                                         <div id="amob-message"  class="text-center" style="display: none;"></div>
                                     </div>
                                     <div class="form-outline mb-3">
-                                        <input type="email" id="a_email" name="a_email" class="form-control form-control-lg"  maxlength="35"  placeholder="Enter Email" required tabindex="4"  onchange="exstemilid(this.value,'3')" />
+                                        <input type="email" id="a_email" name="a_email" class="form-control form-control-lg"  maxlength="35"  placeholder="Enter Email" required tabindex="3"  onchange="exstemilid(this.value,'3')" />
                                         <label for="s_email" class="error"></label>
                                         <div id="aemil-message"  class="text-center" style="display: none;"></div>
                                     </div>
 
                                     <div class="form-outline mb-3">
-                                        <input type="date" id="a_dob" name="a_dob" class="form-control form-control-lg" placeholder="Date of birth" required tabindex="4" maxlength="10" />
+                                        <input type="date" id="a_dob" name="a_dob" class="form-control form-control-lg" placeholder="Date of birth" required tabindex="4" maxlength="10" max="{{ date('Y-m-d') }}" />
                                         <label for="a_dob" class="error"></label>
                                     </div>
                                     <div class="form-outline mb-3">
@@ -411,17 +413,17 @@
                                         <input type="text" id="a_locality" name="a_locality" class="form-control form-control-lg"  placeholder="Locality" required tabindex="7" />
                                         <label for="a_aadharno" class="error"></label>
                                     </div>
-                                    <div class="form-outline mb-3">
-                                        <select class="form-select form-control form-control-lg"
-                                            aria-label="Default select example" id="a_country" name="a_country" required tabindex="8">
-                                            <option value="Select Country">Select country</option>
-                                                @foreach ($countries as $country)
-                                                    <option value="{{ $country->id }}">{{ $country->country_name }}</option>
+
+                                     <div class="form-outline mb-3">
+                                        <select class="form-select form-control form-control-lg" aria-label="Default select example" id="a_country" name="a_country" required tabindex="8">
+                                            <option value="">Select country</option>
+                                                @foreach ($countries as $countrys)
+                                                    <option value="{{ $countrys->id }}">{{ $countrys->country_name }}</option>
                                                 @endforeach
                                         </select>
                                         <label for="a_country" class="error"></label>
                                     </div>
-                                    <div class="form-outline mb-3">
+                                   <div class="form-outline mb-3">
                                         <select class="form-select form-control form-control-lg" aria-label="Default select example" id="a_state" name="a_state" required tabindex="9">
 
                                         </select>
@@ -433,22 +435,41 @@
                                         </select>
                                         <label for="a_district" class="error"></label>
                                     </div>
+
                                     <div class="form-outline mb-3">
-                                        <label class="mb10">Upload aadhaar</label>
-                                        <input type="file" id="uplodadhar" name="uplodadhar" class="form-control form-control-lg" placeholder="Upload Aadhaar (front & back)" required tabindex="11" />
+                                        <label class="w-100">Upload aadhaar</label>
+                                        <input type="file" id="uplodadhar"  multiple="" name="uplodadhar[]" class="form-control form-control-lg" placeholder="Upload Aadhaar (front & back)" required tabindex="11" accept="image/jpeg, image/png" />
                                         <label for="uplodadhar" class="error"></label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group" align="left">
+                                                <div id="image_preview" class="row"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-outline  mb-2">
+                                        <input  tabindex="23" type="password" id="a_paswd" name="a_paswd"  maxlength="10"  class="form-control form-control-lg" maxlength="10" placeholder="Enter Password" required />
+                                         <label for="a_paswd" class="error"></label>
+                                    </div>
+                                    <div class="form-outline  mb-2">
+                                        <input  tabindex="24" type="password" id="a_rpaswd" name="a_rpaswd"  maxlength="10"  class="form-control form-control-lg" maxlength="10" placeholder="Re-Enter password" required />
+                                        <label for="a_rpaswd" class="error"></label>
                                     </div>
 
                                     <div class="checkbox form-check-inline">
                                         <input class="form-check-input" type="checkbox" id="a_termcondtn" name="a_termcondtn" value="1" required tabindex="12" >
-                                        <label class="inlineCheckbox1" for="inlineCheckbox1"> Accept Terms & Conditions </label>
+                                        <label class="inlineCheckbox1" for="a_termcondtn"> Accept Terms & Conditions </label>
 
                                     </div>
 
                                     <p class="small mb-5 pb-lg-2 float-end" id="login_form_afiliate">Already have an account?<a href="#" style="color:#432791;">Sign in</a></p>
                                     <div class="pt-1 mb-4 loginform_btn">
-                                        <button class="btn btn-info btn-lg btn-block" type="submit">Sign Up</button>
+                                        <button class="btn btn-primary loginform_btn mb-2" type="submit"  tabindex="13"  >Sign Up</button>
                                     </div>
+                                    <div class="form-outline  mb-2">
+                                        <div id="afflitereg-message"  class="text-center" style="display: none;"></div>
+                                    </div>
+
                                 </form>
 
                             </div>
@@ -625,10 +646,6 @@
             });
 
 
-            // $("#sellerSecondPage").click(function () {
-            //     $("#sellersecond").show();
-            //     $("#sellerfirst").hide();
-            // });
 
             $("#sellerFirstPage").click(function () {
                 $("#sellersecond").hide();
@@ -1309,15 +1326,15 @@
                             required: true,
                         },
 
-                        s_cntry: {
+                        country: {
                             required: true,
-                            numericOnly: true
+                            // numericOnly: true
                         },
-                        s_state: {
+                        state: {
                             required: true,
 
                         },
-                        s_district: {
+                        district: {
                             required: true,
 
                         },
@@ -1435,19 +1452,6 @@
             });
 
 
-            $('#s_name, #s_ownername').on('input', function() {
-                var value = $(this).val();
-                value = value.replace(/[^A-Za-z\s\.]+/, '');
-                $(this).val(value);
-            });
-
-
-            $.validator.addMethod("strongPassword", function(value, element) {
-                return this.optional(element) || /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/.test(value);
-            }, "Password must contain at least one letter, one number, and one special character.");
-
-
-
             $('#SellerRegForm').submit(function(e) {
                 e.preventDefault();
                 if ($(this).valid()) {
@@ -1471,6 +1475,7 @@
                             console.log(response);
                             $('#shopreg-message').text('Registration successful. Please verify email and login!').fadeIn();
                             $('#shopreg-message').addClass('success-message');
+                            $('#image-preview').empty();
                             setTimeout(function() {
                                 $('#shopreg-message').fadeOut();
                             }, 5000); // 5000 milliseconds = 5 seconds
@@ -1500,39 +1505,369 @@
 
 
 
+            $("#AffiliateRegForm").validate({
+                    rules: {
+                        a_name: {
+                            required: true,
+                            pattern: /^[A-Za-z\s\.]+$/,
+                        },
+                        a_mobno: {
+                            required: true,
+                            digits: true,
+                            minlength: 10,
+                        },
+                        a_email: {
+                            required: true,
+                            email: true,
+                        },
+
+                        a_dob: {
+                            required: true,
+
+                        },
+                        a_refralid: {
+                            required: true,
+
+                        },
+                        a_aadharno: {
+                            required: true,
+                            digits: true,
+                            minlength: 12,
+
+                        },
+                        a_locality: {
+                            required: true,
+                        },
+
+                        a_country: {
+                            required: true,
+                        },
+                        a_state: {
+                            required: true,
+
+                        },
+                        a_district: {
+                            required: true,
+
+                        },
+                        a_termcondtn: {
+                            required: true,
+                        },
+                        uplodadhar: {
+                            required: true,
+                            extension: 'jpg|jpeg|png',
+                        },
+                        a_paswd: {
+                            required: true,
+                            minlength: 6,
+                            strongPassword: true
+                        },
+                        a_rpaswd: {
+                            required: true,
+                            equalTo: "#a_paswd"
+                        },
+
+                    },
+                    messages: {
+                        a_name: {
+                            pattern: "Only characters, spaces, and dots are allowed.",
+                        },
+                        a_mobno: {
+                            digits: "Please enter a valid mobile number.",
+                        },
+                        a_email: {
+                            email: "Please enter a valid email address.",
+                        },
+                        uplodadhar: {
+                            extension: "Only JPG and PNG files are allowed.",
+                        },
+                        a_locality: {
+                            required: "Please enter the locality.",
+                            maxlength: "Locality must not exceed 100 characters."
+                        },
+                        a_country: {
+                            required: "Please select a country."
+                        },
+                        a_state: {
+                            required: "Please select a state."
+                        },
+                        a_district: {
+                            required: "Please select a district."
+                        },
+                        a_termcondtn: {
+                            required: "Please accept the terms and conditions."
+                        }
+                    },
+                });
+
+
+                $('#s_name, #s_ownername, #a_name').on('input', function() {
+                    var value = $(this).val();
+                    value = value.replace(/[^A-Za-z\s\.]+/, '');
+                    $(this).val(value);
+                });
+
+
+            $.validator.addMethod("strongPassword", function(value, element) {
+                return this.optional(element) || /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/.test(value);
+            }, "Password must contain at least one letter, one number, and one special character.");
 
 
 
+            $.validator.addMethod('maxSize', function(value, element, param) {
+                return this.optional(element) || (element.files[0].size <= param);
+            }, 'File size must be less than {0} KB');
 
-
-        });
-
-
-        $("#s_photo").change(function() {
-            if (this.files && this.files[0]) {
-                var file = this.files[0];
-                var fileType = file.type;
-                var maxSizeKB = 1024;
-                if (fileType !== 'image/jpeg' && fileType !== 'image/png') {
-                    alert("Only JPG and PNG files are allowed for photo upload.");
-                    $(this).val('');
-                    $(".image-preview").hide();
-                } else if (file.size > maxSizeKB * 1024) {
-                    alert("File size exceeds 1MB.");
-                    $(this).val('');
-                    $(".image-preview").hide();
-                } else {
-                    readURL(this);
-                    $(".image-preview").show();
+            $('#AffiliateRegForm').validate({
+                onblur: true,
+                onfocus: true,
+                errorClass: 'help-block',
+                errorElement: 'strong',
+                highlight: function(element) {
+                    $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+                },
+                unhighlight: function(element) {
+                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                },
+                errorPlacement: function(error, element) {
+                    if (element.parent('input-group').length) {
+                        error.insertAfter(element.parent());
+                        return false;
+                    } else {
+                        error.insertAfter(element);
+                        return false;
+                    }
                 }
-            }
+            });
+
+            var fileArr = [];
+            var totalFiles = 0;
+
+            $("#uplodadhar").change(function(event) {
+                var totalFileCount = $(this)[0].files.length;
+
+                if (totalFiles + totalFileCount > 2) {
+                    alert('Maximum 2 images allowed');
+                    $(this).val('');
+                    $('#image_preview').html('');
+                    return;
+                }
+
+                for (var i = 0; i < totalFileCount; i++) {
+                    var file = $(this)[0].files[i];
+
+                    if (file.size > 3145728) {
+                        alert('File size exceeds the limit of 3MB');
+                        $(this).val('');
+                        $('#image_preview').html('');
+                        return;
+                    }
+
+                    fileArr.push(file);
+                    totalFiles++;
+
+                    var reader = new FileReader();
+                    reader.onload = (function(file) {
+                        return function(event) {
+                            var imgDiv = $('<div>').addClass('img-div col-md-3 img-container');
+                            var img = $('<img>').attr('src', event.target.result).addClass('img-responsive image img-thumbnail').attr('width', '100');
+                            var removeBtn = $('<button>').addClass('btn btn-danger remove-btn').attr('title', 'Remove Image').append('X').attr('role', file.name);
+
+                            imgDiv.append(img);
+                            imgDiv.append($('<div>').addClass('middle').append(removeBtn));
+
+                            $('#image_preview').append(imgDiv);
+                        };
+                    })(file);
+
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            $(document).on('click', '.remove-btn', function() {
+                var fileName = $(this).attr('role');
+
+                for (var i = 0; i < fileArr.length; i++) {
+                    if (fileArr[i].name === fileName) {
+                        fileArr.splice(i, 1);
+                        totalFiles--;
+                        break;
+                    }
+                }
+
+                document.getElementById('uplodadhar').files = new FileListItem(fileArr);
+                $(this).closest('.img-div').remove();
+            });
+
+
+
+
+
+
+            var fileArrs = [];
+            var totalFiless = 0;
+
+            $("#s_photo").change(function(event) {
+                var totalFileCount = $(this)[0].files.length;
+
+                if (totalFiless + totalFileCount > 5) {
+                    alert('Maximum 5 images allowed');
+                    $(this).val('');
+                    $('#image-preview').html('');
+                    return;
+                }
+
+                for (var i = 0; i < totalFileCount; i++) {
+                    var file = $(this)[0].files[i];
+
+                    if (file.size > 3145728) {
+                        alert('File size exceeds the limit of 3MB');
+                        $(this).val('');
+                        $('#image-preview').html('');
+                        return;
+                    }
+
+                    fileArrs.push(file);
+                    totalFiless++;
+
+                    var reader = new FileReader();
+                    reader.onload = (function(file) {
+                        return function(event) {
+                            var imgDiv = $('<div>').addClass('img-div col-md-3 img-container');
+                            var img = $('<img>').attr('src', event.target.result).addClass('img-responsive image img-thumbnail').attr('width', '100');
+                            var removeBtn = $('<button>').addClass('btn btn-danger remove-btns').attr('title', 'Remove Image').append('X').attr('role', file.name);
+
+                            imgDiv.append(img);
+                            imgDiv.append($('<div>').addClass('middle').append(removeBtn));
+
+                            $('#image-preview').append(imgDiv);
+                        };
+                    })(file);
+
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            $(document).on('click', '.remove-btns', function() {
+                var fileName = $(this).attr('role');
+
+                for (var i = 0; i < fileArrs.length; i++) {
+                    if (fileArrs[i].name === fileName) {
+                        fileArrs.splice(i, 1);
+                        totalFiless--;
+                        break;
+                    }
+                }
+
+                document.getElementById('s_photo').files = new FileListItem(fileArrs);
+                $(this).closest('.img-div').remove();
+            });
+
+
+
+
+
+            $('#AffiliateRegForm').submit(function(e) {
+                e.preventDefault();
+                if ($(this).valid()) {
+                    //var formData = $(this).serialize();
+                    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                    $('#loading-overlay').fadeIn();
+                    $('#loading-image').fadeIn();
+                    //$('#userRegForm').hide();
+                    $.ajax({
+                        url: '{{ route("affiliatorRegisteration") }}',
+                        type: "POST",
+                        data:  new FormData(this),
+                        contentType: false,
+                        cache: false,
+                        processData:false,
+                        headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                        },
+                        success: function(response) {
+
+                            console.log(response);
+                            $('#afflitereg-message').text('Registration successful. Please verify email and login!').fadeIn();
+                            $('#afflitereg-message').addClass('success-message');
+                            $('#image_preview').empty();
+                            setTimeout(function() {
+                                $('#-afflitereg-message').fadeOut();
+                            }, 5000); // 5000 milliseconds = 5 seconds
+                            $('#AffiliateRegForm')[0].reset();
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                        },
+                        error: function(xhr) {
+                            console.log(xhr.responseText);
+                            $('#afflitereg-message').text('Registration failed.').fadeIn();
+                            $('#afflitereg-message').addClass('error');
+                            setTimeout(function() {
+                                $('#afflitereg-message').fadeOut();
+                            }, 5000);
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+
+                        }
+                    });
+                }
+            });
+
+
+
+
+
+
+
+
+
+
+
         });
 
-        $("#remove-preview").click(function() {
-            $("#s_photo").val("");
-            $("#preview").attr("src", "#");
-            $(".image-preview").hide();
-        });
+
+        // $("#s_photo").change(function() {
+        //     if (this.files && this.files[0]) {
+        //         var file = this.files[0];
+        //         var fileType = file.type;
+        //         var maxSizeKB = 1024;
+        //         if (fileType !== 'image/jpeg' && fileType !== 'image/png') {
+        //             alert("Only JPG and PNG files are allowed for photo upload.");
+        //             $(this).val('');
+        //             $(".image-preview").hide();
+        //         } else if (file.size > maxSizeKB * 1024) {
+        //             alert("File size exceeds 1MB.");
+        //             $(this).val('');
+        //             $(".image-preview").hide();
+        //         } else {
+        //             readURL(this);
+        //             $(".image-preview").show();
+        //         }
+        //     }
+        // });
+
+        // $("#remove-preview").click(function() {
+        //     $("#s_photo").val("");
+        //     $("#preview").attr("src", "#");
+        //     $(".image-preview").hide();
+        // });
+
+        function FileListItem(file) {
+            file = [].slice.call(Array.isArray(file) ? file : arguments);
+            var b = file.length;
+            var d = true;
+            for (var c; b-- && d;) {
+                d = file[b] instanceof File;
+            }
+            if (!d) {
+                throw new TypeError('Expected argument to FileList is File or array of File objects');
+            }
+            var clipboardData = new ClipboardEvent('').clipboardData || new DataTransfer();
+            for (b = d = file.length; b--;) {
+                clipboardData.items.add(file[b]);
+            }
+            return clipboardData.files;
+        }
 
 
 
@@ -1858,10 +2193,27 @@
                             $('#loading-image').fadeOut();
                             $('#loading-overlay').fadeOut();
                         }
-
-
-
-
+                        else if(data.result==1 && checkval==3)
+                        {
+                            $('#aemil-message').text('Email ID Already Exists.').fadeIn();
+                            $('#aemil-message').addClass('error');
+                            setTimeout(function() {
+                            $('#aemil-message').fadeOut();
+                            }, 5000);
+                            $('#a_email').val('');
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                        }
+                        else if(data.result==3 && checkval==3)
+                        {
+                            $('#aemil-message').text('Error in Data').fadeIn();
+                            $('#aemil-message').addClass('error');
+                            setTimeout(function() {
+                            $('#aemil-message').fadeOut();
+                            }, 5000);
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                        }
                         else
                         {
                             $('#loading-image').fadeOut();
@@ -1924,6 +2276,27 @@
                             $('#smob-message').addClass('error');
                             setTimeout(function() {
                             $('#smob-message').fadeOut();
+                            }, 5000);
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                        }
+                        else if(data.result==1 && checkval==3)
+                        {
+                            $('#amob-message').text('Mobile Number Already Exists.').fadeIn();
+                            $('#amob-message').addClass('error');
+                            setTimeout(function() {
+                            $('#amob-message').fadeOut();
+                            }, 5000);
+                            $('#a_mobno').val('');
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                        }
+                        else if(data.result==3 && checkval==3)
+                        {
+                            $('#amob-message').text('Error in Data').fadeIn();
+                            $('#amob-message').addClass('error');
+                            setTimeout(function() {
+                            $('#amob-message').fadeOut();
                             }, 5000);
                             $('#loading-image').fadeOut();
                             $('#loading-overlay').fadeOut();

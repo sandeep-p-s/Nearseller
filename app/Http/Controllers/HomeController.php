@@ -8,6 +8,7 @@ use App\Models\UserAccount;
 use App\Models\LogDetails;
 use App\Models\OTPGenerate;
 use App\Models\SellerDetails;
+use App\Models\Affiliate;
 
 use App\Mail\EmailVerification;
 use Illuminate\Support\Facades\Mail;
@@ -930,7 +931,7 @@ class HomeController extends Controller
                 'district' => 'required',
                 's_pincode' => 'required|max:6',
                 's_googlelink' => 'required',
-                's_photo' => 'required|image|mimes:jpeg,png|max:1024',
+                //'s_photo' => 'required|image|mimes:jpeg,png|max:1024',
                 's_gstno' => 'required|max:25',
                 's_panno' => 'required|max:12',
                 's_establishdate' => 'required|date',
@@ -941,7 +942,7 @@ class HomeController extends Controller
 
             $sellerDetail = new SellerDetails();
             //echo "<pre>";print_r($validatedData);exit;
-            //$sellerDetail->fill($validatedData);
+            $sellerDetail->fill($validatedData);
             //echo "<pre>";print_r($sellerDetail);exit;
 
             $sellerDetail->shop_name = $request->input('s_name');
@@ -966,12 +967,35 @@ class HomeController extends Controller
             $sellerDetail->shop_panno = $request->input('s_panno');
             $sellerDetail->establish_date = $request->input('s_establishdate');
 
+            // if ($request->hasFile('s_photo')) {
+            //     $file = $request->file('s_photo');
+            //     $fileName = time() . '.' . $file->getClientOriginalExtension();
+            //     $file->move(public_path('uploads/shopimages'), $fileName);
+            //     $sellerDetail->shop_photo = $fileName;
+            // }
+
             if ($request->hasFile('s_photo')) {
-                $file = $request->file('s_photo');
-                $fileName = time() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('uploads/shopimages'), $fileName);
-                $sellerDetail->shop_photo = $fileName;
+                $upload_path = 'uploads/shopimages/';
+                if (!is_dir($upload_path)) {
+                    mkdir($upload_path, 0777, true);
+                }
+
+                $input_datas = [];
+                foreach ($request->file('s_photo') as $file) {
+                    if ($file->isValid()) {
+                        $new_name = time() . '_' . $file->getClientOriginalName();
+                        $file->move($upload_path, $new_name);
+                        $filename = $upload_path . $new_name;
+                        array_push($input_datas, $filename);
+                    }
+                }
+                $input_vals = ['fileval' => $input_datas];
+                $jsonimages = json_encode($input_vals);
+                $sellerDetail->shop_photo = $jsonimages;
             }
+
+
+
             $shopreg=$sellerDetail->save();
             if($shopreg>0){
                 $user = new UserAccount();
@@ -986,26 +1010,115 @@ class HomeController extends Controller
                 $lastRegId = $user->toSql();
                 $last_id = $user->id;
                 $msg="Registration Success! ".$request->s_email." register id : ".$last_id;
-                    $LogDetails = new LogDetails();
-                    $LogDetails->user_id = $request->s_email;
-                    $LogDetails->ip_address = $loggedUserIp;
-                    $LogDetails->log_time = $time;
-                    $LogDetails->status = $msg;
-                    $LogDetails->save();
-                    $valencodemm=$lastRegId."-".$request->s_email;
-                    $valsmm=base64_encode($valencodemm);
-                    $verificationToken = base64_encode($last_id . '-' . $request->s_email);
-                    $checkval="1";
-                    $message='';
-                    $email = new EmailVerification($verificationToken, $request->u_name, $request->s_email, $checkval, $message);
-                    Mail::to($request->s_email)->send($email);
+                $LogDetails = new LogDetails();
+                $LogDetails->user_id = $request->s_email;
+                $LogDetails->ip_address = $loggedUserIp;
+                $LogDetails->log_time = $time;
+                $LogDetails->status = $msg;
+                $LogDetails->save();
+                $valencodemm=$lastRegId."-".$request->s_email;
+                $valsmm=base64_encode($valencodemm);
+                $verificationToken = base64_encode($last_id . '-' . $request->s_email);
+                $checkval="1";
+                $message='';
+                $email = new EmailVerification($verificationToken, $request->u_name, $request->s_email, $checkval, $message);
+                Mail::to($request->s_email)->send($email);
 
             } else {
 
             }
         }
 
+        function affiliatorRegisterationPage(Request $request)
+        {
+            $loggedUserIp=$_SERVER['REMOTE_ADDR'];
+            $time=date('Y-m-d H:i:s');
+            $validatedData = $request->validate([
+                'a_name' => 'required|max:50',
+                'a_mobno' => 'required|max:10',
+                'a_email' => 'required|email|max:35',
+                'a_refralid' => 'max:50',
+                'a_locality' => 'required|max:100',
+                'a_aadharno' => 'required|max:12',
+                'a_country' => 'required',
+                'a_state' => 'required',
+                'a_district' => 'required',
+                // 'uplodadhar' => 'required|image|mimes:jpeg,png|max:1024',
+                'a_dob' => 'required|date|before:today|max:10',
+                'a_paswd' => 'required|max:10',
+                'a_rpaswd' => 'required|same:a_paswd',
+                'a_termcondtn' => 'accepted',
+            ]);
 
+            $affliteDetail = new Affiliate();
+            //echo "<pre>";print_r($validatedData);exit;
+            $affliteDetail->fill($validatedData);
+            //echo "<pre>";print_r($affliteDetail);exit;
+            $affliteDetail->name = $request->input('a_name');
+            $affliteDetail->email = $request->input('a_email');
+            $affliteDetail->mob_no = $request->input('a_mobno');
+            $affliteDetail->dob = $request->input('a_dob');
+            $affliteDetail->referal_id = $request->input('a_refralid');
+            $affliteDetail->aadhar_no = $request->input('a_aadharno');
+            $affliteDetail->locality = $request->input('a_locality');
+            $affliteDetail->country = $request->input('a_country');
+            $affliteDetail->state = $request->input('a_state');
+            $affliteDetail->district = $request->input('a_district');
+            $affliteDetail->aadhar_file = $request->input('s_locality');
+            $affliteDetail->terms_condition = $request->has('a_termcondtn') ? 1 : 0;
+
+            if ($request->hasFile('uplodadhar')) {
+                $upload_path = 'uploads/affiliateimages/';
+                if (!is_dir($upload_path)) {
+                    mkdir($upload_path, 0777, true);
+                }
+
+                $input_datas = [];
+                foreach ($request->file('uplodadhar') as $file) {
+                    if ($file->isValid()) {
+                        $new_name = time() . '_' . $file->getClientOriginalName();
+                        $file->move($upload_path, $new_name);
+                        $filename = $upload_path . $new_name;
+                        array_push($input_datas, $filename);
+                    }
+                }
+                $input_vals = ['fileval' => $input_datas];
+                $jsonimages = json_encode($input_vals);
+                $affliteDetail->aadhar_file = $jsonimages;
+            }
+
+            $afiltereg=$affliteDetail->save();
+            if($afiltereg>0){
+                $user = new UserAccount();
+                $user->name = $request->a_name;
+                $user->email = $request->a_email;
+                $user->mobno = $request->a_mobno;
+                $user->password = Hash::make($request->a_paswd);
+                $user->role_id=3;
+                $user->forgot_pass=$request->a_paswd;
+                $user->user_status='N';
+                $submt=$user->save();
+                $lastRegId = $user->toSql();
+                $last_id = $user->id;
+                $msg="Registration Success! ".$request->a_email." register id : ".$last_id;
+                $LogDetails = new LogDetails();
+                $LogDetails->user_id = $request->a_email;
+                $LogDetails->ip_address = $loggedUserIp;
+                $LogDetails->log_time = $time;
+                $LogDetails->status = $msg;
+                $LogDetails->save();
+                $valencodemm=$lastRegId."-".$request->a_email;
+                $valsmm=base64_encode($valencodemm);
+                $verificationToken = base64_encode($last_id . '-' . $request->a_email);
+                $checkval="1";
+                $message='';
+                $email = new EmailVerification($verificationToken, $request->a_name, $request->a_email, $checkval, $message);
+                Mail::to($request->a_email)->send($email);
+
+            } else {
+
+            }
+        }
 
 
 
