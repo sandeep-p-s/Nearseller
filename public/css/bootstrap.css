@@ -5336,6 +5336,15 @@ fieldset:disabled .btn {
     padding: 1.25rem 1rem
 }
 
+.alert-dismissible .btnh-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    padding: 1.25rem 1rem
+}
+
+
 .alert-primary {
     color: #084298;
     background-color: #cfe2ff;
@@ -5915,6 +5924,47 @@ fieldset:disabled .btn {
     filter: invert(1) grayscale(100%) brightness(200%)
 }
 
+
+
+.btnh-close {
+    box-sizing: content-box;
+    width: 1em;
+    height: 1em;
+    padding: .25em .25em;
+    color: #000;
+    background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
+    border: 0;
+    border-radius: .25rem;
+    opacity: .5
+}
+
+.btnh-close:hover {
+    color: #000;
+    text-decoration: none;
+    opacity: .75
+}
+
+.btnh-close:focus {
+    outline: 0;
+    box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25);
+    opacity: 1
+}
+
+.btnh-close.disabled,
+.btnh-close:disabled {
+    pointer-events: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    opacity: .25
+}
+
+.btnh-close-white {
+    filter: invert(1) grayscale(100%) brightness(200%)
+}
+
+
+
 .toast {
     width: 350px;
     max-width: 100%;
@@ -6070,6 +6120,11 @@ fieldset:disabled .btn {
 }
 
 .modal-header .btn-close {
+    padding: .5rem .5rem;
+    margin: -.5rem -.5rem -.5rem auto
+}
+
+.modal-header .btnh-close {
     padding: .5rem .5rem;
     margin: -.5rem -.5rem -.5rem auto
 }
@@ -6935,6 +6990,14 @@ fieldset:disabled .btn {
     margin-right: -.5rem;
     margin-bottom: -.5rem
 }
+
+.offcanvas-header .btnh-close {
+    padding: .5rem .5rem;
+    margin-top: -.5rem;
+    margin-right: -.5rem;
+    margin-bottom: -.5rem
+}
+
 
 .offcanvas-title {
     margin-bottom: 0;

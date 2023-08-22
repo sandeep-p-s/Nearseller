@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserLoggedController;
+>>>>>>> routes/web.php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
@@ -23,7 +26,6 @@ use App\Http\Controllers\BusinessTypeController;
 Route::get('/', function () {
     return view('user.main', ['title' => 'Home']);
 })->name('home');
-
 Route::controller(HomeController::class)->group(function (){
     Route::get('index','index')->name('Home');
     Route::get('login','Login')->name('login');
@@ -41,6 +43,13 @@ Route::controller(HomeController::class)->group(function (){
     Route::get('/getStates/{country}', 'getStates')->name('getStates');
     Route::post('EmailLogin','EmailLoginPage')->name('EmailLogin');
 
+    Route::post('sellerRegisteration','sellerRegisterationPage')->name('sellerRegisteration');
+    Route::post('affiliatorRegisteration','affiliatorRegisterationPage')->name('affiliatorRegisteration');
+
+});
+
+Route::controller(UserLoggedController::class)->group(function (){
+    Route::post('LoggedPage/{sentoval}', 'LoggedUserPage')->name('LoggedPage');
 });
 
 Route::controller(UserLoggedController::class)->group(function (){

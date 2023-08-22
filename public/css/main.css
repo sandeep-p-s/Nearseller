@@ -533,7 +533,7 @@ a.buy-btn:focus {
   object-fit: cover;
   object-position: left;
   background-size: cover;
-  height: 100vh;
+  /* height: 100vh; */
   background-repeat: no-repeat;
 }
 
