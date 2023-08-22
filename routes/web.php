@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BusinessTypeController;
+use App\Http\Controllers\ShopTypeController;
 use App\Http\Controllers\UserLoggedController;
 
 /*
@@ -43,6 +45,28 @@ Route::controller(HomeController::class)->group(function (){
 Route::controller(UserLoggedController::class)->group(function (){
     Route::post('LoggedPage/{sentoval}', 'LoggedUserPage')->name('LoggedPage');
 });
-    Route::get('/admin/dashboard', [AdminController::class,'admindashboard'])->name('admin.dashboard');
+Route::controller(AdminController::class)->group(function (){
+    Route::get('/admin/dashboard', 'admindashboard')->name('admin.dashboard');
+
+});
+
+Route::controller(BusinessTypeController::class)->group(function (){
+    Route::get('listbusinesstype', 'list_business_type')->name('list.businesstype');
+    Route::get('addbusinesstype', 'add_business_type')->name('add.businesstype');
+    Route::post('savebusinesstype', 'store_business_type')->name('store.business_type');
+    Route::get('businessedit/{id}', 'edit_business_type')->name('edit.businesstype');
+    Route::post('businessupdate/{id}', 'update_business_type')->name('update.businesstype');
+    Route::get('businessdelete/{id}', 'delete_business_type')->name('delete.businesstype');
+});
+
+Route::controller(ShopTypeController::class)->group(function (){
+    Route::get('listshoptype', 'list_shop_type')->name('list.shoptype');
+    Route::get('addshoptype', 'add_shop_type')->name('add.shoptype');
+    Route::post('saveshoptype', 'store_shop_type')->name('store.shop_type');
+    Route::get('shopedit/{id}', 'edit_shop_type')->name('edit.shoptype');
+    Route::post('shopupdate/{id}', 'update_shop_type')->name('update.shoptype');
+    Route::get('shopdelete/{id}', 'delete_shop_type')->name('delete.shoptype');
+});
+
     Route::get('/products', [UserController::class,'homepage'])->name('user.products');
     Route::get('/seller/dashboard', [AdminController::class,'sellerdashboard'])->name('seller.dashboard');

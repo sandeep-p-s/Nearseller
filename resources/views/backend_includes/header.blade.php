@@ -13,20 +13,20 @@
     <link rel="shortcut icon" href="{{ asset('backend/assets/images/favicon.png') }}">
 
     <!-- DataTables -->
-    <link href="{{asset('backend/plugins/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('backend/plugins/datatables/buttons.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/plugins/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/plugins/datatables/buttons.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- Responsive datatable examples -->
-    <link href="{{asset('backend/plugins/datatables/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('backend/plugins/jvectormap/jquery-jvectormap-2.0.2.css') }}" rel="stylesheet">
+    <link href="{{ asset('backend/plugins/datatables/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/plugins/jvectormap/jquery-jvectormap-2.0.2.css') }}" rel="stylesheet">
 
     <!-- App css -->
-    <link href="{{asset('backend/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('backend/assets/css/jquery-ui.min.css') }}" rel="stylesheet">
-    <link href="{{asset('backend/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('backend/assets/css/metisMenu.min.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('backend/plugins/daterangepicker/daterangepicker.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('backend/assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('backend/assets/css/style.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/assets/css/jquery-ui.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('backend/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/assets/css/metisMenu.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/plugins/daterangepicker/daterangepicker.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/assets/css/style.css') }}" rel="stylesheet" type="text/css" />
 
 </head>
 
@@ -37,7 +37,8 @@
         <div class="brand">
             <a href="{{ route('admin.dashboard') }}" class="logo">
                 <span>
-                    <img src="{{ asset('backend/assets/images/logo.png') }}" alt="logo-large" class="logo-lg logo-light">
+                    <img src="{{ asset('backend/assets/images/logo.png') }}" alt="logo-large"
+                        class="logo-lg logo-light">
                 </span>
             </a>
         </div>

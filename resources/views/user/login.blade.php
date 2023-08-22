@@ -232,13 +232,13 @@
                                         <input type="email" id="s_email" name="s_email" class="form-control form-control-lg" placeholder="Enter Email" required tabindex="4" />
                                     </div>
                                     <div class="form-outline mb-3">
-                                        <input type="text" id="s_refralid" name="s_refralid" class="form-control form-control-lg" placeholder="Referral ID" tabindex="5"/>
+                                        <input type="text" id="s_referralid" name="s_referralid" class="form-control form-control-lg" placeholder="Referral ID" tabindex="5"/>
                                     </div>
                                     <div class="form-outline mb-3">
                                         <select class="form-select form-control form-control-lg" id="s_busnestype" name="s_busnestype"  required tabindex="6">
                                             <option >Business Type</option><br/>
-                                                @foreach ($business as $busnes)
-                                                    <option value="{{ $busnes->id }}">{{ $busnes->business_name }}</option>
+                                                @foreach ($business as $b)
+                                                    <option value="{{ $b->id }}">{{ $b->business_name }}</option>
                                                 @endforeach
                                           </select>
                                     </div>
@@ -252,8 +252,8 @@
                                     <div class="form-outline mb-3">
                                         <select class="form-select form-control form-control-lg" id="s_shopexectename" name="s_shopexectename" required tabindex="8" >
                                             <option >Shop Adding Executive Name</option><br/>
-                                                @foreach ($executives as $exec)
-                                                    <option value="{{ $exec->id }}">{{ $exec->executive_name }}</option>
+                                                @foreach ($executives as $ex)
+                                                    <option value="{{ $ex->id }}">{{ $ex->executive_name }}</option>
                                                 @endforeach
                                           </select>
                                     </div>
@@ -278,23 +278,23 @@
                                 <form id="AffiliateRegForm">
 
                                     <div class="form-outline mb-3">
-                                        <input type="text" id="" class="form-control form-control-lg" placeholder="Name" />
+                                        <input type="text" id="a_name" class="form-control form-control-lg" placeholder="Name" />
                                     </div>
                                     <div class="form-outline mb-3">
-                                        <input type="text" id="" class="form-control form-control-lg"  placeholder="Mobile Number" />
+                                        <input type="text" id="a_mobile" class="form-control form-control-lg"  placeholder="Mobile Number" />
                                     </div>
                                     <div class="form-outline mb-3">
-                                        <input type="date" id="" class="form-control form-control-lg" placeholder="Date of birth" />
+                                        <input type="date" id="a_dob" class="form-control form-control-lg" placeholder="Date of birth" />
                                     </div>
                                     <div class="form-outline mb-3">
-                                        <input type="email" id="" class="form-control form-control-lg" placeholder="Referral ID" />
+                                        <input type="email" id="a_referralid" class="form-control form-control-lg" placeholder="Referral ID" />
                                     </div>
 
                                     <div class="form-outline mb-3">
-                                        <input type="email" id="" class="form-control form-control-lg"  placeholder="Aadhaar Number" />
+                                        <input type="email" id="a_aadhar" class="form-control form-control-lg"  placeholder="Aadhaar Number" />
                                     </div>
                                     <div class="form-outline mb-3">
-                                        <input type="email" id="" class="form-control form-control-lg"  placeholder="Locality" />
+                                        <input type="email" id="a_locality" class="form-control form-control-lg"  placeholder="Locality" />
                                     </div>
                                     <div class="form-outline mb-3">
                                         <select class="form-select form-control form-control-lg"
