@@ -208,6 +208,7 @@
 
                                 <form id="SellerRegForm" enctype="multipart/form-data" method="POST">
                                     <div id="sellerfirst">
+                                        <input type="hidden" id="affitid" name="affitid" value="000500" />
                                         <div class="form-outline mb-3">
                                             <input type="text" id="s_name" name="s_name" class="form-control form-control-lg" maxlength="50"  placeholder="Shop Name" required  tabindex="1" />
                                             <label for="s_name" class="error"></label>
@@ -241,8 +242,9 @@
                                         <div class="form-outline mb-3">
                                             <select class="form-select form-control form-control-lg" id="s_shopservice" name="s_shopservice" required tabindex="7">
                                                 <option value="">Shop/Service Type</option><br/>
-                                                <option value="1">test 1</option><br/>
-                                                <option value="2">test 2</option>
+                                                @foreach ($shopservice as $shopser)
+                                                        <option value="{{ $shopser->id }}">{{ $shopser->service_name }}</option>
+                                                    @endforeach
                                             </select>
                                             <label for="s_shopservice" class="error"></label>
                                         </div>
@@ -380,7 +382,7 @@
 
                             <div id="affiliatereg" style="display: none;">
                                 <form id="AffiliateRegForm"  enctype="multipart/form-data" method="POST">
-
+                                    <input type="hidden" id="affitid_a" name="affitid_a" value="000500" />
                                     <div class="form-outline mb-3">
                                         <input type="text" id="a_name" name="a_name" class="form-control form-control-lg" placeholder="Name" required tabindex="1" maxlength="25" />
                                         <label for="a_name" class="error"></label>
@@ -1522,10 +1524,6 @@
                         },
 
                         a_dob: {
-                            required: true,
-
-                        },
-                        a_refralid: {
                             required: true,
 
                         },

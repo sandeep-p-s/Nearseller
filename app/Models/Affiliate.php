@@ -13,6 +13,6 @@ class Affiliate extends Model
     protected $primaryKey = 'id';
     public $timestamps = true;
     protected $fillable = [
-      'name','email','mob_no','dob','referal_id','aadhar_no','locality','country','state','district','aadhar_file','terms_condition',
+      'name','email','mob_no','dob','affiliate_reg_id','referal_id','aadhar_no','locality','country','state','district','aadhar_file','terms_condition','user_id',
     ];
 }

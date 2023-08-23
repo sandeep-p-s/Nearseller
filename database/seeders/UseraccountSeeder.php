@@ -26,11 +26,10 @@ class UseraccountSeeder extends Seeder
             if($j==1 && $i ==1){
                 $data[0] = [
                     'name' => 'admin',
-                    'email' => 'hyzadmin@gmail.com',
+                    'email' => 'hyz@hyzfranchise.com',
                     'mobno' => '9656912880',
                     'password' => $pass ,
                     'user_status' => 'Y',
-                    'forgot_pass' => $pass ,
                     'role_id' => 1,
                     'approved' => 'Y',
                     'email_verify' => 'Y',
