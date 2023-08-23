@@ -7,15 +7,10 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\UserAccount;
 use App\Models\LogDetails;
 use App\Models\OTPGenerate;
-
-
-use App\Mail\EmailVerification;
-
 use App\Models\SellerDetails;
 use App\Models\Affiliate;
 
 use App\Mail\EmailVerification;
->>>>>>> app/Http/Controllers/HomeController.php
 use Illuminate\Support\Facades\Mail;
 use Exception;
 use DB;
@@ -235,7 +230,6 @@ class HomeController extends Controller
                     $mobno = $row->mobno;
                     $role_id = $row->role_id;
                     $approved = $row->approved;
-                }
                     $user_status = $row->user_status;
                 }
 
@@ -654,7 +648,6 @@ class HomeController extends Controller
                     $approved = $row->approved;
                 }
 
-
                 $OTPGenerate = OTPGenerate::where('otpmsgtype', $mobno)->where('otp', $otpval)->get();
                 $cntmob = count($OTPGenerate);
                 if($cntmob>0)
@@ -805,7 +798,6 @@ class HomeController extends Controller
                 $mobno = $row->mobno;
                 $role_id = $row->role_id;
                 $approved = $row->approved;
-            }
                 $user_status = $row->user_status;
 
             }
@@ -816,7 +808,6 @@ class HomeController extends Controller
             }
 
 
->>>>>>> app/Http/Controllers/HomeController.php
             if (($role_id != 4 && $role_id != 1) && $approved !== 'Y') {
                 return response()->json(['result' => 5,'mesge'=>'Not Approved.Please contact adminstrator','sendto'=>$mobno]);
             }
@@ -903,11 +894,6 @@ class HomeController extends Controller
                 $role_id = $user->role_id;
                 $approved = $user->approved;
                 $emailid = $user->email;
-                if (($role_id != 4 && $role_id != 1) && $approved !== 'Y') {
-                    return response()->json(['result' => 5,'mesge'=>'Not Approved.Please contact adminstrator','sendto'=>$email]);
-                }
-
-                return response()->json(['result' => 3,'mesge' => 'Successfully Logged In.','sendto' => $email]);
                 $user_status = $user->user_status;
                 if($user_status!='Y'){
                         return response()->json(['result' => 5,'mesge'=>'Inactive User. Please verify your register email.','sendto'=>$emailid]);
@@ -1134,7 +1120,6 @@ class HomeController extends Controller
             }
         }
 
->>>>>>> app/Http/Controllers/HomeController.php
 
 
 
