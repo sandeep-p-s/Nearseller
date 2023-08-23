@@ -8,6 +8,6 @@ class SellerController extends Controller
 {
     public function sellerdashboard()
     {
-        return view('admin.dashboard');
+        return view('seller.dashboard');
     }
 }
