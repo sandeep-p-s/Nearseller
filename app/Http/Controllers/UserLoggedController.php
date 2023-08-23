@@ -68,4 +68,8 @@ class UserLoggedController extends Controller
 
         return redirect('/login');
     }
+
+
+
+
 }

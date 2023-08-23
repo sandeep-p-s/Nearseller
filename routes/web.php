@@ -8,6 +8,7 @@ use App\Http\Controllers\ShopTypeController;
 use App\Http\Controllers\UserLoggedController;
 use App\Http\Controllers\ServiceTypeController;
 use App\Http\Controllers\BusinessTypeController;
+use App\Http\Controllers\SellerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -87,4 +88,4 @@ Route::controller(ServiceTypeController::class)->group(function (){
 });
 
     Route::get('/products', [UserController::class,'homepage'])->name('user.products');
-    Route::get('/seller/dashboard', [AdminController::class,'sellerdashboard'])->name('seller.dashboard');
+    Route::get('/seller/dashboard', [SellerController::class,'sellerdashboard'])->name('seller.dashboard');
