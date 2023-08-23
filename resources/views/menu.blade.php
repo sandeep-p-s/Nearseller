@@ -77,4 +77,7 @@
 
     </div>
 <!-- end admin menu -->
-
+</div>
+   <!-- end left-sidenav-->
+   <div class="page-wrapper">
+    

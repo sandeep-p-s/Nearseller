@@ -1,10 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\UserLoggedController;
->>>>>>> routes/web.php
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ShopTypeController;

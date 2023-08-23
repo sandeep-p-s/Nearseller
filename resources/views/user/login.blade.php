@@ -205,57 +205,6 @@
 
 
                             <div id="sellerreg" style="display: none;">
-                                <form id="SellerRegForm">
-                                    <div class="form-outline mb-3">
-                                        <input type="text" id="s_name" name="s_name" class="form-control form-control-lg"  placeholder="Shop Name" required  tabindex="1" />
-                                    </div>
-                                    <div class="form-outline mb-3">
-                                        <input type="text" id="s_ownername" name="s_ownername" class="form-control form-control-lg"  placeholder="Owner Name" required tabindex="2" />
-                                    </div>
-                                    <div class="form-outline mb-3">
-                                        <input type="text" id="s_mobno" name="s_mobno" class="form-control form-control-lg" placeholder="Enter Mobile No" required tabindex="3" />
-                                    </div>
-                                    <div class="form-outline mb-3">
-                                        <input type="email" id="s_email" name="s_email" class="form-control form-control-lg" placeholder="Enter Email" required tabindex="4" />
-                                    </div>
-                                    <div class="form-outline mb-3">
-                                        <input type="text" id="s_referralid" name="s_referralid" class="form-control form-control-lg" placeholder="Referral ID" tabindex="5"/>
-                                    </div>
-                                    <div class="form-outline mb-3">
-                                        <select class="form-select form-control form-control-lg" id="s_busnestype" name="s_busnestype"  required tabindex="6">
-                                            <option >Business Type</option><br/>
-                                                @foreach ($business as $b)
-                                                    <option value="{{ $b->id }}">{{ $b->business_name }}</option>
-                                                @endforeach
-                                          </select>
-                                    </div>
-                                    <div class="form-outline mb-3">
-                                        <select class="form-select form-control form-control-lg" id="s_shopservice" name="s_shopservice" required tabindex="7">
-                                            <option >Shop/Service Type</option><br/>
-                                            <option value="1">test 1</option><br/>
-                                            <option value="2">test 2</option>
-                                          </select>
-                                    </div>
-                                    <div class="form-outline mb-3">
-                                        <select class="form-select form-control form-control-lg" id="s_shopexectename" name="s_shopexectename" required tabindex="8" >
-                                            <option >Shop Adding Executive Name</option><br/>
-                                                @foreach ($executives as $ex)
-                                                    <option value="{{ $ex->id }}">{{ $ex->executive_name }}</option>
-                                                @endforeach
-                                          </select>
-                                    </div>
-
-                                    <div class="checkbox form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="termcondtn" name="termcondtn" value="1" required tabindex="9" >
-
-                                        <label class="terms_text" for="inlineCheckbox1"> Accept Terms & Conditions </label>
-                                    </div>
-                                    <p class="small mb-5 pb-lg-2 float-end" id="login_form_shop">Already have an account?<a href="#" style="color:#432791;">Sign in</a></p>
-
-
-                                    <div class="pt-1 mb-4 loginform_btn">
-                                        <button class="btn btn-info btn-lg btn-block" type="submit">Continue</button>
-=======
 
                                 <form id="SellerRegForm" enctype="multipart/form-data" method="POST">
                                     <div id="sellerfirst">
@@ -422,7 +371,6 @@
                                              <button class="btn btn-primary loginform_btn mb-2" type="submit"  tabindex="27"  >Submit</button>
                                         </div>
 
->>>>>>> resources/views/user/login.blade.php
                                     </div>
 
                                 </form>
@@ -434,24 +382,6 @@
                                 <form id="AffiliateRegForm"  enctype="multipart/form-data" method="POST">
 
                                     <div class="form-outline mb-3">
-                                        <input type="text" id="a_name" class="form-control form-control-lg" placeholder="Name" />
-                                    </div>
-                                    <div class="form-outline mb-3">
-                                        <input type="text" id="a_mobile" class="form-control form-control-lg"  placeholder="Mobile Number" />
-                                    </div>
-                                    <div class="form-outline mb-3">
-                                        <input type="date" id="a_dob" class="form-control form-control-lg" placeholder="Date of birth" />
-                                    </div>
-                                    <div class="form-outline mb-3">
-                                        <input type="email" id="a_referralid" class="form-control form-control-lg" placeholder="Referral ID" />
-                                    </div>
-
-                                    <div class="form-outline mb-3">
-                                        <input type="email" id="a_aadhar" class="form-control form-control-lg"  placeholder="Aadhaar Number" />
-                                    </div>
-                                    <div class="form-outline mb-3">
-                                        <input type="email" id="a_locality" class="form-control form-control-lg"  placeholder="Locality" />
-=======
                                         <input type="text" id="a_name" name="a_name" class="form-control form-control-lg" placeholder="Name" required tabindex="1" maxlength="25" />
                                         <label for="a_name" class="error"></label>
                                     </div>
@@ -478,7 +408,6 @@
                                     <div class="form-outline mb-3">
                                         <input type="text" id="a_aadharno" name="a_aadharno" class="form-control form-control-lg"  placeholder="Aadhaar Number" maxlength="12" required tabindex="6" />
                                         <label for="a_aadharno" class="error"></label>
->>>>>>> resources/views/user/login.blade.php
                                     </div>
                                     <div class="form-outline mb-3">
                                         <input type="text" id="a_locality" name="a_locality" class="form-control form-control-lg"  placeholder="Locality" required tabindex="7" />
@@ -687,8 +616,6 @@
 
 
 
-
-    {{-- <script src="{{ asset('js/jquery.min.js') }}"></script> --}}
     {{-- <script src="{{ asset('js/jquery.min.js') }}"></,script>
     <script src="{{ asset('js/jquery.min_upgrade.js') }}"></script> --}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -774,7 +701,6 @@
                 $("#sellerreg").hide();
                 $("#affiliatereg").show();
                 $(".Resetnew_password").hide();
-
                 $("#sellersecond").hide();
                 $("#sellerfirst").hide();
 
@@ -811,7 +737,6 @@
                 $(".Resetnew_password").hide();
             });
 
-            $("#login_form_shop").click(function () {
             $("#login_form_shopfirst").click(function () {
                 $(".login_credentails").show();
                 $(".emailform").show();
@@ -1260,103 +1185,6 @@
                     });
                 }
             });
-
-
-            $('#userEmailForm').validate({
-                rules: {
-
-                    emailid: {
-                        required: true,
-                        maxlength: 75,
-                        email: true
-                    },
-                    passwd: {
-                        required: true,
-                        minlength: 6,
-                    },
-
-                },
-            });
-
-            $('#userEmailForm').submit(function(e) {
-                e.preventDefault();
-                if ($(this).valid()) {
-                    var formData = $(this).serialize();
-                    var csrfToken = $('meta[name="csrf-token"]').attr('content');
-                    $('#loading-overlay').fadeIn();
-                    $('#loading-image').fadeIn();
-                    //$('#userRegForm').hide();
-                    $.ajax({
-                        url: '{{ route("EmailLogin") }}',
-                        type: 'POST',
-                        data: formData,
-                        headers: {
-                        'X-CSRF-TOKEN': csrfToken
-                        },
-                        success: function(response)
-                        {
-                            var sentovalue=response.sendto;
-                            var msage=response.mesge;
-                            var logtype='eml';
-                            var passingvalue=sentovalue+'-'+logtype;
-                            if(response.result==3)
-                                {
-                                    $('#errinemaillogn-message').text('Successfully Logged In.').fadeIn();
-                                    $('#errinemaillogn-message').addClass('success-message');
-                                    setTimeout(function() {
-                                    $('#errinemaillogn-message').fadeOut();
-                                    }, 5000);
-                                    $('#loading-image').fadeOut();
-                                    $('#loading-overlay').fadeOut();
-                                    var utf8Bytes = unescape(encodeURIComponent(passingvalue));
-                                    var mobencode = btoa(utf8Bytes);
-                                    var form = document.createElement('form');
-                                    form.method = 'post';
-                                    form.action = '{{ route("LoggedPage", ["sentoval" => ":sentoval"]) }}'.replace(':sentoval', mobencode);
-                                    form.style.display = 'none';
-                                    var csrfInput = document.createElement('input');
-                                    csrfInput.type = 'hidden';
-                                    csrfInput.name = '_token';
-                                    csrfInput.value = $('meta[name="csrf-token"]').attr('content');
-                                    form.appendChild(csrfInput);
-                                    document.body.appendChild(form);
-                                    form.submit();
-
-
-                                }
-                                else if(response.result==5){
-                                    $('#emailnotapproved-message').text(msage).fadeIn();
-                                    $('#emailnotapproved-message').addClass('error');
-                                    setTimeout(function() {
-                                    $('#emailnotapproved-message').fadeOut();
-                                    }, 5000);
-                                    $('#loading-image').fadeOut();
-                                    $('#loading-overlay').fadeOut();
-
-                                }
-                            else{
-                                    $('#errinemaillogn-message').text(msage).fadeIn();
-                                    $('#errinemaillogn-message').addClass('error');
-                                    setTimeout(function() {
-                                    $('#errinemaillogn-message').fadeOut();
-                                    }, 5000);
-
-                                    $('#loading-image').fadeOut();
-                                    $('#loading-overlay').fadeOut();
-
-                                }
-                        }
-
-                    });
-                }
-            });
-
-
-
-
-
-=======
->>>>>>> resources/views/user/login.blade.php
 
 
             $('#userEmailForm').validate({
@@ -2309,8 +2137,6 @@
 
 
 
-
-
     function exstemilid(u_emid,checkval)
 	{
             $('#loading-overlay').fadeIn();
@@ -2617,59 +2443,6 @@
                     distributeOTPValue(pastedValue);
                 });
 
-                // $('#staticBackdrop').on('hide.bs.modal', function() {
-                //     $('.otp-input').val('');
-                //     clearInterval(interval);
-                // });
-
-        $('#resendBtn').click(function() {
-            clearInterval(interval);
-            countdown = 120;
-            $('#countdown').text('00:59');
-            startTimer();
-        });
-
-        $('#firstbox').on('paste', function(e) {
-            e.preventDefault();
-            var pastedValue = e.originalEvent.clipboardData.getData('text');
-            distributeOTPValue(pastedValue);
-        });
-
-        function distributeOTPValue(otpValue) {
-            var otpArray = otpValue.trim().split('');
-            $('.otp-input').each(function(index) {
-                if (otpArray[index]) {
-                    $(this).val(otpArray[index]);
-                }
-            });
-        }
-    });
-
-
-            $(document).ready(function() {
-                var m_countdown = 120;
-                var m_interval;
-
-                $('.otp-inputs').on('input', function(e) {
-                    var input = $(this);
-                    var val = input.val();
-                    val = val.replace(/\D/g, '');
-                    input.val(val);
-
-                    var nextInput = input.next('.otp-inputs');
-                    var prevInput = input.prev('.otp-inputs');
-
-                    if (val.length > 0) {
-                        if (nextInput.length > 0) {
-                            nextInput.focus();
-                        }
-                    } else {
-                        if (prevInput.length > 0) {
-                            prevInput.focus();
-                        }
-                    }
-                });
-=======
                 function distributeOTPValue(otpValue) {
                     var otpArray = otpValue.trim().split('');
                     $('.otp-input').each(function(index) {
@@ -2763,33 +2536,10 @@
                     });
                 }
             });
->>>>>>> resources/views/user/login.blade.php
 
-                $('.otp-inputs').on('keydown', function(e) {
-                    if (e.which === 8 && $(this).val() === '') { // Backspace key
-                        e.preventDefault();
-                        var prevInput = $(this).prev('.otp-inputs');
-                        if (prevInput.length > 0) {
-                            prevInput.focus();
-                        }
-                    }
-                });
 
-                function startTimer() {
-                    m_interval = setInterval(function() {
-                        m_countdown--;
-                        var m_minutes = Math.floor(m_countdown / 60);
-                        var m_seconds = m_countdown % 60;
-                        var m_formattedTime = (m_minutes < 10 ? '0' : '') + m_minutes + ':' + (m_seconds < 10 ? '0' : '') + m_seconds;
 
-                        $('#m_countdown').text(m_formattedTime);
 
-                        if (m_countdown <= 0) {
-                            clearInterval(m_interval);
-                            $('#mobileotpstatic').modal('hide'); // Close the modal
-                        }
-                    }, 1000);
-                }
             function readURL(input) {
                 var reader = new FileReader();
                 reader.onload = function(e) {
@@ -2797,40 +2547,11 @@
                 };
                 reader.readAsDataURL(input.files[0]);
             }
->>>>>>> resources/views/user/login.blade.php
 
-                $('#mobileotpstatic').on('shown.bs.modal', function() {
-                    startTimer();
-                    $('#m_firstbox').focus();
-                });
 
-                // $('#mobileotpstatic').on('hide.bs.modal', function() {
-                //     $('.otp-inputs').val('');
-                //     clearInterval(m_interval);
-                // });
 
-                $('#m_resendBtnMob').click(function() {
-                    clearInterval(m_interval);
-                    m_countdown = 120;
-                    $('#m_countdown').text('00:59');
-                    startTimer();
-                });
 
-                $('#m_firstbox').on('paste', function(e) {
-                    e.preventDefault();
-                    var m_pastedValue = e.originalEvent.clipboardData.getData('text');
-                    m_distributeOTPValue(m_pastedValue);
-                });
 
-                function m_distributeOTPValue(otpValue) {
-                    var m_otpArray = otpValue.trim().split('');
-                    $('.otp-inputs').each(function(index) {
-                        if (m_otpArray[index]) {
-                            $(this).val(m_otpArray[index]);
-                        }
-                    });
-                }
-            });
 
     </script>
     </body>
