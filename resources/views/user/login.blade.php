@@ -208,7 +208,6 @@
 
                                 <form id="SellerRegForm" enctype="multipart/form-data" method="POST">
                                     <div id="sellerfirst">
-                                        <input type="hidden" id="affitid" name="affitid" value="000500" />
                                         <div class="form-outline mb-3">
                                             <input type="text" id="s_name" name="s_name" class="form-control form-control-lg" maxlength="50"  placeholder="Shop Name" required  tabindex="1" />
                                             <label for="s_name" class="error"></label>
@@ -228,7 +227,8 @@
                                             <div id="semil-message"  class="text-center" style="display: none;"></div>
                                         </div>
                                         <div class="form-outline mb-3">
-                                            <input type="text" id="s_refralid" name="s_refralid" class="form-control form-control-lg"  maxlength="50"  placeholder="Referral ID" tabindex="5"/>
+                                            <input type="text" id="s_refralid" name="s_refralid" class="form-control form-control-lg"  maxlength="50"  placeholder="Referral ID" tabindex="5" onchange="checkrefrelno(this.value,'1')"/>
+                                            <div id="s_refralid-message"  class="text-center" style="display: none;"></div>
                                         </div>
                                         <div class="form-outline mb-3">
                                             <select class="form-select form-control form-control-lg" id="s_busnestype" name="s_busnestype"  required tabindex="6">
@@ -382,7 +382,7 @@
 
                             <div id="affiliatereg" style="display: none;">
                                 <form id="AffiliateRegForm"  enctype="multipart/form-data" method="POST">
-                                    <input type="hidden" id="affitid_a" name="affitid_a" value="000500" />
+
                                     <div class="form-outline mb-3">
                                         <input type="text" id="a_name" name="a_name" class="form-control form-control-lg" placeholder="Name" required tabindex="1" maxlength="25" />
                                         <label for="a_name" class="error"></label>
@@ -403,8 +403,9 @@
                                         <label for="a_dob" class="error"></label>
                                     </div>
                                     <div class="form-outline mb-3">
-                                        <input type="text" id="a_refralid" name="a_refralid" class="form-control form-control-lg" placeholder="Referral ID" tabindex="5"  />
+                                        <input type="text" id="a_refralid" name="a_refralid" class="form-control form-control-lg" placeholder="Referral ID" tabindex="5"  onchange="checkrefrelno(this.value,'2')"/>
                                         <label for="a_refralid" class="error"></label>
+                                        <div id="a_refralid-message"  class="text-center" style="display: none;"></div>
                                     </div>
 
                                     <div class="form-outline mb-3">
@@ -2310,7 +2311,7 @@
 	}
 
     function checkemilmob(emailmob,numr)
-	{
+	    {
             $('#loading-overlay').fadeIn();
             $('#loading-image').fadeIn();
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
@@ -2365,7 +2366,56 @@
 					}
             });
 
-	}
+	    }
+
+
+
+
+    function checkrefrelno(referalno,numr)
+	    {
+            $('#loading-overlay').fadeIn();
+            $('#loading-image').fadeIn();
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+			$.ajax({
+                url: '{{ route("shopnotregreferal") }}',
+                        type: 'POST',
+                        data: {referalno:referalno,numr:numr},
+                        headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                        },
+                success:function(data)
+					{
+
+                        if((data.result==1) && (numr==1))
+                        {
+                            $('#s_refralid-message').text('Shop Referral ID Not Found').fadeIn();
+                            $('#s_refralid-message').addClass('error');
+                            setTimeout(function() {
+                            $('#s_refralid-message').fadeOut();
+                            }, 5000);
+                            $("#s_refralid").val('');
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                        }
+                        else if((data.result==1) && (numr==2))
+                        {
+                            $('#a_refralid-message').text('Affiliate Referral ID Not Found').fadeIn();
+                            $('#a_refralid-message').addClass('error');
+                            setTimeout(function() {
+                            $('#a_refralid-message').fadeOut();
+                            }, 5000);
+                            $("#a_refralid").val('');
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                        }
+                        else
+                        {
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                        }
+					}
+            });
+         }
 
 
 

@@ -44,6 +44,7 @@ Route::controller(HomeController::class)->group(function (){
 
     Route::post('sellerRegisteration','sellerRegisterationPage')->name('sellerRegisteration');
     Route::post('affiliatorRegisteration','affiliatorRegisterationPage')->name('affiliatorRegisteration');
+    Route::post('shopnotregreferal','ShopNotRegRefaralId')->name('shopnotregreferal');
 
 });
 

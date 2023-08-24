@@ -20,8 +20,7 @@ class AdminController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        if($userId=='')
-        {
+        if($userId==''){
             return redirect()->route('logout');
         }
         if ($userRole === 'Super_admin') {

@@ -150,6 +150,27 @@ class HomeController extends Controller
     }
 
 
+    public function ShopNotRegRefaralId(Request $request)
+    {
+        $referalno = $request->input('referalno');
+        $numr = $request->input('numr');
+        if($numr==1)
+        {
+            $userAccuntData = UserAccount::where('referal_id', $referalno)->get();
+        }
+        else if($numr==2)
+        {
+            $userAccuntData = SellerDetails::where('referal_id', $referalno)->get();
+        }
+        $cnt = count($userAccuntData);
+        if ($cnt == 0) {
+            return response()->json(['result' => 1]);
+        } else {
+            return response()->json(['result' => 2]);
+        }
+    }
+
+
 
 
     public function VerifyMailPage($typevas)
@@ -964,7 +985,7 @@ class HomeController extends Controller
                 $sellerDetail->owner_name = $request->input('s_ownername');
                 $sellerDetail->shop_email = $request->input('s_email');
                 $sellerDetail->shop_mobno = $request->input('s_mobno');
-
+                $sellerDetail->referal_id = $request->input('s_refralid');
                 $sellerDetail->busnes_type = $request->input('s_busnestype');
                 $sellerDetail->shop_service_type = $request->input('s_shopservice');
                 $sellerDetail->shop_executive = $request->input('s_shopexectename');
@@ -986,16 +1007,9 @@ class HomeController extends Controller
                 if ($maxId) {
                     $nextId = $maxId + 1;
                 } else {
-                    $nextId = 100;
+                    $nextId = 000100;
                 }
                 $sellerDetail->shop_reg_id = $nextId;
-                if($request->input('s_refralid')!='')
-                    {
-                        $sellerDetail->referal_id = $request->input('s_refralid');
-                    }
-                else{
-                        $sellerDetail->affiliate_reg_id = $request->input('affitid');
-                    }
                 // if ($request->hasFile('s_photo')) {
                 //     $file = $request->file('s_photo');
                 //     $fileName = time() . '.' . $file->getClientOriginalExtension();
@@ -1089,15 +1103,7 @@ class HomeController extends Controller
                 $affliteDetail->district = $request->input('a_district');
                 $affliteDetail->aadhar_file = $request->input('s_locality');
                 $affliteDetail->terms_condition = $request->has('a_termcondtn') ? 1 : 0;
-                if($request->input('a_refralid')!='')
-                    {
-                        $affliteDetail->referal_id = $request->input('a_refralid');
-                    }
-                else{
-                        $affliteDetail->affiliate_reg_id = $request->input('affitid_a');
-                    }
-
-
+                $affliteDetail->referal_id = $request->input('a_refralid');
                 if ($request->hasFile('uplodadhar')) {
                     $upload_path = 'uploads/affiliateimages/';
                     if (!is_dir($upload_path)) {
@@ -1118,13 +1124,12 @@ class HomeController extends Controller
                     $affliteDetail->aadhar_file = $jsonimages;
                 }
                 $affliteDetail->user_id = $last_id;
-                // $maxId = $affliteDetail->max('shop_regid');
-                // if ($maxId) {
-                //     $nextId = $maxId + 1;
-                // } else {
-                //     $nextId = 500;
-                // }
-
+                $maxId = $affliteDetail->max('shop_regid');
+                if ($maxId) {
+                    $nextId = $maxId + 1;
+                } else {
+                    $nextId = 000500;
+                }
                 $afiltereg=$affliteDetail->save();
                 $valencodemm=$lastRegId."-".$request->a_email;
                 $valsmm=base64_encode($valencodemm);
