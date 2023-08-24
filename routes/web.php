@@ -8,6 +8,8 @@ use App\Http\Controllers\ShopTypeController;
 use App\Http\Controllers\UserLoggedController;
 use App\Http\Controllers\ServiceTypeController;
 use App\Http\Controllers\BusinessTypeController;
+use App\Http\Controllers\SellerController;
+use App\Http\Controllers\AffiliateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,11 +44,8 @@ Route::controller(HomeController::class)->group(function (){
 
     Route::post('sellerRegisteration','sellerRegisterationPage')->name('sellerRegisteration');
     Route::post('affiliatorRegisteration','affiliatorRegisterationPage')->name('affiliatorRegisteration');
+    Route::post('shopnotregreferal','ShopNotRegRefaralId')->name('shopnotregreferal');
 
-});
-
-Route::controller(UserLoggedController::class)->group(function (){
-    Route::post('LoggedPage/{sentoval}', 'LoggedUserPage')->name('LoggedPage');
 });
 
 Route::controller(UserLoggedController::class)->group(function (){
@@ -86,5 +85,12 @@ Route::controller(ServiceTypeController::class)->group(function (){
     Route::get('servicedelete/{id}', 'delete_service_type')->name('delete.servicetype');
 });
 
+Route::controller(SellerController::class)->group(function (){
+    Route::get('dashboard', 'sellerdashboard')->name('seller.dashboard');
+});
+Route::controller(AffiliateController::class)->group(function (){
+    Route::get('dashboard', 'affiliatedashboard')->name('affiliate.dashboard');
+});
+
     Route::get('/products', [UserController::class,'homepage'])->name('user.products');
-    Route::get('/seller/dashboard', [AdminController::class,'sellerdashboard'])->name('seller.dashboard');
+
