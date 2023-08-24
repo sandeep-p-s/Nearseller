@@ -227,7 +227,8 @@
                                             <div id="semil-message"  class="text-center" style="display: none;"></div>
                                         </div>
                                         <div class="form-outline mb-3">
-                                            <input type="text" id="s_refralid" name="s_refralid" class="form-control form-control-lg"  maxlength="50"  placeholder="Referral ID" tabindex="5"/>
+                                            <input type="text" id="s_refralid" name="s_refralid" class="form-control form-control-lg"  maxlength="50"  placeholder="Referral ID" tabindex="5" onchange="checkrefrelno(this.value,'1')"/>
+                                            <div id="s_refralid-message"  class="text-center" style="display: none;"></div>
                                         </div>
                                         <div class="form-outline mb-3">
                                             <select class="form-select form-control form-control-lg" id="s_busnestype" name="s_busnestype"  required tabindex="6">
@@ -241,8 +242,9 @@
                                         <div class="form-outline mb-3">
                                             <select class="form-select form-control form-control-lg" id="s_shopservice" name="s_shopservice" required tabindex="7">
                                                 <option value="">Shop/Service Type</option><br/>
-                                                <option value="1">test 1</option><br/>
-                                                <option value="2">test 2</option>
+                                                @foreach ($shopservice as $shopser)
+                                                        <option value="{{ $shopser->id }}">{{ $shopser->service_name }}</option>
+                                                    @endforeach
                                             </select>
                                             <label for="s_shopservice" class="error"></label>
                                         </div>
@@ -401,8 +403,9 @@
                                         <label for="a_dob" class="error"></label>
                                     </div>
                                     <div class="form-outline mb-3">
-                                        <input type="text" id="a_refralid" name="a_refralid" class="form-control form-control-lg" placeholder="Referral ID" tabindex="5"  />
+                                        <input type="text" id="a_refralid" name="a_refralid" class="form-control form-control-lg" placeholder="Referral ID" tabindex="5"  onchange="checkrefrelno(this.value,'2')"/>
                                         <label for="a_refralid" class="error"></label>
+                                        <div id="a_refralid-message"  class="text-center" style="display: none;"></div>
                                     </div>
 
                                     <div class="form-outline mb-3">
@@ -1525,10 +1528,6 @@
                             required: true,
 
                         },
-                        a_refralid: {
-                            required: true,
-
-                        },
                         a_aadharno: {
                             required: true,
                             digits: true,
@@ -2312,7 +2311,7 @@
 	}
 
     function checkemilmob(emailmob,numr)
-	{
+	    {
             $('#loading-overlay').fadeIn();
             $('#loading-image').fadeIn();
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
@@ -2367,7 +2366,56 @@
 					}
             });
 
-	}
+	    }
+
+
+
+
+    function checkrefrelno(referalno,numr)
+	    {
+            $('#loading-overlay').fadeIn();
+            $('#loading-image').fadeIn();
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+			$.ajax({
+                url: '{{ route("shopnotregreferal") }}',
+                        type: 'POST',
+                        data: {referalno:referalno,numr:numr},
+                        headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                        },
+                success:function(data)
+					{
+
+                        if((data.result==1) && (numr==1))
+                        {
+                            $('#s_refralid-message').text('Shop Referral ID Not Found').fadeIn();
+                            $('#s_refralid-message').addClass('error');
+                            setTimeout(function() {
+                            $('#s_refralid-message').fadeOut();
+                            }, 5000);
+                            $("#s_refralid").val('');
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                        }
+                        else if((data.result==1) && (numr==2))
+                        {
+                            $('#a_refralid-message').text('Affiliate Referral ID Not Found').fadeIn();
+                            $('#a_refralid-message').addClass('error');
+                            setTimeout(function() {
+                            $('#a_refralid-message').fadeOut();
+                            }, 5000);
+                            $("#a_refralid").val('');
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                        }
+                        else
+                        {
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                        }
+					}
+            });
+         }
 
 
 

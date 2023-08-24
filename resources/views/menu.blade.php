@@ -75,9 +75,58 @@
             <hr class="hr-dashed hr-menu">
         </ul>
 
-    </div>
+    {{-- </div>
 <!-- end admin menu -->
+
+
+
+
+
+<!-- Seller menus -->
+<div class="menu-content h-100" data-simplebar> --}}
+    <ul class="metismenu left-sidenav-menu">
+        <li><a href="home.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Home Page</span><span class="menu-arrow"></span></a> </li>
+        <hr class="hr-dashed hr-menu">
+        <li><a href="my_products.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>My Products</span><span class="menu-arrow"></span></a> </li>
+        <hr class="hr-dashed hr-menu">
+        <li><a href="add_products.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Add Products</span><span class="menu-arrow"></span></a> </li>
+        <hr class="hr-dashed hr-menu">
+        <li><a href="category_table.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Add Categories</span><span class="menu-arrow"></span></a> </li>
+        <hr class="hr-dashed hr-menu">
+        <li class="">
+            <a href="javascript: void(0);" aria-expanded="false"> <i data-feather="hhh" class="align-self-center menu-icon"></i>   <span>Manage Orders</span><span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
+             <ul class="nav-second-level mm-collapse" aria-expanded="false" style="height: 0px;">
+                 <li class="nav-item"><a class="nav-link" href="pending_orders.html"><i class="ti-control-record"></i>Pending Orders</a></li>
+                 <li class="nav-item"><a class="nav-link" href="completed_orders.html"><i class="ti-control-record"></i>Completed Orders</a></li>
+             </ul>
+        </li>
+        <hr class="hr-dashed hr-menu">
+        <li><a href="offer_table.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Offers</span><span class="menu-arrow"></span></a> </li>
+        <hr class="hr-dashed hr-menu">
+    </ul>
+
+<!-- Affiliate menus -->
+
+        <ul class="metismenu left-sidenav-menu">
+          <li><a href="index.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Home Page</span><span class="menu-arrow"></span></a> </li>
+          <hr class="hr-dashed hr-menu">
+          <li><a href="affiliate.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Affiliates</span><span class="menu-arrow"></span></a> </li>
+          <hr class="hr-dashed hr-menu">
+          <li><a href="wallet.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Shops</span><span class="menu-arrow"></span></a> </li>
+          <hr class="hr-dashed hr-menu">
+          <li><a href="wallet.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Wallets</span><span class="menu-arrow"></span></a> </li>
+        </ul>
+
+
+
+
+
+
+
+
+
+</div>
+
 </div>
    <!-- end left-sidenav-->
    <div class="page-wrapper">
-    

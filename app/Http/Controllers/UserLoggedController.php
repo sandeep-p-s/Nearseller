@@ -34,12 +34,14 @@ class UserLoggedController extends Controller
             //echo "<pre>";print_r($role);exit;
 
             if ($role === 'Super_admin') {
+                session(['user_role' => $role, 'user_id' => $userAccount->id]);
                 return redirect()->route('admin.dashboard');
 
             } elseif ($role === 'Seller') {
                 return redirect()->route('seller.dashboard');
 
             } elseif ($role === 'Affiliate') {
+                session(['user_role' => $role, 'user_id' => $userAccount->id]);
                 return redirect()->route('affiliate.dashboard');
 
             } elseif ($role === 'Customer') {
