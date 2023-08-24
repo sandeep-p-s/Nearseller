@@ -20,6 +20,7 @@
             </li>
             <hr class="hr-dashed hr-menu">
             <li class="">
+
                 <a href="javascript: void(0);" aria-expanded="false"><span>Edits</span><span class="menu-arrow"><i
                             class="mdi mdi-chevron-right"></i></span></a>
                 <ul class="nav-second-level mm-collapse" aria-expanded="false" style="height: 0px;">
