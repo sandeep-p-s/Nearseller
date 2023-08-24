@@ -1007,7 +1007,7 @@ class HomeController extends Controller
                 if ($maxId) {
                     $nextId = $maxId + 1;
                 } else {
-                    $nextId = 000100;
+                    $nextId = '100';
                 }
                 $sellerDetail->shop_reg_id = $nextId;
                 // if ($request->hasFile('s_photo')) {
@@ -1128,7 +1128,7 @@ class HomeController extends Controller
                 if ($maxId) {
                     $nextId = $maxId + 1;
                 } else {
-                    $nextId = 000500;
+                    $nextId = '500';
                 }
                 $afiltereg=$affliteDetail->save();
                 $valencodemm=$lastRegId."-".$request->a_email;
