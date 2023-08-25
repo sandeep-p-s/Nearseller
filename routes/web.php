@@ -10,6 +10,7 @@ use App\Http\Controllers\ServiceTypeController;
 use App\Http\Controllers\BusinessTypeController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\AffiliateController;
+use App\Http\Controllers\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,6 +62,12 @@ Route::controller(AdminController::class)->group(function (){
 
 });
 
+Route::controller(RoleController::class)->group(function (){
+    Route::get('listrole', 'get_roles')->name('get.role');
+    Route::get('addrole', 'add_role')->name('add.role');
+    Route::post('storerole', 'store_role')->name('store.role');
+
+});
 Route::controller(BusinessTypeController::class)->group(function (){
     Route::get('listbusinesstype', 'list_business_type')->name('list.businesstype');
     Route::get('addbusinesstype', 'add_business_type')->name('add.businesstype');

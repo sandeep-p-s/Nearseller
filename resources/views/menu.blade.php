@@ -7,6 +7,17 @@
             <li class="">
                 <a href="javascript: void(0);" aria-expanded="false"><span>Approvals</span><span class="menu-arrow"><i
                             class="mdi mdi-chevron-right"></i></span></a>
+                <ul class="nav-second-level mm-collapse" aria-expanded="false">
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="ti-control-record"></i>Shop
+                            Approvals</a></li>
+                    <li class="nav-item"><a class="nav-link" href="affiliates_approval_table.html"><i
+                                class="ti-control-record"></i>Affiliates Approvals</a></li>
+                    <li class="nav-item"><a class="nav-link" href="products_approval_table.html"><i
+                                class="ti-control-record"></i>Product Approvals</a></li>
+                    <li class="nav-item"><a class="nav-link" href="category_approval.html"><i
+                                class="ti-control-record"></i>Category Approvals</a></li>
+                    <li class="nav-item"><a class="nav-link" href="service_approval_table.html"><i
+                                class="ti-control-record"></i>Service Approvals</a></li>
                 <ul class="nav-second-level mm-collapse" aria-expanded="false" style="height: 0px;">
                     <li class="nav-item"><a class="nav-link" href="{{ route('admin.shopapprovals') }}"><i class="ti-control-record"></i>Shop Approvals</a></li>
                     <li class="nav-item"><a class="nav-link" href="affiliates_approval_table.html"><i class="ti-control-record"></i>Affiliates Approvals</a></li>
@@ -17,6 +28,24 @@
             </li>
             <hr class="hr-dashed hr-menu">
             <li class="">
+                <a href="javascript: void(0);" aria-expanded="false"><span>Roles</span><span class="menu-arrow"><i
+                            class="mdi mdi-chevron-right"></i></span></a>
+                <ul class="nav-second-level mm-collapse" aria-expanded="false">
+                    <li class="nav-item"><a class="nav-link" href="{{ route('add.role') }}"><i
+                                class="ti-control-record"></i>Add Roles</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('get.role') }}"><i
+                                class="ti-control-record"></i>Manage Roles</a></li>
+                </ul>
+            </li>
+            <hr class="hr-dashed hr-menu">
+            <li class="">
+                <a href="javascript: void(0);" aria-expanded="false"><span>Edits</span><span class="menu-arrow"><i
+                            class="mdi mdi-chevron-right"></i></span></a>
+                <ul class="nav-second-level mm-collapse" aria-expanded="false" >
+                    <li class="nav-item"><a class="nav-link" href="shop_edit_table.html"><i
+                                class="ti-control-record"></i>Shop Edits</a></li>
+                    <li class="nav-item"><a class="nav-link" href="affiliates_edit_table.html"><i
+                                class="ti-control-record"></i>Affiliates Edits</a></li>
                 <a href="javascript: void(0);" aria-expanded="false"><span>Edits</span><span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
                 <ul class="nav-second-level mm-collapse" aria-expanded="false" style="height: 0px;">
                     <li class="nav-item"><a class="nav-link" href="shop_edit_table.html"><i class="ti-control-record"></i>Shop Edits</a></li>
@@ -27,7 +56,7 @@
             <li class="">
                 <a href="javascript: void(0);" aria-expanded="false"><span>Types</span><span class="menu-arrow"><i
                             class="mdi mdi-chevron-right"></i></span></a>
-                <ul class="nav-second-level mm-collapse" aria-expanded="false" style="height: 0px;">
+                <ul class="nav-second-level mm-collapse" aria-expanded="false" >
                     <li class="nav-item"><a class="nav-link" href="{{ route('list.businesstype') }}"><i
                                 class="ti-control-record"></i>Business Type</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('list.shoptype') }}"><i
@@ -40,7 +69,7 @@
             <li class="">
                 <a href="javascript: void(0);" aria-expanded="false"><span>Status</span><span class="menu-arrow"><i
                             class="mdi mdi-chevron-right"></i></span></a>
-                <ul class="nav-second-level mm-collapse" aria-expanded="false" style="height: 0px;">
+                <ul class="nav-second-level mm-collapse" aria-expanded="false" >
                     <li class="nav-item"><a class="nav-link" href="shop_approval_status_table.html"><i
                                 class="ti-control-record"></i>Shop Approval Status</a></li>
                     <li class="nav-item"><a class="nav-link" href="shop_edit_status_table.html"><i
