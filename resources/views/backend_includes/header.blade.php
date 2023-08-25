@@ -57,6 +57,11 @@
         display: none;
     }
 
+    table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td {
+        overflow-wrap: anywhere;
+    }
+
+
 </style>
 
 <body class="dark-sidenav">

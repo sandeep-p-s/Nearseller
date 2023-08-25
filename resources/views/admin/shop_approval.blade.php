@@ -3,11 +3,7 @@
     @include('menu')
     @include('topnav')
 
-        <style>
-        table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td {
-    overflow-wrap: anywhere;
-}
-    </style>
+
 
     <div class="page-content">
         <div class="container-fluid">
@@ -56,7 +52,7 @@
             </div>
 
 
-                            <div id="catcontent">
+                            <div id="catcontent" style="overflow:auto;">
 
                             </div>
 
@@ -68,7 +64,7 @@
         shwdets();
         setTimeout(() => {
                     $('#datatable').DataTable();
-                }, 1000);
+                }, 0);
         });
 
     function shwdets()
@@ -91,7 +87,7 @@
                         $('#loading-overlay').fadeOut();
                         setTimeout(() => {
                     $('#datatable').DataTable();
-                }, 1000);
+                }, 0);
                         $('#catcontent').html(data);
 
 					}

@@ -8,12 +8,12 @@
                 <th>Owner Name</th>
                 <th>Email</th>
                 <th>Mobile</th>
-                <th>Address</th>
+                {{-- <th>Address</th>
                 <th>Referral ID</th>
                 <th>Business Type</th>
                 <th>Service Type</th>
                 <th>Executive Name</th>
-                <th>Reg. Date</th>
+                <th>Reg. Date</th>--}}
                 <th>Action</th>
             </tr>
         </thead>
@@ -26,12 +26,12 @@
                     <td>{{ $sellerDetail->owner_name }}</td>
                     <td>{{ $sellerDetail->shop_email }}</td>
                     <td>{{ $sellerDetail->shop_mobno }}</td>
-                    <td>{{ $sellerDetail->house_name_no.','. $sellerDetail->locality.','. $sellerDetail->village.','.$sellerDetail->District->district_name.','.$sellerDetail->State->state_name.','. $sellerDetail->Country->country_name }}</td>
+                    {{-- <td>{{ $sellerDetail->house_name_no.','. $sellerDetail->locality.','. $sellerDetail->village.','.$sellerDetail->District->district_name.','.$sellerDetail->State->state_name.','. $sellerDetail->Country->country_name }}</td>
                     <td>{{ $sellerDetail->referal_id }}</td>
                     <td>{{ $sellerDetail->businessType->business_name }}</td>
                     <td>{{ $sellerDetail->serviceType->service_name }}</td>
                     <td>{{ $sellerDetail->executive->executive_name }}</td>
-                    <td>{{ $sellerDetail->created_at }}</td>
+                    <td>{{ $sellerDetail->created_at }}</td>--}}
                     <td>
                         <div class="btn-group mb-2 mb-md-0">
                             <button type="button" class="btn view_btn dropdown-toggle"
