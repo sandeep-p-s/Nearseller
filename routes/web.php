@@ -55,7 +55,10 @@ Route::controller(UserLoggedController::class)->group(function (){
 
 });
 Route::controller(AdminController::class)->group(function (){
-    Route::get('/admin/dashboard', 'admindashboard')->name('admin.dashboard');
+    Route::get('dashboard', 'admindashboard')->name('admin.dashboard');
+    Route::get('shopapprovals', 'ShopApproval')->name('admin.shopapprovals');
+    Route::get('allshopsview', 'AllShopsList')->name('admin.allshopsview');
+
 
 });
 
@@ -93,10 +96,10 @@ Route::controller(ServiceTypeController::class)->group(function (){
 });
 
 Route::controller(SellerController::class)->group(function (){
-    Route::get('dashboard', 'sellerdashboard')->name('seller.dashboard');
+    //Route::get('dashboard', 'sellerdashboard')->name('seller.dashboard');
 });
 Route::controller(AffiliateController::class)->group(function (){
-    Route::get('dashboard', 'affiliatedashboard')->name('affiliate.dashboard');
+    //Route::get('dashboard', 'affiliatedashboard')->name('affiliate.dashboard');
 });
 
     Route::get('/products', [UserController::class,'homepage'])->name('user.products');

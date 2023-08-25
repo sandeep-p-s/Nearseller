@@ -79,7 +79,8 @@
 </footer>
 <!-- footer ends -->
 
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+{{-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> --}}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
     const navbarAutocomplete = document.querySelector('#navbar-search-autocomplete');
