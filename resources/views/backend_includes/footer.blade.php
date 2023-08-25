@@ -7,10 +7,6 @@
 
 
 
-
-
-
-
         <!-- jQuery  -->
         <script src="{{ asset('backend/assets/js/jquery.min.js') }}"></script>
         <script src="{{ asset('backend/assets/js/bootstrap.bundle.min.js') }}"></script>
@@ -26,7 +22,7 @@
         <script src="{{ asset('backend/plugins/datatables/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('backend/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
         <!-- Buttons examples -->
-        {{-- <script src="{{ asset('backend/plugins/datatables/dataTables.buttons.min.js') }}"></script>
+        <script src="{{ asset('backend/plugins/datatables/dataTables.buttons.min.js') }}"></script>
         <script src="{{ asset('backend/plugins/datatables/buttons.bootstrap4.min.js') }}"></script>
         <script src="{{ asset('backend/plugins/datatables/jszip.min.js') }}"></script>
         <script src="{{ asset('backend/plugins/datatables/pdfmake.min.js') }}"></script>
@@ -37,7 +33,7 @@
         <!-- Responsive examples -->
         <script src="{{ asset('backend/plugins/datatables/dataTables.responsive.min.js') }}"></script>
         <script src="{{ asset('backend/plugins/datatables/responsive.bootstrap4.min.js') }}"></script>
-        <script src="{{ asset('backend/assets/pages/jquery.datatable.init.js') }}"></script> --}}
+        <script src="{{ asset('backend/assets/pages/jquery.datatable.init.js') }}"></script>
 
         <!-- App js -->
         <script src="{{ asset('backend/assets/js/app.js') }}"></script>
