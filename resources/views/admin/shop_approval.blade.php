@@ -3,6 +3,12 @@
     @include('menu')
     @include('topnav')
 
+        <style>
+        table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td {
+    overflow-wrap: anywhere;
+}
+    </style>
+
     <div class="page-content">
         <div class="container-fluid">
             <div class="row">
@@ -49,17 +55,10 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-body">
+
                             <div id="catcontent">
 
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
         </div>
     @endsection
@@ -67,6 +66,9 @@
     <script>
     $(document).ready(function() {
         shwdets();
+        setTimeout(() => {
+                    $('#datatable').DataTable();
+                }, 1000);
         });
 
     function shwdets()
@@ -87,6 +89,9 @@
 					{
                         $('#loading-image').fadeOut();
                         $('#loading-overlay').fadeOut();
+                        setTimeout(() => {
+                    $('#datatable').DataTable();
+                }, 1000);
                         $('#catcontent').html(data);
 
 					}
