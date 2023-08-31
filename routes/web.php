@@ -57,6 +57,8 @@ Route::controller(AdminController::class)->group(function (){
     Route::get('dashboard', 'admindashboard')->name('admin.dashboard');
     Route::get('shopapprovals', 'ShopApproval')->name('admin.shopapprovals');
     Route::get('allshopsview', 'AllShopsList')->name('admin.allshopsview');
+    Route::post('AdmsellerRegisteration','AdmsellerRegisterationPage')->name('AdmsellerRegisteration');
+    Route::post('shopViewEdit', 'AdmshopViewEdits')->name('shopViewEdit');
 
 
 });

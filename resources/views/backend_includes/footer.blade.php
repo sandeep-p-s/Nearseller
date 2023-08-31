@@ -4,19 +4,23 @@
         </div>
         <!-- end page-wrapper -->
 
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
 
 
 
         <!-- jQuery  -->
-        <script src="{{ asset('backend/assets/js/jquery.min.js') }}"></script>
+        {{-- <script src="{{ asset('backend/assets/js/jquery.min.js') }}"></script> --}}
         <script src="{{ asset('backend/assets/js/bootstrap.bundle.min.js') }}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="{{ asset('backend/assets/js/metismenu.min.js') }}"></script>
         <script src="{{ asset('backend/assets/js/waves.js') }}"></script>
         <script src="{{ asset('backend/assets/js/feather.min.js') }}"></script>
         <script src="{{ asset('backend/assets/js/simplebar.min.js') }}"></script>
         <script src="{{ asset('backend/assets/js/jquery-ui.min.js') }}"></script>
         <script src="{{ asset('backend/assets/js/moment.js') }}"></script>
-        <script src="{{ asset('backend/plugins/daterangepicker/daterangepicker.js') }}"></script>
+        {{-- <script src="{{ asset('backend/plugins/daterangepicker/daterangepicker.js') }}"></script> --}}
 
         <!-- Required datatable js -->
         <script src="{{ asset('backend/plugins/datatables/jquery.dataTables.min.js') }}"></script>
@@ -35,8 +39,36 @@
         <script src="{{ asset('backend/plugins/datatables/responsive.bootstrap4.min.js') }}"></script>
         <script src="{{ asset('backend/assets/pages/jquery.datatable.init.js') }}"></script>
 
+        <script src="{{ asset('backend/assets/js/bootstrap-datetimepicker.min.js') }}"></script>
+
+
         <!-- App js -->
         <script src="{{ asset('backend/assets/js/app.js') }}"></script>
+        <script>
+        $(document).ready(function() {
+            shwdets();
+            setTimeout(() => {
+                $('#datatable').DataTable();
+            }, 0);
+            });
+
+
+
+
+
+            // $(document).ready(function() {
+            //     $('.timepicker').timepicker({
+            //         showMeridian: true,
+            //         minuteStep: 15,
+            //         defaultTime: false
+            //     });
+            // });
+
+
+
+
+
+        </script>
 
     </body>
 

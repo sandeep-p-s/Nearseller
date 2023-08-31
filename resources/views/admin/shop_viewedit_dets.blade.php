@@ -1,103 +1,62 @@
-@if($sellerCount > 0)
-<table id="datatable" class="table table-striped table-bordered" >
-        <thead>
-            <tr>
-                <th>SINO</th>
-                <th>Reg. ID</th>
-                <th>Shop Name</th>
-                <th>Owner Name</th>
-                <th>Email</th>
-                <th>Mobile</th>
-                {{-- <th>Address</th>
-                <th>Referral ID</th>
-                <th>Business Type</th>
-                <th>Service Type</th>
-                <th>Executive Name</th>
-                <th>Reg. Date</th> --}}
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($sellerDetails as $index => $sellerDetail)
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $sellerDetail->shop_reg_id }}</td>
-                    <td>{{ $sellerDetail->shop_name }}</td>
-                    <td>{{ $sellerDetail->owner_name }}</td>
-                    <td>{{ $sellerDetail->shop_email }}</td>
-                    <td>{{ $sellerDetail->shop_mobno }}</td>
-                    {{-- <td>{{ $sellerDetail->house_name_no.','. $sellerDetail->locality.','. $sellerDetail->village.','.$sellerDetail->District->district_name.','.$sellerDetail->State->state_name.','. $sellerDetail->Country->country_name }}</td>
-                    <td>{{ $sellerDetail->referal_id }}</td>
-                    <td>{{ $sellerDetail->businessType->business_name }}</td>
-                    <td>{{ $sellerDetail->serviceType->service_name }}</td>
-                    <td>{{ $sellerDetail->executive->executive_name }}</td>
-                    <td>{{ $sellerDetail->created_at }}</td> --}}
-                    <td>
-                        <div class="btn-group mb-2 mb-md-0">
-                            <button type="button" class="btn view_btn dropdown-toggle"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action
-                                <i class="mdi mdi-chevron-down"></i></button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item view_btn1" href="#" onclick="shopvieweditdet({{ $sellerDetail->id }})">View/Edit</a>
-                                <a class="dropdown-item approve_btn" href="#">Approve</a>
-                                <a class="dropdown-item delete_btn" href="#">Delete</a>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-@else
-    <table>
-        <tr><td colspan="13" align="center"><b><font color="red">No data Found...</font></b></td></tr>
-    </table>
-@endif
+
+@php
+    //$open_close_time = $sellerDetails->open_close_time;
+    $open_close_time = $sellerDetails->open_close_time;
+    if($open_close_time=='' || $open_close_time=='NULL')
+        {
+            $opentime = '';
+            $closetime = '';
+
+        }
+    else {
+        $expldopenclose = explode('-', $open_close_time);
+        $opentime = $expldopenclose[0];
+        $closetime = $expldopenclose[1];
+
+    }
+
+    $gallery_dets=$sellerDetails->shop_photo;
+    $qrgallerydetsarray = json_decode($gallery_dets);
+    $qrgallery=$qrgallerydetsarray->fileval;
+    $qrqrgalleryval = json_decode(json_encode($qrgallery),true);
+    $totimg = count($qrqrgalleryval);
+@endphp
 
 
 
-<!-- Modal Add New -->
-<div class="modal fade" id="addNewModal" tabindex="-1" aria-labelledby="addNewModalLabel" aria-hidden="true">
-    <div class="modal-dialog custom-modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-center" id="addNewModalLabel">Add New Shops</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" title="Close">x</button>
-            </div>
-            <div class="modal-body">
-
-
-                <form id="SellerRegForm" enctype="multipart/form-data" method="POST">
+                <form id="SellerRegFormEdit" enctype="multipart/form-data" method="POST">
+                  <input type="hidden" id="shopid" name="shopid" value="{{ $sellerDetails->id }}"  class="form-control form-control-lg" maxlength="50"  placeholder="Shop id" required  tabindex="1" />
                 <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-outline mb-3">
-                            <input type="text" id="s_name" name="s_name" class="form-control form-control-lg" maxlength="50"  placeholder="Shop Name" required  tabindex="1" />
+                            <input type="text" id="s_name" name="s_name" value="{{ $sellerDetails->shop_name }}"  class="form-control form-control-lg" maxlength="50"  placeholder="Shop Name" required  tabindex="1" />
                             <label for="s_name" class="error"></label>
                         </div>
                         <div class="form-outline mb-3">
-                            <input type="text" id="s_ownername" name="s_ownername" class="form-control form-control-lg"  maxlength="50"   placeholder="Owner Name" required tabindex="2" />
+                            <input type="text" id="s_ownername" name="s_ownername"  value="{{ $sellerDetails->owner_name }}" class="form-control form-control-lg"  maxlength="50"   placeholder="Owner Name" required tabindex="2" />
                             <label for="s_ownername" class="error"></label>
                         </div>
                         <div class="form-outline mb-3">
-                            <input type="text" id="s_mobno" name="s_mobno" class="form-control form-control-lg"  maxlength="10"  placeholder="Mobile No" required tabindex="3"  onchange="exstmobno(this.value,'2')" />
+                            <input type="text" id="s_mobno" name="s_mobno" value="{{ $sellerDetails->shop_mobno }}"  class="form-control form-control-lg"  maxlength="10"  placeholder="Mobile No" required tabindex="3"  onchange="exstmobno(this.value,'2')" />
                             <label for="s_mobno" class="error"></label>
                             <div id="smob-message"  class="text-center" style="display: none;"></div>
                         </div>
                         <div class="form-outline mb-3">
-                            <input type="email" id="s_email" name="s_email" class="form-control form-control-lg"  maxlength="35"  placeholder="Email ID" required tabindex="4"  onchange="exstemilid(this.value,'2')" />
+                            <input type="email" id="s_email" name="s_email"  value="{{ $sellerDetails->shop_email }}"  class="form-control form-control-lg"  maxlength="35"  placeholder="Email ID" required tabindex="4"  onchange="exstemilid(this.value,'2')" />
                             <label for="s_email" class="error"></label>
                             <div id="semil-message"  class="text-center" style="display: none;"></div>
                         </div>
-                        {{-- <div class="form-outline mb-3">
-                            <input type="text" id="s_refralid" name="s_refralid" class="form-control form-control-lg"  maxlength="50"  placeholder="Referral ID" tabindex="5" onchange="checkrefrelno(this.value,'1')"/>
+                        <div class="form-outline mb-3">
+                            <input type="text" id="s_refralid" name="s_refralid"  value="{{ $sellerDetails->referal_id }}"  class="form-control form-control-lg"  maxlength="50"  placeholder="Referral ID" tabindex="5" onchange="checkrefrelno(this.value,'1')"/>
                             <div id="s_refralid-message"  class="text-center" style="display: none;"></div>
-                        </div> --}}
+                        </div>
+
                         <div class="form-outline mb-3">
                             <select class="form-select form-control form-control-lg" id="s_busnestype" name="s_busnestype"  required tabindex="6">
                                 <option value="" >Business Type</option><br/>
                                     @foreach ($business as $busnes)
-                                        <option value="{{ $busnes->id }}">{{ $busnes->business_name }}</option>
+                                        <option value="{{ $busnes->id }}" @if ($busnes->id == $sellerDetails->busnes_type) selected @endif >{{ $busnes->business_name }}</option>
                                     @endforeach
                             </select>
                             <label for="s_busnestype" class="error"></label>
@@ -106,7 +65,7 @@
                             <select class="form-select form-control form-control-lg" id="s_shopservice" name="s_shopservice" required tabindex="7">
                                 <option value="">Shop/Service Type</option><br/>
                                 @foreach ($shopservice as $shopser)
-                                        <option value="{{ $shopser->id }}">{{ $shopser->service_name }}</option>
+                                        <option value="{{ $shopser->id }}" @if ($shopser->id == $sellerDetails->shop_service_type) selected @endif>{{ $shopser->service_name }}</option>
                                     @endforeach
                             </select>
                             <label for="s_shopservice" class="error"></label>
@@ -115,68 +74,68 @@
                             <select class="form-select form-control form-control-lg" id="s_shopexectename" name="s_shopexectename" required tabindex="8" >
                                 <option value="">Shop Adding Executive Name</option><br/>
                                     @foreach ($executives as $exec)
-                                        <option value="{{ $exec->id }}">{{ $exec->executive_name }}</option>
+                                        <option value="{{ $exec->id }}" @if ($exec->id == $sellerDetails->shop_executive) selected @endif>{{ $exec->executive_name }}</option>
                                     @endforeach
                             </select>
                             <label for="s_shopexectename" class="error"></label>
                         </div>
                         <div class="form-outline mb-3">
-                            <input type="text" id="s_lisence" name="s_lisence" class="form-control form-control-lg"  maxlength="25"  placeholder="License Number" required  tabindex="10"/>
+                            <input type="text" id="s_lisence" name="s_lisence" value="{{ $sellerDetails->shop_licence }}" class="form-control form-control-lg"  maxlength="25"  placeholder="License Number" required  tabindex="10"/>
                             <label for="s_lisence" class="error"></label>
                         </div>
 
                     </div>
 
-
-
-
-
-
                     <div class="col-md-4">
 
                         <div class="form-outline mb-3">
-                            <input type="text" id="s_buldingorhouseno" name="s_buldingorhouseno"  maxlength="100"  class="form-control form-control-lg" placeholder="Building/House Name & Number" required  tabindex="11" />
+                            <input type="text" id="s_buldingorhouseno" name="s_buldingorhouseno" value="{{ $sellerDetails->house_name_no }}" maxlength="100"  class="form-control form-control-lg" placeholder="Building/House Name & Number" required  tabindex="11" />
                             <label for="s_buldingorhouseno" class="error"></label>
                         </div>
                         <div class="form-outline mb-3">
-                            <input type="text" id="s_locality" name="s_locality"  maxlength="100"  class="form-control form-control-lg"placeholder="Locality" required  tabindex="12" />
+                            <input type="text" id="s_locality" name="s_locality" value="{{ $sellerDetails->locality }}" maxlength="100"  class="form-control form-control-lg"placeholder="Locality" required  tabindex="12" />
                             <label for="s_locality" class="error"></label>
                         </div>
                         <div class="form-outline mb-3">
-                            <input type="text" id="s_villagetown" name="s_villagetown"  maxlength="100"  class="form-control form-control-lg" placeholder="Village/Town/Municipality" required  tabindex="13" />
+                            <input type="text" id="s_villagetown" name="s_villagetown" value="{{ $sellerDetails->village }}" maxlength="100"  class="form-control form-control-lg" placeholder="Village/Town/Municipality" required  tabindex="13" />
                             <label for="s_villagetown" class="error"></label>
                         </div>
                         <div class="form-outline mb-3">
                             <select class="form-select form-control form-control-lg" name="country"  aria-label="Default select example" id="country" required  tabindex="14" >
                                 <option value="">Select country</option>
                                     @foreach ($countries as $country)
-                                        <option value="{{ $country->id }}">{{ $country->country_name }}</option>
+                                        <option value="{{ $country->id }}" @if ($country->id == $sellerDetails->country) selected @endif>{{ $country->country_name }}</option>
                                     @endforeach
                             </select>
                             <label for="country" class="error"></label>
                         </div>
                         <div class="form-outline mb-3">
                             <select class="form-select form-control form-control-lg" name="state" aria-label="Default select example" id="state" required  tabindex="15">
-
+                                @foreach ($states as $state)
+                                <option value="{{ $state->id }}" @if ($state->id == $sellerDetails->state) selected @endif>{{ $state->state_name }}</option>
+                                @endforeach
                             </select>
                             <label for="state" class="error"></label>
                         </div>
                         <div class="form-outline mb-3">
                             <select class="form-select form-control form-control-lg" aria-label="Default select example" id="district" name="district" required  tabindex="16">
-
+                                @foreach ($districts as $dist)
+                                <option value="{{ $dist->id }}" @if (($dist->id == $sellerDetails->district) && ($dist->state_id == $sellerDetails->state)) selected @endif>{{ $dist->district_name }}</option>
+                                @endforeach
                             </select>
                             <label for="district" class="error"></label>
                         </div>
+
                         <div class="form-outline mb-3">
-                            <input type="text" id="s_pincode" name="s_pincode"  maxlength="6"  class="form-control form-control-lg" placeholder="Pin Code" required  tabindex="17" />
+                            <input type="text" id="s_pincode" name="s_pincode"  value="{{ $sellerDetails->pincode }}"  maxlength="6"  class="form-control form-control-lg" placeholder="Pin Code" required  tabindex="17" />
                             <label for="s_pincode" class="error"></label>
                         </div>
                         <div class="form-outline mb-3">
-                            <input type="text" id="s_googlelink" name="s_googlelink"   id class="form-control form-control-lg"   placeholder="Google map link location" required  tabindex="18" />
+                            <input type="text" id="s_googlelink" name="s_googlelink"  value="{{ $sellerDetails->googlemap }}"   id class="form-control form-control-lg"   placeholder="Google map link location" required  tabindex="18" />
                             <label for="s_googlelink" class="error"></label>
                         </div>
                         <div class="form-outline mb-3">
-                            <input type="file" id="s_photo"  multiple=""  name="s_photo[]" class="form-control form-control-lg" placeholder="Shop Photo" required tabindex="19" accept="image/jpeg, image/png"  />
+                            <input type="file" id="s_photo"  multiple=""  name="s_photo[]" class="form-control form-control-lg" placeholder="Shop Photo" tabindex="19" accept="image/jpeg, image/png"  />
                             <label for="s_photo" class="error"></label>
                         </div>
                         <div class="col-md-12">
@@ -185,65 +144,81 @@
                             </div>
                         </div>
 
+                        <div class="col-md-12">
+                            <div class="form-group" align="center">
+                                <div class="row">
+                                    @for($m = 0; $m < $totimg; $m++)
+                                        <div class="col-md-3">
+                                            <a href="#" data-toggle="modal" data-target="#myModal{{ $m }}">
+                                                <img id="img-bufferm" src="{{ asset($qrgallery[$m]) }}" width="100" height="100">
+                                                @php
+                                                    $valen = $qrgallery[$m] . "#" . $sellerDetails->id;
+                                                    $deleencde = base64_encode($valen);
+                                                @endphp
+                                            </a><br>
+                                            <button id="remv" type="button" name="remv" class="btn btn-danger" onClick="DeltImagGalry('{{ $deleencde }}');">X</button>
+                                        </div>
+
+                                        <div class="modal fade" id="myModal{{ $m }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 80%;">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <img src="{{ asset($qrgallery[$m]) }}" class="img-responsive">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endfor
+                                </div>
+                            </div>
+                        </div>
+
+
 
                     </div>
                     <div class="col-md-4">
 
-
-
-
-
-
-
                         <div class="form-outline mb-3">
-                            <input type="text" id="s_gstno" name="s_gstno"  maxlength="25"  class="form-control form-control-lg" placeholder="GST Number" required   tabindex="20" />
+                            <input type="text" id="s_gstno" name="s_gstno"  value="{{ $sellerDetails->shop_gstno }}"  maxlength="25"  class="form-control form-control-lg" placeholder="GST Number" required   tabindex="20" />
                             <label for="s_gstno" class="error"></label>
                         </div>
                         <div class="form-outline mb-3">
-                            <input type="text" id="s_panno" name="s_panno"  maxlength="12"  class="form-control form-control-lg" placeholder="PAN Number" required  tabindex="21" />
+                            <input type="text" id="s_panno" name="s_panno"  value="{{ $sellerDetails->shop_panno }}"  maxlength="12"  class="form-control form-control-lg" placeholder="PAN Number" required  tabindex="21" />
                             <label for="s_panno" class="error"></label>
                         </div>
 
 
                         <div class="form-outline mb-3"><label class="esdate" for="esdate"> Establishment Date</label>
-                            <input type="date" id="s_establishdate" name="s_establishdate"  maxlength="10"  class="form-control form-control-lg" placeholder="Establishment Date"  tabindex="22" />
+                            <input type="date" id="s_establishdate" name="s_establishdate"  value="{{ $sellerDetails->establish_date }}"  maxlength="10"  class="form-control form-control-lg" placeholder="Establishment Date"  tabindex="22" />
                             <label for="s_establishdate" class="error"></label>
                         </div>
 
 
                         <div class="form-outline mb-3"><label> Open Time</label>
                             <div class="input-group date" id="from-time-picker" data-target-input="nearest">
-                                <input type="text" class="form-control datetimepicker-input" data-target="#from-time-picker" id="opentime" name="opentime" required  maxlength="10" />
+                                <input type="text" class="form-control datetimepicker-input" data-target="#from-time-picker" id="opentime" name="opentime"  value="{{ $opentime }}"  required  maxlength="10" />
                                 <label for="opentime" class="error"></label>
                             </div>
                         </div>
 
                         <div class="form-outline mb-3"><label > Close Time</label>
                             <div class="input-group date" id="from-time-picker" data-target-input="nearest">
-                                <input type="text" class="form-control datetimepicker-input" data-target="#to-time-picker" id="closetime" name="closetime" required maxlength="10" />
+                                <input type="text" class="form-control datetimepicker-input" data-target="#to-time-picker" id="closetime" name="closetime"  value="{{ $closetime }}"  required maxlength="10" />
                                 <label for="closetime" class="error"></label>
                             </div>
                         </div>
 
 
                         <div class="form-outline mb-3"><label class="regis_date" for="regis_date"> Registration Date</label>
-                            <input type="date" id="s_registerdate" name="s_registerdate"  maxlength="10"  class="form-control form-control-lg" placeholder="Registration Date"  tabindex="24" maxlength="10" />
+                            <input type="date" id="s_registerdate" name="s_registerdate"  value="{{ $sellerDetails->registration_date }}"   maxlength="10"  class="form-control form-control-lg" placeholder="Registration Date"  tabindex="24" maxlength="10" />
                             <label for="s_registerdate" class="error"></label>
                         </div>
 
-
-
-                        {{-- <div class="form-outline  mb-2">
-                            <input  tabindex="23" type="password" id="s_paswd" name="s_paswd"  maxlength="10"  class="form-control form-control-lg" maxlength="10" placeholder="Enter Password" required />
-                            <label for="s_paswd" class="error"></label>
-                        </div>
-                        <div class="form-outline  mb-2">
-                            <input  tabindex="24" type="password" id="s_rpaswd" name="s_rpaswd"  maxlength="10"  class="form-control form-control-lg" maxlength="10" placeholder="Re-Enter password" required />
-                            <label for="s_rpaswd" class="error"></label>
-                        </div> --}}
-
                         <div class="checkbox form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="s_termcondtn" name="s_termcondtn" value="1" required tabindex="25" >
+                            <input class="form-check-input" type="checkbox" id="s_termcondtn" name="s_termcondtn" value="1" required tabindex="25" {{ $sellerDetails->term_condition == 1 ? 'checked' : '' }}  >
                             <label class="inlineCheckbox1" for="s_termcondtn"> Accept Terms & Conditions </label>
                         </div>
 
@@ -264,20 +239,8 @@
                  </div>
                 </div>
                 </form>
-            </div>
-            </div>
-            </div>
 
-
-
-
-            </div>
-
-        </div>
-    </div>
-</div>
 <!-- Modal Add new Close -->
-
 
 
 
@@ -406,7 +369,7 @@
         }
 
 
-        $("#SellerRegForm").validate({
+        $("#SellerRegFormEdit").validate({
 
             rules: {
                 s_name: {
@@ -488,7 +451,7 @@
                     required: true,
                 },
                 s_photo: {
-                    required: true,
+                    // required: true,
                     extension: 'jpg|jpeg|png',
                 },
                 opentime: {
@@ -500,15 +463,6 @@
                 s_registerdate: {
                     required: true,
                 },
-                // s_paswd: {
-                //     required: true,
-                //     minlength: 6,
-                //     strongPassword: true
-                // },
-                // s_rpaswd: {
-                //     required: true,
-                //     equalTo: "#s_paswd"
-                // },
 
             },
             messages: {
@@ -604,7 +558,7 @@
 
 
 
-            $('#SellerRegForm').submit(function(e) {
+            $('#SellerRegFormEdit').submit(function(e) {
             e.preventDefault();
             if ($(this).valid()) {
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
@@ -629,7 +583,7 @@
                     setTimeout(function() {
                         $('#shopreg-message').fadeOut();
                     }, 5000); // 5000 milliseconds = 5 seconds
-                    $('#SellerRegForm')[0].reset();
+                    $('#SellerRegFormEdit')[0].reset();
                     $('#loading-image').fadeOut();
                     $('#loading-overlay').fadeOut();
                     $('#addNewModal').modal('hide');
@@ -652,8 +606,6 @@
             });
             }
             });
-
-
 
 
 
