@@ -59,7 +59,11 @@ Route::controller(AdminController::class)->group(function (){
     Route::get('allshopsview', 'AllShopsList')->name('admin.allshopsview');
     Route::post('AdmsellerRegisteration','AdmsellerRegisterationPage')->name('AdmsellerRegisteration');
     Route::post('shopViewEdit', 'AdmshopViewEdits')->name('shopViewEdit');
-
+    Route::post('shopGalryDelete', 'AdmshopGalryDelte')->name('shopGalryDelte');
+    Route::post('AdmsellerUpdate','AdmsellerUpdatePage')->name('AdmsellerUpdate');
+    Route::post('shopApproved', 'AdmshopApproved')->name('shopApproved');
+    Route::post('AdmsellerApproved', 'AdmsellerApprovedPage')->name('AdmsellerApproved');
+    Route::post('shopDelete', 'AdmshopDeletePage')->name('shopDelete');
 
 });
 

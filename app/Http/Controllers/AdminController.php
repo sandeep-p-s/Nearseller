@@ -110,6 +110,7 @@ class AdminController extends Controller
                 'district' => 'required',
                 's_pincode' => 'required|max:6',
                 's_googlelink' => 'required',
+                'manufactringdets' => 'required',
                 //'s_photo' => 'required|image|mimes:jpeg,png|max:1024',
                 's_gstno' => 'required|max:25',
                 's_panno' => 'required|max:12',
@@ -196,8 +197,9 @@ class AdminController extends Controller
                 $openclosdsetime=$opentime.'-'.$closetime;
                 $sellerDetail->open_close_time = $openclosdsetime;
                 $sellerDetail->registration_date = $request->input('s_registerdate');
+                $sellerDetail->manufactoring_details = $request->input('manufactringdets');
                 $sellerDetail->user_id = $last_id;
-                $sellerDetail->referal_id = $refer_chars;
+                //$sellerDetail->referal_id = $refer_chars;
                 $maxId = $sellerDetail->max('shop_reg_id');
                 if ($maxId) {
                     $nextId = $maxId + 1;
@@ -231,6 +233,33 @@ class AdminController extends Controller
                     $jsonimages = json_encode($input_vals);
                     $sellerDetail->shop_photo = $jsonimages;
                 }
+
+                $input_media = [];
+                $input_valmedia = [];
+                $mediatype = $request->input('mediatype', []);
+                $mediaurl = $request->input('mediaurl', []);
+                $totvalmedia = count($mediatype);
+                if ($totvalmedia > 0) {
+                    foreach ($mediatype as $keys => $valmm) {
+                        $mediaType = $mediatype[$keys];
+                        $mediaUrl = $mediaurl[$keys];
+
+
+                        $input_mediaval = [
+                            'mediatype' => $mediaType,
+                            'mediaurl' => $mediaUrl,
+                       ];
+
+                        $input_media[] = $input_mediaval;
+                    }
+
+                    $input_valmedia['mediadets'] = $input_media;
+                    $jsonmedia = json_encode($input_valmedia);
+                    $sellerDetail->socialmedia = $jsonmedia;
+                }
+
+
+
                 $shopreg=$sellerDetail->save();
                 $valencodemm=$lastRegId."-".$request->s_email;
                 $valsmm=base64_encode($valencodemm);
@@ -274,6 +303,289 @@ class AdminController extends Controller
 
         }
 
+    function AdmshopGalryDelte(Request $request)
+        {
+            $userRole = session('user_role');
+            $userId = session('user_id');
+            if($userId==''){
+                return redirect()->route('logout');
+            }
+            $imgval=$request->input('imgval');
+            $typevals=urldecode($imgval);
+			$typevalm=base64_decode($typevals);
+			$exlodval=explode('#',$typevalm);
+			//echo "<pre>";print_r($exlodval);exit;
+			$imgremove=$exlodval[0];
+			$shopid=$exlodval[1];
+            $sellerDetail   = SellerDetails::find($shopid);
+            $sellerImag     = DB::table('seller_details')->where('id', $shopid)->get();
+			//echo $lastRegId = $sellerDetail->toSql();exit;
+			foreach($sellerImag as $gal)
+			{
+				$json_data=$gal->shop_photo;
 
+			}
+            $data = json_decode($json_data, true);
+			$delete_item = $imgremove;
+			$index = array_search($delete_item, $data['fileval']);
+			//echo "<pre>";print_r($index);exit;
+			if ($index !== false) {
+				$file_path = $imgremove;
+    			unlink($file_path);
+				unset($data['fileval'][$index]);
+				$data['fileval'] = array_values($data['fileval']);
+				$updated_json_data = json_encode($data);
+                $sellerDetail->shop_photo = $updated_json_data;
+				$result = $sellerDetail->save();
+                //echo $lastRegId = $sellerDetail->toSql();exit;
+                $loggedUserIp=$_SERVER['REMOTE_ADDR'];
+                $time=date('Y-m-d H:i:s');
+                $msg="Deleted Image ".$imgremove;
+                $LogDetails = new LogDetails();
+                $LogDetails->user_id = $userId;
+                $LogDetails->ip_address = $loggedUserIp;
+                $LogDetails->log_time = $time;
+                $LogDetails->status = $msg;
+                $LogDetails->save();
+                if($result>0){
+                    return response()->json(['result' => 1,'mesge'=>'Deleted Successfully']);
+                }
+                else{
+                    return response()->json(['result' => 2,'mesge'=>'Failed']);
+                }
+            }
+        }
+        function AdmsellerUpdatePage(Request $request)
+        {
+            $userRole = session('user_role');
+            $userId = session('user_id');
+            if($userId==''){
+                return redirect()->route('logout');
+            }
+            $loggedUserIp=$_SERVER['REMOTE_ADDR'];
+            $time=date('Y-m-d H:i:s');
+            $validatedData = $request->validate([
+                'es_name' => 'required|max:50',
+                'es_ownername' => 'required|max:50',
+                'es_mobno' => 'required|max:10',
+                'es_email' => 'required|email|max:35',
+                'es_refralid' => 'max:50',
+                'es_busnestype' => 'required',
+                'es_shopservice' => 'required',
+                'es_shopexectename' => 'required',
+                'es_lisence' => 'required|max:25',
+                'es_buldingorhouseno' => 'required|max:100',
+                'es_locality' => 'required|max:100',
+                'es_villagetown' => 'required|max:100',
+                'ecountry' => 'required',
+                'estate' => 'required',
+                'edistrict' => 'required',
+                'es_pincode' => 'required|max:6',
+                'es_googlelink' => 'required',
+                'emanufactringdets' => 'required',
+                'es_gstno' => 'required|max:25',
+                'es_panno' => 'required|max:12',
+                'es_establishdate' => 'required|date',
+                'es_registerdate' => 'required|date',
+                'eopentime' => 'required',
+                'eclosetime' => 'required',
+                'es_termcondtn' => 'accepted',
+
+            ]);
+            $shopid=$request->shopidhid;
+            //$user   = UserAccount::find($shopid);
+            $sellerDetail   = SellerDetails::find($shopid);
+            $sellerDetail->fill($validatedData);
+            $sellerDetail->shop_name = $request->input('es_name');
+            $sellerDetail->owner_name = $request->input('es_ownername');
+            $sellerDetail->shop_email = $request->input('es_email');
+            $sellerDetail->shop_mobno = $request->input('es_mobno');
+            $sellerDetail->busnes_type = $request->input('es_busnestype');
+            $sellerDetail->shop_service_type = $request->input('es_shopservice');
+            $sellerDetail->shop_executive = $request->input('es_shopexectename');
+            $sellerDetail->term_condition = $request->has('es_termcondtn') ? 1 : 0;
+            $sellerDetail->shop_licence = $request->input('es_lisence');
+            $sellerDetail->house_name_no = $request->input('es_buldingorhouseno');
+            $sellerDetail->locality = $request->input('es_locality');
+            $sellerDetail->village = $request->input('es_villagetown');
+            $sellerDetail->country = $request->input('ecountry');
+            $sellerDetail->state = $request->input('estate');
+            $sellerDetail->district = $request->input('edistrict');
+            $sellerDetail->pincode = $request->input('es_pincode');
+            $sellerDetail->googlemap = $request->input('es_googlelink');
+            $sellerDetail->shop_gstno = $request->input('es_gstno');
+            $sellerDetail->shop_panno = $request->input('es_panno');
+            $sellerDetail->establish_date = $request->input('es_establishdate');
+            $sellerDetail->manufactoring_details = $request->input('emanufactringdets');
+            $opentime   =   $request->input('eopentime');
+            $closetime  =   $request->input('eclosetime');
+
+            $openclosdsetime=$opentime.'-'.$closetime;
+            $sellerDetail->open_close_time = $openclosdsetime;
+            $sellerDetail->registration_date = $request->input('es_registerdate');
+            $sellerDetail->referal_id = $request->input('es_refralid');
+            if ($request->hasFile('es_photo')) {
+                $upload_path = 'uploads/shopimages/';
+                if (!is_dir($upload_path)) {
+                    mkdir($upload_path, 0777, true);
+                }
+
+                $input_datas = [];
+                foreach ($request->file('es_photo') as $file) {
+                    if ($file->isValid()) {
+                        $new_name = time() . '_' . $file->getClientOriginalName();
+                        $file->move($upload_path, $new_name);
+                        $filename = $upload_path . $new_name;
+                        array_push($input_datas, $filename);
+                    }
+                }
+                $input_vals = ['fileval' => $input_datas];
+                $jsonimages = json_encode($input_vals);
+                $sellerDetail->shop_photo = $jsonimages;
+            }
+            $input_media = [];
+            $input_valmedia = [];
+            $mediatype = $request->input('mediatype', []);
+            $mediaurl = $request->input('mediaurl', []);
+            $totvalmedia = count($mediatype);
+            if ($totvalmedia > 0) {
+                foreach ($mediatype as $keys => $valmm) {
+                    $mediaType = $mediatype[$keys];
+                    $mediaUrl = $mediaurl[$keys];
+
+
+                    $input_mediaval = [
+                        'mediatype' => $mediaType,
+                        'mediaurl' => $mediaUrl,
+                    ];
+
+                    $input_media[] = $input_mediaval;
+                }
+
+                $input_valmedia['mediadets'] = $input_media;
+                $jsonmedia = json_encode($input_valmedia);
+                $sellerDetail->socialmedia = $jsonmedia;
+            }
+
+            $shopreg=$sellerDetail->save();
+
+            $user = UserAccount::findOrFail($sellerDetail->user_id);
+            if ($user->email !== $request->input('es_email') || $user->mobno !== $request->input('es_mobno')) {
+                $user->email = $request->es_email;
+                $user->mobno = $request->es_mobno;
+                $user->name = $request->es_name;
+                $user->ip=$loggedUserIp;
+                $submt=$user->save();
+            }
+
+            $msg="Successfully updated! ".$request->es_email." shop updated id : ".$sellerDetail->user_id;
+            $LogDetails = new LogDetails();
+            $LogDetails->user_id = $request->es_email;
+            $LogDetails->ip_address = $loggedUserIp;
+            $LogDetails->log_time = $time;
+            $LogDetails->status = $msg;
+            $LogDetails->save();
+
+        }
+
+
+
+        function AdmshopApproved(Request $request)
+        {
+            $userRole = session('user_role');
+            $userId = session('user_id');
+            if($userId==''){
+                return redirect()->route('logout');
+            }
+            $id=$request->input('shopid');
+            $sellerDetails = SellerDetails::select('seller_details.*', 'business_type.business_name', 'service_types.service_name', 'executives.executive_name', 'country.country_name', 'state.state_name', 'district.district_name')
+                ->leftJoin('business_type', 'business_type.id', 'seller_details.busnes_type')
+                ->leftJoin('service_types', 'service_types.id', 'seller_details.shop_service_type')
+                ->leftJoin('executives', 'executives.id', 'seller_details.shop_executive')
+                ->leftJoin('country', 'country.id', 'seller_details.country')
+                ->leftJoin('state', 'state.id', 'seller_details.state')
+                ->leftJoin('district', 'district.id', 'seller_details.district')
+                ->where('seller_details.id', $id)
+                ->first();
+            //echo $lastRegId = $sellerDetails->toSql();exit;
+            $userdets       = DB::table('user_account')->where('id', $sellerDetails->user_id)->get();
+            $countries      = DB::table('country')->get();
+            $states         = DB::table('state')->where('country_id', $sellerDetails->country)->get();
+            $districts      = DB::table('district')->where('state_id', $sellerDetails->state)->get();
+            $business       = DB::table('business_type')->where('status','Y')->get();
+            $shopservice    = DB::table('service_types')->where('status', 'active')->get();
+            $executives     = DB::table('executives')->where(['executive_type' => 1, 'status' => 'Y'])->get();
+            return view('admin.shop_approved_dets', compact('sellerDetails', 'countries', 'states', 'districts', 'business', 'shopservice', 'executives','userdets'));
+
+        }
+
+        function AdmsellerApprovedPage(Request $request)
+        {
+            $userRole = session('user_role');
+            $userId = session('user_id');
+            if($userId==''){
+                return redirect()->route('logout');
+            }
+            $loggedUserIp=$_SERVER['REMOTE_ADDR'];
+            $time=date('Y-m-d H:i:s');
+            $validatedData = $request->validate([
+                'approvedstatus' => 'required|max:1',
+            ]);
+            $shopid=$request->shopidhidapp;
+            $user = UserAccount::find($shopid);
+            $user->approved = $request->approvedstatus;
+            $user->approved_by = $userId;
+            $user->approved_at = $time;
+            $submt=$user->save();
+            $msg="Aprroved Status =  ".$request->approvedstatus." shop updated id : ".$shopid;
+            $LogDetails = new LogDetails();
+            $LogDetails->user_id = $user->email;
+            $LogDetails->ip_address = $loggedUserIp;
+            $LogDetails->log_time = $time;
+            $LogDetails->status = $msg;
+            $LogDetails->save();
+            if($request->approvedstatus=='Y')
+            {
+                $valencodemm=$shopid."-".$user->email;
+                $valsmm=base64_encode($valencodemm);
+                $apprveTime = date('d/m/Y H:i:s', strtotime($time));
+                $verificationToken = base64_encode($shopid . '-' . $user->email. '-' .$apprveTime);
+                $checkval="5";
+                $message='Shop Successfully Approved';
+                $email = new EmailVerification($verificationToken, $user->name, $user->email, $checkval, $message);
+                Mail::to($user->email)->send($email);
+            }
+
+        }
+
+        function AdmshopDeletePage(Request $request)
+        {
+            $userRole = session('user_role');
+            $userId = session('user_id');
+            if($userId==''){
+                return redirect()->route('logout');
+            }
+            $loggedUserIp=$_SERVER['REMOTE_ADDR'];
+            $time=date('Y-m-d H:i:s');
+            $shopid         = $request->input('userid');
+            $sellerDetail   = SellerDetails::find($shopid);
+            $user           = UserAccount::find($sellerDetail->user_id);
+            $deltesellerDetail=$sellerDetail->delete();
+            $delteuser        =$user->delete();
+            $msg="Shop Deleted =  ".$user->email." shop updated id : ".$sellerDetail->user_id;
+            $LogDetails = new LogDetails();
+            $LogDetails->user_id = $user->email;
+            $LogDetails->ip_address = $loggedUserIp;
+            $LogDetails->log_time = $time;
+            $LogDetails->status = $msg;
+            $LogDetails->save();
+            if(($deltesellerDetail>0) && ($delteuser>0)){
+                return response()->json(['result' => 1,'mesge'=>'Deleted Successfully']);
+            }
+            else{
+                return response()->json(['result' => 2,'mesge'=>'Failed']);
+            }
+
+        }
 
 }

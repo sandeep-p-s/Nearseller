@@ -18,8 +18,9 @@ class EmailVerification extends Mailable
     public $checkval;
     public $otpMessage;
     public $passwdVal;
-    public $refidId;
-
+    //public $refidId;
+    public $ApprovedTime;
+    public $ApprovedMessage;
 
 
     public function __construct($verificationToken, $userName, $userEmail,$checkval,$otpMessage)
@@ -28,12 +29,14 @@ class EmailVerification extends Mailable
         $verificationTkn = base64_decode($typevals);
         $verifcatnval=explode('-',$verificationTkn);
         $this->passwdVal = $verifcatnval[2];
-        $this->refidId = $verifcatnval[3];
+        //$this->refidId = $verifcatnval[3];
         $this->verificationToken = $verificationToken;
         $this->userName = $userName;
         $this->userEmail = $userEmail;
         $this->checkval = $checkval;
         $this->otpMessage = $otpMessage;
+        $this->ApprovedTime = $verifcatnval[2];
+        $this->ApprovedMessage = $otpMessage;
     }
 
 
@@ -55,10 +58,15 @@ class EmailVerification extends Mailable
             $subject = 'Reset Password';
             return $this->from('itsuportshyzventures@gmail.com', 'NEAR SELLERS')->subject($subject)->view('emails.resetpasswd_verification');
         }
-        if($this->checkval==4)
+        else if($this->checkval==4)
         {
             $subject = 'Email ID Verification';
             return $this->from('itsuportshyzventures@gmail.com', 'NEAR SELLERS')->subject($subject)->view('emails.admemail_verification');
+        }
+        else if($this->checkval==5)
+        {
+            $subject = 'Approved Registered Shop';
+            return $this->from('itsuportshyzventures@gmail.com', 'NEAR SELLERS')->subject($subject)->view('emails.admshop_approved');
         }
 
 

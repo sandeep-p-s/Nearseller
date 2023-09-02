@@ -1,3 +1,5 @@
+
+
 @if($sellerCount > 0)
 <table id="datatable" class="table table-striped table-bordered" >
         <thead>
@@ -39,8 +41,8 @@
                                 <i class="mdi mdi-chevron-down"></i></button>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item view_btn1" href="#" onclick="shopvieweditdet({{ $sellerDetail->id }})">View/Edit</a>
-                                <a class="dropdown-item approve_btn" href="#">Approve</a>
-                                <a class="dropdown-item delete_btn" href="#">Delete</a>
+                                <a class="dropdown-item approve_btn" href="#" onclick="shopapprovedet({{ $sellerDetail->id }})">Approved</a>
+                                <a class="dropdown-item delete_btn" href="#" onclick="shopdeletedet({{ $sellerDetail->id }})">Delete</a>
                             </div>
                         </div>
                     </td>
@@ -120,12 +122,36 @@
                             </select>
                             <label for="s_shopexectename" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3">
-                            <input type="text" id="s_lisence" name="s_lisence" class="form-control form-control-lg"  maxlength="25"  placeholder="License Number" required  tabindex="10"/>
-                            <label for="s_lisence" class="error"></label>
-                        </div>
 
-                    </div>
+                            <div class="form-outline mb-3">
+                                <div class="row mb-5">
+                                    <div class="col-md-3 fv-row fv-plugins-icon-container">
+                                        <select class="form-select form-control form-control-lg" id="mediatype" name="mediatype[1]"  tabindex="21">
+                                            <option selected="">Choose...</option>
+                                            <option value="1">Facebook</option>
+                                            <option value="2">Instagram</option>
+                                            <option value="3">Linked In</option>
+                                            <option value="4">Web site URL</option>
+                                            <option value="5">Youtub Video URL</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-9 fv-row fv-plugins-icon-container">
+                                        <div class="input-group">
+                                            <input type="text"  id="mediaurl" name="mediaurl[1]" class="form-control form-control-lg" placeholder="https://"  value="" tabindex="22"  maxlength="60"/>
+                                            <div align="right">
+                                                <a href="#" id="addMoreurls" name="add_fieldurl" class="btn icon btn-success">+</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="addedUrls"></div>
+
+                            </div>
+
+
+
+                        </div>
 
 
 
@@ -189,11 +215,10 @@
                     </div>
                     <div class="col-md-4">
 
-
-
-
-
-
+                        <div class="form-outline mb-3">
+                            <input type="text" id="s_lisence" name="s_lisence" class="form-control form-control-lg"  maxlength="25"  placeholder="License Number" required  tabindex="10"/>
+                            <label for="s_lisence" class="error"></label>
+                        </div>
 
                         <div class="form-outline mb-3">
                             <input type="text" id="s_gstno" name="s_gstno"  maxlength="25"  class="form-control form-control-lg" placeholder="GST Number" required   tabindex="20" />
@@ -231,6 +256,15 @@
                             <label for="s_registerdate" class="error"></label>
                         </div>
 
+                        <div class="form-outline mb-3">
+                            <textarea id="manufactringdets" name="manufactringdets" placeholder="Manufactoring Details" class="form-control form-control-lg"  tabindex="25" required ></textarea>
+                            <label for="manufactringdets" class="error"></label>
+                        </div>
+
+
+
+
+
 
 
                         {{-- <div class="form-outline  mb-2">
@@ -243,7 +277,7 @@
                         </div> --}}
 
                         <div class="checkbox form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="s_termcondtn" name="s_termcondtn" value="1" required tabindex="25" >
+                            <input class="form-check-input" type="checkbox" id="s_termcondtn" name="s_termcondtn" value="1" required tabindex="26" >
                             <label class="inlineCheckbox1" for="s_termcondtn"> Accept Terms & Conditions </label>
                         </div>
 
@@ -261,6 +295,8 @@
                     <div class="col-md-12">
                         <div id="shopreg-message"  class="text-center" style="display: none;"></div>
                     </div>
+
+
                  </div>
                 </div>
                 </form>
@@ -500,6 +536,10 @@
                 s_registerdate: {
                     required: true,
                 },
+                manufactringdets: {
+                    required: true,
+                },
+
                 // s_paswd: {
                 //     required: true,
                 //     minlength: 6,
@@ -652,6 +692,25 @@
             });
             }
             });
+
+
+
+            var mm = 1;
+            $(document).ready(function(){
+                $('#addMoreurls').click(function(event){
+                    event.preventDefault();
+                        mm++;
+                        var recRowm = '<div class="row mb-5" id="addedfieldurl'+mm+'"><div class="col-md-3 fv-row fv-plugins-icon-container"><select class="form-select form-control form-control-lg" id="mediatype'+mm+'" name="mediatype['+mm+']"><option selected="">Choose...</option><option value="1">Facebook</option><option value="2">Instagram</option><option value="3">Linked In</option><option value="4">Web site URL</option><option value="5">Youtub Video URL</option></select></div><div class="col-md-9 fv-row fv-plugins-icon-container"><div class="input-group"><input type="text"  id="mediaurl'+mm+'" name="mediaurl['+mm+']" class="form-control form-control-lg" placeholder="https://"  value="" tabindex="22"  maxlength="60"/><div align="right"><button id="removeRowurl'+mm+'" type="button" name="add_fieldurl" class="btn btn-danger" onclick="removeRowurl('+mm+');" >-</button></div></div></div>';
+                    $('#addedUrls').append(recRowm);
+                });
+            });
+
+            function removeRowurl(rowNum){
+                    $('#addedfieldurl'+rowNum).remove();
+                }
+
+
+
 
 
 

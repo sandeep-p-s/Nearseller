@@ -14,12 +14,12 @@
         {{-- <script src="{{ asset('backend/assets/js/jquery.min.js') }}"></script> --}}
         <script src="{{ asset('backend/assets/js/bootstrap.bundle.min.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="{{ asset('backend/assets/js/jquery-ui.min.js') }}"></script>
+        <script src="{{ asset('backend/assets/js/moment.js') }}"></script>
         <script src="{{ asset('backend/assets/js/metismenu.min.js') }}"></script>
         <script src="{{ asset('backend/assets/js/waves.js') }}"></script>
         <script src="{{ asset('backend/assets/js/feather.min.js') }}"></script>
         <script src="{{ asset('backend/assets/js/simplebar.min.js') }}"></script>
-        <script src="{{ asset('backend/assets/js/jquery-ui.min.js') }}"></script>
-        <script src="{{ asset('backend/assets/js/moment.js') }}"></script>
         {{-- <script src="{{ asset('backend/plugins/daterangepicker/daterangepicker.js') }}"></script> --}}
 
         <!-- Required datatable js -->
@@ -52,7 +52,9 @@
             }, 0);
             });
 
-
+            $(document).ready(function() {
+                $('.carousel').carousel();
+            });
 
 
 

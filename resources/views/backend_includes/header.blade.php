@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Nearseller</title>
+    <title>Nearsellers</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="" name="author" />
@@ -74,6 +74,17 @@
         max-width: 100%;
         width: 100%;
         margin: 0;
+    }
+
+    .mySlides {display:none}
+    .w3-left, .w3-right, .w3-badge {cursor:pointer}
+    .w3-badge {height:13px;width:13px;padding:0}
+
+    .new_hr
+    {
+        margin-top: 8px;
+        margin-bottom: 8px;
+
     }
 
 
