@@ -4,7 +4,7 @@
 .left-sidenav {
     min-width: 250px;
     max-width: 250px;
-    
+
     min-height: 100vh;
     -webkit-box-shadow: 0px 0px 3px rgba(31, 30, 47, 0.05);
     /* box-shadow: 0px 0px 3px rgba(31, 30, 47, 0.05); */
@@ -35,7 +35,7 @@
     height:35px;
     margin-left: 2px;
     display: inline-block;
-    
+
 }
 
 .left-sidenav .brand .logo .logo-lg.logo-light {
@@ -1381,10 +1381,10 @@ hr.hr-dashed {
 
 /*!
  * Waves v0.7.6
- * http://fian.my.id/Waves 
- * 
- * Copyright 2014-2018 Alfiana E. Sibuea and other contributors 
- * Released under the MIT license 
+ * http://fian.my.id/Waves
+ *
+ * Copyright 2014-2018 Alfiana E. Sibuea and other contributors
+ * Released under the MIT license
  * https://github.com/fians/Waves/blob/master/LICENSE */
 .waves-effect {
     position: relative;
@@ -2301,7 +2301,8 @@ a.ui-button:active,
 .table th {
     color: #303e67;
     font-weight: 500;
-    vertical-align: middle
+    vertical-align: middle;
+    font-size: 13px;
 }
 
 .table td {
@@ -2339,7 +2340,8 @@ a.ui-button:active,
 }
 
 .table td {
-    vertical-align: middle
+    vertical-align: middle;
+    font-size: 13px;
 }
 
 .table td.highlight {

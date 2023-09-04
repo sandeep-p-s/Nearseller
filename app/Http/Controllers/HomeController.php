@@ -154,14 +154,15 @@ class HomeController extends Controller
     {
         $referalno = $request->input('referalno');
         $numr = $request->input('numr');
-        if($numr==1)
-        {
-            $userAccuntData = UserAccount::where('referal_id', $referalno)->get();
-        }
-        else if($numr==2)
-        {
-            $userAccuntData = SellerDetails::where('referal_id', $referalno)->get();
-        }
+        // if($numr==1)
+        // {
+        //     $userAccuntData = UserAccount::where('referal_id', $referalno)->get();
+        // }
+        // else if($numr==2)
+        // {
+        //     $userAccuntData = SellerDetails::where('referal_id', $referalno)->get();
+        // }
+        $userAccuntData = Affiliate::where('referal_id', $referalno)->get();
         $cnt = count($userAccuntData);
         if ($cnt == 0) {
             return response()->json(['result' => 1]);
@@ -968,6 +969,7 @@ class HomeController extends Controller
             $user->role_id=2;
             $user->forgot_pass=$request->s_paswd;
             $user->user_status='N';
+            $user->ip=$loggedUserIp;
             $submt=$user->save();
             $lastRegId = $user->toSql();
             $last_id = $user->id;
@@ -1043,7 +1045,7 @@ class HomeController extends Controller
                 $verificationToken = base64_encode($last_id . '-' . $request->s_email);
                 $checkval="1";
                 $message='';
-                $email = new EmailVerification($verificationToken, $request->u_name, $request->s_email, $checkval, $message);
+                $email = new EmailVerification($verificationToken, $request->s_name, $request->s_email, $checkval, $message);
                 Mail::to($request->s_email)->send($email);
 
             } else {
@@ -1079,6 +1081,7 @@ class HomeController extends Controller
             $user->role_id=3;
             $user->forgot_pass=$request->a_paswd;
             $user->user_status='N';
+            $user->ip=$loggedUserIp;
             $submt=$user->save();
             $lastRegId = $user->toSql();
             $last_id = $user->id;
@@ -1124,7 +1127,7 @@ class HomeController extends Controller
                     $affliteDetail->aadhar_file = $jsonimages;
                 }
                 $affliteDetail->user_id = $last_id;
-                $maxId = $affliteDetail->max('shop_regid');
+                $maxId = $affliteDetail->max('affiliate_reg_id');
                 if ($maxId) {
                     $nextId = $maxId + 1;
                 } else {

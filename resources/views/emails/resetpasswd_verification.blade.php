@@ -62,7 +62,7 @@
                     <th align="left" valign="top" style="padding-left:30px;padding-right:15px;padding-bottom:10px;
                     font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">&nbsp;Web Site :&nbsp;</th>
                     <td align="left" valign="top" style="padding-left:15px;padding-right:30px;padding-bottom:10px;
-                    font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">http://nearsellerdemo/</td>
+                    font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">https://www.nearsellers.com/</td>
                 </tr>
 
                 </table>
