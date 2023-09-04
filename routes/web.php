@@ -63,11 +63,6 @@ Route::controller(AdminController::class)->group(function (){
     Route::post('shopApproved', 'AdmshopApproved')->name('shopApproved');
     Route::post('AdmsellerApproved', 'AdmsellerApprovedPage')->name('AdmsellerApproved');
     Route::post('shopDelete', 'AdmshopDeletePage')->name('shopDelete');
-//Route::group(['middleware' => 'auth'], function () {
-    Route::controller(AdminController::class)->group(function () {
-        Route::get('dashboard', 'admindashboard')->name('admin.dashboard');
-        Route::get('shopapprovals', 'ShopApproval')->name('admin.shopapprovals');
-        Route::get('allshopsview', 'AllShopsList')->name('admin.allshopsview');
     });
 
     Route::controller(RoleController::class)->group(function () {
