@@ -16,7 +16,8 @@
 
                             </div>
                             <div class="col-auto align-self-center">
-                                <a href="{{ route('add.businesstype') }}"><button type="button" class="btn add_btn ">Roles </button></a>
+                                <a href="{{ route('add.role') }}"><button type="button" class="btn add_btn ">Add Role
+                                    </button></a>
                             </div><!--end col-->
 
 
@@ -44,22 +45,22 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-
                         <div class="card-body">
-                            <table id="datatable" class="table table-bordered dt-responsive nowrap"
-                                style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <table id="datatable" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Business Type</th>
+                                        <th>Role Title</th>
+                                        <th>Permissions</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($businesstype as $bt)
+                                    @foreach ($rolesList as $role)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $bt->business_name }}</td>
+                                            <td>{{ $role['role_name'] }}</td>
+                                            <td>{{ $role['permissions'] }}</td>
                                             <td>
                                                 <div class="btn-group mb-2 mb-md-0">
                                                     <button type="button" class="btn view_btn dropdown-toggle"
@@ -68,19 +69,22 @@
                                                             class="mdi mdi-chevron-down"></i></button>
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item view_btn1"
-                                                            href="{{ route('edit.businesstype', $bt->id) }}">Edit</a>
-                                                        <a class="dropdown-item delete_btn"
-                                                            href="{{ route('delete.businesstype', $bt->id) }}"
-                                                            onclick="return confirm('Are you sure you want to delete?')">Delete</a>
+                                                            href="{{ route('edit.role', ['id' => $role['id']]) }}">Edit</a>
+                                                            {{-- <form action="">
+                                                                @csrf
+                                                        <button class="dropdown-item toggle-active-btn"
+                                                            data-role-id="{{ $role['id'] }}"
+                                                            data-is-active="{{ $role['is_active'] }}">
+                                                            {{ $role['is_active'] ? 'Inactive' : 'Active' }}
+                                                        </button>
+                                                    </form> --}}
                                                     </div>
                                                 </div>
                                             </td>
-
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
-
                         </div>
                     </div>
                 </div> <!-- end col -->

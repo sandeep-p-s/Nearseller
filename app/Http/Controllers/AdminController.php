@@ -20,8 +20,11 @@ class AdminController extends Controller
     {
         $userRole   = session('user_role');
         $userId     = session('user_id');
-        if($userId==''){return redirect()->route('logout');}
-        $loggeduser     = UserAccount::seesionValuereturn($userRole);
+        if($userId=='')
+        {
+            return redirect()->route('logout');
+        }
+        $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $countUsers     = DB::table('user_account')->where('role_id', 4)->count();
         $countAffiliate = DB::table('user_account')->where('role_id', 3)->count();
@@ -34,7 +37,7 @@ class AdminController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         if($userId==''){return redirect()->route('logout');}
-        $loggeduser     = UserAccount::seesionValuereturn($userRole);
+        $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         return view('admin.shop_approval',compact('userdetails','userRole','loggeduser'));
     }

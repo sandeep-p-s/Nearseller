@@ -12,7 +12,7 @@
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-                                <h4 class="page-title">Add Role</h4>
+                                <h4 class="page-title">Edit Role</h4>
 
                             </div>
 
@@ -39,16 +39,20 @@
                             </div>
                         @endif
                         <div class="card-body">
-                            <form method="POST" action="{{ route('store.role') }}">
+                            <form method="POST" action="{{ route('update.role', ['id' => $role['id']]) }}">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="addRoleType">Add Role</label>
-                                    <select class="form-select form-control" aria-label="Default select example" id="role_name" name="role_name">
+                                    <label for="addRoleType">Edit Role</label>
+                                    <select class="form-select form-control" aria-label="Default select example"
+                                        id="role_name" name="role_name">
                                         <option value="">Select Role</option>
-                                            @foreach ($roles as $rl)
-                                                <option value="{{ $rl->id }}">{{ $rl->role_name }}</option>
-                                            @endforeach
+                                        @foreach ($roles as $key => $data)
+                                            <option value="{{ $key }}"
+                                                @if ($key == $rs->role_id) selected @endif>{{ $data }}
+                                            </option>
+                                        @endforeach
                                     </select>
+
                                 </div>
                                 <b style="font-size: 15px;">Grant Permissions</b>
                                 @foreach ($site_module as $perm)
@@ -62,7 +66,8 @@
                                                     @if (!$data->is_disabled)
                                                         <span class="checkspan">
                                                             <input class="form-check-input" type="checkbox"
-                                                                value={{ $data->id }} name="perm[]">
+                                                                value="{{ $data->id }}" name="perm[]"
+                                                                @if (in_array($data->id, $selectedRolePermissions)) checked @endif>
                                                         </span>
                                                         <span class="checkdata">{{ $data->description }}</span>
                                                     @endif
@@ -71,7 +76,7 @@
                                         </div>
                                     </div>
                                 @endforeach
-                                <button type="submit" class="btn view_btn">Add</button>
+                                <button type="submit" class="btn view_btn">Update</button>
                             </form>
                         </div><!--end card-body-->
                     </div><!--end card-->
