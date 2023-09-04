@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>One Time Password</title>
+    <title>Email Verification</title>
 </head>
 <body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -38,33 +38,52 @@
                 <tr>
                     <td colspan="2" style="padding-left:30px;padding-right:15px;padding-bottom:10px; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 25px;">
                     <h4 style="margin:0;">Dear {{ $userName }},</h4>
-                    <p><b>Verify your one time password</b></p>
+                    <p><b>Approved Registered Shop</b></p>
                     </td>
                 </tr>
-
-                <tr>
-                    <th align="left" valign="top" style="padding-left:30px;padding-right:15px;padding-bottom:10px;
-                    font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">&nbsp;One Time Password &nbsp;</th>
-                    <td align="left" valign="top" style="padding-left:15px;padding-right:30px;padding-bottom:10px;
-                    font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">&nbsp;{{ $otpMessage }}</td>
-                </tr>
-
-
                 <tr>
                     <th align="left" valign="top" style="padding-left:30px;padding-right:15px;padding-bottom:10px;
                     font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">&nbsp;Email :&nbsp;</th>
                     <td align="left" valign="top" style="padding-left:15px;padding-right:30px;padding-bottom:10px;
                     font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">&nbsp;{{ $userEmail }}</td>
                 </tr>
-
-
+                <tr>
+                    <th align="left" valign="top" style="padding-left:30px;padding-right:15px;padding-bottom:10px;
+                    font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">&nbsp;Status :&nbsp;</th>
+                    <td align="left" valign="top" style="padding-left:15px;padding-right:30px;padding-bottom:10px;
+                    font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">&nbsp;{{ $ApprovedMessage }}</td>
+                </tr>
+                <tr>
+                    <th align="left" valign="top" style="padding-left:30px;padding-right:15px;padding-bottom:10px;
+                    font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">&nbsp;Approved Time :&nbsp;</th>
+                    <td align="left" valign="top" style="padding-left:15px;padding-right:30px;padding-bottom:10px;
+                    font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">&nbsp;{{ $ApprovedTime }}</td>
+                </tr>
                 <tr>
                     <th align="left" valign="top" style="padding-left:30px;padding-right:15px;padding-bottom:10px;
                     font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">&nbsp;Web Site :&nbsp;</th>
                     <td align="left" valign="top" style="padding-left:15px;padding-right:30px;padding-bottom:10px;
                     font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">https://www.nearsellers.com/</td>
                 </tr>
-
+                </table>
+            </td>
+            </tr>
+            <tr>
+            <td bgcolor="#ffffff" align="center">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td bgcolor="#ffffff" align="center" style="padding: 30px 30px 30px 30px; border-top:1px solid #dddddd;">
+                    <table border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                        <td align="left" style="border-radius: 3px;" bgcolor="#426899">
+                            <a href="http://nearsellerdemo/verifyMail/{{ $verificationToken }}" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif;
+                            color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; padding: 11px 22px;
+                            border-radius: 2px; border: 1px solid #426899; display: inline-block;">Verify</a>
+                        </td>
+                        </tr>
+                    </table>
+                    </td>
+                </tr>
                 </table>
             </td>
             </tr>
