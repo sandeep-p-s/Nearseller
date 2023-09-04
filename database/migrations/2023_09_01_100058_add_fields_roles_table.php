@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('roles_permissions', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('role_id');
-            $table->unsignedBigInteger('permission_id');
-            $table->timestamps();
+        Schema::table('roles', function (Blueprint $table) {
+            $table->tinyInteger('is_active')->default('0')->comment("0 -> Inactive ,1 -> Active");
+
         });
     }
 
@@ -24,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('roles_permissions');
+        Schema::table('roles', function (Blueprint $table) {
+            $table->dropColumn('is_active');
+        });
     }
 };

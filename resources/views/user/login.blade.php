@@ -472,23 +472,9 @@
                                     <div class="form-outline  mb-2">
                                         <div id="afflitereg-message"  class="text-center" style="display: none;"></div>
                                     </div>
-
                                 </form>
-
                             </div>
-
-
-
-
-
-
-
                         </div>
-
-
-
-
-
                         <div class="Reset_password" style="display: none;" id="password_reset">
                             <h5 class="mb-3 pb-3 mt-5 text-center">Reset Password</h5>
                             <form id="ResetPasswd">

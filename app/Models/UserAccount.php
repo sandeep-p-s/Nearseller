@@ -16,7 +16,7 @@ class UserAccount extends Model
     {
         return $this->belongsTo(Role::class);
     }
-    protected function seesionValuereturn($userRole)
+    protected function sessionValuereturn($userRole)
     {
         if ($userRole === 'Super_admin') {
             $loggeduser='Super Admin';

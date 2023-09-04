@@ -4,14 +4,19 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Models\ServiceType;
+use App\Models\UserAccount;
 use Illuminate\Http\Request;
 
 class ServiceTypeController extends Controller
 {
     public function list_service_type()
     {
+        $userRole = session('user_role');
+        $userId = session('user_id');
+        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $servicetype = DB::table('service_types')->get();
-        return view('admin.service_type.list', compact('servicetype'));
+        return view('admin.service_type.list', compact('servicetype','userdetails','loggeduser'));
     }
 
     public function add_service_type()
