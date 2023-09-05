@@ -394,11 +394,11 @@
                                     </div>
                                     <div class="form-outline mb-3">
                                         <input type="email" id="a_email" name="a_email" class="form-control form-control-lg"  maxlength="35"  placeholder="Enter Email" required tabindex="3"  onchange="exstemilid(this.value,'3')" />
-                                        <label for="s_email" class="error"></label>
+                                        <label for="a_email" class="error"></label>
                                         <div id="aemil-message"  class="text-center" style="display: none;"></div>
                                     </div>
 
-                                    <div class="form-outline mb-3">
+                                    <div class="form-outline mb-3"><label class="w-100">Date of Birth</label>
                                         <input type="date" id="a_dob" name="a_dob" class="form-control form-control-lg" placeholder="Date of birth" required tabindex="4" maxlength="10" max="{{ date('Y-m-d') }}" />
                                         <label for="a_dob" class="error"></label>
                                     </div>
