@@ -164,19 +164,14 @@ class RoleController extends Controller
         return redirect()->route('get.roles')->with('success', 'Permissions updated successfully');
     }
 
-    // public function toggleRoleStatus(Request $request)
-    // {
-    //     $roleId = $request->input('roleId');
-    //     $isActive = $request->input('is_active'); // 1 for active, 0 for inactive
-    //     //dd($isActive);
-    //     // Update the role's is_active field in the database based on the $isActive value
-    //     $role = Role::find($roleId);
+    public function updateActivation($id)
+    {
+        // Find the role by ID
+        $role = Role::findOrFail($id);
 
-    //     if ($role) {
-    //         $role->update(['is_active' => !$isActive]);
-    //         return response()->json(['success' => true]);
-    //     }
+        // Toggle the is_active status
+        $role->update(['is_active' => !$role->is_active]);
 
-    //     return response()->json(['success' => false]);
-    // }
+        return response()->json(['message' => 'Activation status updated successfully']);
+    }
 }

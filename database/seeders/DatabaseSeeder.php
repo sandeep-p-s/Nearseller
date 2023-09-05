@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionSeeder::class);
         $this->call(UseraccountSeeder::class);
         $this->call(SiteModuleSeeder::class);
+        $this->call(MaritalstatusSeeder::class);
 
     }
 }
