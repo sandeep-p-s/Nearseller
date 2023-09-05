@@ -56,20 +56,6 @@
                 $('.carousel').carousel();
             });
 
-
-
-            // $(document).ready(function() {
-            //     $('.timepicker').timepicker({
-            //         showMeridian: true,
-            //         minuteStep: 15,
-            //         defaultTime: false
-            //     });
-            // });
-
-
-
-
-
         </script>
 
     </body>

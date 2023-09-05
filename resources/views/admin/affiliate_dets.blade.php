@@ -1,17 +1,16 @@
 
 
-@if($sellerCount > 0)
+@if($AffiliateCount > 0)
 <table id="datatable" class="table table-striped table-bordered" >
         <thead>
             <tr>
                 <th>SINO</th>
                 <th>Reg. ID</th>
                 <th>Shop Name</th>
-                <th>Owner Name</th>
                 <th>Email</th>
                 <th>Mobile</th>
-                {{-- <th>Address</th>
                 <th>Referral ID</th>
+                {{-- <th>Address</th>
                 <th>Business Type</th>
                 <th>Service Type</th>
                 <th>Executive Name</th>
@@ -20,16 +19,16 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($sellerDetails as $index => $sellerDetail)
+            @foreach($AffiliateDetails as $index => $AffDetails)
                 <tr>
                     <td>{{ $index + 1 }}</td>
-                    <td>{{ $sellerDetail->shop_reg_id }}</td>
-                    <td>{{ $sellerDetail->shop_name }}</td>
-                    <td>{{ $sellerDetail->owner_name }}</td>
-                    <td>{{ $sellerDetail->shop_email }}</td>
-                    <td>{{ $sellerDetail->shop_mobno }}</td>
+                    <td>{{ $AffDetails->affiliate_reg_id }}</td>
+                    <td>{{ $AffDetails->name }}</td>
+                    {{-- <td>{{ $sellerDetail->owner_name }}</td> --}}
+                    <td>{{ $AffDetails->email }}</td>
+                    <td>{{ $AffDetails->mob_no }}</td>
+                    <td>{{ $AffDetails->referal_id }}</td>
                     {{-- <td>{{ $sellerDetail->house_name_no.','. $sellerDetail->locality.','. $sellerDetail->village.','.$sellerDetail->District->district_name.','.$sellerDetail->State->state_name.','. $sellerDetail->Country->country_name }}</td>
-                    <td>{{ $sellerDetail->referal_id }}</td>
                     <td>{{ $sellerDetail->businessType->business_name }}</td>
                     <td>{{ $sellerDetail->serviceType->service_name }}</td>
                     <td>{{ $sellerDetail->executive->executive_name }}</td>
@@ -40,9 +39,9 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action
                                 <i class="mdi mdi-chevron-down"></i></button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item view_btn1" href="#" onclick="shopvieweditdet({{ $sellerDetail->id }})">View/Edit</a>
-                                <a class="dropdown-item approve_btn" href="#" onclick="shopapprovedet({{ $sellerDetail->id }})">Approved</a>
-                                <a class="dropdown-item delete_btn" href="#" onclick="shopdeletedet({{ $sellerDetail->id }})">Delete</a>
+                                <a class="dropdown-item view_btn1" href="#" onclick="shopvieweditdet({{ $AffDetails->id }})">View/Edit</a>
+                                <a class="dropdown-item approve_btn" href="#" onclick="shopapprovedet({{ $AffDetails->id }})">Approved</a>
+                                <a class="dropdown-item delete_btn" href="#" onclick="shopdeletedet({{ $AffDetails->id }})">Delete</a>
                             </div>
                         </div>
                     </td>
@@ -65,147 +64,117 @@
     <div class="modal-dialog custom-modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-center" id="addNewModalLabel">Add New Shops</h5>
+                <h5 class="modal-title text-center" id="addNewModalLabel">Add New Affiliate</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" title="Close">x</button>
             </div>
             <div class="modal-body">
-
-
-                <form id="SellerRegForm" enctype="multipart/form-data" method="POST">
+                <form id="AffilateRegForm" enctype="multipart/form-data" method="POST">
                 <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Shop Name</label>
-                            <input type="text" id="s_name" name="s_name" class="form-control form-control-lg" maxlength="50"  placeholder="Shop Name" required  tabindex="1" />
-                            <label for="s_name" class="error"></label>
-                        </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Owner Name</label>
-                            <input type="text" id="s_ownername" name="s_ownername" class="form-control form-control-lg"  maxlength="50"   placeholder="Owner Name" required tabindex="2" />
-                            <label for="s_ownername" class="error"></label>
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Affiliate Name</label>
+                            <input type="text" id="a_name" name="a_name" class="form-control form-control-lg" maxlength="50"  placeholder="Affiliate Name" required  tabindex="1" />
+                            <label for="a_name" class="error"></label>
                         </div>
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Mobile Number</label>
-                            <input type="text" id="s_mobno" name="s_mobno" class="form-control form-control-lg"  maxlength="10"  placeholder="Mobile No" required tabindex="3"  onchange="exstmobno(this.value,'2')" />
-                            <label for="s_mobno" class="error"></label>
-                            <div id="smob-message"  class="text-center" style="display: none;"></div>
+                            <input type="text" id="a_mobno" name="a_mobno" class="form-control form-control-lg"  maxlength="10"  placeholder="Mobile No" required tabindex="3"  onchange="exstmobno(this.value,'3')" />
+                            <label for="a_mobno" class="error"></label>
+                            <div id="amob-message"  class="text-center" style="display: none;"></div>
                         </div>
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Email ID</label>
-                            <input type="email" id="s_email" name="s_email" class="form-control form-control-lg"  maxlength="35"  placeholder="Email ID" required tabindex="4"  onchange="exstemilid(this.value,'2')" />
-                            <label for="s_email" class="error"></label>
+                            <input type="email" id="a_email" name="a_email" class="form-control form-control-lg"  maxlength="35"  placeholder="Email ID" required tabindex="4"  onchange="exstemilid(this.value,'3')" />
+                            <label for="a_email" class="error"></label>
                             <div id="semil-message"  class="text-center" style="display: none;"></div>
                         </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Referral ID</label>
+                        <div class="form-outline mb-3"><label class="w-100">Date of Birth</label>
+                            <input type="date" id="a_dob" name="a_dob" class="form-control form-control-lg" placeholder="Date of birth" required tabindex="4" maxlength="10" max="{{ date('Y-m-d') }}" />
+                            <label for="a_dob" class="error"></label>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Gender</label><br>
+                                <div class="form-check-inline">
+                                    <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="gendrradio" id="gendrradio" value="M" >Male
+                                    </label>
+                                </div>
+                                <div class="form-check-inline">
+                                    <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="gendrradio" id="gendrradio" value="F" >Female
+                                    </label>
+                                </div>
+                        </div>
+                        {{-- <div class="form-outline mb-3"><label class="lblname" for="lblname">Referral ID</label>
                             <input type="text" id="s_refralid" name="s_refralid" class="form-control form-control-lg"  maxlength="50"  placeholder="Referral ID" tabindex="5" onchange="checkrefrelno(this.value,'1')"/>
                             <div id="s_refralid-message"  class="text-center" style="display: none;"></div>
-                        </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Business Type</label>
-                            <select class="form-select form-control form-control-lg" id="s_busnestype" name="s_busnestype"  required tabindex="6">
-                                <option value="" >Business Type</option><br/>
-                                    @foreach ($business as $busnes)
-                                        <option value="{{ $busnes->id }}">{{ $busnes->business_name }}</option>
+                        </div> --}}
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Professions</label>
+                            <select class="form-select form-control form-control-lg" id="s_professions" name="s_professions"  required tabindex="6">
+                                <option value="" >Professions</option><br/>
+                                    @foreach ($professions as $profes)
+                                        <option value="{{ $profes->id }}">{{ $profes->profession_name }}</option>
                                     @endforeach
                             </select>
-                            <label for="s_busnestype" class="error"></label>
+                            <label for="s_professions" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Shop / Service Type</label>
-                            <select class="form-select form-control form-control-lg" id="s_shopservice" name="s_shopservice" required tabindex="7">
-                                <option value="">Shop/Service Type</option><br/>
-                                @foreach ($shopservice as $shopser)
-                                        <option value="{{ $shopser->id }}">{{ $shopser->service_name }}</option>
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Marital Status</label>
+                            <select class="form-select form-control form-control-lg" id="a_marital" name="a_marital" required tabindex="7">
+                                <option value="">Marital Status</option><br/>
+                                @foreach ($matstatus as $ma_status)
+                                        <option value="{{ $ma_status->id }}">{{ $ma_status->mr_name }}</option>
                                     @endforeach
                             </select>
-                            <label for="s_shopservice" class="error"></label>
+                            <label for="a_marital" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Shop Executive Name</label>
-                            <select class="form-select form-control form-control-lg" id="s_shopexectename" name="s_shopexectename" required tabindex="8" >
-                                <option value="">Shop Executive Name</option><br/>
-                                    @foreach ($executives as $exec)
-                                        <option value="{{ $exec->id }}">{{ $exec->executive_name }}</option>
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Religion</label>
+                            <select class="form-select form-control form-control-lg" id="a_religion" name="v" required tabindex="8" >
+                                <option value="">Religion</option><br/>
+                                    @foreach ($religions as $relgn)
+                                        <option value="{{ $relgn->id }}">{{ $relgn->religion_name }}</option>
                                     @endforeach
                             </select>
-                            <label for="s_shopexectename" class="error"></label>
+                            <label for="a_religion" class="error"></label>
                         </div>
 
-                            <div class="form-outline mb-3"><label class="lblname" for="lblname">Social Media</label>
-                                <div class="row mb-5">
-                                    <div class="col-md-3 fv-row fv-plugins-icon-container">
-                                        <select class="form-select form-control form-control-lg" id="mediatype" name="mediatype[1]"  tabindex="21">
-                                            <option selected="">Choose...</option>
-                                            <option value="1">Facebook</option>
-                                            <option value="2">Instagram</option>
-                                            <option value="3">Linked In</option>
-                                            <option value="4">Web site URL</option>
-                                            <option value="5">Youtub Video URL</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="col-md-9 fv-row fv-plugins-icon-container">
-                                        <div class="input-group">
-                                            <input type="text"  id="mediaurl" name="mediaurl[1]" class="form-control form-control-lg" placeholder="https://"  value="" tabindex="22"  maxlength="60"/>
-                                            <div align="right">
-                                                <a href="#" id="addMoreurls" name="add_fieldurl" class="btn icon btn-success">+</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="addedUrls"></div>
+                            <div class="form-outline mb-3"><label class="lblname" for="lblname">Aadhaar Number</label>
+                                <input type="text" id="a_aadharno" name="a_aadharno" class="form-control form-control-lg" placeholder="Aadhaar Number" required tabindex="9" maxlength="12" />
+                                <label for="a_aadharno" class="error"></label>
 
                             </div>
+                            <div class="form-outline mb-3"><label class="lblname" for="lblname">Locality</label>
+                                <input type="text" id="a_locality" name="a_locality"  maxlength="100"  class="form-control form-control-lg"placeholder="Locality" required  tabindex="12" />
+                                <label for="a_locality" class="error"></label>
+                            </div>
+                            <div class="form-outline mb-3"><label class="lblname" for="lblname">Country</label>
+                                <select class="form-select form-control form-control-lg" name="country"  aria-label="Default select example" id="country" required  tabindex="14" >
+                                    <option value="">Select country</option>
+                                        @foreach ($countries as $country)
+                                            <option value="{{ $country->id }}">{{ $country->country_name }}</option>
+                                        @endforeach
+                                </select>
+                                <label for="country" class="error"></label>
+                            </div>
+                            <div class="form-outline mb-3"><label class="lblname" for="lblname">State</label>
+                                <select class="form-select form-control form-control-lg" name="state" aria-label="Default select example" id="state" required  tabindex="15">
 
+                                </select>
+                                <label for="state" class="error"></label>
+                            </div>
+                            <div class="form-outline mb-3"><label class="lblname" for="lblname">District</label>
+                                <select class="form-select form-control form-control-lg" aria-label="Default select example" id="district" name="district" required  tabindex="16">
 
+                                </select>
+                                <label for="district" class="error"></label>
+                            </div>
 
                         </div>
-
-
 
 
 
 
                     <div class="col-md-4">
-
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Building/House Name & Number</label>
-                            <input type="text" id="s_buldingorhouseno" name="s_buldingorhouseno"  maxlength="100"  class="form-control form-control-lg" placeholder="Building/House Name & Number" required  tabindex="11" />
-                            <label for="s_buldingorhouseno" class="error"></label>
-                        </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Locality</label>
-                            <input type="text" id="s_locality" name="s_locality"  maxlength="100"  class="form-control form-control-lg"placeholder="Locality" required  tabindex="12" />
-                            <label for="s_locality" class="error"></label>
-                        </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Village/Town/Municipality</label>
-                            <input type="text" id="s_villagetown" name="s_villagetown"  maxlength="100"  class="form-control form-control-lg" placeholder="Village/Town/Municipality" required  tabindex="13" />
-                            <label for="s_villagetown" class="error"></label>
-                        </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Country</label>
-                            <select class="form-select form-control form-control-lg" name="country"  aria-label="Default select example" id="country" required  tabindex="14" >
-                                <option value="">Select country</option>
-                                    @foreach ($countries as $country)
-                                        <option value="{{ $country->id }}">{{ $country->country_name }}</option>
-                                    @endforeach
-                            </select>
-                            <label for="country" class="error"></label>
-                        </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">State</label>
-                            <select class="form-select form-control form-control-lg" name="state" aria-label="Default select example" id="state" required  tabindex="15">
-
-                            </select>
-                            <label for="state" class="error"></label>
-                        </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">District</label>
-                            <select class="form-select form-control form-control-lg" aria-label="Default select example" id="district" name="district" required  tabindex="16">
-
-                            </select>
-                            <label for="district" class="error"></label>
-                        </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Pincode</label>
-                            <input type="text" id="s_pincode" name="s_pincode"  maxlength="6"  class="form-control form-control-lg" placeholder="Pin Code" required  tabindex="17" />
-                            <label for="s_pincode" class="error"></label>
-                        </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Google map link location</label>
-                            <input type="text" id="s_googlelink" name="s_googlelink"   id class="form-control form-control-lg"   placeholder="Google map link location" required  tabindex="18" />
-                            <label for="s_googlelink" class="error"></label>
-                        </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Shop Photo's</label>
-                            <input type="file" id="s_photo"  multiple=""  name="s_photo[]" class="form-control form-control-lg" placeholder="Shop Photo" required tabindex="19" accept="image/jpeg, image/png"  />
-                            <label for="s_photo" class="error"></label>
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Aadhar card front & back</label>
+                            <input type="file" id="a_aadharphoto"  multiple=""  name="a_aadharphoto[]" class="form-control form-control-lg" placeholder="Aadhar card front & back" required tabindex="19" accept="image/jpeg, image/png"  />
+                            <label for="a_aadharphoto" class="error"></label>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group" align="left">
@@ -213,76 +182,101 @@
                             </div>
                         </div>
 
-
-                    </div>
-                    <div class="col-md-4">
-
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">License Number</label>
-                            <input type="text" id="s_lisence" name="s_lisence" class="form-control form-control-lg"  maxlength="25"  placeholder="License Number" required  tabindex="10"/>
-                            <label for="s_lisence" class="error"></label>
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Passbook front & back</label>
+                            <input type="file" id="a_passbook"  multiple=""  name="a_passbook[]" class="form-control form-control-lg" placeholder="Passbook front & back" required tabindex="19" accept="image/jpeg, image/png"  />
+                            <label for="a_passbook" class="error"></label>
                         </div>
-
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">GST Number</label>
-                            <input type="text" id="s_gstno" name="s_gstno"  maxlength="25"  class="form-control form-control-lg" placeholder="GST Number" required   tabindex="20" />
-                            <label for="s_gstno" class="error"></label>
+                        <div class="col-md-12">
+                            <div class="form-group" align="left">
+                                    <div id="image-preview_pass" class="row"></div>
+                            </div>
+                        </div>
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Upload Photo</label>
+                            <input type="file" id="a_uplodphoto"  name="a_uplodphoto[]" class="form-control form-control-lg" placeholder="Passbook front & back" required tabindex="19" accept="image/jpeg, image/png"  />
+                            <label for="a_uplodphoto" class="error"></label>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group" align="left">
+                                    <div id="image-preview_photo" class="row"></div>
+                            </div>
                         </div>
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">PAN Number</label>
                             <input type="text" id="s_panno" name="s_panno"  maxlength="12"  class="form-control form-control-lg" placeholder="PAN Number" required  tabindex="21" />
                             <label for="s_panno" class="error"></label>
                         </div>
 
-
-                        <div class="form-outline mb-3"><label class="esdate" for="esdate"> Establishment Date</label>
-                            <input type="date" id="s_establishdate" name="s_establishdate"  maxlength="10"  class="form-control form-control-lg" placeholder="Establishment Date"  tabindex="22" />
-                            <label for="s_establishdate" class="error"></label>
-                        </div>
-
-
-                        <div class="form-outline mb-3"><label> Open Time</label>
-                            <div class="input-group date" id="from-time-picker" data-target-input="nearest">
-                                <input type="text" class="form-control datetimepicker-input" data-target="#from-time-picker" id="opentime" name="opentime" required  maxlength="10" />
-                                <label for="opentime" class="error"></label>
-                            </div>
-                        </div>
-
-                        <div class="form-outline mb-3"><label > Close Time</label>
-                            <div class="input-group date" id="from-time-picker" data-target-input="nearest">
-                                <input type="text" class="form-control datetimepicker-input" data-target="#to-time-picker" id="closetime" name="closetime" required maxlength="10" />
-                                <label for="closetime" class="error"></label>
-                            </div>
-                        </div>
-
-
                         <div class="form-outline mb-3"><label class="regis_date" for="regis_date"> Registration Date</label>
-                            <input type="date" id="s_registerdate" name="s_registerdate"  maxlength="10"  class="form-control form-control-lg" placeholder="Registration Date"  tabindex="24" maxlength="10" />
+                            <input type="date" id="s_registerdate" name="s_registerdate"  maxlength="10"  class="form-control form-control-lg" placeholder="Registration Date"  tabindex="24" />
                             <label for="s_registerdate" class="error"></label>
                         </div>
+                    </div>
+                    <div class="col-md-4">
 
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Manufactoring Details</label>
-                            <textarea id="manufactringdets" name="manufactringdets" placeholder="Manufactoring Details" class="form-control form-control-lg"  tabindex="25" required ></textarea>
-                            <label for="manufactringdets" class="error"></label>
+
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Account Name</label>
+                            <input type="text" id="a_accname" name="a_accname"  maxlength="50"  class="form-control form-control-lg" placeholder="Account Name"  tabindex="25" />
+                            <label for="a_accname" class="error"></label>
+                        </div>
+
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Account Number</label>
+                            <input type="text" id="a_accno" name="a_accno"  maxlength="20"  class="form-control form-control-lg" placeholder="Account Number"  tabindex="26" />
+                            <label for="a_accno" class="error"></label>
+                        </div>
+
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Bank Name</label>
+                            <select class="form-select form-control form-control-lg" name="bank_name"  aria-label="Default select example" id="bank_name" required  tabindex="27" >
+                                <option value="">Select Bank Name</option>
+                                    @foreach ($bank_types as $banktype)
+                                        <option value="{{ $banktype->id }}">{{ $banktype->bank_name }}</option>
+                                    @endforeach
+                            </select>
+                            <label for="a_accno" class="error"></label>
+                        </div>
+
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Bank Country</label>
+                            <select class="form-select form-control form-control-lg" name="bank_country"  aria-label="Default select example" id="bank_country" required  tabindex="28" >
+                                <option value="">Select country</option>
+                                    @foreach ($countries as $bankcontry)
+                                        <option value="{{ $bankcontry->id }}">{{ $bankcontry->country_name }}</option>
+                                    @endforeach
+                            </select>
+                            <label for="a_accno" class="error"></label>
+                        </div>
+
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Bank State</label>
+                            <select class="form-select form-control form-control-lg" name="bank_state"  aria-label="Default select example" id="bank_state" required  tabindex="27" >
+                                <option value="">Select state</option>
+                            </select>
+                            <label for="bank_state" class="error"></label>
+                        </div>
+
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Bank district</label>
+                            <select class="form-select form-control form-control-lg" name="bank_dist"  aria-label="Default select example" id="bank_dist" required  tabindex="28" >
+                                <option value="">Select district</option>
+                            </select>
+                            <label for="bank_dist" class="error"></label>
                         </div>
 
 
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Branch Name</label>
+                            <select class="form-select form-control form-control-lg" name="branch_name"  aria-label="Default select example" id="branch_name" required  tabindex="29" >
+                                <option value="">Select Branch</option>
 
-
-
-
-
-                        {{-- <div class="form-outline  mb-2">
-                            <input  tabindex="23" type="password" id="s_paswd" name="s_paswd"  maxlength="10"  class="form-control form-control-lg" maxlength="10" placeholder="Enter Password" required />
-                            <label for="s_paswd" class="error"></label>
+                            </select>
+                            <label for="branch_name" class="error"></label>
                         </div>
-                        <div class="form-outline  mb-2">
-                            <input  tabindex="24" type="password" id="s_rpaswd" name="s_rpaswd"  maxlength="10"  class="form-control form-control-lg" maxlength="10" placeholder="Re-Enter password" required />
-                            <label for="s_rpaswd" class="error"></label>
-                        </div> --}}
+
+
+                        <div class="form-outline mb-3">
+
+
+                        </div>
+
 
                         <div class="checkbox form-check-inline">
                             <input class="form-check-input" type="checkbox" id="s_termcondtn" name="s_termcondtn" value="1" required tabindex="26" >
                             <label class="inlineCheckbox1" for="s_termcondtn"> Accept Terms & Conditions </label>
                         </div>
-
                     </div>
 
 
@@ -318,26 +312,7 @@
 
 
 
-
 <script>
-
-
-            $(function() {
-                var datetimeFormat = 'hh:mm A';
-                $('#from-time-picker, #to-time-picker').datetimepicker({
-                    format: datetimeFormat,
-                    icons: {
-                    up: "fa fa-chevron-up",
-                    down: "fa fa-chevron-down"
-                    }
-                });
-                $('#from-time-picker, #to-time-picker').on('click', function() {
-                    $(this).datetimepicker('toggle');
-                });
-                $('#from-time-picker, #to-time-picker').on('show.datetimepicker', function() {
-                    $(this).datetimepicker('date', moment().format(datetimeFormat));
-                });
-			});
 
         $('#country').change(function () {
             $('#district').empty();
@@ -363,6 +338,47 @@
                 });
             }
         });
+
+        $('#bank_country').change(function () {
+            $('#bank_dist').empty();
+            var countryId = $(this).val();
+            if (countryId) {
+                $.get("/getStates/" + countryId, function (data) {
+                    $('#bank_state').empty().append('<option value="">Select State</option>');
+                    $.each(data, function (index, state) {
+                        $('#bank_state').append('<option value="' + state.id + '">' + state.state_name + '</option>');
+                    });
+                });
+            }
+        });
+
+        $('#bank_state').change(function () {
+            var stateId = $(this).val();
+            if (stateId) {
+                $.get("/getDistricts/" + stateId, function (data) {
+                    $('#bank_dist').empty().append('<option value="">Select District</option>');
+                    $.each(data, function (index, district) {
+                        $('#bank_dist').append('<option value="' + district.id + '">' + district.district_name + '</option>');
+                    });
+                });
+            }
+        });
+
+        $('#bank_dist').change(function () {
+            var stateId = $(this).val();
+            if (stateId) {
+                $.get("/getDistricts/" + stateId, function (data) {
+                    $('#branch_name').empty().append('<option value="">Select Branch</option>');
+                    $.each(data, function (index, district) {
+                        $('#branch_name').append('<option value="' + district.id + '">' + district.district_name + '</option>');
+                    });
+                });
+            }
+        });
+
+
+
+
 
 
             var fileArrs = [];
@@ -444,7 +460,7 @@
         }
 
 
-        $("#SellerRegForm").validate({
+        $("#AffilateRegForm").validate({
 
             rules: {
                 s_name: {
@@ -646,7 +662,7 @@
 
 
 
-            $('#SellerRegForm').submit(function(e) {
+            $('#AffilateRegForm').submit(function(e) {
             e.preventDefault();
             if ($(this).valid()) {
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
@@ -671,7 +687,7 @@
                     setTimeout(function() {
                         $('#shopreg-message').fadeOut();
                     }, 5000); // 5000 milliseconds = 5 seconds
-                    $('#SellerRegForm')[0].reset();
+                    $('#AffilateRegForm')[0].reset();
                     $('#loading-image').fadeOut();
                     $('#loading-overlay').fadeOut();
                     $('#addNewModal').modal('hide');
