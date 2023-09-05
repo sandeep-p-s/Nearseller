@@ -95,6 +95,8 @@
 
 
 
+=======
+>>>>>>> resources/views/backend_includes/footer.blade.php
         </script>
 
     </body>

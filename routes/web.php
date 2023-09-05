@@ -63,7 +63,14 @@ Route::controller(AdminController::class)->group(function (){
     Route::post('shopApproved', 'AdmshopApproved')->name('shopApproved');
     Route::post('AdmsellerApproved', 'AdmsellerApprovedPage')->name('AdmsellerApproved');
     Route::post('shopDelete', 'AdmshopDeletePage')->name('shopDelete');
+
+    Route::get('affiliateapprovals', 'AffiliateApproval')->name('admin.affiliateapprovals');
+    Route::post('allaffiliatesview', 'AllAffiliatesList')->name('admin.allaffiliatesview');
     });
+
+
+
+
 
     Route::controller(RoleController::class)->group(function () {
         Route::get('listrole', 'get_roles')->name('get.roles');

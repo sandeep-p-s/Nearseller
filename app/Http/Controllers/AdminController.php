@@ -178,7 +178,7 @@ class AdminController extends Controller
                 $sellerDetail->owner_name = $request->input('s_ownername');
                 $sellerDetail->shop_email = $request->input('s_email');
                 $sellerDetail->shop_mobno = $request->input('s_mobno');
-                //$sellerDetail->referal_id = $request->input('s_refralid');
+                $sellerDetail->referal_id = $request->input('s_refralid');
                 $sellerDetail->busnes_type = $request->input('s_busnestype');
                 $sellerDetail->shop_service_type = $request->input('s_shopservice');
                 $sellerDetail->shop_executive = $request->input('s_shopexectename');
@@ -202,7 +202,7 @@ class AdminController extends Controller
                 $sellerDetail->registration_date = $request->input('s_registerdate');
                 $sellerDetail->manufactoring_details = $request->input('manufactringdets');
                 $sellerDetail->user_id = $last_id;
-                //$sellerDetail->referal_id = $refer_chars;
+                $sellerDetail->referal_id = $refer_chars;
                 $maxId = $sellerDetail->max('shop_reg_id');
                 if ($maxId) {
                     $nextId = $maxId + 1;
@@ -552,7 +552,7 @@ class AdminController extends Controller
                 $valencodemm=$shopid."-".$user->email;
                 $valsmm=base64_encode($valencodemm);
                 $apprveTime = date('d/m/Y H:i:s', strtotime($time));
-                $verificationToken = base64_encode($shopid . '-' . $user->email. '-' .$apprveTime);
+                $verificationToken = base64_encode($shopid . '-' . $user->email. '-' .$apprveTime.'-'.'');
                 $checkval="5";
                 $message='Shop Successfully Approved';
                 $email = new EmailVerification($verificationToken, $user->name, $user->email, $checkval, $message);
@@ -589,6 +589,64 @@ class AdminController extends Controller
                 return response()->json(['result' => 2,'mesge'=>'Failed']);
             }
 
+        }
+
+
+
+        ////////////////////////////Affiliate//////////////////////////////
+
+        function AffiliateApproval()
+        {
+            $userRole = session('user_role');
+            $userId = session('user_id');
+            if($userId==''){return redirect()->route('logout');}
+            $loggeduser     = UserAccount::sessionValuereturn($userRole);
+            $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+            return view('admin.affilate_approval',compact('userdetails','userRole','loggeduser'));
+        }
+
+        function AllAffiliatesList(Request $request)
+        {
+            $userRole = session('user_role');
+            $userId = session('user_id');
+            if($userId==''){
+                return redirect()->route('logout');
+            }
+            $emal_mob   = $request->input('emal_mob');
+            $afflitename   = $request->input('afflitename');
+            //$ownername  = $request->input('ownername');
+            $referalid  = $request->input('referalid');
+            $query = Affiliate::select('affiliate.*','professions.profession_name','marital_statuses.mr_name','religions.religion_name','country.country_name','state.state_name','district.district_name','bank_types.bank_name')
+            ->leftJoin('professions', 'professions.id', 'affiliate.profession')
+            ->leftJoin('marital_statuses', 'marital_statuses.id', 'affiliate.marital_status')
+            ->leftJoin('religions', 'religions.id', 'affiliate.religion')
+            ->leftJoin('country', 'country.id', 'affiliate.country')
+            ->leftJoin('state', 'state.id', 'affiliate.state')
+            ->leftJoin('district', 'district.id', 'affiliate.district')
+             ->leftJoin('bank_types', 'bank_types.id', 'affiliate.bank_type');
+            //->leftJoin('bank_details', 'bank_details.id', 'affiliate.branch_code');
+            if ($emal_mob) {
+                $query->where('affiliate.email', 'LIKE', '%' . $emal_mob . '%')
+                    ->orWhere('affiliate.mob_no', 'LIKE', '%' . $emal_mob . '%');
+            }
+            if ($afflitename) {
+                $query->where('affiliate.name', 'LIKE', '%' . $afflitename . '%');
+            }
+            // if ($ownername) {
+            //     $query->where('seller_details.owner_name', 'LIKE', '%' . $ownername . '%');
+            // }
+            if ($referalid) {
+                $query->where('affiliate.referal_id', $referalid);
+            }
+            $AffiliateDetails = $query->get();
+            //echo $lastRegId = $query->toSql();exit;
+            $AffiliateCount    = $AffiliateDetails->count();
+            $countries      = DB::table('country')->get();
+            $professions    = DB::table('professions')->where('status','Y')->get();
+            $matstatus      = DB::table('marital_statuses')->where('status','Y')->get();
+            $religions      = DB::table('religions')->where(['status' => 'Y'])->get();
+            $bank_types     = DB::table('bank_types')->where(['status' => 'Y'])->get();
+            return view('admin.affiliate_dets', compact('AffiliateDetails', 'AffiliateCount','countries','professions','matstatus','religions','bank_types'));
         }
 
 }

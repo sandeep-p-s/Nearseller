@@ -12,23 +12,17 @@
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-                                <h4 class="page-title">Shop Approval List</h4>
+                                <h4 class="page-title">Affiliate Approval List</h4>
                                 <div class="col text-right">
-                                    <button class="btn add_btn" data-bs-toggle="modal" data-bs-target="#addNewModal">Add New Shops</button>
+                                    <button class="btn add_btn" data-bs-toggle="modal" data-bs-target="#addNewModal">Add New Affiliate</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
             <div id="loading-overlay"></div>
             <img id="loading-image" src="{{ asset('img/loading.gif') }}"  style="display: none; width:100px;">
-
-
-
-
-
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -38,11 +32,11 @@
                                     <input type="text" id="emal_mob" name="emal_mob" class="form-control  form-control-lg" placeholder="Email/Mobile No" onchange="shwdets();" />
                                 </td>
                                 <td>
-                                    <input type="text" id="shopname" name="shopname" class="form-control  form-control-lg" placeholder="Shop Name"  onchange="shwdets();" />
+                                    <input type="text" id="afflitename" name="afflitename" class="form-control  form-control-lg" placeholder="Affiliate Name"  onchange="shwdets();" />
                                 </td>
-                                <td>
+                                {{-- <td>
                                     <input type="text" id="ownername" name="ownername" class="form-control  form-control-lg" placeholder="Owner Name"  onchange="shwdets();" />
-                                </td>
+                                </td> --}}
                                 <td>
                                     <input type="text" id="referalid" name="referalid" class="form-control  form-control-lg" placeholder="Refferal ID"  onchange="shwdets();" />
                                 </td>
@@ -62,12 +56,11 @@
 
             </div>
 
-
             <div class="modal fade" id="ViewEditModal" tabindex="-1" aria-labelledby="ViewEditModalLabel" aria-hidden="true">
                 <div class="modal-dialog custom-modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title text-center" id="ViewEditModalLabel">View / Edit Shop Details</h5>
+                            <h5 class="modal-title text-center" id="ViewEditModalLabel">View / Edit Affiliates Details</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" title="Close">x</button>
                         </div>
                         <div class="modal-body">
@@ -79,12 +72,11 @@
                 </div>
             </div>
 
-
             <div class="modal fade" id="ShopApprovedModal" tabindex="-1" aria-labelledby="ShopApprovedModalLabel" aria-hidden="true">
                 <div class="modal-dialog custom-modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title text-center" id="ShopApprovedModalModalLabel">Shop Approved</h5>
+                            <h5 class="modal-title text-center" id="ShopApprovedModalModalLabel">Affilates Approved</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" title="Close">x</button>
                         </div>
                         <div class="modal-body">
@@ -106,7 +98,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            Do you want to delete this shop?
+                            Do you want to delete this affiliate?
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -115,29 +107,23 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
-
-
     @endsection
-
     <script>
-
-
     function shwdets()
 	    {
             $('#loading-overlay').fadeIn();
             $('#loading-image').fadeIn();
             var emal_mob = $("#emal_mob").val();
-            var shopname = $("#shopname").val();
-            var ownername = $("#ownername").val();
+            var afflitename = $("#afflitename").val();
+            // var ownername = $("#ownername").val();
             var referalid = $("#referalid").val();
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
 			$.ajax({
-                url: '{{ route("admin.allshopsview") }}',
-                        type: 'GET',
-                        data: {emal_mob: emal_mob, shopname: shopname, ownername: ownername,referalid: referalid, _token: csrfToken
+                url: '{{ route("admin.allaffiliatesview") }}',
+                        type: 'POST',
+                        data: {emal_mob: emal_mob, afflitename: afflitename,referalid: referalid, _token: csrfToken
                     },
                 success:function(data)
 					{

@@ -77,7 +77,7 @@ class HomeController extends Controller
                     $LogDetails->save();
                     $valencodemm=$lastRegId."-".$request->u_emid;
                     $valsmm=base64_encode($valencodemm);
-                    $verificationToken = base64_encode($last_id . '-' . $request->u_emid);
+                    $verificationToken = base64_encode($last_id . '-' . $request->u_emid.'-,-');
                     $checkval="1";
                     $message='';
                     $email = new EmailVerification($verificationToken, $request->u_name, $request->u_emid, $checkval, $message);
@@ -278,7 +278,7 @@ class HomeController extends Controller
 				}
 				$message=$random_chars;
                 $checkval="2";
-                $verificationToken = base64_encode($id . '-' . $email);
+                $verificationToken = base64_encode($id . '-' . $email.'-,-');
                 $emailid = new EmailVerification($verificationToken, $fname, $email, $checkval, $message);
 				$otpMobData = $OTPGenModel->where(['otpmsgtype' => $email])->get();
 				if(count($otpMobData)>0)
@@ -464,7 +464,7 @@ class HomeController extends Controller
                     }
 				$message=$random_chars;
                 $checkval="2";
-                $verificationToken = base64_encode($id . '-' . $email);
+                $verificationToken = base64_encode($id . '-' . $email.'-,-');
                 $emailid = new EmailVerification($verificationToken, $fname, $email, $checkval, $message);
 				$otpMobData = $OTPGenModel->where(['otpmsgtype' => $email])->get();
 				if(count($otpMobData)>0)
@@ -735,7 +735,7 @@ class HomeController extends Controller
                 ];
                 UserAccount::where('id', $id)->update($data);
                 $checkval="3";
-                $verificationToken = base64_encode($id . '-' . $email);
+                $verificationToken = base64_encode($id . '-' . $email.'-,-');
                 $emailid = new EmailVerification($verificationToken, $fname, $email, $checkval, $request->newpaswd);
                 Mail::to($email)->send($emailid);
                 $msg = "Email ID : " . $email . " User Reg ID " . $id. " New Password is " . $request->newpaswd;
@@ -776,7 +776,7 @@ class HomeController extends Controller
                 ];
                 UserAccount::where('id', $id)->update($data);
                 $checkval="3";
-                $verificationToken = base64_encode($id . '-' . $email);
+                $verificationToken = base64_encode($id . '-' . $email.'-,-');
                 $emailid = new EmailVerification($verificationToken, $fname, $email, $checkval, $request->newpaswd);
                 Mail::to($email)->send($emailid);
                 $msg = "Email ID : " . $email . " User Reg ID " . $id. " New Password is " . $request->newpaswd;
@@ -1038,11 +1038,22 @@ class HomeController extends Controller
                     $jsonimages = json_encode($input_vals);
                     $sellerDetail->shop_photo = $jsonimages;
                 }
+
+                $input_media = [];
+                $input_valmedia = [];
+                    $input_mediaval = [
+                        'mediatype' => '',
+                        'mediaurl' => '',
+                    ];
+                $input_media[] = $input_mediaval;
+                $input_valmedia['mediadets'] = $input_media;
+                $jsonmedia = json_encode($input_valmedia);
+                $sellerDetail->socialmedia = $jsonmedia;
                 $shopreg=$sellerDetail->save();
 
                 $valencodemm=$lastRegId."-".$request->s_email;
                 $valsmm=base64_encode($valencodemm);
-                $verificationToken = base64_encode($last_id . '-' . $request->s_email);
+                $verificationToken = base64_encode($last_id . '-' . $request->s_email.'-,-');
                 $checkval="1";
                 $message='';
                 $email = new EmailVerification($verificationToken, $request->s_name, $request->s_email, $checkval, $message);
@@ -1133,10 +1144,11 @@ class HomeController extends Controller
                 } else {
                     $nextId = '500';
                 }
+                $affliteDetail->affiliate_reg_id = $nextId;
                 $afiltereg=$affliteDetail->save();
                 $valencodemm=$lastRegId."-".$request->a_email;
                 $valsmm=base64_encode($valencodemm);
-                $verificationToken = base64_encode($last_id . '-' . $request->a_email);
+                $verificationToken = base64_encode($last_id . '-' . $request->a_email.'-,-');
                 $checkval="1";
                 $message='';
                 $email = new EmailVerification($verificationToken, $request->a_name, $request->a_email, $checkval, $message);
