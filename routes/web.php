@@ -78,8 +78,9 @@ Route::controller(AdminController::class)->group(function (){
         Route::post('storerole', 'store_role')->name('store.role');
         Route::get('editrole/{id}', 'edit_roles')->name('edit.role');
         Route::post('updaterole/{id}', 'update_roles')->name('update.role');
-        //Route::post('toggle-role-status',  'toggleRoleStatus')->name('toggle.role');
+        Route::post('/update/activation/{id}', 'updateActivation')->name('update.activation');
     });
+
     Route::controller(BusinessTypeController::class)->group(function () {
         Route::get('listbusinesstype', 'list_business_type')->name('list.businesstype');
         Route::get('addbusinesstype', 'add_business_type')->name('add.businesstype');
