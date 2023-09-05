@@ -9,7 +9,6 @@
                         class="mdi mdi-chevron-right"></i></span></a>
             <ul class="nav-second-level mm-collapse" aria-expanded="false">
 
-                <li class="nav-item"><a class="nav-link" href="affiliates_approval_table.html"><i class="ti-control-record"></i>Affiliates Approvals</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('admin.affiliateapprovals') }}"><i class="ti-control-record"></i>Affiliates Approvals</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('admin.shopapprovals') }}"><i class="ti-control-record"></i>Shop Approvals</a></li>
                 <li class="nav-item"><a class="nav-link" href="products_approval_table.html"><i class="ti-control-record"></i>Product Approvals</a></li>
