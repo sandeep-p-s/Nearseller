@@ -39,6 +39,12 @@
                             </button>
                         </div>
                     @endif
+                    <div id="success-message" class="alert alert-success" style="display: none;">
+                        Activation status updated successfully.
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                 </div><!--end col-->
             </div><!--end row-->
             <!-- end page title end breadcrumb -->
@@ -70,14 +76,15 @@
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item view_btn1"
                                                             href="{{ route('edit.role', ['id' => $role['id']]) }}">Edit</a>
-                                                            {{-- <form action="">
-                                                                @csrf
-                                                        <button class="dropdown-item toggle-active-btn"
+                                                        <button class="dropdown-item activate_btn"
                                                             data-role-id="{{ $role['id'] }}"
                                                             data-is-active="{{ $role['is_active'] }}">
-                                                            {{ $role['is_active'] ? 'Inactive' : 'Active' }}
+                                                            @if ($role['is_active'])
+                                                                Deactivate
+                                                            @else
+                                                                Activate
+                                                            @endif
                                                         </button>
-                                                    </form> --}}
                                                     </div>
                                                 </div>
                                             </td>
@@ -92,3 +99,6 @@
 
         </div><!-- container -->
     @endsection
+    <script>
+        
+    </script>

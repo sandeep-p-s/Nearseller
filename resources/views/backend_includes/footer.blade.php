@@ -56,15 +56,41 @@
                 $('.carousel').carousel();
             });
 
+            $(document).ready(function () {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
 
+            $('.activate_btn').click(function () {
+                var roleId = $(this).data('role-id');
+                var isActive = $(this).data('is-active');
+                var $button = $(this);
 
-            // $(document).ready(function() {
-            //     $('.timepicker').timepicker({
-            //         showMeridian: true,
-            //         minuteStep: 15,
-            //         defaultTime: false
-            //     });
-            // });
+                $.ajax({
+                    url: '/update/activation/' + roleId,
+                    type: 'POST',
+                    data: {
+                        isActive: isActive
+                    },
+                    success: function () {
+                        isActive = !isActive;
+                        $button.data('is-active', isActive);
+                        $button.text(isActive ? 'Deactivate' : 'Activate');
+                        $('#success-message').fadeIn('fast', function() {
+                        setTimeout(function() {
+                            $('#success-message').fadeOut('fast');
+                        }, 1000);
+                    });
+
+                    }
+                });
+            });
+        });
+
+            
+
 
 
 
