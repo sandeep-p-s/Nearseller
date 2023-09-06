@@ -225,6 +225,27 @@
                                         </div>
                                     </div>
 
+                                    <hr class="new_hr"><div class="form-group row">
+                                        <label class="col-xl-6">Direct Affiliate</label>
+                                        <div class="col-xl-6 align-self-center">
+                                            {{ $sellerDetails->direct_affiliate }}
+                                        </div>
+                                    </div>
+
+                                    <hr class="new_hr"><div class="form-group row">
+                                        <label class="col-xl-6">Second Affiliate</label>
+                                        <div class="col-xl-6 align-self-center">
+                                            {{ $sellerDetails->second_affiliate }}
+                                        </div>
+                                    </div>
+
+                                    <hr class="new_hr"><div class="form-group row">
+                                        <label class="col-xl-6">Shop Co-Ordinator</label>
+                                        <div class="col-xl-6 align-self-center">
+                                            {{ $sellerDetails->shop_coordinator }}
+                                        </div>
+                                    </div>
+
 
 
 
@@ -285,6 +306,8 @@
                                             {{ $sellerDetails->manufactoring_details }}
                                         </div>
                                     </div>
+
+
                                     <hr class="new_hr"><div class="form-group row">
                                         <label class="col-xl-6">Accept Terms & Conditions</label>
                                         <div class="col-xl-6 align-self-center">

@@ -1,179 +1,133 @@
 
+@php
+    $aadhar_file=$Affiliate->aadhar_file;
+    $aadhar_filesarray = json_decode($aadhar_file);
+    $fileval=$aadhar_filesarray->fileval;
+    $aadhar_fileval = json_decode(json_encode($fileval),true);
+    $totadarimg = count($aadhar_fileval);
 
-@if($AffiliateCount > 0)
-<table id="datatable" class="table table-striped table-bordered" >
-        <thead>
-            <tr>
-                <th>SINO</th>
-                <th>Reg. ID</th>
-                <th>Shop Name</th>
-                <th>Email</th>
-                <th>Mobile</th>
-                <th>Referral ID</th>
-                {{-- <th>Address</th>
-                <th>Business Type</th>
-                <th>Service Type</th>
-                <th>Executive Name</th>
-                <th>Reg. Date</th> --}}
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($AffiliateDetails as $index => $AffDetails)
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $AffDetails->affiliate_reg_id }}</td>
-                    <td>{{ $AffDetails->name }}</td>
-                    {{-- <td>{{ $sellerDetail->owner_name }}</td> --}}
-                    <td>{{ $AffDetails->email }}</td>
-                    <td>{{ $AffDetails->mob_no }}</td>
-                    <td>{{ $AffDetails->referal_id }}</td>
-                    {{-- <td>{{ $sellerDetail->house_name_no.','. $sellerDetail->locality.','. $sellerDetail->village.','.$sellerDetail->District->district_name.','.$sellerDetail->State->state_name.','. $sellerDetail->Country->country_name }}</td>
-                    <td>{{ $sellerDetail->businessType->business_name }}</td>
-                    <td>{{ $sellerDetail->serviceType->service_name }}</td>
-                    <td>{{ $sellerDetail->executive->executive_name }}</td>
-                    <td>{{ $sellerDetail->created_at }}</td> --}}
-                    <td>
-                        <div class="btn-group mb-2 mb-md-0">
-                            <button type="button" class="btn view_btn dropdown-toggle"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action
-                                <i class="mdi mdi-chevron-down"></i></button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item view_btn1" href="#" onclick="affiliatevieweditdet({{ $AffDetails->id }})">View/Edit</a>
-                                <a class="dropdown-item approve_btn" href="#" onclick="shopapprovedet({{ $AffDetails->id }})">Approved</a>
-                                <a class="dropdown-item delete_btn" href="#" onclick="shopdeletedet({{ $AffDetails->id }})">Delete</a>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-@else
-    <table>
-        <tr><td colspan="13" align="center">
-            <img src="{{ asset('backend/assets/images/notfoundimg.png') }}" alt="notfound" class="rounded-circle" style="width: 30%;" />
-        </td></tr>
-    </table>
-@endif
+
+    $passbook_file=$Affiliate->passbook_file;
+    $passbook_filearray = json_decode($passbook_file);
+    $passbook=$passbook_filearray->passbook;
+    $passbook_fileval = json_decode(json_encode($passbook),true);
+    $totpassimg = count($passbook_fileval);
 
 
 
-<!-- Modal Add New -->
-<div class="modal fade" id="addNewModal" tabindex="-1" aria-labelledby="addNewModalLabel" aria-hidden="true">
-    <div class="modal-dialog custom-modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-center" id="addNewModalLabel">Add New Affiliate</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" title="Close">x</button>
-            </div>
-            <div class="modal-body">
-                <form id="AffilateRegForm" enctype="multipart/form-data" method="POST">
+
+
+@endphp
+
+
+
+                <form id="AffilateRegFormEdit" enctype="multipart/form-data" method="POST">
+                    <input type="hidden" id="affiliateidhid" name="affiliateidhid" value="{{ $Affiliate->id }}"  class="form-control form-control-lg" maxlength="50"  placeholder="Affiliate id" required  tabindex="1" />
+                    <input type="hidden" id="affiliateuseridhid" name="affiliateuseridhid" value="{{ $Affiliate->user_id }}"  class="form-control form-control-lg" maxlength="50"  placeholder="User id" required  tabindex="1" />
                 <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Affiliate Name</label>
-                            <input type="text" id="a_name" name="a_name" class="form-control form-control-lg" maxlength="50"  placeholder="Affiliate Name" required  tabindex="1" />
-                            <label for="a_name" class="error"></label>
+                            <input type="text" id="ea_name" name="ea_name" class="form-control form-control-lg" maxlength="50"  placeholder="Affiliate Name" required  tabindex="1" value="{{ $Affiliate->name }}" />
+                            <label for="ea_name" class="error"></label>
                         </div>
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Mobile Number</label>
-                            <input type="text" id="a_mobno" name="a_mobno" class="form-control form-control-lg"  maxlength="10"  placeholder="Mobile No" required tabindex="3"  onchange="exstmobno(this.value,'2')" />
+                            <input type="text" id="ea_mobno" name="ea_mobno" class="form-control form-control-lg"  maxlength="10"  placeholder="Mobile No" required tabindex="3"  onchange="exstmobno(this.value,'2')" value="{{ $Affiliate->mob_no }}"   />
                             <label for="a_mobno" class="error"></label>
-                            <div id="smob-message"  class="text-center" style="display: none;"></div>
+                            <div id="esmob-message"  class="text-center" style="display: none;"></div>
                         </div>
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Email ID</label>
-                            <input type="email" id="a_email" name="a_email" class="form-control form-control-lg"  maxlength="35"  placeholder="Email ID" required tabindex="4"  onchange="exstemilid(this.value,'2')" />
+                            <input type="email" id="a_email" name="a_email" class="form-control form-control-lg"  maxlength="35"  placeholder="Email ID" required tabindex="4"  onchange="exstemilid(this.value,'2')" value="{{ $Affiliate->email }}"  />
                             <label for="a_email" class="error"></label>
-                            <div id="semil-message"  class="text-center" style="display: none;"></div>
+                            <div id="esemil-message"  class="text-center" style="display: none;"></div>
                         </div>
                         <div class="form-outline mb-3"><label class="w-100">Date of Birth</label>
-                            <input type="date" id="a_dob" name="a_dob" class="form-control form-control-lg" placeholder="Date of birth" required tabindex="4" maxlength="10" max="{{ date('Y-m-d') }}" />
-                            <label for="a_dob" class="error"></label>
+                            <input type="date" id="ea_dob" name="ea_dob" class="form-control form-control-lg" placeholder="Date of birth" required tabindex="4" maxlength="10" max="{{ date('Y-m-d') }}"   value="{{ $Affiliate->dob }}" />
+                            <label for="ea_dob" class="error"></label>
                         </div>
                         <div class="form-group">
                             <label for="gender">Gender</label><br>
                             <div class="form-check form-check-inline">
-                                <input type="radio" class="form-check-input" id="male" name="gender" value="male">
+                                <input type="radio" class="form-check-input" id="emale" name="egender" value="male" @if($Affiliate->gender === 'male') checked @endif>
                                 <label class="form-check-label" for="male">Male</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input type="radio" class="form-check-input" id="female" name="gender" value="female">
+                                <input type="radio" class="form-check-input" id="efemale" name="egender" value="female" @if($Affiliate->gender === 'female') checked @endif>
                                 <label class="form-check-label" for="female">Female</label>
                             </div>
                         </div>
 
 
-                        {{-- <div class="form-outline mb-3"><label class="lblname" for="lblname">Referral ID</label>
-                            <input type="text" id="s_refralid" name="s_refralid" class="form-control form-control-lg"  maxlength="50"  placeholder="Referral ID" tabindex="5" onchange="checkrefrelno(this.value,'1')"/>
-                            <div id="s_refralid-message"  class="text-center" style="display: none;"></div>
-                        </div> --}}
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Referral ID</label>
+                            <input type="text" id="es_refralid" name="es_refralid" class="form-control form-control-lg"  value="{{ $Affiliate->referal_id }}" maxlength="15"  placeholder="Referral ID" tabindex="5" readonly />
+                            <div id="es_refralid-message"  class="text-center" style="display: none;"></div>
+                        </div>
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Professions</label>
-                            <select class="form-select form-control form-control-lg" id="s_professions" name="s_professions"  required tabindex="6">
+                            <select class="form-select form-control form-control-lg" id="es_professions" name="es_professions"  required tabindex="6">
                                 <option value="" >Professions</option><br/>
                                     @foreach ($professions as $profes)
-                                        <option value="{{ $profes->id }}">{{ $profes->profession_name }}</option>
+                                        <option value="{{ $profes->id }}" @if($Affiliate->profession == $profes->id) selected @endif>{{ $profes->profession_name }}</option>
                                     @endforeach
                             </select>
-                            <label for="s_professions" class="error"></label>
+                            <label for="es_professions" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3" style="display: none;" id="otherprofesn"><label class="lblname" for="lblname">Other Professions</label>
-                            <input type="text" id="a_otherprofesn" name="a_otherprofesn" class="form-control form-control-lg" maxlength="50"  placeholder="Other Professions" required  tabindex="1" />
-                            <label for="a_otherprofesn" class="error"></label>
+                        <div class="form-outline mb-3" @if($Affiliate->profession==3) style="display: block;" @else style="display: none;" @endif   id="eotherprofesn"><label class="lblname" for="lblname">Other Professions</label>
+                            <input type="text" id="ea_otherprofesn" name="ea_otherprofesn" class="form-control form-control-lg" maxlength="50"  placeholder="Other Professions" required  tabindex="1"   value="{{ $Affiliate->other_profession }}" />
+                            <label for="ea_otherprofesn" class="error"></label>
                         </div>
-
-
-
-
-
 
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Marital Status</label>
-                            <select class="form-select form-control form-control-lg" id="a_marital" name="a_marital" required tabindex="7">
+                            <select class="form-select form-control form-control-lg" id="ea_marital" name="ea_marital" required tabindex="7">
                                 <option value="">Marital Status</option><br/>
                                 @foreach ($matstatus as $ma_status)
-                                        <option value="{{ $ma_status->id }}">{{ $ma_status->mr_name }}</option>
+                                        <option value="{{ $ma_status->id }}" @if($Affiliate->marital_status == $ma_status->id) selected @endif>{{ $ma_status->mr_name }}</option>
                                     @endforeach
                             </select>
-                            <label for="a_marital" class="error"></label>
+                            <label for="ea_marital" class="error"></label>
                         </div>
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Religion</label>
-                            <select class="form-select form-control form-control-lg" id="a_religion" name="a_religion" required tabindex="8" >
+                            <select class="form-select form-control form-control-lg" id="ea_religion" name="ea_religion" required tabindex="8" >
                                 <option value="">Religion</option><br/>
                                     @foreach ($religions as $relgn)
-                                        <option value="{{ $relgn->id }}">{{ $relgn->religion_name }}</option>
+                                        <option value="{{ $relgn->id }}"  @if($Affiliate->religion == $relgn->id) selected @endif>{{ $relgn->religion_name }}</option>
                                     @endforeach
                             </select>
-                            <label for="a_religion" class="error"></label>
+                            <label for="ea_religion" class="error"></label>
                         </div>
 
                             <div class="form-outline mb-3"><label class="lblname" for="lblname">Aadhaar Number</label>
-                                <input type="text" id="a_aadharno" name="a_aadharno" class="form-control form-control-lg" placeholder="Aadhaar Number" required tabindex="9" maxlength="12" />
-                                <label for="a_aadharno" class="error"></label>
+                                <input type="text" id="ea_aadharno" name="ea_aadharno" class="form-control form-control-lg" placeholder="Aadhaar Number" required tabindex="9" maxlength="12"  value="{{ $Affiliate->aadhar_no }}" />
+                                <label for="ea_aadharno" class="error"></label>
 
                             </div>
                             <div class="form-outline mb-3"><label class="lblname" for="lblname">Locality</label>
-                                <input type="text" id="a_locality" name="a_locality"  maxlength="100"  class="form-control form-control-lg"placeholder="Locality" required  tabindex="12" />
-                                <label for="a_locality" class="error"></label>
+                                <input type="text" id="ea_locality" name="ea_locality"  maxlength="100"  class="form-control form-control-lg"placeholder="Locality" required  tabindex="12"  value="{{ $Affiliate->locality }}" />
+                                <label for="ea_locality" class="error"></label>
                             </div>
                             <div class="form-outline mb-3"><label class="lblname" for="lblname">Country</label>
-                                <select class="form-select form-control form-control-lg" name="country"  aria-label="Default select example" id="country" required  tabindex="14" >
+                                <select class="form-select form-control form-control-lg" name="ecountry"  aria-label="Default select example" id="ecountry" required  tabindex="14" >
                                     <option value="">Select country</option>
                                         @foreach ($countries as $country)
-                                            <option value="{{ $country->id }}">{{ $country->country_name }}</option>
+                                            <option value="{{ $country->id }}" @if($Affiliate->country === $country->id) selected @endif >{{ $country->country_name }}</option>
                                         @endforeach
                                 </select>
                                 <label for="country" class="error"></label>
                             </div>
                             <div class="form-outline mb-3"><label class="lblname" for="lblname">State</label>
-                                <select class="form-select form-control form-control-lg" name="state" aria-label="Default select example" id="state" required  tabindex="15">
-
-                                </select>
-                                <label for="state" class="error"></label>
+                                <select class="form-select form-control form-control-lg" name="estate" aria-label="Default select example" id="estate" required  tabindex="15">
+                                        @foreach ($states as $state)
+                                            <option value="{{ $state->id }}" @if ($state->id == $Affiliate->state) selected @endif>{{ $state->state_name }}</option>
+                                        @endforeach
+                                    </select>
+                                <label for="estate" class="error"></label>
                             </div>
                             <div class="form-outline mb-3"><label class="lblname" for="lblname">District</label>
-                                <select class="form-select form-control form-control-lg" aria-label="Default select example" id="district" name="district" required  tabindex="16">
-
+                                <select class="form-select form-control form-control-lg" aria-label="Default select example" id="edistrict" name="edistrict" required  tabindex="16">
+                                    @foreach ($districts as $dist)
+                                    <option value="{{ $dist->id }}" @if (($dist->id == $Affiliate->district) && ($dist->state_id == $Affiliate->state)) selected @endif>{{ $dist->district_name }}</option>
+                                    @endforeach
                                 </select>
-                                <label for="district" class="error"></label>
+                                <label for="edistrict" class="error"></label>
                             </div>
 
                         </div>
@@ -183,12 +137,12 @@
 
                     <div class="col-md-4">
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">PAN Number</label>
-                            <input type="text" id="s_panno" name="s_panno"  maxlength="12"  class="form-control form-control-lg" placeholder="PAN Number" required  tabindex="21" />
+                            <input type="text" id="s_panno" name="s_panno"  maxlength="12"  value="{{ $Affiliate->pan_no }}"  class="form-control form-control-lg" placeholder="PAN Number" required  tabindex="21" />
                             <label for="s_panno" class="error"></label>
                         </div>
 
                         <div class="form-outline mb-3"><label class="regis_date" for="regis_date"> Registration Date</label>
-                            <input type="date" id="s_registerdate" name="s_registerdate"  maxlength="10"  class="form-control form-control-lg" placeholder="Registration Date"  tabindex="24" />
+                            <input type="date" id="s_registerdate" name="s_registerdate"  value="{{ $Affiliate->registration_date }}"  maxlength="10"  class="form-control form-control-lg" placeholder="Registration Date"  tabindex="24" />
                             <label for="s_registerdate" class="error"></label>
                         </div>
 
@@ -198,19 +152,93 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group" align="left">
-                                    <div id="image-preview" class="row"></div>
+                                    <div id="eimage-preview" class="row"></div>
                             </div>
                         </div>
 
+                        <div class="col-md-12">
+                            <div class="form-group" align="center">
+                                <div class="row">
+                                    @for($m = 0; $m < $totadarimg; $m++)
+                                        <div class="col-md-3">
+                                            <a href="#" data-toggle="modal" data-target="#myModals{{ $m }}">
+                                                <img id="img-bufferm" src="{{ asset($fileval[$m]) }}" width="100" height="100">
+                                                @php
+                                                    $valen = $fileval[$m] . "#" . $Affiliate->id;
+                                                    $deleencde = base64_encode($valen);
+                                                @endphp
+                                            </a><br>
+                                            <button id="remv" type="button" name="remv" class="btn btn-danger" onClick="DeltAdharImag('{{ $deleencde }}');">X</button>
+                                        </div>
+
+                                        <div class="modal fade" id="myModals{{ $m }}" tabindex="-1" role="dialog" aria-labelledby="myModalsLabel" aria-hidden="true" style="width: 80%;">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <img src="{{ asset($fileval[$m]) }}" class="img-fluid">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endfor
+                                </div>
+                            </div>
+                        </div>
+
+
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Passbook front & back</label>
-                            <input type="file" id="a_passbook"  multiple=""  name="a_passbook[]" class="form-control form-control-lg" placeholder="Passbook front & back" required tabindex="19" accept="image/jpeg, image/png"  />
-                            <label for="a_passbook" class="error"></label>
+                            <input type="file" id="ea_passbook"  multiple=""  name="ea_passbook[]" class="form-control form-control-lg" placeholder="Passbook front & back" required tabindex="19" accept="image/jpeg, image/png"  />
+                            <label for="ea_passbook" class="error"></label>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group" align="left">
-                                    <div id="image-preview_pass" class="row"></div>
+                                    <div id="eimage-preview_pass" class="row"></div>
                             </div>
                         </div>
+
+
+                        <div class="col-md-12">
+                            <div class="form-group" align="center">
+                                <div class="row">
+                                    @for($m = 0; $m < $totpassimg; $m++)
+                                        <div class="col-md-3">
+                                            <a href="#" data-toggle="modal" data-target="#myModalsp{{ $m }}">
+                                                <img id="img-bufferm" src="{{ asset($passbook[$m]) }}" width="100" height="100">
+                                                @php
+                                                    $valen = $passbook[$m] . "#" . $Affiliate->id;
+                                                    $deleencde = base64_encode($valen);
+                                                @endphp
+                                            </a><br>
+                                            <button id="remv" type="button" name="remv" class="btn btn-danger" onClick="DeltPassbookImag('{{ $deleencde }}');">X</button>
+                                        </div>
+
+                                        <div class="modal fade" id="myModalsp{{ $m }}" tabindex="-1" role="dialog" aria-labelledby="myModalspLabel" aria-hidden="true" style="width: 80%;">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <img src="{{ asset($passbook[$m]) }}" class="img-fluid">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endfor
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Upload Photo</label>
                             <input type="file" id="a_uplodphoto"  name="a_uplodphoto[]" class="form-control form-control-lg" placeholder="Passbook front & back" required tabindex="19" accept="image/jpeg, image/png"  />
                             <label for="a_uplodphoto" class="error"></label>
@@ -317,18 +345,7 @@
                  </div>
                 </div>
                 </form>
-            </div>
-            </div>
-            </div>
 
-
-
-
-            </div>
-
-        </div>
-    </div>
-</div>
 <!-- Modal Add new Close -->
 
 
@@ -412,14 +429,14 @@
         });
 
 
-        $('#s_professions').change(function () {
-            var professions = $('#s_professions').val();
+        $('#es_professions').change(function () {
+            var professions = $('#es_professions').val();
             if(professions==3)
             {
-                $('#otherprofesn').show();
+                $('#eotherprofesn').show();
             }
             else{
-                $('#otherprofesn').hide();
+                $('#eotherprofesn').hide();
             }
 
         });
@@ -833,30 +850,33 @@
                 success: function(response) {
 
                     console.log(response);
-                    $('#afflitereg-message').text('Registration successful. Please verify email and login!').fadeIn();
+                    $('#afflitereg-message').text('Affiliate details successfully updated!').fadeIn();
                     $('#afflitereg-message').addClass('success-message');
                     $('#image-preview').empty();
+                    $('#image-preview_pass').empty();
+                    $('#image-preview_photo').empty();
+
                     setTimeout(function() {
                         $('#afflitereg-message').fadeOut();
                     }, 5000); // 5000 milliseconds = 5 seconds
                     $('#AffilateRegForm')[0].reset();
                     $('#loading-image').fadeOut();
                     $('#loading-overlay').fadeOut();
-                    $('#addNewModal').modal('hide');
+                    $('#ViewEditModal').modal('hide');
                     shwdets();
 
 
                 },
                 error: function(xhr) {
                     console.log(xhr.responseText);
-                    $('#afflitereg-message').text('Registration failed.').fadeIn();
+                    $('#afflitereg-message').text('Updation failed.').fadeIn();
                     $('#afflitereg-message').addClass('error');
                     setTimeout(function() {
                         $('#afflitereg-message').fadeOut();
                     }, 5000);
                     $('#loading-image').fadeOut();
                     $('#loading-overlay').fadeOut();
-                    $('#addNewModal').modal('show');
+                    $('#ViewEditModal').modal('show');
 
                 }
             });

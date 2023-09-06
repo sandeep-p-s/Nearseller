@@ -20,7 +20,7 @@
                                 et quas numquam beatae consectetur, nam eum obcaecati.</p>
                     <button class="btn btn-default shop_now">Shop Now <i class="fa-solid fa-arrow-up"></i></button>
                 </div>
-            </div>
+            </div>]
             <div class="col-md-6 px-0">
                 <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
                     <div class="carousel-inner">

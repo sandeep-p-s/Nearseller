@@ -64,7 +64,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" title="Close">x</button>
                         </div>
                         <div class="modal-body">
-                            <div id="showshopeviewedit">
+                            <div id="showaffiliateviewedit">
 
                             </div>
                         </div>
@@ -72,15 +72,15 @@
                 </div>
             </div>
 
-            <div class="modal fade" id="ShopApprovedModal" tabindex="-1" aria-labelledby="ShopApprovedModalLabel" aria-hidden="true">
+            <div class="modal fade" id="AffiliateApprovedModal" tabindex="-1" aria-labelledby="AffiliateApprovedModalLabel" aria-hidden="true">
                 <div class="modal-dialog custom-modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title text-center" id="ShopApprovedModalModalLabel">Affilates Approved</h5>
+                            <h5 class="modal-title text-center" id="AffiliateApprovedModalLabel">Affilates Approved</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" title="Close">x</button>
                         </div>
                         <div class="modal-body">
-                            <div id="showshopeapproved">
+                            <div id="showaffiliateapproved">
 
                             </div>
                         </div>
@@ -109,7 +109,7 @@
             </div>
         </div>
     </div>
-    @endsection
+
     <script>
     function shwdets()
 	    {
@@ -162,7 +162,7 @@
                             setTimeout(function() {
                             $('#semil-message').fadeOut();
                             }, 5000);
-                            $('#s_email').val('');
+                            $('#a_email').val('');
                             $('#loading-image').fadeOut();
                             $('#loading-overlay').fadeOut();
                         }
@@ -207,7 +207,7 @@
                             setTimeout(function() {
                             $('#smob-message').fadeOut();
                             }, 5000);
-                            $('#s_mobno').val('');
+                            $('#a_mobno').val('');
                             $('#loading-image').fadeOut();
                             $('#loading-overlay').fadeOut();
                         }
@@ -289,15 +289,15 @@
          }
 
 
-            function shopvieweditdet(shopid)
+            function affiliatevieweditdet(affiliateid)
                 {
                         $('#loading-overlay').fadeIn();
                         $('#loading-image').fadeIn();
                         var csrfToken = $('meta[name="csrf-token"]').attr('content');
                         $.ajax({
-                            url: '{{ route("shopViewEdit") }}',
+                            url: '{{ route("affiliateViewEdit") }}',
                                     type: 'POST',
-                                    data: {shopid:shopid},
+                                    data: {affiliateid:affiliateid},
                                     headers: {
                                     'X-CSRF-TOKEN': csrfToken
                                     },
@@ -307,7 +307,7 @@
                                     $('#loading-image').fadeOut();
                                     $('#loading-overlay').fadeOut();
                                     var data1=data.trim();
-					                $("#showshopeviewedit").html(data1);
+					                $("#showaffiliateviewedit").html(data1);
                                     $('#ViewEditModal').modal('show');
 
                                 }
@@ -341,7 +341,7 @@
                                         }, 5000);
                                         $('#loading-image').fadeOut();
                                         $('#loading-overlay').fadeOut();
-                                        shopvieweditdet(shopid);
+                                        affiliatevieweditdet(shopid);
                                     }
                                     else if((data.result==2))
                                     {
@@ -352,21 +352,14 @@
                                         }, 5000);
                                         $('#loading-image').fadeOut();
                                         $('#loading-overlay').fadeOut();
-                                        shopvieweditdet(shopid);
+                                        affiliatevieweditdet(shopid);
                                     }
                                     else{
-                                        $("#showshopeviewedit").html('');
+                                        $("#showaffiliateapproved").html('');
                                         $('#ViewEditModal').modal('hide');
                                         $('#loading-image').fadeOut();
                                         $('#loading-overlay').fadeOut();
                                     }
-
-
-
-
-
-
-
                             }
                     });
 
@@ -391,8 +384,8 @@
                                     $('#loading-image').fadeOut();
                                     $('#loading-overlay').fadeOut();
                                     var data1=data.trim();
-					                $("#showshopeapproved").html(data1);
-                                    $('#ShopApprovedModal').modal('show');
+					                $("#showaffiliateapproved").html(data1);
+                                    $('#AffiliateApprovedModal').modal('show');
 
                                 }
                         });
@@ -435,9 +428,6 @@
                                         $('#loading-overlay').fadeOut();
                                         shwdets();
                                     }
-
-
-
                             }
                         });
                     });
@@ -452,3 +442,4 @@
 
 
     </script>
+@endsection
