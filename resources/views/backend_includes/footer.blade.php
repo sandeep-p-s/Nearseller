@@ -98,7 +98,6 @@
 
 
         </script>
->>>>>>> resources/views/backend_includes/footer.blade.php
 
     </body>
 
