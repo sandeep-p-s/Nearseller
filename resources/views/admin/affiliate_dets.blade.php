@@ -40,7 +40,7 @@
                                 <i class="mdi mdi-chevron-down"></i></button>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item view_btn1" href="#" onclick="affiliatevieweditdet({{ $AffDetails->id }})">View/Edit</a>
-                                <a class="dropdown-item approve_btn" href="#" onclick="shopapprovedet({{ $AffDetails->id }})">Approved</a>
+                                <a class="dropdown-item approve_btn" href="#" onclick="affiliateapprovedet({{ $AffDetails->id }})">Approved</a>
                                 <a class="dropdown-item delete_btn" href="#" onclick="shopdeletedet({{ $AffDetails->id }})">Delete</a>
                             </div>
                         </div>
@@ -288,9 +288,15 @@
                         </div>
 
 
-                        <div class="form-outline mb-3">
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">IFSC Code</label>
+                            <input type="text" id="branchifsc" name="branchifsc" readonly  maxlength="20"  class="form-control form-control-lg" placeholder="IFSC Code" required  tabindex="26"/>
+                            <label for="branchifsc" class="error"></label>
+                        </div>
 
 
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Branch Address</label>
+                            <textarea id="branchaddress" name="branchaddress" readonly placeholder="Branch Address" class="form-control form-control-lg"  tabindex="25" required ></textarea>
+                            <label for="branchaddress" class="error"></label>
                         </div>
 
 
@@ -342,6 +348,9 @@
                 $.get("/getStates/" + countryId, function (data) {
                     $('#state').empty().append('<option value="">Select State</option>');
                     $.each(data, function (index, state) {
+                        $('#branch_name').empty();
+                        $('#branchifsc').val('');
+                        $('#branchaddress').val('');
                         $('#state').append('<option value="' + state.id + '">' + state.state_name + '</option>');
                     });
                 });
@@ -354,6 +363,9 @@
                 $.get("/getDistricts/" + stateId, function (data) {
                     $('#district').empty().append('<option value="">Select District</option>');
                     $.each(data, function (index, district) {
+                        $('#branch_name').empty();
+                        $('#branchifsc').val('');
+                        $('#branchaddress').val('');
                         $('#district').append('<option value="' + district.id + '">' + district.district_name + '</option>');
                     });
                 });
@@ -367,6 +379,9 @@
                 $.get("/getStates/" + countryId, function (data) {
                     $('#bank_state').empty().append('<option value="">Select State</option>');
                     $.each(data, function (index, state) {
+                        $('#branch_name').empty();
+                        $('#branchifsc').val('');
+                        $('#branchaddress').val('');
                         $('#bank_state').append('<option value="' + state.id + '">' + state.state_name + '</option>');
                     });
                 });
@@ -379,6 +394,9 @@
                 $.get("/getDistricts/" + stateId, function (data) {
                     $('#bank_dist').empty().append('<option value="">Select District</option>');
                     $.each(data, function (index, district) {
+                        $('#branch_name').empty();
+                        $('#branchifsc').val('');
+                        $('#branchaddress').val('');
                         $('#bank_dist').append('<option value="' + district.id + '">' + district.district_name + '</option>');
                     });
                 });
@@ -400,6 +418,8 @@
                 },
                 success: function (data) {
                     var branchSelect = $('#branch_name');
+                    $('#branchifsc').val('');
+                    $('#branchaddress').val('');
                     branchSelect.empty().append('<option value="">Select Branch</option>');
                     $.each(data, function (index, branch) {
                         branchSelect.append('<option value="' + branch.id + '">' + branch.branch_name + '</option>');
@@ -410,6 +430,49 @@
                 }
             });
         });
+
+        $('#branch_name').change(function () {
+            var branchId = $(this).val();
+            $('#loading-overlay').fadeIn();
+            $('#loading-image').fadeIn();
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            if (branchId) {
+            $.ajax({
+                url: '{{ route("getIFSCode") }}',
+                type: 'POST',
+                data: {
+                    branchId: branchId,_token: csrfToken
+                },
+                success: function (data) {
+                    $.each(data, function (index, bank_dets) {
+                        $('#branchifsc').val(bank_dets.ifsc_code);
+                        $('#branchaddress').val(bank_dets.branch_address);
+                        $('#loading-image').fadeOut();
+                        $('#loading-overlay').fadeOut();
+                    });
+                },
+                error: function () {
+                    console.log('Error fetching branches');
+                    $('#branchifsc').val('');
+                    $('#branchaddress').val('');
+                    $('#loading-image').fadeOut();
+                    $('#loading-overlay').fadeOut();
+                }
+            });
+            }
+                else{
+                $('#branchifsc').val('');
+                $('#branchaddress').val('');
+                $('#loading-image').fadeOut();
+                $('#loading-overlay').fadeOut();
+
+            }
+            });
+
+
+
+
+
 
 
         $('#s_professions').change(function () {
@@ -802,7 +865,7 @@
             });
 
 
-            $('#s_name,#a_accname').on('input', function() {
+            $('#a_name,#a_accname').on('input', function() {
             var value = $(this).val();
             value = value.replace(/[^A-Za-z\s\.]+/, '');
             $(this).val(value);
