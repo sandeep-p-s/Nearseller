@@ -41,6 +41,7 @@ Route::controller(HomeController::class)->group(function () {
     Route::post('mobotpgenrte', 'MobLoginOTPgenrte')->name('mobotpgenrte');
     Route::get('/getDistricts/{state}', 'getDistricts')->name('getDistricts');;
     Route::get('/getStates/{country}', 'getStates')->name('getStates');
+    Route::post('BankBranches', 'getBankBranchesPage')->name('getBankBranches');
     Route::post('EmailLogin', 'EmailLoginPage')->name('EmailLogin');
 
     Route::post('sellerRegisteration', 'sellerRegisterationPage')->name('sellerRegisteration');
@@ -58,6 +59,7 @@ Route::controller(AdminController::class)->group(function (){
     Route::get('allshopsview', 'AllShopsList')->name('admin.allshopsview');
     Route::post('AdmsellerRegisteration','AdmsellerRegisterationPage')->name('AdmsellerRegisteration');
     Route::post('shopViewEdit', 'AdmshopViewEdits')->name('shopViewEdit');
+
     Route::post('shopGalryDelete', 'AdmshopGalryDelte')->name('shopGalryDelte');
     Route::post('AdmsellerUpdate','AdmsellerUpdatePage')->name('AdmsellerUpdate');
     Route::post('shopApproved', 'AdmshopApproved')->name('shopApproved');
@@ -66,6 +68,8 @@ Route::controller(AdminController::class)->group(function (){
 
     Route::get('affiliateapprovals', 'AffiliateApproval')->name('admin.affiliateapprovals');
     Route::post('allaffiliatesview', 'AllAffiliatesList')->name('admin.allaffiliatesview');
+    Route::post('AdmAffiliateRegisteration','AdmAffiliateRegisterationPage')->name('AdmAffiliateRegisteration');
+    Route::post('affiliateViewEdit', 'AdmAffiliateViewEdits')->name('affiliateViewEdit');
     });
 
 

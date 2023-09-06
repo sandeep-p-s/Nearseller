@@ -289,6 +289,22 @@
                             <label for="emanufactringdets" class="error"></label>
                         </div>
 
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Direct Affiliate</label>
+                            <input type="text" class="form-control form-control-lg" id="sdirectafflte" name="sdirectafflte"  value="{{ $sellerDetails->direct_affiliate }}">
+                            <label for="directafflte" class="error"></label>
+                        </div>
+
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Second Affiliate</label>
+                            <input type="text" class="form-control form-control-lg" id="ssecondafflte" name="ssecondafflte"  value="{{ $sellerDetails->second_affiliate }}">
+                            <label for="secondafflte" class="error"></label>
+                        </div>
+
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Shop Co-Ordinator</label>
+                            <input type="text" class="form-control form-control-lg" id="scoordinater" name="scoordinater"  value="{{ $sellerDetails->shop_coordinator }}">
+                            <label for="coordinater" class="error"></label>
+                        </div>
+
+
 
                         <div class="checkbox form-check-inline">
                             <input class="form-check-input" type="checkbox" id="es_termcondtn" name="es_termcondtn" value="1" required tabindex="25" {{ $sellerDetails->term_condition == 1 ? 'checked' : '' }}  >

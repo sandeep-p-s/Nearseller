@@ -263,10 +263,20 @@
                             <label for="manufactringdets" class="error"></label>
                         </div>
 
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Direct Affiliate</label>
+                            <input type="text" class="form-control form-control-lg" id="directafflte" name="directafflte">
+                            <label for="directafflte" class="error"></label>
+                        </div>
 
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Second Affiliate</label>
+                            <input type="text" class="form-control form-control-lg" id="secondafflte" name="secondafflte">
+                            <label for="secondafflte" class="error"></label>
+                        </div>
 
-
-
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Co-Ordinator</label>
+                            <input type="text" class="form-control form-control-lg" id="coordinater" name="coordinater">
+                            <label for="coordinater" class="error"></label>
+                        </div>
 
 
                         {{-- <div class="form-outline  mb-2">

@@ -19,7 +19,7 @@ class ProfessionSeeder extends Seeder
 
         ];
         foreach ($data as $item){
-            DB::table('professions')->insert(['religion_name' => $item['profession_name']], $item);
+            DB::table('professions')->insert(['profession_name' => $item['profession_name']], $item);
         }
     }
 }
