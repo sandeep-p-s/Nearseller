@@ -21,7 +21,11 @@ class ServiceTypeController extends Controller
 
     public function add_service_type()
     {
-        return view('admin.service_type.add');
+        $userRole = session('user_role');
+        $userId = session('user_id');
+        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        return view('admin.service_type.add',compact('loggeduser','userdetails'));
     }
 
     public function store_service_type(Request $request)
@@ -52,7 +56,7 @@ class ServiceTypeController extends Controller
         return view('admin.service_type.edit', compact('servicetype','loggeduser','userdetails'));
     }
 
-    public function update_shop_type(Request $request, $id)
+    public function update_service_type(Request $request, $id)
     {
         $servicetype = ServiceType::find($id);
         if (!$servicetype) {
@@ -64,6 +68,12 @@ class ServiceTypeController extends Controller
         ]);
 
         $servicetype->service_name = $request->service_name;
+        if ($request->status === 'Active')
+        {
+            $servicetype->status = 'Y';
+        } else {
+            $servicetype->status = 'N';
+        }
         $servicetype->save();
 
         return redirect()->route('list.servicetype')->with('success', 'Service Type added successfully.');

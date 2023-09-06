@@ -31,6 +31,13 @@
                                         @error('shop_name')
                                         <div class="text-danger mb15">{{ $message }}</div>
                                     @enderror
+                                    <div class="form-group">
+                                        <label for="exampleFormControlSelect1">Status</label>
+                                        <select class="form-control" id="exampleFormControlSelect1" name="status">
+                                            <option value="Active" @if($shoptype->status === 'Y') selected @endif>Active</option>
+                                            <option value="Inactive" @if($shoptype->status === 'N') selected @endif>Inactive</option>
+                                        </select>
+                                    </div>
                                     <button type="submit" class="btn view_btn">Update</button>
                                 </div>
                             </form>

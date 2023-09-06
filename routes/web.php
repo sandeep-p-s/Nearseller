@@ -10,6 +10,7 @@ use App\Http\Controllers\ServiceTypeController;
 use App\Http\Controllers\BusinessTypeController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\AffiliateController;
+use App\Http\Controllers\ExecutiveController;
 use App\Http\Controllers\RoleController;
 
 /*
@@ -111,7 +112,16 @@ Route::controller(AdminController::class)->group(function (){
         Route::post('serviceupdate/{id}', 'update_service_type')->name('update.servicetype');
         Route::get('servicedelete/{id}', 'delete_service_type')->name('delete.servicetype');
     });
-//});
+
+    Route::controller(ExecutiveController::class)->group(function () {
+        Route::get('listexecutive', 'list_executive')->name('list.executive');
+        Route::get('addexecutive', 'add_executive')->name('add.executive');
+        Route::post('saveexecutive', 'store_executive')->name('store.executive');
+        Route::get('editexecutive/{id}', 'edit_executive')->name('edit.executive');
+        Route::post('updateexecutive/{id}', 'update_executive_type')->name('update.executive');
+        Route::get('deleteexecutive/{id}', 'delete_executive')->name('delete.executive');
+    });
+
 Route::controller(SellerController::class)->group(function () {
     //Route::get('dashboard', 'sellerdashboard')->name('seller.dashboard');
 });

@@ -76,7 +76,7 @@
             </ul>
         </li>
         <hr class="hr-dashed hr-menu">
-        <li><a href="executive_type_table.html"> <i data-feather="hhh"
+        <li><a href="{{ route('list.executive') }}"> <i data-feather="hhh"
                     class="align-self-center menu-icon"></i><span>Executives</span><span
                     class="menu-arrow"></span></a> </li>
         <hr class="hr-dashed hr-menu">

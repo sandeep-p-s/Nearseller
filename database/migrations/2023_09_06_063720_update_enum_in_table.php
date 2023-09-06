@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('executives', function (Blueprint $table) {
-            $table->id();
-            $table->string('executive_name')->nullable();
-            $table->unsignedBigInteger('executive_type');
-            $table->string('status',1)->default('Y')->nullable();
-            $table->timestamps();
+        Schema::table('service_types', function (Blueprint $table) {
+            $table->string('status', 10)->default('Y')->nullable()->change();
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('executives');
+        Schema::table('service_types', function (Blueprint $table) {
+            $table->enum('status', ['active', 'inactive'])->default('active')->change();
+        });
     }
 };

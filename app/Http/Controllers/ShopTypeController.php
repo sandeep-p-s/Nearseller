@@ -67,6 +67,12 @@ class ShopTypeController extends Controller
         ]);
 
         $shoptype->shop_name = $request->shop_name;
+        if ($request->status === 'Active')
+        {
+            $shoptype->status = 'Y';
+        } else {
+            $shoptype->status = 'N';
+        }
         $shoptype->save();
 
         return redirect()->route('list.shoptype')->with('success', 'Shop Type added successfully.');
