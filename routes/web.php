@@ -47,6 +47,7 @@ Route::controller(HomeController::class)->group(function () {
     Route::post('sellerRegisteration', 'sellerRegisterationPage')->name('sellerRegisteration');
     Route::post('affiliatorRegisteration', 'affiliatorRegisterationPage')->name('affiliatorRegisteration');
     Route::post('shopnotregreferal', 'ShopNotRegRefaralId')->name('shopnotregreferal');
+    Route::post('getIFSCode', 'getIFSCodePage')->name('getIFSCode');
 });
 
 Route::controller(UserLoggedController::class)->group(function () {
@@ -70,6 +71,13 @@ Route::controller(AdminController::class)->group(function (){
     Route::post('allaffiliatesview', 'AllAffiliatesList')->name('admin.allaffiliatesview');
     Route::post('AdmAffiliateRegisteration','AdmAffiliateRegisterationPage')->name('AdmAffiliateRegisteration');
     Route::post('affiliateViewEdit', 'AdmAffiliateViewEdits')->name('affiliateViewEdit');
+    Route::post('affiliateadhaarDelte', 'AdmAfiliateAdharDelte')->name('affiliateadhaarDelte');
+    Route::post('affiliatePassDelte', 'AdmAfiliatePassDelte')->name('affiliatePassDelte');
+    Route::post('affiliatePhotoDelte', 'AdmAfiliatePhotoDelte')->name('affiliatePhotoDelte');
+    Route::post('AdmAffiliateUpdate','AdmaffiliateUpdatePage')->name('AdmAffiliateUpdate');
+    Route::post('affiliateApproved', 'AdmaffiliateApproved')->name('affiliateApproved');
+
+
     });
 
 

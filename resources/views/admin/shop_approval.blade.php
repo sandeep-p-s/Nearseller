@@ -14,7 +14,7 @@
                             <div class="col">
                                 <h4 class="page-title">Shop Approval List</h4>
                                 <div class="col text-right">
-                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addNewModal">Add New Shops</button>
+                                    <button class="btn add_btn" data-bs-toggle="modal" data-bs-target="#addNewModal">Add New Shops</button>
                                 </div>
                             </div>
                         </div>
@@ -35,28 +35,32 @@
 
             <div class="row">
                 <div class="col-12">
-                    <div class="card">
-                        <table >
-                            <tr>
-                                <td>
-                                    <input type="text" id="emal_mob" name="emal_mob" class="form-control  form-control-lg" placeholder="Email/Mobile No" onchange="shwdets();" />
-                                </td>
-                                <td>
-                                    <input type="text" id="shopname" name="shopname" class="form-control  form-control-lg" placeholder="Shop Name"  onchange="shwdets();" />
-                                </td>
-                                <td>
-                                    <input type="text" id="ownername" name="ownername" class="form-control  form-control-lg" placeholder="Owner Name"  onchange="shwdets();" />
-                                </td>
-                                <td>
-                                    <input type="text" id="referalid" name="referalid" class="form-control  form-control-lg" placeholder="Refferal ID"  onchange="shwdets();" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="4" align="center">
-                                    <input type="button" id="btnsearch" name="btnsearch" class="btn btn-primary" value="Search" onClick="shwdets()" />
-                                </td>
-                            </tr>
-                        </table>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                          <input type="text" id="emal_mob" name="emal_mob" class="form-control  form-control-lg" placeholder="Email/Mobile No" onchange="shwdets();" />
+                        </div>
+
+                        <div class="col-md-3">
+
+                          <input type="text" id="shopname" name="shopname" class="form-control  form-control-lg" placeholder="Shop Name" onchange="shwdets();" />
+                        </div>
+
+                        <div class="col-md-3">
+
+                            <input type="text" id="ownername" name="ownername" class="form-control  form-control-lg" placeholder="Owner Name" onchange="shwdets();" />
+                          </div>
+
+                        <div class="col-md-3">
+                          <input type="text" id="referalid" name="referalid" class="form-control  form-control-lg" placeholder="Refferal ID" onchange="shwdets();" />
+
+                        </div>
+
+                        <div class="col-md-12 col-lg-12 d-flex justify-content-center" style="margin-top: 20px;">
+                          <input type="button" id="btnsearch" name="btnsearch" class="btn btn-primary" value="Search" onClick="shwdets()" />
+
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -119,20 +123,6 @@
                     </div>
                 </div>
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         </div>

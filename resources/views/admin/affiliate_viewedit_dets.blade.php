@@ -14,6 +14,13 @@
     $totpassimg = count($passbook_fileval);
 
 
+    $photo_file=$Affiliate->photo_file;
+    $photo_filearray = json_decode($photo_file);
+    $photos=$photo_filearray->photos;
+    $photosval = json_decode(json_encode($photos),true);
+    $totphotoimg = count($photosval);
+
+
 
 
 
@@ -33,12 +40,12 @@
                         </div>
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Mobile Number</label>
                             <input type="text" id="ea_mobno" name="ea_mobno" class="form-control form-control-lg"  maxlength="10"  placeholder="Mobile No" required tabindex="3"  onchange="exstmobno(this.value,'2')" value="{{ $Affiliate->mob_no }}"   />
-                            <label for="a_mobno" class="error"></label>
+                            <label for="ea_mobno" class="error"></label>
                             <div id="esmob-message"  class="text-center" style="display: none;"></div>
                         </div>
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Email ID</label>
-                            <input type="email" id="a_email" name="a_email" class="form-control form-control-lg"  maxlength="35"  placeholder="Email ID" required tabindex="4"  onchange="exstemilid(this.value,'2')" value="{{ $Affiliate->email }}"  />
-                            <label for="a_email" class="error"></label>
+                            <input type="email" id="ea_email" name="ea_email" class="form-control form-control-lg"  maxlength="35"  placeholder="Email ID" required tabindex="4"  onchange="exstemilid(this.value,'2')" value="{{ $Affiliate->email }}"  />
+                            <label for="ea_email" class="error"></label>
                             <div id="esemil-message"  class="text-center" style="display: none;"></div>
                         </div>
                         <div class="form-outline mb-3"><label class="w-100">Date of Birth</label>
@@ -108,7 +115,7 @@
                                 <select class="form-select form-control form-control-lg" name="ecountry"  aria-label="Default select example" id="ecountry" required  tabindex="14" >
                                     <option value="">Select country</option>
                                         @foreach ($countries as $country)
-                                            <option value="{{ $country->id }}" @if($Affiliate->country === $country->id) selected @endif >{{ $country->country_name }}</option>
+                                            <option value="{{ $country->id }}" @if($Affiliate->country == $country->id) selected @endif >{{ $country->country_name }}</option>
                                         @endforeach
                                 </select>
                                 <label for="country" class="error"></label>
@@ -137,18 +144,18 @@
 
                     <div class="col-md-4">
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">PAN Number</label>
-                            <input type="text" id="s_panno" name="s_panno"  maxlength="12"  value="{{ $Affiliate->pan_no }}"  class="form-control form-control-lg" placeholder="PAN Number" required  tabindex="21" />
-                            <label for="s_panno" class="error"></label>
+                            <input type="text" id="es_panno" name="es_panno"  maxlength="12"  value="{{ $Affiliate->pan_no }}"  class="form-control form-control-lg" placeholder="PAN Number" required  tabindex="21" />
+                            <label for="es_panno" class="error"></label>
                         </div>
 
                         <div class="form-outline mb-3"><label class="regis_date" for="regis_date"> Registration Date</label>
-                            <input type="date" id="s_registerdate" name="s_registerdate"  value="{{ $Affiliate->registration_date }}"  maxlength="10"  class="form-control form-control-lg" placeholder="Registration Date"  tabindex="24" />
-                            <label for="s_registerdate" class="error"></label>
+                            <input type="date" id="es_registerdate" name="es_registerdate"  value="{{ $Affiliate->registration_date }}"  maxlength="10"  class="form-control form-control-lg" placeholder="Registration Date"  tabindex="24" />
+                            <label for="es_registerdate" class="error"></label>
                         </div>
 
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Aadhar card front & back</label>
-                            <input type="file" id="a_aadharphoto"  multiple=""  name="a_aadharphoto[]" class="form-control form-control-lg" placeholder="Aadhar card front & back" required tabindex="19" accept="image/jpeg, image/png"  />
-                            <label for="a_aadharphoto" class="error"></label>
+                            <input type="file" id="ea_aadharphoto"  multiple=""  name="ea_aadharphoto[]" class="form-control form-control-lg" placeholder="Aadhar card front & back"  tabindex="19" accept="image/jpeg, image/png"  />
+                            <label for="ea_aadharphoto" class="error"></label>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group" align="left">
@@ -188,9 +195,13 @@
                             </div>
                         </div>
 
+                        <div class="col-md-12">
+                            <div id="aahar_gal-message"  class="text-center" style="display: none;"></div>
+                        </div>
+
 
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Passbook front & back</label>
-                            <input type="file" id="ea_passbook"  multiple=""  name="ea_passbook[]" class="form-control form-control-lg" placeholder="Passbook front & back" required tabindex="19" accept="image/jpeg, image/png"  />
+                            <input type="file" id="ea_passbook"  multiple=""  name="ea_passbook[]" class="form-control form-control-lg" placeholder="Passbook front & back"  tabindex="19" accept="image/jpeg, image/png"  />
                             <label for="ea_passbook" class="error"></label>
                         </div>
                         <div class="col-md-12">
@@ -232,6 +243,10 @@
                             </div>
                         </div>
 
+                        <div class="col-md-12">
+                            <div id="pass_gal-message"  class="text-center" style="display: none;"></div>
+                        </div>
+
 
 
 
@@ -240,91 +255,152 @@
 
 
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Upload Photo</label>
-                            <input type="file" id="a_uplodphoto"  name="a_uplodphoto[]" class="form-control form-control-lg" placeholder="Passbook front & back" required tabindex="19" accept="image/jpeg, image/png"  />
-                            <label for="a_uplodphoto" class="error"></label>
+                            <input type="file" id="ea_uplodphoto"  name="ea_uplodphoto[]" class="form-control form-control-lg" placeholder="Passbook front & back"  tabindex="19" accept="image/jpeg, image/png"  />
+                            <label for="ea_uplodphoto" class="error"></label>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group" align="left">
-                                    <div id="image-preview_photo" class="row"></div>
+                                    <div id="eimage-preview_photo" class="row"></div>
                             </div>
                         </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group" align="center">
+                                <div class="row">
+                                    @for($m = 0; $m < $totphotoimg; $m++)
+                                        <div class="col-md-3">
+                                            <a href="#" data-toggle="modal" data-target="#myModalsph{{ $m }}">
+                                                <img id="img-bufferm" src="{{ asset($photos[$m]) }}" width="100" height="100">
+                                                @php
+                                                    $valen = $photos[$m] . "#" . $Affiliate->id;
+                                                    $deleencde = base64_encode($valen);
+                                                @endphp
+                                            </a><br>
+                                            <button id="remv" type="button" name="remv" class="btn btn-danger" onClick="DeltPhotosImag('{{ $deleencde }}');">X</button>
+                                        </div>
+
+                                        <div class="modal fade" id="myModalsph{{ $m }}" tabindex="-1" role="dialog" aria-labelledby="myModalsphLabel" aria-hidden="true" style="width: 80%;">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <img src="{{ asset($photos[$m]) }}" class="img-fluid">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endfor
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div id="photo_gal-message"  class="text-center" style="display: none;"></div>
+                        </div>
+
+
+
+
+
 
                     </div>
                     <div class="col-md-4">
 
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Direct Affiliate</label>
-                            <input type="text" class="form-control form-control-lg" id="directafflte" name="directafflte">
-                            <label for="directafflte" class="error"></label>
+                            <input type="text" class="form-control form-control-lg" id="edirectafflte" name="edirectafflte" value="{{ $Affiliate->direct_affiliate }}" >
+                            <label for="edirectafflte" class="error"></label>
                         </div>
 
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Co-Ordinator</label>
-                            <input type="text" class="form-control form-control-lg" id="coordinater" name="coordinater">
-                            <label for="coordinater" class="error"></label>
+                            <input type="text" class="form-control form-control-lg" id="ecoordinater" name="ecoordinater" value="{{ $Affiliate->aff_coordinator }}">
+                            <label for="ecoordinater" class="error"></label>
                         </div>
 
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Account Name</label>
-                            <input type="text" id="a_accname" name="a_accname"  maxlength="50"  class="form-control form-control-lg" placeholder="Account Name"  tabindex="25" />
-                            <label for="a_accname" class="error"></label>
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Account Holder Name</label>
+                            <input type="text" id="ea_accname" name="ea_accname"  maxlength="50"  class="form-control form-control-lg" placeholder="Account Holder Name"  tabindex="25" value="{{ $Affiliate->account_holder_name }}"/>
+                            <label for="ea_accname" class="error"></label>
                         </div>
 
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Account Number</label>
-                            <input type="text" id="a_accno" name="a_accno"  maxlength="20"  class="form-control form-control-lg" placeholder="Account Number"  tabindex="26" />
-                            <label for="a_accno" class="error"></label>
+                            <input type="text" id="ea_accno" name="ea_accno"  maxlength="20"  class="form-control form-control-lg" placeholder="Account Number"  tabindex="26" value="{{ $Affiliate->account_no }}" />
+                            <label for="ea_accno" class="error"></label>
                         </div>
 
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Bank Name</label>
-                            <select class="form-select form-control form-control-lg" name="bank_name"  aria-label="Default select example" id="bank_name" required  tabindex="27" >
+                            <select class="form-select form-control form-control-lg" name="ebank_name"  aria-label="Default select example" id="ebank_name" required  tabindex="27" >
                                 <option value="">Select Bank Name</option>
                                     @foreach ($bank_types as $banktype)
-                                        <option value="{{ $banktype->id }}">{{ $banktype->bank_name }}</option>
+                                        <option value="{{ $banktype->id }}"  @if($Affiliate->bank_type == $banktype->id) selected @endif>{{ $banktype->bank_name }}</option>
                                     @endforeach
                             </select>
                             <label for="bank_name" class="error"></label>
                         </div>
 
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Bank Country</label>
-                            <select class="form-select form-control form-control-lg" name="bank_country"  aria-label="Default select example" id="bank_country" required  tabindex="28" >
+                            <select class="form-select form-control form-control-lg" name="ebank_country"  aria-label="Default select example" id="ebank_country" required  tabindex="28" >
                                 <option value="">Select country</option>
                                     @foreach ($countries as $bankcontry)
-                                        <option value="{{ $bankcontry->id }}">{{ $bankcontry->country_name }}</option>
+                                        <option value="{{ $bankcontry->id }}" @if($Affiliate->bank_country == $bankcontry->id) selected @endif>{{ $bankcontry->country_name }}</option>
                                     @endforeach
                             </select>
-                            <label for="bank_country" class="error"></label>
+                            <label for="ebank_country" class="error"></label>
                         </div>
 
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Bank State</label>
-                            <select class="form-select form-control form-control-lg" name="bank_state"  aria-label="Default select example" id="bank_state" required  tabindex="27" >
+                            <select class="form-select form-control form-control-lg" name="ebank_state"  aria-label="Default select example" id="ebank_state" required  tabindex="27" >
                                 <option value="">Select state</option>
+                                    @foreach ($bankstates as $bankstate)
+                                        <option value="{{ $bankstate->id }}" @if ($bankstate->id == $Affiliate->bank_state) selected @endif>{{ $bankstate->state_name }}</option>
+                                    @endforeach
                             </select>
                             <label for="bank_state" class="error"></label>
                         </div>
 
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Bank district</label>
-                            <select class="form-select form-control form-control-lg" name="bank_dist"  aria-label="Default select example" id="bank_dist" required  tabindex="28" >
+                            <select class="form-select form-control form-control-lg" name="ebank_dist"  aria-label="Default select example" id="ebank_dist" required  tabindex="28" >
                                 <option value="">Select district</option>
+                                    @foreach ($bankdistricts as $bankdist)
+                                    <option value="{{ $bankdist->id }}" @if (($bankdist->id == $Affiliate->bank_dist) && ($bankdist->state_id == $Affiliate->bank_state)) selected @endif>{{ $bankdist->district_name }}</option>
+                                    @endforeach
                             </select>
                             <label for="bank_dist" class="error"></label>
                         </div>
 
 
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Branch Name</label>
-                            <select class="form-select form-control form-control-lg" name="branch_name"  aria-label="Default select example" id="branch_name" required  tabindex="29" >
+                            <select class="form-select form-control form-control-lg" name="ebranch_name"  aria-label="Default select example" id="ebranch_name" required  tabindex="29" >
                                 <option value="">Select Branch</option>
+                                    @foreach ($branchdetails as $bankbranch)
+                                    <option value="{{ $bankbranch->id }}" @if ($bankbranch->id == $Affiliate->branch_code) selected @endif>{{ $bankbranch->branch_name }}</option>
+                                    @endforeach
 
                             </select>
-                            <label for="branch_name" class="error"></label>
+                            <label for="ebranch_name" class="error"></label>
                         </div>
 
 
-                        <div class="form-outline mb-3">
-
-
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">IFSC Code</label>
+                            <input type="text" id="ebranchifsc" name="ebranchifsc" readonly  maxlength="20"  class="form-control form-control-lg" placeholder="IFSC Code" required  tabindex="26" value="{{ $Affiliate->ifsc_code }}" />
+                            <label for="ebranchifsc" class="error"></label>
                         </div>
+
+
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Branch Address</label>
+                            <textarea id="ebranchaddress" name="ebranchaddress" readonly placeholder="Branch Address" class="form-control form-control-lg"  tabindex="25" required >{{ $Affiliate->branch_address }}</textarea>
+                            <label for="ebranchaddress" class="error"></label>
+                        </div>
+
+
+
+
+
 
 
                         <div class="checkbox form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="s_termcondtn" name="s_termcondtn" value="1" required tabindex="26" >
-                            <label class="inlineCheckbox1" for="s_termcondtn"> Accept Terms & Conditions </label>
+                            <input class="form-check-input" type="checkbox" id="es_termcondtn" name="es_termcondtn" value="1" required tabindex="26" {{ $Affiliate->terms_condition == 1 ? 'checked' : '' }}>
+                            <label class="inlineCheckbox1" for="es_termcondtn"> Accept Terms & Conditions </label>
                         </div>
                     </div>
 
@@ -337,8 +413,10 @@
                     </div>
 
 
+
+
                     <div class="col-md-12">
-                        <div id="afflitereg-message"  class="text-center" style="display: none;"></div>
+                        <div id="affliterupdte-message"  class="text-center" style="display: none;"></div>
                     </div>
 
 
@@ -352,62 +430,74 @@
 
 <script>
 
-        $('#country').change(function () {
-            $('#district').empty();
+        $('#ecountry').change(function () {
+            $('#edistrict').empty();
             var countryId = $(this).val();
             if (countryId) {
                 $.get("/getStates/" + countryId, function (data) {
-                    $('#state').empty().append('<option value="">Select State</option>');
+                    $('#estate').empty().append('<option value="">Select State</option>');
                     $.each(data, function (index, state) {
-                        $('#state').append('<option value="' + state.id + '">' + state.state_name + '</option>');
+                        $('#ebranch_name').empty();
+                        $('#ebranchifsc').val('');
+                        $('#ebranchaddress').val('');
+                        $('#estate').append('<option value="' + state.id + '">' + state.state_name + '</option>');
                     });
                 });
             }
         });
 
-        $('#state').change(function () {
+        $('#estate').change(function () {
             var stateId = $(this).val();
             if (stateId) {
                 $.get("/getDistricts/" + stateId, function (data) {
-                    $('#district').empty().append('<option value="">Select District</option>');
+                    $('#edistrict').empty().append('<option value="">Select District</option>');
                     $.each(data, function (index, district) {
-                        $('#district').append('<option value="' + district.id + '">' + district.district_name + '</option>');
+                        $('#ebranch_name').empty();
+                        $('#ebranchifsc').val('');
+                        $('#ebranchaddress').val('');
+                        $('#edistrict').append('<option value="' + district.id + '">' + district.district_name + '</option>');
                     });
                 });
             }
         });
 
-        $('#bank_country').change(function () {
-            $('#bank_dist').empty();
+        $('#ebank_country').change(function () {
+            $('#ebank_dist').empty();
             var countryId = $(this).val();
             if (countryId) {
                 $.get("/getStates/" + countryId, function (data) {
-                    $('#bank_state').empty().append('<option value="">Select State</option>');
+                    $('#ebank_state').empty().append('<option value="">Select State</option>');
                     $.each(data, function (index, state) {
-                        $('#bank_state').append('<option value="' + state.id + '">' + state.state_name + '</option>');
+                        $('#ebranch_name').empty();
+                        $('#ebranchifsc').val('');
+                        $('#ebranchaddress').val('');
+                        $('#ebank_state').append('<option value="' + state.id + '">' + state.state_name + '</option>');
                     });
                 });
             }
         });
 
-        $('#bank_state').change(function () {
+        $('#ebank_state').change(function () {
             var stateId = $(this).val();
             if (stateId) {
                 $.get("/getDistricts/" + stateId, function (data) {
-                    $('#bank_dist').empty().append('<option value="">Select District</option>');
+                    $('#ebank_dist').empty().append('<option value="">Select District</option>');
                     $.each(data, function (index, district) {
-                        $('#bank_dist').append('<option value="' + district.id + '">' + district.district_name + '</option>');
+                        $('#ebranch_name').empty();
+                        $('#ebranchifsc').val('');
+                        $('#ebranchaddress').val('');
+                        $('#ebank_dist').append('<option value="' + district.id + '">' + district.district_name + '</option>');
                     });
                 });
             }
         });
 
 
-        $('#bank_dist').change(function () {
-        var bankName = $('#bank_name').val();
-        var bankCountry = $('#bank_country').val();
-        var bankState = $('#bank_state').val();
-        var bankDist = $('#bank_dist').val();
+        $('#ebank_dist').change(function () {
+        var bankName = $('#ebank_name').val();
+        var bankCountry = $('#ebank_country').val();
+        var bankState = $('#ebank_state').val();
+        var bankDist = $('#ebank_dist').val();
         var csrfToken = $('meta[name="csrf-token"]').attr('content');
             $.ajax({
                 url: '{{ route("getBankBranches") }}',
@@ -416,7 +506,9 @@
                     bank_name: bankName,bank_country: bankCountry,bank_state: bankState,bank_dist: bankDist,_token: csrfToken
                 },
                 success: function (data) {
-                    var branchSelect = $('#branch_name');
+                    var branchSelect = $('#ebranch_name');
+                    $('#ebranchifsc').val('');
+                    $('#ebranchaddress').val('');
                     branchSelect.empty().append('<option value="">Select Branch</option>');
                     $.each(data, function (index, branch) {
                         branchSelect.append('<option value="' + branch.id + '">' + branch.branch_name + '</option>');
@@ -426,6 +518,45 @@
                     console.log('Error fetching branches');
                 }
             });
+        });
+
+
+        $('#ebranch_name').change(function () {
+            var branchId = $(this).val();
+            $('#loading-overlay').fadeIn();
+            $('#loading-image').fadeIn();
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            if (branchId) {
+            $.ajax({
+                url: '{{ route("getIFSCode") }}',
+                type: 'POST',
+                data: {
+                    branchId: branchId,_token: csrfToken
+                },
+                success: function (data) {
+                    $.each(data, function (index, bank_dets) {
+                        $('#ebranchifsc').val(bank_dets.ifsc_code);
+                        $('#ebranchaddress').val(bank_dets.branch_address);
+                        $('#loading-image').fadeOut();
+                        $('#loading-overlay').fadeOut();
+                    });
+                },
+                error: function () {
+                    console.log('Error fetching branches');
+                    $('#ebranchifsc').val('');
+                    $('#ebranchaddress').val('');
+                    $('#loading-image').fadeOut();
+                    $('#loading-overlay').fadeOut();
+                }
+            });
+        }
+        else{
+            $('#ebranchifsc').val('');
+            $('#ebranchaddress').val('');
+            $('#loading-image').fadeOut();
+            $('#loading-overlay').fadeOut();
+
+        }
         });
 
 
@@ -451,12 +582,12 @@
             var fileArrs = [];
             var totalFiless = 0;
 
-            $("#a_aadharphoto").change(function(event) {
+            $("#ea_aadharphoto").change(function(event) {
                 var totalFileCount = $(this)[0].files.length;
                 if (totalFiless + totalFileCount > 2) {
                     alert('Maximum 2 images allowed');
                     $(this).val('');
-                    $('#image-preview').html('');
+                    $('#eimage-preview').html('');
                     return;
                 }
 
@@ -466,7 +597,7 @@
                     if (file.size > 3145728) {
                         alert('File size exceeds the limit of 3MB');
                         $(this).val('');
-                        $('#image-preview').html('');
+                        $('#eimage-preview').html('');
                         return;
                     }
 
@@ -483,7 +614,7 @@
                             imgDiv.append(img);
                             imgDiv.append($('<div>').addClass('middle').append(removeBtn));
 
-                            $('#image-preview').append(imgDiv);
+                            $('#eimage-preview').append(imgDiv);
                         };
                     })(file);
 
@@ -501,7 +632,7 @@
                         break;
                     }
                 }
-                document.getElementById('a_aadharphoto').files = new FileListItem(fileArrs);
+                document.getElementById('ea_aadharphoto').files = new FileListItem(fileArrs);
                 $(this).closest('.img-div').remove();
             });
 
@@ -509,12 +640,12 @@
             var fileArrs_p = [];
             var totalFiless_p = 0;
 
-            $("#a_passbook").change(function(event) {
+            $("#ea_passbook").change(function(event) {
                 var totalFileCount = $(this)[0].files.length;
                 if (totalFiless_p + totalFileCount > 2) {
                     alert('Maximum 2 images allowed');
                     $(this).val('');
-                    $('#image-preview_pass').html('');
+                    $('#eimage-preview_pass').html('');
                     return;
                 }
 
@@ -524,7 +655,7 @@
                     if (file.size > 3145728) {
                         alert('File size exceeds the limit of 3MB');
                         $(this).val('');
-                        $('#image-preview_pass').html('');
+                        $('#eimage-preview_pass').html('');
                         return;
                     }
 
@@ -541,7 +672,7 @@
                             imgDiv.append(img);
                             imgDiv.append($('<div>').addClass('middle').append(removeBtn));
 
-                            $('#image-preview_pass').append(imgDiv);
+                            $('#eimage-preview_pass').append(imgDiv);
                         };
                     })(file);
 
@@ -559,7 +690,7 @@
                         break;
                     }
                 }
-                document.getElementById('a_passbook').files = new FileListItem(fileArrs_p);
+                document.getElementById('ea_passbook').files = new FileListItem(fileArrs_p);
                 $(this).closest('.img-div').remove();
             });
 
@@ -568,12 +699,12 @@
             var fileArrs_up = [];
             var totalFiless_up = 0;
 
-            $("#a_uplodphoto").change(function(event) {
+            $("#ea_uplodphoto").change(function(event) {
                 var totalFileCount = $(this)[0].files.length;
                 if (totalFiless_up + totalFileCount > 1) {
                     alert('Maximum 1 images allowed');
                     $(this).val('');
-                    $('#image-preview_photo').html('');
+                    $('#eimage-preview_photo').html('');
                     return;
                 }
 
@@ -583,7 +714,7 @@
                     if (file.size > 3145728) {
                         alert('File size exceeds the limit of 3MB');
                         $(this).val('');
-                        $('#image-preview_photo').html('');
+                        $('#eimage-preview_photo').html('');
                         return;
                     }
 
@@ -600,7 +731,7 @@
                             imgDiv.append(img);
                             imgDiv.append($('<div>').addClass('middle').append(removeBtn));
 
-                            $('#image-preview_photo').append(imgDiv);
+                            $('#eimage-preview_photo').append(imgDiv);
                         };
                     })(file);
 
@@ -618,7 +749,7 @@
                         break;
                     }
                 }
-                document.getElementById('a_uplodphoto').files = new FileListItem(fileArrs_up);
+                document.getElementById('ea_uplodphoto').files = new FileListItem(fileArrs_up);
                 $(this).closest('.img-div').remove();
             });
 
@@ -641,185 +772,185 @@
         }
 
 
-        $("#AffilateRegForm").validate({
+        $("#AffilateRegFormEdit").validate({
 
             rules: {
-                a_name: {
+                ea_name: {
                     required: true,
                     pattern: /^[A-Za-z\s\.]+$/,
                 },
-                a_mobno: {
+                ea_mobno: {
                     required: true,
                     digits: true,
                     minlength: 10,
                 },
-                a_email: {
+                ea_email: {
                     required: true,
                     email: true,
                 },
-                a_dob: {
+                ea_dob: {
                     required: true,
                 },
-                s_professions: {
+                es_professions: {
                     required: true,
                 },
-                a_marital: {
+                ea_marital: {
                     required: true,
                 },
-                a_religion: {
+                ea_religion: {
                     required: true,
                 },
-                a_aadharno: {
+                ea_aadharno: {
                     required: true,
                     digits: true,
                     minlength: 12,
                 },
-                a_locality: {
+                ea_locality: {
                     required: true,
                 },
-                country: {
+                ecountry: {
                     required: true,
                 },
-                state: {
+                estate: {
                     required: true,
                 },
-                district: {
+                edistrict: {
                     required: true,
                 },
-                s_termcondtn: {
+                es_termcondtn: {
                     required: true,
                 },
-                s_panno: {
+                es_panno: {
                     required: true,
                 },
-                s_registerdate: {
+                es_registerdate: {
                     required: true,
                 },
-                s_termcondtn: {
+                es_termcondtn: {
                     required: true,
                 },
-                a_aadharphoto: {
-                    required: true,
-                    extension: 'jpg|jpeg|png',
-                },
-                a_passbook: {
+                ea_aadharphoto: {
                     required: true,
                     extension: 'jpg|jpeg|png',
                 },
-                a_uplodphoto: {
+                ea_passbook: {
                     required: true,
                     extension: 'jpg|jpeg|png',
                 },
-                a_accname: {
+                ea_uplodphoto: {
+                    required: true,
+                    extension: 'jpg|jpeg|png',
+                },
+                ea_accname: {
                     required: true,
                 },
-                a_accno: {
+                ea_accno: {
                     required: true,
                     digits: true,
                 },
-                bank_name: {
+                ebank_name: {
                     required: true,
                 },
-                bank_country: {
+                ebank_country: {
                     required: true,
                 },
-                bank_state: {
+                ebank_state: {
                     required: true,
                 },
-                bank_dist: {
+                ebank_dist: {
                     required: true,
                 },
-                branch_name: {
+                ebranch_name: {
                     required: true,
                 },
-                gender: {
+                egender: {
                     required: true,
                 },
 
 
             },
             messages: {
-                a_name: {
+                ea_name: {
                     pattern: "Only characters, spaces, and dots are allowed.",
                 },
-                a_mobno: {
+                ea_mobno: {
                     digits: "Please enter a valid mobile number.",
                 },
-                a_email: {
+                ea_email: {
                     email: "Please enter a valid email address.",
                 },
-                a_aadharno: {
+                ea_aadharno: {
                     digits: "Please enter a valid aadhaar number.",
                 },
-                a_locality: {
+                ea_locality: {
                     required: "Please enter the locality.",
                     maxlength: "Locality must not exceed 100 characters."
                 },
 
-                s_professions: {
+                es_professions: {
                     required: "Please select a profession."
                 },
-                a_marital: {
+                ea_marital: {
                     required: "Please select a marital status."
                 },
-                a_religion: {
+                ea_religion: {
                     required: "Please select a religion."
                 },
 
-                country: {
+                ecountry: {
                     required: "Please select a country."
                 },
-                state: {
+                estate: {
                     required: "Please select a state."
                 },
-                district: {
+                edistrict: {
                     required: "Please select a district."
                 },
-                s_panno: {
+                es_panno: {
                     required: "Please enter the PAN number.",
                     maxlength: "PAN number must not exceed 12 characters."
                 },
-                s_registerdate: {
+                es_registerdate: {
                     required: "Please select the registration date."
                 },
-                a_aadharphoto: {
+                ea_aadharphoto: {
                     extension: "Only JPG and PNG files are allowed.",
                 },
-                a_passbook: {
+                ea_passbook: {
                     extension: "Only JPG and PNG files are allowed.",
                 },
-                a_uplodphoto: {
+                ea_uplodphoto: {
                     extension: "Only JPG and PNG files are allowed.",
                 },
-                a_accname: {
+                ea_accname: {
                     pattern: "Only characters, spaces, and dots are allowed.",
                 },
-                a_accno: {
+                ea_accno: {
                     pattern: "Please enter a valid account number.",
                 },
-                bank_name: {
+                ebank_name: {
                     pattern: "Please select a bank name.",
                 },
-                bank_country: {
+                ebank_country: {
                     pattern: "Please select a bank country.",
                 },
-                bank_state: {
+                ebank_state: {
                     pattern: "Please select a bank state.",
                 },
-                bank_dist: {
+                ebank_dist: {
                     pattern: "Please select a bank district.",
                 },
-                branch_name: {
+                ebranch_name: {
                     pattern: "Please select a bank branch name.",
                 },
-                gender: {
+                egender: {
                     required: "Please select a gender.",
                 },
             },
             });
 
 
-            $('#s_name,#a_accname').on('input', function() {
+            $('#ea_name,#ea_accname').on('input', function() {
             var value = $(this).val();
             value = value.replace(/[^A-Za-z\s\.]+/, '');
             $(this).val(value);
@@ -831,14 +962,14 @@
             }, 'File size must be less than {0} KB');
 
 
-            $('#AffilateRegForm').submit(function(e) {
+            $('#AffilateRegFormEdit').submit(function(e) {
             e.preventDefault();
             if ($(this).valid()) {
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
             $('#loading-overlay').fadeIn();
             $('#loading-image').fadeIn();
             $.ajax({
-                url: '{{ route("AdmAffiliateRegisteration") }}',
+                url: '{{ route("AdmAffiliateUpdate") }}',
                 type: "POST",
                 data:  new FormData(this),
                 contentType: false,
@@ -850,16 +981,16 @@
                 success: function(response) {
 
                     console.log(response);
-                    $('#afflitereg-message').text('Affiliate details successfully updated!').fadeIn();
-                    $('#afflitereg-message').addClass('success-message');
-                    $('#image-preview').empty();
-                    $('#image-preview_pass').empty();
-                    $('#image-preview_photo').empty();
+                    $('#affliterupdte-message').text('Affiliate details successfully updated!').fadeIn();
+                    $('#affliterupdte-message').addClass('success-message');
+                    $('#eimage-preview').empty();
+                    $('#eimage-preview_pass').empty();
+                    $('#eimage-preview_photo').empty();
 
                     setTimeout(function() {
-                        $('#afflitereg-message').fadeOut();
+                        $('#affliterupdte-message').fadeOut();
                     }, 5000); // 5000 milliseconds = 5 seconds
-                    $('#AffilateRegForm')[0].reset();
+                    $('#AffilateRegFormEdit')[0].reset();
                     $('#loading-image').fadeOut();
                     $('#loading-overlay').fadeOut();
                     $('#ViewEditModal').modal('hide');
@@ -869,10 +1000,10 @@
                 },
                 error: function(xhr) {
                     console.log(xhr.responseText);
-                    $('#afflitereg-message').text('Updation failed.').fadeIn();
-                    $('#afflitereg-message').addClass('error');
+                    $('#affliterupdte-message').text('Updation failed.').fadeIn();
+                    $('#affliterupdte-message').addClass('error');
                     setTimeout(function() {
-                        $('#afflitereg-message').fadeOut();
+                        $('#affliterupdte-message').fadeOut();
                     }, 5000);
                     $('#loading-image').fadeOut();
                     $('#loading-overlay').fadeOut();
