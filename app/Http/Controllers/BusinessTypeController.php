@@ -16,7 +16,7 @@ class BusinessTypeController extends Controller
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $businesstype = DB::table('business_type')->get();
-        return view('admin.business_type.list', compact('businesstype','loggeduser','userdetails'));
+        return view('admin.business_type.list', compact('businesstype', 'loggeduser', 'userdetails'));
     }
 
     public function add_business_type()
@@ -25,21 +25,22 @@ class BusinessTypeController extends Controller
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        return view('admin.business_type.add', compact('loggeduser','userdetails'));
+        return view('admin.business_type.add', compact('loggeduser', 'userdetails'));
     }
 
     public function store_business_type(Request $request)
     {
-        $request->validate([
-            'business_name' => 'required|string|min:5|max:255',
-        ],
-        [
-            'business_name.required' => 'The business name field is required.',
-            'business_name.string' => 'The business name must be a string.',
-            'business_name.min' => 'The business name must be at least 5 characters.',
-            'business_name.max' => 'The business name cannot exceed 255 characters.',
-        ]
-    );
+        $request->validate(
+            [
+                'business_name' => 'required|string|min:5|max:255',
+            ],
+            [
+                'business_name.required' => 'The business name field is required.',
+                'business_name.string' => 'The business name must be a string.',
+                'business_name.min' => 'The business name must be at least 5 characters.',
+                'business_name.max' => 'The business name cannot exceed 255 characters.',
+            ]
+        );
 
 
         $businesstype = new BusinessType;
@@ -61,7 +62,7 @@ class BusinessTypeController extends Controller
             return redirect()->route('list.businesstype')->with('error', 'Business Type not found.');
         }
 
-        return view('admin.business_type.edit', compact('businesstype','loggeduser','userdetails'));
+        return view('admin.business_type.edit', compact('businesstype', 'loggeduser', 'userdetails'));
     }
 
     public function update_business_type(Request $request, $id)
@@ -73,9 +74,16 @@ class BusinessTypeController extends Controller
 
         $request->validate([
             'business_name' => 'required|string|max:255',
+            'status' => 'required|in:Active,Inactive',
         ]);
 
         $businesstype->business_name = $request->business_name;
+        if ($request->status === 'Active')
+        {
+            $businesstype->status = 'Y';
+        } else {
+            $businesstype->status = 'N'; 
+        }
         $businesstype->save();
 
         return redirect()->route('list.businesstype')->with('success', 'Business Type updated successfully.');
