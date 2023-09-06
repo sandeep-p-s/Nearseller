@@ -33,8 +33,11 @@
                                 @csrf
                                 <div class="form-group">
                                     <label for="addShopType">Add Service Type</label>
-                                    <input type="text" class="form-control mb15" id="service_name"
+                                    <input type="text" class="form-control mb-3" id="service_name"
                                         placeholder="Enter service type" name="service_name" required>
+                                        @error('service_name')
+                                        <div class="text-danger mb15">{{ $message }}</div>
+                                    @enderror
                                     <button type="submit" class="btn view_btn">Add</button>
                                 </div>
                             </form>

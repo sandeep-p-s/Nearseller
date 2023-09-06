@@ -39,13 +39,17 @@ class ServiceTypeController extends Controller
 
     public function edit_service_type($id)
     {
+        $userRole = session('user_role');
+        $userId = session('user_id');
+        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $servicetype = ServiceType::find($id);
 
         if (!$servicetype) {
             return redirect()->route('list.servicetype')->with('error', 'Service Type not found.');
         }
 
-        return view('admin.service_type.edit', compact('servicetype'));
+        return view('admin.service_type.edit', compact('servicetype','loggeduser','userdetails'));
     }
 
     public function update_shop_type(Request $request, $id)
