@@ -99,6 +99,3 @@
 
         </div><!-- container -->
     @endsection
-    <script>
-        
-    </script>

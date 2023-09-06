@@ -26,8 +26,11 @@
                                 @csrf
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Edit Service Type</label>
-                                    <input type="text" class="form-control mb15" id="service_name" name="service_name"
+                                    <input type="text" class="form-control mb-3" id="service_name" name="service_name"
                                         placeholder="Enter service type" value="{{ $servicetype->service_name }}">
+                                        @error('service_name')
+                                        <div class="text-danger mb15">{{ $message }}</div>
+                                    @enderror
                                     <button type="submit" class="btn view_btn">Update</button>
                                 </div>
                             </form>
