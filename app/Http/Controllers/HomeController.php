@@ -57,6 +57,14 @@ class HomeController extends Controller
         $branches = $query->select('id', 'branch_name')->get();
         return response()->json($branches);
     }
+    public function getIFSCodePage(Request $request)
+    {
+        $bank_dets = DB::table('bank_details')->where('id', $request->input('branchId'))->get();
+        return response()->json($bank_dets);
+    }
+
+
+
 
 
 
