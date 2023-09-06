@@ -18,7 +18,7 @@ class EmailVerification extends Mailable
     public $checkval;
     public $otpMessage;
     public $passwdVal;
-    //public $refidId;
+    public $refidId;
     public $ApprovedTime;
     public $ApprovedMessage;
 
@@ -29,7 +29,7 @@ class EmailVerification extends Mailable
         $verificationTkn = base64_decode($typevals);
         $verifcatnval=explode('-',$verificationTkn);
         $this->passwdVal = $verifcatnval[2];
-        //$this->refidId = $verifcatnval[3];
+        $this->refidId = $verifcatnval[3];
         $this->verificationToken = $verificationToken;
         $this->userName = $userName;
         $this->userEmail = $userEmail;
@@ -67,6 +67,11 @@ class EmailVerification extends Mailable
         {
             $subject = 'Approved Registered Shop';
             return $this->from('itsuportshyzventures@gmail.com', 'NEAR SELLERS')->subject($subject)->view('emails.admshop_approved');
+        }
+        else if($this->checkval==6)
+        {
+            $subject = 'Email ID Verification';
+            return $this->from('itsuportshyzventures@gmail.com', 'NEAR SELLERS')->subject($subject)->view('emails.admaffliteemail_verification');
         }
 
 

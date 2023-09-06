@@ -16,9 +16,14 @@
                                 <div class="col text-right">
                                     <button class="btn add_btn" data-bs-toggle="modal" data-bs-target="#addNewModal">Add New
                                         Shops</button>
+                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addNewModal">Add New Shops</button>
                                 </div>
                             </div>
                         </div>
+
+
+
+
                     </div>
                 </div>
             </div>
@@ -118,6 +123,7 @@
                             <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
                             <button type="button" class="btn-close" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -125,15 +131,37 @@
                             Do you want to delete this shop?
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                             <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
                         </div>
                     </div>
                 </div>
             </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         </div>
     </div>
+
+
+
+
+
+
+
     <script>
         function shwdets() {
             $('#loading-overlay').fadeIn();
@@ -436,3 +464,4 @@
 @endsection
 
 
+    @endsection

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('affiliate', function (Blueprint $table) {
             $table->date('registration_date')->change();
+            $table->date('registration_date')->change()->nullable();
         });
     }
 

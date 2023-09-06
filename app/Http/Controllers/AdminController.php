@@ -73,6 +73,10 @@ class AdminController extends Controller
         if ($referalid) {
             $query->where('seller_details.referal_id', $referalid);
         }
+            $query->where('seller_details.shop_service_type',1);
+
+
+
         $sellerDetails = $query->get();
         //echo $lastRegId = $query->toSql();exit;
         $sellerCount = $sellerDetails->count();
@@ -160,7 +164,7 @@ class AdminController extends Controller
             $user->user_status='N';
             $user->ip=$loggedUserIp;
             $user->parent_id=$userId;
-            $user->referal_id=$refer_chars;
+            $user->referal_id=$request->input('s_refralid');//$refer_chars;
             $submt=$user->save();
             $lastRegId = $user->toSql();
             $last_id = $user->id;
@@ -201,8 +205,11 @@ class AdminController extends Controller
                 $sellerDetail->open_close_time = $openclosdsetime;
                 $sellerDetail->registration_date = $request->input('s_registerdate');
                 $sellerDetail->manufactoring_details = $request->input('manufactringdets');
+                $sellerDetail->direct_affiliate = $request->input('directafflte');
+                $sellerDetail->second_affiliate = $request->input('secondafflte');
+                $sellerDetail->shop_coordinator = $request->input('coordinater');
                 $sellerDetail->user_id = $last_id;
-                $sellerDetail->referal_id = $refer_chars;
+                //$sellerDetail->referal_id = $refer_chars;
                 $maxId = $sellerDetail->max('shop_reg_id');
                 if ($maxId) {
                     $nextId = $maxId + 1;
@@ -278,33 +285,34 @@ class AdminController extends Controller
         }
 
 
-        function AdmshopViewEdits(Request $request)
-        {
-            $userRole = session('user_role');
-            $userId = session('user_id');
-            if($userId==''){
-                return redirect()->route('logout');
-            }
-            $id=$request->input('shopid');
-            $sellerDetails = SellerDetails::select('seller_details.*', 'business_type.business_name', 'service_types.service_name', 'executives.executive_name', 'country.country_name', 'state.state_name', 'district.district_name')
-                ->leftJoin('business_type', 'business_type.id', 'seller_details.busnes_type')
-                ->leftJoin('service_types', 'service_types.id', 'seller_details.shop_service_type')
-                ->leftJoin('executives', 'executives.id', 'seller_details.shop_executive')
-                ->leftJoin('country', 'country.id', 'seller_details.country')
-                ->leftJoin('state', 'state.id', 'seller_details.state')
-                ->leftJoin('district', 'district.id', 'seller_details.district')
-                ->where('seller_details.id', $id)
-                ->first();
-            //echo $lastRegId = $sellerDetails->toSql();exit;
-            $countries      = DB::table('country')->get();
-            $states         = DB::table('state')->where('country_id', $sellerDetails->country)->get();
-            $districts      = DB::table('district')->where('state_id', $sellerDetails->state)->get();
-            $business       = DB::table('business_type')->where('status','Y')->get();
-            $shopservice    = DB::table('service_types')->where('status', 'active')->get();
-            $executives     = DB::table('executives')->where(['executive_type' => 1, 'status' => 'Y'])->get();
-            return view('admin.shop_viewedit_dets', compact('sellerDetails', 'countries', 'states', 'districts', 'business', 'shopservice', 'executives'));
-
+    function AdmshopViewEdits(Request $request)
+    {
+        $userRole = session('user_role');
+        $userId = session('user_id');
+        if($userId==''){
+            return redirect()->route('logout');
         }
+        $id=$request->input('shopid');
+        $sellerDetails = SellerDetails::select('seller_details.*', 'business_type.business_name', 'service_types.service_name', 'executives.executive_name', 'country.country_name', 'state.state_name', 'district.district_name')
+            ->leftJoin('business_type', 'business_type.id', 'seller_details.busnes_type')
+            ->leftJoin('service_types', 'service_types.id', 'seller_details.shop_service_type')
+            ->leftJoin('executives', 'executives.id', 'seller_details.shop_executive')
+            ->leftJoin('country', 'country.id', 'seller_details.country')
+            ->leftJoin('state', 'state.id', 'seller_details.state')
+            ->leftJoin('district', 'district.id', 'seller_details.district')
+            ->where('seller_details.id', $id)
+            ->where('seller_details.shop_service_type',1)
+            ->first();
+        //echo $lastRegId = $sellerDetails->toSql();exit;
+        $countries      = DB::table('country')->get();
+        $states         = DB::table('state')->where('country_id', $sellerDetails->country)->get();
+        $districts      = DB::table('district')->where('state_id', $sellerDetails->state)->get();
+        $business       = DB::table('business_type')->where('status','Y')->get();
+        $shopservice    = DB::table('service_types')->where('status', 'active')->get();
+        $executives     = DB::table('executives')->where(['executive_type' => 1, 'status' => 'Y'])->get();
+        return view('admin.shop_viewedit_dets', compact('sellerDetails', 'countries', 'states', 'districts', 'business', 'shopservice', 'executives'));
+
+    }
 
     function AdmshopGalryDelte(Request $request)
         {
@@ -422,11 +430,13 @@ class AdminController extends Controller
             $sellerDetail->manufactoring_details = $request->input('emanufactringdets');
             $opentime   =   $request->input('eopentime');
             $closetime  =   $request->input('eclosetime');
-
             $openclosdsetime=$opentime.'-'.$closetime;
             $sellerDetail->open_close_time = $openclosdsetime;
             $sellerDetail->registration_date = $request->input('es_registerdate');
             $sellerDetail->referal_id = $request->input('es_refralid');
+            $sellerDetail->direct_affiliate = $request->input('sdirectafflte');
+            $sellerDetail->second_affiliate = $request->input('ssecondafflte');
+            $sellerDetail->shop_coordinator = $request->input('scoordinater');
             if ($request->hasFile('es_photo')) {
                 $upload_path = 'uploads/shopimages/';
                 if (!is_dir($upload_path)) {
@@ -477,6 +487,7 @@ class AdminController extends Controller
                 $user->email = $request->es_email;
                 $user->mobno = $request->es_mobno;
                 $user->name = $request->es_name;
+                $user->referal_id = $request->input('es_refralid');
                 $user->ip=$loggedUserIp;
                 $submt=$user->save();
             }
@@ -509,6 +520,7 @@ class AdminController extends Controller
                 ->leftJoin('state', 'state.id', 'seller_details.state')
                 ->leftJoin('district', 'district.id', 'seller_details.district')
                 ->where('seller_details.id', $id)
+                ->where('seller_details.shop_service_type',1)
                 ->first();
             //echo $lastRegId = $sellerDetails->toSql();exit;
             $userdets       = DB::table('user_account')->where('id', $sellerDetails->user_id)->get();
@@ -623,8 +635,8 @@ class AdminController extends Controller
             ->leftJoin('country', 'country.id', 'affiliate.country')
             ->leftJoin('state', 'state.id', 'affiliate.state')
             ->leftJoin('district', 'district.id', 'affiliate.district')
-             ->leftJoin('bank_types', 'bank_types.id', 'affiliate.bank_type');
-            //->leftJoin('bank_details', 'bank_details.id', 'affiliate.branch_code');
+             ->leftJoin('bank_types', 'bank_types.id', 'affiliate.bank_type')
+            ->leftJoin('bank_details', 'bank_details.id', 'affiliate.branch_code');
             if ($emal_mob) {
                 $query->where('affiliate.email', 'LIKE', '%' . $emal_mob . '%')
                     ->orWhere('affiliate.mob_no', 'LIKE', '%' . $emal_mob . '%');
@@ -632,9 +644,7 @@ class AdminController extends Controller
             if ($afflitename) {
                 $query->where('affiliate.name', 'LIKE', '%' . $afflitename . '%');
             }
-            // if ($ownername) {
-            //     $query->where('seller_details.owner_name', 'LIKE', '%' . $ownername . '%');
-            // }
+
             if ($referalid) {
                 $query->where('affiliate.referal_id', $referalid);
             }
@@ -648,5 +658,234 @@ class AdminController extends Controller
             $bank_types     = DB::table('bank_types')->where(['status' => 'Y'])->get();
             return view('admin.affiliate_dets', compact('AffiliateDetails', 'AffiliateCount','countries','professions','matstatus','religions','bank_types'));
         }
+        function AdmAffiliateRegisterationPage(Request $request)
+        {
+            $userRole = session('user_role');
+            $userId = session('user_id');
+            if($userId==''){
+                return redirect()->route('logout');
+            }
+            $pass_chars = '';
+            $refer_chars = '';
+            $loggedUserIp=$_SERVER['REMOTE_ADDR'];
+            $time=date('Y-m-d H:i:s');
+            $validatedData = $request->validate([
+                'a_name'        => 'required|max:50',
+                'a_mobno'       => 'required|max:10',
+                'a_email'       => 'required|email|max:35',
+                'a_dob'         => 'required|date',
+                'gender'        => 'required|in:male,female',
+                's_professions' => 'required',
+                'a_marital'     => 'required',
+                'a_religion'    => 'required',
+                'a_aadharno'    => 'required|max:12',
+                'a_locality'    => 'required|max:100',
+                'country'       => 'required',
+                'state'         => 'required',
+                'district'      => 'required',
+                's_panno'       => 'required|max:12',
+                's_registerdate'=> 'required|date',
+                's_termcondtn'  => 'accepted',
+                'a_accname'     => 'required|max:50',
+                'a_accno'       => 'required|max:20',
+                'bank_name'     => 'required',
+                'bank_country'  => 'required',
+                'bank_state'    => 'required',
+                'bank_dist'     => 'required',
+                'branch_name'   => 'required',
+            ]);
+            $user = new UserAccount();
+            $user->name = $request->a_name;
+            $user->email = $request->a_email;
+            $user->mobno = $request->a_mobno;
+            $pass_characters = array(
+                "A","B","C","D","E","F","G","H","M","N","R","S","T","U","V","W","X","Y","@","#","$","%","&","!","a","b","c","d","e","f","g","h","m","n","r","s","t","u","v","w","x","z","2","3","4","5","6","7","8","9"
+            );
+            $passkeys = array();
+            while (count($passkeys) < 6) {
+                $x = mt_rand(0, count($pass_characters) - 1);
+                if (!in_array($x, $passkeys)) {
+                    $passkeys[] = $x;
+                }
+            }
+            foreach ($passkeys as $pkey) {
+                $pass_chars.= $pass_characters[$pkey];
+            }
+
+            $Ref_characters = array(
+                "1","2","3","4","5","6","7","8","9","0","A","B","C","D","E","F","G","H","M","N","R","S","T","U","V","W","X","Y"
+            );
+            $refkeys = array();
+            while (count($refkeys) < 10) {
+                $y = mt_rand(0, count($Ref_characters) - 1);
+                if (!in_array($y, $refkeys)) {
+                    $refkeys[] = $y;
+                }
+            }
+            foreach ($refkeys as $refkey) {
+                $refer_chars.= $Ref_characters[$refkey];
+            }
+            $user->password = Hash::make($pass_chars);
+            $user->role_id=3;
+            $user->forgot_pass=$pass_chars;
+            $user->user_status='N';
+            $user->ip=$loggedUserIp;
+            $user->parent_id=$userId;
+            $user->referal_id=$refer_chars;
+            $submt=$user->save();
+            $lastRegId = $user->toSql();
+            $last_id = $user->id;
+            $msg="Registration Success! ".$request->a_email." register id : ".$last_id;
+            $LogDetails = new LogDetails();
+            $LogDetails->user_id = $request->a_email;
+            $LogDetails->ip_address = $loggedUserIp;
+            $LogDetails->log_time = $time;
+            $LogDetails->status = $msg;
+            $LogDetails->save();
+            if($submt>0){
+                $Affiliate = new Affiliate();
+                $Affiliate->fill($validatedData);
+                $Affiliate->name = $request->input('a_name');
+                $Affiliate->email = $request->input('a_email');
+                $Affiliate->mob_no = $request->input('a_mobno');
+                $Affiliate->dob = $request->input('a_dob');
+                $Affiliate->gender = $request->input('gender');
+                $Affiliate->profession = $request->input('s_professions');
+                $Affiliate->other_profession = $request->input('a_otherprofesn');
+                $Affiliate->marital_status = $request->input('a_marital');
+                $Affiliate->terms_condition = $request->has('s_termcondtn') ? 1 : 0;
+                $Affiliate->religion = $request->input('a_religion');
+                $Affiliate->aadhar_no = $request->input('a_aadharno');
+                $Affiliate->locality = $request->input('a_locality');
+                $Affiliate->country = $request->input('country');
+                $Affiliate->state = $request->input('state');
+                $Affiliate->district = $request->input('district');
+                $Affiliate->pan_no = $request->input('s_panno');
+                $Affiliate->registration_date = $request->input('s_registerdate');
+                $Affiliate->account_holder_name = $request->input('a_accname');
+                $Affiliate->account_no = $request->input('a_accno');
+                $Affiliate->bank_type = $request->input('bank_name');
+                $Affiliate->bank_country = $request->input('bank_country');
+                $Affiliate->bank_state = $request->input('bank_state');
+                $Affiliate->bank_dist = $request->input('bank_dist');
+                $Affiliate->branch_code = $request->input('branch_name');
+                $Affiliate->direct_affiliate = $request->input('directafflte');
+                $Affiliate->aff_coordinator = $request->input('coordinater');
+                $Affiliate->user_id = $last_id;
+                $Affiliate->referal_id = $refer_chars;
+                $maxId = $Affiliate->max('affiliate_reg_id');
+                if ($maxId) {
+                    $nextId = $maxId + 1;
+                } else {
+                    $nextId = '500';
+                }
+                $Affiliate->affiliate_reg_id = $nextId;
+                if ($request->hasFile('a_aadharphoto')) {
+                    $upload_path = 'uploads/affiliate/aadhaar/';
+                    if (!is_dir($upload_path)) {
+                        mkdir($upload_path, 0777, true);
+                    }
+                    $input_datas = [];
+                    foreach ($request->file('a_aadharphoto') as $file) {
+                        if ($file->isValid()) {
+                            $new_name = time() . '_' . $file->getClientOriginalName();
+                            $file->move($upload_path, $new_name);
+                            $filename = $upload_path . $new_name;
+                            array_push($input_datas, $filename);
+                        }
+                    }
+                    $input_vals = ['fileval' => $input_datas];
+                    $jsonimages = json_encode($input_vals);
+                    $Affiliate->aadhar_file = $jsonimages;
+                }
+
+                if ($request->hasFile('a_passbook')) {
+                    $upload_pathp = 'uploads/affiliate/passbook/';
+                    if (!is_dir($upload_pathp)) {
+                        mkdir($upload_pathp, 0777, true);
+                    }
+                    $input_datasp = [];
+                    foreach ($request->file('a_passbook') as $filep) {
+                        if ($filep->isValid()) {
+                            $new_namep = time() . '_' . $filep->getClientOriginalName();
+                            $filep->move($upload_pathp, $new_namep);
+                            $filenamep = $upload_pathp . $new_namep;
+                            array_push($input_datasp, $filenamep);
+                        }
+                    }
+                    $input_valsp = ['passbook' => $input_datasp];
+                    $jsonimagesp = json_encode($input_valsp);
+                    $Affiliate->passbook_file = $jsonimagesp;
+                }
+
+                if ($request->hasFile('a_uplodphoto')) {
+                    $upload_pathph = 'uploads/affiliate/photos/';
+                    if (!is_dir($upload_pathph)) {
+                        mkdir($upload_pathph, 0777, true);
+                    }
+                    $input_datasph = [];
+                    foreach ($request->file('a_uplodphoto') as $fileph) {
+                        if ($fileph->isValid()) {
+                            $new_nameph = time() . '_' . $fileph->getClientOriginalName();
+                            $fileph->move($upload_pathph, $new_nameph);
+                            $filenameph = $upload_pathph . $new_nameph;
+                            array_push($input_datasph, $filenameph);
+                        }
+                    }
+                    $input_valsph = ['photos' => $input_datasph];
+                    $jsonimagesph = json_encode($input_valsph);
+                    $Affiliate->photo_file = $jsonimagesph;
+                }
+
+                $affiliatereg=$Affiliate->save();
+                $valencodemm=$lastRegId."-".$request->a_email;
+                $valsmm=base64_encode($valencodemm);
+                $verificationToken = base64_encode($last_id . '-' . $request->a_email. '-' . $pass_chars. '-' . $refer_chars);
+                $checkval="6";
+                $message='';
+                $email = new EmailVerification($verificationToken, $request->a_name, $request->a_email, $checkval, $message);
+                Mail::to($request->a_email)->send($email);
+
+            } else {
+
+            }
+        }
+
+
+        function AdmAffiliateViewEdits(Request $request)
+        {
+            $userRole = session('user_role');
+            $userId = session('user_id');
+            if($userId==''){
+                return redirect()->route('logout');
+            }
+            $id=$request->input('affiliateid');
+            $Affiliate = Affiliate::select('affiliate.*','professions.profession_name','marital_statuses.mr_name','religions.religion_name','country.country_name','state.state_name','district.district_name','bank_types.bank_name')
+            ->leftJoin('professions', 'professions.id', 'affiliate.profession')
+            ->leftJoin('marital_statuses', 'marital_statuses.id', 'affiliate.marital_status')
+            ->leftJoin('religions', 'religions.id', 'affiliate.religion')
+            ->leftJoin('country', 'country.id', 'affiliate.country')
+            ->leftJoin('state', 'state.id', 'affiliate.state')
+            ->leftJoin('district', 'district.id', 'affiliate.district')
+             ->leftJoin('bank_types', 'bank_types.id', 'affiliate.bank_type')
+            ->leftJoin('bank_details', 'bank_details.id', 'affiliate.branch_code')
+            ->where('affiliate.id', $id)
+            ->first();
+            //echo $lastRegId = $Affiliate->toSql();exit;
+            $countries      = DB::table('country')->get();
+            $states         = DB::table('state')->where('country_id', $Affiliate->country)->get();
+            $districts      = DB::table('district')->where('state_id', $Affiliate->state)->get();
+            $professions    = DB::table('professions')->where('status','Y')->get();
+            $matstatus      = DB::table('marital_statuses')->where('status','Y')->get();
+            $religions      = DB::table('religions')->where(['status' => 'Y'])->get();
+            $bank_types     = DB::table('bank_types')->where(['status' => 'Y'])->get();
+            $bankstates     = DB::table('state')->where('country_id', $Affiliate->bank_country)->get();
+            $bankdistricts  = DB::table('district')->where('state_id', $Affiliate->bank_state)->get();
+            $branchdetails  = DB::table('bank_details')->where('country_code', $Affiliate->bank_country)->where('state_code', $Affiliate->bank_state)->where('district_code', $Affiliate->bank_district)->where('bank_code', $Affiliate->bank_type)->get();
+            return view('admin.affiliate_viewedit_dets', compact('Affiliate','countries','states','districts','professions','matstatus','religions','bank_types','bankstates','bankdistricts','branchdetails'));
+        }
+
+
+
 
 }

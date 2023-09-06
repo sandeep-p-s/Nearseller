@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
      {
+    {
         Schema::table('affiliate', function (Blueprint $table) {
             $table->string('account_holder_name')->after('aff_coordinator');
             $table->integer('account_no')->after('aff_coordinator')->after('account_holder_name');

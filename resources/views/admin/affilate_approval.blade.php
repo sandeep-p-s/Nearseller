@@ -71,7 +71,7 @@
                                 title="Close">x</button>
                         </div>
                         <div class="modal-body">
-                            <div id="showshopeviewedit">
+                            <div id="showaffiliateviewedit">
 
                             </div>
                         </div>
@@ -87,9 +87,15 @@
                             <h5 class="modal-title text-center" id="ShopApprovedModalModalLabel">Affilates Approved</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                                 title="Close">x</button>
+            <div class="modal fade" id="AffiliateApprovedModal" tabindex="-1" aria-labelledby="AffiliateApprovedModalLabel" aria-hidden="true">
+                <div class="modal-dialog custom-modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-center" id="AffiliateApprovedModalLabel">Affilates Approved</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" title="Close">x</button>
                         </div>
                         <div class="modal-body">
-                            <div id="showshopeapproved">
+                            <div id="showaffiliateapproved">
 
                             </div>
                         </div>
@@ -120,6 +126,7 @@
             </div>
         </div>
     </div>
+
     <script>
         function shwdets() {
             $('#loading-overlay').fadeIn();
@@ -189,6 +196,27 @@
                         $('#loading-overlay').fadeOut();
                     }
                 }
+                            }, 5000);
+                            $('#a_email').val('');
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                        }
+                        else if(data.result==3 && checkval==2)
+                        {
+                            $('#semil-message').text('Error in Data').fadeIn();
+                            $('#semil-message').addClass('error');
+                            setTimeout(function() {
+                            $('#semil-message').fadeOut();
+                            }, 5000);
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                        }
+                        else
+                        {
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                        }
+					}
             });
 
         }
@@ -220,6 +248,16 @@
                         $('#smob-message').text('Error in Data').fadeIn();
                         $('#smob-message').addClass('error');
                         setTimeout(function() {
+                            }, 5000);
+                            $('#a_mobno').val('');
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                        }
+                        else if(data.result==3 && checkval==2)
+                        {
+                            $('#smob-message').text('Error in Data').fadeIn();
+                            $('#smob-message').addClass('error');
+                            setTimeout(function() {
                             $('#smob-message').fadeOut();
                         }, 5000);
                         $('#loading-image').fadeOut();
@@ -378,6 +416,79 @@
                     var data1 = data.trim();
                     $("#showshopeapproved").html(data1);
                     $('#ShopApprovedModal').modal('show');
+            function affiliatevieweditdet(affiliateid)
+                {
+                        $('#loading-overlay').fadeIn();
+                        $('#loading-image').fadeIn();
+                        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                        $.ajax({
+                            url: '{{ route("affiliateViewEdit") }}',
+                                    type: 'POST',
+                                    data: {affiliateid:affiliateid},
+                                    headers: {
+                                    'X-CSRF-TOKEN': csrfToken
+                                    },
+                            success:function(data)
+                                {
+
+                                    $('#loading-image').fadeOut();
+                                    $('#loading-overlay').fadeOut();
+                                    var data1=data.trim();
+					                $("#showaffiliateviewedit").html(data1);
+                                    $('#ViewEditModal').modal('show');
+
+                                }
+                        });
+
+                }
+                function DeltImagGalry(imgval)
+                {
+                    var decoded = atob(imgval);
+                    var values = decoded.split('#');
+                    var imageSrc = values[0];
+                    var shopid = values[1];
+                    $('#loading-overlay').fadeIn();
+                    $('#loading-image').fadeIn();
+                    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                    $.ajax({
+                        url: '{{ route("shopGalryDelte") }}',
+                                type: 'POST',
+                                data: {imgval:imgval},
+                                headers: {
+                                'X-CSRF-TOKEN': csrfToken
+                                },
+                        success:function(data)
+                            {
+                                if((data.result==1))
+                                    {
+                                        $('#shop_gal-message').text(data.mesge).fadeIn();
+                                        $('#shop_gal-message').addClass('success-message');
+                                        setTimeout(function() {
+                                        $('#shop_gal-message').fadeOut();
+                                        }, 5000);
+                                        $('#loading-image').fadeOut();
+                                        $('#loading-overlay').fadeOut();
+                                        affiliatevieweditdet(shopid);
+                                    }
+                                    else if((data.result==2))
+                                    {
+                                        $('#shop_gal-message').text(data.mesge).fadeIn();
+                                        $('#shop_gal-message').addClass('error');
+                                        setTimeout(function() {
+                                        $('#shop_gal-message').fadeOut();
+                                        }, 5000);
+                                        $('#loading-image').fadeOut();
+                                        $('#loading-overlay').fadeOut();
+                                        affiliatevieweditdet(shopid);
+                                    }
+                                    else{
+                                        $("#showaffiliateapproved").html('');
+                                        $('#ViewEditModal').modal('hide');
+                                        $('#loading-image').fadeOut();
+                                        $('#loading-overlay').fadeOut();
+                                    }
+                            }
+                    });
 
                 }
             });
@@ -422,5 +533,80 @@
                 });
             });
         }
+                function shopapprovedet(shopid)
+                {
+                        $('#loading-overlay').fadeIn();
+                        $('#loading-image').fadeIn();
+                        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                        $.ajax({
+                            url: '{{ route("shopApproved") }}',
+                                    type: 'POST',
+                                    data: {shopid:shopid},
+                                    headers: {
+                                    'X-CSRF-TOKEN': csrfToken
+                                    },
+                            success:function(data)
+                                {
+
+                                    $('#loading-image').fadeOut();
+                                    $('#loading-overlay').fadeOut();
+                                    var data1=data.trim();
+					                $("#showaffiliateapproved").html(data1);
+                                    $('#AffiliateApprovedModal').modal('show');
+
+                                }
+                        });
+
+                }
+
+
+                function shopdeletedet(userid) {
+
+                    $('#deleteConfirmationModal').modal('show');
+                    $('#confirmDeleteBtn').click(function() {
+                        $('#deleteConfirmationModal').modal('hide');
+                        $('#loading-overlay').fadeIn();
+                        $('#loading-image').fadeIn();
+                        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                        $.ajax({
+                            url: '{{ route("shopDelete") }}',
+                            type: 'POST',
+                            data: {userid: userid, _token: csrfToken},
+                            success: function(data) {
+                                if((data.result==1))
+                                    {
+                                        $('#shop_del-message').text(data.mesge).fadeIn();
+                                        $('#shop_del-message').addClass('success-message');
+                                        setTimeout(function() {
+                                        $('#shop_del-message').fadeOut();
+                                        }, 5000);
+                                        $('#loading-image').fadeOut();
+                                        $('#loading-overlay').fadeOut();
+                                        shwdets();
+                                    }
+                                else if((data.result==2))
+                                    {
+                                        $('#shop_del-message').text(data.mesge).fadeIn();
+                                        $('#shop_del-message').addClass('error');
+                                        setTimeout(function() {
+                                        $('#shop_del-message').fadeOut();
+                                        }, 5000);
+                                        $('#loading-image').fadeOut();
+                                        $('#loading-overlay').fadeOut();
+                                        shwdets();
+                                    }
+                            }
+                        });
+                    });
+                }
+
+
+
+
+
+
+
+
+
     </script>
 @endsection
