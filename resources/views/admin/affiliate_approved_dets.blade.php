@@ -19,13 +19,17 @@
 
 @endphp
 
+@foreach ($userdets as $affapp)
+@php
+    $affiliteapp=$affapp->approved;
+@endphp
+@endforeach
 
 
-<form id="AffilateRegFormEdit" enctype="multipart/form-data" method="POST">
-    <input type="hidden" id="affiliateidhid" name="affiliateidhid" value="{{ $Affiliate->id }}"
-        class="form-control form-control-lg" maxlength="50" placeholder="Affiliate id" required tabindex="1" />
-    <input type="hidden" id="affiliateuseridhid" name="affiliateuseridhid" value="{{ $Affiliate->user_id }}"
-        class="form-control form-control-lg" maxlength="50" placeholder="User id" required tabindex="1" />
+
+<form id="AffilateRegFormApproved" enctype="multipart/form-data" method="POST">
+    <input type="hidden" id="aaffiliateidhid" name="aaffiliateidhid" value="{{ $Affiliate->id }}" class="form-control form-control-lg" maxlength="50" placeholder="Affiliate id" required tabindex="1" />
+    <input type="hidden" id="aaffiliateuseridhid" name="aaffiliateuseridhid" value="{{ $Affiliate->user_id }}" class="form-control form-control-lg" maxlength="50" placeholder="User id" required tabindex="1" />
         <div class="row">
 
             <div class="col-lg-4">
@@ -56,14 +60,14 @@
                         <div class="form-group row">
                             <label class="col-xl-6 ">Date of Birth</label>
                             <div class="col-xl-6 align-self-center">
-                                {{ $Affiliate->email }}
+                                {{ $Affiliate->dob }}
                             </div>
                         </div>
                         <hr class="new_hr">
                         <div class="form-group row">
                             <label class="col-xl-6 ">Gender</label>
                             <div class="col-xl-6 align-self-center">
-                                jghfxghfhgklfjghf
+                                {{ $Affiliate->gender }}
                             </div>
                         </div>
                         <hr class="new_hr">
@@ -77,17 +81,20 @@
                         <div class="form-group row">
                             <label class="col-xl-6 ">Professions</label>
                             <div class="col-xl-6 align-self-center">
-                                {{ $Affiliate->referal_id }}
-                            </div>
-                        </div>
-                        <hr class="new_hr">
-                        <div class="row">
-                            <label class="col-xl-6 ">Professions</label>
-                            <div class="col-xl-6 align-self-center">
                                 {{ $Affiliate->profession_name }}
                             </div>
                         </div>
                         <hr class="new_hr">
+
+                        @if($Affiliate->profession==3)
+                        <div class="row">
+                            <label class="col-xl-6 ">Other Professions</label>
+                            <div class="col-xl-6 align-self-center">
+                                {{ $Affiliate->other_profession }}
+                            </div>
+                        </div>
+                        <hr class="new_hr">
+                        @endif
                         <div class="row">
                             <label class="col-xl-6 ">Marital Status</label>
                             <div class="col-xl-6 align-self-center">
@@ -160,31 +167,11 @@
                                 {{ $Affiliate->registration_date }}
                             </div>
                         </div>
-                        <hr class="new_hr">
-                        <div class="form-group row">
-                            <label class="col-xl-6 ">Aadhar card front & back</label>
-                            <div class="col-xl-6 align-self-center">
-                                jghfxghfhgklfjghf
-                            </div>
-                        </div>
-                        <hr class="new_hr">
-                        <div class="form-group row">
-                            <label class="col-xl-6 ">Passbook front & back</label>
-                            <div class="col-xl-6 align-self-center">
-                                jghfxghfhgklfjghf
-                            </div>
-                        </div>
-                        <hr class="new_hr">
-                        <div class="form-group row">
-                            <label class="col-xl-6 ">Upload Photo</label>
-                            <div class="col-xl-6 align-self-center">
-                                jghfxghfhgklfjghf
-                            </div>
-                        </div>
 
                     </div>
                 </div>
             </div>
+
             <div class="col-lg-4">
                 <div class="card">
 
@@ -224,35 +211,38 @@
                         <div class="form-group row">
                             <label class="col-xl-6 ">Bank Name</label>
                             <div class="col-xl-6 align-self-center">
-                                jghfxghfhgklfjghf
-                            </div>
-                        </div>
-                        <hr class="new_hr">
-                        <div class="form-group row">
-                            <label class="col-xl-6 ">Bank Country</label>
-                            <div class="col-xl-6 align-self-center">
-                                jghfxghfhgklfjghf
-                            </div>
-                        </div>
-                        <hr class="new_hr">
-                        <div class="form-group row">
-                            <label class="col-xl-6 ">Bank State</label>
-                            <div class="col-xl-6 align-self-center">
-                                jghfxghfhgklfjghf
+                                {{ $Affiliate->bank_name }}
                             </div>
                         </div>
                         <hr class="new_hr">
                         <div class="form-group row">
                             <label class="col-xl-6 ">Bank district</label>
                             <div class="col-xl-6 align-self-center">
-                                jghfxghfhgklfjghf
+                                {{ $Affiliate->bank_district_name }}
                             </div>
                         </div>
                         <hr class="new_hr">
                         <div class="form-group row">
+                            <label class="col-xl-6 ">Bank State</label>
+                            <div class="col-xl-6 align-self-center">
+                                {{ $Affiliate->bank_state_name }}
+                            </div>
+                        </div>
+                        <hr class="new_hr">
+                        <div class="form-group row">
+                            <label class="col-xl-6 ">Bank Country</label>
+                            <div class="col-xl-6 align-self-center">
+                                {{ $Affiliate->bank_country_name }}
+                            </div>
+                        </div>
+
+
+
+                        <hr class="new_hr">
+                        <div class="form-group row">
                             <label class="col-xl-6 ">Branch Name</label>
                             <div class="col-xl-6 align-self-center">
-                                jghfxghfhgklfjghf
+                                {{ $Affiliate->branch_name }}
                             </div>
                         </div>
                         <hr class="new_hr">
@@ -270,10 +260,114 @@
                             </div>
                         </div>
 
+
+                        <hr class="new_hr">
+                        <div class="form-group row">
+                            <label class="col-xl-6">Approved</label>
+                            <div class="form-outline mb-3">
+                                <select class="form-select form-control form-control-lg" name="approvedstatus"  id="approvedstatus" required  tabindex="1" >
+                                    <option value="">Select</option>
+                                    <option value="Y"  @if ($affiliteapp=='Y') selected @endif>Approved</option>
+                                    <option value="N"  @if ($affiliteapp=='N') selected @endif>Not Approved</option>
+
+                                </select>
+                                <label for="approvedstatus" class="error"></label>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
 
+
+            <!-- Aadhar Image Slider -->
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div id="aadharImageSlider" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                @for ($i = 0; $i < $totadarimg; $i++)
+                                    <div class="carousel-item @if ($i === 0) active @endif">
+                                        <img src="{{ asset($aadhar_fileval[$i]) }}" class="d-block w-100" alt="Aadhar Image {{ $i }}">
+                                    </div>
+                                @endfor
+                            </div>
+                            <a class="carousel-control-prev" href="#aadharImageSlider" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#aadharImageSlider" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+                <!-- Passbook Image Slider -->
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="passbookImageSlider" class="carousel slide" data-ride="carousel">
+                                <div class="carousel-inner">
+                                    @for ($i = 0; $i < $totpassimg; $i++)
+                                        <div class="carousel-item @if ($i === 0) active @endif">
+                                            <img src="{{ asset($passbook_fileval[$i]) }}" class="d-block w-100" alt="Passbook Image {{ $i }}">
+                                        </div>
+                                    @endfor
+                                </div>
+                                <a class="carousel-control-prev" href="#passbookImageSlider" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#passbookImageSlider" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Photo Image Slider -->
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="photoImageSlider" class="carousel slide" data-ride="carousel">
+                                <div class="carousel-inner">
+                                    @for ($i = 0; $i < $totphotoimg; $i++)
+                                        <div class="carousel-item @if ($i === 0) active @endif">
+                                            <img src="{{ asset($photosval[$i]) }}" class="d-block w-100" alt="Photo Image {{ $i }}">
+                                        </div>
+                                    @endfor
+                                </div>
+                                <a class="carousel-control-prev" href="#photoImageSlider" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#photoImageSlider" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+        </div>
+
+
+        <div class="col-md-12">
+            <div style="float:right">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div id="appaffiliatereg-message"  class="text-center" style="display: none;"></div>
         </div>
 </form>
 
@@ -282,601 +376,140 @@
 
 
 <script>
-    $('#ecountry').change(function() {
-        $('#edistrict').empty();
-        var countryId = $(this).val();
-        if (countryId) {
-            $.get("/getStates/" + countryId, function(data) {
-                $('#estate').empty().append('<option value="">Select State</option>');
-                $.each(data, function(index, state) {
-                    $('#ebranch_name').empty();
-                    $('#ebranchifsc').val('');
-                    $('#ebranchaddress').val('');
-                    $('#estate').append('<option value="' + state.id + '">' + state.state_name +
-                        '</option>');
-                });
-            });
-        }
-    });
+            $("#AffilateRegFormApproved").validate({
 
-    $('#estate').change(function() {
-        var stateId = $(this).val();
-        if (stateId) {
-            $.get("/getDistricts/" + stateId, function(data) {
-                $('#edistrict').empty().append('<option value="">Select District</option>');
-                $.each(data, function(index, district) {
-                    $('#ebranch_name').empty();
-                    $('#ebranchifsc').val('');
-                    $('#ebranchaddress').val('');
-                    $('#edistrict').append('<option value="' + district.id + '">' + district
-                        .district_name + '</option>');
-                });
-            });
-        }
-    });
+            rules: {
 
-    $('#ebank_country').change(function() {
-        $('#ebank_dist').empty();
-        var countryId = $(this).val();
-        if (countryId) {
-            $.get("/getStates/" + countryId, function(data) {
-                $('#ebank_state').empty().append('<option value="">Select State</option>');
-                $.each(data, function(index, state) {
-                    $('#ebranch_name').empty();
-                    $('#ebranchifsc').val('');
-                    $('#ebranchaddress').val('');
-                    $('#ebank_state').append('<option value="' + state.id + '">' + state
-                        .state_name + '</option>');
-                });
-            });
-        }
-    });
+                approvedstatus: {
+                    required: true,
 
-    $('#ebank_state').change(function() {
-        var stateId = $(this).val();
-        if (stateId) {
-            $.get("/getDistricts/" + stateId, function(data) {
-                $('#ebank_dist').empty().append('<option value="">Select District</option>');
-                $.each(data, function(index, district) {
-                    $('#ebranch_name').empty();
-                    $('#ebranchifsc').val('');
-                    $('#ebranchaddress').val('');
-                    $('#ebank_dist').append('<option value="' + district.id + '">' + district
-                        .district_name + '</option>');
-                });
-            });
-        }
-    });
-
-
-    $('#ebank_dist').change(function() {
-        var bankName = $('#ebank_name').val();
-        var bankCountry = $('#ebank_country').val();
-        var bankState = $('#ebank_state').val();
-        var bankDist = $('#ebank_dist').val();
-        var csrfToken = $('meta[name="csrf-token"]').attr('content');
-        $.ajax({
-            url: '{{ route('getBankBranches') }}',
-            type: 'POST',
-            data: {
-                bank_name: bankName,
-                bank_country: bankCountry,
-                bank_state: bankState,
-                bank_dist: bankDist,
-                _token: csrfToken
-            },
-            success: function(data) {
-                var branchSelect = $('#ebranch_name');
-                $('#ebranchifsc').val('');
-                $('#ebranchaddress').val('');
-                branchSelect.empty().append('<option value="">Select Branch</option>');
-                $.each(data, function(index, branch) {
-                    branchSelect.append('<option value="' + branch.id + '">' + branch
-                        .branch_name + '</option>');
-                });
-            },
-            error: function() {
-                console.log('Error fetching branches');
-            }
-        });
-    });
-
-
-    $('#ebranch_name').change(function() {
-        var branchId = $(this).val();
-        $('#loading-overlay').fadeIn();
-        $('#loading-image').fadeIn();
-        var csrfToken = $('meta[name="csrf-token"]').attr('content');
-        if (branchId) {
-            $.ajax({
-                url: '{{ route('getIFSCode') }}',
-                type: 'POST',
-                data: {
-                    branchId: branchId,
-                    _token: csrfToken
                 },
-                success: function(data) {
-                    $.each(data, function(index, bank_dets) {
-                        $('#ebranchifsc').val(bank_dets.ifsc_code);
-                        $('#ebranchaddress').val(bank_dets.branch_address);
-                        $('#loading-image').fadeOut();
-                        $('#loading-overlay').fadeOut();
-                    });
+
+
+
+            },
+            messages: {
+                approvedstatus: {
+                    required: "Please select an approved status."
                 },
-                error: function() {
-                    console.log('Error fetching branches');
-                    $('#ebranchifsc').val('');
-                    $('#ebranchaddress').val('');
-                    $('#loading-image').fadeOut();
-                    $('#loading-overlay').fadeOut();
-                }
+
+            },
             });
-        } else {
-            $('#ebranchifsc').val('');
-            $('#ebranchaddress').val('');
-            $('#loading-image').fadeOut();
-            $('#loading-overlay').fadeOut();
-
-        }
-    });
-
-
-    $('#es_professions').change(function() {
-        var professions = $('#es_professions').val();
-        if (professions == 3) {
-            $('#eotherprofesn').show();
-        } else {
-            $('#eotherprofesn').hide();
-        }
-
-    });
 
 
 
-
-
-
-
-
-    var fileArrs = [];
-    var totalFiless = 0;
-
-    $("#ea_aadharphoto").change(function(event) {
-        var totalFileCount = $(this)[0].files.length;
-        if (totalFiless + totalFileCount > 2) {
-            alert('Maximum 2 images allowed');
-            $(this).val('');
-            $('#eimage-preview').html('');
-            return;
-        }
-
-        for (var i = 0; i < totalFileCount; i++) {
-            var file = $(this)[0].files[i];
-
-            if (file.size > 3145728) {
-                alert('File size exceeds the limit of 3MB');
-                $(this).val('');
-                $('#eimage-preview').html('');
-                return;
-            }
-
-            fileArrs.push(file);
-            totalFiless++;
-
-            var reader = new FileReader();
-            reader.onload = (function(file) {
-                return function(event) {
-                    var imgDiv = $('<div>').addClass('img-div col-md-3 img-container');
-                    var img = $('<img>').attr('src', event.target.result).addClass(
-                        'img-responsive image img-thumbnail').attr('width', '100');
-                    var removeBtn = $('<button>').addClass('btn btn-danger remove-btns').attr(
-                        'title', 'Remove Image').append('X').attr('role', file.name);
-
-                    imgDiv.append(img);
-                    imgDiv.append($('<div>').addClass('middle').append(removeBtn));
-
-                    $('#eimage-preview').append(imgDiv);
-                };
-            })(file);
-
-            reader.readAsDataURL(file);
-        }
-    });
-
-    $(document).on('click', '.remove-btns', function() {
-        var fileName = $(this).attr('role');
-
-        for (var i = 0; i < fileArrs.length; i++) {
-            if (fileArrs[i].name === fileName) {
-                fileArrs.splice(i, 1);
-                totalFiless--;
-                break;
-            }
-        }
-        document.getElementById('ea_aadharphoto').files = new FileListItem(fileArrs);
-        $(this).closest('.img-div').remove();
-    });
-
-
-    var fileArrs_p = [];
-    var totalFiless_p = 0;
-
-    $("#ea_passbook").change(function(event) {
-        var totalFileCount = $(this)[0].files.length;
-        if (totalFiless_p + totalFileCount > 2) {
-            alert('Maximum 2 images allowed');
-            $(this).val('');
-            $('#eimage-preview_pass').html('');
-            return;
-        }
-
-        for (var i = 0; i < totalFileCount; i++) {
-            var file = $(this)[0].files[i];
-
-            if (file.size > 3145728) {
-                alert('File size exceeds the limit of 3MB');
-                $(this).val('');
-                $('#eimage-preview_pass').html('');
-                return;
-            }
-
-            fileArrs_p.push(file);
-            totalFiless_p++;
-
-            var reader = new FileReader();
-            reader.onload = (function(file) {
-                return function(event) {
-                    var imgDiv = $('<div>').addClass('img-div col-md-3 img-container');
-                    var img = $('<img>').attr('src', event.target.result).addClass(
-                        'img-responsive image img-thumbnail').attr('width', '100');
-                    var removeBtn = $('<button>').addClass('btn btn-danger remove-btns-pass').attr(
-                        'title', 'Remove Image').append('X').attr('role', file.name);
-
-                    imgDiv.append(img);
-                    imgDiv.append($('<div>').addClass('middle').append(removeBtn));
-
-                    $('#eimage-preview_pass').append(imgDiv);
-                };
-            })(file);
-
-            reader.readAsDataURL(file);
-        }
-    });
-
-    $(document).on('click', '.remove-btns-pass', function() {
-        var fileName = $(this).attr('role');
-
-        for (var i = 0; i < fileArrs_p.length; i++) {
-            if (fileArrs_p[i].name === fileName) {
-                fileArrs_p.splice(i, 1);
-                totalFiless_p--;
-                break;
-            }
-        }
-        document.getElementById('ea_passbook').files = new FileListItem(fileArrs_p);
-        $(this).closest('.img-div').remove();
-    });
-
-
-
-    var fileArrs_up = [];
-    var totalFiless_up = 0;
-
-    $("#ea_uplodphoto").change(function(event) {
-        var totalFileCount = $(this)[0].files.length;
-        if (totalFiless_up + totalFileCount > 1) {
-            alert('Maximum 1 images allowed');
-            $(this).val('');
-            $('#eimage-preview_photo').html('');
-            return;
-        }
-
-        for (var i = 0; i < totalFileCount; i++) {
-            var file = $(this)[0].files[i];
-
-            if (file.size > 3145728) {
-                alert('File size exceeds the limit of 3MB');
-                $(this).val('');
-                $('#eimage-preview_photo').html('');
-                return;
-            }
-
-            fileArrs_up.push(file);
-            totalFiless_up++;
-
-            var reader = new FileReader();
-            reader.onload = (function(file) {
-                return function(event) {
-                    var imgDiv = $('<div>').addClass('img-div col-md-3 img-container');
-                    var img = $('<img>').attr('src', event.target.result).addClass(
-                        'img-responsive image img-thumbnail').attr('width', '100');
-                    var removeBtn = $('<button>').addClass('btn btn-danger remove-btns-uphoto')
-                        .attr('title', 'Remove Image').append('X').attr('role', file.name);
-
-                    imgDiv.append(img);
-                    imgDiv.append($('<div>').addClass('middle').append(removeBtn));
-
-                    $('#eimage-preview_photo').append(imgDiv);
-                };
-            })(file);
-
-            reader.readAsDataURL(file);
-        }
-    });
-
-    $(document).on('click', '.remove-btns-uphoto', function() {
-        var fileName = $(this).attr('role');
-
-        for (var i = 0; i < fileArrs_up.length; i++) {
-            if (fileArrs_up[i].name === fileName) {
-                fileArrs_up.splice(i, 1);
-                totalFiless_up--;
-                break;
-            }
-        }
-        document.getElementById('ea_uplodphoto').files = new FileListItem(fileArrs_up);
-        $(this).closest('.img-div').remove();
-    });
-
-
-    function FileListItem(file) {
-        file = [].slice.call(Array.isArray(file) ? file : arguments);
-        var b = file.length;
-        var d = true;
-        for (var c; b-- && d;) {
-            d = file[b] instanceof File;
-        }
-        if (!d) {
-            throw new TypeError('Expected argument to FileList is File or array of File objects');
-        }
-        var clipboardData = new ClipboardEvent('').clipboardData || new DataTransfer();
-        for (b = d = file.length; b--;) {
-            clipboardData.items.add(file[b]);
-        }
-        return clipboardData.files;
-    }
-
-
-    $("#AffilateRegFormEdit").validate({
-
-        rules: {
-            ea_name: {
-                required: true,
-                pattern: /^[A-Za-z\s\.]+$/,
-            },
-            ea_mobno: {
-                required: true,
-                digits: true,
-                minlength: 10,
-            },
-            ea_email: {
-                required: true,
-                email: true,
-            },
-            ea_dob: {
-                required: true,
-            },
-            es_professions: {
-                required: true,
-            },
-            ea_marital: {
-                required: true,
-            },
-            ea_religion: {
-                required: true,
-            },
-            ea_aadharno: {
-                required: true,
-                digits: true,
-                minlength: 12,
-            },
-            ea_locality: {
-                required: true,
-            },
-            ecountry: {
-                required: true,
-            },
-            estate: {
-                required: true,
-            },
-            edistrict: {
-                required: true,
-            },
-            es_termcondtn: {
-                required: true,
-            },
-            es_panno: {
-                required: true,
-            },
-            es_registerdate: {
-                required: true,
-            },
-            es_termcondtn: {
-                required: true,
-            },
-            ea_aadharphoto: {
-                required: true,
-                extension: 'jpg|jpeg|png',
-            },
-            ea_passbook: {
-                required: true,
-                extension: 'jpg|jpeg|png',
-            },
-            ea_uplodphoto: {
-                required: true,
-                extension: 'jpg|jpeg|png',
-            },
-            ea_accname: {
-                required: true,
-            },
-            ea_accno: {
-                required: true,
-                digits: true,
-            },
-            ebank_name: {
-                required: true,
-            },
-            ebank_country: {
-                required: true,
-            },
-            ebank_state: {
-                required: true,
-            },
-            ebank_dist: {
-                required: true,
-            },
-            ebranch_name: {
-                required: true,
-            },
-            egender: {
-                required: true,
-            },
-
-
-        },
-        messages: {
-            ea_name: {
-                pattern: "Only characters, spaces, and dots are allowed.",
-            },
-            ea_mobno: {
-                digits: "Please enter a valid mobile number.",
-            },
-            ea_email: {
-                email: "Please enter a valid email address.",
-            },
-            ea_aadharno: {
-                digits: "Please enter a valid aadhaar number.",
-            },
-            ea_locality: {
-                required: "Please enter the locality.",
-                maxlength: "Locality must not exceed 100 characters."
-            },
-
-            es_professions: {
-                required: "Please select a profession."
-            },
-            ea_marital: {
-                required: "Please select a marital status."
-            },
-            ea_religion: {
-                required: "Please select a religion."
-            },
-
-            ecountry: {
-                required: "Please select a country."
-            },
-            estate: {
-                required: "Please select a state."
-            },
-            edistrict: {
-                required: "Please select a district."
-            },
-            es_panno: {
-                required: "Please enter the PAN number.",
-                maxlength: "PAN number must not exceed 12 characters."
-            },
-            es_registerdate: {
-                required: "Please select the registration date."
-            },
-            ea_aadharphoto: {
-                extension: "Only JPG and PNG files are allowed.",
-            },
-            ea_passbook: {
-                extension: "Only JPG and PNG files are allowed.",
-            },
-            ea_uplodphoto: {
-                extension: "Only JPG and PNG files are allowed.",
-            },
-            ea_accname: {
-                pattern: "Only characters, spaces, and dots are allowed.",
-            },
-            ea_accno: {
-                pattern: "Please enter a valid account number.",
-            },
-            ebank_name: {
-                pattern: "Please select a bank name.",
-            },
-            ebank_country: {
-                pattern: "Please select a bank country.",
-            },
-            ebank_state: {
-                pattern: "Please select a bank state.",
-            },
-            ebank_dist: {
-                pattern: "Please select a bank district.",
-            },
-            ebranch_name: {
-                pattern: "Please select a bank branch name.",
-            },
-            egender: {
-                required: "Please select a gender.",
-            },
-        },
-    });
-
-
-    $('#ea_name,#ea_accname').on('input', function() {
-        var value = $(this).val();
-        value = value.replace(/[^A-Za-z\s\.]+/, '');
-        $(this).val(value);
-    });
-
-
-    $.validator.addMethod('maxSize', function(value, element, param) {
-        return this.optional(element) || (element.files[0].size <= param);
-    }, 'File size must be less than {0} KB');
-
-
-    $('#AffilateRegFormEdit').submit(function(e) {
-        e.preventDefault();
-        if ($(this).valid()) {
+            $('#AffilateRegFormApproved').submit(function(e) {
+            e.preventDefault();
+            if ($(this).valid()) {
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            var approvedstatus= $('#approvedstatus').val();
             $('#loading-overlay').fadeIn();
             $('#loading-image').fadeIn();
             $.ajax({
-                url: '{{ route('AdmAffiliateUpdate') }}',
+                url: '{{ route("AdmsAffiliateApproved") }}',
                 type: "POST",
-                data: new FormData(this),
+                data:  new FormData(this),
                 contentType: false,
                 cache: false,
-                processData: false,
+                processData:false,
                 headers: {
-                    'X-CSRF-TOKEN': csrfToken
+                'X-CSRF-TOKEN': csrfToken
                 },
                 success: function(response) {
 
                     console.log(response);
-                    $('#affliterupdte-message').text('Affiliate details successfully updated!')
-                        .fadeIn();
-                    $('#affliterupdte-message').addClass('success-message');
-                    $('#eimage-preview').empty();
-                    $('#eimage-preview_pass').empty();
-                    $('#eimage-preview_photo').empty();
-
+                    if(approvedstatus=='Y')
+                    {
+                        var approve="Successfully Approved!";
+                    }
+                    else{
+                        var approve="Not Approved!";
+                    }
+                    $('#appaffiliatereg-message').text(approve).fadeIn();
+                    $('#appaffiliatereg-message').addClass('success-message');
                     setTimeout(function() {
-                        $('#affliterupdte-message').fadeOut();
+                        $('#appaffiliatereg-message').fadeOut();
                     }, 5000); // 5000 milliseconds = 5 seconds
-                    $('#AffilateRegFormEdit')[0].reset();
+                    $('#AffilateRegFormApproved')[0].reset();
                     $('#loading-image').fadeOut();
                     $('#loading-overlay').fadeOut();
-                    $('#ViewEditModal').modal('hide');
+                    $('#AffiliateApprovedModal').modal('hide');
                     shwdets();
 
 
                 },
                 error: function(xhr) {
                     console.log(xhr.responseText);
-                    $('#affliterupdte-message').text('Updation failed.').fadeIn();
-                    $('#affliterupdte-message').addClass('error');
+                    $('#appaffiliatereg-message').text('Not Approved.').fadeIn();
+                    $('#appaffiliatereg-message').addClass('error');
                     setTimeout(function() {
-                        $('#affliterupdte-message').fadeOut();
+                        $('#appaffiliatereg-message').fadeOut();
                     }, 5000);
                     $('#loading-image').fadeOut();
                     $('#loading-overlay').fadeOut();
-                    $('#ViewEditModal').modal('show');
+                    $('#AffiliateApprovedModal').modal('show');
 
                 }
             });
-        }
-    });
+            }
+            });
+
+
+            $(document).ready(function () {
+
+                var slideIndexAadhar = 1;
+                var slideIndexPassbook = 1;
+                var slideIndexPhoto = 1;
+
+                showDivs(slideIndexAadhar, 'aadharImageSlider');
+                showDivs(slideIndexPassbook, 'passbookImageSlider');
+                showDivs(slideIndexPhoto, 'photoImageSlider');
+
+                function plusDivs(n, sliderId) {
+                    if (sliderId === 'aadharImageSlider') {
+                        showDivs(slideIndexAadhar += n, sliderId);
+                    } else if (sliderId === 'passbookImageSlider') {
+                        showDivs(slideIndexPassbook += n, sliderId);
+                    } else if (sliderId === 'photoImageSlider') {
+                        showDivs(slideIndexPhoto += n, sliderId);
+                    }
+                }
+                function currentDiv(n, sliderId) {
+                    if (sliderId === 'aadharImageSlider') {
+                        showDivs(slideIndexAadhar = n, sliderId);
+                    } else if (sliderId === 'passbookImageSlider') {
+                        showDivs(slideIndexPassbook = n, sliderId);
+                    } else if (sliderId === 'photoImageSlider') {
+                        showDivs(slideIndexPhoto = n, sliderId);
+                    }
+                }
+
+                function showDivs(n, sliderId) {
+                    var i;
+                    var x = document.getElementById(sliderId).getElementsByClassName('carousel-item');
+                    if (n > x.length) { n = 1 }
+                    if (n < 1) { n = x.length }
+                    for (i = 0; i < x.length; i++) {
+                        x[i].style.display = 'none';
+                    }
+                    x[n - 1].style.display = 'block';
+                }
+                $('.carousel-control-prev').on('click', function () {
+                    var sliderId = $(this).attr('href').substring(1);
+                    plusDivs(-1, sliderId);
+                });
+
+                $('.carousel-control-next').on('click', function () {
+                    var sliderId = $(this).attr('href').substring(1);
+                    plusDivs(1, sliderId);
+                });
+            });
+
+
+
+
+
+
+
+
 </script>

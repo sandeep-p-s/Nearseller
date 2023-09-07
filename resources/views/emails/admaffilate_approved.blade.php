@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>One Time Password</title>
+    <title>Approved Affiliate</title>
 </head>
 <body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -38,33 +38,41 @@
                 <tr>
                     <td colspan="2" style="padding-left:30px;padding-right:15px;padding-bottom:10px; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 25px;">
                     <h4 style="margin:0;">Dear {{ $userName }},</h4>
-                    <p><b>Verify your one time password</b></p>
+                    <p><b>Approved Registered Affiliate</b></p>
                     </td>
                 </tr>
-
-                <tr>
-                    <th align="left" valign="top" style="padding-left:30px;padding-right:15px;padding-bottom:10px;
-                    font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">&nbsp;One Time Password &nbsp;</th>
-                    <td align="left" valign="top" style="padding-left:15px;padding-right:30px;padding-bottom:10px;
-                    font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">&nbsp;{{ $otpMessage }}</td>
-                </tr>
-
-
                 <tr>
                     <th align="left" valign="top" style="padding-left:30px;padding-right:15px;padding-bottom:10px;
                     font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">&nbsp;Email :&nbsp;</th>
                     <td align="left" valign="top" style="padding-left:15px;padding-right:30px;padding-bottom:10px;
                     font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">&nbsp;{{ $userEmail }}</td>
                 </tr>
-
-
+                <tr>
+                    <th align="left" valign="top" style="padding-left:30px;padding-right:15px;padding-bottom:10px;
+                    font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">&nbsp;Status :&nbsp;</th>
+                    <td align="left" valign="top" style="padding-left:15px;padding-right:30px;padding-bottom:10px;
+                    font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">&nbsp;{{ $ApprovedMessage }}</td>
+                </tr>
+                @if($refidId!='')
+                <tr>
+                    <th align="left" valign="top" style="padding-left:30px;padding-right:15px;padding-bottom:10px;
+                    font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">&nbsp;Refferal ID :&nbsp;</th>
+                    <td align="left" valign="top" style="padding-left:15px;padding-right:30px;padding-bottom:10px;
+                    font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">&nbsp;{{ $refidId }}</td>
+                </tr>
+                @endif
+                <tr>
+                    <th align="left" valign="top" style="padding-left:30px;padding-right:15px;padding-bottom:10px;
+                    font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">&nbsp;Approved Time :&nbsp;</th>
+                    <td align="left" valign="top" style="padding-left:15px;padding-right:30px;padding-bottom:10px;
+                    font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">&nbsp;{{ $ApprovedTime }}</td>
+                </tr>
                 <tr>
                     <th align="left" valign="top" style="padding-left:30px;padding-right:15px;padding-bottom:10px;
                     font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">&nbsp;Web Site :&nbsp;</th>
                     <td align="left" valign="top" style="padding-left:15px;padding-right:30px;padding-bottom:10px;
                     font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">https://www.nearsellers.com/</td>
                 </tr>
-
                 </table>
             </td>
             </tr>
@@ -77,7 +85,7 @@
             <tr>
             <td bgcolor="#f4f4f4" align="left" style="padding: 30px 30px 30px 30px; color: #666666; font-family: Helvetica, Arial,
             sans-serif; font-size: 14px; font-weight: 400; line-height: 18px;">
-                <p style="margin: 0;"><b>{{date('Y')}} @ IT Support, HYZ Ventures Intl Pvt Ltd.</b></p>
+                <p style="margin: 0;"><b> {{ date('Y') }} @ IT Support, HYZ Ventures Intl Pvt Ltd.</b></p>
             </td>
             </tr>
         </td>

@@ -1,5 +1,6 @@
 <!-- Admin menus -->
 <div class="menu-content h-100" data-simplebar>
+    @if(session('roleid')=='1')
     <ul class="metismenu left-sidenav-menu">
         <li><a href="{{ route('admin.dashboard') }}"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Dashboard</span><span class="menu-arrow"></span></a> </li>
         <hr class="hr-dashed hr-menu">
@@ -27,18 +28,6 @@
                             class="ti-control-record"></i>Manage Roles</a></li>
             </ul>
         </li>
-        {{-- <hr class="hr-dashed hr-menu">
-        <li class="">
-            <a href="javascript: void(0);" aria-expanded="false"><span>Edits</span><span class="menu-arrow"><i
-                        class="mdi mdi-chevron-right"></i></span></a>
-            <ul class="nav-second-level mm-collapse" aria-expanded="false" >
-                <li class="nav-item"><a class="nav-link" href="shop_edit_table.html"><i
-                            class="ti-control-record"></i>Shop Edits</a></li>
-                <li class="nav-item"><a class="nav-link" href="affiliates_edit_table.html"><i
-                            class="ti-control-record"></i>Affiliates Edits</a></li>
-
-            </ul>
-        </li> --}}
         <hr class="hr-dashed hr-menu">
         <li class="">
             <a href="javascript: void(0);" aria-expanded="false"><span>Types</span><span class="menu-arrow"><i
@@ -84,7 +73,7 @@
                     Placement</span><span class="menu-arrow"></span></a> </li>
         <hr class="hr-dashed hr-menu">
     </ul>
-
+@endif
 {{-- </div>
 <!-- end admin menu -->
 
@@ -94,7 +83,12 @@
 
 <!-- Seller menus -->
 <div class="menu-content h-100" data-simplebar> --}}
+    @if(session('roleid')=='2')
+
+
 <ul class="metismenu left-sidenav-menu">
+    <li><a href="{{ route('seller.dashboard') }}"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Dashboard</span><span class="menu-arrow"></span></a> </li>
+        <hr class="hr-dashed hr-menu">
     <li><a href="home.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Home Page</span><span class="menu-arrow"></span></a> </li>
     <hr class="hr-dashed hr-menu">
     <li><a href="my_products.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>My Products</span><span class="menu-arrow"></span></a> </li>
@@ -115,9 +109,16 @@
     <hr class="hr-dashed hr-menu">
 </ul>
 
+@endif
+
 <!-- Affiliate menus -->
 
+@if(session('roleid')=='3')
+
+
     <ul class="metismenu left-sidenav-menu">
+        <li><a href="{{ route('affiliate.dashboard') }}"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Dashboard</span><span class="menu-arrow"></span></a> </li>
+        <hr class="hr-dashed hr-menu">
       <li><a href="index.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Home Page</span><span class="menu-arrow"></span></a> </li>
       <hr class="hr-dashed hr-menu">
       <li><a href="affiliate.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Affiliates</span><span class="menu-arrow"></span></a> </li>
@@ -128,7 +129,7 @@
     </ul>
 
 
-
+@endif
 
 
 

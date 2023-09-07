@@ -77,6 +77,8 @@ Route::controller(AdminController::class)->group(function (){
     Route::post('affiliatePhotoDelte', 'AdmAfiliatePhotoDelte')->name('affiliatePhotoDelte');
     Route::post('AdmAffiliateUpdate','AdmaffiliateUpdatePage')->name('AdmAffiliateUpdate');
     Route::post('affiliateApproved', 'AdmaffiliateApproved')->name('affiliateApproved');
+    Route::post('AdmsAffiliateApproved', 'AdmsAffiliateApprovedPage')->name('AdmsAffiliateApproved');
+    Route::post('AffiliateDelete', 'AdmaffiliateDeletePage')->name('AffiliateDelete');
 
 
     });

@@ -41,7 +41,7 @@
                             <div class="dropdown-menu">
                                 <a class="dropdown-item view_btn1" href="#" onclick="affiliatevieweditdet({{ $AffDetails->id }})">View/Edit</a>
                                 <a class="dropdown-item approve_btn" href="#" onclick="affiliateapprovedet({{ $AffDetails->id }})">Approved</a>
-                                <a class="dropdown-item delete_btn" href="#" onclick="shopdeletedet({{ $AffDetails->id }})">Delete</a>
+                                <a class="dropdown-item delete_btn" href="#" onclick="affiliatedeletedet({{ $AffDetails->id }})">Delete</a>
                             </div>
                         </div>
                     </td>
@@ -61,7 +61,7 @@
 
 <!-- Modal Add New -->
 <div class="modal fade" id="addNewModal" tabindex="-1" aria-labelledby="addNewModalLabel" aria-hidden="true">
-    <div class="modal-dialog  modal-xl">
+    <div class="modal-dialog custom-modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title text-center" id="addNewModalLabel">Add New Affiliate</h5>
