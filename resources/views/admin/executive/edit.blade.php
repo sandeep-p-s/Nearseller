@@ -12,7 +12,7 @@
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-                                <h4 class="page-title">Edit Business Type</h4>
+                                <h4 class="page-title">Edit Executive</h4>
                             </div>
                         </div><!--end row-->
                     </div><!--end page-title-box-->
@@ -22,21 +22,21 @@
                 <div class="col-lg-6">
                     <div class="card">
                         <div class="card-body">
-                            <form method="POST" action="{{ route('update.businesstype', $businesstype->id) }}">
+                            <form method="POST" action="{{ route('update.executive', $executive->id) }}">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Edit Business Type</label>
-                                    <input type="text" class="form-control mb-3" id="exampleFormControlInput1"
-                                        name="business_name" placeholder="Enter business type"
-                                        value="{{ $businesstype->business_name }}">
+                                    <label for="exampleFormControlInput1">Edit Executive</label>
+                                    <input type="text" class="form-control mb-3" id="executive_name"
+                                        name="executive_name" placeholder="Enter executive name"
+                                        value="{{ $executive->executive_name }}">
                                         @error('business_name')
                                         <div class="text-danger mb15">{{ $message }}</div>
                                     @enderror
                                     <div class="form-group">
                                         <label for="exampleFormControlSelect1">Status</label>
                                         <select class="form-control" id="exampleFormControlSelect1" name="status">
-                                            <option value="Active" @if($businesstype->status === 'Y') selected @endif>Active</option>
-                                            <option value="Inactive" @if($businesstype->status === 'N') selected @endif>Inactive</option>
+                                            <option value="Active" @if($executive->status === 'Y') selected @endif>Active</option>
+                                            <option value="Inactive" @if($executive->status === 'N') selected @endif>Inactive</option>
                                         </select>
                                     </div>
 

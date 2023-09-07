@@ -2,7 +2,6 @@
 @section('content')
     @include('menu')
     @include('topnav')
-
     <!-- Page Content-->
     <div class="page-content">
         <div class="container-fluid">
@@ -12,33 +11,33 @@
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-                                <h4 class="page-title">Edit Service Type</h4>
+                                <h4 class="page-title">Add Business Type</h4>
+
                             </div>
+
                         </div><!--end row-->
                     </div><!--end page-title-box-->
                 </div><!--end col-->
             </div> <!--end row-->
+
+
             <div class="row">
+
+
+
                 <div class="col-lg-6">
                     <div class="card">
                         <div class="card-body">
-                            <form method="POST" action="{{ route('update.servicetype', $servicetype->id) }}">
+                            <form action="{{ route('store.executive') }}" method="POST">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Edit Service Type</label>
-                                    <input type="text" class="form-control mb-3" id="service_name" name="service_name"
-                                        placeholder="Enter service type" value="{{ $servicetype->service_name }}">
-                                        @error('service_name')
+                                    <label for="exampleFormControlInput1">Add Executive Name</label>
+                                    <input type="text" class="form-control mb-3" id="executive_name"
+                                        placeholder="Enter executive name" name="executive_name">
+                                    @error('executive_name')
                                         <div class="text-danger mb15">{{ $message }}</div>
                                     @enderror
-                                    <div class="form-group">
-                                        <label for="exampleFormControlSelect1">Status</label>
-                                        <select class="form-control" id="exampleFormControlSelect1" name="status">
-                                            <option value="Active" @if($servicetype->status === 'Y') selected @endif>Active</option>
-                                            <option value="Inactive" @if($servicetype->status === 'N') selected @endif>Inactive</option>
-                                        </select>
-                                    </div>
-                                    <button type="submit" class="btn view_btn">Update</button>
+                                    <button type="submit" class="btn view_btn" id="addBusinessType">Add</button>
                                 </div>
                             </form>
                         </div><!--end card-body-->

@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('affiliate', function (Blueprint $table) {
-            $table->date('registration_date')->change();
-            $table->date('registration_date')->change()->nullable();
+        Schema::create('executives', function (Blueprint $table) {
+            $table->id();
+            $table->string('executive_name')->nullable();
+            $table->string('status',1)->default('Y')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -22,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('affiliate', function (Blueprint $table) {
-            $table->integer('registration_date')->change();
-        });
+        Schema::dropIfExists('executives');
     }
 };
