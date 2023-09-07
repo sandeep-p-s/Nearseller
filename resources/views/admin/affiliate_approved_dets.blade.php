@@ -82,23 +82,23 @@
                         </div>
                         <hr class="new_hr">
                         <div class="row">
-                            <label class="col-xl-6 ">Other Professions</label>
+                            <label class="col-xl-6 ">Professions</label>
                             <div class="col-xl-6 align-self-center">
-                                {{ $Affiliate->other_profession }}
+                                {{ $Affiliate->profession_name }}
                             </div>
                         </div>
                         <hr class="new_hr">
                         <div class="row">
                             <label class="col-xl-6 ">Marital Status</label>
                             <div class="col-xl-6 align-self-center">
-                                jghfxghfhgklfjghf
+                                {{ $Affiliate->mr_name }}
                             </div>
                         </div>
                         <hr class="new_hr">
                         <div class="form-group row">
                             <label class="col-xl-6 ">Religion</label>
                             <div class="col-xl-6 align-self-center">
-                                jghfxghfhgklfjghf
+                                {{ $Affiliate->religion_name }}
                             </div>
                         </div>
                     </div>
@@ -125,25 +125,27 @@
                         </div>
                         <hr class="new_hr">
                         <div class="form-group row">
-                            <label class="col-xl-6 ">Country</label>
+                            <label class="col-xl-6 ">District</label>
                             <div class="col-xl-6 align-self-center">
-                                jghfxghfhgklfjghf
+                                {{ $Affiliate->district_name }}
                             </div>
                         </div>
                         <hr class="new_hr">
                         <div class="form-group row">
                             <label class="col-xl-6 ">State</label>
                             <div class="col-xl-6 align-self-center">
-                                jghfxghfhgklfjghf
+                                {{ $Affiliate->state_name }}
                             </div>
                         </div>
+
                         <hr class="new_hr">
                         <div class="form-group row">
-                            <label class="col-xl-6 ">District</label>
+                            <label class="col-xl-6 ">Country</label>
                             <div class="col-xl-6 align-self-center">
-                                jghfxghfhgklfjghf
+                                {{ $Affiliate->country_name }}
                             </div>
                         </div>
+
                         <hr class="new_hr">
                         <div class="row">
                             <label class="col-xl-6 ">PAN Number</label>
@@ -155,7 +157,7 @@
                         <div class="row">
                             <label class="col-xl-6 ">Registration Date</label>
                             <div class="col-xl-6 align-self-center">
-                                jghfxghfhgklfjghf
+                                {{ $Affiliate->registration_date }}
                             </div>
                         </div>
                         <hr class="new_hr">
@@ -172,6 +174,13 @@
                                 jghfxghfhgklfjghf
                             </div>
                         </div>
+                        <hr class="new_hr">
+                        <div class="form-group row">
+                            <label class="col-xl-6 ">Upload Photo</label>
+                            <div class="col-xl-6 align-self-center">
+                                jghfxghfhgklfjghf
+                            </div>
+                        </div>
 
                     </div>
                 </div>
@@ -182,12 +191,7 @@
                     <div class="card-body">
 
 
-                        <div class="form-group row">
-                            <label class="col-xl-6 ">Upload Photo</label>
-                            <div class="col-xl-6 align-self-center">
-                                jghfxghfhgklfjghf
-                            </div>
-                        </div>
+
                         <hr class="new_hr">
                         <div class="form-group row">
                             <label class="col-xl-6 ">Direct Affiliate</label>

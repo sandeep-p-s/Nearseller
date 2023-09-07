@@ -57,7 +57,7 @@
             </div>
 
             <div class="modal fade" id="ViewEditModal" tabindex="-1" aria-labelledby="ViewEditModalLabel" aria-hidden="true">
-                <div class="modal-dialog custom-modal-dialog">
+                <div class="modal-dialog  modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title text-center" id="ViewEditModalLabel">View / Edit Affiliates Details</h5>
@@ -73,7 +73,7 @@
             </div>
 
             <div class="modal fade" id="AffiliateApprovedModal" tabindex="-1" aria-labelledby="AffiliateApprovedModalLabel" aria-hidden="true">
-                <div class="modal-dialog custom-modal-dialog">
+                <div class="modal-dialog  modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title text-center" id="AffiliateApprovedModalLabel">Affilates Approved</h5>

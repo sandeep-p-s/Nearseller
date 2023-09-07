@@ -61,7 +61,7 @@
 
 <!-- Modal Add New -->
 <div class="modal fade" id="addNewModal" tabindex="-1" aria-labelledby="addNewModalLabel" aria-hidden="true">
-    <div class="modal-dialog custom-modal-dialog">
+    <div class="modal-dialog  modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title text-center" id="addNewModalLabel">Add New Affiliate</h5>
