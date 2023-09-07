@@ -1163,7 +1163,6 @@ class AdminController extends Controller
                     if (!is_dir($upload_pathp)) {
                         mkdir($upload_pathp, 0777, true);
                     }
-                    $input_datasp = [];
                     foreach ($request->file('ea_passbook') as $filep) {
                         if ($filep->isValid()) {
                             $new_namep = time() . '_' . $filep->getClientOriginalName();
@@ -1232,7 +1231,7 @@ class AdminController extends Controller
                 return redirect()->route('logout');
             }
             $id=$request->input('affiliateid');
-            $Affiliate = Affiliate::select('affiliate.*','professions.profession_name','marital_statuses.mr_name','religions.religion_name','country.country_name','state.state_name','district.district_name','bank_types.bank_name','bank_details.branch_name','bank_details.ifsc_code','bank_details.branch_address')
+            $Affiliate = Affiliate::select('affiliate.*','professions.profession_name','marital_statuses.mr_name','religions.religion_name','country.country_name','state.state_name','district.district_name','bank_types.bank_name','bank_details.branch_name','bank_details.ifsc_code','bank_details.branch_address','bank_country.country_name AS bank_country_name',            'bank_state.state_name AS bank_state_name','bank_dist.district_name AS bank_district_name',)
             ->leftJoin('professions', 'professions.id', 'affiliate.profession')
             ->leftJoin('marital_statuses', 'marital_statuses.id', 'affiliate.marital_status')
             ->leftJoin('religions', 'religions.id', 'affiliate.religion')
@@ -1241,9 +1240,13 @@ class AdminController extends Controller
             ->leftJoin('district', 'district.id', 'affiliate.district')
              ->leftJoin('bank_types', 'bank_types.id', 'affiliate.bank_type')
             ->leftJoin('bank_details', 'bank_details.id', 'affiliate.branch_code')
+            ->leftJoin('country AS bank_country', 'bank_country.id', 'affiliate.bank_country')
+            ->leftJoin('state AS bank_state', 'bank_state.id', 'affiliate.bank_state')
+            ->leftJoin('district AS bank_dist', 'bank_dist.id', 'affiliate.bank_dist')
             ->where('affiliate.id', $id)
             ->first();
             //echo $lastRegId = $Affiliate->toSql();exit;
+            $userdets       = DB::table('user_account')->where('id', $Affiliate->user_id)->get();
             $countries      = DB::table('country')->get();
             $states         = DB::table('state')->where('country_id', $Affiliate->country)->get();
             $districts      = DB::table('district')->where('state_id', $Affiliate->state)->get();
@@ -1254,7 +1257,77 @@ class AdminController extends Controller
             $bankstates     = DB::table('state')->where('country_id', $Affiliate->bank_country)->get();
             $bankdistricts  = DB::table('district')->where('state_id', $Affiliate->bank_state)->get();
             $branchdetails  = DB::table('bank_details')->where('id', $Affiliate->branch_code)->get();
-            return view('admin.affiliate_approved_dets', compact('Affiliate','countries','states','districts','professions','matstatus','religions','bank_types','bankstates','bankdistricts','branchdetails'));
+            return view('admin.affiliate_approved_dets', compact('Affiliate','countries','states','districts','professions','matstatus','religions','bank_types','bankstates','bankdistricts','branchdetails','userdets'));
+        }
+
+        function AdmsAffiliateApprovedPage(Request $request)
+        {
+            $userRole = session('user_role');
+            $userId = session('user_id');
+            if($userId==''){
+                return redirect()->route('logout');
+            }
+            $loggedUserIp=$_SERVER['REMOTE_ADDR'];
+            $time=date('Y-m-d H:i:s');
+            $validatedData = $request->validate([
+                'approvedstatus' => 'required|max:1',
+            ]);
+            $aaffiliateid=$request->aaffiliateidhid;
+            $aaffiliateuserid=$request->aaffiliateuseridhid;
+            $user = UserAccount::find($aaffiliateuserid);
+            $user->approved = $request->approvedstatus;
+            $user->approved_by = $userId;
+            $user->approved_at = $time;
+            $submt=$user->save();
+            $msg="Aprroved Status =  ".$request->approvedstatus." affiliate updated id : ".$aaffiliateid;
+            $LogDetails = new LogDetails();
+            $LogDetails->user_id = $user->email;
+            $LogDetails->ip_address = $loggedUserIp;
+            $LogDetails->log_time = $time;
+            $LogDetails->status = $msg;
+            $LogDetails->save();
+            if($request->approvedstatus=='Y')
+            {
+                $valencodemm=$aaffiliateuserid."-".$user->email;
+                $valsmm=base64_encode($valencodemm);
+                $apprveTime = date('d/m/Y H:i:s', strtotime($time));
+                $verificationToken = base64_encode($aaffiliateuserid . '-' . $user->email. '-' .$apprveTime.'-'.$user->referal_id);
+                $checkval="7";
+                $message='Affiliate Successfully Approved';
+                $email = new EmailVerification($verificationToken, $user->name, $user->email, $checkval, $message);
+                Mail::to($user->email)->send($email);
+            }
+
+        }
+
+        function AdmaffiliateDeletePage(Request $request)
+        {
+            $userRole = session('user_role');
+            $userId = session('user_id');
+            if($userId==''){
+                return redirect()->route('logout');
+            }
+            $loggedUserIp=$_SERVER['REMOTE_ADDR'];
+            $time=date('Y-m-d H:i:s');
+            $affliateid         = $request->input('userid');
+            $Affiliate   = Affiliate::find($affliateid);
+            $user           = UserAccount::find($Affiliate->user_id);
+            $delteaffliatDetail=$Affiliate->delete();
+            $delteuser        =$user->delete();
+            $msg="Affiliate Deleted =  ".$user->email." affiliate updated id : ".$Affiliate->user_id;
+            $LogDetails = new LogDetails();
+            $LogDetails->user_id = $user->email;
+            $LogDetails->ip_address = $loggedUserIp;
+            $LogDetails->log_time = $time;
+            $LogDetails->status = $msg;
+            $LogDetails->save();
+            if(($delteaffliatDetail>0) && ($delteuser>0)){
+                return response()->json(['result' => 1,'mesge'=>'Deleted Successfully']);
+            }
+            else{
+                return response()->json(['result' => 2,'mesge'=>'Failed']);
+            }
+
         }
 
 

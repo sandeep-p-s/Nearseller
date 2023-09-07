@@ -212,17 +212,18 @@
                                 <div class="row">
                                     @for($m = 0; $m < $totimg; $m++)
                                         <div class="col-md-3">
-                                            <a href="#" data-toggle="modal" data-target="#myModal{{ $m }}">
+                                            {{-- <a href="#" data-toggle="modal" data-target="#myModal{{ $m }}"> --}}
                                                 <img id="img-bufferm" src="{{ asset($qrgallery[$m]) }}" width="100" height="100">
                                                 @php
                                                     $valen = $qrgallery[$m] . "#" . $sellerDetails->id;
                                                     $deleencde = base64_encode($valen);
                                                 @endphp
-                                            </a><br>
+                                            {{-- </a> --}}
+                                            <br>
                                             <button id="remv" type="button" name="remv" class="btn btn-danger" onClick="DeltImagGalry('{{ $deleencde }}');">X</button>
                                         </div>
 
-                                        <div class="modal fade" id="myModal{{ $m }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 80%;">
+                                        {{-- <div class="modal fade" id="myModal{{ $m }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 80%;">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -233,7 +234,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     @endfor
                                 </div>
                             </div>

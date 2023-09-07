@@ -168,17 +168,18 @@
                                 <div class="row">
                                     @for($m = 0; $m < $totadarimg; $m++)
                                         <div class="col-md-3">
-                                            <a href="#" data-toggle="modal" data-target="#myModals{{ $m }}">
+                                            {{-- <a href="#" data-toggle="modal" data-target="#myModals{{ $m }}"> --}}
                                                 <img id="img-bufferm" src="{{ asset($fileval[$m]) }}" width="100" height="100">
                                                 @php
                                                     $valen = $fileval[$m] . "#" . $Affiliate->id;
                                                     $deleencde = base64_encode($valen);
                                                 @endphp
-                                            </a><br>
+                                            {{-- </a> --}}
+                                            <br>
                                             <button id="remv" type="button" name="remv" class="btn btn-danger" onClick="DeltAdharImag('{{ $deleencde }}');">X</button>
                                         </div>
 
-                                        <div class="modal fade" id="myModals{{ $m }}" tabindex="-1" role="dialog" aria-labelledby="myModalsLabel" aria-hidden="true" style="width: 80%;">
+                                        {{-- <div class="modal fade" id="myModals{{ $m }}" tabindex="-1" role="dialog" aria-labelledby="myModalsLabel" aria-hidden="true" style="width: 80%;">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -189,7 +190,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     @endfor
                                 </div>
                             </div>
@@ -216,17 +217,18 @@
                                 <div class="row">
                                     @for($m = 0; $m < $totpassimg; $m++)
                                         <div class="col-md-3">
-                                            <a href="#" data-toggle="modal" data-target="#myModalsp{{ $m }}">
+                                            {{-- <a href="#" data-toggle="modal" data-target="#myModalsp{{ $m }}"> --}}
                                                 <img id="img-bufferm" src="{{ asset($passbook[$m]) }}" width="100" height="100">
                                                 @php
                                                     $valen = $passbook[$m] . "#" . $Affiliate->id;
                                                     $deleencde = base64_encode($valen);
                                                 @endphp
-                                            </a><br>
+                                            {{-- </a> --}}
+                                            <br>
                                             <button id="remv" type="button" name="remv" class="btn btn-danger" onClick="DeltPassbookImag('{{ $deleencde }}');">X</button>
                                         </div>
 
-                                        <div class="modal fade" id="myModalsp{{ $m }}" tabindex="-1" role="dialog" aria-labelledby="myModalspLabel" aria-hidden="true" style="width: 80%;">
+                                        {{-- <div class="modal fade" id="myModalsp{{ $m }}" tabindex="-1" role="dialog" aria-labelledby="myModalspLabel" aria-hidden="true" style="width: 80%;">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -237,7 +239,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     @endfor
                                 </div>
                             </div>
@@ -269,17 +271,18 @@
                                 <div class="row">
                                     @for($m = 0; $m < $totphotoimg; $m++)
                                         <div class="col-md-3">
-                                            <a href="#" data-toggle="modal" data-target="#myModalsph{{ $m }}">
+                                            {{-- <a href="#" data-toggle="modal" data-target="#myModalsph{{ $m }}"> --}}
                                                 <img id="img-bufferm" src="{{ asset($photos[$m]) }}" width="100" height="100">
                                                 @php
                                                     $valen = $photos[$m] . "#" . $Affiliate->id;
                                                     $deleencde = base64_encode($valen);
                                                 @endphp
-                                            </a><br>
+                                            {{-- </a> --}}
+                                            <br>
                                             <button id="remv" type="button" name="remv" class="btn btn-danger" onClick="DeltPhotosImag('{{ $deleencde }}');">X</button>
                                         </div>
 
-                                        <div class="modal fade" id="myModalsph{{ $m }}" tabindex="-1" role="dialog" aria-labelledby="myModalsphLabel" aria-hidden="true" style="width: 80%;">
+                                        {{-- <div class="modal fade" id="myModalsph{{ $m }}" tabindex="-1" role="dialog" aria-labelledby="myModalsphLabel" aria-hidden="true" style="width: 80%;">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -290,7 +293,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     @endfor
                                 </div>
                             </div>

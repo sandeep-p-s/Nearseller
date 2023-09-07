@@ -57,7 +57,7 @@
             </div>
 
             <div class="modal fade" id="ViewEditModal" tabindex="-1" aria-labelledby="ViewEditModalLabel" aria-hidden="true">
-                <div class="modal-dialog  modal-xl">
+                <div class="modal-dialog custom-modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title text-center" id="ViewEditModalLabel">View / Edit Affiliates Details</h5>
@@ -73,7 +73,7 @@
             </div>
 
             <div class="modal fade" id="AffiliateApprovedModal" tabindex="-1" aria-labelledby="AffiliateApprovedModalLabel" aria-hidden="true">
-                <div class="modal-dialog  modal-xl">
+                <div class="modal-dialog custom-modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title text-center" id="AffiliateApprovedModalLabel">Affilates Approved</h5>
@@ -498,7 +498,7 @@
                 }
 
 
-                function shopdeletedet(userid) {
+                function affiliatedeletedet(userid) {
 
                     $('#deleteConfirmationModal').modal('show');
                     $('#confirmDeleteBtn').click(function() {
@@ -507,16 +507,16 @@
                         $('#loading-image').fadeIn();
                         var csrfToken = $('meta[name="csrf-token"]').attr('content');
                         $.ajax({
-                            url: '{{ route("shopDelete") }}',
+                            url: '{{ route("AffiliateDelete") }}',
                             type: 'POST',
                             data: {userid: userid, _token: csrfToken},
                             success: function(data) {
                                 if((data.result==1))
                                     {
-                                        $('#shop_del-message').text(data.mesge).fadeIn();
-                                        $('#shop_del-message').addClass('success-message');
+                                        $('#afflite_del-message').text(data.mesge).fadeIn();
+                                        $('#afflite_del-message').addClass('success-message');
                                         setTimeout(function() {
-                                        $('#shop_del-message').fadeOut();
+                                        $('#afflite_del-message').fadeOut();
                                         }, 5000);
                                         $('#loading-image').fadeOut();
                                         $('#loading-overlay').fadeOut();
@@ -524,10 +524,10 @@
                                     }
                                 else if((data.result==2))
                                     {
-                                        $('#shop_del-message').text(data.mesge).fadeIn();
-                                        $('#shop_del-message').addClass('error');
+                                        $('#afflite_del-message').text(data.mesge).fadeIn();
+                                        $('#afflite_del-message').addClass('error');
                                         setTimeout(function() {
-                                        $('#shop_del-message').fadeOut();
+                                        $('#afflite_del-message').fadeOut();
                                         }, 5000);
                                         $('#loading-image').fadeOut();
                                         $('#loading-overlay').fadeOut();

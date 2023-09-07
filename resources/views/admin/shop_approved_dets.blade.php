@@ -450,7 +450,7 @@
                     $('#appshopreg-message').text(approve).fadeIn();
                     $('#appshopreg-message').addClass('success-message');
                     setTimeout(function() {
-                        $('#eshopreg-message').fadeOut();
+                        $('#appshopreg-message').fadeOut();
                     }, 5000); // 5000 milliseconds = 5 seconds
                     $('#SellerRegFormApproved')[0].reset();
                     $('#loading-image').fadeOut();
