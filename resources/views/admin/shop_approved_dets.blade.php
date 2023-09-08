@@ -366,11 +366,6 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                     </div>
-
-
-
-
-
                                                 @endfor
                                             </div>
                                         </div>

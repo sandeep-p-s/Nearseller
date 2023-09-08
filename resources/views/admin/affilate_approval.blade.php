@@ -25,6 +25,60 @@
                 <div class="col-md-4">
                     <input type="text" id="emal_mob" name="emal_mob" class="form-control  form-control-lg"
                         placeholder="Email/Mobile No" onchange="shwdets();" />
+                <div class="col-12">
+
+                        <div class="row">
+                            <div class="col-md-4">
+                              <input type="text" id="emal_mob" name="emal_mob" class="form-control  form-control-lg" placeholder="Email/Mobile No" onchange="shwdets();" />
+                            </div>
+
+                            <div class="col-md-4">
+
+                              <input type="text" id="afflitename" name="afflitename" class="form-control  form-control-lg" placeholder="Affiliate Name" onchange="shwdets();" />
+                            </div>
+
+                            <div class="col-md-4">
+                              <input type="text" id="referalid" name="referalid" class="form-control  form-control-lg" placeholder="Refferal ID" onchange="shwdets();" />
+
+                            </div>
+
+                            <div class="col-md-12 col-lg-12 d-flex justify-content-center" style="margin-top: 20px;">
+                              <input type="button" id="btnsearch" name="btnsearch" class="btn btn-primary" value="Search" onClick="shwdets()" />
+
+                            </div>
+
+                        </div>
+
+                    <div class="card">
+                        <table>
+                            <tr>
+                                <td>
+                                    <input type="text" id="emal_mob" name="emal_mob"
+                                        class="form-control  form-control-lg" placeholder="Email/Mobile No"
+                                        onchange="shwdets();" />
+                                </td>
+                                <td>
+                                    <input type="text" id="afflitename" name="afflitename"
+                                        class="form-control  form-control-lg" placeholder="Affiliate Name"
+                                        onchange="shwdets();" />
+                                </td>
+
+                                <td>
+                                    <input type="text" id="referalid" name="referalid"
+                                        class="form-control  form-control-lg" placeholder="Refferal ID"
+                                        onchange="shwdets();" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+
+
+                                    <input type="button" id="btnsearch" name="btnsearch" class="btn btn-primary"
+                                        value="Search" onClick="shwdets()" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
 
                 <div class="col-md-4">
@@ -153,6 +207,38 @@
                                 }
                             });
                         }
+    <script>
+
+    function shwdets()
+	    {
+
+            $('#loading-overlay').fadeIn();
+            $('#loading-image').fadeIn();
+            var emal_mob = $("#emal_mob").val();
+            var afflitename = $("#afflitename").val();
+            // var ownername = $("#ownername").val();
+            var referalid = $("#referalid").val();
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                url: '{{ route('admin.allaffiliatesview') }}',
+                type: 'POST',
+                data: {
+                    emal_mob: emal_mob,
+                    afflitename: afflitename,
+                    referalid: referalid,
+                    _token: csrfToken
+                },
+                success: function(data) {
+                    $('#loading-image').fadeOut();
+                    $('#loading-overlay').fadeOut();
+                    setTimeout(() => {
+                        $('#datatable').DataTable();
+                    }, 0);
+                    $('#catcontent').html(data);
+
+                }
+            });
+        }
 
 
 
@@ -346,6 +432,18 @@
                             var csrfToken = $('meta[name="csrf-token"]').attr('content');
                             $.ajax({
                                 url: '{{ route('shopGalryDelte') }}',
+                }
+                function DeltAdharImag(imgval)
+                {
+                    var decoded = atob(imgval);
+                    var values = decoded.split('#');
+                    var imageSrc = values[0];
+                    var affiliateid = values[1];
+                    $('#loading-overlay').fadeIn();
+                    $('#loading-image').fadeIn();
+                    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                    $.ajax({
+                        url: '{{ route("affiliateadhaarDelte") }}',
                                 type: 'POST',
                                 data: {
                                     imgval: imgval
@@ -374,6 +472,132 @@
                                         shopvieweditdet(shopid);
                                     } else {
                                         $("#showshopeviewedit").html('');
+                        success:function(data)
+                            {
+                                if((data.result==1))
+                                    {
+                                        $('#aahar_gal-message').text(data.mesge).fadeIn();
+                                        $('#aahar_gal-message').addClass('success-message');
+                                        setTimeout(function() {
+                                        $('#aahar_gal-message').fadeOut();
+                                        }, 5000);
+                                        $('#loading-image').fadeOut();
+                                        $('#loading-overlay').fadeOut();
+                                        affiliatevieweditdet(affiliateid);
+                                    }
+                                    else if((data.result==2))
+                                    {
+                                        $('#aahar_gal-message').text(data.mesge).fadeIn();
+                                        $('#aahar_gal-message').addClass('error');
+                                        setTimeout(function() {
+                                        $('#aahar_gal-message').fadeOut();
+                                        }, 5000);
+                                        $('#loading-image').fadeOut();
+                                        $('#loading-overlay').fadeOut();
+                                        affiliatevieweditdet(affiliateid);
+                                    }
+                                    else{
+                                        $("#showaffiliateviewedit").html('');
+                                        $('#ViewEditModal').modal('hide');
+                                        $('#loading-image').fadeOut();
+                                        $('#loading-overlay').fadeOut();
+                                    }
+                            }
+                    });
+
+                }
+                function DeltPassbookImag(imgval)
+                {
+                    var decoded = atob(imgval);
+                    var values = decoded.split('#');
+                    var imageSrc = values[0];
+                    var affiliateid = values[1];
+                    $('#loading-overlay').fadeIn();
+                    $('#loading-image').fadeIn();
+                    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                    $.ajax({
+                        url: '{{ route("affiliatePassDelte") }}',
+                                type: 'POST',
+                                data: {imgval:imgval},
+                                headers: {
+                                'X-CSRF-TOKEN': csrfToken
+                                },
+                        success:function(data)
+                            {
+                                if((data.result==1))
+                                    {
+                                        $('#pass_gal-message').text(data.mesge).fadeIn();
+                                        $('#pass_gal-message').addClass('success-message');
+                                        setTimeout(function() {
+                                        $('#pass_gal-message').fadeOut();
+                                        }, 5000);
+                                        $('#loading-image').fadeOut();
+                                        $('#loading-overlay').fadeOut();
+                                        affiliatevieweditdet(affiliateid);
+                                    }
+                                    else if((data.result==2))
+                                    {
+                                        $('#pass_gal-message').text(data.mesge).fadeIn();
+                                        $('#pass_gal-message').addClass('error');
+                                        setTimeout(function() {
+                                        $('#pass_gal-message').fadeOut();
+                                        }, 5000);
+                                        $('#loading-image').fadeOut();
+                                        $('#loading-overlay').fadeOut();
+                                        affiliatevieweditdet(affiliateid);
+                                    }
+                                    else{
+                                        $("#showaffiliateviewedit").html('');
+                                        $('#ViewEditModal').modal('hide');
+                                        $('#loading-image').fadeOut();
+                                        $('#loading-overlay').fadeOut();
+                                    }
+                            }
+                    });
+
+                }
+                function DeltPhotosImag(imgval)
+                {
+                    var decoded = atob(imgval);
+                    var values = decoded.split('#');
+                    var imageSrc = values[0];
+                    var affiliateid = values[1];
+                    $('#loading-overlay').fadeIn();
+                    $('#loading-image').fadeIn();
+                    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                    $.ajax({
+                        url: '{{ route("affiliatePhotoDelte") }}',
+                                type: 'POST',
+                                data: {imgval:imgval},
+                                headers: {
+                                'X-CSRF-TOKEN': csrfToken
+                                },
+                        success:function(data)
+                            {
+                                if((data.result==1))
+                                    {
+                                        $('#photo_gal-message').text(data.mesge).fadeIn();
+                                        $('#photo_gal-message').addClass('success-message');
+                                        setTimeout(function() {
+                                        $('#photo_gal-message').fadeOut();
+                                        }, 5000);
+                                        $('#loading-image').fadeOut();
+                                        $('#loading-overlay').fadeOut();
+                                        affiliatevieweditdet(affiliateid);
+                                    }
+                                    else if((data.result==2))
+                                    {
+                                        $('#photo_gal-message').text(data.mesge).fadeIn();
+                                        $('#photo_gal-message').addClass('error');
+                                        setTimeout(function() {
+                                        $('#photo_gal-message').fadeOut();
+                                        }, 5000);
+                                        $('#loading-image').fadeOut();
+                                        $('#loading-overlay').fadeOut();
+                                        affiliatevieweditdet(affiliateid);
+                                    }
+                                    else{
+                                        $("#showaffiliateviewedit").html('');
                                         $('#ViewEditModal').modal('hide');
                                         $('#loading-image').fadeOut();
                                         $('#loading-overlay').fadeOut();
@@ -382,6 +606,68 @@
                             });
 
                         }
+                }
+            });
+        }
+
+
+
+
+
+
+
+                function affiliateapprovedet(affiliateid)
+            $('#deleteConfirmationModal').modal('show');
+            $('#confirmDeleteBtn').click(function() {
+                $('#deleteConfirmationModal').modal('hide');
+                $('#loading-overlay').fadeIn();
+                $('#loading-image').fadeIn();
+                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    url: '{{ route('shopDelete') }}',
+                    type: 'POST',
+                    data: {
+                        userid: userid,
+                        _token: csrfToken
+                    },
+                    success: function(data) {
+                        if ((data.result == 1)) {
+                            $('#shop_del-message').text(data.mesge).fadeIn();
+                            $('#shop_del-message').addClass('success-message');
+                            setTimeout(function() {
+                                $('#shop_del-message').fadeOut();
+                            }, 5000);
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                            shwdets();
+                        } else if ((data.result == 2)) {
+                            $('#shop_del-message').text(data.mesge).fadeIn();
+                            $('#shop_del-message').addClass('error');
+                            setTimeout(function() {
+                                $('#shop_del-message').fadeOut();
+                            }, 5000);
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                            shwdets();
+                        }
+                    }
+                });
+            });
+        }
+                function shopapprovedet(shopid)
+                {
+                        $('#loading-overlay').fadeIn();
+                        $('#loading-image').fadeIn();
+                        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                        $.ajax({
+                            url: '{{ route("affiliateApproved") }}',
+                                    type: 'POST',
+                                    data: {affiliateid:affiliateid},
+                                    headers: {
+                                    'X-CSRF-TOKEN': csrfToken
+                                    },
+                            success:function(data)
+                                {
 
                         function shopapprovedet(shopid) {
                             $('#loading-overlay').fadeIn();
