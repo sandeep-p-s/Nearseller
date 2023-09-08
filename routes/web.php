@@ -136,7 +136,8 @@ Route::controller(SellerController::class)->group(function () {
     //Route::get('dashboard', 'sellerdashboard')->name('seller.dashboard');
 });
 Route::controller(AffiliateController::class)->group(function () {
-    //Route::get('dashboard', 'affiliatedashboard')->name('affiliate.dashboard');
+    Route::get('affdashboard', 'affiliatedashboard')->name('affiliate.dashboard');
+    Route::get('newaffiliate', 'AffiliateAddNew')->name('newaffiliate');
 });
 
 Route::get('/products', [UserController::class, 'homepage'])->name('user.products');

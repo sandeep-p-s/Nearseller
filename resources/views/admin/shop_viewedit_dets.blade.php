@@ -36,7 +36,7 @@
                 <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Shop Name</label>
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Shop / Services Name</label>
                             <input type="text" id="es_name" name="es_name" value="{{ $sellerDetails->shop_name }}"  class="form-control form-control-lg" maxlength="50"  placeholder="Shop Name" required  tabindex="1" />
                             <label for="es_name" class="error"></label>
                         </div>
@@ -77,7 +77,7 @@
                             </select>
                             <label for="es_shopservice" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Shop Executive Name</label>
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Shop / Services Executive Name</label>
                             <select class="form-select form-control form-control-lg" id="es_shopexectename" name="es_shopexectename" required tabindex="8" >
                                 <option value="">Shop Executive Name</option><br/>
                                     @foreach ($executives as $exec)
@@ -300,7 +300,7 @@
                             <label for="secondafflte" class="error"></label>
                         </div>
 
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Shop Co-Ordinator</label>
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Shop / Services Co-Ordinator</label>
                             <input type="text" class="form-control form-control-lg" id="scoordinater" name="scoordinater"  value="{{ $sellerDetails->shop_coordinator }}">
                             <label for="coordinater" class="error"></label>
                         </div>

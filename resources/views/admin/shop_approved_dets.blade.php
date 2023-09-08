@@ -37,6 +37,7 @@
         @endphp
     @endforeach
 
+
                 <form id="SellerRegFormApproved" enctype="multipart/form-data" method="POST">
                     <input type="hidden" id="shopidhidapp" name="shopidhidapp" value="{{ $sellerDetails->user_id }}"  class="form-control form-control-lg" maxlength="50"  placeholder="Shop id" required  tabindex="1" />
 
@@ -51,7 +52,7 @@
                                 </div> --}}
                                 <div class="card-body">
                                     <div class="row">
-                                        <label class="col-xl-6">Shop Name</label>
+                                        <label class="col-xl-6">Shop / Services Name</label>
                                         <div class="col-xl-6 align-self-center">
                                             {{ $sellerDetails->shop_name }}
                                         </div>
@@ -240,7 +241,7 @@
                                     </div>
 
                                     <hr class="new_hr"><div class="form-group row">
-                                        <label class="col-xl-6">Shop Co-Ordinator</label>
+                                        <label class="col-xl-6">Shop / Services Co-Ordinator</label>
                                         <div class="col-xl-6 align-self-center">
                                             {{ $sellerDetails->shop_coordinator }}
                                         </div>
@@ -300,12 +301,16 @@
                                             {{ $sellerDetails->registration_date }}
                                         </div>
                                     </div>
-                                    <hr class="new_hr"><div class="form-group row">
-                                        <label class="col-xl-6">Manufactoring Details</label>
-                                        <div class="col-xl-6 align-self-center">
-                                            {{ $sellerDetails->manufactoring_details }}
+                                    <hr class="new_hr">
+                                    <div class="form-group row">
+                                        <label class="col-xl-6">Manufacturing Details</label>
+                                        <div class="content-container">
+                                            <p class="content">
+                                                {{ $sellerDetails->manufactoring_details }}
+                                            </p>
                                         </div>
                                     </div>
+
 
 
                                     <hr class="new_hr"><div class="form-group row">
@@ -532,6 +537,8 @@
             x[slideIndex-1].style.display = "block";
             dots[slideIndex-1].className += " w3-white";
             }
+
+
 
 
 

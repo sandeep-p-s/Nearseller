@@ -73,7 +73,7 @@ class AdminController extends Controller
         if ($referalid) {
             $query->where('seller_details.referal_id', $referalid);
         }
-            $query->where('seller_details.shop_service_type',1);
+            //$query->where('seller_details.shop_service_type',1);
 
 
 
@@ -217,13 +217,6 @@ class AdminController extends Controller
                     $nextId = '100';
                 }
                 $sellerDetail->shop_reg_id = $nextId;
-                // if ($request->hasFile('s_photo')) {
-                //     $file = $request->file('s_photo');
-                //     $fileName = time() . '.' . $file->getClientOriginalExtension();
-                //     $file->move(public_path('uploads/shopimages'), $fileName);
-                //     $sellerDetail->shop_photo = $fileName;
-                // }
-
                 if ($request->hasFile('s_photo')) {
                     $upload_path = 'uploads/shopimages/';
                     if (!is_dir($upload_path)) {
@@ -301,7 +294,7 @@ class AdminController extends Controller
             ->leftJoin('state', 'state.id', 'seller_details.state')
             ->leftJoin('district', 'district.id', 'seller_details.district')
             ->where('seller_details.id', $id)
-            ->where('seller_details.shop_service_type',1)
+            //->where('seller_details.shop_service_type',1)
             ->first();
         //echo $lastRegId = $sellerDetails->toSql();exit;
         $countries      = DB::table('country')->get();
@@ -531,7 +524,7 @@ class AdminController extends Controller
                 ->leftJoin('state', 'state.id', 'seller_details.state')
                 ->leftJoin('district', 'district.id', 'seller_details.district')
                 ->where('seller_details.id', $id)
-                ->where('seller_details.shop_service_type',1)
+                //->where('seller_details.shop_service_type',1)
                 ->first();
             //echo $lastRegId = $sellerDetails->toSql();exit;
             $userdets       = DB::table('user_account')->where('id', $sellerDetails->user_id)->get();
@@ -631,6 +624,7 @@ class AdminController extends Controller
         function AllAffiliatesList(Request $request)
         {
             $userRole = session('user_role');
+            $roleid = session('roleid');
             $userId = session('user_id');
             if($userId==''){
                 return redirect()->route('logout');
@@ -659,6 +653,14 @@ class AdminController extends Controller
             if ($referalid) {
                 $query->where('affiliate.referal_id', $referalid);
             }
+            if($roleid==1)
+            {
+
+            }
+            else{
+                $query->where('affiliate.user_id', $userId);
+            }
+
             $AffiliateDetails = $query->get();
             //echo $lastRegId = $query->toSql();exit;
             $AffiliateCount    = $AffiliateDetails->count();
