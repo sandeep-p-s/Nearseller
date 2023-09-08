@@ -147,20 +147,6 @@
 
 
     <ul class="metismenu left-sidenav-menu">
-        <li><a href="index.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Home
-                    Page</span><span class="menu-arrow"></span></a> </li>
-        <hr class="hr-dashed hr-menu">
-        <li><a href="affiliate.html"> <i data-feather="hhh"
-                    class="align-self-center menu-icon"></i><span>Affiliates</span><span
-                    class="menu-arrow"></span></a> </li>
-        <hr class="hr-dashed hr-menu">
-        <li><a href="wallet.html"> <i data-feather="hhh"
-                    class="align-self-center menu-icon"></i><span>Shops</span><span class="menu-arrow"></span></a>
-        </li>
-        <hr class="hr-dashed hr-menu">
-        <li><a href="wallet.html"> <i data-feather="hhh"
-                    class="align-self-center menu-icon"></i><span>Wallets</span><span class="menu-arrow"></span></a>
-        </li>
 
         <li><a href="{{ route('affiliate.dashboard') }}"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Dashboard</span><span class="menu-arrow"></span></a> </li>
         <hr class="hr-dashed hr-menu">
