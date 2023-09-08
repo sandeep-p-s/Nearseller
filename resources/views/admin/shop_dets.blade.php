@@ -6,10 +6,11 @@
             <tr>
                 <th>SINO</th>
                 <th>Reg. ID</th>
-                <th>Shop Name</th>
+                <th>Shop / Services Name</th>
                 <th>Owner Name</th>
                 <th>Email</th>
                 <th>Mobile</th>
+                <th>Service Type</th>
                 {{-- <th>Address</th>
                 <th>Referral ID</th>
                 <th>Business Type</th>
@@ -28,6 +29,7 @@
                     <td>{{ $sellerDetail->owner_name }}</td>
                     <td>{{ $sellerDetail->shop_email }}</td>
                     <td>{{ $sellerDetail->shop_mobno }}</td>
+                    <td class="text-success">{{ $sellerDetail->serviceType->service_name }}</td>
                     {{-- <td>{{ $sellerDetail->house_name_no.','. $sellerDetail->locality.','. $sellerDetail->village.','.$sellerDetail->District->district_name.','.$sellerDetail->State->state_name.','. $sellerDetail->Country->country_name }}</td>
                     <td>{{ $sellerDetail->referal_id }}</td>
                     <td>{{ $sellerDetail->businessType->business_name }}</td>
@@ -41,8 +43,10 @@
                                 <i class="mdi mdi-chevron-down"></i></button>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item view_btn1" href="#" onclick="shopvieweditdet({{ $sellerDetail->id }})">View/Edit</a>
+                                @if(session('roleid')=='1')
                                 <a class="dropdown-item approve_btn" href="#" onclick="shopapprovedet({{ $sellerDetail->id }})">Approved</a>
                                 <a class="dropdown-item delete_btn" href="#" onclick="shopdeletedet({{ $sellerDetail->id }})">Delete</a>
+                                @endif
                             </div>
                         </div>
                     </td>
@@ -65,7 +69,7 @@
     <div class="modal-dialog custom-modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-center" id="addNewModalLabel">Add New Shops</h5>
+                <h5 class="modal-title text-center" id="addNewModalLabel">Add New Shops / Services </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" title="Close">x</button>
             </div>
             <div class="modal-body">
@@ -75,8 +79,8 @@
                 <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Shop Name</label>
-                            <input type="text" id="s_name" name="s_name" class="form-control form-control-lg" maxlength="50"  placeholder="Shop Name" required  tabindex="1" />
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Shop / Services Name</label>
+                            <input type="text" id="s_name" name="s_name" class="form-control form-control-lg" maxlength="50"  placeholder="Shop / Services Name" required  tabindex="1" />
                             <label for="s_name" class="error"></label>
                         </div>
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Owner Name</label>
@@ -115,7 +119,7 @@
                             </select>
                             <label for="s_shopservice" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Shop Executive Name</label>
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Shop / Services Executive Name</label>
                             <select class="form-select form-control form-control-lg" id="s_shopexectename" name="s_shopexectename" required tabindex="8" >
                                 <option value="">Shop Executive Name</option><br/>
                                     @foreach ($executives as $exec)
@@ -203,7 +207,7 @@
                             <input type="text" id="s_googlelink" name="s_googlelink"   id class="form-control form-control-lg"   placeholder="Google map link location" required  tabindex="18" />
                             <label for="s_googlelink" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Shop Photo's</label>
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Shop / Services Photo's</label>
                             <input type="file" id="s_photo"  multiple=""  name="s_photo[]" class="form-control form-control-lg" placeholder="Shop Photo" required tabindex="19" accept="image/jpeg, image/png"  />
                             <label for="s_photo" class="error"></label>
                         </div>
@@ -263,10 +267,20 @@
                             <label for="manufactringdets" class="error"></label>
                         </div>
 
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Direct Affiliate</label>
+                            <input type="text" class="form-control form-control-lg" id="directafflte" name="directafflte">
+                            <label for="directafflte" class="error"></label>
+                        </div>
 
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Second Affiliate</label>
+                            <input type="text" class="form-control form-control-lg" id="secondafflte" name="secondafflte">
+                            <label for="secondafflte" class="error"></label>
+                        </div>
 
-
-
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Co-Ordinator</label>
+                            <input type="text" class="form-control form-control-lg" id="coordinater" name="coordinater">
+                            <label for="coordinater" class="error"></label>
+                        </div>
 
 
                         {{-- <div class="form-outline  mb-2">

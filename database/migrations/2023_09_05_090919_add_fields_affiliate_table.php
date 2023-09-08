@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('executives', function (Blueprint $table) {
-            $table->id();
-            $table->string('executive_name')->nullable();
-            $table->unsignedBigInteger('executive_type');
-            $table->string('status',1)->default('Y')->nullable();
-            $table->timestamps();
+        Schema::table('affiliate', function (Blueprint $table) {
+            $table->string('other_profession')->after('profession')->nullable();
+
         });
     }
 
@@ -25,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('executives');
+        Schema::table('affiliate', function (Blueprint $table) {
+            $table->dropColumn('other_profession');
+        });
     }
 };

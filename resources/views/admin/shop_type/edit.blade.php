@@ -26,8 +26,18 @@
                                 @csrf
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Edit Shop Type</label>
-                                    <input type="text" class="form-control mb15" id="exampleFormControlInput1"
+                                    <input type="text" class="form-control mb-3" id="exampleFormControlInput1"
                                         name="shop_name" placeholder="Enter Shop type" value="{{ $shoptype->shop_name }}">
+                                        @error('shop_name')
+                                        <div class="text-danger mb15">{{ $message }}</div>
+                                    @enderror
+                                    <div class="form-group">
+                                        <label for="exampleFormControlSelect1">Status</label>
+                                        <select class="form-control" id="exampleFormControlSelect1" name="status">
+                                            <option value="Active" @if($shoptype->status === 'Y') selected @endif>Active</option>
+                                            <option value="Inactive" @if($shoptype->status === 'N') selected @endif>Inactive</option>
+                                        </select>
+                                    </div>
                                     <button type="submit" class="btn view_btn">Update</button>
                                 </div>
                             </form>

@@ -63,16 +63,9 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $srt->service_name }}</td>
                                             <td>
-                                                @if ($srt->status === 'active')
-                                                    <button type="button" class="btn approve_btn">
-                                                        {{ $srt->status }}
-                                                    </button>
-                                                @else
-                                                    <button type="button" class="btn delete_btn">
-                                                        {{ $srt->status }}
-                                                    </button>
-                                                @endif
-                                                {{-- <button type="button" class="btn approve_btn ">{{ $srt->status }}</button> --}}
+                                                <button type="button" class="btn {{ $srt->status === 'Y' ? 'approve_btn' : 'delete_btn' }}">
+                                                    {{ $srt->status === 'Y' ? 'Active' : 'Inactive' }}
+                                                </button>
                                             </td>
 
                                             <td>

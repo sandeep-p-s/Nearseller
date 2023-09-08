@@ -37,6 +37,7 @@
         @endphp
     @endforeach
 
+
                 <form id="SellerRegFormApproved" enctype="multipart/form-data" method="POST">
                     <input type="hidden" id="shopidhidapp" name="shopidhidapp" value="{{ $sellerDetails->user_id }}"  class="form-control form-control-lg" maxlength="50"  placeholder="Shop id" required  tabindex="1" />
 
@@ -51,7 +52,7 @@
                                 </div> --}}
                                 <div class="card-body">
                                     <div class="row">
-                                        <label class="col-xl-6">Shop Name</label>
+                                        <label class="col-xl-6">Shop / Services Name</label>
                                         <div class="col-xl-6 align-self-center">
                                             {{ $sellerDetails->shop_name }}
                                         </div>
@@ -225,6 +226,27 @@
                                         </div>
                                     </div>
 
+                                    <hr class="new_hr"><div class="form-group row">
+                                        <label class="col-xl-6">Direct Affiliate</label>
+                                        <div class="col-xl-6 align-self-center">
+                                            {{ $sellerDetails->direct_affiliate }}
+                                        </div>
+                                    </div>
+
+                                    <hr class="new_hr"><div class="form-group row">
+                                        <label class="col-xl-6">Second Affiliate</label>
+                                        <div class="col-xl-6 align-self-center">
+                                            {{ $sellerDetails->second_affiliate }}
+                                        </div>
+                                    </div>
+
+                                    <hr class="new_hr"><div class="form-group row">
+                                        <label class="col-xl-6">Shop / Services Co-Ordinator</label>
+                                        <div class="col-xl-6 align-self-center">
+                                            {{ $sellerDetails->shop_coordinator }}
+                                        </div>
+                                    </div>
+
 
 
 
@@ -279,12 +301,18 @@
                                             {{ $sellerDetails->registration_date }}
                                         </div>
                                     </div>
-                                    <hr class="new_hr"><div class="form-group row">
-                                        <label class="col-xl-6">Manufactoring Details</label>
-                                        <div class="col-xl-6 align-self-center">
-                                            {{ $sellerDetails->manufactoring_details }}
+                                    <hr class="new_hr">
+                                    <div class="form-group row">
+                                        <label class="col-xl-6">Manufacturing Details</label>
+                                        <div class="content-container">
+                                            <p class="content">
+                                                {{ $sellerDetails->manufactoring_details }}
+                                            </p>
                                         </div>
                                     </div>
+
+
+
                                     <hr class="new_hr"><div class="form-group row">
                                         <label class="col-xl-6">Accept Terms & Conditions</label>
                                         <div class="col-xl-6 align-self-center">
@@ -343,11 +371,6 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                     </div>
-
-
-
-
-
                                                 @endfor
                                             </div>
                                         </div>
@@ -432,7 +455,7 @@
                     $('#appshopreg-message').text(approve).fadeIn();
                     $('#appshopreg-message').addClass('success-message');
                     setTimeout(function() {
-                        $('#eshopreg-message').fadeOut();
+                        $('#appshopreg-message').fadeOut();
                     }, 5000); // 5000 milliseconds = 5 seconds
                     $('#SellerRegFormApproved')[0].reset();
                     $('#loading-image').fadeOut();
@@ -514,6 +537,8 @@
             x[slideIndex-1].style.display = "block";
             dots[slideIndex-1].className += " w3-white";
             }
+
+
 
 
 

@@ -36,7 +36,7 @@
                 <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Shop Name</label>
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Shop / Services Name</label>
                             <input type="text" id="es_name" name="es_name" value="{{ $sellerDetails->shop_name }}"  class="form-control form-control-lg" maxlength="50"  placeholder="Shop Name" required  tabindex="1" />
                             <label for="es_name" class="error"></label>
                         </div>
@@ -77,7 +77,7 @@
                             </select>
                             <label for="es_shopservice" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Shop Executive Name</label>
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Shop / Services Executive Name</label>
                             <select class="form-select form-control form-control-lg" id="es_shopexectename" name="es_shopexectename" required tabindex="8" >
                                 <option value="">Shop Executive Name</option><br/>
                                     @foreach ($executives as $exec)
@@ -212,17 +212,18 @@
                                 <div class="row">
                                     @for($m = 0; $m < $totimg; $m++)
                                         <div class="col-md-3">
-                                            <a href="#" data-toggle="modal" data-target="#myModal{{ $m }}">
+                                            {{-- <a href="#" data-toggle="modal" data-target="#myModal{{ $m }}"> --}}
                                                 <img id="img-bufferm" src="{{ asset($qrgallery[$m]) }}" width="100" height="100">
                                                 @php
                                                     $valen = $qrgallery[$m] . "#" . $sellerDetails->id;
                                                     $deleencde = base64_encode($valen);
                                                 @endphp
-                                            </a><br>
+                                            {{-- </a> --}}
+                                            <br>
                                             <button id="remv" type="button" name="remv" class="btn btn-danger" onClick="DeltImagGalry('{{ $deleencde }}');">X</button>
                                         </div>
 
-                                        <div class="modal fade" id="myModal{{ $m }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 80%;">
+                                        {{-- <div class="modal fade" id="myModal{{ $m }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 80%;">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -233,7 +234,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     @endfor
                                 </div>
                             </div>
@@ -288,6 +289,22 @@
                             <textarea id="emanufactringdets" name="emanufactringdets" placeholder="Manufactoring Details" class="form-control form-control-lg"  tabindex="25" required >{{ $sellerDetails->manufactoring_details }}</textarea>
                             <label for="emanufactringdets" class="error"></label>
                         </div>
+
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Direct Affiliate</label>
+                            <input type="text" class="form-control form-control-lg" id="sdirectafflte" name="sdirectafflte"  value="{{ $sellerDetails->direct_affiliate }}">
+                            <label for="directafflte" class="error"></label>
+                        </div>
+
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Second Affiliate</label>
+                            <input type="text" class="form-control form-control-lg" id="ssecondafflte" name="ssecondafflte"  value="{{ $sellerDetails->second_affiliate }}">
+                            <label for="secondafflte" class="error"></label>
+                        </div>
+
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Shop / Services Co-Ordinator</label>
+                            <input type="text" class="form-control form-control-lg" id="scoordinater" name="scoordinater"  value="{{ $sellerDetails->shop_coordinator }}">
+                            <label for="coordinater" class="error"></label>
+                        </div>
+
 
 
                         <div class="checkbox form-check-inline">

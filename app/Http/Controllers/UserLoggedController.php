@@ -31,32 +31,38 @@ class UserLoggedController extends Controller
         if ($userAccount) {
 
             $role = $userAccount->role->role_name;
-            //echo "<pre>";print_r($role);exit;
+            $roleid = $userAccount->role->id;
+            //echo "<pre>";print_r($roleid);exit;
 
             if ($role === 'Super_admin') {
-                session(['user_role' => $role, 'user_id' => $userAccount->id]);
+                session(['user_role' => $role, 'user_id' => $userAccount->id, 'roleid' => $roleid]);
                 return redirect()->route('admin.dashboard');
 
             } elseif ($role === 'Seller') {
                 return redirect()->route('seller.dashboard');
 
             } elseif ($role === 'Affiliate') {
-                session(['user_role' => $role, 'user_id' => $userAccount->id]);
+                session(['user_role' => $role, 'user_id' => $userAccount->id, 'roleid' => $roleid]);
                 return redirect()->route('affiliate.dashboard');
 
             } elseif ($role === 'Customer') {
+                session(['user_role' => $role, 'user_id' => $userAccount->id, 'roleid' => $roleid]);
                 return redirect()->route('user.products');
 
             } elseif ($role === 'Affiliate_coordinator') {
+                session(['user_role' => $role, 'user_id' => $userAccount->id, 'roleid' => $roleid]);
                 return redirect()->route('affiliate_coordinator.dashboard');
 
             } elseif ($role === 'Product_adding_executive') {
+                session(['user_role' => $role, 'user_id' => $userAccount->id, 'roleid' => $roleid]);
                 return redirect()->route('product_add_executive.dashboard');
 
             } elseif ($role === 'HR') {
+                session(['user_role' => $role, 'user_id' => $userAccount->id, 'roleid' => $roleid]);
                 return redirect()->route('hr.dashboard');
 
             } elseif ($role === 'Shop_coordinator') {
+                session(['user_role' => $role, 'user_id' => $userAccount->id, 'roleid' => $roleid]);
                 return redirect()->route('shop_coordinator.dashboard');
             }
         } else {

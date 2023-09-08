@@ -39,9 +39,11 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action
                                 <i class="mdi mdi-chevron-down"></i></button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item view_btn1" href="#" onclick="shopvieweditdet({{ $AffDetails->id }})">View/Edit</a>
-                                <a class="dropdown-item approve_btn" href="#" onclick="shopapprovedet({{ $AffDetails->id }})">Approved</a>
-                                <a class="dropdown-item delete_btn" href="#" onclick="shopdeletedet({{ $AffDetails->id }})">Delete</a>
+                                <a class="dropdown-item view_btn1" href="#" onclick="affiliatevieweditdet({{ $AffDetails->id }})">View/Edit</a>
+                                @if(session('roleid')=='1')
+                                <a class="dropdown-item approve_btn" href="#" onclick="affiliateapprovedet({{ $AffDetails->id }})">Approved</a>
+                                <a class="dropdown-item delete_btn" href="#" onclick="affiliatedeletedet({{ $AffDetails->id }})">Delete</a>
+                                @endif
                             </div>
                         </div>
                     </td>
@@ -77,12 +79,12 @@
                             <label for="a_name" class="error"></label>
                         </div>
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Mobile Number</label>
-                            <input type="text" id="a_mobno" name="a_mobno" class="form-control form-control-lg"  maxlength="10"  placeholder="Mobile No" required tabindex="3"  onchange="exstmobno(this.value,'3')" />
+                            <input type="text" id="a_mobno" name="a_mobno" class="form-control form-control-lg"  maxlength="10"  placeholder="Mobile No" required tabindex="3"  onchange="exstmobno(this.value,'2')" />
                             <label for="a_mobno" class="error"></label>
-                            <div id="amob-message"  class="text-center" style="display: none;"></div>
+                            <div id="smob-message"  class="text-center" style="display: none;"></div>
                         </div>
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Email ID</label>
-                            <input type="email" id="a_email" name="a_email" class="form-control form-control-lg"  maxlength="35"  placeholder="Email ID" required tabindex="4"  onchange="exstemilid(this.value,'3')" />
+                            <input type="email" id="a_email" name="a_email" class="form-control form-control-lg"  maxlength="35"  placeholder="Email ID" required tabindex="4"  onchange="exstemilid(this.value,'2')" />
                             <label for="a_email" class="error"></label>
                             <div id="semil-message"  class="text-center" style="display: none;"></div>
                         </div>
@@ -91,18 +93,18 @@
                             <label for="a_dob" class="error"></label>
                         </div>
                         <div class="form-group">
-                            <label for="exampleFormControlInput1">Gender</label><br>
-                                <div class="form-check-inline">
-                                    <label class="form-check-label">
-                                    <input type="radio" class="form-check-input" name="gendrradio" id="gendrradio" value="M" >Male
-                                    </label>
-                                </div>
-                                <div class="form-check-inline">
-                                    <label class="form-check-label">
-                                    <input type="radio" class="form-check-input" name="gendrradio" id="gendrradio" value="F" >Female
-                                    </label>
-                                </div>
+                            <label for="gender">Gender</label><br>
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="form-check-input" id="male" name="gender" value="male">
+                                <label class="form-check-label" for="male">Male</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="form-check-input" id="female" name="gender" value="female">
+                                <label class="form-check-label" for="female">Female</label>
+                            </div>
                         </div>
+
+
                         {{-- <div class="form-outline mb-3"><label class="lblname" for="lblname">Referral ID</label>
                             <input type="text" id="s_refralid" name="s_refralid" class="form-control form-control-lg"  maxlength="50"  placeholder="Referral ID" tabindex="5" onchange="checkrefrelno(this.value,'1')"/>
                             <div id="s_refralid-message"  class="text-center" style="display: none;"></div>
@@ -116,6 +118,16 @@
                             </select>
                             <label for="s_professions" class="error"></label>
                         </div>
+                        <div class="form-outline mb-3" style="display: none;" id="otherprofesn"><label class="lblname" for="lblname">Other Professions</label>
+                            <input type="text" id="a_otherprofesn" name="a_otherprofesn" class="form-control form-control-lg" maxlength="50"  placeholder="Other Professions" required  tabindex="1" />
+                            <label for="a_otherprofesn" class="error"></label>
+                        </div>
+
+
+
+
+
+
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Marital Status</label>
                             <select class="form-select form-control form-control-lg" id="a_marital" name="a_marital" required tabindex="7">
                                 <option value="">Marital Status</option><br/>
@@ -126,7 +138,7 @@
                             <label for="a_marital" class="error"></label>
                         </div>
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Religion</label>
-                            <select class="form-select form-control form-control-lg" id="a_religion" name="v" required tabindex="8" >
+                            <select class="form-select form-control form-control-lg" id="a_religion" name="a_religion" required tabindex="8" >
                                 <option value="">Religion</option><br/>
                                     @foreach ($religions as $relgn)
                                         <option value="{{ $relgn->id }}">{{ $relgn->religion_name }}</option>
@@ -172,6 +184,16 @@
 
 
                     <div class="col-md-4">
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">PAN Number</label>
+                            <input type="text" id="s_panno" name="s_panno"  maxlength="12"  class="form-control form-control-lg" placeholder="PAN Number" required  tabindex="21" />
+                            <label for="s_panno" class="error"></label>
+                        </div>
+
+                        <div class="form-outline mb-3"><label class="regis_date" for="regis_date"> Registration Date</label>
+                            <input type="date" id="s_registerdate" name="s_registerdate"  maxlength="10"  class="form-control form-control-lg" placeholder="Registration Date"  tabindex="24" />
+                            <label for="s_registerdate" class="error"></label>
+                        </div>
+
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Aadhar card front & back</label>
                             <input type="file" id="a_aadharphoto"  multiple=""  name="a_aadharphoto[]" class="form-control form-control-lg" placeholder="Aadhar card front & back" required tabindex="19" accept="image/jpeg, image/png"  />
                             <label for="a_aadharphoto" class="error"></label>
@@ -200,18 +222,19 @@
                                     <div id="image-preview_photo" class="row"></div>
                             </div>
                         </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">PAN Number</label>
-                            <input type="text" id="s_panno" name="s_panno"  maxlength="12"  class="form-control form-control-lg" placeholder="PAN Number" required  tabindex="21" />
-                            <label for="s_panno" class="error"></label>
-                        </div>
 
-                        <div class="form-outline mb-3"><label class="regis_date" for="regis_date"> Registration Date</label>
-                            <input type="date" id="s_registerdate" name="s_registerdate"  maxlength="10"  class="form-control form-control-lg" placeholder="Registration Date"  tabindex="24" />
-                            <label for="s_registerdate" class="error"></label>
-                        </div>
                     </div>
                     <div class="col-md-4">
 
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Direct Affiliate</label>
+                            <input type="text" class="form-control form-control-lg" id="directafflte" name="directafflte">
+                            <label for="directafflte" class="error"></label>
+                        </div>
+
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Co-Ordinator</label>
+                            <input type="text" class="form-control form-control-lg" id="coordinater" name="coordinater">
+                            <label for="coordinater" class="error"></label>
+                        </div>
 
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Account Name</label>
                             <input type="text" id="a_accname" name="a_accname"  maxlength="50"  class="form-control form-control-lg" placeholder="Account Name"  tabindex="25" />
@@ -230,7 +253,7 @@
                                         <option value="{{ $banktype->id }}">{{ $banktype->bank_name }}</option>
                                     @endforeach
                             </select>
-                            <label for="a_accno" class="error"></label>
+                            <label for="bank_name" class="error"></label>
                         </div>
 
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Bank Country</label>
@@ -240,7 +263,7 @@
                                         <option value="{{ $bankcontry->id }}">{{ $bankcontry->country_name }}</option>
                                     @endforeach
                             </select>
-                            <label for="a_accno" class="error"></label>
+                            <label for="bank_country" class="error"></label>
                         </div>
 
                         <div class="form-outline mb-3"><label class="lblname" for="lblname">Bank State</label>
@@ -267,9 +290,15 @@
                         </div>
 
 
-                        <div class="form-outline mb-3">
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">IFSC Code</label>
+                            <input type="text" id="branchifsc" name="branchifsc" readonly  maxlength="20"  class="form-control form-control-lg" placeholder="IFSC Code" required  tabindex="26"/>
+                            <label for="branchifsc" class="error"></label>
+                        </div>
 
 
+                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Branch Address</label>
+                            <textarea id="branchaddress" name="branchaddress" readonly placeholder="Branch Address" class="form-control form-control-lg"  tabindex="25" required ></textarea>
+                            <label for="branchaddress" class="error"></label>
                         </div>
 
 
@@ -289,7 +318,7 @@
 
 
                     <div class="col-md-12">
-                        <div id="shopreg-message"  class="text-center" style="display: none;"></div>
+                        <div id="afflitereg-message"  class="text-center" style="display: none;"></div>
                     </div>
 
 
@@ -321,6 +350,9 @@
                 $.get("/getStates/" + countryId, function (data) {
                     $('#state').empty().append('<option value="">Select State</option>');
                     $.each(data, function (index, state) {
+                        $('#branch_name').empty();
+                        $('#branchifsc').val('');
+                        $('#branchaddress').val('');
                         $('#state').append('<option value="' + state.id + '">' + state.state_name + '</option>');
                     });
                 });
@@ -333,6 +365,9 @@
                 $.get("/getDistricts/" + stateId, function (data) {
                     $('#district').empty().append('<option value="">Select District</option>');
                     $.each(data, function (index, district) {
+                        $('#branch_name').empty();
+                        $('#branchifsc').val('');
+                        $('#branchaddress').val('');
                         $('#district').append('<option value="' + district.id + '">' + district.district_name + '</option>');
                     });
                 });
@@ -346,6 +381,9 @@
                 $.get("/getStates/" + countryId, function (data) {
                     $('#bank_state').empty().append('<option value="">Select State</option>');
                     $.each(data, function (index, state) {
+                        $('#branch_name').empty();
+                        $('#branchifsc').val('');
+                        $('#branchaddress').val('');
                         $('#bank_state').append('<option value="' + state.id + '">' + state.state_name + '</option>');
                     });
                 });
@@ -358,23 +396,100 @@
                 $.get("/getDistricts/" + stateId, function (data) {
                     $('#bank_dist').empty().append('<option value="">Select District</option>');
                     $.each(data, function (index, district) {
+                        $('#branch_name').empty();
+                        $('#branchifsc').val('');
+                        $('#branchaddress').val('');
                         $('#bank_dist').append('<option value="' + district.id + '">' + district.district_name + '</option>');
                     });
                 });
             }
         });
 
+
         $('#bank_dist').change(function () {
-            var stateId = $(this).val();
-            if (stateId) {
-                $.get("/getDistricts/" + stateId, function (data) {
-                    $('#branch_name').empty().append('<option value="">Select Branch</option>');
-                    $.each(data, function (index, district) {
-                        $('#branch_name').append('<option value="' + district.id + '">' + district.district_name + '</option>');
+        var bankName = $('#bank_name').val();
+        var bankCountry = $('#bank_country').val();
+        var bankState = $('#bank_state').val();
+        var bankDist = $('#bank_dist').val();
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                url: '{{ route("getBankBranches") }}',
+                type: 'POST',
+                data: {
+                    bank_name: bankName,bank_country: bankCountry,bank_state: bankState,bank_dist: bankDist,_token: csrfToken
+                },
+                success: function (data) {
+                    var branchSelect = $('#branch_name');
+                    $('#branchifsc').val('');
+                    $('#branchaddress').val('');
+                    branchSelect.empty().append('<option value="">Select Branch</option>');
+                    $.each(data, function (index, branch) {
+                        branchSelect.append('<option value="' + branch.id + '">' + branch.branch_name + '</option>');
                     });
-                });
-            }
+                },
+                error: function () {
+                    console.log('Error fetching branches');
+                }
+            });
         });
+
+        $('#branch_name').change(function () {
+            var branchId = $(this).val();
+            $('#loading-overlay').fadeIn();
+            $('#loading-image').fadeIn();
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            if (branchId) {
+            $.ajax({
+                url: '{{ route("getIFSCode") }}',
+                type: 'POST',
+                data: {
+                    branchId: branchId,_token: csrfToken
+                },
+                success: function (data) {
+                    $.each(data, function (index, bank_dets) {
+                        $('#branchifsc').val(bank_dets.ifsc_code);
+                        $('#branchaddress').val(bank_dets.branch_address);
+                        $('#loading-image').fadeOut();
+                        $('#loading-overlay').fadeOut();
+                    });
+                },
+                error: function () {
+                    console.log('Error fetching branches');
+                    $('#branchifsc').val('');
+                    $('#branchaddress').val('');
+                    $('#loading-image').fadeOut();
+                    $('#loading-overlay').fadeOut();
+                }
+            });
+            }
+                else{
+                $('#branchifsc').val('');
+                $('#branchaddress').val('');
+                $('#loading-image').fadeOut();
+                $('#loading-overlay').fadeOut();
+
+            }
+            });
+
+
+
+
+
+
+
+        $('#s_professions').change(function () {
+            var professions = $('#s_professions').val();
+            if(professions==3)
+            {
+                $('#otherprofesn').show();
+            }
+            else{
+                $('#otherprofesn').hide();
+            }
+
+        });
+
+
 
 
 
@@ -384,10 +499,10 @@
             var fileArrs = [];
             var totalFiless = 0;
 
-            $("#s_photo").change(function(event) {
+            $("#a_aadharphoto").change(function(event) {
                 var totalFileCount = $(this)[0].files.length;
-                if (totalFiless + totalFileCount > 5) {
-                    alert('Maximum 5 images allowed');
+                if (totalFiless + totalFileCount > 2) {
+                    alert('Maximum 2 images allowed');
                     $(this).val('');
                     $('#image-preview').html('');
                     return;
@@ -434,12 +549,126 @@
                         break;
                     }
                 }
-
-                document.getElementById('s_photo').files = new FileListItem(fileArrs);
+                document.getElementById('a_aadharphoto').files = new FileListItem(fileArrs);
                 $(this).closest('.img-div').remove();
             });
 
 
+            var fileArrs_p = [];
+            var totalFiless_p = 0;
+
+            $("#a_passbook").change(function(event) {
+                var totalFileCount = $(this)[0].files.length;
+                if (totalFiless_p + totalFileCount > 2) {
+                    alert('Maximum 2 images allowed');
+                    $(this).val('');
+                    $('#image-preview_pass').html('');
+                    return;
+                }
+
+                for (var i = 0; i < totalFileCount; i++) {
+                    var file = $(this)[0].files[i];
+
+                    if (file.size > 3145728) {
+                        alert('File size exceeds the limit of 3MB');
+                        $(this).val('');
+                        $('#image-preview_pass').html('');
+                        return;
+                    }
+
+                    fileArrs_p.push(file);
+                    totalFiless_p++;
+
+                    var reader = new FileReader();
+                    reader.onload = (function(file) {
+                        return function(event) {
+                            var imgDiv = $('<div>').addClass('img-div col-md-3 img-container');
+                            var img = $('<img>').attr('src', event.target.result).addClass('img-responsive image img-thumbnail').attr('width', '100');
+                            var removeBtn = $('<button>').addClass('btn btn-danger remove-btns-pass').attr('title', 'Remove Image').append('X').attr('role', file.name);
+
+                            imgDiv.append(img);
+                            imgDiv.append($('<div>').addClass('middle').append(removeBtn));
+
+                            $('#image-preview_pass').append(imgDiv);
+                        };
+                    })(file);
+
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            $(document).on('click', '.remove-btns-pass', function() {
+                var fileName = $(this).attr('role');
+
+                for (var i = 0; i < fileArrs_p.length; i++) {
+                    if (fileArrs_p[i].name === fileName) {
+                        fileArrs_p.splice(i, 1);
+                        totalFiless_p--;
+                        break;
+                    }
+                }
+                document.getElementById('a_passbook').files = new FileListItem(fileArrs_p);
+                $(this).closest('.img-div').remove();
+            });
+
+
+
+            var fileArrs_up = [];
+            var totalFiless_up = 0;
+
+            $("#a_uplodphoto").change(function(event) {
+                var totalFileCount = $(this)[0].files.length;
+                if (totalFiless_up + totalFileCount > 1) {
+                    alert('Maximum 1 images allowed');
+                    $(this).val('');
+                    $('#image-preview_photo').html('');
+                    return;
+                }
+
+                for (var i = 0; i < totalFileCount; i++) {
+                    var file = $(this)[0].files[i];
+
+                    if (file.size > 3145728) {
+                        alert('File size exceeds the limit of 3MB');
+                        $(this).val('');
+                        $('#image-preview_photo').html('');
+                        return;
+                    }
+
+                    fileArrs_up.push(file);
+                    totalFiless_up++;
+
+                    var reader = new FileReader();
+                    reader.onload = (function(file) {
+                        return function(event) {
+                            var imgDiv = $('<div>').addClass('img-div col-md-3 img-container');
+                            var img = $('<img>').attr('src', event.target.result).addClass('img-responsive image img-thumbnail').attr('width', '100');
+                            var removeBtn = $('<button>').addClass('btn btn-danger remove-btns-uphoto').attr('title', 'Remove Image').append('X').attr('role', file.name);
+
+                            imgDiv.append(img);
+                            imgDiv.append($('<div>').addClass('middle').append(removeBtn));
+
+                            $('#image-preview_photo').append(imgDiv);
+                        };
+                    })(file);
+
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            $(document).on('click', '.remove-btns-uphoto', function() {
+                var fileName = $(this).attr('role');
+
+                for (var i = 0; i < fileArrs_up.length; i++) {
+                    if (fileArrs_up[i].name === fileName) {
+                        fileArrs_up.splice(i, 1);
+                        totalFiless_up--;
+                        break;
+                    }
+                }
+                document.getElementById('a_uplodphoto').files = new FileListItem(fileArrs_up);
+                $(this).closest('.img-div').remove();
+            });
 
 
             function FileListItem(file) {
@@ -463,144 +692,128 @@
         $("#AffilateRegForm").validate({
 
             rules: {
-                s_name: {
+                a_name: {
                     required: true,
                     pattern: /^[A-Za-z\s\.]+$/,
                 },
-                s_ownername: {
-                    required: true,
-                    pattern: /^[A-Za-z\s\.]+$/,
-                },
-                s_mobno: {
+                a_mobno: {
                     required: true,
                     digits: true,
                     minlength: 10,
                 },
-                s_email: {
+                a_email: {
                     required: true,
                     email: true,
                 },
-
-                s_busnestype: {
-                    required: true,
-
-                },
-                s_shopservice: {
-                    required: true,
-
-                },
-                s_shopexectename: {
-                    required: true,
-
-                },
-                s_lisence: {
+                a_dob: {
                     required: true,
                 },
-                s_buldingorhouseno: {
+                s_professions: {
                     required: true,
                 },
-
-                s_locality: {
+                a_marital: {
                     required: true,
                 },
-
-                s_villagetown: {
+                a_religion: {
                     required: true,
                 },
-
+                a_aadharno: {
+                    required: true,
+                    digits: true,
+                    minlength: 12,
+                },
+                a_locality: {
+                    required: true,
+                },
                 country: {
                     required: true,
-                    // numericOnly: true
                 },
                 state: {
                     required: true,
-
                 },
                 district: {
-                    required: true,
-
-                },
-                s_pincode: {
-                    required: true,
-                    digits: true,
-                    minlength: 6,
-
-                },
-                s_googlelink: {
-                    required: true,
-                },
-                s_gstno: {
-                    required: true,
-                },
-                s_panno: {
-                    required: true,
-                },
-                s_establishdate: {
                     required: true,
                 },
                 s_termcondtn: {
                     required: true,
                 },
-                s_photo: {
-                    required: true,
-                    extension: 'jpg|jpeg|png',
-                },
-                opentime: {
-                    required: true,
-                },
-                closetime: {
+                s_panno: {
                     required: true,
                 },
                 s_registerdate: {
                     required: true,
                 },
-                manufactringdets: {
+                s_termcondtn: {
+                    required: true,
+                },
+                a_aadharphoto: {
+                    required: true,
+                    extension: 'jpg|jpeg|png',
+                },
+                a_passbook: {
+                    required: true,
+                    extension: 'jpg|jpeg|png',
+                },
+                a_uplodphoto: {
+                    required: true,
+                    extension: 'jpg|jpeg|png',
+                },
+                a_accname: {
+                    required: true,
+                },
+                a_accno: {
+                    required: true,
+                    digits: true,
+                },
+                bank_name: {
+                    required: true,
+                },
+                bank_country: {
+                    required: true,
+                },
+                bank_state: {
+                    required: true,
+                },
+                bank_dist: {
+                    required: true,
+                },
+                branch_name: {
+                    required: true,
+                },
+                gender: {
                     required: true,
                 },
 
-                // s_paswd: {
-                //     required: true,
-                //     minlength: 6,
-                //     strongPassword: true
-                // },
-                // s_rpaswd: {
-                //     required: true,
-                //     equalTo: "#s_paswd"
-                // },
 
             },
             messages: {
-                s_name: {
+                a_name: {
                     pattern: "Only characters, spaces, and dots are allowed.",
                 },
-                s_ownername: {
-                    pattern: "Only characters, spaces, and dots are allowed.",
-                },
-                s_mobno: {
+                a_mobno: {
                     digits: "Please enter a valid mobile number.",
                 },
-                s_email: {
+                a_email: {
                     email: "Please enter a valid email address.",
                 },
-                s_photo: {
-                    extension: "Only JPG and PNG files are allowed.",
+                a_aadharno: {
+                    digits: "Please enter a valid aadhaar number.",
                 },
-                s_lisence: {
-                    required: "Please enter the license number.",
-                    maxlength: "License number must not exceed 25 characters."
-                },
-                s_buldingorhouseno: {
-                    required: "Please enter building/house name and number.",
-                    maxlength: "Building/house name and number must not exceed 100 characters."
-                },
-                s_locality: {
+                a_locality: {
                     required: "Please enter the locality.",
                     maxlength: "Locality must not exceed 100 characters."
                 },
-                s_villagetown: {
-                    required: "Please enter village/town/municipality.",
-                    maxlength: "Village/town/municipality must not exceed 100 characters."
+
+                s_professions: {
+                    required: "Please select a profession."
                 },
+                a_marital: {
+                    required: "Please select a marital status."
+                },
+                a_religion: {
+                    required: "Please select a religion."
+                },
+
                 country: {
                     required: "Please select a country."
                 },
@@ -610,56 +823,60 @@
                 district: {
                     required: "Please select a district."
                 },
-                s_pincode: {
-                    required: "Please enter the pin code.",
-                    maxlength: "Pin code must be 6 digits."
-                },
-                s_googlelink: {
-                    required: "Please enter the Google map link location."
-                },
-                s_gstno: {
-                    required: "Please enter the GST number.",
-                    maxlength: "GST number must not exceed 25 characters."
-                },
                 s_panno: {
                     required: "Please enter the PAN number.",
                     maxlength: "PAN number must not exceed 12 characters."
                 },
-                s_establishdate: {
-                    required: "Please select the establishment date."
-                },
-                s_termcondtn: {
-                    required: "Please accept the terms and conditions."
-                },
-                opentime: {
-                    required: "Please select open time."
-                },
-                closetime: {
-                    required: "Please select close time."
-                },
                 s_registerdate: {
                     required: "Please select the registration date."
-                }
-
+                },
+                a_aadharphoto: {
+                    extension: "Only JPG and PNG files are allowed.",
+                },
+                a_passbook: {
+                    extension: "Only JPG and PNG files are allowed.",
+                },
+                a_uplodphoto: {
+                    extension: "Only JPG and PNG files are allowed.",
+                },
+                a_accname: {
+                    pattern: "Only characters, spaces, and dots are allowed.",
+                },
+                a_accno: {
+                    pattern: "Please enter a valid account number.",
+                },
+                bank_name: {
+                    pattern: "Please select a bank name.",
+                },
+                bank_country: {
+                    pattern: "Please select a bank country.",
+                },
+                bank_state: {
+                    pattern: "Please select a bank state.",
+                },
+                bank_dist: {
+                    pattern: "Please select a bank district.",
+                },
+                branch_name: {
+                    pattern: "Please select a bank branch name.",
+                },
+                gender: {
+                    required: "Please select a gender.",
+                },
             },
             });
 
 
-            $('#s_name, #s_ownername').on('input', function() {
+            $('#a_name,#a_accname').on('input', function() {
             var value = $(this).val();
             value = value.replace(/[^A-Za-z\s\.]+/, '');
             $(this).val(value);
             });
 
-            // $.validator.addMethod("strongPassword", function(value, element) {
-            // return this.optional(element) || /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/.test(value);
-            // }, "Password must contain at least one letter, one number, and one special character.");
-
 
             $.validator.addMethod('maxSize', function(value, element, param) {
             return this.optional(element) || (element.files[0].size <= param);
             }, 'File size must be less than {0} KB');
-
 
 
             $('#AffilateRegForm').submit(function(e) {
@@ -669,7 +886,7 @@
             $('#loading-overlay').fadeIn();
             $('#loading-image').fadeIn();
             $.ajax({
-                url: '{{ route("AdmsellerRegisteration") }}',
+                url: '{{ route("AdmAffiliateRegisteration") }}',
                 type: "POST",
                 data:  new FormData(this),
                 contentType: false,
@@ -681,11 +898,11 @@
                 success: function(response) {
 
                     console.log(response);
-                    $('#shopreg-message').text('Registration successful. Please verify email and login!').fadeIn();
-                    $('#shopreg-message').addClass('success-message');
+                    $('#afflitereg-message').text('Registration successful. Please verify email and login!').fadeIn();
+                    $('#afflitereg-message').addClass('success-message');
                     $('#image-preview').empty();
                     setTimeout(function() {
-                        $('#shopreg-message').fadeOut();
+                        $('#afflitereg-message').fadeOut();
                     }, 5000); // 5000 milliseconds = 5 seconds
                     $('#AffilateRegForm')[0].reset();
                     $('#loading-image').fadeOut();
@@ -697,10 +914,10 @@
                 },
                 error: function(xhr) {
                     console.log(xhr.responseText);
-                    $('#shopreg-message').text('Registration failed.').fadeIn();
-                    $('#shopreg-message').addClass('error');
+                    $('#afflitereg-message').text('Registration failed.').fadeIn();
+                    $('#afflitereg-message').addClass('error');
                     setTimeout(function() {
-                        $('#shopreg-message').fadeOut();
+                        $('#afflitereg-message').fadeOut();
                     }, 5000);
                     $('#loading-image').fadeOut();
                     $('#loading-overlay').fadeOut();
@@ -710,30 +927,6 @@
             });
             }
             });
-
-
-
-            var mm = 1;
-            $(document).ready(function(){
-                $('#addMoreurls').click(function(event){
-                    event.preventDefault();
-                        mm++;
-                        var recRowm = '<div class="row mb-5" id="addedfieldurl'+mm+'"><div class="col-md-3 fv-row fv-plugins-icon-container"><select class="form-select form-control form-control-lg" id="mediatype'+mm+'" name="mediatype['+mm+']"><option selected="">Choose...</option><option value="1">Facebook</option><option value="2">Instagram</option><option value="3">Linked In</option><option value="4">Web site URL</option><option value="5">Youtub Video URL</option></select></div><div class="col-md-9 fv-row fv-plugins-icon-container"><div class="input-group"><input type="text"  id="mediaurl'+mm+'" name="mediaurl['+mm+']" class="form-control form-control-lg" placeholder="https://"  value="" tabindex="22"  maxlength="60"/><div align="right"><button id="removeRowurl'+mm+'" type="button" name="add_fieldurl" class="btn btn-danger" onclick="removeRowurl('+mm+');" >-</button></div></div></div>';
-                    $('#addedUrls').append(recRowm);
-                });
-            });
-
-            function removeRowurl(rowNum){
-                    $('#addedfieldurl'+rowNum).remove();
-                }
-
-
-
-
-
-
-
-
 
     </script>
 

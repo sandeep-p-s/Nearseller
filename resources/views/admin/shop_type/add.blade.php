@@ -20,12 +20,7 @@
                     </div><!--end page-title-box-->
                 </div><!--end col-->
             </div> <!--end row-->
-
-
             <div class="row">
-
-
-
                 <div class="col-lg-6">
                     <div class="card">
                         <div class="card-body">
@@ -33,8 +28,11 @@
                                 @csrf
                                 <div class="form-group">
                                     <label for="addShopType">Add Shop Type</label>
-                                    <input type="text" class="form-control mb15" id="shop_id"
-                                        placeholder="Enter shop type" name="shop_name" required>
+                                    <input type="text" class="form-control mb-3" id="shop_id"
+                                        placeholder="Enter shop type" name="shop_name">
+                                        @error('shop_name')
+                                        <div class="text-danger mb15">{{ $message }}</div>
+                                    @enderror
                                     <button type="submit" class="btn view_btn">Add</button>
                                 </div>
                             </form>

@@ -39,6 +39,35 @@ class HomeController extends Controller
         $districts = DB::table('district')->where('state_id', $state)->get();
         return response()->json($districts);
     }
+    public function getBankBranchesPage(Request $request)
+    {
+        $query = DB::table('bank_details');
+        if ($request->input('bank_name')) {
+            $query->where('bank_code', $request->input('bank_name'));
+        }
+        if ($request->input('bank_country')) {
+            $query->where('country_code', $request->input('bank_country'));
+        }
+        if ($request->input('bank_state')) {
+            $query->where('state_code', $request->input('bank_state'));
+        }
+        if ($request->input('bank_dist')) {
+            $query->where('district_code', $request->input('bank_dist'));
+        }
+        $branches = $query->select('id', 'branch_name')->get();
+        return response()->json($branches);
+    }
+    public function getIFSCodePage(Request $request)
+    {
+        $bank_dets = DB::table('bank_details')->where('id', $request->input('branchId'))->get();
+        return response()->json($bank_dets);
+    }
+
+
+
+
+
+
 
     public function RegisterPage(Request $request)
     {
@@ -1137,6 +1166,16 @@ class HomeController extends Controller
                     $jsonimages = json_encode($input_vals);
                     $affliteDetail->aadhar_file = $jsonimages;
                 }
+
+                $input_valsp = ['passbook' => ''];
+                $jsonimagesp = json_encode($input_valsp);
+                $affliteDetail->passbook_file = $jsonimagesp;
+
+                $input_valsph = ['photos' => ''];
+                $jsonimagesph = json_encode($input_valsph);
+                $Affiliate->photo_file = $jsonimagesph;
+
+
                 $affliteDetail->user_id = $last_id;
                 $maxId = $affliteDetail->max('affiliate_reg_id');
                 if ($maxId) {
