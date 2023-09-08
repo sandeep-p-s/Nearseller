@@ -13,6 +13,11 @@ use App\Http\Controllers\AffiliateController;
 use App\Http\Controllers\ExecutiveController;
 use App\Http\Controllers\RoleController;
 
+use App\Http\Controllers\Masters\CountryController as CountryController;
+use App\Http\Controllers\Masters\ProfessionsController as ProfessionsController;
+use App\Http\Controllers\Masters\ReligionController as ReligionController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -121,6 +126,33 @@ Route::controller(AdminController::class)->group(function (){
         Route::get('serviceedit/{id}', 'edit_service_type')->name('edit.servicetype');
         Route::post('serviceupdate/{id}', 'update_service_type')->name('update.servicetype');
         Route::get('servicedelete/{id}', 'delete_service_type')->name('delete.servicetype');
+    });
+
+    Route::controller(CountryController::class)->group(function () {
+        Route::get('listcountry', 'list_country')->name('list.country');
+        Route::get('addcountry', 'add_country')->name('add.country');
+        Route::post('savecountry', 'store_country')->name('store.country');
+        Route::get('editcountry/{id}', 'edit_country')->name('edit.country');
+        Route::post('updatecountry/{id}', 'update_country')->name('update.country');
+        Route::get('deletecountry/{id}', 'delete_country')->name('delete.country');
+    });
+
+    Route::controller(ProfessionsController::class)->group(function () {
+        Route::get('listprofession', 'list_profession')->name('list.profession');
+        Route::get('addprofession', 'add_profession')->name('add.profession');
+        Route::post('saveprofession', 'store_profession')->name('store.profession');
+        Route::get('editprofession/{id}', 'edit_profession')->name('edit.profession');
+        Route::post('updateprofession/{id}', 'update_profession')->name('update.profession');
+        Route::get('deleteprofession/{id}', 'delete_profession')->name('delete.profession');
+    });
+
+    Route::controller(ReligionController::class)->group(function () {
+        Route::get('listreligion', 'list_religion')->name('list.religion');
+        Route::get('addreligion', 'add_religion')->name('add.religion');
+        Route::post('savereligion', 'store_religion')->name('store.religion');
+        Route::get('editreligion/{id}', 'edit_religion')->name('edit.religion');
+        Route::post('updatereligion/{id}', 'update_religion')->name('update.religion');
+        Route::get('deletereligion/{id}', 'delete_religion')->name('delete.religion');
     });
 
     Route::controller(ExecutiveController::class)->group(function () {
