@@ -2,127 +2,196 @@
 @section('content')
     @include('menu')
     @include('topnav')
-    <!-- Page Content-->
+
+
     <div class="page-content">
         <div class="container-fluid">
-            <!-- Page-Title -->
             <div class="row">
                 <div class="col-sm-12">
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-                                <h4 class="page-title">Shop Details</h4>
-                            </div>
+                                <h4 class="page-title">Admin Panel</h4>
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="javascript:void(0);">Nearseller</a></li>
+                                    <li class="breadcrumb-item active">Dashboard</li>
+                                </ol>
+                            </div><!--end col-->
                             <div class="col-auto align-self-center">
-                                <a href="edit_shop_detail.html"><button type="button" class="btn add_btn ">Edit Shop details</button></a>
-                              </div>
+                            </div>
+                            {{-- <div class="col-auto align-self-center">
+                                <a href="#" class="btn btn-sm btn-outline-primary" id="Dash_Date">
+                                    <span class="ay-name" id="Day_Name">Today:</span>&nbsp;
+                                    <span class="" id="Select_date">Jan 11</span>
+                                    <i data-feather="calendar" class="align-self-center icon-xs ml-1"></i>
+                                </a>
 
+                            </div><!--end col-->
                         </div><!--end row-->
                     </div><!--end page-title-box-->
                 </div><!--end col-->
-            </div> <!--end row-->
-
-            <form>
-            <div class="row">
-
-
-
-                <div class="col-lg-6">
-                    <div class="card">
-                        <div class="card-body">
-
-                                <div class="form-group">
-                                    <label for="exampleFormControlInput1">Name</label>
-                                    <input type="text" class="form-control" id="exampleFormControlInput1"  value="Peethamparan" readonly>
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleFormControlInput1">Phone Number</label>
-                                    <input type="text" class="form-control" id="exampleFormControlInput1" value="+91 85969 85967" readonly>
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleFormControlInput1">Email Address</label>
-                                    <input type="text" class="form-control" id="exampleFormControlInput1" value="vk@gmail.com" readonly>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="exampleFormControlInput1">Shop Address </label>
-                                    <input type="text" class="form-control" id="exampleFormControlInput1" value="XYZ Shop, Kazhakkuttam,Trivandrum,Kerala,India,691001." readonly>
-                                </div>
-                                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                                    <ol class="carousel-indicators">
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class=""></li>
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="1" class="active"></li>
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="2" class=""></li>
-                                    </ol>
-                                    <div class="carousel-inner">
-                                        <div class="carousel-item active carousel-item-left">
-                                            <img src="../assets/images/shop/shop1.jpeg" class="d-block w-100" alt="...">
-                                        </div>
-                                        <div class="carousel-item carousel-item-next carousel-item-left">
-                                            <img src="../assets/images/shop/shop2.jpg" class="d-block w-100" alt="...">
-                                        </div>
-                                        <div class="carousel-item">
-                                            <img src="../assets/images/shop/shop3.jpg" class="d-block w-100" alt="...">
-                                        </div>
-                                    </div>
-                                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <span class="sr-only">Previous</span>
-                                    </a>
-                                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                        <span class="sr-only">Next</span>
-                                    </a>
-                                </div>
-
-                        </div><!--end card-body-->
-                    </div><!--end card-->
-
-                </div> <!--end col-->
-                <div class="col-lg-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="exampleFormControlInput1">Google Map</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1" value="https://goo.gl/maps/pAoQxSPeZUxG1suQ8" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Social Media</label>
-                                <div class="input-group">
-                                    <span class="input-group-prepend">
-                                    <button type="button" class="btn btn-primary" style="margin-right: 15px;"><i class="fab fa-facebook-f"></i></button>
-                                    <button type="button" class="btn btn-info"><i class="fab fa-instagram"></i></button>
-                                    </span>
-
-
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="exampleFormControlInput1">Shop Details </label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1" value="LICENSE - A2/339/5955, GST - 32DOEPS7021P1SM, PAN - DOEPS7021P1, Est. On - 08/10/2009." readonly>
-                            </div>
-                                <div class="form-group">
-                                    <label for="exampleFormControlInput1">Open - Close Time</label>
-                                    <input type="text" class="form-control" id="exampleFormControlInput1" value="10 AM to 10 PM" readonly>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="exampleFormControlInput1">Registration Date </label>
-                                    <input type="text" class="form-control" id="exampleFormControlInput1" value="21-07-2023" readonly>
-                                </div>
-
-
-                        </div><!--end card-body-->
-                    </div><!--end card-->
-
-                </div>  <!--end col-->
-
             </div><!--end row-->
-
-        </form>
-
             <!-- end page title end breadcrumb -->
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-3">
+                  <div class="card report-card">
+                    <div class="card-body">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col">
+                                <p class="text-dark mb-1 font-weight-semibold">Shops</p>
+                                <h3 class="my-2">24k</h3>
+                                <p class="mb-0 text-truncate text-muted"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p>
+                            </div>
+                            <div class="col-auto align-self-center">
+                                <div class="report-main-icon bg-light-alt">
+                                  <i class="fa-solid fa-shop"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--end card-body-->
+                </div><!--end card-->
+                </div> <!--end col-->
+                <div class="col-md-6 col-lg-3">
+                  <div class="card report-card">
+                    <div class="card-body">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col">
+                                <p class="text-dark mb-1 font-weight-semibold">Sellers</p>
+                                <h3 class="my-2">24k</h3>
+                                <p class="mb-0 text-truncate text-muted"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p>
+                            </div>
+                            <div class="col-auto align-self-center">
+                                <div class="report-main-icon bg-light-alt">
+                                  <i class="fa-solid fa-user"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--end card-body-->
+                </div><!--end card-->
+                </div><!--end col-->
+                <div class="col-md-6 col-lg-3">
+                  <div class="card report-card">
+                    <div class="card-body">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col">
+                                <p class="text-dark mb-1 font-weight-semibold">Wallets</p>
+                                <h3 class="my-2">24k</h3>
+                                <p class="mb-0 text-truncate text-muted"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p>
+                            </div>
+                            <div class="col-auto align-self-center">
+                                <div class="report-main-icon bg-light-alt">
+                                  <i class="fa-solid fa-wallet"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--end card-body-->
+                </div><!--end card-->
+                </div> <!--end col-->
+                <div class="col-md-6 col-lg-3">
+                  <div class="card report-card">
+                    <div class="card-body">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col">
+                                <p class="text-dark mb-1 font-weight-semibold">Products</p>
+                                <h3 class="my-2">24k</h3>
+                                <p class="mb-0 text-truncate text-muted"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p>
+                            </div>
+                            <div class="col-auto align-self-center">
+                                <div class="report-main-icon bg-light-alt">
+                                  <i class="fa-solid fa-shirt"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--end card-body-->
+                </div><!--end card-->
+                </div><!--end col-->
+            </div><!--end row-->
+                            </div> --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-     </div><!-- container -->
-@endsection
+
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-3">
+                  <div class="card report-card">
+                    <div class="card-body">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col">
+                                <p class="text-dark mb-1 font-weight-semibold">Affiliates</p>
+                                <h3 class="my-2">{{$countAffiliate}}</h3>
+                                {{-- <p class="mb-0 text-truncate text-muted"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> --}}
+                            </div>
+                            <div class="col-auto align-self-center">
+                                <div class="report-main-icon bg-light-alt">
+                                  <i class="fa-solid fa-user"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="card report-card">
+                        <div class="card-body">
+                            <div class="row d-flex justify-content-center">
+                                <div class="col">
+                                  <p class="text-dark mb-1 font-weight-semibold">Shops</p>
+                                  <h3 class="my-2">{{$countShops}}</h3>
+                                  {{-- <p class="mb-0 text-truncate text-muted"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> --}}
+                                </div>
+                                <div class="col-auto align-self-center">
+                                  <div class="report-main-icon bg-light-alt">
+                                    <i class="fa-solid fa-shop"></i>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                  <div class="card report-card">
+                    <div class="card-body">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col">
+                                <p class="text-dark mb-1 font-weight-semibold">Wallets</p>
+                                <h3 class="my-2">0</h3>
+                                {{-- <p class="mb-0 text-truncate text-muted"><span class="text-success"><i class="mdi mdi-trending-up"></i>8.5%</span> New Sessions Today</p> --}}
+                            </div>
+                            <div class="col-auto align-self-center">
+                                <div class="report-main-icon bg-light-alt">
+                                  <i class="fa-solid fa-wallet"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+
+
+            <div class="row" style="display: none;">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-lg-6">
+                            tytrytr
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    @endsection

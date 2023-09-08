@@ -12,12 +12,12 @@
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-                                @if(session('roleid')=='1')
-                                <h4 class="page-title">Affiliate Approval List</h4>
+
+                                <h4 class="page-title">Affiliate List</h4>
                                 <div class="col text-right">
                                     <button class="btn add_btn" data-bs-toggle="modal" data-bs-target="#addNewModal">Add New Affiliate</button>
                                 </div>
-                                @endif
+
                             </div>
                         </div>
                     </div>
@@ -25,7 +25,6 @@
             </div>
             <div id="loading-overlay"></div>
             <img id="loading-image" src="{{ asset('img/loading.gif') }}"  style="display: none; width:100px;">
-            @if(session('roleid')=='1')
             <div class="row">
                 <div class="col-12">
 
@@ -39,11 +38,6 @@
                               <input type="text" id="afflitename" name="afflitename" class="form-control  form-control-lg" placeholder="Affiliate Name" onchange="shwdets();" />
                             </div>
 
-                            <div class="col-md-4">
-                              <input type="text" id="referalid" name="referalid" class="form-control  form-control-lg" placeholder="Refferal ID" onchange="shwdets();" />
-
-                            </div>
-
                             <div class="col-md-12 col-lg-12 d-flex justify-content-center" style="margin-top: 20px;">
                               <input type="button" id="btnsearch" name="btnsearch" class="btn btn-primary" value="Search" onClick="shwdets()" />
 
@@ -53,7 +47,7 @@
 
                 </div>
             </div>
-        @endif
+
 
             <div id="catcontent">
 
@@ -127,7 +121,7 @@
 			$.ajax({
                 url: '{{ route("admin.allaffiliatesview") }}',
                         type: 'POST',
-                        data: {emal_mob: emal_mob, afflitename: afflitename,referalid: referalid, _token: csrfToken
+                        data: {emal_mob: emal_mob, afflitename: afflitename, _token: csrfToken
                     },
                 success:function(data)
 					{

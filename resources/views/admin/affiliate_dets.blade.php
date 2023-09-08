@@ -40,8 +40,10 @@
                                 <i class="mdi mdi-chevron-down"></i></button>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item view_btn1" href="#" onclick="affiliatevieweditdet({{ $AffDetails->id }})">View/Edit</a>
+                                @if(session('roleid')=='1')
                                 <a class="dropdown-item approve_btn" href="#" onclick="affiliateapprovedet({{ $AffDetails->id }})">Approved</a>
                                 <a class="dropdown-item delete_btn" href="#" onclick="affiliatedeletedet({{ $AffDetails->id }})">Delete</a>
+                                @endif
                             </div>
                         </div>
                     </td>

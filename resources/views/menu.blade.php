@@ -11,10 +11,9 @@
             <ul class="nav-second-level mm-collapse" aria-expanded="false">
 
                 <li class="nav-item"><a class="nav-link" href="{{ route('admin.affiliateapprovals') }}"><i class="ti-control-record"></i>Affiliates Approvals</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('admin.shopapprovals') }}"><i class="ti-control-record"></i>Shop Approvals</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('admin.shopapprovals') }}"><i class="ti-control-record"></i>Shops / Services Approvals</a></li>
                 <li class="nav-item"><a class="nav-link" href="products_approval_table.html"><i class="ti-control-record"></i>Product Approvals</a></li>
                 <li class="nav-item"><a class="nav-link" href="category_approval.html"><i class="ti-control-record"></i>Category Approvals</a></li>
-                <li class="nav-item"><a class="nav-link" href="service_approval_table.html"><i class="ti-control-record"></i>Service Approvals</a></li>
             </ul>
         </li>
         <hr class="hr-dashed hr-menu">
@@ -89,8 +88,8 @@
 <ul class="metismenu left-sidenav-menu">
     <li><a href="{{ route('seller.dashboard') }}"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Dashboard</span><span class="menu-arrow"></span></a> </li>
         <hr class="hr-dashed hr-menu">
-    <li><a href="home.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Home Page</span><span class="menu-arrow"></span></a> </li>
-    <hr class="hr-dashed hr-menu">
+        <li><a href="{{ route('admin.shopapprovals') }}"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Home</span><span class="menu-arrow"></span></a> </li>
+        <hr class="hr-dashed hr-menu">
     <li><a href="my_products.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>My Products</span><span class="menu-arrow"></span></a> </li>
     <hr class="hr-dashed hr-menu">
     <li><a href="add_products.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Add Products</span><span class="menu-arrow"></span></a> </li>
@@ -116,12 +115,13 @@
 @if(session('roleid')=='3')
 
 
+
     <ul class="metismenu left-sidenav-menu">
         <li><a href="{{ route('affiliate.dashboard') }}"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Dashboard</span><span class="menu-arrow"></span></a> </li>
         <hr class="hr-dashed hr-menu">
-      <li><a href="index.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Home Page</span><span class="menu-arrow"></span></a> </li>
+      <li><a href="{{ route('admin.affiliateapprovals') }}"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Home</span><span class="menu-arrow"></span></a> </li>
       <hr class="hr-dashed hr-menu">
-      <li><a href="affiliate.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Affiliates</span><span class="menu-arrow"></span></a> </li>
+      <li><a href="{{ route('newaffiliate') }}"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Affiliates</span><span class="menu-arrow"></span></a> </li>
       <hr class="hr-dashed hr-menu">
       <li><a href="wallet.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Shops</span><span class="menu-arrow"></span></a> </li>
       <hr class="hr-dashed hr-menu">
