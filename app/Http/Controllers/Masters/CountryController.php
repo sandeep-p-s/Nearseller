@@ -6,6 +6,7 @@ use DB;
 use App\Models\masters\Country;
 use App\Models\UserAccount;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 
 class CountryController extends Controller
@@ -69,7 +70,7 @@ class CountryController extends Controller
         }
 
         $request->validate([
-            'country_name' => 'required|unique:country,country_name|string|max:255|min:4',
+            'country_name' => ['required',Rule::unique('country')->ignore($id),'string','max:255','min:4'],
             'status' => 'in:Y,N',
         ],
         [
