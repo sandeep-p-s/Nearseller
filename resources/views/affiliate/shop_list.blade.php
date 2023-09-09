@@ -12,39 +12,53 @@
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-
-                                <h4 class="page-title">Affiliate List</h4>
+                                @if(session('roleid')=='3')
+                                <h4 class="page-title">Affiliate Shops List</h4>
                                 <div class="col text-right">
-                                    <button class="btn add_btn" data-bs-toggle="modal" data-bs-target="#addNewModal">Add New Affiliate</button>
+                                    <button class="btn add_btn" data-bs-toggle="modal" data-bs-target="#addNewModal">Add New Shops / Services</button>
                                 </div>
-
+                                @endif
                             </div>
                         </div>
+
+
+
+
                     </div>
                 </div>
             </div>
+
             <div id="loading-overlay"></div>
             <img id="loading-image" src="{{ asset('img/loading.gif') }}"  style="display: none; width:100px;">
+
+
+
+
+
             <div class="row">
                 <div class="col-12">
 
-                        <div class="row">
-                            <div class="col-md-4">
-                              <input type="text" id="emal_mob" name="emal_mob" class="form-control  form-control-lg" placeholder="Email/Mobile No" onchange="shwdets();" />
-                            </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                          <input type="text" id="emal_mob" name="emal_mob" class="form-control  form-control-lg" placeholder="Email/Mobile No" onchange="shwdets();" />
+                        </div>
 
-                            <div class="col-md-4">
+                        <div class="col-md-3">
 
-                              <input type="text" id="afflitename" name="afflitename" class="form-control  form-control-lg" placeholder="Affiliate Name" onchange="shwdets();" />
-                            </div>
+                          <input type="text" id="shopname" name="shopname" class="form-control  form-control-lg" placeholder="Shop Name" onchange="shwdets();" />
+                        </div>
 
-                            <div class="col-md-12 col-lg-12 d-flex justify-content-center" style="margin-top: 20px;">
-                              <input type="button" id="btnsearch" name="btnsearch" class="btn btn-primary" value="Search" onClick="shwdets()" />
+                        <div class="col-md-3">
 
-                            </div>
+                            <input type="text" id="ownername" name="ownername" class="form-control  form-control-lg" placeholder="Owner Name" onchange="shwdets();" />
+                          </div>
+
+                        <div class="col-md-12 col-lg-12 d-flex justify-content-center" style="margin-top: 20px;">
+                          <input type="button" id="btnsearch" name="btnsearch" class="btn btn-primary" value="Search" onClick="shwdets()" />
 
                         </div>
 
+                    </div>
                 </div>
             </div>
 
@@ -53,15 +67,16 @@
 
             </div>
 
+
             <div class="modal fade" id="ViewEditModal" tabindex="-1" aria-labelledby="ViewEditModalLabel" aria-hidden="true">
                 <div class="modal-dialog custom-modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title text-center" id="ViewEditModalLabel">View / Edit Affiliates Details</h5>
+                            <h5 class="modal-title text-center" id="ViewEditModalLabel">View / Edit -  Shop/Services Details</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" title="Close">x</button>
                         </div>
                         <div class="modal-body">
-                            <div id="showaffiliateviewedit">
+                            <div id="showshopeviewedit">
 
                             </div>
                         </div>
@@ -69,15 +84,16 @@
                 </div>
             </div>
 
-            <div class="modal fade" id="AffiliateApprovedModal" tabindex="-1" aria-labelledby="AffiliateApprovedModalLabel" aria-hidden="true">
+
+            <div class="modal fade" id="ShopApprovedModal" tabindex="-1" aria-labelledby="ShopApprovedModalLabel" aria-hidden="true">
                 <div class="modal-dialog custom-modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title text-center" id="AffiliateApprovedModalLabel">Affilates Approved</h5>
+                            <h5 class="modal-title text-center" id="ShopApprovedModalModalLabel">Shop/Services Approved</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" title="Close">x</button>
                         </div>
                         <div class="modal-body">
-                            <div id="showaffiliateapproved">
+                            <div id="showshopeapproved">
 
                             </div>
                         </div>
@@ -90,36 +106,45 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
-                            <button type="button" class="btn-close" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            Do you want to delete this affiliate?
+                            Do you want to delete this shop / Services?
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                             <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
                         </div>
                     </div>
                 </div>
             </div>
+
+
         </div>
 
 
+
+
+
+
+
     <script>
+
 
     function shwdets()
 	    {
             $('#loading-overlay').fadeIn();
             $('#loading-image').fadeIn();
             var emal_mob = $("#emal_mob").val();
-            var afflitename = $("#afflitename").val();
+            var shopname = $("#shopname").val();
+            var ownername = $("#ownername").val();
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
 			$.ajax({
-                url: '{{ route("affiliate.allaffiliatesview") }}',
-                        type: 'POST',
-                        data: {emal_mob: emal_mob, afflitename: afflitename, _token: csrfToken
+                url: '{{ route("affiliate.allaffilateshopsview") }}',
+                        type: 'GET',
+                        data: {emal_mob: emal_mob, shopname: shopname, ownername: ownername, _token: csrfToken
                     },
                 success:function(data)
 					{
@@ -158,7 +183,7 @@
                             setTimeout(function() {
                             $('#semil-message').fadeOut();
                             }, 5000);
-                            $('#a_email').val('');
+                            $('#s_email').val('');
                             $('#loading-image').fadeOut();
                             $('#loading-overlay').fadeOut();
                         }
@@ -203,7 +228,7 @@
                             setTimeout(function() {
                             $('#smob-message').fadeOut();
                             }, 5000);
-                            $('#a_mobno').val('');
+                            $('#s_mobno').val('');
                             $('#loading-image').fadeOut();
                             $('#loading-overlay').fadeOut();
                         }
@@ -285,15 +310,15 @@
          }
 
 
-            function affiliatevieweditdet(affiliateid)
+            function shopvieweditdet(shopid)
                 {
                         $('#loading-overlay').fadeIn();
                         $('#loading-image').fadeIn();
                         var csrfToken = $('meta[name="csrf-token"]').attr('content');
                         $.ajax({
-                            url: '{{ route("affiliateViewEdit") }}',
+                            url: '{{ route("shopViewEdit") }}',
                                     type: 'POST',
-                                    data: {affiliateid:affiliateid},
+                                    data: {shopid:shopid},
                                     headers: {
                                     'X-CSRF-TOKEN': csrfToken
                                     },
@@ -303,24 +328,24 @@
                                     $('#loading-image').fadeOut();
                                     $('#loading-overlay').fadeOut();
                                     var data1=data.trim();
-					                $("#showaffiliateviewedit").html(data1);
+					                $("#showshopeviewedit").html(data1);
                                     $('#ViewEditModal').modal('show');
 
                                 }
                         });
 
                 }
-                function DeltAdharImag(imgval)
+                function DeltImagGalry(imgval)
                 {
                     var decoded = atob(imgval);
                     var values = decoded.split('#');
                     var imageSrc = values[0];
-                    var affiliateid = values[1];
+                    var shopid = values[1];
                     $('#loading-overlay').fadeIn();
                     $('#loading-image').fadeIn();
                     var csrfToken = $('meta[name="csrf-token"]').attr('content');
                     $.ajax({
-                        url: '{{ route("affiliateadhaarDelte") }}',
+                        url: '{{ route("shopGalryDelte") }}',
                                 type: 'POST',
                                 data: {imgval:imgval},
                                 headers: {
@@ -330,151 +355,54 @@
                             {
                                 if((data.result==1))
                                     {
-                                        $('#aahar_gal-message').text(data.mesge).fadeIn();
-                                        $('#aahar_gal-message').addClass('success-message');
+                                        $('#shop_gal-message').text(data.mesge).fadeIn();
+                                        $('#shop_gal-message').addClass('success-message');
                                         setTimeout(function() {
-                                        $('#aahar_gal-message').fadeOut();
+                                        $('#shop_gal-message').fadeOut();
                                         }, 5000);
                                         $('#loading-image').fadeOut();
                                         $('#loading-overlay').fadeOut();
-                                        affiliatevieweditdet(affiliateid);
+                                        shopvieweditdet(shopid);
                                     }
                                     else if((data.result==2))
                                     {
-                                        $('#aahar_gal-message').text(data.mesge).fadeIn();
-                                        $('#aahar_gal-message').addClass('error');
+                                        $('#shop_gal-message').text(data.mesge).fadeIn();
+                                        $('#shop_gal-message').addClass('error');
                                         setTimeout(function() {
-                                        $('#aahar_gal-message').fadeOut();
+                                        $('#shop_gal-message').fadeOut();
                                         }, 5000);
                                         $('#loading-image').fadeOut();
                                         $('#loading-overlay').fadeOut();
-                                        affiliatevieweditdet(affiliateid);
+                                        shopvieweditdet(shopid);
                                     }
                                     else{
-                                        $("#showaffiliateviewedit").html('');
+                                        $("#showshopeviewedit").html('');
                                         $('#ViewEditModal').modal('hide');
                                         $('#loading-image').fadeOut();
                                         $('#loading-overlay').fadeOut();
                                     }
-                            }
-                    });
 
-                }
-                function DeltPassbookImag(imgval)
-                {
-                    var decoded = atob(imgval);
-                    var values = decoded.split('#');
-                    var imageSrc = values[0];
-                    var affiliateid = values[1];
-                    $('#loading-overlay').fadeIn();
-                    $('#loading-image').fadeIn();
-                    var csrfToken = $('meta[name="csrf-token"]').attr('content');
-                    $.ajax({
-                        url: '{{ route("affiliatePassDelte") }}',
-                                type: 'POST',
-                                data: {imgval:imgval},
-                                headers: {
-                                'X-CSRF-TOKEN': csrfToken
-                                },
-                        success:function(data)
-                            {
-                                if((data.result==1))
-                                    {
-                                        $('#pass_gal-message').text(data.mesge).fadeIn();
-                                        $('#pass_gal-message').addClass('success-message');
-                                        setTimeout(function() {
-                                        $('#pass_gal-message').fadeOut();
-                                        }, 5000);
-                                        $('#loading-image').fadeOut();
-                                        $('#loading-overlay').fadeOut();
-                                        affiliatevieweditdet(affiliateid);
-                                    }
-                                    else if((data.result==2))
-                                    {
-                                        $('#pass_gal-message').text(data.mesge).fadeIn();
-                                        $('#pass_gal-message').addClass('error');
-                                        setTimeout(function() {
-                                        $('#pass_gal-message').fadeOut();
-                                        }, 5000);
-                                        $('#loading-image').fadeOut();
-                                        $('#loading-overlay').fadeOut();
-                                        affiliatevieweditdet(affiliateid);
-                                    }
-                                    else{
-                                        $("#showaffiliateviewedit").html('');
-                                        $('#ViewEditModal').modal('hide');
-                                        $('#loading-image').fadeOut();
-                                        $('#loading-overlay').fadeOut();
-                                    }
-                            }
-                    });
 
-                }
-                function DeltPhotosImag(imgval)
-                {
-                    var decoded = atob(imgval);
-                    var values = decoded.split('#');
-                    var imageSrc = values[0];
-                    var affiliateid = values[1];
-                    $('#loading-overlay').fadeIn();
-                    $('#loading-image').fadeIn();
-                    var csrfToken = $('meta[name="csrf-token"]').attr('content');
-                    $.ajax({
-                        url: '{{ route("affiliatePhotoDelte") }}',
-                                type: 'POST',
-                                data: {imgval:imgval},
-                                headers: {
-                                'X-CSRF-TOKEN': csrfToken
-                                },
-                        success:function(data)
-                            {
-                                if((data.result==1))
-                                    {
-                                        $('#photo_gal-message').text(data.mesge).fadeIn();
-                                        $('#photo_gal-message').addClass('success-message');
-                                        setTimeout(function() {
-                                        $('#photo_gal-message').fadeOut();
-                                        }, 5000);
-                                        $('#loading-image').fadeOut();
-                                        $('#loading-overlay').fadeOut();
-                                        affiliatevieweditdet(affiliateid);
-                                    }
-                                    else if((data.result==2))
-                                    {
-                                        $('#photo_gal-message').text(data.mesge).fadeIn();
-                                        $('#photo_gal-message').addClass('error');
-                                        setTimeout(function() {
-                                        $('#photo_gal-message').fadeOut();
-                                        }, 5000);
-                                        $('#loading-image').fadeOut();
-                                        $('#loading-overlay').fadeOut();
-                                        affiliatevieweditdet(affiliateid);
-                                    }
-                                    else{
-                                        $("#showaffiliateviewedit").html('');
-                                        $('#ViewEditModal').modal('hide');
-                                        $('#loading-image').fadeOut();
-                                        $('#loading-overlay').fadeOut();
-                                    }
+
+
+
+
+
                             }
                     });
 
                 }
 
 
-
-
-
-
-                function affiliateapprovedet(affiliateid)
+                function shopapprovedet(shopid)
                 {
                         $('#loading-overlay').fadeIn();
                         $('#loading-image').fadeIn();
                         var csrfToken = $('meta[name="csrf-token"]').attr('content');
                         $.ajax({
-                            url: '{{ route("affiliateApproved") }}',
+                            url: '{{ route("shopApproved") }}',
                                     type: 'POST',
-                                    data: {affiliateid:affiliateid},
+                                    data: {shopid:shopid},
                                     headers: {
                                     'X-CSRF-TOKEN': csrfToken
                                     },
@@ -484,8 +412,8 @@
                                     $('#loading-image').fadeOut();
                                     $('#loading-overlay').fadeOut();
                                     var data1=data.trim();
-					                $("#showaffiliateapproved").html(data1);
-                                    $('#AffiliateApprovedModal').modal('show');
+					                $("#showshopeapproved").html(data1);
+                                    $('#ShopApprovedModal').modal('show');
 
                                 }
                         });
@@ -493,7 +421,7 @@
                 }
 
 
-                function affiliatedeletedet(userid) {
+                function shopdeletedet(userid) {
 
                     $('#deleteConfirmationModal').modal('show');
                     $('#confirmDeleteBtn').click(function() {
@@ -502,16 +430,16 @@
                         $('#loading-image').fadeIn();
                         var csrfToken = $('meta[name="csrf-token"]').attr('content');
                         $.ajax({
-                            url: '{{ route("AffiliateDelete") }}',
+                            url: '{{ route("shopDelete") }}',
                             type: 'POST',
                             data: {userid: userid, _token: csrfToken},
                             success: function(data) {
                                 if((data.result==1))
                                     {
-                                        $('#afflite_del-message').text(data.mesge).fadeIn();
-                                        $('#afflite_del-message').addClass('success-message');
+                                        $('#shop_del-message').text(data.mesge).fadeIn();
+                                        $('#shop_del-message').addClass('success-message');
                                         setTimeout(function() {
-                                        $('#afflite_del-message').fadeOut();
+                                        $('#shop_del-message').fadeOut();
                                         }, 5000);
                                         $('#loading-image').fadeOut();
                                         $('#loading-overlay').fadeOut();
@@ -519,15 +447,18 @@
                                     }
                                 else if((data.result==2))
                                     {
-                                        $('#afflite_del-message').text(data.mesge).fadeIn();
-                                        $('#afflite_del-message').addClass('error');
+                                        $('#shop_del-message').text(data.mesge).fadeIn();
+                                        $('#shop_del-message').addClass('error');
                                         setTimeout(function() {
-                                        $('#afflite_del-message').fadeOut();
+                                        $('#shop_del-message').fadeOut();
                                         }, 5000);
                                         $('#loading-image').fadeOut();
                                         $('#loading-overlay').fadeOut();
                                         shwdets();
                                     }
+
+
+
                             }
                         });
                     });
@@ -542,4 +473,4 @@
 
 
     </script>
-@endsection
+    @endsection

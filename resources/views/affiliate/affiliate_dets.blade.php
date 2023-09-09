@@ -9,12 +9,6 @@
                 <th>Shop Name</th>
                 <th>Email</th>
                 <th>Mobile</th>
-                <th>Referral ID</th>
-                {{-- <th>Address</th>
-                <th>Business Type</th>
-                <th>Service Type</th>
-                <th>Executive Name</th>
-                <th>Reg. Date</th> --}}
                 <th>Action</th>
             </tr>
         </thead>
@@ -24,15 +18,8 @@
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $AffDetails->affiliate_reg_id }}</td>
                     <td>{{ $AffDetails->name }}</td>
-                    {{-- <td>{{ $sellerDetail->owner_name }}</td> --}}
                     <td>{{ $AffDetails->email }}</td>
                     <td>{{ $AffDetails->mob_no }}</td>
-                    <td>{{ $AffDetails->referal_id }}</td>
-                    {{-- <td>{{ $sellerDetail->house_name_no.','. $sellerDetail->locality.','. $sellerDetail->village.','.$sellerDetail->District->district_name.','.$sellerDetail->State->state_name.','. $sellerDetail->Country->country_name }}</td>
-                    <td>{{ $sellerDetail->businessType->business_name }}</td>
-                    <td>{{ $sellerDetail->serviceType->service_name }}</td>
-                    <td>{{ $sellerDetail->executive->executive_name }}</td>
-                    <td>{{ $sellerDetail->created_at }}</td> --}}
                     <td>
                         <div class="btn-group mb-2 mb-md-0">
                             <button type="button" class="btn view_btn dropdown-toggle"
@@ -103,12 +90,6 @@
                                 <label class="form-check-label" for="female">Female</label>
                             </div>
                         </div>
-
-
-                        {{-- <div class="form-outline mb-3"><label >Referral ID</label>
-                            <input type="text" id="s_refralid" name="s_refralid" class="form-control form-control-lg"  maxlength="50"  placeholder="Referral ID" tabindex="5" onchange="checkrefrelno(this.value,'1')"/>
-                            <div id="s_refralid-message"  class="text-center" style="display: none;"></div>
-                        </div> --}}
                         <div class="form-outline mb-3"><label >Professions</label>
                             <select class="form-select form-control form-control-lg" id="s_professions" name="s_professions"  required tabindex="6">
                                 <option value="" >Professions</option><br/>
@@ -122,12 +103,6 @@
                             <input type="text" id="a_otherprofesn" name="a_otherprofesn" class="form-control form-control-lg" maxlength="50"  placeholder="Other Professions" required  tabindex="1" />
                             <label for="a_otherprofesn" class="error"></label>
                         </div>
-
-
-
-
-
-
                         <div class="form-outline mb-3"><label >Marital Status</label>
                             <select class="form-select form-control form-control-lg" id="a_marital" name="a_marital" required tabindex="7">
                                 <option value="">Marital Status</option><br/>
@@ -179,10 +154,6 @@
                             </div>
 
                         </div>
-
-
-
-
                     <div class="col-md-4">
                         <div class="form-outline mb-3"><label >PAN Number</label>
                             <input type="text" id="s_panno" name="s_panno"  maxlength="12"  class="form-control form-control-lg" placeholder="PAN Number" required  tabindex="21" />

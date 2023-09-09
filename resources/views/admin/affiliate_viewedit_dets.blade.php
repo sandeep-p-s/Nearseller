@@ -21,29 +21,32 @@
     $totphotoimg = count($photosval);
 
 
-
-
-
+    $aff_approved=$Affiliate->affiliate_approved;
+    $roleid=session('roleid');
 @endphp
 
 
 
                 <form id="AffilateRegFormEdit" enctype="multipart/form-data" method="POST">
+                    @if($aff_approved=='Y')
+                    <div class="col-md-12"><h3 style="text-align: center; color:#ff002b;"">Affiliate Approved</h3></div><hr>
+                    @endif
+
                     <input type="hidden" id="affiliateidhid" name="affiliateidhid" value="{{ $Affiliate->id }}"  class="form-control form-control-lg" maxlength="50"  placeholder="Affiliate id" required  tabindex="1" />
                     <input type="hidden" id="affiliateuseridhid" name="affiliateuseridhid" value="{{ $Affiliate->user_id }}"  class="form-control form-control-lg" maxlength="50"  placeholder="User id" required  tabindex="1" />
                 <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Affiliate Name</label>
+                        <div class="form-outline mb-3"><label >Affiliate Name</label>
                             <input type="text" id="ea_name" name="ea_name" class="form-control form-control-lg" maxlength="50"  placeholder="Affiliate Name" required  tabindex="1" value="{{ $Affiliate->name }}" />
                             <label for="ea_name" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Mobile Number</label>
+                        <div class="form-outline mb-3"><label >Mobile Number</label>
                             <input type="text" id="ea_mobno" name="ea_mobno" class="form-control form-control-lg"  maxlength="10"  placeholder="Mobile No" required tabindex="3"  onchange="exstmobno(this.value,'2')" value="{{ $Affiliate->mob_no }}"   />
                             <label for="ea_mobno" class="error"></label>
                             <div id="esmob-message"  class="text-center" style="display: none;"></div>
                         </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Email ID</label>
+                        <div class="form-outline mb-3"><label >Email ID</label>
                             <input type="email" id="ea_email" name="ea_email" class="form-control form-control-lg"  maxlength="35"  placeholder="Email ID" required tabindex="4"  onchange="exstemilid(this.value,'2')" value="{{ $Affiliate->email }}"  />
                             <label for="ea_email" class="error"></label>
                             <div id="esemil-message"  class="text-center" style="display: none;"></div>
@@ -53,7 +56,7 @@
                             <label for="ea_dob" class="error"></label>
                         </div>
                         <div class="form-group">
-                            <label for="gender">Gender</label><br>
+                            <label>Gender</label><br>
                             <div class="form-check form-check-inline">
                                 <input type="radio" class="form-check-input" id="emale" name="egender" value="male" @if($Affiliate->gender === 'male') checked @endif>
                                 <label class="form-check-label" for="male">Male</label>
@@ -65,11 +68,11 @@
                         </div>
 
 
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Referral ID</label>
+                        <div class="form-outline mb-3"><label >Referral ID</label>
                             <input type="text" id="es_refralid" name="es_refralid" class="form-control form-control-lg"  value="{{ $Affiliate->referal_id }}" maxlength="15"  placeholder="Referral ID" tabindex="5" readonly />
                             <div id="es_refralid-message"  class="text-center" style="display: none;"></div>
                         </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Professions</label>
+                        <div class="form-outline mb-3"><label >Professions</label>
                             <select class="form-select form-control form-control-lg" id="es_professions" name="es_professions"  required tabindex="6">
                                 <option value="" >Professions</option><br/>
                                     @foreach ($professions as $profes)
@@ -78,12 +81,12 @@
                             </select>
                             <label for="es_professions" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3" @if($Affiliate->profession==3) style="display: block;" @else style="display: none;" @endif   id="eotherprofesn"><label class="lblname" for="lblname">Other Professions</label>
+                        <div class="form-outline mb-3" @if($Affiliate->profession==3) style="display: block;" @else style="display: none;" @endif   id="eotherprofesn"><label >Other Professions</label>
                             <input type="text" id="ea_otherprofesn" name="ea_otherprofesn" class="form-control form-control-lg" maxlength="50"  placeholder="Other Professions" required  tabindex="1"   value="{{ $Affiliate->other_profession }}" />
                             <label for="ea_otherprofesn" class="error"></label>
                         </div>
 
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Marital Status</label>
+                        <div class="form-outline mb-3"><label >Marital Status</label>
                             <select class="form-select form-control form-control-lg" id="ea_marital" name="ea_marital" required tabindex="7">
                                 <option value="">Marital Status</option><br/>
                                 @foreach ($matstatus as $ma_status)
@@ -92,7 +95,7 @@
                             </select>
                             <label for="ea_marital" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Religion</label>
+                        <div class="form-outline mb-3"><label >Religion</label>
                             <select class="form-select form-control form-control-lg" id="ea_religion" name="ea_religion" required tabindex="8" >
                                 <option value="">Religion</option><br/>
                                     @foreach ($religions as $relgn)
@@ -102,16 +105,16 @@
                             <label for="ea_religion" class="error"></label>
                         </div>
 
-                            <div class="form-outline mb-3"><label class="lblname" for="lblname">Aadhaar Number</label>
+                            <div class="form-outline mb-3"><label >Aadhaar Number</label>
                                 <input type="text" id="ea_aadharno" name="ea_aadharno" class="form-control form-control-lg" placeholder="Aadhaar Number" required tabindex="9" maxlength="12"  value="{{ $Affiliate->aadhar_no }}" />
                                 <label for="ea_aadharno" class="error"></label>
 
                             </div>
-                            <div class="form-outline mb-3"><label class="lblname" for="lblname">Locality</label>
+                            <div class="form-outline mb-3"><label >Locality</label>
                                 <input type="text" id="ea_locality" name="ea_locality"  maxlength="100"  class="form-control form-control-lg"placeholder="Locality" required  tabindex="12"  value="{{ $Affiliate->locality }}" />
                                 <label for="ea_locality" class="error"></label>
                             </div>
-                            <div class="form-outline mb-3"><label class="lblname" for="lblname">Country</label>
+                            <div class="form-outline mb-3"><label >Country</label>
                                 <select class="form-select form-control form-control-lg" name="ecountry"  aria-label="Default select example" id="ecountry" required  tabindex="14" >
                                     <option value="">Select country</option>
                                         @foreach ($countries as $country)
@@ -120,7 +123,7 @@
                                 </select>
                                 <label for="country" class="error"></label>
                             </div>
-                            <div class="form-outline mb-3"><label class="lblname" for="lblname">State</label>
+                            <div class="form-outline mb-3"><label >State</label>
                                 <select class="form-select form-control form-control-lg" name="estate" aria-label="Default select example" id="estate" required  tabindex="15">
                                         @foreach ($states as $state)
                                             <option value="{{ $state->id }}" @if ($state->id == $Affiliate->state) selected @endif>{{ $state->state_name }}</option>
@@ -128,7 +131,7 @@
                                     </select>
                                 <label for="estate" class="error"></label>
                             </div>
-                            <div class="form-outline mb-3"><label class="lblname" for="lblname">District</label>
+                            <div class="form-outline mb-3"><label >District</label>
                                 <select class="form-select form-control form-control-lg" aria-label="Default select example" id="edistrict" name="edistrict" required  tabindex="16">
                                     @foreach ($districts as $dist)
                                     <option value="{{ $dist->id }}" @if (($dist->id == $Affiliate->district) && ($dist->state_id == $Affiliate->state)) selected @endif>{{ $dist->district_name }}</option>
@@ -143,17 +146,17 @@
 
 
                     <div class="col-md-4">
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">PAN Number</label>
+                        <div class="form-outline mb-3"><label >PAN Number</label>
                             <input type="text" id="es_panno" name="es_panno"  maxlength="12"  value="{{ $Affiliate->pan_no }}"  class="form-control form-control-lg" placeholder="PAN Number" required  tabindex="21" />
                             <label for="es_panno" class="error"></label>
                         </div>
 
-                        <div class="form-outline mb-3"><label class="regis_date" for="regis_date"> Registration Date</label>
+                        <div class="form-outline mb-3"><label > Registration Date</label>
                             <input type="date" id="es_registerdate" name="es_registerdate"  value="{{ $Affiliate->registration_date }}"  maxlength="10"  class="form-control form-control-lg" placeholder="Registration Date"  tabindex="24" />
                             <label for="es_registerdate" class="error"></label>
                         </div>
 
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Aadhar card front & back</label>
+                        <div class="form-outline mb-3"><label >Aadhar card front & back</label>
                             <input type="file" id="ea_aadharphoto"  multiple=""  name="ea_aadharphoto[]" class="form-control form-control-lg" placeholder="Aadhar card front & back"  tabindex="19" accept="image/jpeg, image/png"  />
                             <label for="ea_aadharphoto" class="error"></label>
                         </div>
@@ -201,7 +204,7 @@
                         </div>
 
 
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Passbook front & back</label>
+                        <div class="form-outline mb-3"><label >Passbook front & back</label>
                             <input type="file" id="ea_passbook"  multiple=""  name="ea_passbook[]" class="form-control form-control-lg" placeholder="Passbook front & back"  tabindex="19" accept="image/jpeg, image/png"  />
                             <label for="ea_passbook" class="error"></label>
                         </div>
@@ -256,7 +259,7 @@
 
 
 
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Upload Photo</label>
+                        <div class="form-outline mb-3"><label >Upload Photo</label>
                             <input type="file" id="ea_uplodphoto"  name="ea_uplodphoto[]" class="form-control form-control-lg" placeholder="Passbook front & back"  tabindex="19" accept="image/jpeg, image/png"  />
                             <label for="ea_uplodphoto" class="error"></label>
                         </div>
@@ -311,27 +314,27 @@
                     </div>
                     <div class="col-md-4">
 
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Direct Affiliate</label>
+                        <div class="form-outline mb-3"><label >Direct Affiliate</label>
                             <input type="text" class="form-control form-control-lg" id="edirectafflte" name="edirectafflte" value="{{ $Affiliate->direct_affiliate }}" >
                             <label for="edirectafflte" class="error"></label>
                         </div>
 
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Co-Ordinator</label>
+                        <div class="form-outline mb-3"><label >Co-Ordinator</label>
                             <input type="text" class="form-control form-control-lg" id="ecoordinater" name="ecoordinater" value="{{ $Affiliate->aff_coordinator }}">
                             <label for="ecoordinater" class="error"></label>
                         </div>
 
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Account Holder Name</label>
+                        <div class="form-outline mb-3"><label >Account Holder Name</label>
                             <input type="text" id="ea_accname" name="ea_accname"  maxlength="50"  class="form-control form-control-lg" placeholder="Account Holder Name"  tabindex="25" value="{{ $Affiliate->account_holder_name }}"/>
                             <label for="ea_accname" class="error"></label>
                         </div>
 
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Account Number</label>
+                        <div class="form-outline mb-3"><label >Account Number</label>
                             <input type="text" id="ea_accno" name="ea_accno"  maxlength="20"  class="form-control form-control-lg" placeholder="Account Number"  tabindex="26" value="{{ $Affiliate->account_no }}" />
                             <label for="ea_accno" class="error"></label>
                         </div>
 
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Bank Name</label>
+                        <div class="form-outline mb-3"><label >Bank Name</label>
                             <select class="form-select form-control form-control-lg" name="ebank_name"  aria-label="Default select example" id="ebank_name" required  tabindex="27" >
                                 <option value="">Select Bank Name</option>
                                     @foreach ($bank_types as $banktype)
@@ -341,7 +344,7 @@
                             <label for="bank_name" class="error"></label>
                         </div>
 
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Bank Country</label>
+                        <div class="form-outline mb-3"><label >Bank Country</label>
                             <select class="form-select form-control form-control-lg" name="ebank_country"  aria-label="Default select example" id="ebank_country" required  tabindex="28" >
                                 <option value="">Select country</option>
                                     @foreach ($countries as $bankcontry)
@@ -351,7 +354,7 @@
                             <label for="ebank_country" class="error"></label>
                         </div>
 
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Bank State</label>
+                        <div class="form-outline mb-3"><label >Bank State</label>
                             <select class="form-select form-control form-control-lg" name="ebank_state"  aria-label="Default select example" id="ebank_state" required  tabindex="27" >
                                 <option value="">Select state</option>
                                     @foreach ($bankstates as $bankstate)
@@ -361,7 +364,7 @@
                             <label for="bank_state" class="error"></label>
                         </div>
 
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Bank district</label>
+                        <div class="form-outline mb-3"><label >Bank district</label>
                             <select class="form-select form-control form-control-lg" name="ebank_dist"  aria-label="Default select example" id="ebank_dist" required  tabindex="28" >
                                 <option value="">Select district</option>
                                     @foreach ($bankdistricts as $bankdist)
@@ -372,7 +375,7 @@
                         </div>
 
 
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Branch Name</label>
+                        <div class="form-outline mb-3"><label >Branch Name</label>
                             <select class="form-select form-control form-control-lg" name="ebranch_name"  aria-label="Default select example" id="ebranch_name" required  tabindex="29" >
                                 <option value="">Select Branch</option>
                                     @foreach ($branchdetails as $bankbranch)
@@ -384,13 +387,13 @@
                         </div>
 
 
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">IFSC Code</label>
+                        <div class="form-outline mb-3"><label >IFSC Code</label>
                             <input type="text" id="ebranchifsc" name="ebranchifsc" readonly  maxlength="20"  class="form-control form-control-lg" placeholder="IFSC Code" required  tabindex="26" value="{{ $Affiliate->ifsc_code }}" />
                             <label for="ebranchifsc" class="error"></label>
                         </div>
 
 
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Branch Address</label>
+                        <div class="form-outline mb-3"><label >Branch Address</label>
                             <textarea id="ebranchaddress" name="ebranchaddress" readonly placeholder="Branch Address" class="form-control form-control-lg"  tabindex="25" required >{{ $Affiliate->branch_address }}</textarea>
                             <label for="ebranchaddress" class="error"></label>
                         </div>
@@ -411,7 +414,9 @@
                     <div class="col-md-12">
                         <div style="float:right">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save</button>
+                            @if (!($aff_approved == 'Y' && $roleid == 3))
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            @endif
                         </div>
                     </div>
 
