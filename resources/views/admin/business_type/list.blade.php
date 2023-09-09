@@ -88,11 +88,6 @@
             </div> <!-- end row -->
 
         </div><!-- container -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        setTimeout(function() {
-            $('#successMessage').fadeOut('fast');
-        }, 2000);
-    </script>
+    
     @endsection
 

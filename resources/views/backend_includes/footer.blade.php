@@ -90,7 +90,9 @@
             });
         });
 
-
+    setTimeout(function() {
+        $('#successMessage').fadeOut('fast');
+    }, 2000);
   </script>
 
 
