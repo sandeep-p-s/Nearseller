@@ -14,8 +14,12 @@ use App\Http\Controllers\ExecutiveController;
 use App\Http\Controllers\RoleController;
 
 use App\Http\Controllers\Masters\CountryController as CountryController;
+use App\Http\Controllers\Masters\StateController as StateController;
+use App\Http\Controllers\Masters\DistrictController as DistrictController;
 use App\Http\Controllers\Masters\ProfessionsController as ProfessionsController;
 use App\Http\Controllers\Masters\ReligionController as ReligionController;
+use App\Http\Controllers\Masters\BankController as BankController;
+
 
 
 /*
@@ -137,6 +141,24 @@ Route::controller(AdminController::class)->group(function (){
         Route::get('deletecountry/{id}', 'delete_country')->name('delete.country');
     });
 
+    Route::controller(StateController::class)->group(function () {
+        Route::get('liststate', 'list_state')->name('list.state');
+        Route::get('addstate', 'add_state')->name('add.state');
+        Route::post('savestate', 'store_state')->name('store.state');
+        Route::get('editstate/{id}', 'edit_state')->name('edit.state');
+        Route::post('updatestate/{id}', 'update_state')->name('update.state');
+        Route::get('deletestate/{id}', 'delete_state')->name('delete.state');
+    });
+
+    Route::controller(DistrictController::class)->group(function () {
+        Route::get('listdistrict', 'list_district')->name('list.district');
+        Route::get('adddistrict', 'add_district')->name('add.district');
+        Route::post('savedistrict', 'store_district')->name('store.district');
+        Route::get('editdistrict/{id}', 'edit_district')->name('edit.district');
+        Route::post('updatedistrict/{id}', 'update_district')->name('update.district');
+        Route::get('deletedistrict/{id}', 'delete_district')->name('delete.district');
+    });
+
     Route::controller(ProfessionsController::class)->group(function () {
         Route::get('listprofession', 'list_profession')->name('list.profession');
         Route::get('addprofession', 'add_profession')->name('add.profession');
@@ -153,6 +175,23 @@ Route::controller(AdminController::class)->group(function (){
         Route::get('editreligion/{id}', 'edit_religion')->name('edit.religion');
         Route::post('updatereligion/{id}', 'update_religion')->name('update.religion');
         Route::get('deletereligion/{id}', 'delete_religion')->name('delete.religion');
+    });
+
+    Route::controller(BankController::class)->group(function () {
+        Route::get('listbank', 'list_bank')->name('list.bank');
+        Route::get('addbank', 'add_bank')->name('add.bank');
+        Route::post('savebank', 'store_bank')->name('store.bank');
+        Route::get('editbank/{id}', 'edit_bank')->name('edit.bank');
+        Route::post('updatebank/{id}', 'update_bank')->name('update.bank');
+        Route::get('deletebank/{id}', 'delete_bank')->name('delete.bank');
+
+        Route::get('listbankbranch', 'list_bank_branch')->name('list.bank_branch');
+        Route::get('addbankbranch', 'add_bank_branch')->name('add.bank_branch');
+        Route::post('savebankbranch', 'store_bank_branch')->name('store.bank_branch');
+        Route::get('editbankbranch/{id}', 'edit_bank_branch')->name('edit.bank_branch');
+        Route::post('updatebankbranch/{id}', 'update_bank_branch')->name('update.bank_branch');
+        Route::get('deletebankbranch/{id}', 'delete_bank_branch')->name('delete.bank_branch');
+
     });
 
     Route::controller(ExecutiveController::class)->group(function () {
