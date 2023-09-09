@@ -46,6 +46,7 @@
         <script src="{{ asset('backend/assets/js/app.js') }}"></script>
         <script>
         $(document).ready(function() {
+            
             shwdets();
             setTimeout(() => {
                 $('#datatable').DataTable();
@@ -89,7 +90,9 @@
             });
         });
 
-
+    setTimeout(function() {
+        $('#successMessage').fadeOut('fast');
+    }, 2000);
   </script>
 
 

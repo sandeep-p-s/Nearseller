@@ -16,27 +16,26 @@ class UserAccount extends Model
     {
         return $this->belongsTo(Role::class);
     }
-    protected function sessionValuereturn($userRole)
+    
+    protected function sessionValueReturn($userRole)
     {
-        if ($userRole === 'Super_admin') {
-            $loggeduser='Super Admin';
-        } elseif ($userRole === 'Seller') {
-            $loggeduser='Seller';
-        } elseif ($userRole === 'Affiliate') {
-            $loggeduser='Affiliate';
-        } elseif ($userRole === 'Customer') {
-            $loggeduser='Customer';
-        } elseif ($userRole === 'Affiliate_coordinator') {
-            $loggeduser='Affiliate Co-ordinator';
-        } elseif ($userRole === 'Product_adding_executive') {
-            $loggeduser='Product Adding Executive';
-        } elseif ($userRole === 'HR') {
-            $loggeduser='HR';
-        } elseif ($userRole === 'Shop_coordinator') {
-            $loggeduser='Shop Co-ordinator';
+        $roleNames = [
+            'Super_admin' => 'Super Admin',
+            'Seller' => 'Seller',
+            'Affiliate' => 'Affiliate',
+            'Customer' => 'Customer',
+            'Affiliate_coordinator' => 'Affiliate Co-ordinator',
+            'Product_adding_executive' => 'Product Adding Executive',
+            'HR' => 'HR',
+            'Shop_coordinator' => 'Shop Co-ordinator',
+        ];
+
+        $loggeduser = '';
+
+        if (isset($roleNames[$userRole])) {
+            $loggeduser = $roleNames[$userRole];
         }
+
         return $loggeduser;
-
     }
-
 }

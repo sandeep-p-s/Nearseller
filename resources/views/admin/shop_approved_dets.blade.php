@@ -28,6 +28,12 @@
 
 
 
+    $timeRange = $sellerDetails->open_close_time;
+    $timeParts = explode('-', $timeRange);
+    $startTime = trim($timeParts[0]);
+    $endTime = trim($timeParts[1]);
+
+
 
     @endphp
 
@@ -39,7 +45,9 @@
 
 
                 <form id="SellerRegFormApproved" enctype="multipart/form-data" method="POST">
-                    <input type="hidden" id="shopidhidapp" name="shopidhidapp" value="{{ $sellerDetails->user_id }}"  class="form-control form-control-lg" maxlength="50"  placeholder="Shop id" required  tabindex="1" />
+                    <input type="hidden" id="shopidhidapp" name="shopidhidapp" value="{{ $sellerDetails->user_id }}"  class="form-control form-control-lg" maxlength="50"  placeholder="Shop User id" required  tabindex="1" />
+
+                    <input type="hidden" id="shopidhidselapp" name="shopidhidselapp" value="{{ $sellerDetails->id }}"  class="form-control form-control-lg" maxlength="50"  placeholder="Shop Seller id" required  tabindex="1" />
 
 
 
@@ -292,7 +300,7 @@
                                     <hr class="new_hr"><div class="form-group row">
                                         <label class="col-xl-6">Open and Close Time</label>
                                         <div class="col-xl-6 align-self-center">
-                                            {{ $sellerDetails->open_close_time }}
+                                            {{ 'Mon '.$startTime }} - {{ ' Sat '.$endTime }}
                                         </div>
                                     </div>
                                     <hr class="new_hr"><div class="form-group row">

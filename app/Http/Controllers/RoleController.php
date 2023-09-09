@@ -132,13 +132,18 @@ class RoleController extends Controller
 
     function update_roles(Request $request, $id)
     {
-        //$selectedRole = Role::find($id);
+        // Retrieve the role you want to update
+        $role = Role::find($id);
+
+        if (!$role) {
+            return redirect()->route('get.roles')->with('error', 'Role not found');
+        }
+
         $userId = session('user_id');
 
         $validator = Validator::make($request->all(), [
             'role_name' => ['required'],
             'perm' => ['required'],
-
         ]);
 
         $messages = [
@@ -149,27 +154,20 @@ class RoleController extends Controller
         $validator->setCustomMessages($messages);
 
         if ($validator->fails()) {
-            $errors = Arr::flatten($validator->errors()->getMessages());
-            $errors = implode("\n", $errors);
             return redirect()->route('add.role')->withErrors($validator)->withInput();
         }
-        foreach ($request->perm as $permissionId) {
-            $hrp = new RolePermission();
-            $hrp->role_id = $request->role_name;
-            $hrp->permission_id = $permissionId;
-            $hrp->rp_created_by = $userId;
-            $hrp->save();
-        }
+
+        $selectedPermissions = $request->input('perm', []);
+
+        $role->permissions()->sync($selectedPermissions);
 
         return redirect()->route('get.roles')->with('success', 'Permissions updated successfully');
     }
 
     public function updateActivation($id)
     {
-        // Find the role by ID
         $role = Role::findOrFail($id);
 
-        // Toggle the is_active status
         $role->update(['is_active' => !$role->is_active]);
 
         return response()->json(['message' => 'Activation status updated successfully']);

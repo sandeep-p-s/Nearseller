@@ -82,7 +82,7 @@ class BusinessTypeController extends Controller
         {
             $businesstype->status = 'Y';
         } else {
-            $businesstype->status = 'N'; 
+            $businesstype->status = 'N';
         }
         $businesstype->save();
 
