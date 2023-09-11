@@ -179,7 +179,9 @@
                                                 @endphp
                                             {{-- </a> --}}
                                             <br>
+                                            @if (!(($aff_approved == 'Y') && ($roleid == 3)))
                                             <button id="remv" type="button" name="remv" class="btn btn-danger" onClick="DeltAdharImag('{{ $deleencde }}');">X</button>
+                                            @endif
                                         </div>
 
                                         {{-- <div class="modal fade" id="myModals{{ $m }}" tabindex="-1" role="dialog" aria-labelledby="myModalsLabel" aria-hidden="true" style="width: 80%;">
@@ -228,7 +230,9 @@
                                                 @endphp
                                             {{-- </a> --}}
                                             <br>
+                                            @if (!(($aff_approved == 'Y') && ($roleid == 3)))
                                             <button id="remv" type="button" name="remv" class="btn btn-danger" onClick="DeltPassbookImag('{{ $deleencde }}');">X</button>
+                                            @endif
                                         </div>
 
                                         {{-- <div class="modal fade" id="myModalsp{{ $m }}" tabindex="-1" role="dialog" aria-labelledby="myModalspLabel" aria-hidden="true" style="width: 80%;">
@@ -282,7 +286,9 @@
                                                 @endphp
                                             {{-- </a> --}}
                                             <br>
+                                            @if (!(($aff_approved == 'Y') && ($roleid == 3)))
                                             <button id="remv" type="button" name="remv" class="btn btn-danger" onClick="DeltPhotosImag('{{ $deleencde }}');">X</button>
+                                            @endif
                                         </div>
 
                                         {{-- <div class="modal fade" id="myModalsph{{ $m }}" tabindex="-1" role="dialog" aria-labelledby="myModalsphLabel" aria-hidden="true" style="width: 80%;">
