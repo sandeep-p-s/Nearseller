@@ -25,41 +25,44 @@
     $qrsocialmediaarray = json_decode($socialmedia);
     $qrsocialmedia=$qrsocialmediaarray->mediadets;
     $qrsocialmediaval = json_decode(json_encode($qrsocialmedia),true);
-
-
+    $sel_approved=$sellerDetails->seller_approved;
+    $roleid=session('roleid');
 @endphp
 
 
 
                 <form id="SellerRegFormEdit" enctype="multipart/form-data" method="POST">
+                    @if($sel_approved=='Y')
+                    <div class="col-md-12"><h3 style="text-align: center; color:#ff002b;">Shop / Services Approved</h3></div><hr>
+                    @endif
                   <input type="hidden" id="shopidhid" name="shopidhid" value="{{ $sellerDetails->id }}"  class="form-control form-control-lg" maxlength="50"  placeholder="Shop id" required  tabindex="1" />
                 <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Shop / Services Name</label>
+                        <div class="form-outline mb-3"><label >Shop / Services Name</label>
                             <input type="text" id="es_name" name="es_name" value="{{ $sellerDetails->shop_name }}"  class="form-control form-control-lg" maxlength="50"  placeholder="Shop Name" required  tabindex="1" />
                             <label for="es_name" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Owner Name</label>
+                        <div class="form-outline mb-3"><label >Owner Name</label>
                             <input type="text" id="es_ownername" name="es_ownername"  value="{{ $sellerDetails->owner_name }}" class="form-control form-control-lg"  maxlength="50"   placeholder="Owner Name" required tabindex="2" />
                             <label for="s_ownername" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Mobile Number</label>
+                        <div class="form-outline mb-3"><label >Mobile Number</label>
                             <input type="text" id="es_mobno" name="es_mobno" value="{{ $sellerDetails->shop_mobno }}"  class="form-control form-control-lg"  maxlength="10"  placeholder="Mobile No" required tabindex="3"  onchange="exstmobno(this.value,'2')" />
                             <label for="es_mobno" class="error"></label>
                             <div id="esmob-message"  class="text-center" style="display: none;"></div>
                         </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Email ID</label>
+                        <div class="form-outline mb-3"><label >Email ID</label>
                             <input type="email" id="es_email" name="es_email"  value="{{ $sellerDetails->shop_email }}"  class="form-control form-control-lg"  maxlength="35"  placeholder="Email ID" required tabindex="4"  onchange="exstemilid(this.value,'2')" />
                             <label for="es_email" class="error"></label>
                             <div id="esemil-message"  class="text-center" style="display: none;"></div>
                         </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Referral ID</label>
+                        <div class="form-outline mb-3"><label >Referral ID</label>
                             <input type="text" id="es_refralid" name="es_refralid"  value="{{ $sellerDetails->referal_id }}"  class="form-control form-control-lg"  maxlength="50"  placeholder="Referral ID" tabindex="5" onchange="checkrefrelno(this.value,'3')"/>
                             <div id="es_refralid-message"  class="text-center" style="display: none;"></div>
                         </div>
 
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Business Type</label>
+                        <div class="form-outline mb-3"><label >Business Type</label>
                             <select class="form-select form-control form-control-lg" id="es_busnestype" name="es_busnestype"  required tabindex="6">
                                 <option value="" >Business Type</option><br/>
                                     @foreach ($business as $busnes)
@@ -68,7 +71,7 @@
                             </select>
                             <label for="es_busnestype" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Shop / Service Type</label>
+                        <div class="form-outline mb-3"><label >Shop / Service Type</label>
                             <select class="form-select form-control form-control-lg" id="es_shopservice" name="es_shopservice" required tabindex="7">
                                 <option value="">Shop/Service Type</option><br/>
                                 @foreach ($shopservice as $shopser)
@@ -77,7 +80,7 @@
                             </select>
                             <label for="es_shopservice" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Shop / Services Executive Name</label>
+                        <div class="form-outline mb-3"><label >Shop / Services Executive Name</label>
                             <select class="form-select form-control form-control-lg" id="es_shopexectename" name="es_shopexectename" required tabindex="8" >
                                 <option value="">Shop Executive Name</option><br/>
                                     @foreach ($executives as $exec)
@@ -89,7 +92,7 @@
 
 
 
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Social Media</label>
+                        <div class="form-outline mb-3"><label >Social Media</label>
 
 
                                 @php
@@ -149,19 +152,19 @@
                     <div class="col-md-4">
 
 
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Building/House Name & Number</label>
+                        <div class="form-outline mb-3"><label >Building/House Name & Number</label>
                             <input type="text" id="es_buldingorhouseno" name="es_buldingorhouseno" value="{{ $sellerDetails->house_name_no }}" maxlength="100"  class="form-control form-control-lg" placeholder="Building/House Name & Number" required  tabindex="11" />
                             <label for="es_buldingorhouseno" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Locality</label>
+                        <div class="form-outline mb-3"><label >Locality</label>
                             <input type="text" id="es_locality" name="es_locality" value="{{ $sellerDetails->locality }}" maxlength="100"  class="form-control form-control-lg" placeholder="Locality" required  tabindex="12" />
                             <label for="es_locality" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Village/Town/Municipality</label>
+                        <div class="form-outline mb-3"><label >Village/Town/Municipality</label>
                             <input type="text" id="es_villagetown" name="es_villagetown" value="{{ $sellerDetails->village }}" maxlength="100"  class="form-control form-control-lg" placeholder="Village/Town/Municipality" required  tabindex="13" />
                             <label for="es_villagetown" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Country</label>
+                        <div class="form-outline mb-3"><label >Country</label>
                             <select class="form-select form-control form-control-lg" name="ecountry"  aria-label="Default select example" id="ecountry" required  tabindex="14" >
                                 <option value="">Select country</option>
                                     @foreach ($countries as $country)
@@ -170,7 +173,7 @@
                             </select>
                             <label for="ecountry" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">State</label>
+                        <div class="form-outline mb-3"><label >State</label>
                             <select class="form-select form-control form-control-lg" name="estate" aria-label="Default select example" id="estate" required  tabindex="15">
                                 @foreach ($states as $state)
                                 <option value="{{ $state->id }}" @if ($state->id == $sellerDetails->state) selected @endif>{{ $state->state_name }}</option>
@@ -178,7 +181,7 @@
                             </select>
                             <label for="estate" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">District</label>
+                        <div class="form-outline mb-3"><label >District</label>
                             <select class="form-select form-control form-control-lg" aria-label="Default select example" id="edistrict" name="edistrict" required  tabindex="16">
                                 @foreach ($districts as $dist)
                                 <option value="{{ $dist->id }}" @if (($dist->id == $sellerDetails->district) && ($dist->state_id == $sellerDetails->state)) selected @endif>{{ $dist->district_name }}</option>
@@ -187,15 +190,15 @@
                             <label for="edistrict" class="error"></label>
                         </div>
 
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Pincode</label>
+                        <div class="form-outline mb-3"><label >Pincode</label>
                             <input type="text" id="es_pincode" name="es_pincode"  value="{{ $sellerDetails->pincode }}"  maxlength="6"  class="form-control form-control-lg" placeholder="Pin Code" required  tabindex="17" />
                             <label for="es_pincode" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Google map link location</label>
+                        <div class="form-outline mb-3"><label >Google map link location</label>
                             <input type="text" id="es_googlelink" name="es_googlelink"  value="{{ $sellerDetails->googlemap }}"   id class="form-control form-control-lg"   placeholder="Google map link location" required  tabindex="18" />
                             <label for="es_googlelink" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Shop Photo's</label>
+                        <div class="form-outline mb-3"><label >Shop Photo's</label>
                             <input type="file" id="es_photo"  multiple=""  name="es_photo[]" class="form-control form-control-lg" placeholder="Shop Photo" tabindex="19" accept="image/jpeg, image/png"  />
                             <label for="es_photo" class="error"></label>
                         </div>
@@ -244,16 +247,16 @@
 
                     </div>
                     <div class="col-md-4">
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Lisence Number</label>
+                        <div class="form-outline mb-3"><label >Lisence Number</label>
                             <input type="text" id="es_lisence" name="es_lisence" value="{{ $sellerDetails->shop_licence }}" class="form-control form-control-lg"  maxlength="25"  placeholder="License Number" required  tabindex="10"/>
                             <label for="es_lisence" class="error"></label>
                         </div>
 
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">GST Number</label>
+                        <div class="form-outline mb-3"><label >GST Number</label>
                             <input type="text" id="es_gstno" name="es_gstno"  value="{{ $sellerDetails->shop_gstno }}"  maxlength="25"  class="form-control form-control-lg" placeholder="GST Number" required   tabindex="20" />
                             <label for="es_gstno" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">PAN Number</label>
+                        <div class="form-outline mb-3"><label >PAN Number</label>
                             <input type="text" id="es_panno" name="es_panno"  value="{{ $sellerDetails->shop_panno }}"  maxlength="12"  class="form-control form-control-lg" placeholder="PAN Number" required  tabindex="21" />
                             <label for="es_panno" class="error"></label>
                         </div>
@@ -280,27 +283,27 @@
                         </div>
 
 
-                        <div class="form-outline mb-3"><label class="regis_date" for="regis_date"> Registration Date</label>
+                        <div class="form-outline mb-3"><label > Registration Date</label>
                             <input type="date" id="es_registerdate" name="es_registerdate"  value="{{ $sellerDetails->registration_date }}"   maxlength="10"  class="form-control form-control-lg" placeholder="Registration Date"  tabindex="24" maxlength="10" />
                             <label for="es_registerdate" class="error"></label>
                         </div>
 
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Manufactoring Details</label>
+                        <div class="form-outline mb-3"><label >Manufactoring Details</label>
                             <textarea id="emanufactringdets" name="emanufactringdets" placeholder="Manufactoring Details" class="form-control form-control-lg"  tabindex="25" required >{{ $sellerDetails->manufactoring_details }}</textarea>
                             <label for="emanufactringdets" class="error"></label>
                         </div>
 
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Direct Affiliate</label>
+                        <div class="form-outline mb-3"><label >Direct Affiliate</label>
                             <input type="text" class="form-control form-control-lg" id="sdirectafflte" name="sdirectafflte"  value="{{ $sellerDetails->direct_affiliate }}">
                             <label for="directafflte" class="error"></label>
                         </div>
 
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Second Affiliate</label>
+                        <div class="form-outline mb-3"><label >Second Affiliate</label>
                             <input type="text" class="form-control form-control-lg" id="ssecondafflte" name="ssecondafflte"  value="{{ $sellerDetails->second_affiliate }}">
                             <label for="secondafflte" class="error"></label>
                         </div>
 
-                        <div class="form-outline mb-3"><label class="lblname" for="lblname">Shop / Services Co-Ordinator</label>
+                        <div class="form-outline mb-3"><label >Shop / Services Co-Ordinator</label>
                             <input type="text" class="form-control form-control-lg" id="scoordinater" name="scoordinater"  value="{{ $sellerDetails->shop_coordinator }}">
                             <label for="coordinater" class="error"></label>
                         </div>
@@ -318,7 +321,9 @@
                     <div class="col-md-12">
                         <div style="float:right">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save</button>
+                            @if (!(($sel_approved == 'Y') && ($roleid == 3 || $roleid == 2)))
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            @endif
                         </div>
                     </div>
 

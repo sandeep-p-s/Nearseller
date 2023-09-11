@@ -11,12 +11,6 @@
                 <th>Email</th>
                 <th>Mobile</th>
                 <th>Service Type</th>
-                {{-- <th>Address</th>
-                <th>Referral ID</th>
-                <th>Business Type</th>
-                <th>Service Type</th>
-                <th>Executive Name</th>
-                <th>Reg. Date</th> --}}
                 <th>Action</th>
             </tr>
         </thead>
@@ -30,12 +24,6 @@
                     <td>{{ $sellerDetail->shop_email }}</td>
                     <td>{{ $sellerDetail->shop_mobno }}</td>
                     <td class="text-success">{{ $sellerDetail->serviceType->service_name }}</td>
-                    {{-- <td>{{ $sellerDetail->house_name_no.','. $sellerDetail->locality.','. $sellerDetail->village.','.$sellerDetail->District->district_name.','.$sellerDetail->State->state_name.','. $sellerDetail->Country->country_name }}</td>
-                    <td>{{ $sellerDetail->referal_id }}</td>
-                    <td>{{ $sellerDetail->businessType->business_name }}</td>
-                    <td>{{ $sellerDetail->serviceType->service_name }}</td>
-                    <td>{{ $sellerDetail->executive->executive_name }}</td>
-                    <td>{{ $sellerDetail->created_at }}</td> --}}
                     <td>
                         <div class="btn-group mb-2 mb-md-0">
                             <button type="button" class="btn view_btn dropdown-toggle"
@@ -98,7 +86,7 @@
                             <div id="semil-message"  class="text-center" style="display: none;"></div>
                         </div>
                         <div class="form-outline mb-3"><label >Referral ID</label>
-                            <input type="text" id="s_refralid" name="s_refralid" class="form-control form-control-lg"  maxlength="50"  placeholder="Referral ID" tabindex="5" onchange="checkrefrelno(this.value,'1')"/>
+                            <input type="text" id="s_refralid" name="s_refralid" readonly value="{{$referal_id}}" class="form-control form-control-lg"  maxlength="50"  placeholder="Referral ID" tabindex="5" onchange="checkrefrelno(this.value,'1')"/>
                             <div id="s_refralid-message"  class="text-center" style="display: none;"></div>
                         </div>
                         <div class="form-outline mb-3"><label >Business Type</label>
@@ -265,6 +253,7 @@
                         </div>
 
 
+
                         <div class="form-outline mb-3"><label > Registration Date</label>
                             <input type="date" id="s_registerdate" name="s_registerdate"  maxlength="10"  class="form-control form-control-lg" placeholder="Registration Date"  tabindex="24" maxlength="10" />
                             <label for="s_registerdate" class="error"></label>
@@ -344,7 +333,7 @@
 <script>
 
 
-$(function() {
+            $(function() {
                 //$('#datetimepicker').datetimepicker();
                 var datetimeFormat = 'hh:mm A';
                 $('#from-time-picker, #to-time-picker').datetimepicker({
