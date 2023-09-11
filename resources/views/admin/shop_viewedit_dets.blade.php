@@ -223,7 +223,9 @@
                                                 @endphp
                                             {{-- </a> --}}
                                             <br>
+                                            @if (!(($sel_approved == 'Y') && ($roleid == 3 || $roleid == 2)))
                                             <button id="remv" type="button" name="remv" class="btn btn-danger" onClick="DeltImagGalry('{{ $deleencde }}');">X</button>
+                                            @endif
                                         </div>
 
                                         {{-- <div class="modal fade" id="myModal{{ $m }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 80%;">
