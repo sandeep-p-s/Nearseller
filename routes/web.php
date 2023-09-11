@@ -208,21 +208,16 @@ Route::controller(UserLoggedController::class)->group(function () {
     Route::controller(AffiliateController::class)->group(function () {
         Route::get('affdashboard', 'affiliatedashboard')->name('affiliate.dashboard');
         Route::get('newaffiliate', 'AffiliateAddNew')->name('newaffiliate');
+        Route::post('affiliatesviews', 'ViewAffiliatesList')->name('affiliate.allaffiliatesview');
+
+        Route::get('affliateshops', 'ViewAffiliatesShopList')->name('affiliate.affliateshops');
+        Route::get('allaffilateshopsview', 'AllAffiliatesShopList')->name('affiliate.allaffilateshopsview');
     });
 
 
     Route::get('/products', [UserController::class, 'homepage'])->name('user.products');
-Route::controller(SellerController::class)->group(function () {
+    Route::controller(SellerController::class)->group(function () {
     //Route::get('dashboard', 'sellerdashboard')->name('seller.dashboard');
-});
-Route::controller(AffiliateController::class)->group(function () {
-    Route::get('affdashboard', 'affiliatedashboard')->name('affiliate.dashboard');
-    Route::get('affiliatelist', 'AffiliatesList')->name('affiliate.affiliateslist');
-    Route::post('affiliatesviews', 'ViewAffiliatesList')->name('affiliate.allaffiliatesview');
-
-    Route::get('affliateshops', 'ViewAffiliatesShopList')->name('affiliate.affliateshops');
-    Route::get('allaffilateshopsview', 'AllAffiliatesShopList')->name('affiliate.allaffilateshopsview');
-
 });
 
 Route::get('/products', [UserController::class, 'homepage'])->name('user.products');
