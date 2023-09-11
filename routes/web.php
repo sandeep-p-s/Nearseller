@@ -193,6 +193,15 @@ Route::controller(UserLoggedController::class)->group(function () {
 
     });
 
+    Route::controller(CategoryController::class)->group(function () {
+        Route::get('listcategory', 'list_category')->name('list.category');
+        Route::get('addcategory', 'add_category')->name('add.category');
+        Route::post('savecategory', 'store_category')->name('store.category');
+        Route::get('editcategory/{id}', 'edit_category')->name('edit.category');
+        Route::post('updatecategory/{id}', 'update_category')->name('update.category');
+        Route::get('deletecategory/{id}', 'delete_category')->name('delete.category');
+    });
+
     Route::controller(ExecutiveController::class)->group(function () {
         Route::get('listexecutive', 'list_executive')->name('list.executive');
         Route::get('addexecutive', 'add_executive')->name('add.executive');
