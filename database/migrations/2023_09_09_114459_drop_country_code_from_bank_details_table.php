@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('affiliate', function (Blueprint $table) {
-            $table->date('registration_date')->change()->nullable();
+        Schema::table('bank_details', function (Blueprint $table) {
+            $table->dropColumn('country_code');
+            $table->dropColumn('state_code');
         });
     }
 
@@ -21,8 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('affiliate', function (Blueprint $table) {
-            $table->integer('registration_date')->change();
+        Schema::table('bank_details', function (Blueprint $table) {
+            //
         });
     }
 };

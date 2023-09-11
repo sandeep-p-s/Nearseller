@@ -22,7 +22,7 @@
                         </div><!--end row-->
                     </div><!--end page-title-box-->
                     @if (session('success'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert" id="successMessage">
                             {{ session('success') }}
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -30,7 +30,7 @@
                         </div>
                     @endif
                     @if (session('error'))
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="successMessage">
                             {{ session('error') }}
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -51,31 +51,36 @@
                                     <tr>
                                         <th>No</th>
                                         <th>State Name</th>
+                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($states as $st)
-                                            <tr>
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td><span class="badge badge-soft-purple p-1">{{ $st->country_name }} </span> > {{ $st->state_name }}</td>
-                                                <td>
-                                                    <div class="btn-group mb-2 mb-md-0">
-                                                        <button type="button" class="btn view_btn dropdown-toggle"
-                                                            data-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false">Action <i
-                                                                class="mdi mdi-chevron-down"></i></button>
-                                                        <div class="dropdown-menu">
-                                                            <a class="dropdown-item view_btn1"
-                                                                href="{{ route('edit.state', $st->id) }}">Edit</a>
-                                                            <a class="dropdown-item delete_btn"
-                                                                href="{{ route('delete.state', $st->id) }}"
-                                                                onclick="return confirm('Are you sure you want to delete?')">Delete</a>
-                                                        </div>
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td><span class="badge badge-soft-purple p-1">{{ $st->country_name }} </span> >
+                                                {{ $st->state_name }}</td>
+                                            <td><span
+                                                    class="badge  p-2 {{ $st->status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
+                                                    {{ $st->status === 'Y' ? 'Active' : 'Inactive' }} </span></td>
+                                            <td>
+                                                <div class="btn-group mb-2 mb-md-0">
+                                                    <button type="button" class="btn view_btn dropdown-toggle"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">Action <i
+                                                            class="mdi mdi-chevron-down"></i></button>
+                                                    <div class="dropdown-menu">
+                                                        <a class="dropdown-item view_btn1"
+                                                            href="{{ route('edit.state', $st->id) }}">Edit</a>
+                                                        <a class="dropdown-item delete_btn"
+                                                            href="{{ route('delete.state', $st->id) }}"
+                                                            onclick="return confirm('Are you sure you want to delete?')">Delete</a>
                                                     </div>
-                                                </td>
+                                                </div>
+                                            </td>
 
-                                            </tr>
+                                        </tr>
                                     @endforeach
                                 </tbody>
                             </table>

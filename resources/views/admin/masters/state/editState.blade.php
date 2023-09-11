@@ -29,19 +29,20 @@
                                     <select class="form-control mb15" id="exampleFormControlSelect1" name="country_name">
                                         <option value="0">Select Country</option>
 
-                                        <option value="{{ $state->id }}" @if ($state->id == $selectedCountryId) selected @endif>
-                                            {{ $state->state_name }}
-                                        </option>
-                                    </select>
+                                        @foreach ($countries as $ct)
+                                        <option {{ $ct->id == $state->country_id? 'selected' : '' }} value="{{$ct->id}}">{{$ct->country_name}}</option>
+
+                                        @endforeach
+                                            </select>
                                     <label for="exampleFormControlInput1">Edit State</label>
                                     <input type="text" class="form-control mb15" id="exampleFormControlInput1"
                                         name="state_name" placeholder="Enter State Name"
                                         value="{{ $state->state_name }}">
                                     <label for="exampleFormControlSelect1">Status</label>
                                     <select class="form-control" id="exampleFormControlSelect1" name="status">
-                                        <option value="N" {{ $state->status == 'N' ? 'selected' : '' }}>Inactive
-                                        </option>
                                         <option value="Y" {{ $state->status == 'Y' ? 'selected' : '' }}>Active
+                                        </option>
+                                        <option value="N" {{ $state->status == 'N' ? 'selected' : '' }}>Inactive
                                         </option>
                                     </select>
                                     <br>

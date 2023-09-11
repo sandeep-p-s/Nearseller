@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Masters;
 
 use DB;
 use App\Models\masters\Bank_type;
+use App\Models\masters\Bank_details;
 use App\Models\UserAccount;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
@@ -100,92 +101,159 @@ class BankController extends Controller
         return redirect()->route('list.bank')->with('success', 'Bank deleted successfully.');
     }
 
-    public function list_bankbranch()
+    public function list_bank_branch()
     {
         $userRole = session('user_role');
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        $bankbranchs = DB::table('bank_details')->get();
-        return view('admin.masters.bankbranch.listBankbranch',compact('loggeduser','userdetails','bankbranchs'));
+        $bankbranchs = DB::table('bank_details as bd')
+        ->select('bd.branch_name','bd.id','bt.bank_name as bank_name','bt.status')
+        ->join('bank_types as bt', 'bt.id', 'bd.bank_code')
+        ->where('bt.status','Y')
+        ->get();
+        return view('admin.masters.bank.listBankbranch',compact('loggeduser','userdetails','bankbranchs'));
 
     }
-    public function add_bankbranch()
+    public function add_bank_branch()
     {
         $userRole = session('user_role');
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        return view('admin.masters.bankbranch.addBankbranch',compact('loggeduser','userdetails'));
+        $districts = DB::table('district as d')
+            ->select('d.district_name','d.id','st.state_name','ct.country_name','d.status','st.status','ct.status')
+            ->join('state as st','d.state_id','st.id')
+            ->join('country as ct','st.country_id','ct.id')
+            ->where('d.status','Y')
+            ->where('st.status','Y')
+            ->where('ct.status','Y')
+            ->get();
+        $banks = DB::table('bank_types as bt')
+            ->select('bt.id','bt.bank_name','bt.status')
+            ->where('bt.status','Y')
+            ->get();
+        return view('admin.masters.bank.addBankbranch',compact('loggeduser','userdetails','districts','banks'));
     }
-    public function store_bankbranch(Request $request)
+    public function store_bank_branch(Request $request)
     {
         $request->validate([
-            'bankbranch_name' => 'required|unique:bankbranch_types,bankbranch_name|string|max:255|min:3',
+            'district_name' => 'not_in:0',
+            'bank_name' => 'not_in:0',
+            'branch_name' => 'required|unique:bank_details,branch_name|string|max:50|min:3',
+            'branch_address' => 'required|regex:/^[a-zA-Z0-9,]+$/|max:255|min:3',
+            'ifsc_code' => 'required|unique:bank_details,ifsc_code|string|max:10|min:6',
         ],
         [
-            'bankbranch_name.required' => 'The bankbranch name field is missing.',
-            'bankbranch_name.string' => 'The bankbranch name must be a string.',
-            'bankbranch_name.unique' => 'The bankbranch name must be unique.',
-            'bankbranch_name.min' => 'The bankbranch name must be at least 3 characters.',
-            'bankbranch_name.max' => 'The bankbranch name cannot exceed 255 characters.',
+            'district_name.not_in' => 'Please select country.',
+            'bank_name.not_in' => 'Please select country.',
+            'branch_name.required' => 'The branch name  is missing.',
+            'branch_name.string' => 'The branch name must be a string.',
+            'branch_name.unique' => 'The branch name must be unique.',
+            'branch_name.min' => 'The branch name must be at least 3 characters.',
+            'branch_name.max' => 'The branch name cannot exceed 255 characters.',
+            'branch_address.required' => 'The branch address  field is missing.',
+            'branch_address.regex' => 'Invalid branch address format.',
+            'branch_address.min' => 'The branch address must be at least 3 characters.',
+            'branch_address.max' => 'The branch address cannot exceed 255 characters.',
+            'ifsc_code.required' => 'The IFSC Code  is missing.',
+            'ifsc_code.unique' => 'The IFSC Code must be unique.',
+            'ifsc_code.min' => 'The IFSC Code must be at least 3 characters.',
+            'ifsc_code.max' => 'The IFSC Code cannot exceed 10 characters.',
+
+
+
         ]);
 
-        $newbankbranch = new Bankbranch_type;
-        $newbankbranch->bankbranch_name = strtoupper($request->bankbranch_name);
+        $newbankbranch = new Bank_details;
+        $newbankbranch->district_code = $request->district_name;
+        $newbankbranch->bank_code = $request->bank_name;
+        $newbankbranch->branch_name = ucfirst(strtolower($request->branch_name));
+        $newbankbranch->branch_address = strtoupper($request->branch_address);
+        $newbankbranch->ifsc_code = strtoupper($request->ifsc_code);
         $newbankbranch->save();
 
-        return redirect()->route('list.bankbranch')->with('success', 'Bankbranch added successfully.');
+        return redirect()->route('list.bank_branch')->with('success', 'Bankbranch added successfully.');
     }
-     public function edit_bankbranch($id)
+     public function edit_bank_branch($id)
     {
         $userRole = session('user_role');
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        $bankbranch = Bankbranch_type::find($id);
+        $branch = DB::table('bank_details as bd')
+            ->select('bd.id','bd.district_code','bd.bank_code','bd.branch_name','bd.branch_address','bd.ifsc_code','d.district_name','d.id as district_id','st.state_name','ct.country_name','bt.bank_name','bt.id as bank_id','d.status','st.status','ct.status','bt.status')
+            ->join('district as d','bd.district_code','d.id')
+            ->join('state as st','d.state_id','st.id')
+            ->join('country as ct','st.country_id','ct.id')
+            ->join('bank_types as bt','bd.bank_code','bt.id')
+            ->where('d.status','Y')
+            ->where('st.status','Y')
+            ->where('ct.status','Y')
+            ->where('bt.status','Y')
+            ->where('bd.id',$id)
+            ->get();
 
-        if (!$bankbranch) {
-            return redirect()->route('list.shoptype')->with('error', 'Bankbranch not found.');
+        if (!$branch) {
+            return redirect()->route('list.bank_branch')->with('error', 'Bankbranch not found.');
         }
 
-        return view('admin.masters.bankbranch.editBankbranch', compact('bankbranch','userdetails','loggeduser'));
+        return view('admin.masters.bank.editBankbranch', compact('branch','userdetails','loggeduser'));
     }
-    public function update_bankbranch(Request $request,$id)
+    public function update_bank_branch(Request $request,$id)
     {
-        $bankbranch = Bankbranch_type::find($id);
+        $bankbranch = Bank_details::find($id);
         if (!$bankbranch) {
-            return redirect()->route('list.bankbranch')->with('error', 'Bankbranch not found.');
+            return redirect()->route('list.bank_branch')->with('error', 'Bankbranch not found.');
         }
 
         $request->validate([
-            'bankbranch_name' => ['required',Rule::unique('bankbranch_types')->ignore($id),'string','max:255','min:3'],
+            'district_name' => 'not_in:0',
+            'bank_name' => 'not_in:0',
+            'branch_name' => ['required',Rule::unique('bank_details')->ignore($id),'string','max:255','min:3'],
+            'branch_address' => 'required|regex:/^[a-zA-Z0-9,]+$/|max:255|min:3',
+            'ifsc_code' => ['required',Rule::unique('bank_details')->ignore($id),'string','max:10','min:6'],
             'status' => 'in:Y,N',
         ],
         [
-            'bankbranch_name.required' => 'The bankbranch name field is missing.',
-            'bankbranch_name.string' => 'The bankbranch name must be a string.',
-            'bankbranch_name.unique' => 'The bankbranch name must be unique.',
-            'bankbranch_name.min' => 'The bankbranch name must be at least 4 characters.',
-            'bankbranch_name.max' => 'The bankbranch name cannot exceed 255 characters.',
+            'district_name.not_in' => 'Please select country.',
+            'bank_name.not_in' => 'Please select country.',
+            'branch_name.required' => 'The bank branch name field is missing.',
+            'branch_name.string' => 'The bank branch name must be a string.',
+            'branch_name.unique' => 'The bank branch name must be unique.',
+            'branch_name.min' => 'The bank branch name must be at least 4 characters.',
+            'branch_name.max' => 'The bank branch name cannot exceed 255 characters.',
             'status.in' => 'Invalid status value.',
-        ]);
-        $bankbranch->bankbranch_name = ucfirst(strtolower($request->bankbranch_name));
-        $bankbranch->status = $request->status;
-        $bankbranch->save();
+            'branch_address.required' => 'The branch address  field is missing.',
+            'branch_address.regex' => 'Invalid branch address format.',
+            'branch_address.min' => 'The branch address must be at least 3 characters.',
+            'branch_address.max' => 'The branch address cannot exceed 255 characters.',
+            'ifsc_code.required' => 'The IFSC Code  is missing.',
+            'ifsc_code.unique' => 'The IFSC Code must be unique.',
+            'ifsc_code.min' => 'The IFSC Code must be at least 3 characters.',
+            'ifsc_code.max' => 'The IFSC Code cannot exceed 10 characters.',
 
-        return redirect()->route('list.bankbranch')->with('success', 'Bankbranch updated successfully.');
+        ]);
+        $newbankbranch = new Bank_details;
+        $newbankbranch->district_code = $request->district_name;
+        $newbankbranch->bank_code = $request->bank_name;
+        $newbankbranch->branch_name = ucfirst(strtolower($request->branch_name));
+        $newbankbranch->branch_address = strtoupper($request->branch_address);
+        $newbankbranch->ifsc_code = strtoupper($request->ifsc_code);
+        $newbankbranch->save();
+
+        return redirect()->route('list.bank_branch')->with('success', 'Bankbranch updated successfully.');
     }
-    public function delete_bankbranch($id)
+    public function delete_bank_branch($id)
     {
-        $bankbranch = Bankbranch_type::find($id);
+        $bankbranch = Bank_details::find($id);
 
         if (!$bankbranch) {
-            return redirect()->route('list.bankbranch')->with('error', 'Bankbranch not found.');
+            return redirect()->route('list.bank_branch')->with('error', 'Bank Branch not found.');
         }
 
         $bankbranch->delete();
 
-        return redirect()->route('list.bankbranch')->with('success', 'Bankbranch deleted successfully.');
+        return redirect()->route('list.bank_branch')->with('success', 'Bank Branch deleted successfully.');
     }
 }
