@@ -30,10 +30,12 @@ use App\Http\Controllers\Masters\ReligionController as ReligionController;
 */
 
 Route::get('/', function () {
-    return view('user.main', ['title' => 'Home']);
-})->name('home');
+    return view('welcome');
+});
+
+
 Route::controller(HomeController::class)->group(function () {
-    Route::get('index', 'index')->name('Home');
+    Route::get('/', 'index')->name('Home');
     Route::get('login', 'Login')->name('login');
     Route::post('register', 'RegisterPage')->name('Register');
     Route::get('verifyMail/{verificationToken}', 'VerifyMailPage')->name('verifyMail');
@@ -60,37 +62,34 @@ Route::controller(UserLoggedController::class)->group(function () {
     Route::post('LoggedPage/{sentoval}', 'LoggedUserPage')->name('LoggedPage');
     Route::get('/logout', 'logout')->name('logout');
 });
-Route::controller(AdminController::class)->group(function (){
-    Route::get('dashboard', 'admindashboard')->name('admin.dashboard');
-    Route::get('shopapprovals', 'ShopApproval')->name('admin.shopapprovals');
-    Route::get('allshopsview', 'AllShopsList')->name('admin.allshopsview');
-    Route::post('AdmsellerRegisteration','AdmsellerRegisterationPage')->name('AdmsellerRegisteration');
-    Route::post('shopViewEdit', 'AdmshopViewEdits')->name('shopViewEdit');
-
-    Route::post('shopGalryDelete', 'AdmshopGalryDelte')->name('shopGalryDelte');
-    Route::post('AdmsellerUpdate','AdmsellerUpdatePage')->name('AdmsellerUpdate');
-    Route::post('shopApproved', 'AdmshopApproved')->name('shopApproved');
-    Route::post('AdmsellerApproved', 'AdmsellerApprovedPage')->name('AdmsellerApproved');
-    Route::post('shopDelete', 'AdmshopDeletePage')->name('shopDelete');
-
-    Route::get('affiliateapprovals', 'AffiliateApproval')->name('admin.affiliateapprovals');
-    Route::post('allaffiliatesview', 'AllAffiliatesList')->name('admin.allaffiliatesview');
-    Route::post('AdmAffiliateRegisteration','AdmAffiliateRegisterationPage')->name('AdmAffiliateRegisteration');
-    Route::post('affiliateViewEdit', 'AdmAffiliateViewEdits')->name('affiliateViewEdit');
-    Route::post('affiliateadhaarDelte', 'AdmAfiliateAdharDelte')->name('affiliateadhaarDelte');
-    Route::post('affiliatePassDelte', 'AdmAfiliatePassDelte')->name('affiliatePassDelte');
-    Route::post('affiliatePhotoDelte', 'AdmAfiliatePhotoDelte')->name('affiliatePhotoDelte');
-    Route::post('AdmAffiliateUpdate','AdmaffiliateUpdatePage')->name('AdmAffiliateUpdate');
-    Route::post('affiliateApproved', 'AdmaffiliateApproved')->name('affiliateApproved');
-    Route::post('AdmsAffiliateApproved', 'AdmsAffiliateApprovedPage')->name('AdmsAffiliateApproved');
-    Route::post('AffiliateDelete', 'AdmaffiliateDeletePage')->name('AffiliateDelete');
 
 
-    });
+// Route::middleware(['auth', 'role'])->group(function () {
+    Route::controller(AdminController::class)->group(function (){
+        Route::get('dashboard', 'admindashboard')->name('admin.dashboard');
+        Route::get('shopapprovals', 'ShopApproval')->name('admin.shopapprovals');
+        Route::get('allshopsview', 'AllShopsList')->name('admin.allshopsview');
+        Route::post('AdmsellerRegisteration','AdmsellerRegisterationPage')->name('AdmsellerRegisteration');
+        Route::post('shopViewEdit', 'AdmshopViewEdits')->name('shopViewEdit');
 
+        Route::post('shopGalryDelete', 'AdmshopGalryDelte')->name('shopGalryDelte');
+        Route::post('AdmsellerUpdate','AdmsellerUpdatePage')->name('AdmsellerUpdate');
+        Route::post('shopApproved', 'AdmshopApproved')->name('shopApproved');
+        Route::post('AdmsellerApproved', 'AdmsellerApprovedPage')->name('AdmsellerApproved');
+        Route::post('shopDelete', 'AdmshopDeletePage')->name('shopDelete');
 
-
-
+        Route::get('affiliateapprovals', 'AffiliateApproval')->name('admin.affiliateapprovals');
+        Route::post('allaffiliatesview', 'AllAffiliatesList')->name('admin.allaffiliatesview');
+        Route::post('AdmAffiliateRegisteration','AdmAffiliateRegisterationPage')->name('AdmAffiliateRegisteration');
+        Route::post('affiliateViewEdit', 'AdmAffiliateViewEdits')->name('affiliateViewEdit');
+        Route::post('affiliateadhaarDelte', 'AdmAfiliateAdharDelte')->name('affiliateadhaarDelte');
+        Route::post('affiliatePassDelte', 'AdmAfiliatePassDelte')->name('affiliatePassDelte');
+        Route::post('affiliatePhotoDelte', 'AdmAfiliatePhotoDelte')->name('affiliatePhotoDelte');
+        Route::post('AdmAffiliateUpdate','AdmaffiliateUpdatePage')->name('AdmAffiliateUpdate');
+        Route::post('affiliateApproved', 'AdmaffiliateApproved')->name('affiliateApproved');
+        Route::post('AdmsAffiliateApproved', 'AdmsAffiliateApprovedPage')->name('AdmsAffiliateApproved');
+        Route::post('AffiliateDelete', 'AdmaffiliateDeletePage')->name('AffiliateDelete');
+        });
 
     Route::controller(RoleController::class)->group(function () {
         Route::get('listrole', 'get_roles')->name('get.roles');
@@ -163,13 +162,13 @@ Route::controller(AdminController::class)->group(function (){
         Route::post('updateexecutive/{id}', 'update_executive_type')->name('update.executive');
         Route::get('deleteexecutive/{id}', 'delete_executive')->name('delete.executive');
     });
+// });
+    Route::controller(SellerController::class)->group(function () {
+        //Route::get('dashboard', 'sellerdashboard')->name('seller.dashboard');
+    });
+    Route::controller(AffiliateController::class)->group(function () {
+        Route::get('affdashboard', 'affiliatedashboard')->name('affiliate.dashboard');
+        Route::get('newaffiliate', 'AffiliateAddNew')->name('newaffiliate');
+    });
 
-Route::controller(SellerController::class)->group(function () {
-    //Route::get('dashboard', 'sellerdashboard')->name('seller.dashboard');
-});
-Route::controller(AffiliateController::class)->group(function () {
-    Route::get('affdashboard', 'affiliatedashboard')->name('affiliate.dashboard');
-    Route::get('newaffiliate', 'AffiliateAddNew')->name('newaffiliate');
-});
-
-Route::get('/products', [UserController::class, 'homepage'])->name('user.products');
+    Route::get('/products', [UserController::class, 'homepage'])->name('user.products');
