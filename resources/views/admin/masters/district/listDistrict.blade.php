@@ -22,7 +22,7 @@
                         </div><!--end row-->
                     </div><!--end page-title-box-->
                     @if (session('success'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert" id="successMessage">
                             {{ session('success') }}
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -30,7 +30,7 @@
                         </div>
                     @endif
                     @if (session('error'))
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="successMessage">
                             {{ session('error') }}
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -51,6 +51,7 @@
                                     <tr>
                                         <th>No</th>
                                         <th>District Name</th>
+                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -58,7 +59,11 @@
                                     @foreach ($districts as $d)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td><span class="badge badge-soft-purple p-1">{{ $d->country_name }} </span> > <span class="badge badge-soft-info p-1">{{ $d->state_name }} </span> > {{ $d->district_name }}</td>
+                                            <td><span class="badge badge-soft-purple p-1">{{ $d->country_name }} </span> >
+                                                <span class="badge badge-soft-info p-1">{{ $d->state_name }} </span> >
+                                                {{ $d->district_name }}</td>
+                                                <td><span class="badge  p-2 {{ $d->status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
+                                                    {{ $d->status === 'Y' ? 'Active' : 'Inactive' }} </span></td>
                                             <td>
                                                 <div class="btn-group mb-2 mb-md-0">
                                                     <button type="button" class="btn view_btn dropdown-toggle"
@@ -67,9 +72,9 @@
                                                             class="mdi mdi-chevron-down"></i></button>
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item view_btn1"
-                                                            href="{{ route('edit.district',$d->id) }}">Edit</a>
+                                                            href="{{ route('edit.district', $d->id) }}">Edit</a>
                                                         <a class="dropdown-item delete_btn"
-                                                            href="{{ route('delete.district' ,$d->id) }}"
+                                                            href="{{ route('delete.district', $d->id) }}"
                                                             onclick="return confirm('Are you sure you want to delete?')">Delete</a>
                                                     </div>
                                                 </div>

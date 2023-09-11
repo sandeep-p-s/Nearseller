@@ -18,7 +18,7 @@ class StateController extends Controller
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $states = DB::table('state as st')
-        ->select('st.state_name','st.id', 'ct.country_name as country_name')
+        ->select('st.state_name','st.id', 'ct.country_name as country_name','st.status')
         ->join('country as ct', 'ct.id', 'st.country_id')
         ->get();
         // dd($country);
@@ -63,20 +63,14 @@ class StateController extends Controller
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        $state = DB::table('state as st')
-        ->select('st.state_name', 'st.id', 'ct.country_name as country_name')
-        ->join('country as ct', 'ct.id', 'st.country_id')
-        ->where('st.id', $id)
-        ->get();
-
-
-         $state = state::find($id);
+        $countries = DB::table('country')->get();
+        $state = state::find($id);
 
         if (!$state) {
             return redirect()->route('list.state')->with('error', 'State not found.');
         }
 
-        return view('admin.masters.state.editState', compact('userdetails', 'loggeduser', 'state'));
+        return view('admin.masters.state.editState', compact('userdetails', 'loggeduser','countries', 'state'));
     }
     public function update_state(Request $request, $id)
     {
@@ -87,10 +81,12 @@ class StateController extends Controller
 
         $request->validate(
             [
+                'country_name' => 'not_in:0',
                 'state_name' => ['required', Rule::unique('state')->ignore($id), 'string', 'max:255', 'min:4'],
                 'status' => 'in:Y,N',
             ],
             [
+                'country_name.not_in' => 'Please select country.',
                 'state_name.required' => 'The state name field is missing.',
                 'state_name.string' => 'The state name must be a string.',
                 'state_name.unique' => 'The state name must be unique.',

@@ -12,7 +12,7 @@
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-                                <h4 class="page-title">Edit Country</h4>
+                                <h4 class="page-title">Edit District</h4>
                             </div>
                         </div><!--end row-->
                     </div><!--end page-title-box-->
@@ -22,22 +22,35 @@
                 <div class="col-lg-6">
                     <div class="card">
                         <div class="card-body">
-                            <form method="POST" action="{{ route('update.country', $country->id) }}">
+                            <form method="POST" action="{{ route('update.district', $district->id) }}">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Edit Country</label>
+                                    <label for="exampleFormControlSelect1">Select State</label>
+                                    <select class="form-control mb15" id="exampleFormControlSelect1" name="state_name">
+                                        <option value="0">Select State</option>
+                                        @foreach ($states as $st)
+                                            <option {{ $st->id == $district->state_id? 'selected' : '' }} value="{{ $st->id }}" >{{ $st->country_name }} > {{$st->state_name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <label for="exampleFormControlInput1">Edit District</label>
                                     <input type="text" class="form-control mb15" id="exampleFormControlInput1"
-                                        name="country_name" placeholder="Enter Country Name"
-                                        value="{{ $country->country_name }}">
+                                        name="district_name" placeholder="Enter District Name"
+                                        value="{{ $district->district_name }}">
                                     <label for="exampleFormControlSelect1">Status</label>
                                     <select class="form-control" id="exampleFormControlSelect1" name="status">
-                                        <option value="N" {{ $country->status == 'N' ? 'selected' : '' }}>Inactive
+                                        <option value="N" {{ $district->status == 'N' ? 'selected' : '' }}>Inactive
                                         </option>
-                                        <option value="Y" {{ $country->status == 'Y' ? 'selected' : '' }}>Active
+                                        <option value="Y" {{ $district->status == 'Y' ? 'selected' : '' }}>Active
                                         </option>
                                     </select>
                                     <br>
-                                    @error('country_name')
+                                    @error('state_name')
+                                        <div class="text-danger mb15">{{ $message }}</div>
+                                    @enderror
+                                    @error('district_name')
+                                        <div class="text-danger mb15">{{ $message }}</div>
+                                    @enderror
+                                    @error('status')
                                         <div class="text-danger mb15">{{ $message }}</div>
                                     @enderror
                                     <br>
