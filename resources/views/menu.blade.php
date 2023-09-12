@@ -118,6 +118,7 @@
 
     @if (session('roleid') == '2')
         <ul class="metismenu left-sidenav-menu">
+            
             <li><a href="{{ route('seller.dashboard') }}"> <i data-feather="hhh"
                         class="align-self-center menu-icon"></i><span>Dashboard</span><span
                         class="menu-arrow"></span></a> </li>
@@ -152,39 +153,43 @@
                         class="align-self-center menu-icon"></i><span>Offers</span><span
                         class="menu-arrow"></span></a> </li>
             <hr class="hr hr-menu">
+
         </ul>
     @endif
+<!-- end seller menu -->
 
 
 
 <!-- Affiliate menus -->
 
-@if (session('roleid') == '3')
-    <ul class="metismenu left-sidenav-menu">
+    @if (session('roleid') == '3')
+        <ul class="metismenu left-sidenav-menu">
 
-        <li><a href="{{ route('affiliate.dashboard') }}"> <i data-feather="hhh"
-                    class="align-self-center menu-icon"></i><span>Dashboard</span><span class="menu-arrow"></span></a>
-        </li>
-        <hr class="hr hr-menu">
-        <li><a href="{{ route('admin.affiliateapprovals') }}"> <i data-feather="hhh"
-                    class="align-self-center menu-icon"></i><span>Home</span><span class="menu-arrow"></span></a>
-        </li>
-        <hr class="hr hr-menu">
-        <li><a href="{{ route('affiliate.affiliateslist') }}"> <i data-feather="hhh"
-                    class="align-self-center menu-icon"></i><span>Affiliates</span><span
-                    class="menu-arrow"></span></a> </li>
-        <hr class="hr hr-menu">
-        <li><a href="{{ route('affiliate.affliateshops') }}"> <i data-feather="hhh"
-                    class="align-self-center menu-icon"></i><span>Shops</span><span class="menu-arrow"></span></a>
-        </li>
-        <hr class="hr hr-menu">
+            <li><a href="{{ route('affiliate.dashboard') }}"> <i data-feather="hhh"
+                        class="align-self-center menu-icon"></i><span>Dashboard</span><span class="menu-arrow"></span></a>
+            </li>
+            <hr class="hr hr-menu">
+            <li><a href="{{ route('admin.affiliateapprovals') }}"> <i data-feather="hhh"
+                        class="align-self-center menu-icon"></i><span>Home</span><span class="menu-arrow"></span></a>
+            </li>
+            <hr class="hr hr-menu">
+            <li><a href="{{ route('affiliate.affiliateslist') }}"> <i data-feather="hhh"
+                        class="align-self-center menu-icon"></i><span>Affiliates</span><span
+                        class="menu-arrow"></span></a> </li>
+            <hr class="hr hr-menu">
+            <li><a href="{{ route('affiliate.affliateshops') }}"> <i data-feather="hhh"
+                        class="align-self-center menu-icon"></i><span>Shops</span><span class="menu-arrow"></span></a>
+            </li>
+            <hr class="hr hr-menu">
+            <li><a href="wallet.html"> <i data-feather="hhh"
+                        class="align-self-center menu-icon"></i><span>Wallets</span><span class="menu-arrow"></span></a>
+            </li>
+            <hr class="hr hr-menu">
 
-        <li><a href="wallet.html"> <i data-feather="hhh"
-                    class="align-self-center menu-icon"></i><span>Wallets</span><span class="menu-arrow"></span></a>
-        </li>
-        <hr class="hr hr-menu">
-    </ul>
-@endif
+        </ul>
+    @endif
+
+<!-- end affiliate menu -->
 
 
 
