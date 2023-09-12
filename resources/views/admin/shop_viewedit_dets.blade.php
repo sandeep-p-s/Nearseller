@@ -27,19 +27,21 @@
     $qrsocialmediaval = json_decode(json_encode($qrsocialmedia),true);
     $sel_approved=$sellerDetails->seller_approved;
     $roleid=session('roleid');
+    $userstatus=$sellerDetails->user_status;
+
 @endphp
 
 
 
                 <form id="SellerRegFormEdit" enctype="multipart/form-data" method="POST">
                     @if($sel_approved=='Y')
-                    <div class="col-md-12"><h3 style="text-align: center; color:#ff002b;">Shop / Services Approved</h3></div><hr>
+                    <div class="col-md-12"><h3 style="text-align: center; color:#ff002b;">Shop Approved</h3></div><hr>
                     @endif
                   <input type="hidden" id="shopidhid" name="shopidhid" value="{{ $sellerDetails->id }}"  class="form-control form-control-lg" maxlength="50"  placeholder="Shop id" required  tabindex="1" />
                 <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="form-outline mb-3"><label >Shop / Services Name</label>
+                        <div class="form-outline mb-3"><label >Shop Name</label>
                             <input type="text" id="es_name" name="es_name" value="{{ $sellerDetails->shop_name }}"  class="form-control form-control-lg" maxlength="50"  placeholder="Shop Name" required  tabindex="1" />
                             <label for="es_name" class="error"></label>
                         </div>
@@ -71,16 +73,16 @@
                             </select>
                             <label for="es_busnestype" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3"><label >Shop / Service Type</label>
+                        <div class="form-outline mb-3"><label >Shop Type</label>
                             <select class="form-select form-control form-control-lg" id="es_shopservice" name="es_shopservice" required tabindex="7">
-                                <option value="">Shop/Service Type</option><br/>
+                                <option value="">Shop Type</option><br/>
                                 @foreach ($shopservice as $shopser)
                                         <option value="{{ $shopser->id }}" @if ($shopser->id == $sellerDetails->shop_service_type) selected @endif>{{ $shopser->service_name }}</option>
                                     @endforeach
                             </select>
                             <label for="es_shopservice" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3"><label >Shop / Services Executive Name</label>
+                        <div class="form-outline mb-3"><label >Shop Executive Name</label>
                             <select class="form-select form-control form-control-lg" id="es_shopexectename" name="es_shopexectename" required tabindex="8" >
                                 <option value="">Shop Executive Name</option><br/>
                                     @foreach ($executives as $exec)
@@ -216,7 +218,7 @@
                                     @for($m = 0; $m < $totimg; $m++)
                                         <div class="col-md-3">
                                             {{-- <a href="#" data-toggle="modal" data-target="#myModal{{ $m }}"> --}}
-                                                <img id="img-bufferm" src="{{ asset($qrgallery[$m]) }}" width="100" height="100">
+                                                <img id="img-bufferm" src="{{ asset($qrgallery[$m]) }}" width="450" height="250">
                                                 @php
                                                     $valen = $qrgallery[$m] . "#" . $sellerDetails->id;
                                                     $deleencde = base64_encode($valen);
@@ -264,7 +266,7 @@
                         </div>
 
 
-                        <div class="form-outline mb-3"><label class="esdate" for="esdate"> Establishment Date</label>
+                        <div class="form-outline mb-3"><label > Establishment Date</label>
                             <input type="date" id="es_establishdate" name="es_establishdate"  value="{{ $sellerDetails->establish_date }}"  maxlength="10"  class="form-control form-control-lg" placeholder="Establishment Date"  tabindex="22" />
                             <label for="es_establishdate" class="error"></label>
                         </div>
@@ -272,14 +274,14 @@
 
                         <div class="form-outline mb-3"><label> Open Time</label>
                             <div class="input-group date" id="from-time-picker" data-target-input="nearest">
-                                <input type="text" class="form-control datetimepicker-input" data-target="#from-time-picker" id="eopentime" name="eopentime"  value="{{ $opentime }}"  required  maxlength="10" />
+                                <input type="text" class="form-control datetimepicker-input" data-target="#from-time-picker" id="eopentime" name="eopentime"  value="{{ $opentime }}"  required  maxlength="20" data-format="ddd hh:mm A" />
                                 <label for="eopentime" class="error"></label>
                             </div>
                         </div>
 
                         <div class="form-outline mb-3"><label > Close Time</label>
                             <div class="input-group date" id="from-time-picker" data-target-input="nearest">
-                                <input type="text" class="form-control datetimepicker-input" data-target="#to-time-picker" id="eclosetime" name="eclosetime"  value="{{ $closetime }}"  required maxlength="10" />
+                                <input type="text" class="form-control datetimepicker-input" data-target="#to-time-picker" id="eclosetime" name="eclosetime"  value="{{ $closetime }}"  required maxlength="20" data-format="ddd hh:mm A" />
                                 <label for="eclosetime" class="error"></label>
                             </div>
                         </div>
@@ -305,11 +307,21 @@
                             <label for="secondafflte" class="error"></label>
                         </div>
 
-                        <div class="form-outline mb-3"><label >Shop / Services Co-Ordinator</label>
+                        <div class="form-outline mb-3"><label >Shop Co-Ordinator</label>
                             <input type="text" class="form-control form-control-lg" id="scoordinater" name="scoordinater"  value="{{ $sellerDetails->shop_coordinator }}">
                             <label for="coordinater" class="error"></label>
                         </div>
+                        @if (!(($roleid == 3 || $roleid == 2)))
+                        <div class="form-outline mb-3"><label >User Status</label>
+                            <select class="form-select form-control form-control-lg" name="userstatus"  id="userstatus" required  tabindex="27" >
+                                <option value="">Select</option>
+                                <option value="Y"  @if ($userstatus=='Y') selected @endif>Active</option>
+                                <option value="N"  @if ($userstatus=='N') selected @endif>Inactive</option>
 
+                            </select>
+                            <label for="userstatus" class="error"></label>
+                        </div>
+                        @endif
 
 
                         <div class="checkbox form-check-inline">
@@ -349,7 +361,7 @@
 
 
             $(function() {
-                var datetimeFormat = 'hh:mm A';
+                var datetimeFormat = 'ddd hh:mm A';
                 $('#from-time-picker, #to-time-picker').datetimepicker({
                     format: datetimeFormat,
                     icons: {

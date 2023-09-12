@@ -6,7 +6,7 @@
             <tr>
                 <th>SINO</th>
                 <th>Reg. ID</th>
-                <th>Shop Name</th>
+                <th>Affiliate Name</th>
                 <th>Email</th>
                 <th>Mobile</th>
                 <th>Action</th>

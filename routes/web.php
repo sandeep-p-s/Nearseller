@@ -213,7 +213,12 @@ Route::controller(UserLoggedController::class)->group(function () {
     });
 // });
     Route::controller(SellerController::class)->group(function () {
-        //Route::get('dashboard', 'sellerdashboard')->name('seller.dashboard');
+        Route::get('sellerdashboard', 'sellerdashboard')->name('seller.dashboard');
+        Route::get('attributes', 'AttributePage')->name('new.attributes');
+        Route::get('allattributes', 'AttributeList')->name('new.allattributes');
+        Route::post('addattribute', 'AddAttributePage')->name('AddAttributeForm');
+        Route::post('editattribute', 'EditAttributePage')->name('AttributeViewEdit');
+
     });
     Route::controller(AffiliateController::class)->group(function () {
         Route::get('affdashboard', 'affiliatedashboard')->name('affiliate.dashboard');
@@ -226,9 +231,6 @@ Route::controller(UserLoggedController::class)->group(function () {
 
 
     Route::get('/products', [UserController::class, 'homepage'])->name('user.products');
-    Route::controller(SellerController::class)->group(function () {
-    //Route::get('dashboard', 'sellerdashboard')->name('seller.dashboard');
-    });
 
 
 
