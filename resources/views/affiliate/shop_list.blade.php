@@ -15,7 +15,7 @@
                                 @if(session('roleid')=='3')
                                 <h4 class="page-title">Affiliate Shops List</h4>
                                 <div class="col text-right">
-                                    <button class="btn add_btn" data-bs-toggle="modal" data-bs-target="#addNewModal">Add New Shops / Services</button>
+                                    <button class="btn add_btn" data-bs-toggle="modal" data-bs-target="#addNewModal">Add New Shops</button>
                                 </div>
                                 @endif
                             </div>
@@ -72,7 +72,7 @@
                 <div class="modal-dialog custom-modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title text-center" id="ViewEditModalLabel">View / Edit -  Shop/Services Details</h5>
+                            <h5 class="modal-title text-center" id="ViewEditModalLabel">View / Edit -  Shop Details</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" title="Close">x</button>
                         </div>
                         <div class="modal-body">
@@ -89,7 +89,7 @@
                 <div class="modal-dialog custom-modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title text-center" id="ShopApprovedModalModalLabel">Shop/Services Approved</h5>
+                            <h5 class="modal-title text-center" id="ShopApprovedModalModalLabel">Shop Approved</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" title="Close">x</button>
                         </div>
                         <div class="modal-body">
@@ -111,7 +111,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            Do you want to delete this shop / Services?
+                            Do you want to delete this shop?
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

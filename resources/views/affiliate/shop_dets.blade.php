@@ -6,7 +6,7 @@
             <tr>
                 <th>SINO</th>
                 <th>Reg. ID</th>
-                <th>Shop / Services Name</th>
+                <th>Shop Name</th>
                 <th>Owner Name</th>
                 <th>Email</th>
                 <th>Mobile</th>
@@ -57,7 +57,7 @@
     <div class="modal-dialog custom-modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-center" id="addNewModalLabel">Add New Shops / Services </h5>
+                <h5 class="modal-title text-center" id="addNewModalLabel">Add New Shops </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" title="Close">x</button>
             </div>
             <div class="modal-body">
@@ -67,8 +67,8 @@
                 <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="form-outline mb-3"><label >Shop / Services Name</label>
-                            <input type="text" id="s_name" name="s_name" class="form-control form-control-lg" maxlength="50"  placeholder="Shop / Services Name" required  tabindex="1" />
+                        <div class="form-outline mb-3"><label >Shop Name</label>
+                            <input type="text" id="s_name" name="s_name" class="form-control form-control-lg" maxlength="50"  placeholder="Shop Name" required  tabindex="1" />
                             <label for="s_name" class="error"></label>
                         </div>
                         <div class="form-outline mb-3"><label >Owner Name</label>
@@ -107,7 +107,7 @@
                             </select>
                             <label for="s_shopservice" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3"><label >Shop / Services Executive Name</label>
+                        <div class="form-outline mb-3"><label >Shop Executive Name</label>
                             <select class="form-select form-control form-control-lg" id="s_shopexectename" name="s_shopexectename" required tabindex="8" >
                                 <option value="">Shop Executive Name</option><br/>
                                     @foreach ($executives as $exec)
@@ -195,7 +195,7 @@
                             <input type="text" id="s_googlelink" name="s_googlelink"   id class="form-control form-control-lg"   placeholder="Google map link location" required  tabindex="18" />
                             <label for="s_googlelink" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3"><label >Shop / Services Photo's</label>
+                        <div class="form-outline mb-3"><label >Shop Photo's</label>
                             <input type="file" id="s_photo"  multiple=""  name="s_photo[]" class="form-control form-control-lg" placeholder="Shop Photo" required tabindex="19" accept="image/jpeg, image/png"  />
                             <label for="s_photo" class="error"></label>
                         </div>

@@ -118,7 +118,7 @@
 
     @if (session('roleid') == '2')
         <ul class="metismenu left-sidenav-menu">
-            
+
             <li><a href="{{ route('seller.dashboard') }}"> <i data-feather="hhh"
                         class="align-self-center menu-icon"></i><span>Dashboard</span><span
                         class="menu-arrow"></span></a> </li>
@@ -127,12 +127,17 @@
                         class="align-self-center menu-icon"></i><span>Home</span><span class="menu-arrow"></span></a>
             </li>
             <hr class="hr hr-menu">
+            <li><a href="{{ route('new.attributes') }}"> <i data-feather="hhh"
+                class="align-self-center menu-icon"></i><span>Attributes Types</span><span
+                class="menu-arrow"></span></a> </li>
+            <hr class="hr hr-menu">
             <li><a href="my_products.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>My
                         Products</span><span class="menu-arrow"></span></a> </li>
             <hr class="hr hr-menu">
             <li><a href="add_products.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Add
                         Products</span><span class="menu-arrow"></span></a> </li>
             <hr class="hr hr-menu">
+
             <li><a href="category_table.html"> <i data-feather="hhh"
                         class="align-self-center menu-icon"></i><span>Add Categories</span><span
                         class="menu-arrow"></span></a> </li>
