@@ -20,6 +20,10 @@
             </div> <!--end row-->
             <div class="row">
                 <div class="col-lg-6">
+                    <div class="button-items d-flex align-items-end flex-column">
+                        <a href="{{ route('list.state') }}"><button type="button" class="btn btn-secondary">Back</button></a>
+                    </div>
+                    <br>
                     <div class="card">
                         <div class="card-body">
                             <form method="POST" action="{{ route('update.state', $state->id) }}">
@@ -46,6 +50,9 @@
                                         </option>
                                     </select>
                                     <br>
+                                    @error('country_name')
+                                        <div class="text-danger mb15">{{ $message }}</div>
+                                    @enderror
                                     @error('state_name')
                                         <div class="text-danger mb15">{{ $message }}</div>
                                     @enderror

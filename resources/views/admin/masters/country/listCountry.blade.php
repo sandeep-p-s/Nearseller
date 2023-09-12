@@ -12,8 +12,7 @@
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-                                <h4 class="page-title">Add Countries</h4>
-
+                                <h4 class="page-title">Countries List</h4>
                             </div>
                             <div class="col-auto align-self-center">
                                 <a href="{{ route('add.country') }}"><button type="button" class="btn add_btn ">Add
@@ -22,7 +21,7 @@
                         </div><!--end row-->
                     </div><!--end page-title-box-->
                     @if (session('success'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert" id="successMessage">
                             {{ session('success') }}
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -30,7 +29,7 @@
                         </div>
                     @endif
                     @if (session('error'))
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="successMessage">
                             {{ session('error') }}
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -43,14 +42,22 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-
                         <div class="card-body">
+                            <div class="text-center">
+                                <span class="badge badge-soft-info p-2">
+                                    Total Countries : {{ $total_countries }}
+                                </span>
+                                <span class="badge badge-soft-danger p-2">
+                                    Inactive Countries : {{ $inactive_countries }}
+                                </span>
+                            </div>
                             <table id="datatable" class="table table-bordered dt-responsive nowrap"
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr>
                                         <th>No</th>
                                         <th>Country Name</th>
+                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -60,6 +67,12 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $ct->country_name }}</td>
                                             <td>
+                                                <span
+                                                    class="badge  p-2 {{ $ct->status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
+                                                    {{ $ct->status === 'Y' ? 'Active' : 'Inactive' }}
+                                                </span>
+                                            </td>
+                                            <td>
                                                 <div class="btn-group mb-2 mb-md-0">
                                                     <button type="button" class="btn view_btn dropdown-toggle"
                                                         data-toggle="dropdown" aria-haspopup="true"
@@ -67,9 +80,9 @@
                                                             class="mdi mdi-chevron-down"></i></button>
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item view_btn1"
-                                                            href="{{ route('edit.country',$ct->id) }}">Edit</a>
+                                                            href="{{ route('edit.country', $ct->id) }}">Edit</a>
                                                         <a class="dropdown-item delete_btn"
-                                                            href="{{ route('delete.country' ,$ct->id) }}"
+                                                            href="{{ route('delete.country', $ct->id) }}"
                                                             onclick="return confirm('Are you sure you want to delete?')">Delete</a>
                                                     </div>
                                                 </div>

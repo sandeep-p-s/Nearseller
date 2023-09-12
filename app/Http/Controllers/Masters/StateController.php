@@ -18,11 +18,14 @@ class StateController extends Controller
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $states = DB::table('state as st')
-        ->select('st.state_name','st.id', 'ct.country_name as country_name','st.status')
+        ->select('st.state_name','st.id','st.status as st_status','ct.country_name as country_name','ct.status as ct_status')
         ->join('country as ct', 'ct.id', 'st.country_id')
+        ->where('ct.status','Y')
         ->get();
+        $total_states = DB::table('state')->count();
+        $inactive_states = DB::table('state as s')->where('s.status','N')->count();
         // dd($country);
-        return view('admin.masters.state.listState', compact('loggeduser', 'userdetails', 'states'));
+        return view('admin.masters.state.listState', compact('loggeduser', 'userdetails', 'states','total_states','inactive_states'));
     }
     public function add_state()
     {
@@ -30,7 +33,9 @@ class StateController extends Controller
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        $countries = DB::table('country')->get();
+        $countries = DB::table('country as ct')
+        ->where('ct.status','Y')
+        ->get();
         return view('admin.masters.state.addState', compact('loggeduser', 'userdetails','countries'));
     }
     public function store_state(Request $request)
@@ -38,12 +43,12 @@ class StateController extends Controller
         $request->validate(
             [
                 'country_name' => 'not_in:0',
-                'state_name' => 'required|unique:state,state_name|string|max:255|min:4',
+                'state_name' => 'required|unique:state,state_name|alpha|max:255|min:4',
             ],
             [
                 'country_name.not_in' => 'Please select country.',
                 'state_name.required' => 'The state name field is missing.',
-                'state_name.string' => 'The state name must be a string.',
+                'state_name.alpha' => 'The state name must be a alphabets.',
                 'state_name.unique' => 'The state name must be unique.',
                 'state_name.min' => 'The state name must be at least 4 characters.',
                 'state_name.max' => 'The state name cannot exceed 255 characters.',
@@ -63,7 +68,9 @@ class StateController extends Controller
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        $countries = DB::table('country')->get();
+        $countries = DB::table('country as ct')
+        ->where('ct.status','Y')
+        ->get();
         $state = state::find($id);
 
         if (!$state) {
@@ -82,13 +89,13 @@ class StateController extends Controller
         $request->validate(
             [
                 'country_name' => 'not_in:0',
-                'state_name' => ['required', Rule::unique('state')->ignore($id), 'string', 'max:255', 'min:4'],
+                'state_name' => ['required', Rule::unique('state')->ignore($id), 'regex:/^[a-zA-Z &]+$/', 'max:255', 'min:4'],
                 'status' => 'in:Y,N',
             ],
             [
                 'country_name.not_in' => 'Please select country.',
                 'state_name.required' => 'The state name field is missing.',
-                'state_name.string' => 'The state name must be a string.',
+                'state_name.regex' => 'The state name is not in valid format.',
                 'state_name.unique' => 'The state name must be unique.',
                 'state_name.min' => 'The state name must be at least 4 characters.',
                 'state_name.max' => 'The state name cannot exceed 255 characters.',

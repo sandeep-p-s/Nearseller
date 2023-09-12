@@ -12,7 +12,7 @@
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-                                <h4 class="page-title">Add States</h4>
+                                <h4 class="page-title">States List</h4>
 
                             </div>
                             <div class="col-auto align-self-center">
@@ -43,9 +43,16 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-
                         <div class="card-body">
-                            <table id="datatable" class="table table-bordered dt-responsive nowrap"
+                            <div class="text-center">
+                                <span class="badge badge-soft-info p-2">
+                                    Total States : {{ $total_states }}
+                                </span>
+                                <span class="badge badge-soft-danger p-2">
+                                    Inactive States : {{ $inactive_states }}
+                                </span>
+                            </div>
+                            <table id="datatable" class="table table-bordered dt-responsive nowrap "
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr>
@@ -61,15 +68,18 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td><span class="badge badge-soft-purple p-1">{{ $st->country_name }} </span> >
                                                 {{ $st->state_name }}</td>
-                                            <td><span
-                                                    class="badge  p-2 {{ $st->status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
-                                                    {{ $st->status === 'Y' ? 'Active' : 'Inactive' }} </span></td>
+                                            <td>
+                                                <span
+                                                    class="badge  p-2 {{ $st->st_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
+                                                    {{ $st->st_status === 'Y' ? 'Active' : 'Inactive' }}
+                                                </span>
+                                            </td>
                                             <td>
                                                 <div class="btn-group mb-2 mb-md-0">
                                                     <button type="button" class="btn view_btn dropdown-toggle"
                                                         data-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">Action <i
-                                                            class="mdi mdi-chevron-down"></i></button>
+                                                        aria-expanded="false">Action
+                                                        <i class="mdi mdi-chevron-down"></i></button>
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item view_btn1"
                                                             href="{{ route('edit.state', $st->id) }}">Edit</a>
