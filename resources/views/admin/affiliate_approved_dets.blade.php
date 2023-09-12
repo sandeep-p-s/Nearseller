@@ -22,6 +22,7 @@
 @foreach ($userdets as $affapp)
 @php
     $affiliteapp=$affapp->approved;
+    $userstus=$affapp->user_status;
 @endphp
 @endforeach
 
@@ -261,6 +262,26 @@
                         </div>
 
 
+                        <hr class="new_hr"><div class="form-group row">
+                            <label class="col-xl-6">Accept Terms & Conditions</label>
+                            <div class="col-xl-6 align-self-center">
+                                <span class="badge  p-2 {{$Affiliate->terms_condition == '1' ? 'badge badge-success' : 'badge badge-danger' }}">
+                                    {{ $Affiliate->terms_condition== '1' ? 'Accepted' : 'No' }}
+                                </span>
+                            </div>
+                        </div>
+
+
+
+                        <hr class="new_hr"><div class="form-group row">
+                            <label class="col-xl-6">User Status</label>
+                            <div class="col-xl-6 align-self-center">
+                                <span class="badge  p-2 {{ $userstus === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
+                                    {{ $userstus === 'Y' ? 'Active' : 'Inactive' }}
+                                </span>
+                            </div>
+                        </div>
+
                         <hr class="new_hr">
                         <div class="form-group row">
                             <label class="col-xl-6">Approved</label>
@@ -440,7 +461,7 @@
                 },
                 error: function(xhr) {
                     console.log(xhr.responseText);
-                    $('#appaffiliatereg-message').text('Not Approved.').fadeIn();
+                    $('#appaffiliatereg-message').text('Inactive User. So not be approved.').fadeIn();
                     $('#appaffiliatereg-message').addClass('error');
                     setTimeout(function() {
                         $('#appaffiliatereg-message').fadeOut();

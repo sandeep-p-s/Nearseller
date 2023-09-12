@@ -21,6 +21,7 @@
         <script src="{{ asset('backend/assets/js/feather.min.js') }}"></script>
         <script src="{{ asset('backend/assets/js/simplebar.min.js') }}"></script>
         {{-- <script src="{{ asset('backend/plugins/daterangepicker/daterangepicker.js') }}"></script> --}}
+        <script src="{{ asset('backend/assets/js/bootstrap-datetimepicker.min.js') }}"></script>
 
         <!-- Required datatable js -->
         <script src="{{ asset('backend/plugins/datatables/jquery.dataTables.min.js') }}"></script>
@@ -39,7 +40,7 @@
         <script src="{{ asset('backend/plugins/datatables/responsive.bootstrap4.min.js') }}"></script>
         <script src="{{ asset('backend/assets/pages/jquery.datatable.init.js') }}"></script>
 
-        <script src="{{ asset('backend/assets/js/bootstrap-datetimepicker.min.js') }}"></script>
+
 
 
         <!-- App js -->

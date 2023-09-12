@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Shop / Services Approved</title>
+    <title>Shop Approved</title>
 </head>
 <body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -38,7 +38,7 @@
                 <tr>
                     <td colspan="2" style="padding-left:30px;padding-right:15px;padding-bottom:10px; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 25px;">
                     <h4 style="margin:0;">Dear {{ $userName }},</h4>
-                    <p><b>Approved Registered Shop / Services</b></p>
+                    <p><b>Approved Registered Shop</b></p>
                     </td>
                 </tr>
                 <tr>
