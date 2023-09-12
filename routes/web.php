@@ -68,7 +68,7 @@ Route::controller(UserLoggedController::class)->group(function () {
 });
 
 
-// Route::middleware(['auth', 'role'])->group(function () {
+// Route::middleware(['role'])->group(function () {
     Route::controller(AdminController::class)->group(function (){
         Route::get('dashboard', 'admindashboard')->name('admin.dashboard');
         Route::get('shopapprovals', 'ShopApproval')->name('admin.shopapprovals');
