@@ -30,6 +30,7 @@
     <link href="{{ asset('backend/assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('backend/assets/css/style.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('backend/assets/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/plugins/dropify/css/dropify.min.css') }}" rel="stylesheet">
 
 
 
