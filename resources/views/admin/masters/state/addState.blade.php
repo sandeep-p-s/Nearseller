@@ -21,6 +21,10 @@
 
             <div class="row">
                 <div class="col-lg-6">
+                    <div class="button-items d-flex align-items-end flex-column">
+                        <a href="{{ route('list.state') }}"><button type="button" class="btn btn-secondary">Back</button></a>
+                    </div>
+                    <br>
                     <div class="card">
                         <div class="card-body">
                             <form method="POST" action="{{ route('store.state') }}">
@@ -30,7 +34,7 @@
                                     <select class="form-control mb15" id="exampleFormControlSelect1" name="country_name">
                                         <option value="0">Select Country</option>
                                         @foreach ($countries as $ct)
-                                            <option value="{{ $ct->id }}">{{ $ct->country_name }}</option>
+                                            <option value="{{ $ct->id }}" {{ old('country_name') == $ct->id ? 'selected' : '' }}>{{ $ct->country_name }}</option>
                                         @endforeach
                                     </select>
                                     <label for="addShopType">Add States</label>

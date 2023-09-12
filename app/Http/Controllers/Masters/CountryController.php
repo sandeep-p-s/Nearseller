@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Masters;
 use DB;
 use App\Models\masters\Country;
 use App\Models\UserAccount;
-use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class CountryController extends Controller
@@ -18,7 +18,9 @@ class CountryController extends Controller
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $countries = DB::table('country')->get();
-        return view('admin.masters.country.listCountry',compact('loggeduser','userdetails','countries'));
+        $total_countries = DB::table('country')->count();
+        $inactive_countries = DB::table('country as c')->where('c.status','N')->count();
+        return view('admin.masters.country.listCountry',compact('loggeduser','userdetails','countries','total_countries','inactive_countries'));
 
     }
     public function add_country()
@@ -32,11 +34,11 @@ class CountryController extends Controller
     public function store_country(Request $request)
     {
         $request->validate([
-            'country_name' => 'required|unique:country,country_name|string|max:255|min:4',
+            'country_name' => 'required|unique:country,country_name|regex:/^[a-zA-Z &]+$/|max:255|min:4',
         ],
         [
             'country_name.required' => 'The country name field is missing.',
-            'country_name.string' => 'The country name must be a string.',
+            'country_name.regex' => 'Invalid format the country name.',
             'country_name.unique' => 'The country name must be unique.',
             'country_name.min' => 'The country name must be at least 4 characters.',
             'country_name.max' => 'The country name cannot exceed 255 characters.',
@@ -70,12 +72,12 @@ class CountryController extends Controller
         }
 
         $request->validate([
-            'country_name' => ['required',Rule::unique('country')->ignore($id),'string','max:255','min:4'],
+            'country_name' => ['required',Rule::unique('country')->ignore($id),'regex:/^[a-zA-Z &]+$/','max:255','min:4'],
             'status' => 'in:Y,N',
         ],
         [
             'country_name.required' => 'The country name field is missing.',
-            'country_name.string' => 'The country name must be a string.',
+            'country_name.alpha' => 'The country name must be a alphabets.',
             'country_name.unique' => 'The country name must be unique.',
             'country_name.min' => 'The country name must be at least 4 characters.',
             'country_name.max' => 'The country name cannot exceed 255 characters.',

@@ -8,7 +8,9 @@
                 <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown"
                     href="#" role="button" aria-haspopup="false" aria-expanded="false">
                     @foreach($userdetails as $user)
-                    <span class="ml-1 nav-user-name hidden-sm">{{ $user->name }}</span>                    @endforeach
+                    <button type="button" class="btn btn-outline-info waves-effect waves-light m-2">{{ $user->name }}</button>
+                    {{-- <span class="badge badge-outline-info p-2 m-2 fs-3 fw-1">{{ $user->name }}</span> --}}
+                    @endforeach
 
                     <img src="{{ asset('backend/assets/images/users/profile.png') }}" alt="profile-user" class="rounded-circle" />
                 </a>
@@ -39,7 +41,7 @@
             </li>
             <li class="creat-btn">
                 <div class="nav-link">
-                    <a class=" btn btn-sm btn-soft-primary" href="#" role="button">Welcome to {{$loggeduser}}</a>
+                    <span class="badge badge-soft-primary p-2">Welcome to {{$loggeduser}}</span>
                 </div>
             </li>
         </ul>

@@ -18,11 +18,16 @@ class DistrictController extends Controller
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $districts = DB::table('district as d')
-            ->select('d.district_name','d.id','st.state_name','ct.country_name','d.status')
+            ->select('d.district_name','d.id','st.state_name','ct.country_name','d.status as d_status','st.status as st_status','ct.status as ct_status')
             ->join('state as st','d.state_id','st.id')
             ->join('country as ct','st.country_id','ct.id')
+            ->where('st.status','Y')
+            ->where('ct.status','Y')
             ->get();
-        return view('admin.masters.district.listDistrict',compact('loggeduser','userdetails','districts'));
+        $total_districts = DB::table('district')->count();
+        $inactive_districts = DB::table('district as d')->where('d.status','N')->count();
+
+        return view('admin.masters.district.listDistrict',compact('loggeduser','userdetails','districts','total_districts','inactive_districts'));
 
     }
     public function add_district()
@@ -34,6 +39,8 @@ class DistrictController extends Controller
         $states = DB::table('state as st')
         ->select('st.state_name','st.id', 'ct.country_name as country_name','st.status')
         ->join('country as ct', 'ct.id', 'st.country_id')
+        ->where('st.status','Y')
+        ->where('ct.status','Y')
         ->get();
 
         return view('admin.masters.district.addDistrict',compact('loggeduser','userdetails','states'));
@@ -69,6 +76,8 @@ class DistrictController extends Controller
         $states = DB::table('state as st')
         ->select('st.state_name','st.id', 'ct.country_name as country_name','st.status')
         ->join('country as ct', 'ct.id', 'st.country_id')
+        ->where('st.status','Y')
+        ->where('ct.status','Y')
         ->get();
         $district = District::find($id);
 

@@ -12,12 +12,11 @@
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-                                <h4 class="page-title">Add Bank</h4>
-
+                                <h4 class="page-title">Category List</h4>
                             </div>
                             <div class="col-auto align-self-center">
-                                <a href="{{ route('add.bank') }}"><button type="button" class="btn add_btn ">Add
-                                        New Bank </button></a>
+                                <a href="{{ route('add.category') }}"><button type="button" class="btn add_btn ">Add New
+                                        Category </button></a>
                             </div><!--end col-->
                         </div><!--end row-->
                     </div><!--end page-title-box-->
@@ -43,27 +42,37 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-
                         <div class="card-body">
+                            <div class="text-center">
+                                <span class="badge badge-soft-info p-2">
+                                    Total Countries : {{ $total_categories }}
+                                </span>
+                                <span class="badge badge-soft-danger p-2">
+                                    Inactive Countries : {{ $inactive_categories }}
+                                </span>
+                            </div>
                             <table id="datatable" class="table table-bordered dt-responsive nowrap"
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Bank Name</th>
+                                        <th>Category Name</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($banks as $bk)
+                                    @foreach ($categories as $c)
+                                        @php
+                                            $indentation = ''; // Define the indentation string
+                                        @endphp
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $bk->bank_name }}</td>
+                                            <td>{{ str_repeat($indentation, $c->level) }}<span class="badge badge-soft-purple p-1">{{ $c->parent_name }}</span></td>
                                             <td>
                                                 <span
-                                                    class="badge  p-2 {{ $bk->status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
-                                                    {{ $bk->status === 'Y' ? 'Active' : 'Inactive' }}
+                                                    class="badge  p-2 {{ $c->child_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
+                                                    {{ $c->child_status === 'Y' ? 'Active' : 'Inactive' }}
                                                 </span>
                                             </td>
                                             <td>
@@ -74,9 +83,9 @@
                                                             class="mdi mdi-chevron-down"></i></button>
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item view_btn1"
-                                                            href="{{ route('edit.bank', $bk->id) }}">Edit</a>
+                                                            href="{{ route('edit.category', $c->child_id) }}">Edit</a>
                                                         <a class="dropdown-item delete_btn"
-                                                            href="{{ route('delete.bank', $bk->id) }}"
+                                                            href="{{ route('delete.category', $c->child_id) }}"
                                                             onclick="return confirm('Are you sure you want to delete?')">Delete</a>
                                                     </div>
                                                 </div>

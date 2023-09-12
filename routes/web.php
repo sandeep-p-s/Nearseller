@@ -20,6 +20,8 @@ use App\Http\Controllers\Masters\ProfessionsController as ProfessionsController;
 use App\Http\Controllers\Masters\ReligionController as ReligionController;
 use App\Http\Controllers\Masters\BankController as BankController;
 
+use App\Http\Controllers\Admin\CategoryController as CategoryController;
+
 
 
 /*
@@ -55,7 +57,6 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/getStates/{country}', 'getStates')->name('getStates');
     Route::post('BankBranches', 'getBankBranchesPage')->name('getBankBranches');
     Route::post('EmailLogin', 'EmailLoginPage')->name('EmailLogin');
-
     Route::post('sellerRegisteration', 'sellerRegisterationPage')->name('sellerRegisteration');
     Route::post('affiliatorRegisteration', 'affiliatorRegisterationPage')->name('affiliatorRegisteration');
     Route::post('shopnotregreferal', 'ShopNotRegRefaralId')->name('shopnotregreferal');
@@ -130,7 +131,7 @@ Route::controller(UserLoggedController::class)->group(function () {
         Route::post('serviceupdate/{id}', 'update_service_type')->name('update.servicetype');
         Route::get('servicedelete/{id}', 'delete_service_type')->name('delete.servicetype');
     });
-
+//master
     Route::controller(CountryController::class)->group(function () {
         Route::get('listcountry', 'list_country')->name('list.country');
         Route::get('addcountry', 'add_country')->name('add.country');
@@ -192,7 +193,7 @@ Route::controller(UserLoggedController::class)->group(function () {
         Route::get('deletebankbranch/{id}', 'delete_bank_branch')->name('delete.bank_branch');
 
     });
-
+//admin
     Route::controller(CategoryController::class)->group(function () {
         Route::get('listcategory', 'list_category')->name('list.category');
         Route::get('addcategory', 'add_category')->name('add.category');
