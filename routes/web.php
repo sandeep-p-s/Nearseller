@@ -1,24 +1,25 @@
 <?php
 
-use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ShopTypeController;
-use App\Http\Controllers\UserLoggedController;
-use App\Http\Controllers\ServiceTypeController;
-use App\Http\Controllers\BusinessTypeController;
 use App\Http\Controllers\SellerController;
+use App\Http\Controllers\ShopTypeController;
 use App\Http\Controllers\AffiliateController;
 use App\Http\Controllers\ExecutiveController;
-use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ShopOfferController;
+use App\Http\Controllers\UserLoggedController;
+use App\Http\Controllers\ServiceTypeController;
 
-use App\Http\Controllers\Masters\CountryController as CountryController;
-use App\Http\Controllers\Masters\StateController as StateController;
-use App\Http\Controllers\Masters\DistrictController as DistrictController;
-use App\Http\Controllers\Masters\ProfessionsController as ProfessionsController;
-use App\Http\Controllers\Masters\ReligionController as ReligionController;
+use App\Http\Controllers\BusinessTypeController;
 use App\Http\Controllers\Masters\BankController as BankController;
+use App\Http\Controllers\Masters\StateController as StateController;
+use App\Http\Controllers\Masters\CountryController as CountryController;
+use App\Http\Controllers\Masters\DistrictController as DistrictController;
+use App\Http\Controllers\Masters\ReligionController as ReligionController;
+use App\Http\Controllers\Masters\ProfessionsController as ProfessionsController;
 
 use App\Http\Controllers\Admin\CategoryController as CategoryController;
 
@@ -220,6 +221,17 @@ Route::controller(UserLoggedController::class)->group(function () {
         Route::post('editattribute', 'EditAttributePage')->name('AttributeViewEdit');
 
     });
+
+    Route::controller(ShopOfferController::class)->group(function () {
+        Route::get('listshopoffer', 'list_shop_offer')->name('list.shop_offer');
+        Route::get('addshopoffer', 'add_shop_offer')->name('add.shop_offer');
+        Route::post('storeshopoffer', 'store_shop_offer')->name('store.shop_offer');
+        Route::get('shopedit/{id}', 'edit_shop_type')->name('edit.shoptype');
+        Route::post('shopupdate/{id}', 'update_shop_type')->name('update.shoptype');
+        Route::get('shopdelete/{id}', 'delete_shop_type')->name('delete.shoptype');
+    });
+
+
     Route::controller(AffiliateController::class)->group(function () {
         Route::get('affdashboard', 'affiliatedashboard')->name('affiliate.dashboard');
         Route::get('newaffiliate', 'AffiliateAddNew')->name('newaffiliate');

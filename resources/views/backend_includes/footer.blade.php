@@ -40,7 +40,10 @@
         <script src="{{ asset('backend/plugins/datatables/responsive.bootstrap4.min.js') }}"></script>
         <script src="{{ asset('backend/assets/pages/jquery.datatable.init.js') }}"></script>
 
-
+        <script src="{{ asset('backend/plugins/dropify/js/dropify.min.js') }}"></script>
+        <script src="{{ asset('backend/assets/pages/jquery.form-upload.init.js') }}"></script>
+        <script src="{{ asset('backend/plugins/repeater/jquery.repeater.min.js') }}"></script>
+        <script src="{{ asset('backend/assets/pages/jquery.form-repeater.js') }}"></script>
 
 
         <!-- App js -->

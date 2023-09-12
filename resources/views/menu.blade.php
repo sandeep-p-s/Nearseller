@@ -154,7 +154,7 @@
                 </ul>
             </li>
             <hr class="hr hr-menu">
-            <li><a href="offer_table.html"> <i data-feather="hhh"
+            <li><a href="{{ route('list.shop_offer') }}"> <i data-feather="hhh"
                         class="align-self-center menu-icon"></i><span>Offers</span><span
                         class="menu-arrow"></span></a> </li>
             <hr class="hr hr-menu">
