@@ -27,19 +27,12 @@
     $qrsocialmediaval = json_decode(json_encode($qrsocialmedia),true);
 
 
-
-    $timeRange = $sellerDetails->open_close_time;
-    $timeParts = explode('-', $timeRange);
-    $startTime = trim($timeParts[0]);
-    $endTime = trim($timeParts[1]);
-
-
-
     @endphp
 
     @foreach ($userdets as $shopapp)
         @php
             $sellerapproved=$shopapp->approved;
+            $userstus=$shopapp->user_status;
         @endphp
     @endforeach
 
@@ -60,7 +53,7 @@
                                 </div> --}}
                                 <div class="card-body">
                                     <div class="row">
-                                        <label class="col-xl-6">Shop / Services Name</label>
+                                        <label class="col-xl-6">Shop Name</label>
                                         <div class="col-xl-6 align-self-center">
                                             {{ $sellerDetails->shop_name }}
                                         </div>
@@ -98,7 +91,7 @@
                                         </div>
                                     </div>
                                     <hr class="new_hr"><div class="form-group row">
-                                        <label class="col-xl-6">Shop/Service Type</label>
+                                        <label class="col-xl-6">Shop Type</label>
                                         <div class="col-xl-6 align-self-center">
                                             {{ $sellerDetails->service_name }}
                                         </div>
@@ -249,7 +242,7 @@
                                     </div>
 
                                     <hr class="new_hr"><div class="form-group row">
-                                        <label class="col-xl-6">Shop / Services Co-Ordinator</label>
+                                        <label class="col-xl-6">Shop Co-Ordinator</label>
                                         <div class="col-xl-6 align-self-center">
                                             {{ $sellerDetails->shop_coordinator }}
                                         </div>
@@ -300,7 +293,7 @@
                                     <hr class="new_hr"><div class="form-group row">
                                         <label class="col-xl-6">Open and Close Time</label>
                                         <div class="col-xl-6 align-self-center">
-                                            {{ 'Mon '.$startTime }} - {{ ' Sat '.$endTime }}
+                                            {{ $opentime }} - {{ $closetime }}
                                         </div>
                                     </div>
                                     <hr class="new_hr"><div class="form-group row">
@@ -324,9 +317,22 @@
                                     <hr class="new_hr"><div class="form-group row">
                                         <label class="col-xl-6">Accept Terms & Conditions</label>
                                         <div class="col-xl-6 align-self-center">
-                                            {{ $sellerDetails->term_condition == 1 ? 'Accepted' : 'No' }}
+                                            <span class="badge  p-2 {{$sellerDetails->term_condition == '1' ? 'badge badge-success' : 'badge badge-danger' }}">
+                                                {{ $sellerDetails->term_condition== '1' ? 'Accepted' : 'No' }}
+                                            </span>
                                         </div>
                                     </div>
+
+                                    <hr class="new_hr"><div class="form-group row">
+                                        <label class="col-xl-6">User Status</label>
+                                        <div class="col-xl-6 align-self-center">
+                                            <span class="badge  p-2 {{ $userstus === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
+                                                {{ $userstus === 'Y' ? 'Active' : 'Inactive' }}
+                                            </span>
+                                        </div>
+                                    </div>
+
+
                                     <hr class="new_hr"><div class="form-group row">
                                         <label class="col-xl-6">Approved</label>
                                         <div class="form-outline mb-3">
@@ -475,7 +481,7 @@
                 },
                 error: function(xhr) {
                     console.log(xhr.responseText);
-                    $('#appshopreg-message').text('Not Approved.').fadeIn();
+                    $('#appshopreg-message').text('Inactive user.so can not be approved.').fadeIn();
                     $('#appshopreg-message').addClass('error');
                     setTimeout(function() {
                         $('#appshopreg-message').fadeOut();

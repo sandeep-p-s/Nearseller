@@ -6,7 +6,7 @@
             <tr>
                 <th>SINO</th>
                 <th>Reg. ID</th>
-                <th>Shop / Services Name</th>
+                <th>Shop Name</th>
                 <th>Owner Name</th>
                 <th>Email</th>
                 <th>Mobile</th>
@@ -69,7 +69,7 @@
     <div class="modal-dialog custom-modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-center" id="addNewModalLabel">Add New Shops / Services </h5>
+                <h5 class="modal-title text-center" id="addNewModalLabel">Add New Shops  </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" title="Close">x</button>
             </div>
             <div class="modal-body">
@@ -79,8 +79,8 @@
                 <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="form-outline mb-3"><label >Shop / Services Name</label>
-                            <input type="text" id="s_name" name="s_name" class="form-control form-control-lg" maxlength="50"  placeholder="Shop / Services Name" required  tabindex="1" />
+                        <div class="form-outline mb-3"><label >Shop Name</label>
+                            <input type="text" id="s_name" name="s_name" class="form-control form-control-lg" maxlength="50"  placeholder="Shop Name" required  tabindex="1" />
                             <label for="s_name" class="error"></label>
                         </div>
                         <div class="form-outline mb-3"><label >Owner Name</label>
@@ -110,16 +110,16 @@
                             </select>
                             <label for="s_busnestype" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3"><label >Shop / Service Type</label>
+                        <div class="form-outline mb-3"><label >Shop Type</label>
                             <select class="form-select form-control form-control-lg" id="s_shopservice" name="s_shopservice" required tabindex="7">
-                                <option value="">Shop/Service Type</option><br/>
+                                <option value="">Shop Type</option><br/>
                                 @foreach ($shopservice as $shopser)
                                         <option value="{{ $shopser->id }}">{{ $shopser->service_name }}</option>
                                     @endforeach
                             </select>
                             <label for="s_shopservice" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3"><label >Shop / Services Executive Name</label>
+                        <div class="form-outline mb-3"><label >Shop Executive Name</label>
                             <select class="form-select form-control form-control-lg" id="s_shopexectename" name="s_shopexectename" required tabindex="8" >
                                 <option value="">Shop Executive Name</option><br/>
                                     @foreach ($executives as $exec)
@@ -207,7 +207,7 @@
                             <input type="text" id="s_googlelink" name="s_googlelink"   id class="form-control form-control-lg"   placeholder="Google map link location" required  tabindex="18" />
                             <label for="s_googlelink" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3"><label >Shop / Services Photo's</label>
+                        <div class="form-outline mb-3"><label >Shop Photo's</label>
                             <input type="file" id="s_photo"  multiple=""  name="s_photo[]" class="form-control form-control-lg" placeholder="Shop Photo" required tabindex="19" accept="image/jpeg, image/png"  />
                             <label for="s_photo" class="error"></label>
                         </div>
@@ -242,10 +242,13 @@
                         </div>
 
 
+
+
+
                         <div class="form-outline mb-3">
                             <label>Open Time</label>
                             <div class="input-group date" id="from-time-picker" data-target-input="nearest">
-                                <input type="text" class="form-control datetimepicker-input" data-target="#from-time-picker" id="opentime" name="opentime" required maxlength="15" data-format="ddd hh:mm A" />
+                                <input type="text" class="form-control datetimepicker-input" data-target="#from-time-picker" id="opentime" name="opentime" required maxlength="20" data-format="ddd hh:mm A" />
                                 <div class="input-group-append" data-target="#from-time-picker" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-clock"></i></div>
                                 </div>
@@ -256,7 +259,7 @@
                         <div class="form-outline mb-3">
                             <label>Close Time</label>
                             <div class="input-group date" id="to-time-picker" data-target-input="nearest">
-                                <input type="text" class="form-control datetimepicker-input" data-target="#to-time-picker" id="closetime" name="closetime" required maxlength="15" data-format="ddd hh:mm A" />
+                                <input type="text" class="form-control datetimepicker-input" data-target="#to-time-picker" id="closetime" name="closetime" required maxlength="20" data-format="ddd hh:mm A" />
                                 <div class="input-group-append" data-target="#to-time-picker" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-clock"></i></div>
                                 </div>
@@ -289,16 +292,6 @@
                             <input type="text" class="form-control form-control-lg" id="coordinater" name="coordinater">
                             <label for="coordinater" class="error"></label>
                         </div>
-
-
-                        {{-- <div class="form-outline  mb-2">
-                            <input  tabindex="23" type="password" id="s_paswd" name="s_paswd"  maxlength="10"  class="form-control form-control-lg" maxlength="10" placeholder="Enter Password" required />
-                            <label for="s_paswd" class="error"></label>
-                        </div>
-                        <div class="form-outline  mb-2">
-                            <input  tabindex="24" type="password" id="s_rpaswd" name="s_rpaswd"  maxlength="10"  class="form-control form-control-lg" maxlength="10" placeholder="Re-Enter password" required />
-                            <label for="s_rpaswd" class="error"></label>
-                        </div> --}}
 
                         <div class="checkbox form-check-inline">
                             <input class="form-check-input" type="checkbox" id="s_termcondtn" name="s_termcondtn" value="1" required tabindex="26" >
@@ -346,7 +339,7 @@
 
 $(function() {
                 //$('#datetimepicker').datetimepicker();
-                var datetimeFormat = 'hh:mm A';
+                var datetimeFormat = 'ddd hh:mm A';
                 $('#from-time-picker, #to-time-picker').datetimepicker({
                     format: datetimeFormat,
                     icons: {

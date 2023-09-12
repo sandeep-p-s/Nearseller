@@ -39,6 +39,7 @@ class UserLoggedController extends Controller
                 return redirect()->route('admin.dashboard');
 
             } elseif ($role === 'Seller') {
+                session(['user_role' => $role, 'user_id' => $userAccount->id, 'roleid' => $roleid]);
                 return redirect()->route('seller.dashboard');
 
             } elseif ($role === 'Affiliate') {

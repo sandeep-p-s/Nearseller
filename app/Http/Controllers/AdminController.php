@@ -317,7 +317,7 @@ class AdminController extends Controller
                     return redirect()->route('logout');
                 }
                 $id=$request->input('affiliateid');
-                $Affiliate = Affiliate::select('affiliate.*','professions.profession_name','marital_statuses.mr_name','religions.religion_name','country.country_name','state.state_name','district.district_name','bank_types.bank_name','bank_details.branch_name','bank_details.ifsc_code','bank_details.branch_address')
+                $Affiliate = Affiliate::select('affiliate.*','professions.profession_name','marital_statuses.mr_name','religions.religion_name','country.country_name','state.state_name','district.district_name','bank_types.bank_name','bank_details.branch_name','bank_details.ifsc_code','bank_details.branch_address','user_account.user_status')
                 ->leftJoin('professions', 'professions.id', 'affiliate.profession')
                 ->leftJoin('marital_statuses', 'marital_statuses.id', 'affiliate.marital_status')
                 ->leftJoin('religions', 'religions.id', 'affiliate.religion')
@@ -326,6 +326,7 @@ class AdminController extends Controller
                 ->leftJoin('district', 'district.id', 'affiliate.district')
                 ->leftJoin('bank_types', 'bank_types.id', 'affiliate.bank_type')
                 ->leftJoin('bank_details', 'bank_details.id', 'affiliate.branch_code')
+                ->leftJoin('user_account', 'user_account.id', 'affiliate.user_id')
                 ->where('affiliate.id', $id)
                 ->first();
                 //echo $lastRegId = $Affiliate->toSql();exit;
@@ -339,7 +340,8 @@ class AdminController extends Controller
                 $bankstates     = DB::table('state')->where('country_id', $Affiliate->bank_country)->get();
                 $bankdistricts  = DB::table('district')->where('state_id', $Affiliate->bank_state)->get();
                 $branchdetails  = DB::table('bank_details')->where('id', $Affiliate->branch_code)->get();
-                return view('admin.affiliate_viewedit_dets', compact('Affiliate','countries','states','districts','professions','matstatus','religions','bank_types','bankstates','bankdistricts','branchdetails'));
+                $userstatus     = DB::table('user_account')->where('id', $Affiliate->user_id)->get();
+                return view('admin.affiliate_viewedit_dets', compact('Affiliate','countries','states','districts','professions','matstatus','religions','bank_types','bankstates','bankdistricts','branchdetails','userstatus'));
             }
 
             function AdmAfiliateAdharDelte(Request $request)
@@ -502,6 +504,7 @@ class AdminController extends Controller
             function AdmaffiliateUpdatePage(Request $request)
             {
                 $userRole = session('user_role');
+                $roleid = session('roleid');
                 $userId = session('user_id');
                 if($userId==''){
                     return redirect()->route('logout');
@@ -651,10 +654,14 @@ class AdminController extends Controller
                     if ($user->email !== $request->input('ea_email') || $user->mobno !== $request->input('ea_mobno')) {
                         $user->email = $request->ea_email;
                         $user->mobno = $request->ea_mobno;
+                    }
                         $user->name = $request->ea_name;
+                        if($roleid==1)
+                        {
+                        $user->user_status = $request->userstatus;
+                        }
                         $user->ip=$loggedUserIp;
                         $submt=$user->save();
-                    }
 
                     $msg="Successfully updated! ".$request->ea_email." shop updated id : ".$affuserhid;
                     $LogDetails = new LogDetails();
@@ -721,6 +728,9 @@ class AdminController extends Controller
                         $aaffiliateid=$request->aaffiliateidhid;
                         $aaffiliateuserid=$request->aaffiliateuseridhid;
                         $user = UserAccount::find($aaffiliateuserid);
+                        $userstatus=$user->user_status;
+                        if($userstatus=='Y')
+                        {
                         $user->approved = $request->approvedstatus;
                         $user->approved_by = $userId;
                         $user->approved_at = $time;
@@ -748,6 +758,11 @@ class AdminController extends Controller
                             $email = new EmailVerification($verificationToken, $user->name, $user->email, $checkval, $message);
                             Mail::to($user->email)->send($email);
                         }
+                        }
+                        else{
+
+                        }
+
 
                     }
 
@@ -799,6 +814,7 @@ class AdminController extends Controller
     function AllShopsList(Request $request)
     {
         $userRole = session('user_role');
+        $roleid = session('roleid');
         $userId = session('user_id');
         if($userId==''){
             return redirect()->route('logout');
@@ -826,6 +842,10 @@ class AdminController extends Controller
         }
         if ($referalid) {
             $query->where('seller_details.referal_id', $referalid);
+        }
+        if($roleid==2)
+        {
+            $query->where('seller_details.user_id', $userId);
         }
             //$query->where('seller_details.shop_service_type',1);
 
@@ -1041,13 +1061,14 @@ class AdminController extends Controller
             return redirect()->route('logout');
         }
         $id=$request->input('shopid');
-        $sellerDetails = SellerDetails::select('seller_details.*', 'business_type.business_name', 'service_types.service_name', 'executives.executive_name', 'country.country_name', 'state.state_name', 'district.district_name')
+        $sellerDetails = SellerDetails::select('seller_details.*', 'business_type.business_name', 'service_types.service_name', 'executives.executive_name', 'country.country_name', 'state.state_name', 'district.district_name','user_account.user_status')
             ->leftJoin('business_type', 'business_type.id', 'seller_details.busnes_type')
             ->leftJoin('service_types', 'service_types.id', 'seller_details.shop_service_type')
             ->leftJoin('executives', 'executives.id', 'seller_details.shop_executive')
             ->leftJoin('country', 'country.id', 'seller_details.country')
             ->leftJoin('state', 'state.id', 'seller_details.state')
             ->leftJoin('district', 'district.id', 'seller_details.district')
+            ->leftJoin('user_account', 'user_account.id', 'seller_details.user_id')
             ->where('seller_details.id', $id)
             //->where('seller_details.shop_service_type',1)
             ->first();
@@ -1057,8 +1078,9 @@ class AdminController extends Controller
         $districts      = DB::table('district')->where('state_id', $sellerDetails->state)->get();
         $business       = DB::table('business_type')->where('status','Y')->get();
         $shopservice    = DB::table('service_types')->where('status', 'active')->get();
+        $userstus       = DB::table('user_account')->where('id', $sellerDetails->user_id)->get();
         $executives     = DB::table('executives')->where(['executive_type' => 1, 'status' => 'Y'])->get();
-        return view('admin.shop_viewedit_dets', compact('sellerDetails', 'countries', 'states', 'districts', 'business', 'shopservice', 'executives'));
+        return view('admin.shop_viewedit_dets', compact('sellerDetails', 'countries', 'states', 'districts', 'business', 'shopservice', 'executives','userstus'));
 
     }
 
@@ -1117,6 +1139,7 @@ class AdminController extends Controller
         function AdmsellerUpdatePage(Request $request)
         {
             $userRole = session('user_role');
+            $roleid = session('roleid');
             $userId = session('user_id');
             if($userId==''){
                 return redirect()->route('logout');
@@ -1245,11 +1268,15 @@ class AdminController extends Controller
             if ($user->email !== $request->input('es_email') || $user->mobno !== $request->input('es_mobno')) {
                 $user->email = $request->es_email;
                 $user->mobno = $request->es_mobno;
+            }
                 $user->name = $request->es_name;
+                if($roleid==1)
+                    {
+                        $user->user_status = $request->userstatus;
+                    }
                 $user->referal_id = $request->input('es_refralid');
                 $user->ip=$loggedUserIp;
                 $submt=$user->save();
-            }
 
             $msg="Successfully updated! ".$request->es_email." shop updated id : ".$sellerDetail->user_id;
             $LogDetails = new LogDetails();
@@ -1308,6 +1335,9 @@ class AdminController extends Controller
             $shopid=$request->shopidhidapp;
             $shopselrid=$request->shopidhidselapp;
             $user = UserAccount::find($shopid);
+            $userstatus=$user->user_status;
+            if($userstatus=='Y')
+            {
             $user->approved = $request->approvedstatus;
             $user->approved_by = $userId;
             $user->approved_at = $time;
@@ -1335,6 +1365,10 @@ class AdminController extends Controller
                 $email = new EmailVerification($verificationToken, $user->name, $user->email, $checkval, $message);
                 Mail::to($user->email)->send($email);
             }
+        }
+        else{
+
+        }
 
         }
 

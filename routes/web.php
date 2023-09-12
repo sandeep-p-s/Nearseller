@@ -212,7 +212,7 @@ Route::controller(UserLoggedController::class)->group(function () {
     });
 // });
     Route::controller(SellerController::class)->group(function () {
-        //Route::get('dashboard', 'sellerdashboard')->name('seller.dashboard');
+        Route::get('sellerdashboard', 'sellerdashboard')->name('seller.dashboard');
     });
     Route::controller(AffiliateController::class)->group(function () {
         Route::get('affdashboard', 'affiliatedashboard')->name('affiliate.dashboard');
@@ -225,9 +225,6 @@ Route::controller(UserLoggedController::class)->group(function () {
 
 
     Route::get('/products', [UserController::class, 'homepage'])->name('user.products');
-    Route::controller(SellerController::class)->group(function () {
-    //Route::get('dashboard', 'sellerdashboard')->name('seller.dashboard');
-    });
 
 
 

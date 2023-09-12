@@ -23,6 +23,7 @@
 
     $aff_approved=$Affiliate->affiliate_approved;
     $roleid=session('roleid');
+    $userstatus=$Affiliate->user_status;
 @endphp
 
 
@@ -407,6 +408,19 @@
 
 
 
+                        @if (!($roleid == 3))
+
+                            <div class="form-outline mb-3"><label >User Status</label>
+                                <select class="form-select form-control form-control-lg" name="userstatus"  id="userstatus" required  tabindex="27" >
+                                    <option value="">Select</option>
+                                    <option value="Y"  @if ($userstatus=='Y') selected @endif>Active</option>
+                                    <option value="N"  @if ($userstatus=='N') selected @endif>Inactive</option>
+
+                                </select>
+                                <label for="userstatus" class="error"></label>
+                            </div>
+
+                        @endif
 
 
 

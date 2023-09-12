@@ -8,7 +8,8 @@
                 <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown"
                     href="#" role="button" aria-haspopup="false" aria-expanded="false">
                     @foreach($userdetails as $user)
-                    <span class="ml-1 nav-user-name hidden-sm">{{ $user->name }}</span>                    @endforeach
+                    <span class="ml-1 nav-user-name hidden-sm">{{ $user->name }}</span>
+                    @endforeach
 
                     <img src="{{ asset('backend/assets/images/users/profile.png') }}" alt="profile-user" class="rounded-circle" />
                 </a>
