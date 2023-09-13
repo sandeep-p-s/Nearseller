@@ -58,10 +58,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- @foreach ($businesstype as $bt)
+                                    @foreach ($shop_offer as $so)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $bt->business_name }}</td>
+                                            <td>{{ $so->offer_to_display }}</td>
+                                            <td>
+                                                <span
+                                                    class="badge p-2 {{ $so->status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
+                                                    {{ $so->status === 'Y' ? 'Active' : 'Inactive' }}
+                                                </span>
+                                            </td>
                                             <td>
                                                 <div class="btn-group mb-2 mb-md-0">
                                                     <button type="button" class="btn view_btn dropdown-toggle"
@@ -70,16 +76,16 @@
                                                             class="mdi mdi-chevron-down"></i></button>
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item view_btn1"
-                                                            href="{{ route('edit.businesstype', $bt->id) }}">Edit</a>
+                                                            href="{{ route('edit.shop_offer', $so->id) }}">Edit</a>
                                                         <a class="dropdown-item delete_btn"
-                                                            href="{{ route('delete.businesstype', $bt->id) }}"
+                                                            href="{{ route('delete.shop_offer', $so->id) }}"
                                                             onclick="return confirm('Are you sure you want to delete?')">Delete</a>
                                                     </div>
                                                 </div>
                                             </td>
 
                                         </tr>
-                                    @endforeach --}}
+                                    @endforeach
                                 </tbody>
                             </table>
 

@@ -45,7 +45,7 @@
                                 class="ti-control-record"></i>Service Type</a></li>
                 </ul>
             </li>
-            <hr class="hr hr-menu">
+            {{-- <hr class="hr hr-menu">
             <li class="">
                 <a href="javascript: void(0);" aria-expanded="false"><span>Status</span><span class="menu-arrow"><i
                             class="mdi mdi-chevron-right"></i></span></a>
@@ -67,7 +67,7 @@
                     <li class="nav-item"><a class="nav-link" href="offer_type_status_table.html"><i
                                 class="ti-control-record"></i>Offer Type Status</a></li>
                 </ul>
-            </li>
+            </li> --}}
             <hr class="hr hr-menu">
             <li><a href="{{ route('list.executive') }}"> <i data-feather="hhh"
                         class="align-self-center menu-icon"></i><span>Executives</span><span

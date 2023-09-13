@@ -15,7 +15,9 @@ class ShopTypeController extends Controller
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $shoptype = DB::table('shop_type')->get();
-        return view('admin.shop_type.list', compact('shoptype','loggeduser','userdetails'));
+        $total_shoptypes = DB::table('shop_type')->count();
+        $inactive_shoptypes = DB::table('shop_type as st')->where('st.status','N')->count();
+        return view('admin.shop_type.list', compact('shoptype','loggeduser','userdetails','total_shoptypes','inactive_shoptypes'));
     }
 
     public function add_shop_type()

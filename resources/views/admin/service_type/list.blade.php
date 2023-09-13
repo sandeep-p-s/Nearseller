@@ -63,9 +63,9 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $srt->service_name }}</td>
                                             <td>
-                                                <button type="button" class="btn {{ $srt->status === 'Y' ? 'approve_btn' : 'delete_btn' }}">
+                                                <span class="badge p-2  {{ $srt->status === 'Y' ? 'approve_btn' : 'delete_btn' }}">
                                                     {{ $srt->status === 'Y' ? 'Active' : 'Inactive' }}
-                                                </button>
+                                                </span>
                                             </td>
 
                                             <td>

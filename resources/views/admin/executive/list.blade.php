@@ -63,9 +63,9 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $ex->executive_name }}</td>
                                             <td>
-                                                <button type="button" class="btn {{ $ex->status === 'Y' ? 'approve_btn' : 'delete_btn' }}">
+                                                <span class="badge p-2 {{ $ex->status === 'Y' ? 'approve_btn' : 'delete_btn' }}">
                                                 {{ $ex->status === 'Y' ? 'Active' : 'Inactive' }}
-                                            </button>
+                                            </span>
                                             </td>
                                             <td>
                                                 <div class="btn-group mb-2 mb-md-0">

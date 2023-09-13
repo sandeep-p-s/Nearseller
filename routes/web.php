@@ -226,9 +226,9 @@ Route::controller(UserLoggedController::class)->group(function () {
         Route::get('listshopoffer', 'list_shop_offer')->name('list.shop_offer');
         Route::get('addshopoffer', 'add_shop_offer')->name('add.shop_offer');
         Route::post('storeshopoffer', 'store_shop_offer')->name('store.shop_offer');
-        Route::get('shopedit/{id}', 'edit_shop_type')->name('edit.shoptype');
-        Route::post('shopupdate/{id}', 'update_shop_type')->name('update.shoptype');
-        Route::get('shopdelete/{id}', 'delete_shop_type')->name('delete.shoptype');
+        Route::get('editshopoffer/{id}', 'edit_shop_offer')->name('edit.shop_offer');
+        Route::post('updateshopoffer/{id}', 'update_shop_offer')->name('update.shop_offer');
+        Route::get('shopofferdelete/{id}', 'delete_shop_offer')->name('delete.shop_offer');
     });
 
 
