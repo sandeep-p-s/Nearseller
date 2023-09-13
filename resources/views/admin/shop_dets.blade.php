@@ -334,6 +334,61 @@
 
 
 
+
+
+
+<!-- Modal Add New -->
+<div class="modal fade" id="UploadShopModal" tabindex="-1" aria-labelledby="UploadShopModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center" id="UploadShopModalLabel">Upload Shops Details </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" title="Close">x</button>
+            </div>
+            <div class="modal-body">
+                <form id="UploadSellerRegForm" enctype="multipart/form-data" method="POST">
+                <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-outline mb-3"><label >Upload File</label>
+                            <input type="file" id="shopupload" name="shopupload" class="form-control form-control-lg" placeholder="Upload File" accept=".csv" required tabindex="1" />
+                            <label for="shopupload" class="error"></label>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12">
+                        <div style="float:right">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <div id="shopupload-message"  class="text-center" style="display: none;"></div>
+                    </div>
+
+
+                 </div>
+                </div>
+                </form>
+            </div>
+            </div>
+            </div>
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Modal Add new Close -->
+
+
+
+
 <script>
 
 
@@ -726,6 +781,70 @@ $(function() {
             function removeRowurl(rowNum){
                     $('#addedfieldurl'+rowNum).remove();
                 }
+
+                $("#UploadSellerRegForm").validate({
+                    rules: {
+                        shopupload: {
+                            required: true,
+                            accept: "csv"
+                        }
+                    },
+                    messages: {
+                        shopupload: {
+                            required: "Please select a CSV file",
+                            accept: "Only CSV files are allowed"
+                        }
+                    }
+                });
+
+
+                $('#UploadSellerRegForm').submit(function(e) {
+                    e.preventDefault();
+                    if ($(this).valid()) {
+                    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                    $('#loading-overlay').fadeIn();
+                    $('#loading-image').fadeIn();
+                    $.ajax({
+                        url: '{{ route("UploadsellerRegister") }}',
+                        type: "POST",
+                        data:  new FormData(this),
+                        contentType: false,
+                        cache: false,
+                        processData:false,
+                        headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                        },
+                        success: function(response) {
+
+                            console.log(response);
+                            $('#shopupload-message').text('Shop details successfully submitted').fadeIn();
+                            $('#shopupload-message').addClass('success-message');
+                            setTimeout(function() {
+                                $('#shopupload-message').fadeOut();
+                            }, 5000); // 5000 milliseconds = 5 seconds
+                            $('#UploadSellerRegForm')[0].reset();
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                            $('#UploadShopModal').modal('hide');
+                            shwdets();
+
+
+                        },
+                        error: function(xhr) {
+                            console.log(xhr.responseText);
+                            $('#shopupload-message').text('Upload failed.').fadeIn();
+                            $('#shopupload-message').addClass('error');
+                            setTimeout(function() {
+                                $('#shopupload-message').fadeOut();
+                            }, 5000);
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                            $('#UploadShopModal').modal('show');
+
+                        }
+                    });
+                    }
+                    });
 
 
 

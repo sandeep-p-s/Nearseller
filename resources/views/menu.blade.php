@@ -99,6 +99,8 @@
                                 class="ti-control-record"></i>Banks</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('list.bank_branch') }}"><i
                                 class="ti-control-record"></i>Bank Branches</a></li>
+
+
                 </ul>
                 <hr class="hr hr-menu">
             </li>

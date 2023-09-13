@@ -219,6 +219,7 @@ Route::controller(UserLoggedController::class)->group(function () {
         Route::get('allattributes', 'AttributeList')->name('new.allattributes');
         Route::post('addattribute', 'AddAttributePage')->name('AddAttributeForm');
         Route::post('editattribute', 'EditAttributePage')->name('AttributeViewEdit');
+        Route::post('uploadshops', 'UploadsellerRegisteration')->name('UploadsellerRegister');
 
     });
 

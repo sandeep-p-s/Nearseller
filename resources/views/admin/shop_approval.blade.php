@@ -16,6 +16,7 @@
                                 <h4 class="page-title">Shops Approval List</h4>
                                 <div class="col text-right">
                                     <button class="btn add_btn" data-bs-toggle="modal" data-bs-target="#addNewModal">Add New Shops</button>
+                                    {{-- <button class="btn add_btn" data-bs-toggle="modal" data-bs-target="#UploadShopModal">Upload Shops</button> --}}
                                 </div>
                                 @endif
                             </div>

@@ -21,6 +21,9 @@ class DatabaseSeeder extends Seeder
         $this->call(SiteModuleSeeder::class);
         $this->call(MaritalstatusSeeder::class);
         $this->call(ReligionSeeder::class);
+        $this->call(ProfessionSeeder::class);
+        $this->call(BankdetailsSeeder::class);
+        $this->call(BanktypeSeeder::class);
 
     }
 }
