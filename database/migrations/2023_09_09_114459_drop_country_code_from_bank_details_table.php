@@ -23,7 +23,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('bank_details', function (Blueprint $table) {
-            //
+            $table->integer('country_code')->nullable();
+            $table->integer('state_code')->nullable();
         });
     }
 };
