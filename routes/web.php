@@ -12,6 +12,11 @@ use App\Http\Controllers\ExecutiveController;
 use App\Http\Controllers\ShopOfferController;
 use App\Http\Controllers\UserLoggedController;
 use App\Http\Controllers\ServiceTypeController;
+<<<<<<< routes/web.php
+use App\Http\Controllers\BusinessTypeController;
+
+use App\Http\Controllers\ServiceOfferController;
+use App\Http\Controllers\ServiceEmployeeController;
 use App\Http\Controllers\ProductController;
 
 use App\Http\Controllers\BusinessTypeController;
@@ -20,8 +25,10 @@ use App\Http\Controllers\BusinessTypeController;
 use App\Http\Controllers\Masters\AttributeController as AttributeController;
 use App\Http\Controllers\Masters\BankController as BankController;
 use App\Http\Controllers\Masters\StateController as StateController;
+use App\Http\Controllers\Admin\CategoryController as CategoryController;
 use App\Http\Controllers\Masters\CountryController as CountryController;
 use App\Http\Controllers\Masters\DistrictController as DistrictController;
+
 use App\Http\Controllers\Masters\ReligionController as ReligionController;
 use App\Http\Controllers\Masters\ProfessionsController as ProfessionsController;
 use App\Http\Controllers\Admin\CategoryController as CategoryController;
@@ -280,11 +287,30 @@ Route::controller(UserLoggedController::class)->group(function () {
         Route::get('listshopoffer', 'list_shop_offer')->name('list.shop_offer');
         Route::get('addshopoffer', 'add_shop_offer')->name('add.shop_offer');
         Route::post('storeshopoffer', 'store_shop_offer')->name('store.shop_offer');
-        Route::get('shopedit/{id}', 'edit_shop_type')->name('edit.shoptype');
-        Route::post('shopupdate/{id}', 'update_shop_type')->name('update.shoptype');
-        Route::get('shopdelete/{id}', 'delete_shop_type')->name('delete.shoptype');
+        Route::get('editshopoffer/{id}', 'edit_shop_offer')->name('edit.shop_offer');
+        Route::post('updateshopoffer/{id}', 'update_shop_offer')->name('update.shop_offer');
+        Route::get('deleteshopoffer/{id}', 'delete_shop_offer')->name('delete.shop_offer');
     });
 
+    Route::controller(ServiceEmployeeController::class)->group(function () {
+        Route::get('listserviceemp', 'list_service_employee')->name('list.service_employee');
+        Route::get('addserviceemp', 'add_service_employee')->name('add.service_employee');
+        Route::post('storeserviceemp', 'store_service_employee')->name('store.service_employee');
+        Route::get('editserviceemp/{id}', 'edit_service_employee')->name('edit.service_employee');
+        Route::post('updateserviceemp/{id}', 'update_service_employee')->name('update.service_employee');
+        Route::get('deleteserviceemp/{id}', 'delete_service_employee')->name('delete.service_employee');
+        Route::get('/getDistricts/{state}', 'getDistricts')->name('getDistricts');;
+        Route::get('/getStates/{country}', 'getStates')->name('getStates');
+    });
+
+    Route::controller(ServiceOfferController::class)->group(function () {
+        Route::get('listserviceoffer', 'list_service_offer')->name('list.service_offer');
+        Route::get('addserviceoffer', 'add_service_offer')->name('add.service_offer');
+        Route::post('storeserviceoffer', 'store_service_offer')->name('store.service_offer');
+        Route::get('editserviceoffer/{id}', 'edit_service_offer')->name('edit.service_offer');
+        Route::post('updateserviceoffer/{id}', 'update_service_offer')->name('update.service_offer');
+        Route::get('deleteserviceoffer/{id}', 'delete_service_offer')->name('delete.service_offer');
+    });
 
     Route::controller(AffiliateController::class)->group(function () {
         Route::get('affdashboard', 'affiliatedashboard')->name('affiliate.dashboard');

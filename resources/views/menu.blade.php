@@ -119,7 +119,7 @@
                                 class="ti-control-record"></i>Service Type</a></li>
                 </ul>
             </li>
-            <hr class="hr hr-menu">
+            {{-- <hr class="hr hr-menu">
             <li class="">
                 <a href="javascript: void(0);" aria-expanded="false"><span>Status</span><span class="menu-arrow"><i
                             class="mdi mdi-chevron-right"></i></span></a>
@@ -141,7 +141,7 @@
                     <li class="nav-item"><a class="nav-link" href="offer_type_status_table.html"><i
                                 class="ti-control-record"></i>Offer Type Status</a></li>
                 </ul>
-            </li>
+            </li> --}}
             <hr class="hr hr-menu">
             <li><a href="{{ route('list.executive') }}"> <i data-feather="hhh"
                         class="align-self-center menu-icon"></i><span>Executives</span><span
@@ -185,6 +185,19 @@
                 </ul>
                 <hr class="hr hr-menu">
             </li>
+        </ul>
+
+        <ul class="metismenu left-sidenav-menu">
+            <li><a href="home.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Home Page</span><span class="menu-arrow"></span></a> </li>
+            <hr class="hr hr-menu">
+            <li><a href="services_table.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Add Services</span><span class="menu-arrow"></span></a> </li>
+            <hr class="hr hr-menu">
+            <li><a href="appointments_table.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Appointment</span><span class="menu-arrow"></span></a> </li>
+            <hr class="hr hr-menu">
+            <li><a href="{{ route('list.service_employee') }}"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Employees</span><span class="menu-arrow"></span></a> </li>
+            <hr class="hr hr-menu">
+            <li><a href="{{ route('list.service_offer') }}"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Offers</span><span class="menu-arrow"></span></a> </li>
+            <hr class="hr hr-menu">
         </ul>
     @endif
 

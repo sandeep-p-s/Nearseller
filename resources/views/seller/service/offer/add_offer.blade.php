@@ -21,7 +21,7 @@
                 </div><!--end col-->
             </div> <!--end row-->
 
-            <form action="{{ route('store.shop_offer') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('store.service_offer') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
 
@@ -131,6 +131,7 @@
                                             <div class="text-danger mb-2">{{ $message }}</div>
                                         @enderror
                                     </div>
+
                                 </div><!--end fieldset-->
                                 <!--end form-->
                                 <div class="content_center">

@@ -11,7 +11,7 @@
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-                                <h4 class="page-title">Add Business Type</h4>
+                                <h4 class="page-title">Add Executive Name</h4>
 
                             </div>
 

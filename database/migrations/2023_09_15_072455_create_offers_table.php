@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('shop_offers', function (Blueprint $table) {
+        Schema::create('offers', function (Blueprint $table) {
             $table->id();
+            $table->string('type')->nullable()->comment("1 -> Shop ,2 -> Service");
             $table->string('offer_to_display')->nullable();
             $table->longText('conditions')->nullable();
             $table->dateTime('from_date_time');
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('shop_offers');
+        Schema::dropIfExists('offers');
     }
 };

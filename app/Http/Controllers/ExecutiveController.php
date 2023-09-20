@@ -43,6 +43,7 @@ class ExecutiveController extends Controller
         );
 
         $executive = new Executive();
+        $executive->executive_type = 1;
         $executive->executive_name = $request->executive_name;
         $executive->save();
 

@@ -12,7 +12,7 @@
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-                                <h4 class="page-title">Add Offer</h4>
+                                <h4 class="page-title">Edit Offer</h4>
 
                             </div>
 
@@ -21,7 +21,7 @@
                 </div><!--end col-->
             </div> <!--end row-->
 
-            <form action="{{ route('store.shop_offer') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('update.shop_offer' , $shopoffer->id)}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
 
@@ -34,36 +34,46 @@
                                         <div class="form-group">
                                             <label class="control-label">Offer to Display</label>
                                             <input type="text" class="form-control" id="offer"
-                                                name="offer_to_display" placeholder="Enter offer">
+                                                name="offer_to_display" placeholder="Enter offer" value="{{ $shopoffer->offer_to_display }}">
                                             @error('offer_to_display')
-                                                <div class="text-danger mb15">{{ $message }}</div>
+                                            <div class="text-danger mb15">{{ $message }}</div>
                                             @enderror
                                             <!--end col-->
                                         </div>
                                         <fieldset class="mb20">
                                             <div class="repeater-default">
                                                 <div data-repeater-list="car">
-                                                    <div data-repeater-item="">
-                                                        <div class="form-group">
-
-                                                            <label class="control-label">Conditions</label>
-                                                            <input type="text" class="form-control" id="conditions"
-                                                                name="conditions" placeholder="Enter conditions">
-                                                            @error('conditions')
-                                                                <div class="text-danger mb15">{{ $message }}</div>
-                                                            @enderror
-                                                            <!--end col-->
-                                                        </div><!--end row-->
-                                                    </div><!--end /div-->
-
-                                                </div><!--end repet-list-->
+                                                    @if(isset($shopoffer->conditions) && is_array(json_decode($shopoffer->conditions)))
+                                                        @php
+                                                            $conditionsArray = json_decode($shopoffer->conditions, true);
+                                                        @endphp
+                                                        @foreach($conditionsArray as $index => $condition)
+                                                            <div data-repeater-item="">
+                                                                <div class="form-group">
+                                                                    <label class="control-label">Conditions</label>
+                                                                    <input type="text" class="form-control" id="conditions_{{ $index }}" name="car[{{ $index }}][conditions]"
+                                                                        placeholder="Enter conditions" value="{{ $condition['conditions'] }}">
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
+                                                    @else
+                                                        <div data-repeater-item="">
+                                                            <div class="form-group">
+                                                                <label class="control-label">Conditions</label>
+                                                                <input type="text" class="form-control" id="conditions" name="car[0][conditions]"
+                                                                    placeholder="Enter conditions" value="">
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                </div>
                                                 <div class="form-group mb-0 row">
                                                     <div class="col-sm-12">
                                                         <span data-repeater-create="" class="btn btn-secondary btn-sm">
-                                                            <span class="fas fa-plus"></span> Add Condition</span>
-                                                    </div><!--end col-->
-                                                </div><!--end row-->
-                                            </div> <!--end repeter-->
+                                                            <span class="fas fa-plus"></span> Add Condition
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </fieldset>
                                         <h5 class="mb15">Time Phrame</h5>
                                         <div class="row">
@@ -71,10 +81,9 @@
                                                 <div class="form-group">
                                                     <label class="control-label">From Date & Time</label>
                                                     <input type="datetime-local" class="form-control" id="from_time"
-                                                        name="from_date_time" placeholder="Enter offer">
+                                                        name="from_date_time" placeholder="Enter offer" value="{{ $shopoffer->from_date_time }}">
                                                     @error('from_date_time')
-                                                        <div class="text-danger mb15">{{ $message }}</div>
-                                                    @enderror
+                                                    <div class="text-danger mb15">{{ $message }}</div>                                                    @enderror
                                                     <!--end col-->
                                                 </div>
                                             </div>
@@ -82,10 +91,9 @@
                                                 <div class="form-group">
                                                     <label class="control-label">To Date & Time</label>
                                                     <input type="datetime-local" class="form-control" id="to_time"
-                                                        name="to_date_time" placeholder="Enter offer">
-                                                    @error('to_date_time')
-                                                        <div class="text-danger mb15">{{ $message }}</div>
-                                                    @enderror
+                                                        name="to_date_time" placeholder="Enter offer" value="{{ $shopoffer->to_date_time }}">
+                                                        @error('to_date_time')
+                                                        <div class="text-danger mb15">{{ $message }}</div>                                                    @enderror
                                                     <!--end col-->
                                                 </div>
                                             </div>
@@ -111,7 +119,7 @@
                                                         <ul></ul>
                                                     </div>
                                                     <input type="file" id="input-file-now-custom-2" class="dropify"
-                                                        data-height="300" name="offer_image">
+                                                        data-height="300" name="offer_image" data-default-file="{{ asset('uploads/shop_offer/' . $shopoffer->offer_image) }}">
                                                     <button type="button" class="dropify-clear">Remove</button>
                                                     <div class="dropify-preview"><span class="dropify-render"></span>
                                                         <div class="dropify-infos">
@@ -127,14 +135,11 @@
                                                 </div>
                                             </div><!--end card-body-->
                                         </div>
-                                        @error('offer_image')
-                                            <div class="text-danger mb-2">{{ $message }}</div>
-                                        @enderror
                                     </div>
                                 </div><!--end fieldset-->
                                 <!--end form-->
                                 <div class="content_center">
-                                    <button type="submit" class="btn view_btn">Submit</button>
+                                    <button type="submit" class="btn view_btn">Update</button>
                                 </div>
                             </div><!--end card-body-->
                         </div>

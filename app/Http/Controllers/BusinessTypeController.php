@@ -34,12 +34,12 @@ class BusinessTypeController extends Controller
             [
                 'business_name' => 'required|string|min:5|max:255',
             ],
-            [
-                'business_name.required' => 'The business name field is required.',
-                'business_name.string' => 'The business name must be a string.',
-                'business_name.min' => 'The business name must be at least 5 characters.',
-                'business_name.max' => 'The business name cannot exceed 255 characters.',
-            ]
+                [
+                    'business_name.required' => 'The business name field is required.',
+                    'business_name.string' => 'The business name must be a string.',
+                    'business_name.min' => 'The business name must be at least 5 characters.',
+                    'business_name.max' => 'The business name cannot exceed 255 characters.',
+                ]
         );
 
 
