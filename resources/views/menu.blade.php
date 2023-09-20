@@ -1,5 +1,61 @@
 <!-- Admin menus -->
 <div class="menu-content h-100" data-simplebar>
+
+<!-- menu.blade.php -->
+<ul class="metismenu left-sidenav-menu">
+    <li><a href="{{ route('admin.dashboard') }}"><i data-feather="hhh" class="align-self-center menu-icon"></i><span>Dashboard</span></a></li>
+@php
+    //echo "<pre>";print_r($structuredMenu);exit;
+@endphp
+    @foreach ($structuredMenu as $layer1 => $layer1Data)
+        <li class="">
+            <a href="{{ $layer1Data[0][1] ?? '#' }}" href="javascript: void(0);" aria-expanded="false">
+                @if (is_array($layer1Data[0]))
+                    <span>
+                        @foreach ($layer1Data[0] as $item)
+                            {{ is_array($item) ? $item[0] : $item }}
+                        @endforeach
+                    </span>
+                @else
+                    <span>{{ $layer1Data[0] }}</span>
+                @endif
+                <span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span>
+            </a>
+            <ul class="nav-second-level mm-collapse" aria-expanded="false">
+                @foreach ($layer1Data as $layer2 => $layer2Data)
+                    @if ($layer2 > 0)
+                        @if (isset($layer2Data[0]) && is_array($layer2Data[0]) && isset($layer2Data[0][0]) && is_string($layer2Data[0][0]) && $layer2Data[0][0] != '')
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url($layer2Data[0][1] ?? '#') }}"><i class="ti-control-record"></i>{{ $layer2Data[0][0] }}</a>
+                            </li>
+                        @endif
+                    @endif
+                @endforeach
+            </ul>
+        </li>
+    @endforeach
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     @if (session('roleid') == '1')
         <ul class="metismenu left-sidenav-menu">
             <li><a href="{{ route('admin.dashboard') }}"> <i data-feather="hhh"
@@ -13,23 +69,41 @@
                 <ul class="nav-second-level mm-collapse" aria-expanded="false">
                     <li class="nav-item"><a class="nav-link" href="{{ route('admin.affiliateapprovals') }}"><i
                                 class="ti-control-record"></i>Affiliates Approvals</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('admin.shopapprovals') }}"><i
+                    <li class="nav-item"><a class="nav-link" href="{{ route('admin.shopapprovals', ['id' => 1]) }}"><i
                                 class="ti-control-record"></i>Shop Approvals</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('admin.shopapprovals', ['id' => 2]) }}"><i
+                        class="ti-control-record"></i>Services Approvals</a></li>
+
+
+
                     <li class="nav-item"><a class="nav-link" href="products_approval_table.html"><i
                                 class="ti-control-record"></i>Product Approvals</a></li>
                     <li class="nav-item"><a class="nav-link" href="category_approval.html"><i
                                 class="ti-control-record"></i>Category Approvals</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('user.shopproduct') }}"><i
+                        class="ti-control-record"></i>Add Shop Products</a></li>
+
+
+
                 </ul>
             </li>
             <hr class="hr hr-menu">
             <li class="">
-                <a href="javascript: void(0);" aria-expanded="false"><span>Roles</span><span class="menu-arrow"><i
+                <a href="javascript: void(0);" aria-expanded="false"><span>User Details</span><span class="menu-arrow"><i
                             class="mdi mdi-chevron-right"></i></span></a>
                 <ul class="nav-second-level mm-collapse" aria-expanded="false">
                     <li class="nav-item"><a class="nav-link" href="{{ route('add.role') }}"><i
                                 class="ti-control-record"></i>Add Roles</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('get.roles') }}"><i
                                 class="ti-control-record"></i>Manage Roles</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('user.usercreate') }}"><i
+                                class="ti-control-record"></i>User Creation</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('user.usermenucreate') }}"><i
+                            class="ti-control-record"></i>User Menu Mapping</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('user.rolemenucreate') }}"><i
+                            class="ti-control-record"></i>Role Menu Mapping</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('user.userrolecreate') }}"><i
+                        class="ti-control-record"></i>User Role Menu Mapping</a></li>
                 </ul>
             </li>
             <hr class="hr hr-menu">
@@ -106,17 +180,7 @@
             </li>
         </ul>
     @endif
-    {{-- </div>
 
-{{-- </div>
-<!-- end admin menu -->
-
-
-
-
-
-<!-- Seller menus -->
-<div class="menu-content h-100" data-simplebar> --}}
 
     @if (session('roleid') == '2')
         <ul class="metismenu left-sidenav-menu">
@@ -125,7 +189,7 @@
                         class="align-self-center menu-icon"></i><span>Dashboard</span><span
                         class="menu-arrow"></span></a> </li>
             <hr class="hr hr-menu">
-            <li><a href="{{ route('admin.shopapprovals') }}"> <i data-feather="hhh"
+            <li><a href="{{ route('admin.shopapprovals', ['id' => 1]) }}"> <i data-feather="hhh"
                         class="align-self-center menu-icon"></i><span>Home</span><span class="menu-arrow"></span></a>
             </li>
             <hr class="hr hr-menu">
@@ -163,11 +227,6 @@
 
         </ul>
     @endif
-<!-- end seller menu -->
-
-
-
-<!-- Affiliate menus -->
 
     @if (session('roleid') == '3')
         <ul class="metismenu left-sidenav-menu">

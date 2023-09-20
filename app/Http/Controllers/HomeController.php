@@ -24,7 +24,7 @@ class HomeController extends Controller
     {
          $countries      = DB::table('country')->get();
          $business       = DB::table('business_type')->where('status','Y')->get();
-         $shopservice    = DB::table('service_types')->where('status','active')->get();
+         $shopservice    = DB::table('service_types')->where('status','Y')->get();
          $executives     = DB::table('executives')->where(['executive_type' => 1, 'status' => 'Y'])->get();
 
         return view('user.login',compact('countries','business','executives','shopservice'));
@@ -1173,7 +1173,7 @@ class HomeController extends Controller
 
                 $input_valsph = ['photos' => ''];
                 $jsonimagesph = json_encode($input_valsph);
-                $Affiliate->photo_file = $jsonimagesph;
+                $affliteDetail->photo_file = $jsonimagesph;
 
 
                 $affliteDetail->user_id = $last_id;

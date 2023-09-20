@@ -96,15 +96,13 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
-                            <button type="button" class="btn-close" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" title="Close">x</button>
                         </div>
                         <div class="modal-body">
                             Do you want to delete this affiliate?
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
                         </div>
                     </div>

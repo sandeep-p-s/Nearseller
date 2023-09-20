@@ -18,9 +18,14 @@
     $gallery_dets=$sellerDetails->shop_photo;
     $qrgallerydetsarray = json_decode($gallery_dets);
     $qrgallery=$qrgallerydetsarray->fileval;
-    $qrqrgalleryval = json_decode(json_encode($qrgallery),true);
-    $totimg = count($qrqrgalleryval);
-
+    if($qrgallery!='')
+    {
+        $qrqrgalleryval = json_decode(json_encode($qrgallery),true);
+        $totimg = count($qrqrgalleryval);
+    }
+    else {
+            $totimg=0;
+    }
     $socialmedia=$sellerDetails->socialmedia;
     $qrsocialmediaarray = json_decode($socialmedia);
     $qrsocialmedia=$qrsocialmediaarray->mediadets;
@@ -35,20 +40,25 @@
 
                 <form id="SellerRegFormEdit" enctype="multipart/form-data" method="POST">
                     @if($sel_approved=='Y')
-                    <div class="col-md-12"><h3 style="text-align: center; color:#ff002b;">Shop Approved</h3></div><hr>
+                    <div class="col-md-12"><h3 style="text-align: center; color:#ff002b;">{{$shoporservice}} Approved</h3></div><hr>
                     @endif
                   <input type="hidden" id="shopidhid" name="shopidhid" value="{{ $sellerDetails->id }}"  class="form-control form-control-lg" maxlength="50"  placeholder="Shop id" required  tabindex="1" />
                 <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="form-outline mb-3"><label >Shop Name</label>
+                        <div class="form-outline mb-3"><label >{{$shoporservice}} Name</label>
                             <input type="text" id="es_name" name="es_name" value="{{ $sellerDetails->shop_name }}"  class="form-control form-control-lg" maxlength="50"  placeholder="Shop Name" required  tabindex="1" />
                             <label for="es_name" class="error"></label>
                         </div>
+                        @if($typeid==1)
+
                         <div class="form-outline mb-3"><label >Owner Name</label>
                             <input type="text" id="es_ownername" name="es_ownername"  value="{{ $sellerDetails->owner_name }}" class="form-control form-control-lg"  maxlength="50"   placeholder="Owner Name" required tabindex="2" />
                             <label for="s_ownername" class="error"></label>
                         </div>
+                        @endif
+
+
                         <div class="form-outline mb-3"><label >Mobile Number</label>
                             <input type="text" id="es_mobno" name="es_mobno" value="{{ $sellerDetails->shop_mobno }}"  class="form-control form-control-lg"  maxlength="10"  placeholder="Mobile No" required tabindex="3"  onchange="exstmobno(this.value,'2')" />
                             <label for="es_mobno" class="error"></label>
@@ -73,18 +83,28 @@
                             </select>
                             <label for="es_busnestype" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3"><label >Shop Type</label>
+                        <div class="form-outline mb-3" style="display: none;"><label >Shop/Service Type</label>
                             <select class="form-select form-control form-control-lg" id="es_shopservice" name="es_shopservice" required tabindex="7">
-                                <option value="">Shop Type</option><br/>
                                 @foreach ($shopservice as $shopser)
                                         <option value="{{ $shopser->id }}" @if ($shopser->id == $sellerDetails->shop_service_type) selected @endif>{{ $shopser->service_name }}</option>
                                     @endforeach
                             </select>
                             <label for="es_shopservice" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3"><label >Shop Executive Name</label>
+
+                        <div class="form-outline mb-3"><label >{{$shoporservice}} Type</label>
+                            <select class="form-select form-control form-control-lg" id="es_shoptype" name="es_shoptype" required tabindex="7">
+                                <option value="">{{$shoporservice}} Type</option><br/>
+                                @foreach ($shoptypes as $shoptyp)
+                                        <option value="{{ $shoptyp->id }}" @if ($shoptyp->id == $sellerDetails->shop_type) selected @endif>{{ $shoptyp->shop_name }}</option>
+                                    @endforeach
+                            </select>
+                            <label for="es_shoptype" class="error"></label>
+                        </div>
+
+                        <div class="form-outline mb-3"><label >{{$shoporservice}} Executive Name</label>
                             <select class="form-select form-control form-control-lg" id="es_shopexectename" name="es_shopexectename" required tabindex="8" >
-                                <option value="">Shop Executive Name</option><br/>
+                                <option value="">{{$shoporservice}} Executive Name</option><br/>
                                     @foreach ($executives as $exec)
                                         <option value="{{ $exec->id }}" @if ($exec->id == $sellerDetails->shop_executive) selected @endif>{{ $exec->executive_name }}</option>
                                     @endforeach
@@ -251,7 +271,7 @@
 
                     </div>
                     <div class="col-md-4">
-                        <div class="form-outline mb-3"><label >Lisence Number</label>
+                        <div class="form-outline mb-3"><label >License Number</label>
                             <input type="text" id="es_lisence" name="es_lisence" value="{{ $sellerDetails->shop_licence }}" class="form-control form-control-lg"  maxlength="25"  placeholder="License Number" required  tabindex="10"/>
                             <label for="es_lisence" class="error"></label>
                         </div>
@@ -307,7 +327,7 @@
                             <label for="secondafflte" class="error"></label>
                         </div>
 
-                        <div class="form-outline mb-3"><label >Shop Co-Ordinator</label>
+                        <div class="form-outline mb-3"><label >{{$shoporservice}} Co-Ordinator</label>
                             <input type="text" class="form-control form-control-lg" id="scoordinater" name="scoordinater"  value="{{ $sellerDetails->shop_coordinator }}">
                             <label for="coordinater" class="error"></label>
                         </div>
@@ -335,9 +355,9 @@
                     <div class="col-md-12">
                         <div style="float:right">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            @if (!(($sel_approved == 'Y') && ($roleid == 3 || $roleid == 2)))
+                            {{-- @if (!(($sel_approved == 'Y') && ($roleid == 3 || $roleid == 2))) --}}
                                 <button type="submit" class="btn btn-primary">Save</button>
-                            @endif
+                            {{-- @endif --}}
                         </div>
                     </div>
 
@@ -489,10 +509,10 @@
                     required: true,
                     pattern: /^[A-Za-z\s\.]+$/,
                 },
-                es_ownername: {
-                    required: true,
-                    pattern: /^[A-Za-z\s\.]+$/,
-                },
+                // es_ownername: {
+                //     required: true,
+                //     pattern: /^[A-Za-z\s\.]+$/,
+                // },
                 es_mobno: {
                     required: true,
                     digits: true,
@@ -508,6 +528,10 @@
 
                 },
                 es_shopservice: {
+                    required: true,
+
+                },
+                es_shoptype: {
                     required: true,
 
                 },

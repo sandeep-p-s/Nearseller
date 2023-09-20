@@ -53,11 +53,13 @@
                                 </div> --}}
                                 <div class="card-body">
                                     <div class="row">
-                                        <label class="col-xl-6">Shop Name</label>
+                                        <label class="col-xl-6">{{$shoporservice}} Name</label>
                                         <div class="col-xl-6 align-self-center">
                                             {{ $sellerDetails->shop_name }}
                                         </div>
                                     </div>
+
+                                    @if($typeid==1)
                                     <hr class="new_hr">
                                     <div class="row">
                                         <label class="col-xl-6">Owner Name</label>
@@ -65,6 +67,8 @@
                                             {{ $sellerDetails->owner_name }}
                                         </div>
                                     </div>
+                                    @endif
+
                                     <hr class="new_hr">
                                     <div class="form-group row">
                                         <label class="col-xl-6">Mobile No</label>
@@ -90,12 +94,21 @@
                                             {{ $sellerDetails->business_name }}
                                         </div>
                                     </div>
-                                    <hr class="new_hr"><div class="form-group row">
-                                        <label class="col-xl-6">Shop Type</label>
+                                    {{-- <hr class="new_hr"><div class="form-group row">
+                                        <label class="col-xl-6">Shop/Service Type</label>
                                         <div class="col-xl-6 align-self-center">
                                             {{ $sellerDetails->service_name }}
                                         </div>
+                                    </div> --}}
+                                    <hr class="new_hr"><div class="form-group row">
+                                        <label class="col-xl-6">{{$shoporservice}} Type</label>
+                                        <div class="col-xl-6 align-self-center">
+                                            {{ $sellerDetails->shop_name }}
+                                        </div>
                                     </div>
+
+
+
                                     <hr class="new_hr"><div class="form-group row">
                                         <label class="col-xl-6">Executive Name</label>
                                         <div class="col-xl-6 align-self-center">
@@ -242,7 +255,7 @@
                                     </div>
 
                                     <hr class="new_hr"><div class="form-group row">
-                                        <label class="col-xl-6">Shop Co-Ordinator</label>
+                                        <label class="col-xl-6">{{$shoporservice}} Co-Ordinator</label>
                                         <div class="col-xl-6 align-self-center">
                                             {{ $sellerDetails->shop_coordinator }}
                                         </div>

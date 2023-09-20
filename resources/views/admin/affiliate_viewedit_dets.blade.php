@@ -434,9 +434,9 @@
                     <div class="col-md-12">
                         <div style="float:right">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            @if (!($aff_approved == 'Y' && $roleid == 3))
+                            {{-- @if (!($aff_approved == 'Y' && $roleid == 3)) --}}
                                 <button type="submit" class="btn btn-primary">Save</button>
-                            @endif
+                            {{-- @endif --}}
                         </div>
                     </div>
 

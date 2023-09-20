@@ -6,11 +6,13 @@
             <tr>
                 <th>SINO</th>
                 <th>Reg. ID</th>
-                <th>Shop Name</th>
+                <th>{{$shoporservice}} Name</th>
+                @if($typeid==1)
                 <th>Owner Name</th>
+                @endif
                 <th>Email</th>
                 <th>Mobile</th>
-                <th>Service Type</th>
+                <th>{{$shoporservice}} Type</th>
                 {{-- <th>Address</th>
                 <th>Referral ID</th>
                 <th>Business Type</th>
@@ -26,7 +28,9 @@
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $sellerDetail->shop_reg_id }}</td>
                     <td>{{ $sellerDetail->shop_name }}</td>
+                    @if($typeid==1)
                     <td>{{ $sellerDetail->owner_name }}</td>
+                    @endif
                     <td>{{ $sellerDetail->shop_email }}</td>
                     <td>{{ $sellerDetail->shop_mobno }}</td>
                     <td class="text-success">{{ $sellerDetail->serviceType->service_name }}</td>
@@ -42,9 +46,9 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action
                                 <i class="mdi mdi-chevron-down"></i></button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item view_btn1" href="#" onclick="shopvieweditdet({{ $sellerDetail->id }})">View/Edit</a>
+                                <a class="dropdown-item view_btn1" href="#" onclick="shopvieweditdet({{ $sellerDetail->id }},{{$typeid}})">View/Edit</a>
                                 @if(session('roleid')=='1')
-                                <a class="dropdown-item approve_btn" href="#" onclick="shopapprovedet({{ $sellerDetail->id }})">Approved</a>
+                                <a class="dropdown-item approve_btn" href="#" onclick="shopapprovedet({{ $sellerDetail->id }},{{$typeid}})">Approved</a>
                                 <a class="dropdown-item delete_btn" href="#" onclick="shopdeletedet({{ $sellerDetail->id }})">Delete</a>
                                 @endif
                             </div>
@@ -69,7 +73,7 @@
     <div class="modal-dialog custom-modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-center" id="addNewModalLabel">Add New Shops  </h5>
+                <h5 class="modal-title text-center" id="addNewModalLabel">Add New {{$shoporservice}}  </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" title="Close">x</button>
             </div>
             <div class="modal-body">
@@ -79,14 +83,16 @@
                 <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="form-outline mb-3"><label >Shop Name</label>
-                            <input type="text" id="s_name" name="s_name" class="form-control form-control-lg" maxlength="50"  placeholder="Shop Name" required  tabindex="1" />
+                        <div class="form-outline mb-3"><label >{{$shoporservice}} Name</label>
+                            <input type="text" id="s_name" name="s_name" class="form-control form-control-lg" maxlength="50"  placeholder="{{$shoporservice}} Name" required  tabindex="1" />
                             <label for="s_name" class="error"></label>
                         </div>
+                        @if($typeid==1)
                         <div class="form-outline mb-3"><label >Owner Name</label>
                             <input type="text" id="s_ownername" name="s_ownername" class="form-control form-control-lg"  maxlength="50"   placeholder="Owner Name" required tabindex="2" />
                             <label for="s_ownername" class="error"></label>
                         </div>
+                        @endif
                         <div class="form-outline mb-3"><label >Mobile Number</label>
                             <input type="text" id="s_mobno" name="s_mobno" class="form-control form-control-lg"  maxlength="10"  placeholder="Mobile No" required tabindex="3"  onchange="exstmobno(this.value,'2')" />
                             <label for="s_mobno" class="error"></label>
@@ -110,18 +116,33 @@
                             </select>
                             <label for="s_busnestype" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3"><label >Shop Type</label>
+                        <div class="form-outline mb-3" style="display:none;"><label >Shop/Service Type</label>
                             <select class="form-select form-control form-control-lg" id="s_shopservice" name="s_shopservice" required tabindex="7">
-                                <option value="">Shop Type</option><br/>
+
                                 @foreach ($shopservice as $shopser)
                                         <option value="{{ $shopser->id }}">{{ $shopser->service_name }}</option>
                                     @endforeach
                             </select>
                             <label for="s_shopservice" class="error"></label>
                         </div>
-                        <div class="form-outline mb-3"><label >Shop Executive Name</label>
+
+                        <div class="form-outline mb-3"><label >{{$shoporservice}} Type</label>
+                            <select class="form-select form-control form-control-lg" id="s_shoptype" name="s_shoptype" required tabindex="7">
+                                <option value="">{{$shoporservice}} Type</option><br/>
+                                @foreach ($shoptypes as $shoptyp)
+                                        <option value="{{ $shoptyp->id }}">{{ $shoptyp->shop_name }}</option>
+                                    @endforeach
+                            </select>
+                            <label for="s_shoptype" class="error"></label>
+                        </div>
+
+
+
+
+
+                        <div class="form-outline mb-3"><label >{{$shoporservice}} Executive Name</label>
                             <select class="form-select form-control form-control-lg" id="s_shopexectename" name="s_shopexectename" required tabindex="8" >
-                                <option value="">Shop Executive Name</option><br/>
+                                <option value="">{{$shoporservice}} Executive Name</option><br/>
                                     @foreach ($executives as $exec)
                                         <option value="{{ $exec->id }}">{{ $exec->executive_name }}</option>
                                     @endforeach
@@ -522,10 +543,10 @@ $(function() {
                     required: true,
                     pattern: /^[A-Za-z\s\.]+$/,
                 },
-                s_ownername: {
-                    required: true,
-                    pattern: /^[A-Za-z\s\.]+$/,
-                },
+                // s_ownername: {
+                //     required: true,
+                //     pattern: /^[A-Za-z\s\.]+$/,
+                // },
                 s_mobno: {
                     required: true,
                     digits: true,
@@ -541,6 +562,10 @@ $(function() {
 
                 },
                 s_shopservice: {
+                    required: true,
+
+                },
+                s_shoptype: {
                     required: true,
 
                 },
@@ -628,9 +653,9 @@ $(function() {
                 s_name: {
                     pattern: "Only characters, spaces, and dots are allowed.",
                 },
-                s_ownername: {
-                    pattern: "Only characters, spaces, and dots are allowed.",
-                },
+                // s_ownername: {
+                //     pattern: "Only characters, spaces, and dots are allowed.",
+                // },
                 s_mobno: {
                     digits: "Please enter a valid mobile number.",
                 },
