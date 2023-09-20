@@ -6425,7 +6425,7 @@ input[type="button"].btn-block {
     display: inline-block;
     /* padding: .46em .6em; */
     font-size: 75%;
-    font-weight: 400;
+    font-weight: 500;
     line-height: 1;
     text-align: center;
     white-space: nowrap;
@@ -7694,7 +7694,7 @@ a.close.disabled {
     pointer-events: auto;
     background-color: #fff;
     background-clip: padding-box;
-    border: 1px solid rgba(0, 0, 0, 0.2);
+    /* border: 1px solid rgba(0, 0, 0, 0.2); */
     border-radius: .3rem;
     outline: 0
 }

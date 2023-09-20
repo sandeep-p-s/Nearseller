@@ -25,9 +25,11 @@
                             <ul>
                                 <li class=" text-secondary"><i class="fab fa-facebook-f text-secondary"></i><a
                                         href="#">Facebook </a></li>
-                                <li class=" text-secondary"><i class="fab fa-twitter"></i><a href="#">instagram</a>
+                                <li class=" text-secondary"><i class="fab fa-twitter"></i><a
+                                        href="#">instagram</a>
                                 </li>
-                                <li class=" text-secondary"><i class="fab fa-google-plus-g"></i><a href="#">Twitter
+                                <li class=" text-secondary"><i class="fab fa-google-plus-g"></i><a
+                                        href="#">Twitter
                                     </a>
                                 </li>
                             </ul>
@@ -94,7 +96,10 @@
     new mdb.Autocomplete(navbarAutocomplete, {
         filter: navbarDataFilter,
     });
+
 </script>
+
+
 </body>
 
 </html>

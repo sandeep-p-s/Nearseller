@@ -45,12 +45,12 @@ class HomeController extends Controller
         if ($request->input('bank_name')) {
             $query->where('bank_code', $request->input('bank_name'));
         }
-        if ($request->input('bank_country')) {
-            $query->where('country_code', $request->input('bank_country'));
-        }
-        if ($request->input('bank_state')) {
-            $query->where('state_code', $request->input('bank_state'));
-        }
+        // if ($request->input('bank_country')) {
+        //     $query->where('country_code', $request->input('bank_country'));
+        // }
+        // if ($request->input('bank_state')) {
+        //     $query->where('state_code', $request->input('bank_state'));
+        // }
         if ($request->input('bank_dist')) {
             $query->where('district_code', $request->input('bank_dist'));
         }
@@ -1173,7 +1173,7 @@ class HomeController extends Controller
 
                 $input_valsph = ['photos' => ''];
                 $jsonimagesph = json_encode($input_valsph);
-                $Affiliate->photo_file = $jsonimagesph;
+                $affliteDetail->photo_file = $jsonimagesph;
 
 
                 $affliteDetail->user_id = $last_id;

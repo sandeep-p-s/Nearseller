@@ -23,7 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('affiliate', function (Blueprint $table) {
-            $table->integer('account_no')->change();
+            $table->integer('account_no')->after('aff_coordinator')->change();
         });
     }
 };

@@ -104,6 +104,44 @@ class SellerController extends Controller
         }
 
 
+//not finishing
+
+    function UploadsellerRegisteration(Request $request)
+        {
+            $userRole = session('user_role');
+            $roleid = session('roleid');
+            $userId = session('user_id');
+            if($userId==''){
+                return redirect()->route('logout');
+            }
+            $loggedUserIp=$_SERVER['REMOTE_ADDR'];
+            $time=date('Y-m-d H:i:s');
+            $validatedData = $request->validate([
+                'shopupload'        => 'required',
+            ]);
+            $SellerDetails = new SellerDetails();
+            $Attribute->attribute_name = $request->att_name;
+            $submt=$Attribute->save();
+            $lastRegId = $Attribute->toSql();
+            $last_id = $Attribute->id;
+            $msg="Successfully Added! register id : ".$last_id;
+            $LogDetails = new LogDetails();
+            $LogDetails->user_id = $userId;
+            $LogDetails->ip_address = $loggedUserIp;
+            $LogDetails->log_time = $time;
+            $LogDetails->status = $msg;
+            $LogDetails->save();
+            if($submt>0){
+                return response()->json(['result' => 1,'mesge'=>'Added Successfully']);
+            }
+            else{
+                return response()->json(['result' => 2,'mesge'=>'Failed']);
+            }
+        }
+
+
+
+
 
 
 }

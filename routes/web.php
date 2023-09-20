@@ -12,10 +12,17 @@ use App\Http\Controllers\ExecutiveController;
 use App\Http\Controllers\ShopOfferController;
 use App\Http\Controllers\UserLoggedController;
 use App\Http\Controllers\ServiceTypeController;
+<<<<<<< routes/web.php
 use App\Http\Controllers\BusinessTypeController;
 
 use App\Http\Controllers\ServiceOfferController;
 use App\Http\Controllers\ServiceEmployeeController;
+use App\Http\Controllers\ProductController;
+
+use App\Http\Controllers\BusinessTypeController;
+
+
+use App\Http\Controllers\Masters\AttributeController as AttributeController;
 use App\Http\Controllers\Masters\BankController as BankController;
 use App\Http\Controllers\Masters\StateController as StateController;
 use App\Http\Controllers\Admin\CategoryController as CategoryController;
@@ -24,6 +31,9 @@ use App\Http\Controllers\Masters\DistrictController as DistrictController;
 
 use App\Http\Controllers\Masters\ReligionController as ReligionController;
 use App\Http\Controllers\Masters\ProfessionsController as ProfessionsController;
+use App\Http\Controllers\Admin\CategoryController as CategoryController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -73,7 +83,7 @@ Route::controller(UserLoggedController::class)->group(function () {
 // Route::middleware(['auth', 'role'])->group(function () {
     Route::controller(AdminController::class)->group(function (){
         Route::get('dashboard', 'admindashboard')->name('admin.dashboard');
-        Route::get('shopapprovals', 'ShopApproval')->name('admin.shopapprovals');
+        Route::get('shopapprovals/{id}', 'ShopApproval')->name('admin.shopapprovals');
         Route::get('allshopsview', 'AllShopsList')->name('admin.allshopsview');
         Route::post('AdmsellerRegisteration','AdmsellerRegisterationPage')->name('AdmsellerRegisteration');
         Route::post('shopViewEdit', 'AdmshopViewEdits')->name('shopViewEdit');
@@ -104,7 +114,40 @@ Route::controller(UserLoggedController::class)->group(function () {
         Route::get('editrole/{id}', 'edit_roles')->name('edit.role');
         Route::post('updaterole/{id}', 'update_roles')->name('update.role');
         Route::post('/update/activation/{id}', 'updateActivation')->name('update.activation');
+
+        Route::get('newuser', 'CreateNewUser')->name('user.usercreate');
+        Route::get('allroleusers', 'AllUsersList')->name('user.allusersview');
+        Route::post('saveuser', 'AdmUserRegistration')->name('AdmUserCreate');
+        Route::post('edituser', 'AdmUserViewEdit')->name('UserViewEdit');
+        Route::post('userupdate', 'AdmUpdateUserDetails')->name('AdmEditUserDetails');
+        Route::post('userdelete', 'AdmuserDeletePage')->name('userDelete');
+
+        Route::get('usermenu', 'AdmUserMenuPage')->name('user.usermenucreate');
+        Route::get('usermenuview', 'AdmUserMenuViewPage')->name('user.allusermenuview');
+        Route::post('userpagemenu', 'AdmAddUserPageMenu')->name('user.userpagemenu');
+        Route::post('getusermenu', 'AdmgetUserMenu')->name('user.getUserMenu');
+        Route::post('getprivilageMenu', 'AdmgetPrivilageMenu')->name('user.getPrivilageMenu');
+
+        Route::get('rolemenu', 'AdmRoleMenuPage')->name('user.rolemenucreate');
+        Route::get('rolemenuview', 'AdmRoleMenuViewPage')->name('user.allrolemenuview');
+        Route::post('rolepagemenu', 'AdmAddRolePageMenu')->name('user.rolepagemenu');
+        Route::post('getrolemenu', 'AdmgetRoleMenu')->name('user.getRoleMenu');
+        Route::post('getrolePrivilage', 'AdmgetrolePrivilage')->name('user.getrolePrivilage');
+
+        Route::get('userrole', 'AdmuUserRoleMenuPage')->name('user.userrolecreate');
+        Route::post('userrolemenu', 'AdmgetUserRoleMenu')->name('user.getUserRoleMenu');
+        Route::post('userrolepage', 'AdmAddUserRolePageMenu')->name('user.userrolepagemenu');
     });
+
+
+
+    Route::controller(ProductController::class)->group(function () {
+        Route::get('listshopproduct', 'ProductListView')->name('user.shopproduct');
+        Route::post('allproductview', 'AllProductList')->name('product.allproductview');
+
+
+    });
+
 
     Route::controller(BusinessTypeController::class)->group(function () {
         Route::get('listbusinesstype', 'list_business_type')->name('list.businesstype');
@@ -133,6 +176,23 @@ Route::controller(UserLoggedController::class)->group(function () {
         Route::get('servicedelete/{id}', 'delete_service_type')->name('delete.servicetype');
     });
 //master
+    Route::controller(AttributeController::class)->group(function () {
+        Route::get('listattribute', 'list_attribute')->name('list.attribute');
+        Route::get('addattribute', 'add_attribute')->name('add.attribute');
+        Route::post('saveattribute', 'store_attribute')->name('store.attribute');
+        Route::get('editattribute/{id}', 'edit_attribute')->name('edit.attribute');
+        Route::post('updateattribute/{id}', 'update_attribute')->name('update.attribute');
+        Route::get('deleteattribute/{id}', 'delete_attribute')->name('delete.attribute');
+
+        Route::get('listattribute_value', 'list_attribute_value')->name('list.attribute_value');
+        Route::get('addattribute_value', 'add_attribute_value')->name('add.attribute_value');
+        Route::post('saveattribute_value', 'store_attribute_value')->name('store.attribute_value');
+        Route::get('editattribute_value/{id}', 'edit_attribute_value')->name('edit.attribute_value');
+        Route::post('updateattribute_value/{id}', 'update_attribute_value')->name('update.attribute_value');
+        Route::get('deleteattribute_value/{id}', 'delete_attribute_value')->name('delete.attribute_value');
+
+    });
+
     Route::controller(CountryController::class)->group(function () {
         Route::get('listcountry', 'list_country')->name('list.country');
         Route::get('addcountry', 'add_country')->name('add.country');
@@ -219,6 +279,7 @@ Route::controller(UserLoggedController::class)->group(function () {
         Route::get('allattributes', 'AttributeList')->name('new.allattributes');
         Route::post('addattribute', 'AddAttributePage')->name('AddAttributeForm');
         Route::post('editattribute', 'EditAttributePage')->name('AttributeViewEdit');
+        Route::post('uploadshops', 'UploadsellerRegisteration')->name('UploadsellerRegister');
 
     });
 

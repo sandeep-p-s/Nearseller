@@ -16,7 +16,7 @@ class UserAccount extends Model
     {
         return $this->belongsTo(Role::class);
     }
-    
+
     protected function sessionValueReturn($userRole)
     {
         $roleNames = [

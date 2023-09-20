@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('categories', function (Blueprint $table) {
-            $table->string('status',1)->default('Y')->after('parent_id');
+             $table->renameColumn('name', 'category_name');
+             $table->renameColumn('slug', 'category_slug');
+
         });
     }
 
@@ -22,7 +24,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('categories', function (Blueprint $table) {
-            //
+             $table->renameColumn('category_name', 'name');
+             $table->renameColumn('category_slug', 'slug');
+
         });
     }
 };

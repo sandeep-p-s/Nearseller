@@ -29,7 +29,17 @@
             </div>
 
             <div id="loading-overlay"></div>
-            <img id="loading-image" src="{{ asset('img/loading.gif') }}"  style="display: none; width:100px;">
+            <div class="card-body" id="loading-image"  style="display: none;">
+                <div class="spinner-grow text-primary" role="status"></div>
+                <div class="spinner-grow text-success" role="status"></div>
+                <div class="spinner-grow text-danger" role="status"></div>
+                <div class="spinner-grow text-warning" role="status"></div>
+                <div class="spinner-grow text-info" role="status"></div>
+                <div class="spinner-grow text-purple" role="status"></div>
+            </div>
+
+
+            {{-- <img  id="loading-image"  src="{{ asset('img/loading.gif') }}"  style="display: none; width:100px;"> --}}
             <div id="catcontent">
 
             </div>

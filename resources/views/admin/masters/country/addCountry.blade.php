@@ -22,7 +22,8 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="button-items d-flex align-items-end flex-column">
-                        <a href="{{ route('list.country') }}"><button type="button" class="btn btn-secondary">Back</button></a>
+                        <a href="{{ route('list.country') }}"><button type="button"
+                                class="btn btn-secondary">Back</button></a>
                     </div>
                     <br>
                     <div class="card">
@@ -32,10 +33,11 @@
                                 <div class="form-group">
                                     <label for="addShopType">Add Countries</label>
                                     <input type="text" class="form-control mb15" id="country_name"
-                                        placeholder="Enter Country Name" name="country_name" >
-                                        @error('country_name')
+                                        placeholder="Enter Country Name" name="country_name">
+                                    <br>
+                                    @error('country_name')
                                         <div class="text-danger mb15">{{ $message }}</div>
-                                        @enderror
+                                    @enderror
                                     <button type="submit" class="btn view_btn">Add</button>
                                 </div>
                             </form>

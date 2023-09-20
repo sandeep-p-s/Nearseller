@@ -3,10 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use DB;
-use App\Models\admin\Category;
+use File;
 use App\Models\UserAccount;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Image;
+use App\Models\admin\Category;
 use App\Http\Controllers\Controller;
+use Storage;
+use Illuminate\Validation\Rule;
+use App\Rules\CategoryLevelRule;
 
 class CategoryController extends Controller
 {
@@ -16,48 +22,7 @@ class CategoryController extends Controller
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        $categories = DB::select("
-    WITH RECURSIVE category_tree AS (
-        SELECT
-            id,
-            name,
-            parent_id,
-            status,
-            name AS category_path,
-            0 AS level
-        FROM
-            categories
-        WHERE
-            parent_id = 0
-
-        UNION ALL
-
-        SELECT
-            c.id,
-            c.name,
-            c.parent_id,
-            c.status,  -- Add the 'status' column here
-            CONCAT(ct.category_path, ' > ', c.name) AS category_path,
-            ct.level + 1 AS level
-        FROM
-            categories AS c
-        JOIN
-            category_tree AS ct ON c.parent_id = ct.id
-    )
-
-    SELECT
-        id AS child_id,
-        name AS child_name,
-        parent_id AS child_parent_id,
-        status AS child_status,
-        category_path AS parent_name,
-        level
-    FROM
-        category_tree
-    ORDER BY
-        category_path;
-");
-
+        $categories = Category::tree();
         $total_categories = DB::table('categories')->count();
         $inactive_categories = DB::table('categories as c')->where('c.status', 'N')->count();
         return view('admin.category.listCategory', compact('loggeduser', 'userdetails', 'categories', 'total_categories', 'inactive_categories'));
@@ -68,151 +33,154 @@ class CategoryController extends Controller
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        // $categories = DB::table('categories as child_c','categories as parent_c')
-        //     ->select(
-        //         'child_c.id as child_id',
-        //         'child_c.name as child_name',
-        //         'child_c.parent_id as child_parent_id',
-        //         'child_c.status as child_status',
-        //         'parent_c.id as parent_id',
-        //         'parent_c.name as parent_name',
-        //         'parent_c.parent_id as parent_parent_id',
-        //         'parent_c.status as parent_status'
-        //     )
-        //     ->where('parent_c.status', 'Y');
-        //     // ->get();
-        // $sql = $categories->toSql();
-        // dd($sql);
-        $categories = DB::select("
-    WITH RECURSIVE category_tree AS (
-      SELECT
-        id,
-        name,
-        parent_id,
-        name AS category_path,
-        0 AS level -- Initialize the level as 0 for root categories
-      FROM
-        categories
-      WHERE
-      parent_id = 0
-      AND status = 'Y'
-
-      UNION ALL
-
-      SELECT
-        c.id,
-        c.name,
-        c.parent_id,
-        CONCAT(ct.category_path, ' > ', c.name) AS category_path,
-        ct.level + 1 AS level -- Increment the level for child categories
-      FROM
-        categories AS c
-      JOIN
-        category_tree AS ct ON c.parent_id = ct.id
-        WHERE
-        c.status = 'Y'
-    )
-    SELECT
-      id AS child_id,
-      name AS child_name,
-      parent_id AS child_parent_id,
-      status AS child_status,
-      category_path AS parent_name,
-      level -- Include the level column
-    FROM
-      category_tree
-    ORDER BY
-      category_path;
-    ");
-
-        return view('admin.category.addCategory', compact('loggeduser', 'userdetails', 'categories'));
+        $categories = Category::treeWithStatusY();
+        $filteredCategories = $categories->filter(function ($category) {
+            return $category->category_level != 5;
+        });
+        return view('admin.category.addCategory', compact('loggeduser', 'userdetails', 'filteredCategories'));
     }
     public function store_category(Request $request)
     {
-        // $request->validate(
-        //     [
-        //         'category_name' => 'required|unique:categories,name|string|max:255|min:4',
-        //         'slug_name' => 'required|unique:categories,slug',
-        //     ],
-        //     [
-        //         'category_name.required' => 'The category name field is missing.',
-        //         'category_name.string' => 'The category name must be a string.',
-        //         'category_name.unique' => 'The category name must be unique.',
-        //         'category_name.min' => 'The category name must be at least 4 characters.',
-        //         'category_name.max' => 'The category name cannot exceed 255 characters.',
-        //     ]
-        // );
-
-        $maxdepth = 5;
-        $check = 0;
-
-        $request->validate([
-            'category_name' => 'required|string|max:255|min:4',
-            'slug_name' => 'required|unique:categories,slug',
-            'parent_category' => [
-                'required',
-                function ($attribute, $value) use ($maxdepth) {
-                    if ($value != 0) {
-                        $parentCategory = Category::find($value);
-                        if (!$parentCategory) {
-                            //$fail = 'Invalid parent category selected.';
-                            return redirect()->route('list.category')->with('error', "Invalid parent category selected.");
-                            exit;
-                        } else {
-                            // Calculate the depth of the parent category's hierarchy
-                            $depth = 1;
-                            $currentParent = $parentCategory;
-                            while ($currentParent->parent_id !== 0) {
-                                $currentParent = Category::find($currentParent->parent_id);
-                                $depth++;
-                            }
-
-                            if ($depth > 5) {
-                                return redirect()->route('list.category')->with('error', "You can't add subcategories beyond 5 levels.");
-                                $check = 1;
-                                exit;
-                                //$fail = "You can't add subcategories beyond 5 levels.";
-                            }
-                        }
-                    }
-                },
+        $request->validate(
+            [
+                'category_name' => 'required|unique:categories,category_name|string|max:255|min:4',
+                'slug_name' => 'required|unique:categories,category_slug',
+                'category_level' => ['required', new CategoryLevelRule],
+                'category_image' => 'nullable|max:4096',
             ],
-        ], [
-            'category_name.required' => 'The category name field is missing.',
-            'category_name.string' => 'The category name must be a string.',
-            'category_name.min' => 'The category name must be at least 4 characters.',
-            'category_name.max' => 'The category name cannot exceed 255 characters.',
-            'slug_name.required' => 'The slug field is missing.',
-            'slug_name.unique' => 'The slug must be unique.',
-            'parent_category.required' => 'Please select a parent category.',
-        ]);
+            [
+                'category_name.required' => 'The category name field is missing.',
+                'category_name.string' => 'The category name must be a string.',
+                'category_name.unique' => 'The category name must be unique.',
+                'category_name.min' => 'The category name must be at least 4 characters.',
+                'category_name.max' => 'The category name cannot exceed 255 characters.',
+                'slug_name.required' => 'Slug name is missing.',
+                'slug_name.unique' => 'Slug name should unique.',
+                'category_level.required' => 'Category level required.',
+                'category_image.mimes' => 'Image must be in the format jpeg,png,jpg.',
+                'category_image.max' => 'File not larger than 4mb.',
+            ]
+        );
 
-        if ($check = 1) {
             $newcategory = new Category;
-            $newcategory->name = ucfirst(strtolower($request->category_name));
+            $newcategory->category_name = ucfirst(strtolower($request->category_name));
             $newcategory->parent_id = $request->parent_category;
-            $newcategory->slug = $request->slug_name;
+            $newcategory->category_slug = trim($request->slug_name);
+            $newcategory->category_level = $request->category_level;
+            $newcategory->category_image = '';
+
+            if (!empty($request->category_image)) {
+
+                $fileName = time() . '_' . Str::random(8) . '.' . $request->category_image->extension();
+
+                $img = Image::make($request->category_image->path());
+                $img->fit(config('imageupload.category.thumb_width'), config('imageupload.category.thumb_height'), function ($constraint) {
+                    //$constraint->upsize();
+                });
+                $img->save(Storage::disk('public')->path(config('imageupload.categorydir') . "/" . config('imageupload.category.imagethumb') . $fileName), 100);
+
+                Storage::disk('public')->put(config('imageupload.categorydir') . "/" . config('imageupload.category.image') . $fileName, File::get($request->category_image));
+
+                $newcategory->category_image = $fileName;
+            }
+
             $newcategory->save();
             return redirect()->route('list.category')->with('success', 'Category successfully added');
-        } else {
-            return redirect()->route('list.category')->with('error', 'Error in Data');
-        }
     }
-    public function edit_category($id)
+    public function edit_category($category_slug)
     {
         $userRole = session('user_role');
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        $countries = DB::table('country as ct')
-        ->where('ct.status','Y')
-        ->get();
-        $category = category::find($id);
+        $current_category = Category::where('category_slug', $category_slug)->first();
+        $categories = Category::treeWithStatusY();
+        $filteredCategories = $categories->filter(function ($category) use ($category_slug , $current_category) {
+            return $category->category_level < $current_category->category_level && $category->category_slug != $category_slug;
+        });
 
-        if (!$category) {
-            return redirect()->route('list.category')->with('error', 'category not found.');
+        if (!$current_category) {
+            return redirect()->route('list.category')->with('error', 'Category not found.');
         }
 
-        return view('admin.masters.category.editcategory', compact('userdetails', 'loggeduser','countries', 'category'));
+        return view('admin.category.editCategory', compact('userdetails', 'loggeduser','current_category','filteredCategories'));
+    }
+
+    public function update_category(Request $request,$id)
+    {
+        $current_category = Category::find($id);
+        if (!$current_category) {
+            return redirect()->route('list.category')->with('error', 'Category not found.');
+        }
+
+        $request->validate(
+            [
+                'category_name' => ['required',Rule::unique('categories')->ignore($id),'string','max:255','min:4'],
+                'category_slug' => ['required',Rule::unique('categories')->ignore($id)],
+                'category_level' => ['required', new CategoryLevelRule],
+                'category_image' => 'nullable|max:4096',
+                'status' => 'in:Y,N',
+            ],
+            [
+                'category_name.required' => 'The category name field is missing.',
+                'category_name.string' => 'The category name must be a string.',
+                'category_name.unique' => 'The category name must be unique.',
+                'category_name.min' => 'The category name must be at least 4 characters.',
+                'category_name.max' => 'The category name cannot exceed 255 characters.',
+                'category_slug.required' => 'Slug name is missing.',
+                'category_slug.unique' => 'Slug name should unique.',
+                'category_level.required' => 'Category level required.',
+                'category_image.mimes' => 'Image must be in the format jpeg,png,jpg.',
+                'category_image.max' => 'File not larger than 4mb.',
+                'status.in' => 'Invalid status value.',
+            ]
+        );
+
+            $current_category->category_name = ucfirst(strtolower($request->category_name));
+            $current_category->parent_id = $request->parent_category;
+            $current_category->category_slug = trim($request->category_slug);
+            $current_category->category_level = $request->category_level;
+
+            if (!empty($request->category_image)) {
+
+                if ($current_category->category_image != null) {
+                    if (Storage::disk('public')->exists(config('imageupload.categorydir') . "/" . config('imageupload.category.image') .$current_category->category_image)) {
+                        Storage::disk('public')->delete(config('imageupload.categorydir') . "/" . config('imageupload.category.image') . $current_category->category_image);
+                    }
+                    if (Storage::disk('public')->exists(config('imageupload.categorydir') . "/" . config('imageupload.category.imagethumb') .$current_category->category_image)) {
+                        Storage::disk('public')->delete(config('imageupload.categorydir') . "/" . config('imageupload.category.imagethumb') . $current_category->category_image);
+                    }
+                }
+
+                $fileName = time() . '_' . Str::random(8) . '.' . $request->category_image->extension();
+
+                $img = Image::make($request->category_image->path());
+                $img->fit(config('imageupload.category.thumb_width'), config('imageupload.category.thumb_height'), function ($constraint) {
+                    //$constraint->upsize();
+                });
+                $img->save(Storage::disk('public')->path(config('imageupload.categorydir') . "/" . config('imageupload.category.imagethumb') . $fileName), 100);
+
+                Storage::disk('public')->put(config('imageupload.categorydir') . "/" . config('imageupload.category.image') . $fileName, File::get($request->category_image));
+
+                $current_category->category_image = $fileName;
+            }
+
+            $current_category->status = $request->status;
+
+            $current_category->save();
+            return redirect()->route('list.category')->with('success', 'Category successfully updated');
+    }
+
+    public function delete_category($category_slug)
+    {
+        $delete_category = Category::where('category_slug', $category_slug)->first();
+
+        if (!$delete_category) {
+            return redirect()->route('list.category')->with('error', 'Category not found.');
+        }
+
+        $delete_category->delete();
+
+        return redirect()->route('list.category')->with('success', 'Category deleted successfully.');
     }
 }
