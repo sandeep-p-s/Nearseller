@@ -3,22 +3,24 @@
     @include('menu')
     @include('topnav')
 
+    <!-- Page Content-->
     <div class="page-content">
         <div class="container-fluid">
+            <!-- Page-Title -->
             <div class="row">
                 <div class="col-sm-12">
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-                                <h4 class="page-title">Category List</h4>
+                                <h4 class="page-title">Add Bank Branch</h4>
+
                             </div>
                             <div class="col-auto align-self-center">
-                                <a href="{{ route('add.category') }}"><button type="button" class="btn add_btn ">Add New
-                                        Category </button></a>
-                            </div>
-                        </div>
-                    </div>
-
+                                <a href="{{ route('add.bank_branch') }}"><button type="button" class="btn add_btn ">Add
+                                        New Bank Branch </button></a>
+                            </div><!--end col-->
+                        </div><!--end row-->
+                    </div><!--end page-title-box-->
                     @if (session('success'))
                         <div class="alert alert-success alert-dismissible fade show" role="alert" id="successMessage">
                             {{ session('success') }}
@@ -35,57 +37,34 @@
                             </button>
                         </div>
                     @endif
-                </div>
-            </div>
+                </div><!--end col-->
+            </div><!--end row-->
+            <!-- end page title end breadcrumb -->
             <div class="row">
                 <div class="col-12">
                     <div class="card">
+
                         <div class="card-body">
-                            <div class="text-center">
-                                <span class="badge badge-soft-info p-2">
-                                    Total Categories : {{ $total_categories }}
-                                </span>
-                                <span class="badge badge-soft-danger p-2">
-                                    Inactive Categories : {{ $inactive_categories }}
-                                </span>
-                            </div>
                             <table id="datatable" class="table table-bordered dt-responsive nowrap"
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Category Name</th>
+                                        <th>Bankbranch Name</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($categories as $c)
+                                    @foreach ($bankbranchs as $bh)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>
-                                                @foreach (explode(' ➤ ', $c->category_name) as $key => $path)
-                                                    @if ($loop->last)
-                                                        <span class="badge badge-soft-orange p-2"
-                                                            style="font-size: 15px !important;">{{ $path }}</span>
-                                                    @else
-                                                        @if ($key === count(explode(' ➤ ', $c->category_name)) - 1)
-                                                            {{ $path }}
-                                                        @else
-                                                            {{ $path }} ➤
-                                                        @endif
-                                                    @endif
-                                                @endforeach
-                                            </td>
+                                            <td><span class="badge badge-soft-purple p-1">{{$bh->bank_name}} </span > > {{ $bh->branch_name }}</td>
+                                            <td><span
+                                                class="badge  p-2 {{ $bh->status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
+                                                {{ $bh->status === 'Y' ? 'Active' : 'Inactive' }} </span></td>
 
                                             <td>
-                                                <span
-                                                    class="badge p-2 {{ $c->status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
-                                                    {{ $c->status === 'Y' ? 'Active' : 'Inactive' }}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                {{-- {{ $c->id }} --}}
                                                 <div class="btn-group mb-2 mb-md-0">
                                                     <button type="button" class="btn view_btn dropdown-toggle"
                                                         data-toggle="dropdown" aria-haspopup="true"
@@ -93,21 +72,23 @@
                                                             class="mdi mdi-chevron-down"></i></button>
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item view_btn1"
-                                                            href="{{ route('edit.category', $c->category_slug) }}">Edit</a>
-                                                        {{-- <a class="dropdown-item delete_btn"
-                                                        href="{{ route('delete.category', $c->category_slug) }}"
-                                                        onclick="return confirm('Are you sure you want to delete?')">Delete</a> --}}
+                                                            href="{{ route('edit.bank_branch',$bh->id) }}">Edit</a>
+                                                        <a class="dropdown-item delete_btn"
+                                                            href="{{ route('delete.bank_branch' ,$bh->id) }}"
+                                                            onclick="return confirm('Are you sure you want to delete?')">Delete</a>
                                                     </div>
                                                 </div>
-                                                {{-- {{ $c->parent_id }} --}}
                                             </td>
+
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
+
                         </div>
                     </div>
                 </div> <!-- end col -->
             </div> <!-- end row -->
+
         </div><!-- container -->
     @endsection
