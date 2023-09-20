@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ShopOffer;
+use App\Models\Offer;
 use App\Models\UserAccount;
 use Illuminate\Http\Request;
 use DB;
 use Validator;
-use Illuminate\Support\Facades\Storage;
+
 class ShopOfferController extends Controller
 {
     public function list_shop_offer()
@@ -16,7 +16,7 @@ class ShopOfferController extends Controller
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        $shop_offer = DB::table('shop_offers')->get();
+        $shop_offer = DB::table('offers')->where('type',1)->get();
         return view('seller.offer.list_offer', compact('shop_offer', 'loggeduser', 'userdetails'));
     }
 
@@ -32,30 +32,29 @@ class ShopOfferController extends Controller
     public function store_shop_offer(Request $request)
     {
 
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'offer_to_display' => 'required|string',
             'car' => 'required|array',
             'from_date_time' => 'required|date',
             'to_date_time' => 'required|date',
-            'offer_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'offer_image' => 'required|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        $shop_offer = new ShopOffer;
-
+        $shop_offer = new Offer;
+        $shop_offer->type = 1;
         $shop_offer->offer_to_display = $request->offer_to_display;
         $shop_offer->conditions = json_encode($request->car);
         $shop_offer->from_date_time = $request->from_date_time;
         $shop_offer->to_date_time = $request->to_date_time;
         $upload_path = 'uploads/shop_offer/';
         $file_path = $request->file('offer_image');
-        if($file_path!='')
-        {
+        if ($file_path != '') {
             if ($file_path->isValid()) {
-            $new_name = time() . '_' . $file_path->getClientOriginalName();
-            $file_path->move($upload_path, $new_name);
-            $shop_offer->offer_image = $new_name;
+                $new_name = time() . '_' . $file_path->getClientOriginalName();
+                $file_path->move($upload_path, $new_name);
+                $shop_offer->offer_image = $new_name;
             }
         }
         $shop_offer->save();
@@ -68,7 +67,7 @@ class ShopOfferController extends Controller
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        $shopoffer = ShopOffer::find($id);
+        $shopoffer = Offer::find($id);
 
         if (!$shopoffer) {
             return redirect()->route('list.shop_offer')->with('error', 'Shop offer not found.');
@@ -77,33 +76,49 @@ class ShopOfferController extends Controller
         return view('seller.offer.edit_offer', compact('shopoffer', 'loggeduser', 'userdetails'));
     }
 
-    // public function update_business_type(Request $request, $id)
-    // {
-    //     $businesstype = BusinessType::find($id);
-    //     if (!$businesstype) {
-    //         return redirect()->route('list.businesstype')->with('error', 'Business Type not found.');
-    //     }
+    public function update_shop_offer(Request $request, $id)
+    {
+        $shopoffer = Offer::find($id);
+        if (!$shopoffer) {
+            return redirect()->route('list.shopoffer')->with('error', 'Shop offer not found.');
+        }
 
-    //     $request->validate([
-    //         'business_name' => 'required|string|max:255',
-    //         'status' => 'required|in:Active,Inactive',
-    //     ]);
+        $validator = Validator::make($request->all(), [
+            'offer_to_display' => 'required|string',
+            'car' => 'required|array',
+            'from_date_time' => 'required|date',
+            'to_date_time' => 'required|date',
+            'offer_image' => 'requires|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        $shopoffer->offer_to_display = $request->offer_to_display;
+        $shopoffer->conditions = json_encode($request->car);
+        $shopoffer->from_date_time = $request->from_date_time;
+        $shopoffer->to_date_time = $request->to_date_time;
+        $upload_path = 'uploads/shop_offer/';
+        $file_path = $request->file('offer_image');
+        if ($file_path != '') {
+            if ($file_path->isValid()) {
+                $full_file_path = public_path($upload_path . $shopoffer->offer_image);
 
-    //     $businesstype->business_name = $request->business_name;
-    //     if ($request->status === 'Active')
-    //     {
-    //         $businesstype->status = 'Y';
-    //     } else {
-    //         $businesstype->status = 'N';
-    //     }
-    //     $businesstype->save();
+                if (file_exists($full_file_path)) {
+                    unlink($full_file_path);
+                }
+                $new_name = time() . '_' . $file_path->getClientOriginalName();
+                $file_path->move($upload_path, $new_name);
+                $shopoffer->offer_image = $new_name;
+            }
+        }
+        $shopoffer->save();
 
-    //     return redirect()->route('list.businesstype')->with('success', 'Business Type updated successfully.');
-    // }
+        return redirect()->route('list.shop_offer')->with('success', 'Shop offer updated successfully.');
+    }
 
     public function delete_shop_offer($id)
     {
-        $shopoffer = ShopOffer::find($id);
+        $shopoffer = Offer::find($id);
 
         if (!$shopoffer) {
             return redirect()->route('list.shop_offer')->with('error', 'Shop offer not found.');

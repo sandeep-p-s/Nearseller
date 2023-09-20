@@ -77,7 +77,7 @@ class ShopTypeController extends Controller
         }
         $shoptype->save();
 
-        return redirect()->route('list.shoptype')->with('success', 'Shop Type added successfully.');
+        return redirect()->route('list.shoptype')->with('success', 'Shop Type updated successfully.');
     }
 
     public function delete_shop_type($id)

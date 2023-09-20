@@ -63,7 +63,7 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $srt->service_name }}</td>
                                             <td>
-                                                <span class="badge p-2  {{ $srt->status === 'Y' ? 'approve_btn' : 'delete_btn' }}">
+                                                <span class="badge p-2  {{ $srt->status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
                                                     {{ $srt->status === 'Y' ? 'Active' : 'Inactive' }}
                                                 </span>
                                             </td>

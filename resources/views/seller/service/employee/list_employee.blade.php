@@ -12,12 +12,12 @@
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-                                <h4 class="page-title">Executive Name</h4>
+                                <h4 class="page-title">Employees</h4>
 
                             </div>
                             <div class="col-auto align-self-center">
-                                <a href="{{ route('add.executive') }}"><button type="button" class="btn add_btn ">Add
-                                        Executive </button></a>
+                                <a href="{{ route('add.service_employee') }}"><button type="button" class="btn add_btn ">Add
+                                        Employee </button></a>
                             </div><!--end col-->
 
 
@@ -52,21 +52,17 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Executive Name</th>
-                                        <th>Status</th>
+                                        <th>Name</th>
+                                        <th>Designation/Skill</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($executive as $ex)
+                                    @foreach ($service_emp as $se)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $ex->executive_name }}</td>
-                                            <td>
-                                                <span class="badge p-2 {{ $ex->status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
-                                                {{ $ex->status === 'Y' ? 'Active' : 'Inactive' }}
-                                            </span>
-                                            </td>
+                                            <td>{{ $se->employee_name }}</td>
+                                            <td> {{ $se->designation }}</td>
                                             <td>
                                                 <div class="btn-group mb-2 mb-md-0">
                                                     <button type="button" class="btn view_btn dropdown-toggle"
@@ -75,9 +71,9 @@
                                                             class="mdi mdi-chevron-down"></i></button>
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item view_btn1"
-                                                            href="{{ route('edit.executive', $ex->id) }}">Edit</a>
+                                                            href="{{ route('edit.service_employee', $se->id) }}">Edit</a>
                                                         <a class="dropdown-item delete_btn"
-                                                            href="{{ route('delete.executive', $ex->id) }}"
+                                                            href="{{ route('delete.service_employee', $se->id) }}"
                                                             onclick="return confirm('Are you sure you want to delete?')">Delete</a>
                                                     </div>
                                                 </div>
@@ -94,5 +90,6 @@
             </div> <!-- end row -->
 
         </div><!-- container -->
+
     @endsection
 

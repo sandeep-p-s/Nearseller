@@ -12,12 +12,12 @@
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-                                <h4 class="page-title">Executive Name</h4>
+                                <h4 class="page-title">Offer</h4>
 
                             </div>
                             <div class="col-auto align-self-center">
-                                <a href="{{ route('add.executive') }}"><button type="button" class="btn add_btn ">Add
-                                        Executive </button></a>
+                                <a href="{{ route('add.service_offer') }}"><button type="button" class="btn add_btn ">Add
+                                        Offer </button></a>
                             </div><!--end col-->
 
 
@@ -52,20 +52,22 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Executive Name</th>
+                                        <th>Offer</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($executive as $ex)
+                                    @if ($service_offer)
+                                    @foreach ($service_offer as $se)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $ex->executive_name }}</td>
+                                            <td>{{ $se->offer_to_display }}</td>
                                             <td>
-                                                <span class="badge p-2 {{ $ex->status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
-                                                {{ $ex->status === 'Y' ? 'Active' : 'Inactive' }}
-                                            </span>
+                                                <span
+                                                    class="badge p-2 {{ $se->status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
+                                                    {{ $se->status === 'Y' ? 'Active' : 'Inactive' }}
+                                                </span>
                                             </td>
                                             <td>
                                                 <div class="btn-group mb-2 mb-md-0">
@@ -75,9 +77,9 @@
                                                             class="mdi mdi-chevron-down"></i></button>
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item view_btn1"
-                                                            href="{{ route('edit.executive', $ex->id) }}">Edit</a>
+                                                            href="{{ route('edit.service_offer', $se->id) }}">Edit</a>
                                                         <a class="dropdown-item delete_btn"
-                                                            href="{{ route('delete.executive', $ex->id) }}"
+                                                            href="{{ route('delete.service_offer', $se->id) }}"
                                                             onclick="return confirm('Are you sure you want to delete?')">Delete</a>
                                                     </div>
                                                 </div>
@@ -85,6 +87,11 @@
 
                                         </tr>
                                     @endforeach
+                                    @else
+                                    <tr>
+                                        <td colspan='4' style="text-align: center;">No shop offers found.</td>
+                                    </tr>
+                                @endif
                                 </tbody>
                             </table>
 
@@ -94,5 +101,6 @@
             </div> <!-- end row -->
 
         </div><!-- container -->
+
     @endsection
 

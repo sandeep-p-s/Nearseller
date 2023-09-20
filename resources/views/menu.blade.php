@@ -103,6 +103,19 @@
                 <hr class="hr hr-menu">
             </li>
         </ul>
+
+        <ul class="metismenu left-sidenav-menu">
+            <li><a href="home.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Home Page</span><span class="menu-arrow"></span></a> </li>
+            <hr class="hr hr-menu">
+            <li><a href="services_table.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Add Services</span><span class="menu-arrow"></span></a> </li>
+            <hr class="hr hr-menu">
+            <li><a href="appointments_table.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Appointment</span><span class="menu-arrow"></span></a> </li>
+            <hr class="hr hr-menu">
+            <li><a href="{{ route('list.service_employee') }}"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Employees</span><span class="menu-arrow"></span></a> </li>
+            <hr class="hr hr-menu">
+            <li><a href="{{ route('list.service_offer') }}"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Offers</span><span class="menu-arrow"></span></a> </li>
+            <hr class="hr hr-menu">
+        </ul>
     @endif
     {{-- </div>
 

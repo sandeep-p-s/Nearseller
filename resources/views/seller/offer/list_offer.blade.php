@@ -58,6 +58,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @if ($shop_offer)
                                     @foreach ($shop_offer as $so)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
@@ -86,6 +87,11 @@
 
                                         </tr>
                                     @endforeach
+                                    @else
+                                    <tr>
+                                        <td colspan='4' style="text-align: center;">No shop offers found.</td>
+                                    </tr>
+                                @endif
                                 </tbody>
                             </table>
 

@@ -76,7 +76,7 @@ class ServiceTypeController extends Controller
         }
         $servicetype->save();
 
-        return redirect()->route('list.servicetype')->with('success', 'Service Type added successfully.');
+        return redirect()->route('list.servicetype')->with('success', 'Service Type updated successfully.');
     }
 
     public function delete_service_type($id)

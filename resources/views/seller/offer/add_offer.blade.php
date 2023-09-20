@@ -36,7 +36,8 @@
                                             <input type="text" class="form-control" id="offer"
                                                 name="offer_to_display" placeholder="Enter offer">
                                             @error('offer_to_display')
-                                            <div class="text-danger mb15">{{ $message }}</div>                                            @enderror
+                                                <div class="text-danger mb15">{{ $message }}</div>
+                                            @enderror
                                             <!--end col-->
                                         </div>
                                         <fieldset class="mb20">
@@ -48,9 +49,9 @@
                                                             <label class="control-label">Conditions</label>
                                                             <input type="text" class="form-control" id="conditions"
                                                                 name="conditions" placeholder="Enter conditions">
-                                                                @error('conditions')
+                                                            @error('conditions')
                                                                 <div class="text-danger mb15">{{ $message }}</div>
-                                                                @enderror
+                                                            @enderror
                                                             <!--end col-->
                                                         </div><!--end row-->
                                                     </div><!--end /div-->
@@ -72,7 +73,8 @@
                                                     <input type="datetime-local" class="form-control" id="from_time"
                                                         name="from_date_time" placeholder="Enter offer">
                                                     @error('from_date_time')
-                                                    <div class="text-danger mb15">{{ $message }}</div>                                                    @enderror
+                                                        <div class="text-danger mb15">{{ $message }}</div>
+                                                    @enderror
                                                     <!--end col-->
                                                 </div>
                                             </div>
@@ -81,8 +83,9 @@
                                                     <label class="control-label">To Date & Time</label>
                                                     <input type="datetime-local" class="form-control" id="to_time"
                                                         name="to_date_time" placeholder="Enter offer">
-                                                        @error('to_date_time')
-                                                        <div class="text-danger mb15">{{ $message }}</div>                                                    @enderror
+                                                    @error('to_date_time')
+                                                        <div class="text-danger mb15">{{ $message }}</div>
+                                                    @enderror
                                                     <!--end col-->
                                                 </div>
                                             </div>
