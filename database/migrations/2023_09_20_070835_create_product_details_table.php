@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('product_name', 100)->nullable();
             $table->longText('product_specification')->nullable();
             $table->string('category_id', 10)->nullable();
-            $table->string('product_description', 10)->nullable();
+            $table->longText('product_description')->nullable();
             $table->longText('product_images')->nullable();
             $table->longText('product_videos')->nullable();
             $table->longText('product_document')->nullable();

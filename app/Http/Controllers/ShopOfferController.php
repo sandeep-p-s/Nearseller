@@ -34,11 +34,19 @@ class ShopOfferController extends Controller
 
         $validator = Validator::make($request->all(), [
             'offer_to_display' => 'required|string',
-            'car' => 'required|array',
+            'conditions' => 'required|string|max:255',
             'from_date_time' => 'required|date',
             'to_date_time' => 'required|date',
             'offer_image' => 'required|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+        ],
+        [
+            'offer_to_display.required' => 'The Display offer field is required',
+            'conditions.required' => 'The conditions field is required.',
+            'conditions.string' => 'The conditions field must be a string.',
+            'conditions.max' => 'The conditions field may not be greater than :max characters.',
+
+        ]
+    );
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
@@ -85,11 +93,19 @@ class ShopOfferController extends Controller
 
         $validator = Validator::make($request->all(), [
             'offer_to_display' => 'required|string',
-            'car' => 'required|array',
+            'conditions' => 'required|string|max:255',
             'from_date_time' => 'required|date',
             'to_date_time' => 'required|date',
             'offer_image' => 'requires|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+        ],
+        [
+            'offer_to_display.required' => 'The Display offer field is required',
+            'conditions.required' => 'The conditions field is required.',
+            'conditions.string' => 'The conditions field must be a string.',
+            'conditions.max' => 'The conditions field may not be greater than :max characters.',
+
+        ]
+    );
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }

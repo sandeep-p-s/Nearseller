@@ -127,6 +127,9 @@
                                                 </div>
                                             </div><!--end card-body-->
                                         </div>
+                                        @error('offer_image')
+                                            <div class="text-danger mb-2">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div><!--end fieldset-->
                                 <!--end form-->
