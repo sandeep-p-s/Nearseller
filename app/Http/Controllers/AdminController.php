@@ -10,27 +10,34 @@ use App\Models\LogDetails;
 use App\Models\SellerDetails;
 use App\Models\Affiliate;
 use App\Models\ServiceType;
+use App\Models\MenuMaster;
 use App\Mail\EmailVerification;
 use Illuminate\Support\Facades\Mail;
 use Exception;
 use DB;
 class AdminController extends Controller
 {
-    function admindashboard()
-    {
-        $userRole   = session('user_role');
-        $userId     = session('user_id');
-        if($userId=='')
+    public function admindashboard()
         {
-            return redirect()->route('logout');
+            $userRole = session('user_role');
+            $userId = session('user_id');
+            $roleid = session('roleid');
+            if ($userId == '') {
+                return redirect()->route('logout');
+            }
+
+            $loggeduser = UserAccount::sessionValuereturn($userRole);
+
+            $userdetails = DB::table('user_account')->where('id', $userId)->get();
+            $countUsers = DB::table('user_account')->where('role_id', 4)->count();
+            $countAffiliate = DB::table('user_account')->where('role_id', 3)->count();
+            $countShops = DB::table('user_account')->where('role_id', 2)->count();
+            $countSeller = DB::table('user_account')->where('role_id', 9)->count();
+
+            $structuredMenu = MenuMaster::UserPageMenu($userId);
+            return view('admin.dashboard', compact('userdetails', 'countUsers', 'countAffiliate', 'countShops', 'countSeller', 'userRole', 'loggeduser', 'structuredMenu'));
         }
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        $countUsers     = DB::table('user_account')->where('role_id', 4)->count();
-        $countAffiliate = DB::table('user_account')->where('role_id', 3)->count();
-        $countShops     = DB::table('user_account')->where('role_id', 2)->count();
-        return view('admin.dashboard',compact('userdetails','countUsers','countAffiliate','countShops','userRole','loggeduser'));
-    }
+
 
 ////////////////////////////Affiliate//////////////////////////////
 
@@ -41,7 +48,8 @@ class AdminController extends Controller
                 if($userId==''){return redirect()->route('logout');}
                 $loggeduser     = UserAccount::sessionValuereturn($userRole);
                 $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-                return view('admin.affilate_approval',compact('userdetails','userRole','loggeduser'));
+                $structuredMenu = MenuMaster::UserPageMenu($userId);
+                return view('admin.affilate_approval',compact('userdetails','userRole','loggeduser','structuredMenu'));
             }
 
             function AllAffiliatesList(Request $request)
@@ -801,14 +809,22 @@ class AdminController extends Controller
 
 ////////////////////////////Shops//////////////////////////////
 
-    function ShopApproval()
+    function ShopApproval($typeid)
     {
         $userRole = session('user_role');
         $userId = session('user_id');
         if($userId==''){return redirect()->route('logout');}
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        return view('admin.shop_approval',compact('userdetails','userRole','loggeduser'));
+        if($typeid==1){$shoporservice='Shops';
+        }
+        else  if($typeid==2){$shoporservice='Services';
+        }
+        else{
+            return redirect()->route('logout');
+        }
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
+        return view('admin.shop_approval',compact('userdetails','userRole','loggeduser','shoporservice','typeid','structuredMenu'));
     }
 
     function AllShopsList(Request $request)
@@ -823,6 +839,8 @@ class AdminController extends Controller
         $shopname   = $request->input('shopname');
         $ownername  = $request->input('ownername');
         $referalid  = $request->input('referalid');
+        $typeid     = $request->input('typeid');
+
         $query = SellerDetails::select('seller_details.*','business_type.business_name','service_types.service_name','executives.executive_name','country.country_name','state.state_name','district.district_name')
         ->leftJoin('business_type', 'business_type.id', 'seller_details.busnes_type')
         ->leftJoin('service_types', 'service_types.id', 'seller_details.shop_service_type')
@@ -847,18 +865,21 @@ class AdminController extends Controller
         {
             $query->where('seller_details.user_id', $userId);
         }
-            //$query->where('seller_details.shop_service_type',1);
-
-
+        $query->where('seller_details.shop_service_type',$typeid);
 
         $sellerDetails = $query->get();
         //echo $lastRegId = $query->toSql();exit;
         $sellerCount = $sellerDetails->count();
+        if($typeid==1){$shoporservice='Shops';
+        }
+        else  if($typeid==2){$shoporservice='Services';
+        }
         $countries      = DB::table('country')->get();
         $business       = DB::table('business_type')->where('status','Y')->get();
-        $shopservice    = DB::table('service_types')->where('status','active')->get();
+        $shopservice    = DB::table('service_types')->where('status','Y')->where('id',$typeid)->get();
+        $shoptypes      = DB::table('shop_type')->where('status','Y')->get();
         $executives     = DB::table('executives')->where(['executive_type' => 1, 'status' => 'Y'])->get();
-        return view('admin.shop_dets', compact('sellerDetails', 'sellerCount','countries','business','shopservice','executives'));
+        return view('admin.shop_dets', compact('sellerDetails', 'sellerCount','countries','business','shopservice','executives','shoptypes','shoporservice','typeid'));
     }
 
 
@@ -875,12 +896,13 @@ class AdminController extends Controller
             $time=date('Y-m-d H:i:s');
             $validatedData = $request->validate([
                 's_name' => 'required|max:50',
-                's_ownername' => 'required|max:50',
+                's_ownername' => 'max:50',
                 's_mobno' => 'required|max:10',
                 's_email' => 'required|email|max:35',
                 's_refralid' => 'max:50',
                 's_busnestype' => 'required',
                 's_shopservice' => 'required',
+                's_shoptype' => 'required',
                 's_shopexectename' => 'required',
                 's_lisence' => 'required|max:25',
                 's_buldingorhouseno' => 'required|max:100',
@@ -953,12 +975,14 @@ class AdminController extends Controller
                 $sellerDetail = new SellerDetails();
                 $sellerDetail->fill($validatedData);
                 $sellerDetail->shop_name = $request->input('s_name');
-                $sellerDetail->owner_name = $request->input('s_ownername');
+                if($request->input('s_shoptype')==1){
+                $sellerDetail->owner_name = $request->input('s_ownername');}
                 $sellerDetail->shop_email = $request->input('s_email');
                 $sellerDetail->shop_mobno = $request->input('s_mobno');
                 $sellerDetail->referal_id = $request->input('s_refralid');
                 $sellerDetail->busnes_type = $request->input('s_busnestype');
                 $sellerDetail->shop_service_type = $request->input('s_shopservice');
+                $sellerDetail->shop_type = $request->input('s_shoptype');
                 $sellerDetail->shop_executive = $request->input('s_shopexectename');
                 $sellerDetail->term_condition = $request->has('s_termcondtn') ? 1 : 0;
                 $sellerDetail->shop_licence = $request->input('s_lisence');
@@ -1061,6 +1085,7 @@ class AdminController extends Controller
             return redirect()->route('logout');
         }
         $id=$request->input('shopid');
+        $typeid=$request->input('typeid');
         $sellerDetails = SellerDetails::select('seller_details.*', 'business_type.business_name', 'service_types.service_name', 'executives.executive_name', 'country.country_name', 'state.state_name', 'district.district_name','user_account.user_status')
             ->leftJoin('business_type', 'business_type.id', 'seller_details.busnes_type')
             ->leftJoin('service_types', 'service_types.id', 'seller_details.shop_service_type')
@@ -1070,17 +1095,22 @@ class AdminController extends Controller
             ->leftJoin('district', 'district.id', 'seller_details.district')
             ->leftJoin('user_account', 'user_account.id', 'seller_details.user_id')
             ->where('seller_details.id', $id)
-            //->where('seller_details.shop_service_type',1)
+            ->where('seller_details.shop_service_type',$typeid)
             ->first();
         //echo $lastRegId = $sellerDetails->toSql();exit;
         $countries      = DB::table('country')->get();
         $states         = DB::table('state')->where('country_id', $sellerDetails->country)->get();
         $districts      = DB::table('district')->where('state_id', $sellerDetails->state)->get();
         $business       = DB::table('business_type')->where('status','Y')->get();
-        $shopservice    = DB::table('service_types')->where('status', 'active')->get();
+        $shopservice    = DB::table('service_types')->where('status', 'Y')->where('id', $sellerDetails->shop_service_type)->get();
+        $shoptypes      = DB::table('shop_type')->where('status','Y')->get();
         $userstus       = DB::table('user_account')->where('id', $sellerDetails->user_id)->get();
         $executives     = DB::table('executives')->where(['executive_type' => 1, 'status' => 'Y'])->get();
-        return view('admin.shop_viewedit_dets', compact('sellerDetails', 'countries', 'states', 'districts', 'business', 'shopservice', 'executives','userstus'));
+        if($typeid==1){$shoporservice='Shops';
+        }
+        else  if($typeid==2){$shoporservice='Services';
+        }
+        return view('admin.shop_viewedit_dets', compact('sellerDetails', 'countries', 'states', 'districts', 'business', 'shopservice', 'executives','userstus','shoptypes','typeid','shoporservice'));
 
     }
 
@@ -1148,12 +1178,13 @@ class AdminController extends Controller
             $time=date('Y-m-d H:i:s');
             $validatedData = $request->validate([
                 'es_name' => 'required|max:50',
-                'es_ownername' => 'required|max:50',
+                'es_ownername' => 'max:50',
                 'es_mobno' => 'required|max:10',
                 'es_email' => 'required|email|max:35',
                 'es_refralid' => 'max:50',
                 'es_busnestype' => 'required',
                 'es_shopservice' => 'required',
+                'es_shoptype' => 'required',
                 'es_shopexectename' => 'required',
                 'es_lisence' => 'required|max:25',
                 'es_buldingorhouseno' => 'required|max:100',
@@ -1179,11 +1210,13 @@ class AdminController extends Controller
             $sellerDetail   = SellerDetails::find($shopid);
             $sellerDetail->fill($validatedData);
             $sellerDetail->shop_name = $request->input('es_name');
-            $sellerDetail->owner_name = $request->input('es_ownername');
+            if($request->input('es_shopservice')==1){
+            $sellerDetail->owner_name = $request->input('es_ownername');}
             $sellerDetail->shop_email = $request->input('es_email');
             $sellerDetail->shop_mobno = $request->input('es_mobno');
             $sellerDetail->busnes_type = $request->input('es_busnestype');
             $sellerDetail->shop_service_type = $request->input('es_shopservice');
+            $sellerDetail->shop_type = $request->input('es_shoptype');
             $sellerDetail->shop_executive = $request->input('es_shopexectename');
             $sellerDetail->term_condition = $request->has('es_termcondtn') ? 1 : 0;
             $sellerDetail->shop_licence = $request->input('es_lisence');
@@ -1226,7 +1259,7 @@ class AdminController extends Controller
             $input_datas = $existing_images;
 
             foreach ($request->file('es_photo') as $file) {
-                if ($file->isValid()) {
+                if($file->isValid()) {
                     $new_name = time() . '_' . $file->getClientOriginalName();
                     $file->move($upload_path, $new_name);
                     $filename = $upload_path . $new_name;
@@ -1298,15 +1331,17 @@ class AdminController extends Controller
                 return redirect()->route('logout');
             }
             $id=$request->input('shopid');
-            $sellerDetails = SellerDetails::select('seller_details.*', 'business_type.business_name', 'service_types.service_name', 'executives.executive_name', 'country.country_name', 'state.state_name', 'district.district_name')
+            $typeid=$request->input('typeid');
+            $sellerDetails = SellerDetails::select('seller_details.*', 'business_type.business_name', 'service_types.service_name', 'executives.executive_name', 'country.country_name', 'state.state_name', 'district.district_name','shop_type.shop_name')
                 ->leftJoin('business_type', 'business_type.id', 'seller_details.busnes_type')
                 ->leftJoin('service_types', 'service_types.id', 'seller_details.shop_service_type')
+                ->leftJoin('shop_type', 'shop_type.id', 'seller_details.shop_type')
                 ->leftJoin('executives', 'executives.id', 'seller_details.shop_executive')
                 ->leftJoin('country', 'country.id', 'seller_details.country')
                 ->leftJoin('state', 'state.id', 'seller_details.state')
                 ->leftJoin('district', 'district.id', 'seller_details.district')
                 ->where('seller_details.id', $id)
-                //->where('seller_details.shop_service_type',1)
+                ->where('seller_details.shop_service_type',$typeid)
                 ->first();
             //echo $lastRegId = $sellerDetails->toSql();exit;
             $userdets       = DB::table('user_account')->where('id', $sellerDetails->user_id)->get();
@@ -1314,9 +1349,14 @@ class AdminController extends Controller
             $states         = DB::table('state')->where('country_id', $sellerDetails->country)->get();
             $districts      = DB::table('district')->where('state_id', $sellerDetails->state)->get();
             $business       = DB::table('business_type')->where('status','Y')->get();
-            $shopservice    = DB::table('service_types')->where('status', 'active')->get();
+            $shopservice    = DB::table('service_types')->where('status', 'Y')->where('id', $sellerDetails->shop_service_type)->get();
+            $shoptypes      = DB::table('shop_type')->where('status','Y')->get();
             $executives     = DB::table('executives')->where(['executive_type' => 1, 'status' => 'Y'])->get();
-            return view('admin.shop_approved_dets', compact('sellerDetails', 'countries', 'states', 'districts', 'business', 'shopservice', 'executives','userdets'));
+            if($typeid==1){$shoporservice='Shops';
+            }
+            else  if($typeid==2){$shoporservice='Services';
+            }
+            return view('admin.shop_approved_dets', compact('sellerDetails', 'countries', 'states', 'districts', 'business', 'shopservice', 'executives','userdets','shoptypes','shoporservice','typeid'));
 
         }
 

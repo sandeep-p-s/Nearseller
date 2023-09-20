@@ -107,6 +107,19 @@
                             </select>
                             <label for="s_shopservice" class="error"></label>
                         </div>
+                        <div class="form-outline mb-3"><label >Shop Type</label>
+                            <select class="form-select form-control form-control-lg" id="s_shoptype" name="s_shoptype" required tabindex="7">
+                                <option value="">Shop Type</option><br/>
+                                @foreach ($shoptypes as $shoptyp)
+                                        <option value="{{ $shoptyp->id }}">{{ $shoptyp->shop_name }}</option>
+                                    @endforeach
+                            </select>
+                            <label for="s_shoptype" class="error"></label>
+                        </div>
+
+
+
+
                         <div class="form-outline mb-3"><label >Shop Executive Name</label>
                             <select class="form-select form-control form-control-lg" id="s_shopexectename" name="s_shopexectename" required tabindex="8" >
                                 <option value="">Shop Executive Name</option><br/>
@@ -482,6 +495,10 @@
 
                 },
                 s_shopservice: {
+                    required: true,
+
+                },
+                s_shoptype: {
                     required: true,
 
                 },

@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('affiliate', function (Blueprint $table) {
-            $table->string('account_no')->change();
-
+        Schema::table('seller_details', function (Blueprint $table) {
+            $table->integer('shop_type')->after('shop_service_type')->nullable();
         });
     }
 
@@ -22,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('affiliate', function (Blueprint $table) {
-            $table->integer('account_no')->after('aff_coordinator')->change();
+        Schema::table('seller_details', function (Blueprint $table) {
+            $table->dropColumn('shop_type');
         });
     }
 };

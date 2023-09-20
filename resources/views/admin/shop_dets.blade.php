@@ -4,10 +4,19 @@
             <tr>
                 <th>SINO</th>
                 <th>Reg. ID</th>
-                <th>Shop Name</th>
+                <th>{{$shoporservice}} Name</th>
+                @if($typeid==1)
                 <th>Owner Name</th>
+                @endif
                 <th>Email</th>
                 <th>Mobile</th>
+                <th>{{$shoporservice}} Type</th>
+                {{-- <th>Address</th>
+                <th>Referral ID</th>
+                <th>Business Type</th>
+                <th>Service Type</th>
+                <th>Executive Name</th>
+                <th>Reg. Date</th> --}}
                 <th>Service Type</th>
                 <th>Action</th>
             </tr>
@@ -18,7 +27,9 @@
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $sellerDetail->shop_reg_id }}</td>
                     <td>{{ $sellerDetail->shop_name }}</td>
+                    @if($typeid==1)
                     <td>{{ $sellerDetail->owner_name }}</td>
+                    @endif
                     <td>{{ $sellerDetail->shop_email }}</td>
                     <td>{{ $sellerDetail->shop_mobno }}</td>
                     <td class="text-success">{{ $sellerDetail->serviceType->service_name }}</td>
@@ -28,6 +39,11 @@
                                 aria-haspopup="true" aria-expanded="false">Action
                                 <i class="mdi mdi-chevron-down"></i></button>
                             <div class="dropdown-menu">
+                                <a class="dropdown-item view_btn1" href="#" onclick="shopvieweditdet({{ $sellerDetail->id }},{{$typeid}})">View/Edit</a>
+                                @if(session('roleid')=='1')
+                                <a class="dropdown-item approve_btn" href="#" onclick="shopapprovedet({{ $sellerDetail->id }},{{$typeid}})">Approved</a>
+                                <a class="dropdown-item delete_btn" href="#" onclick="shopdeletedet({{ $sellerDetail->id }})">Delete</a>
+
                                 <a class="dropdown-item view_btn1" href="#"
                                     onclick="shopvieweditdet({{ $sellerDetail->id }})">View/Edit</a>
                                 @if (session('roleid') == '1')
@@ -61,12 +77,80 @@
     <div class="modal-dialog custom-modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-center" id="addNewModalLabel">Add New Shops </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                    title="Close">x</button>
-            </div>
+                <h5 class="modal-title text-center" id="addNewModalLabel">Add New {{$shoporservice}}  </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" title="Close">x</button>
+              </div>
             <div class="modal-body ">
                 <form id="SellerRegForm" enctype="multipart/form-data" method="POST">
+                <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-outline mb-3"><label >{{$shoporservice}} Name</label>
+                            <input type="text" id="s_name" name="s_name" class="form-control form-control-lg" maxlength="50"  placeholder="{{$shoporservice}} Name" required  tabindex="1" />
+                            <label for="s_name" class="error"></label>
+                        </div>
+                        @if($typeid==1)
+                        <div class="form-outline mb-3"><label >Owner Name</label>
+                            <input type="text" id="s_ownername" name="s_ownername" class="form-control form-control-lg"  maxlength="50"   placeholder="Owner Name" required tabindex="2" />
+                            <label for="s_ownername" class="error"></label>
+                        </div>
+                        @endif
+                        <div class="form-outline mb-3"><label >Mobile Number</label>
+                            <input type="text" id="s_mobno" name="s_mobno" class="form-control form-control-lg"  maxlength="10"  placeholder="Mobile No" required tabindex="3"  onchange="exstmobno(this.value,'2')" />
+                            <label for="s_mobno" class="error"></label>
+                            <div id="smob-message"  class="text-center" style="display: none;"></div>
+                        </div>
+                        <div class="form-outline mb-3"><label >Email ID</label>
+                            <input type="email" id="s_email" name="s_email" class="form-control form-control-lg"  maxlength="35"  placeholder="Email ID" required tabindex="4"  onchange="exstemilid(this.value,'2')" />
+                            <label for="s_email" class="error"></label>
+                            <div id="semil-message"  class="text-center" style="display: none;"></div>
+                        </div>
+                        <div class="form-outline mb-3"><label >Referral ID</label>
+                            <input type="text" id="s_refralid" name="s_refralid" class="form-control form-control-lg"  maxlength="50"  placeholder="Referral ID" tabindex="5" onchange="checkrefrelno(this.value,'1')"/>
+                            <div id="s_refralid-message"  class="text-center" style="display: none;"></div>
+                        </div>
+                        <div class="form-outline mb-3"><label >Business Type</label>
+                            <select class="form-select form-control form-control-lg" id="s_busnestype" name="s_busnestype"  required tabindex="6">
+                                <option value="" >Business Type</option><br/>
+                                    @foreach ($business as $busnes)
+                                        <option value="{{ $busnes->id }}">{{ $busnes->business_name }}</option>
+                                    @endforeach
+                            </select>
+                            <label for="s_busnestype" class="error"></label>
+                        </div>
+                        <div class="form-outline mb-3" style="display:none;"><label >Shop/Service Type</label>
+                            <select class="form-select form-control form-control-lg" id="s_shopservice" name="s_shopservice" required tabindex="7">
+
+                                @foreach ($shopservice as $shopser)
+                                        <option value="{{ $shopser->id }}">{{ $shopser->service_name }}</option>
+                                    @endforeach
+                            </select>
+                            <label for="s_shopservice" class="error"></label>
+                        </div>
+
+                        <div class="form-outline mb-3"><label >{{$shoporservice}} Type</label>
+                            <select class="form-select form-control form-control-lg" id="s_shoptype" name="s_shoptype" required tabindex="7">
+                                <option value="">{{$shoporservice}} Type</option><br/>
+                                @foreach ($shoptypes as $shoptyp)
+                                        <option value="{{ $shoptyp->id }}">{{ $shoptyp->shop_name }}</option>
+                                    @endforeach
+                            </select>
+                            <label for="s_shoptype" class="error"></label>
+                        </div>
+
+
+
+
+
+                        <div class="form-outline mb-3"><label >{{$shoporservice}} Executive Name</label>
+                            <select class="form-select form-control form-control-lg" id="s_shopexectename" name="s_shopexectename" required tabindex="8" >
+                                <option value="">{{$shoporservice}} Executive Name</option><br/>
+                                    @foreach ($executives as $exec)
+                                        <option value="{{ $exec->id }}">{{ $exec->executive_name }}</option>
+                                    @endforeach
+                            </select>
+                            <label for="s_shopexectename" class="error"></label>
+                        </div>
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-md-4">
@@ -132,7 +216,6 @@
                                     </select>
                                     <label for="s_shopexectename" class="error"></label>
                                 </div>
-
                                 <div class="form-outline mb-3"><label>Social Media</label>
                                     <div class="row mb-5">
                                         <div class="col-md-3 fv-row fv-plugins-icon-container">
@@ -335,6 +418,61 @@
 </div>
 </div>
 
+
+
+
+<!-- Modal Add New -->
+<div class="modal fade" id="UploadShopModal" tabindex="-1" aria-labelledby="UploadShopModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center" id="UploadShopModalLabel">Upload Shops Details </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" title="Close">x</button>
+            </div>
+            <div class="modal-body">
+                <form id="UploadSellerRegForm" enctype="multipart/form-data" method="POST">
+                <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-outline mb-3"><label >Upload File</label>
+                            <input type="file" id="shopupload" name="shopupload" class="form-control form-control-lg" placeholder="Upload File" accept=".csv" required tabindex="1" />
+                            <label for="shopupload" class="error"></label>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12">
+                        <div style="float:right">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <div id="shopupload-message"  class="text-center" style="display: none;"></div>
+                    </div>
+
+
+                 </div>
+                </div>
+                </form>
+            </div>
+            </div>
+            </div>
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Modal Add new Close -->
+
+
+
+
 <script>
     $(function() {
         //$('#datetimepicker').datetimepicker();
@@ -404,6 +542,26 @@
                 return;
             }
 
+
+            rules: {
+                s_name: {
+                    required: true,
+                    pattern: /^[A-Za-z\s\.]+$/,
+                },
+                // s_ownername: {
+                //     required: true,
+                //     pattern: /^[A-Za-z\s\.]+$/,
+                // },
+                s_mobno: {
+                    required: true,
+                    digits: true,
+                    minlength: 10,
+                },
+                s_email: {
+                    required: true,
+                    email: true,
+                },
+
             fileArrs.push(file);
             totalFiless++;
 
@@ -419,10 +577,16 @@
                     imgDiv.append(img);
                     imgDiv.append($('<div>').addClass('middle').append(removeBtn));
 
+                },
+                s_shoptype: {
+                    required: true,
+
+                },
+                s_shopexectename: {
+                    required: true,
                     $('#image-preview').append(imgDiv);
                 };
             })(file);
-
             reader.readAsDataURL(file);
         }
     });
@@ -488,9 +652,79 @@
                 required: true,
 
             },
+            messages: {
+                s_name: {
+                    pattern: "Only characters, spaces, and dots are allowed.",
+                },
+                // s_ownername: {
+                //     pattern: "Only characters, spaces, and dots are allowed.",
+                // },
+                s_mobno: {
+                    digits: "Please enter a valid mobile number.",
+                },
+                s_email: {
+                    email: "Please enter a valid email address.",
+                },
+                s_photo: {
+                    extension: "Only JPG and PNG files are allowed.",
+                },
+                s_lisence: {
+                    required: "Please enter the license number.",
+                    maxlength: "License number must not exceed 25 characters."
+                },
+                s_buldingorhouseno: {
+                    required: "Please enter building/house name and number.",
+                    maxlength: "Building/house name and number must not exceed 100 characters."
+                },
+                s_locality: {
+                    required: "Please enter the locality.",
+                    maxlength: "Locality must not exceed 100 characters."
+                },
+                s_villagetown: {
+                    required: "Please enter village/town/municipality.",
+                    maxlength: "Village/town/municipality must not exceed 100 characters."
+                },
+                country: {
+                    required: "Please select a country."
+                },
+                state: {
+                    required: "Please select a state."
+                },
+                district: {
+                    required: "Please select a district."
+                },
+                s_pincode: {
+                    required: "Please enter the pin code.",
+                    maxlength: "Pin code must be 6 digits."
+                },
+                s_googlelink: {
+                    required: "Please enter the Google map link location."
+                },
+                s_gstno: {
+                    required: "Please enter the GST number.",
+                    maxlength: "GST number must not exceed 25 characters."
+                },
+                s_panno: {
+                    required: "Please enter the PAN number.",
+                    maxlength: "PAN number must not exceed 12 characters."
+                },
+                s_establishdate: {
+                    required: "Please select the establishment date."
+                },
+                s_termcondtn: {
+                    required: "Please accept the terms and conditions."
+                },
+                opentime: {
+                    required: "Please select open time."
+                },
+                closetime: {
+                    required: "Please select close time."
+                },
+                s_registerdate: {
+                    required: "Please select the registration date."
+                }
             s_shopservice: {
                 required: true,
-
             },
             s_shopexectename: {
                 required: true,
@@ -723,7 +957,98 @@
         });
     });
 
+
+            var mm = 1;
+            $(document).ready(function(){
+                $('#addMoreurls').click(function(event){
+                    event.preventDefault();
+                        mm++;
+                        var recRowm = '<div class="row mb-5" id="addedfieldurl'+mm+'"><div class="col-md-3 fv-row fv-plugins-icon-container"><select class="form-select form-control form-control-lg" id="mediatype'+mm+'" name="mediatype['+mm+']"><option selected="">Choose...</option><option value="1">Facebook</option><option value="2">Instagram</option><option value="3">Linked In</option><option value="4">Web site URL</option><option value="5">Youtub Video URL</option></select></div><div class="col-md-9 fv-row fv-plugins-icon-container"><div class="input-group"><input type="text"  id="mediaurl'+mm+'" name="mediaurl['+mm+']" class="form-control form-control-lg" placeholder="https://"  value="" tabindex="22"  maxlength="60"/><div align="right"><button id="removeRowurl'+mm+'" type="button" name="add_fieldurl" class="btn btn-danger" onclick="removeRowurl('+mm+');" >-</button></div></div></div>';
+                    $('#addedUrls').append(recRowm);
+                });
+            });
+
+            function removeRowurl(rowNum){
+                    $('#addedfieldurl'+rowNum).remove();
+                }
+
+                $("#UploadSellerRegForm").validate({
+                    rules: {
+                        shopupload: {
+                            required: true,
+                            accept: "csv"
+                        }
+                    },
+                    messages: {
+                        shopupload: {
+                            required: "Please select a CSV file",
+                            accept: "Only CSV files are allowed"
+                        }
+                    }
+                });
+
+
+                $('#UploadSellerRegForm').submit(function(e) {
+                    e.preventDefault();
+                    if ($(this).valid()) {
+                    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                    $('#loading-overlay').fadeIn();
+                    $('#loading-image').fadeIn();
+                    $.ajax({
+                        url: '{{ route("UploadsellerRegister") }}',
+                        type: "POST",
+                        data:  new FormData(this),
+                        contentType: false,
+                        cache: false,
+                        processData:false,
+                        headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                        },
+                        success: function(response) {
+
+                            console.log(response);
+                            $('#shopupload-message').text('Shop details successfully submitted').fadeIn();
+                            $('#shopupload-message').addClass('success-message');
+                            setTimeout(function() {
+                                $('#shopupload-message').fadeOut();
+                            }, 5000); // 5000 milliseconds = 5 seconds
+                            $('#UploadSellerRegForm')[0].reset();
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                            $('#UploadShopModal').modal('hide');
+                            shwdets();
+
+
+                        },
+                        error: function(xhr) {
+                            console.log(xhr.responseText);
+                            $('#shopupload-message').text('Upload failed.').fadeIn();
+                            $('#shopupload-message').addClass('error');
+                            setTimeout(function() {
+                                $('#shopupload-message').fadeOut();
+                            }, 5000);
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                            $('#UploadShopModal').modal('show');
+
+                        }
+                    });
+                    }
+                    });
+
+
+
+
+
+
+
+
+
+
+
+
     function removeRowurl(rowNum) {
         $('#addedfieldurl' + rowNum).remove();
     }
 </script>
+

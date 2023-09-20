@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('affiliate', function (Blueprint $table) {
             $table->string('account_holder_name')->after('aff_coordinator');
-            $table->integer('account_no')->after('aff_coordinator')->after('account_holder_name');
+            $table->integer('account_no')->after('account_holder_name');
 
         });
     }
