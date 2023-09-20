@@ -15,9 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedBigInteger('parent_id');
+            $table->string('status',1)->default('Y');
             $table->timestamps();
-
-
         });
     }
 

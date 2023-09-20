@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('categories', function (Blueprint $table) {
-            $table->string('slug')->nullable()->after('status');
+            $table->integer('category_level')->nullable()->after('parent_id');
+            $table->string('category_image')->after('category_level')->nullable();
+
         });
     }
 
@@ -22,7 +24,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('categories', function (Blueprint $table) {
-            $table->dropColumn('slug');
+            $table->dropColumn('category_level');
+            $table->dropColumn('category_image');
+
         });
     }
 };
