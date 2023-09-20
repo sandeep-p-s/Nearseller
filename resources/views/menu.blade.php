@@ -159,6 +159,13 @@
                 <a href="javascript: void(0);" aria-expanded="false"><span>Master Data</span><span
                         class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
                 <ul class="nav-second-level mm-collapse" aria-expanded="false">
+                    <li>
+                        <a href="javascript: void(0);"><i class="ti-control-record"></i>Attributes<span class="menu-arrow left-has-menu"><i class="mdi mdi-chevron-right"></i></span></a>
+                        <ul class="nav-second-level" aria-expanded="false">
+                            <li><a href="{{ route('list.attribute') }}">Attribute Name</a></li>
+                            <li><a href="email-templates-basic.html">Attribute Values</a></li>
+                        </ul>
+                    </li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('list.country') }}"><i
                                 class="ti-control-record"></i>Countries</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('list.state') }}"><i

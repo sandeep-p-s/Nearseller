@@ -15,6 +15,9 @@ use App\Http\Controllers\ServiceTypeController;
 use App\Http\Controllers\ProductController;
 
 use App\Http\Controllers\BusinessTypeController;
+
+
+use App\Http\Controllers\Masters\AttributeController as AttributeController;
 use App\Http\Controllers\Masters\BankController as BankController;
 use App\Http\Controllers\Masters\StateController as StateController;
 use App\Http\Controllers\Masters\CountryController as CountryController;
@@ -166,6 +169,23 @@ Route::controller(UserLoggedController::class)->group(function () {
         Route::get('servicedelete/{id}', 'delete_service_type')->name('delete.servicetype');
     });
 //master
+    Route::controller(AttributeController::class)->group(function () {
+        Route::get('listattribute', 'list_attribute')->name('list.attribute');
+        Route::get('addattribute', 'add_attribute')->name('add.attribute');
+        Route::post('saveattribute', 'store_attribute')->name('store.attribute');
+        Route::get('editattribute/{id}', 'edit_attribute')->name('edit.attribute');
+        Route::post('updateattribute/{id}', 'update_attribute')->name('update.attribute');
+        Route::get('deleteattribute/{id}', 'delete_attribute')->name('delete.attribute');
+
+        Route::get('listattribute_value', 'list_attribute_value')->name('list.attribute_value');
+        Route::get('addattribute_value', 'add_attribute_value')->name('add.attribute_value');
+        Route::post('saveattribute_value', 'store_attribute_value')->name('store.attribute_value');
+        Route::get('editattribute_value/{id}', 'edit_attribute_value')->name('edit.attribute_value');
+        Route::post('updateattribute_value/{id}', 'update_attribute_value')->name('update.attribute_value');
+        Route::get('deleteattribute_value/{id}', 'delete_attribute_value')->name('delete.attribute_value');
+
+    });
+
     Route::controller(CountryController::class)->group(function () {
         Route::get('listcountry', 'list_country')->name('list.country');
         Route::get('addcountry', 'add_country')->name('add.country');

@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('categories', function (Blueprint $table) {
-            $table->string('slug')->nullable()->after('status');
+            $table->string('approval_status')->default('N');
+            $table->integer('approved_by')->nullable();
+            $table->dateTime('approved_time')->nullable();
         });
     }
 
@@ -22,7 +24,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('categories', function (Blueprint $table) {
-            $table->dropColumn('slug');
+            $table->dropColumn('approval_status');
+            $table->dropColumn('approved_by');
+            $table->dropColumn('approved_time');
         });
     }
 };

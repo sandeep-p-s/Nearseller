@@ -8,6 +8,7 @@ use App\Models\UserAccount;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCountryRequest;
 
 class CountryController extends Controller
 {
@@ -17,9 +18,12 @@ class CountryController extends Controller
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        $countries = DB::table('country')->get();
-        $total_countries = DB::table('country')->count();
-        $inactive_countries = DB::table('country as c')->where('c.status','N')->count();
+        $countries = Country::allCountries();
+        $total_countries = Country::countriesCount();
+        $inactive_countries = Country::inactiveCountries();
+        // $countries = DB::table('country')->get();
+        // $total_countries = DB::table('country')->count();
+        // $inactive_countries = DB::table('country as c')->where('c.status','N')->count();
         return view('admin.masters.country.listCountry',compact('loggeduser','userdetails','countries','total_countries','inactive_countries'));
 
     }
@@ -48,7 +52,7 @@ class CountryController extends Controller
         $newcountry->country_name = ucfirst(strtolower($request->country_name));
         $newcountry->save();
 
-        return redirect()->route('list.country')->with('success', 'Profession added successfully.');
+        return redirect()->route('list.country')->with('success', 'Country added successfully.');
     }
      public function edit_country($id)
     {
@@ -59,7 +63,7 @@ class CountryController extends Controller
         $country = Country::find($id);
 
         if (!$country) {
-            return redirect()->route('list.shoptype')->with('error', 'Shop Type not found.');
+            return redirect()->route('list.shoptype')->with('error', 'Country not found.');
         }
 
         return view('admin.masters.country.editCountry', compact('country','userdetails','loggeduser'));
@@ -68,7 +72,7 @@ class CountryController extends Controller
     {
         $country = Country::find($id);
         if (!$country) {
-            return redirect()->route('list.country')->with('error', 'Shop Type not found.');
+            return redirect()->route('list.country')->with('error', 'Country not found.');
         }
 
         $request->validate([
@@ -94,7 +98,7 @@ class CountryController extends Controller
         $country = Country::find($id);
 
         if (!$country) {
-            return redirect()->route('list.country')->with('error', 'Shop Type not found.');
+            return redirect()->route('list.country')->with('error', 'Country not found.');
         }
 
         $country->delete();
