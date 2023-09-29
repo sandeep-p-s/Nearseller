@@ -62,9 +62,9 @@
                                     @endphp
                                     @foreach($rolesm as $row)
                                     <li>
-                                        <input type="checkbox" name="roles" id="roles" onclick="checkrolee(this.value)" value="{{ $row->id }}">{{ $row->role_name }}
+                                        <input type="checkbox" name="roles" id="roles"  value="{{ $row->id }}">{{ $row->role_name }}
                                     </li>
-                                    {{-- <hr class="hr hr-menu"> --}}
+                                    {{-- onclick="checkrolee(this.value)" <hr class="hr hr-menu"> --}}
 
                                     @php
                                         $i++;
@@ -143,16 +143,16 @@
                     for (i = 0; i < document.frm.roles.length; i++)
                         document.frm.roles[i].checked = false ;
                 }
-                function checkrolee(r)
-                    {
-                        var r=r;
-                        var val=document.frm.roles[r-1].value;
-                        for(var i=0;i<document.frm.roles.length;i++)
-                            {
-                                document.frm.roles[i].checked=false;
-                            }
-                                document.frm.roles[r-1].checked=true;
-					}
+                // function checkrolee(r)
+                //     {
+                //         var r=r;
+                //         var val=document.frm.roles[r-1].value;
+                //         for(var i=0;i<document.frm.roles.length;i++)
+                //             {
+                //                 document.frm.roles[i].checked=false;
+                //             }
+                //                 document.frm.roles[r-1].checked=true;
+				// 	}
 
 
     function shwdets()
