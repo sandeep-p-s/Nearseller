@@ -30,7 +30,8 @@
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Employee Name </label>
                                     <input type="text" class="form-control" id="employee_name"
-                                        placeholder="Enter Employee Name" name="employee_name">
+                                        placeholder="Enter Employee Name" name="employee_name"
+                                        value="{{ old('employee_name') }}">
                                     @error('employee_name')
                                         <div class="text-danger mb15">{{ $message }}</div>
                                     @enderror
@@ -38,7 +39,7 @@
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Employee ID</label>
                                     <input type="text" class="form-control" id="employee_id"
-                                        placeholder="Enter employee id" name="employee_id">
+                                        placeholder="Enter employee id" name="employee_id" value="{{ old('employee_id') }}">
                                     @error('employee_id')
                                         <div class="text-danger mb15">{{ $message }}</div>
                                     @enderror
@@ -46,7 +47,8 @@
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Designation/Skill</label>
                                     <input type="text" class="form-control" id="designation"
-                                        placeholder="Enter Designation/Skill" name="designation">
+                                        placeholder="Enter Designation/Skill" name="designation"
+                                        value="{{ old('designation') }}">
                                     @error('designation')
                                         <div class="text-danger mb15">{{ $message }}</div>
                                     @enderror
@@ -54,7 +56,7 @@
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Joining Date</label>
                                     <input type="date" class="form-control" id="exampleFormControlInput1"
-                                        placeholder="Enter date" name="joining_date">
+                                        placeholder="Enter date" name="joining_date" value="{{ old('joining_date') }}">
                                     @error('joining_date')
                                         <div class="text-danger mb15">{{ $message }}</div>
                                     @enderror
@@ -62,7 +64,7 @@
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Aadhar Number</label>
                                     <input type="text" class="form-control" id="aadhar_no"
-                                        placeholder="Enter aadhar number" name="aadhar_no">
+                                        placeholder="Enter aadhar number" name="aadhar_no" value="{{ old('aadhar_no') }}">
                                     @error('aadhar_no')
                                         <div class="text-danger mb15">{{ $message }}</div>
                                     @enderror
@@ -70,7 +72,7 @@
 
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Permanent Address</label>
-                                    <textarea class="form-control" id="permanent_address" name="permanent_address" cols="5" rows="5"></textarea>
+                                    <textarea class="form-control" id="permanent_address" name="permanent_address" cols="5" rows="5">{{ old('permanent_address') }}</textarea>
                                     @error('permanent_address')
                                         <div class="text-danger mb15">{{ $message }}</div>
                                     @enderror
@@ -82,7 +84,7 @@
                                         aria-label="Default select example" id="country">
                                         <option value="">Select country</option>
                                         @foreach ($countries as $country)
-                                            <option value="{{ $country->id }}">{{ $country->country_name }}</option>
+                                            <option value="{{ $country->id }}" @if(old('country') == $country->id) selected @endif>{{ $country->country_name }}</option>
                                         @endforeach
                                     </select>
                                     @error('country')
@@ -120,7 +122,7 @@
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="horizontalCheckbox"
                                         data-parsley-multiple="groups" data-parsley-mincheck="2"
-                                        onchange="copyPresentAddress()">
+                                        onchange="copyPresentAddress()" name="is_same_permanent_address">
                                     <label class="custom-control-label" for="horizontalCheckbox">Permanent Address same as
                                         Present Address</label>
                                 </div>
@@ -217,9 +219,7 @@
 
         </div><!-- container -->
 
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
-
             function copyPresentAddress() {
                 if ($('#horizontalCheckbox').is(':checked')) {
                     var permanentAddress = $('#permanent_address').val();

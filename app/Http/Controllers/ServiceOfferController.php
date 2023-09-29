@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Offer;
-use App\Models\UserAccount;
-use Illuminate\Http\Request;
 use DB;
 use Validator;
+use App\Models\Offer;
+use App\Models\MenuMaster;
+use App\Models\UserAccount;
+use Illuminate\Http\Request;
 
 class ServiceOfferController extends Controller
 {
@@ -17,7 +18,8 @@ class ServiceOfferController extends Controller
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $service_offer = DB::table('offers')->where('type',2)->get();
-        return view('seller.service.offer.list_offer', compact('service_offer', 'loggeduser', 'userdetails'));
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
+        return view('seller.service.offer.list_offer', compact('service_offer', 'loggeduser', 'userdetails','structuredMenu'));
     }
 
     public function add_service_offer()
@@ -26,7 +28,8 @@ class ServiceOfferController extends Controller
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        return view('seller.service.offer.add_offer', compact('loggeduser', 'userdetails'));
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
+        return view('seller.service.offer.add_offer', compact('loggeduser', 'userdetails','structuredMenu'));
     }
 
     public function store_service_offer(Request $request)
@@ -77,13 +80,14 @@ class ServiceOfferController extends Controller
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
         $serviceoffer = Offer::find($id);
 
         if (!$serviceoffer) {
             return redirect()->route('list.Service_offer')->with('error', 'Service offer not found.');
         }
 
-        return view('seller.service.offer.edit_offer', compact('serviceoffer', 'loggeduser', 'userdetails'));
+        return view('seller.service.offer.edit_offer', compact('serviceoffer', 'loggeduser', 'userdetails','structuredMenu'));
     }
 
     public function update_service_offer(Request $request, $id)
@@ -92,7 +96,6 @@ class ServiceOfferController extends Controller
         if (!$serviceoffer) {
             return redirect()->route('list.service_offer')->with('error', 'Service offer not found.');
         }
-        //dd($request->all());
         $validator = Validator::make($request->all(), [
             'offer_to_display' => 'required|string',
             'car' => 'required|array',
@@ -103,6 +106,7 @@ class ServiceOfferController extends Controller
         // if ($validator->fails()) {
         //     return redirect()->back()->withErrors($validator)->withInput();
         // }
+        
         $serviceoffer->offer_to_display = $request->offer_to_display;
         $serviceoffer->conditions = json_encode($request->car);
         $serviceoffer->from_date_time = $request->from_date_time;

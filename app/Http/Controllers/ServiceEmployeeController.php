@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use Validator;
+use App\Models\MenuMaster;
 use App\Models\UserAccount;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
@@ -16,18 +17,20 @@ class ServiceEmployeeController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $service_emp = DB::table('service_employees')->get();
-        return view('seller.service.employee.list_employee', compact('service_emp', 'loggeduser', 'userdetails'));
+        return view('seller.service.employee.list_employee', compact('service_emp', 'loggeduser', 'userdetails','structuredMenu'));
     }
     public function add_service_employee()
     {
         $userRole = session('user_role');
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $countries      = DB::table('country')->get();
-        return view('seller.service.employee.add_employee', compact('loggeduser', 'userdetails', 'countries'));
+        return view('seller.service.employee.add_employee', compact('loggeduser', 'userdetails', 'countries','structuredMenu'));
     }
     public function getStates($country)
     {
@@ -89,6 +92,7 @@ class ServiceEmployeeController extends Controller
         $service_emp->state = $request->state;
         $service_emp->district = $request->district;
         $service_emp->pincode = $request->pincode;
+        $service_emp->is_same_permanent_address = $request->has('is_same_permanent_address') ? true : false;
         $service_emp->present_address = $request->present_address;
         $service_emp->present_country = $request->present_country;
         $service_emp->present_state = $request->present_state;
@@ -112,12 +116,12 @@ class ServiceEmployeeController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $service_emp = ServiceEmployee::find($id);
         $countries      = DB::table('country')->get();
         $states = DB::table('state')->where('country_id', $service_emp->country)->get();
-        $permanentSameAsPresent = true;
         $districts = DB::table('district')->where('state_id', $service_emp->state)->get();
 
 
@@ -125,7 +129,7 @@ class ServiceEmployeeController extends Controller
             return redirect()->route('list.shop_offer')->with('error', 'Shop offer not found.');
         }
 
-        return view('seller.service.employee.edit_employee', compact('service_emp', 'loggeduser', 'userdetails', 'countries','states','districts','permanentSameAsPresent'));
+        return view('seller.service.employee.edit_employee', compact('service_emp', 'loggeduser', 'userdetails', 'countries','states','districts','structuredMenu'));
     }
 
     public function update_service_employee(Request $request, $id)
@@ -168,9 +172,9 @@ class ServiceEmployeeController extends Controller
 
         $validator->setCustomMessages($messages);
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
+        // if ($validator->fails()) {
+        //     return redirect()->back()->withErrors($validator)->withInput();
+        // }
 
         $service_emp->employee_name = $request->employee_name;
         $service_emp->employee_id = $request->employee_id;

@@ -15,7 +15,7 @@ class MenuMaster extends Model
         $menuItems = DB::select("
                 SELECT a.id as menu_id, a.menu_desc, a.url, a.menu_level_1, a.menu_level_2, a.menu_level_3
                 FROM menu_masters a
-                INNER JOIN user_pages b ON a.id = b.menu_id
+                LEFT JOIN user_pages b ON a.id = b.menu_id
                 WHERE a.status = 1 AND b.user_id = ?
                 ORDER BY menu_level_1, menu_level_2, menu_level_3
             ", [$userId]);

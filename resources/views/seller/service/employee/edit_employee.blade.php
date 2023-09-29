@@ -140,7 +140,7 @@
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="horizontalCheckbox"
                                         data-parsley-multiple="groups" data-parsley-mincheck="2"
-                                        onchange="copyPresentAddress()" @if ($service_emp->permanentSameAsPresent) checked @endif>
+                                        onchange="copyPresentAddress()" name="is_same_permanent_address" @if ($service_emp->is_same_permanent_address) checked @endif>
                                     <label class="custom-control-label" for="horizontalCheckbox">Permanent Address same as
                                         Present Address</label>
                                 </div>
@@ -234,9 +234,9 @@
                                             </div><!--end card-->
                                         </div>
                                     </div>
-                                    @error('image')
+                                    {{-- @error('image')
                                         <div class="text-danger mb-2">{{ $message }}</div>
-                                    @enderror
+                                    @enderror --}}
                                 </div>
 
 
