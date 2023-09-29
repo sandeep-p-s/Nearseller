@@ -12,7 +12,7 @@
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-                                <h4 class="page-title">Edit Category</h4>
+                                <h4 class="page-title">Approved Category</h4>
                             </div>
                         </div><!--end row-->
                     </div><!--end page-title-box-->
@@ -26,7 +26,7 @@
                     <br>
                     <div class="card">
                         <div class="card-body">
-                            <form method="POST" action="{{ route('update.category', $current_category->id) }}"
+                            <form method="POST" action="{{ route('approvedstatus.category', $current_category->id) }}"
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
@@ -58,10 +58,11 @@
                                     <div class="card">
                                         <input type="file" id="input-file-now-custom-1" class="dropify"
                                             data-default-file="{{ asset('storage/' . config('imageupload.categorydir') . '/' . config('imageupload.category.image') . $current_category->category_image) }}"
-                                            alt="category image" width="300px" height="300px" name="category_image" accept="image/jpeg, image/png"/>
+                                            alt="category image" width="300px" height="300px" name="category_image" />
                                     </div>
                                     <label for="categoryStatus">Status</label>
                                     <select class="form-control" id="categoryStatus" name="status">
+                                        <option value="">Select </option>
                                         <option value="Y" {{ $current_category->status == 'Y' ? 'selected' : '' }}>
                                             Active
                                         </option>
@@ -69,6 +70,20 @@
                                             Inactive
                                         </option>
                                     </select>
+
+                                    <label for="categoryapprovedStatus">Approved Status</label>
+                                    <select class="form-control" id="categoryapproved" name="categoryapproved">
+                                        <option value="">Select </option>
+                                        <option value="Y" {{ $current_category->approval_status  == 'Y' ? 'selected' : '' }}>
+                                            Approved
+                                        </option>
+                                        <option value="N" {{ $current_category->approval_status  == 'N' ? 'selected' : '' }}>
+                                            Not Approved
+                                        </option>
+                                    </select>
+
+
+
                                     <br>
                                     @error('category_name')
                                         <div class="text-danger mb15">{{ $message }}</div>

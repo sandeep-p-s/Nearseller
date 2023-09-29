@@ -290,6 +290,8 @@ Route::controller(UserLoggedController::class)->group(function () {
         Route::get('editcategory/{id}', 'edit_category')->name('edit.category');
         Route::post('updatecategory/{id}', 'update_category')->name('update.category');
         Route::get('deletecategory/{id}', 'delete_category')->name('delete.category');
+        Route::get('approvedcategory/{id}', 'approved_category')->name('approved.category');
+        Route::post('approvedstatuscategory/{id}', 'approvedstatus_category')->name('approvedstatus.category');
     });
 
     Route::controller(ExecutiveController::class)->group(function () {

@@ -115,7 +115,7 @@ class ProductController extends Controller
 
         if ($roleid == 1) {
         } else {
-            $query->where('product_details.created_by', $userId);
+            $query->where('user_account.id', $userId);
         }
         $ProductDetails = $query->get();
         //echo $lastRegId = $query->toSql();exit;

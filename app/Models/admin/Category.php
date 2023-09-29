@@ -71,7 +71,8 @@ class Category extends Model
                 'id' => $category->id,
                 'category_slug' => $category->category_slug,
                 'parent_id' => $category->parent_id,
-                'category_level' => $category_level // Store the current level
+                'category_level' => $category_level, // Store the current level
+                'approval_status' => $category->approval_status
             ]);
             $category->children = $allCategories->where('parent_id', $category->id)->values();
             if ($category->children->isNotEmpty() && $category->status == 'Y') {
