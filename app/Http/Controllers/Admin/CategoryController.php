@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Image;
 use App\Models\admin\Category;
+use App\Models\MenuMaster;
 use App\Http\Controllers\Controller;
 use Storage;
 use Illuminate\Validation\Rule;
@@ -25,7 +26,8 @@ class CategoryController extends Controller
         $categories = Category::tree();
         $total_categories = DB::table('categories')->count();
         $inactive_categories = DB::table('categories as c')->where('c.status', 'N')->count();
-        return view('admin.category.listCategory', compact('loggeduser', 'userdetails', 'categories', 'total_categories', 'inactive_categories'));
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
+        return view('admin.category.listCategory', compact('loggeduser', 'userdetails', 'categories', 'total_categories', 'inactive_categories','structuredMenu'));
     }
     public function add_category()
     {
@@ -37,7 +39,8 @@ class CategoryController extends Controller
         $filteredCategories = $categories->filter(function ($category) {
             return $category->category_level != 5;
         });
-        return view('admin.category.addCategory', compact('loggeduser', 'userdetails', 'filteredCategories'));
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
+        return view('admin.category.addCategory', compact('loggeduser', 'userdetails', 'filteredCategories','structuredMenu'));
     }
     public function store_category(Request $request)
     {
@@ -102,8 +105,8 @@ class CategoryController extends Controller
         if (!$current_category) {
             return redirect()->route('list.category')->with('error', 'Category not found.');
         }
-
-        return view('admin.category.editCategory', compact('userdetails', 'loggeduser','current_category','filteredCategories'));
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
+        return view('admin.category.editCategory', compact('userdetails', 'loggeduser','current_category','filteredCategories','structuredMenu'));
     }
 
     public function update_category(Request $request,$id)

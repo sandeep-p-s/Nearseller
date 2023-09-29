@@ -64,8 +64,8 @@ class RoleController extends Controller
                 ];
             }
         }
-
-        return view('admin.role.list', compact('userdetails', 'loggeduser', 'rolesList'));
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
+        return view('admin.role.list', compact('userdetails', 'loggeduser', 'rolesList','structuredMenu'));
     }
     function add_roles()
     {
@@ -80,8 +80,8 @@ class RoleController extends Controller
 
             $mv->sub = DB::table('permissions')->select('id', 'description', 'is_disabled')->orderby('id', 'asc')->where('module_id', $mv->id)->get();
         }
-
-        return view('admin.role.add', compact('userdetails', 'loggeduser', 'site_module', 'roles'));
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
+        return view('admin.role.add', compact('userdetails', 'loggeduser', 'site_module', 'roles','structuredMenu'));
     }
 
     function store_role(Request $request)
@@ -139,7 +139,8 @@ class RoleController extends Controller
         }
 
         $role = Role::find($id);
-        return view('admin.role.edit', compact('role', 'loggeduser', 'userdetails', 'roles', 'site_module', 'rs', 'selectedRolePermissions'));
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
+        return view('admin.role.edit', compact('role', 'loggeduser', 'userdetails', 'roles', 'site_module', 'rs', 'selectedRolePermissions','structuredMenu'));
     }
 
     function update_roles(Request $request, $id)
@@ -195,7 +196,8 @@ class RoleController extends Controller
         $alluserdetails = DB::table('user_account')
         ->select('user_account.id','user_account.name','user_account.email','user_account.mobno','user_account.user_status','roles.role_name')
         ->join('roles', 'user_account.role_id', '=', 'roles.id')->get();
-        return view('admin.role.create_user',compact('userdetails','userRole','loggeduser','alluserdetails'));
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
+        return view('admin.role.create_user',compact('userdetails','userRole','loggeduser','alluserdetails','structuredMenu'));
     }
 
     function AllUsersList(Request $request)
@@ -531,8 +533,8 @@ class RoleController extends Controller
                     ->implode(', ');
                 $userdet->roles = $roles;
             }
-
-            return view('admin.role.user_menu',compact('userdetails','userRole','loggeduser','alluserdetails'));
+            $structuredMenu = MenuMaster::UserPageMenu($userId);
+            return view('admin.role.user_menu',compact('userdetails','userRole','loggeduser','alluserdetails','structuredMenu'));
         }
         function AdmUserMenuViewPage(Request $request)
         {
@@ -639,7 +641,8 @@ class RoleController extends Controller
             $loggeduser     = UserAccount::sessionValuereturn($userRole);
             $userdetails    = DB::table('user_account')->where('id', $userId)->get();
             $roles          = DB::table('roles')->get();
-            return view('admin.role.role_menu',compact('userdetails','userRole','loggeduser','roles'));
+            $structuredMenu = MenuMaster::UserPageMenu($userId);
+            return view('admin.role.role_menu',compact('userdetails','userRole','loggeduser','roles','structuredMenu'));
         }
         function AdmRoleMenuViewPage(Request $request)
         {
@@ -803,7 +806,8 @@ class RoleController extends Controller
                     ->implode(', ');
                 $userdet->roles = $roles;
             }
-            return view('admin.role.userrole_menu',compact('userdetails','userRole','loggeduser','rolesm','alluserdetails'));
+            $structuredMenu = MenuMaster::UserPageMenu($userId);
+            return view('admin.role.userrole_menu',compact('userdetails','userRole','loggeduser','rolesm','alluserdetails','structuredMenu'));
         }
 
         function AdmgetUserRoleMenu(Request $request)

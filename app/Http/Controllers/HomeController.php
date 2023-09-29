@@ -24,11 +24,33 @@ class HomeController extends Controller
     {
          $countries      = DB::table('country')->get();
          $business       = DB::table('business_type')->where('status','Y')->get();
-         $shopservice    = DB::table('service_types')->where('status','Y')->get();
-         $executives     = DB::table('executives')->where(['executive_type' => 1, 'status' => 'Y'])->get();
+        //  $servicecategory = DB::table('service_categories')->where('status','Y')->get();
+        //  $executives     = DB::table('executives')->where(['executive_type' => 1, 'status' => 'Y'])->get();
 
-        return view('user.login',compact('countries','business','executives','shopservice'));
+        return view('user.login',compact('countries','business'));
     }
+    public function BusinessCategory($catgry)
+    {
+        $service_categories = DB::table('service_categories')->where('business_type_id', $catgry)->get();
+        return response()->json($service_categories);
+    }
+    public function getsubshopservice($subshopservice)
+    {
+        $subshopservice = DB::table('service_sub_categories')->where('service_category_id', $subshopservice)->get();
+        return response()->json($subshopservice);
+    }
+    public function shopservicetype($shopservice)
+    {
+        $shopservice = DB::table('service_types')->where('business_type_id', $shopservice)->get();
+        return response()->json($shopservice);
+    }
+
+    public function executivename($executive)
+    {
+        $executive = DB::table('executives')->where('executive_type', $executive)->get();
+        return response()->json($executive);
+    }
+
     public function getStates($country)
     {
         $states = DB::table('state')->where('country_id', $country)->get();
@@ -39,6 +61,11 @@ class HomeController extends Controller
         $districts = DB::table('district')->where('state_id', $state)->get();
         return response()->json($districts);
     }
+
+
+
+
+
     public function getBankBranchesPage(Request $request)
     {
         $query = DB::table('bank_details');
@@ -972,6 +999,8 @@ class HomeController extends Controller
                 's_refralid' => 'max:50',
                 's_busnestype' => 'required',
                 's_shopservice' => 'required',
+                's_subshopservice' => 'required',
+                's_shopservicetype' => 'required',
                 's_shopexectename' => 'required',
                 's_lisence' => 'required|max:25',
                 's_buldingorhouseno' => 'required|max:100',
@@ -995,7 +1024,10 @@ class HomeController extends Controller
             $user->email = $request->s_email;
             $user->mobno = $request->s_mobno;
             $user->password = Hash::make($request->s_paswd);
-            $user->role_id=2;
+            if($request->s_busnestype==1)
+            {$user->role_id=2;}
+            else if($request->s_busnestype==2)
+            {$user->role_id=9;}
             $user->forgot_pass=$request->s_paswd;
             $user->user_status='N';
             $user->ip=$loggedUserIp;
@@ -1019,6 +1051,8 @@ class HomeController extends Controller
                 $sellerDetail->referal_id = $request->input('s_refralid');
                 $sellerDetail->busnes_type = $request->input('s_busnestype');
                 $sellerDetail->shop_service_type = $request->input('s_shopservice');
+                $sellerDetail->service_subcategory_id = $request->input('s_subshopservice');
+                $sellerDetail->shop_type = $request->input('s_shopservicetype');
                 $sellerDetail->shop_executive = $request->input('s_shopexectename');
                 $sellerDetail->term_condition = $request->has('s_termcondtn') ? 1 : 0;
                 $sellerDetail->shop_licence = $request->input('s_lisence');

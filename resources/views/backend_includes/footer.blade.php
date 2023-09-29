@@ -44,6 +44,11 @@
         <script src="{{ asset('backend/assets/pages/jquery.form-upload.init.js') }}"></script>
         <script src="{{ asset('backend/plugins/repeater/jquery.repeater.min.js') }}"></script>
         <script src="{{ asset('backend/assets/pages/jquery.form-repeater.js') }}"></script>
+        <script src="{{ asset('backend/plugins/select2/select2.min.js') }}"></script>
+
+
+
+
 
 
         <!-- App js -->
@@ -55,11 +60,36 @@
             setTimeout(() => {
                 $('#datatable').DataTable();
             }, 0);
+
+            $('.carousel').carousel();
+
+                var url = "{{ route('ShopNameSearch') }}"
+                $('#shopid').autocomplete({
+                source: function (request, response) {
+                    $.post(url, {
+                        shopname: request.term
+                    }, function (data) {
+                    var options = [];
+                    if (data.length > 0) {
+                        data.forEach(function(shopdets) {
+                                var optionText = shopdets.id + ' - ' + shopdets.shopname;
+                                options.push({
+                                    value: optionText,
+                                    label: optionText
+                                        });
+                                    });
+                                    }
+                        response(options);
+                    },'json');
+                },
+                minLength: 1
+                });
+
             });
 
-            $(document).ready(function() {
-                $('.carousel').carousel();
-            });
+
+
+
 
             $(document).ready(function () {
             $.ajaxSetup({

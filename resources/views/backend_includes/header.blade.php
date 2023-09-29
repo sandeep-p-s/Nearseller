@@ -31,8 +31,7 @@
     <link href="{{ asset('backend/assets/css/style.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('backend/assets/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('backend/plugins/dropify/css/dropify.min.css') }}" rel="stylesheet">
-
-
+    <link href="{{ asset('backend/plugins/select2/select2.min.css') }}" rel="stylesheet" type="text/css" />
 
 </head>
 
@@ -87,6 +86,32 @@
         margin-bottom: 8px;
 
     }
+    .video-container {
+            position: relative;
+            max-width: 320px; /* Adjust the width as needed */
+        }
+
+        .video-remove-button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: red;
+            color: white;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+        }
+        .new_thumpnail {
+            padding: 2px;
+            height: 100px;
+            width: 100px;
+            margin: 1px;
+        }
+
 
 
 </style>

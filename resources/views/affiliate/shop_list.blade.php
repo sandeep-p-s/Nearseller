@@ -33,7 +33,7 @@
 
 
 
-
+            <input type="hidden" id="typeid" name="typeid" value="{{$typeid}}" />
 
             <div class="row">
                 <div class="col-12">
@@ -45,13 +45,15 @@
 
                         <div class="col-md-3">
 
-                          <input type="text" id="shopname" name="shopname" class="form-control  form-control-lg" placeholder="Shop Name" onchange="shwdets();" />
+                          <input type="text" id="shopname" name="shopname" class="form-control  form-control-lg" placeholder="{{$shoporservice}} Name" onchange="shwdets();" />
                         </div>
 
+                        @if($typeid==1)
                         <div class="col-md-3">
 
                             <input type="text" id="ownername" name="ownername" class="form-control  form-control-lg" placeholder="Owner Name" onchange="shwdets();" />
-                          </div>
+                        </div>
+                        @endif
 
                         <div class="col-md-12 col-lg-12 d-flex justify-content-center" style="margin-top: 20px;">
                           <input type="button" id="btnsearch" name="btnsearch" class="btn btn-primary" value="Search" onClick="shwdets()" />
@@ -72,7 +74,7 @@
                 <div class="modal-dialog custom-modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title text-center" id="ViewEditModalLabel">View / Edit -  Shop Details</h5>
+                            <h5 class="modal-title text-center" id="ViewEditModalLabel">View / Edit -  {{$shoporservice}} Details</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" title="Close">x</button>
                         </div>
                         <div class="modal-body">
@@ -89,7 +91,7 @@
                 <div class="modal-dialog custom-modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title text-center" id="ShopApprovedModalModalLabel">Shop Approved</h5>
+                            <h5 class="modal-title text-center" id="ShopApprovedModalModalLabel">{{$shoporservice}} Approved</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" title="Close">x</button>
                         </div>
                         <div class="modal-body">
@@ -111,7 +113,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            Do you want to delete this shop?
+                            Do you want to delete this {{$shoporservice}}?
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -140,11 +142,12 @@
             var emal_mob = $("#emal_mob").val();
             var shopname = $("#shopname").val();
             var ownername = $("#ownername").val();
+            var typeid = $("#typeid").val();
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
 			$.ajax({
                 url: '{{ route("affiliate.allaffilateshopsview") }}',
                         type: 'GET',
-                        data: {emal_mob: emal_mob, shopname: shopname, ownername: ownername, _token: csrfToken
+                        data: {emal_mob: emal_mob, shopname: shopname, ownername: ownername,typeid:typeid, _token: csrfToken
                     },
                 success:function(data)
 					{
@@ -310,7 +313,7 @@
          }
 
 
-            function shopvieweditdet(shopid)
+            function shopvieweditdet(shopid,typeid)
                 {
                         $('#loading-overlay').fadeIn();
                         $('#loading-image').fadeIn();
@@ -318,7 +321,7 @@
                         $.ajax({
                             url: '{{ route("shopViewEdit") }}',
                                     type: 'POST',
-                                    data: {shopid:shopid},
+                                    data: {shopid:shopid,typeid:typeid},
                                     headers: {
                                     'X-CSRF-TOKEN': csrfToken
                                     },
@@ -394,7 +397,7 @@
                 }
 
 
-                function shopapprovedet(shopid)
+                function shopapprovedet(shopid,typeid)
                 {
                         $('#loading-overlay').fadeIn();
                         $('#loading-image').fadeIn();
@@ -402,7 +405,7 @@
                         $.ajax({
                             url: '{{ route("shopApproved") }}',
                                     type: 'POST',
-                                    data: {shopid:shopid},
+                                    data: {shopid:shopid,typeid:typeid},
                                     headers: {
                                     'X-CSRF-TOKEN': csrfToken
                                     },
