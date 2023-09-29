@@ -145,6 +145,10 @@ Route::controller(UserLoggedController::class)->group(function () {
         Route::get('userrole', 'AdmuUserRoleMenuPage')->name('user.userrolecreate');
         Route::post('userrolemenu', 'AdmgetUserRoleMenu')->name('user.getUserRoleMenu');
         Route::post('userrolepage', 'AdmAddUserRolePageMenu')->name('user.userrolepagemenu');
+
+        Route::get('changepassword', 'ChangePasswordPagerd')->name('user.changepassword');
+        Route::post('newpassword', 'ChangeNewPasswordPage')->name('ChangeNewPassword');
+
     });
 
 
