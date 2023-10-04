@@ -88,7 +88,8 @@
                                                             <label for="showstatus" class="control-label">Show status
                                                             </label>
                                                             <input type="checkbox" class="form-control" id="showstatus"
-                                                                name="showstatus" style="width: 10%">
+                                                                name="showstatus" value="1" style="width: 10%"
+                                                                data-parsley-multiple="groups" data-parsley-mincheck="2">
                                                         </div>
                                                         <div class="col">
                                                             <label for="attribute1" class="control-label">Attribute

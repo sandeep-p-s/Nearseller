@@ -63,7 +63,7 @@
                                         <div class="form-check-inline my-1">
                                             <div class="custom-control custom-radio">
                                                 <input type="radio" id="yesCheck" name="customRadio"
-                                                    class="custom-control-input"
+                                                    class="custom-control-input" value="Y"
                                                     {{ $service->is_attribute === 'Y' ? 'checked' : '' }}>
                                                 <label class="custom-control-label" for="yesCheck">Yes</label>
                                             </div>
@@ -71,7 +71,7 @@
                                         <div class="form-check-inline my-1">
                                             <div class="custom-control custom-radio">
                                                 <input type="radio" id="noCheck" name="customRadio"
-                                                    class="custom-control-input"
+                                                    class="custom-control-input" value="N"
                                                     {{ $service->is_attribute === 'N' ? 'checked' : '' }}>
                                                 <label class="custom-control-label" for="noCheck">No</label>
                                             </div>
@@ -93,7 +93,8 @@
                                                                 <label for="showstatus" class="control-label">Show status
                                                                 </label>
                                                                 <input type="checkbox" class="form-control" id="showstatus"
-                                                                    name="showstatus" style="width: 10%">
+                                                                    name="showstatus" style="width: 10%"
+                                                                    @if ($attribute->show_status) checked @endif>
                                                             </div>
                                                             <div class="col">
                                                                 <label for="attribute1" class="control-label">Attribute
@@ -197,5 +198,24 @@
                     toggleAttributeFields();
                 });
             });
+            // $(document).ready(function() {
+            //     function toggleAttributeFields() {
+            //         if ($("#yesCheck").prop("checked")) {
+            //             // When "Yes" is checked, set customRadio value to "Y"
+            //             $("input[name='customRadio']").val("Y");
+            //             $("#ifYes").css("visibility", "visible");
+            //         } else {
+            //             // When "No" is checked, set customRadio value to "N"
+            //             $("input[name='customRadio']").val("N");
+            //             $("#ifYes").css("visibility", "hidden");
+            //         }
+            //     }
+
+            //     toggleAttributeFields();
+
+            //     $("input[name='customRadio']").on("change", function() {
+            //         toggleAttributeFields();
+            //     });
+            // });
         </script>
     @endsection

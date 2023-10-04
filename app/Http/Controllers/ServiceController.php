@@ -62,7 +62,7 @@ class ServiceController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $isAttribute = $request->input('customRadio');
-        //dd($isAttribute);
+
         $service = new ServiceDetails;
         $service->service_name = $request->service_name;
         $upload_path = 'uploads/service_images/';
@@ -77,6 +77,7 @@ class ServiceController extends Controller
         $service->is_attribute = $isAttribute;
         $service->save();
         if ($isAttribute === 'Y' && $request->has('car')) {
+            $showStatus = $request->input('car.0.showstatus.0', '0');
             foreach ($request->input('car') as $attributes) {
                 $addServiceAttribute = new AddServiceAttribute;
                 $addServiceAttribute->service_id = $service->id;
@@ -87,6 +88,7 @@ class ServiceController extends Controller
                 $addServiceAttribute->offer_price = $attributes['offerprice'];
                 $addServiceAttribute->mrp_price = $attributes['mrp'];
                 $addServiceAttribute->call_shop = $attributes['callshop'];
+                $addServiceAttribute->show_status = $showStatus;
                 $addServiceAttribute->save();
             }
         }
@@ -109,69 +111,8 @@ class ServiceController extends Controller
         return view('seller.service.add_services.edit_service', compact('loggeduser', 'userdetails', 'structuredMenu', 'service', 'attributes'));
     }
 
-    // public function update_service(Request $request, $id)
-    // {
-    //     $service = ServiceDetails::find($id);
-
-    //     if (!$service) {
-    //         return redirect()->route('list.service')->with('error', 'Service not found.');
-    //     }
-
-    //     $validator = Validator::make($request->all(), [
-    //         'service_name' => 'required|string|max:255',
-    //         'service_images' => 'required|mimes:jpeg,png,jpg,gif|max:2048',
-
-    //     ]);
-    //     $messages = [
-    //         'service_name.required' => 'Service name field is required',
-    //         'service_images.required' => 'Please upload an image',
-    //     ];
-    //     $validator->setCustomMessages($messages);
-
-
-    //     $isAttribute = $request->input('customRadio') === 'on' ? 'Y' : 'N';
-    //     $service = new ServiceDetails;
-    //     $service->service_name = $request->service_name;
-    //     $upload_path = 'uploads/service_images/';
-    //     $file_path = $request->file('service_images');
-    //     if ($file_path && $file_path->isValid()) {
-    //         $full_file_path = public_path($upload_path . $service->service_images);
-
-    //         if (file_exists($full_file_path)) {
-    //             unlink($full_file_path);
-    //         }
-    //         $new_name = time() . '_' . $file_path->getClientOriginalName();
-    //         $file_path->move($upload_path, $new_name);
-    //         $service->service_images = $new_name;
-    //     }
-    //     $service->is_attribute = $isAttribute;
-    //     $service->save();
-    //     if ($isAttribute === 'Y') {
-    //         if ($request->has('car')) {
-    //             foreach ($request->input('car') as $attributes) {
-    //                 $addServiceAttribute = new AddServiceAttribute;
-    //                 $addServiceAttribute->service_id = $service->id;
-    //                 $addServiceAttribute->attribute_1 = $attributes['attribute1'];
-    //                 $addServiceAttribute->attribute_2 = $attributes['attribute2'];
-    //                 $addServiceAttribute->attribute_3 = $attributes['attribute3'];
-    //                 $addServiceAttribute->attribute_4 = $attributes['attribute4'];
-    //                 $addServiceAttribute->offer_price = $attributes['offerprice'];
-    //                 $addServiceAttribute->mrp_price = $attributes['mrp'];
-    //                 $addServiceAttribute->call_shop = $attributes['callshop'];
-    //                 $addServiceAttribute->save();
-    //             }
-    //         }
-    //     }
-    //     return redirect()->route('list.service')->with('success', 'Service details updated successfully');
-    // }
     public function update_service(Request $request, $id)
     {
-        $service = ServiceDetails::find($id);
-
-        if (!$service) {
-            return redirect()->route('list.service')->with('error', 'Service not found.');
-        }
-
         $validator = Validator::make($request->all(), [
             'service_name' => 'required|string|max:255',
             'service_images' => 'nullable|mimes:jpeg,png,jpg,gif|max:2048',
@@ -183,10 +124,12 @@ class ServiceController extends Controller
 
         $validator->setCustomMessages($messages);
 
-        $isAttribute = $request->input('customRadio') === 'on' ? 'Y' : 'N';
+        $service = ServiceDetails::find($id);
 
+        if (!$service) {
+            return redirect()->route('list.service')->with('error', 'Service not found.');
+        }
         $service->service_name = $request->service_name;
-
         $upload_path = 'uploads/service_images/';
         $file_path = $request->file('service_images');
 
@@ -201,24 +144,44 @@ class ServiceController extends Controller
             $file_path->move($upload_path, $new_name);
             $service->service_images = $new_name;
         }
-
-        $service->is_attribute = $isAttribute;
-        $service->save();
-
+        $isAttribute = $request->input('customRadio');
+        // dd($service->is_attribute);
+        //dd($request->all());
         if ($isAttribute === 'Y' && $request->has('car')) {
-            AddServiceAttribute::where('service_id', $service->id)->delete();
+            $service->is_attribute = 'Y';
+            $service->save();
+
             foreach ($request->input('car') as $attributes) {
-                $addServiceAttribute = new AddServiceAttribute;
-                $addServiceAttribute->service_id = $service->id;
-                $addServiceAttribute->attribute_1 = $attributes['attribute1'];
-                $addServiceAttribute->attribute_2 = $attributes['attribute2'];
-                $addServiceAttribute->attribute_3 = $attributes['attribute3'];
-                $addServiceAttribute->attribute_4 = $attributes['attribute4'];
-                $addServiceAttribute->offer_price = $attributes['offerprice'];
-                $addServiceAttribute->mrp_price = $attributes['mrp'];
-                $addServiceAttribute->call_shop = $attributes['callshop'];
-                $addServiceAttribute->save();
+                $attributeId = $attributes['attribute_id'];
+                $attribute = AddServiceAttribute::where('id', $attributeId)->first();
+
+                if ($attribute) {
+                    $attribute->attribute_1 = $attributes['attribute1'];
+                    $attribute->attribute_2 = $attributes['attribute2'];
+                    $attribute->attribute_3 = $attributes['attribute3'];
+                    $attribute->attribute_4 = $attributes['attribute4'];
+                    $attribute->offer_price = $attributes['offerprice'];
+                    $attribute->mrp_price = $attributes['mrp'];
+                    $attribute->call_shop = $attributes['callshop'];
+                    $attribute->save();
+                } else {
+                    $newAttribute = new AddServiceAttribute();
+                    $newAttribute->service_id = $service->id;
+                    $newAttribute->attribute_1 = $attributes['attribute1'];
+                    $newAttribute->attribute_2 = $attributes['attribute2'];
+                    $newAttribute->attribute_3 = $attributes['attribute3'];
+                    $newAttribute->attribute_4 = $attributes['attribute4'];
+                    $newAttribute->offer_price = $attributes['offerprice'];
+                    $newAttribute->mrp_price = $attributes['mrp'];
+                    $newAttribute->call_shop = $attributes['callshop'];
+                    $newAttribute->save();
+                }
             }
+        } else {
+            $service->is_attribute = 'N';
+            $service->save();
+
+            AddServiceAttribute::where('service_id', $id)->delete();
         }
 
         return redirect()->route('list.service')->with('success', 'Service details updated successfully');
