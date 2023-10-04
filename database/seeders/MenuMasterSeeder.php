@@ -51,6 +51,9 @@ class MenuMasterSeeder extends Seeder
             ['menu_desc' => 'Add Services', 'menu_level_1' => '6','menu_level_2' => '1', 'menu_level_3' => '0','url' => 'listservice'],
             ['menu_desc' => 'Employees', 'menu_level_1' => '6','menu_level_2' => '2', 'menu_level_3' => '0','url' => 'listserviceemp'],
             ['menu_desc' => 'Offers', 'menu_level_1' => '6','menu_level_2' => '3', 'menu_level_3' => '0','url' => 'listserviceoffer'],
+
+            ['menu_desc' => 'Products', 'menu_level_1' => '7', 'menu_level_2' => '0','menu_level_3' => '0','url' => '#'],
+            ['menu_desc' => 'Offers', 'menu_level_1' => '7','menu_level_2' => '1', 'menu_level_3' => '0','url' => 'listshopoffer'],
         ];
         foreach ($data as $item) {
             DB::table('menu_masters')->insert(['menu_desc' => $item['menu_desc'], 'menu_level_1' => $item['menu_level_1'], 'menu_level_2' => $item['menu_level_2'],'menu_level_3' => $item['menu_level_3'],'url' => $item['url']] ,$item);

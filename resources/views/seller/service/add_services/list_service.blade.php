@@ -47,7 +47,7 @@
                                             <td>{{ $sr->service_name }}</td>
                                             <td>
                                                 @if ($sr->is_attribute === 'Y')
-                                                    {{ $sr->attribute_1 }}/{{ $sr->attribute_2 }}
+                                                    {{ $sr->attribute_1 }}/{{ $sr->attribute_2 }}/{{ $sr->attribute_3 }}/{{ $sr->attribute_4 }}
                                                 @else
                                                     N/A
                                                 @endif

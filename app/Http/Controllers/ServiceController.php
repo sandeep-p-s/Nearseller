@@ -28,6 +28,8 @@ class ServiceController extends Controller
                 'service_details.is_attribute',
                 'add_service_attributes.attribute_1',
                 'add_service_attributes.attribute_2',
+                'add_service_attributes.attribute_3',
+                'add_service_attributes.attribute_4',
                 'add_service_attributes.offer_price',
                 'add_service_attributes.mrp_price'
             )
@@ -62,7 +64,7 @@ class ServiceController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $isAttribute = $request->input('customRadio');
-
+        dd($isAttribute);
         $service = new ServiceDetails;
         $service->service_name = $request->service_name;
         $upload_path = 'uploads/service_images/';
@@ -107,7 +109,7 @@ class ServiceController extends Controller
         if (!$service) {
             return redirect()->route('list.service')->with('error', 'Service not found.');
         }
-        $attributes = AddServiceAttribute::where('service_id', $id)->get();
+        $attributes = DB::table('add_service_attributes')->where('service_id', $id)->get();
         return view('seller.service.add_services.edit_service', compact('loggeduser', 'userdetails', 'structuredMenu', 'service', 'attributes'));
     }
 
@@ -144,8 +146,8 @@ class ServiceController extends Controller
             $file_path->move($upload_path, $new_name);
             $service->service_images = $new_name;
         }
-        $isAttribute = $request->input('customRadio');
-        // dd($service->is_attribute);
+        $isAttribute = $request->input('customRadio', 'N');
+        //dd($service->is_attribute);
         //dd($request->all());
         if ($isAttribute === 'Y' && $request->has('car')) {
             $service->is_attribute = 'Y';
@@ -163,6 +165,8 @@ class ServiceController extends Controller
                     $attribute->offer_price = $attributes['offerprice'];
                     $attribute->mrp_price = $attributes['mrp'];
                     $attribute->call_shop = $attributes['callshop'];
+                    $showStatus = isset($attributes['showstatus']) ? 1 : 0;
+                    $attribute->show_status = $showStatus;
                     $attribute->save();
                 } else {
                     $newAttribute = new AddServiceAttribute();
@@ -174,6 +178,8 @@ class ServiceController extends Controller
                     $newAttribute->offer_price = $attributes['offerprice'];
                     $newAttribute->mrp_price = $attributes['mrp'];
                     $newAttribute->call_shop = $attributes['callshop'];
+                    $showStatus = isset($attributes['showstatus']) ? 1 : 0;
+                    $newAttribute->show_status = $showStatus;
                     $newAttribute->save();
                 }
             }

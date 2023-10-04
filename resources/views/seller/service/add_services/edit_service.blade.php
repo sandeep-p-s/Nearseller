@@ -60,6 +60,22 @@
                                     <label for="selectAttributes" class="col-md-3 my-1 control-label">Do you want to select
                                         attributes?</label>
                                     <div class="col-md-3">
+                                        {{-- <div class="form-check-inline my-1">
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" id="yesCheck" name="customRadio"
+                                                    class="custom-control-input" value="Y"
+                                                    {{ $service->is_attribute === 'Y' ? 'checked' : '' }}>
+                                                <label class="custom-control-label" for="yesCheck">Yes</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-check-inline my-1">
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" id="noCheck" name="customRadio"
+                                                    class="custom-control-input" value="N"
+                                                    {{ $service->is_attribute === 'N' ? 'checked' : '' }}>
+                                                <label class="custom-control-label" for="noCheck">No</label>
+                                            </div>
+                                        </div> --}}
                                         <div class="form-check-inline my-1">
                                             <div class="custom-control custom-radio">
                                                 <input type="radio" id="yesCheck" name="customRadio"
@@ -76,25 +92,29 @@
                                                 <label class="custom-control-label" for="noCheck">No</label>
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
 
                                 <div id="ifYes"
-                                    style="{{ $service->is_attribute === 'Y' ? 'visibility: visible' : 'visibility: hidden' }}">
+                                    style="{{ $service->is_attribute === 'Y' ? 'display: block' : 'display: none' }}">
 
                                     <fieldset>
-                                        @foreach ($attributes as $attribute)
+                                        @foreach ($attributes as $index => $attribute)
                                             <div class="repeater-default">
                                                 <div data-repeater-list="car">
                                                     <div data-repeater-item="">
                                                         <div class="form-group row d-flex align-items-end">
-
+                                                            <input type="hidden"
+                                                                name="car[{{ $index }}][attribute_id]"
+                                                                value="{{ $attribute->id }}">
                                                             <div class="col">
                                                                 <label for="showstatus" class="control-label">Show status
                                                                 </label>
-                                                                <input type="checkbox" class="form-control" id="showstatus"
+                                                                <input type="checkbox" class="form-control"
+                                                                    id="car[{{ $index }}][showstatus]"
                                                                     name="showstatus" style="width: 10%"
-                                                                    @if ($attribute->show_status) checked @endif>
+                                                                    {{ $attribute->show_status ? 'checked' : '' }}>
                                                             </div>
                                                             <div class="col">
                                                                 <label for="attribute1" class="control-label">Attribute
@@ -111,8 +131,9 @@
                                                             <div class="col">
                                                                 <label for="attribute3" class="control-label">Attribute
                                                                     3</label>
-                                                                <input type="text" class="form-control" name="attribute3"
-                                                                    id="attribute3" value="{{ $attribute->attribute_3 }}">
+                                                                <input type="text" class="form-control"
+                                                                    name="attribute3" id="attribute3"
+                                                                    value="{{ $attribute->attribute_3 }}">
                                                             </div>
                                                             <div class="col">
                                                                 <label for="attribute4" class="control-label">Attribute
@@ -184,11 +205,9 @@
             $(document).ready(function() {
                 function toggleAttributeFields() {
                     if ($("#yesCheck").prop("checked")) {
-                        //console.log("Yes checked");
-                        $("#ifYes").css("visibility", "visible");
+                        $("#ifYes").css("display", "block");
                     } else {
-                        //console.log("No checked");
-                        $("#ifYes").css("visibility", "hidden");
+                        $("#ifYes").css("display", "none");
                     }
                 }
 
@@ -198,23 +217,14 @@
                     toggleAttributeFields();
                 });
             });
+
             // $(document).ready(function() {
-            //     function toggleAttributeFields() {
-            //         if ($("#yesCheck").prop("checked")) {
-            //             // When "Yes" is checked, set customRadio value to "Y"
-            //             $("input[name='customRadio']").val("Y");
-            //             $("#ifYes").css("visibility", "visible");
-            //         } else {
-            //             // When "No" is checked, set customRadio value to "N"
-            //             $("input[name='customRadio']").val("N");
-            //             $("#ifYes").css("visibility", "hidden");
-            //         }
-            //     }
-
-            //     toggleAttributeFields();
-
             //     $("input[name='customRadio']").on("change", function() {
-            //         toggleAttributeFields();
+            //         if ($(this).val() === "Y" && $(this).is(":checked")) {
+            //             $("#ifYes").css("display", "block");
+            //         } else {
+            //             $("#ifYes").css("display", "none");
+            //         }
             //     });
             // });
         </script>
