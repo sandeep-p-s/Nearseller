@@ -117,9 +117,10 @@ class CategoryProductListController extends Controller
         }
         $productAttibutes='';
         $categoryid = $request->input('categoryid');
-        $ProductDetails = ProductDetails::select('product_details.*')
+        $ProductDetails = ProductDetails::select('product_details.*','categories.category_name')
             ->leftJoin('categories', 'categories.id', 'product_details.category_id')
             ->where('product_details.category_id', $categoryid)
+            ->where('product_details.is_approved', 'Y')
             ->get();
 
         $ProductCount = $ProductDetails->count();
@@ -132,17 +133,15 @@ class CategoryProductListController extends Controller
         $productAttibutes = DB::table('add_product_attributes')
             ->where('product_id', $product->id)
             ->get();
+            $product->attributes = $productAttibutes;
         }
         //echo $lastRegId = $ProductDetails->toSql();exit;
-        $categories = Category::treeWithStatusY();
-        $filteredCategories = $categories->filter(function ($category) {
-            return $category->category_level != 5;
-        });
         $usershopdets = DB::table('user_account')
-            ->select('id', 'name')
-            ->where('role_id', 2)
-            ->get();
-        return view('categoryproduct.product_viewedit_dets', compact('ProductDetails', 'filteredCategories', 'productAttibutes', 'usershopdets'));
+            ->select('name')
+            ->where('id', $userId)
+            ->first();
+        //echo $lastRegId = $usershopdets->toSql();exit;
+        return view('categoryproduct.product_viewedit_dets', compact('ProductDetails', 'productAttibutes', 'usershopdets'));
     }
 
 
