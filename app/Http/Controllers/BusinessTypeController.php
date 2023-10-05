@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use DB;
+use App\Models\MenuMaster;
 use App\Models\UserAccount;
 use App\Models\BusinessType;
 use Illuminate\Http\Request;
@@ -16,7 +17,8 @@ class BusinessTypeController extends Controller
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $businesstype = DB::table('business_type')->get();
-        return view('admin.business_type.list', compact('businesstype', 'loggeduser', 'userdetails'));
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
+        return view('admin.business_type.list', compact('businesstype', 'loggeduser', 'userdetails','structuredMenu'));
     }
 
     public function add_business_type()
@@ -25,7 +27,8 @@ class BusinessTypeController extends Controller
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        return view('admin.business_type.add', compact('loggeduser', 'userdetails'));
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
+        return view('admin.business_type.add', compact('loggeduser', 'userdetails','structuredMenu'));
     }
 
     public function store_business_type(Request $request)

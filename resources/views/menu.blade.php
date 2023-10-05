@@ -1,41 +1,46 @@
 <!-- Admin menus -->
 <div class="menu-content h-100" data-simplebar>
 
-<!-- menu.blade.php -->
-<ul class="metismenu left-sidenav-menu">
-    <li><a href="{{ route('admin.dashboard') }}"><i data-feather="hhh" class="align-self-center menu-icon"></i><span>Dashboard</span></a></li>
-@php
-    //echo "<pre>";print_r($structuredMenu);exit;
-@endphp
-    @foreach ($structuredMenu as $layer1 => $layer1Data)
-        <li class="">
-            <a href="{{ $layer1Data[0][1] ?? '#' }}" href="javascript: void(0);" aria-expanded="false">
-                @if (is_array($layer1Data[0]))
-                    <span>
-                        @foreach ($layer1Data[0] as $item)
-                            {{ is_array($item) ? $item[0] : $item }}
-                        @endforeach
-                    </span>
-                @else
-                    <span>{{ $layer1Data[0] }}</span>
-                @endif
-                <span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span>
-            </a>
-            <ul class="nav-second-level mm-collapse" aria-expanded="false">
-                @foreach ($layer1Data as $layer2 => $layer2Data)
-                    @if ($layer2 > 0)
-                        @if (isset($layer2Data[0]) && is_array($layer2Data[0]) && isset($layer2Data[0][0]) && is_string($layer2Data[0][0]) && $layer2Data[0][0] != '')
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url($layer2Data[0][1] ?? '#') }}"><i class="ti-control-record"></i>{{ $layer2Data[0][0] }}</a>
-                            </li>
-                        @endif
+    <!-- menu.blade.php -->
+    <ul class="metismenu left-sidenav-menu">
+        <li><a href="{{ route('admin.dashboard') }}"><i data-feather="hhh"
+                    class="align-self-center menu-icon"></i><span>Dashboard</span></a></li>
+        @php
+            //echo "<pre>";print_r($structuredMenu);exit;
+        @endphp
+        @foreach ($structuredMenu as $layer1 => $layer1Data)
+            <li class="">
+                <a href="{{ $layer1Data[0][1] ?? '#' }}" href="javascript: void(0);" aria-expanded="false">
+                    @if (is_array($layer1Data[0]))
+                        <span>
+                            @foreach ($layer1Data[0] as $item)
+                                {{ is_array($item) ? $item[0] : $item }}
+                            @endforeach
+                        </span>
+                    @else
+                        <span>{{ $layer1Data[0] }}</span>
                     @endif
-                @endforeach
-            </ul>
-        </li>
-    @endforeach
-</ul>
+                    <span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span>
+                </a>
+                <ul class="nav-second-level mm-collapse" aria-expanded="false">
+                    @foreach ($layer1Data as $layer2 => $layer2Data)
+                        @if ($layer2 > 0)
+                            @if (isset($layer2Data[0]) &&
+                                    is_array($layer2Data[0]) &&
+                                    isset($layer2Data[0][0]) &&
+                                    is_string($layer2Data[0][0]) &&
+                                    $layer2Data[0][0] != '')
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url($layer2Data[0][1] ?? '#') }}"><i
+                                            class="ti-control-record"></i>{{ $layer2Data[0][0] }}</a>
+                                </li>
+                            @endif
+                        @endif
+                    @endforeach
+                </ul>
+            </li>
+        @endforeach
+    </ul>
 
 
 
@@ -59,7 +64,8 @@
     @if (session('roleid') == '1')
         <ul class="metismenu left-sidenav-menu">
             <li><a href="{{ route('admin.dashboard') }}"> <i data-feather="hhh"
-                        class="align-self-center menu-icon"></i><span>Dashboard</span><span class="menu-arrow"></span></a>
+                        class="align-self-center menu-icon"></i><span>Dashboard</span><span
+                        class="menu-arrow"></span></a>
             </li>
             <hr class="hr hr-menu">
 
@@ -72,7 +78,7 @@
                     <li class="nav-item"><a class="nav-link" href="{{ route('admin.shopapprovals', ['id' => 1]) }}"><i
                                 class="ti-control-record"></i>Shop Approvals</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('admin.shopapprovals', ['id' => 2]) }}"><i
-                        class="ti-control-record"></i>Services Approvals</a></li>
+                                class="ti-control-record"></i>Services Approvals</a></li>
 
 
 
@@ -81,7 +87,7 @@
                     <li class="nav-item"><a class="nav-link" href="category_approval.html"><i
                                 class="ti-control-record"></i>Category Approvals</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('user.shopproduct') }}"><i
-                        class="ti-control-record"></i>Add Shop Products</a></li>
+                                class="ti-control-record"></i>Add Shop Products</a></li>
 
 
 
@@ -89,8 +95,8 @@
             </li>
             <hr class="hr hr-menu">
             <li class="">
-                <a href="javascript: void(0);" aria-expanded="false"><span>User Details</span><span class="menu-arrow"><i
-                            class="mdi mdi-chevron-right"></i></span></a>
+                <a href="javascript: void(0);" aria-expanded="false"><span>User Details</span><span
+                        class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
                 <ul class="nav-second-level mm-collapse" aria-expanded="false">
                     <li class="nav-item"><a class="nav-link" href="{{ route('add.role') }}"><i
                                 class="ti-control-record"></i>Add Roles</a></li>
@@ -99,11 +105,11 @@
                     <li class="nav-item"><a class="nav-link" href="{{ route('user.usercreate') }}"><i
                                 class="ti-control-record"></i>User Creation</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('user.usermenucreate') }}"><i
-                            class="ti-control-record"></i>User Menu Mapping</a></li>
+                                class="ti-control-record"></i>User Menu Mapping</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('user.rolemenucreate') }}"><i
-                            class="ti-control-record"></i>Role Menu Mapping</a></li>
+                                class="ti-control-record"></i>Role Menu Mapping</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('user.userrolecreate') }}"><i
-                        class="ti-control-record"></i>User Role Menu Mapping</a></li>
+                                class="ti-control-record"></i>User Role Menu Mapping</a></li>
                 </ul>
             </li>
             <hr class="hr hr-menu">
@@ -153,14 +159,15 @@
             <hr class="hr hr-menu">
             <li><a href="{{ route('list.category') }}"> <i data-feather="hhh"
                         class="align-self-center menu-icon"></i><span>Category
-                            </span><span class="menu-arrow"></span></a> </li>
+                    </span><span class="menu-arrow"></span></a> </li>
             <hr class="hr hr-menu">
             <li class="">
                 <a href="javascript: void(0);" aria-expanded="false"><span>Master Data</span><span
                         class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
                 <ul class="nav-second-level mm-collapse" aria-expanded="false">
                     <li>
-                        <a href="javascript: void(0);"><i class="ti-control-record"></i>Attributes<span class="menu-arrow left-has-menu"><i class="mdi mdi-chevron-right"></i></span></a>
+                        <a href="javascript: void(0);"><i class="ti-control-record"></i>Attributes<span
+                                class="menu-arrow left-has-menu"><i class="mdi mdi-chevron-right"></i></span></a>
                         <ul class="nav-second-level" aria-expanded="false">
                             <li><a href="{{ route('list.attribute') }}">Attribute Name</a></li>
                             <li><a href="email-templates-basic.html">Attribute Values</a></li>
@@ -188,16 +195,69 @@
         </ul>
 
         <ul class="metismenu left-sidenav-menu">
-            <li><a href="home.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Home Page</span><span class="menu-arrow"></span></a> </li>
+            <li><a href="home.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Home
+                        Page</span><span class="menu-arrow"></span></a> </li>
             <hr class="hr hr-menu">
-            <li><a href="services_table.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Add Services</span><span class="menu-arrow"></span></a> </li>
+            <li><a href="{{ route('list.service') }}"> <i data-feather="hhh"
+                        class="align-self-center menu-icon"></i><span>Add Services</span><span
+                        class="menu-arrow"></span></a> </li>
             <hr class="hr hr-menu">
-            <li><a href="appointments_table.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Appointment</span><span class="menu-arrow"></span></a> </li>
+            <li><a href="appointments_table.html"> <i data-feather="hhh"
+                        class="align-self-center menu-icon"></i><span>Appointment</span><span
+                        class="menu-arrow"></span></a> </li>
             <hr class="hr hr-menu">
-            <li><a href="{{ route('list.service_employee') }}"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Employees</span><span class="menu-arrow"></span></a> </li>
+            <li><a href="{{ route('list.service_employee') }}"> <i data-feather="hhh"
+                        class="align-self-center menu-icon"></i><span>Employees</span><span
+                        class="menu-arrow"></span></a> </li>
             <hr class="hr hr-menu">
-            <li><a href="{{ route('list.service_offer') }}"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Offers</span><span class="menu-arrow"></span></a> </li>
+            <li><a href="{{ route('list.service_offer') }}"> <i data-feather="hhh"
+                        class="align-self-center menu-icon"></i><span>Offers</span><span
+                        class="menu-arrow"></span></a> </li>
             <hr class="hr hr-menu">
+        </ul>
+
+        <ul class="metismenu left-sidenav-menu">
+
+            <li><a href="{{ route('seller.dashboard') }}"> <i data-feather="hhh"
+                        class="align-self-center menu-icon"></i><span>Dashboard</span><span
+                        class="menu-arrow"></span></a> </li>
+            <hr class="hr hr-menu">
+            <li><a href="{{ route('admin.shopapprovals', ['id' => 1]) }}"> <i data-feather="hhh"
+                        class="align-self-center menu-icon"></i><span>Home</span><span class="menu-arrow"></span></a>
+            </li>
+            <hr class="hr hr-menu">
+            <li><a href="{{ route('new.attributes') }}"> <i data-feather="hhh"
+                        class="align-self-center menu-icon"></i><span>Attributes Types</span><span
+                        class="menu-arrow"></span></a> </li>
+            <hr class="hr hr-menu">
+            <li><a href="my_products.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>My
+                        Products</span><span class="menu-arrow"></span></a> </li>
+            <hr class="hr hr-menu">
+            <li><a href="add_products.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>Add
+                        Products</span><span class="menu-arrow"></span></a> </li>
+            <hr class="hr hr-menu">
+
+            <li><a href="category_table.html"> <i data-feather="hhh"
+                        class="align-self-center menu-icon"></i><span>Add Categories</span><span
+                        class="menu-arrow"></span></a> </li>
+            <hr class="hr hr-menu">
+            <li class="">
+                <a href="javascript: void(0);" aria-expanded="false"> <i data-feather="hhh"
+                        class="align-self-center menu-icon"></i> <span>Manage Orders</span><span class="menu-arrow"><i
+                            class="mdi mdi-chevron-right"></i></span></a>
+                <ul class="nav-second-level mm-collapse" aria-expanded="false" style="height: 0px;">
+                    <li class="nav-item"><a class="nav-link" href="pending_orders.html"><i
+                                class="ti-control-record"></i>Pending Orders</a></li>
+                    <li class="nav-item"><a class="nav-link" href="completed_orders.html"><i
+                                class="ti-control-record"></i>Completed Orders</a></li>
+                </ul>
+            </li>
+            <hr class="hr hr-menu">
+            <li><a href="{{ route('list.shop_offer') }}"> <i data-feather="hhh"
+                        class="align-self-center menu-icon"></i><span>Offers</span><span
+                        class="menu-arrow"></span></a> </li>
+            <hr class="hr hr-menu">
+
         </ul>
     @endif
 
@@ -214,8 +274,8 @@
             </li>
             <hr class="hr hr-menu">
             <li><a href="{{ route('new.attributes') }}"> <i data-feather="hhh"
-                class="align-self-center menu-icon"></i><span>Attributes Types</span><span
-                class="menu-arrow"></span></a> </li>
+                        class="align-self-center menu-icon"></i><span>Attributes Types</span><span
+                        class="menu-arrow"></span></a> </li>
             <hr class="hr hr-menu">
             <li><a href="my_products.html"> <i data-feather="hhh" class="align-self-center menu-icon"></i><span>My
                         Products</span><span class="menu-arrow"></span></a> </li>
@@ -252,7 +312,8 @@
         <ul class="metismenu left-sidenav-menu">
 
             <li><a href="{{ route('affiliate.dashboard') }}"> <i data-feather="hhh"
-                        class="align-self-center menu-icon"></i><span>Dashboard</span><span class="menu-arrow"></span></a>
+                        class="align-self-center menu-icon"></i><span>Dashboard</span><span
+                        class="menu-arrow"></span></a>
             </li>
             <hr class="hr hr-menu">
             <li><a href="{{ route('admin.affiliateapprovals') }}"> <i data-feather="hhh"
@@ -268,14 +329,15 @@
             </li>
             <hr class="hr hr-menu">
             <li><a href="wallet.html"> <i data-feather="hhh"
-                        class="align-self-center menu-icon"></i><span>Wallets</span><span class="menu-arrow"></span></a>
+                        class="align-self-center menu-icon"></i><span>Wallets</span><span
+                        class="menu-arrow"></span></a>
             </li>
             <hr class="hr hr-menu">
 
         </ul>
     @endif
 
-<!-- end affiliate menu -->
+    <!-- end affiliate menu -->
 
 
 
