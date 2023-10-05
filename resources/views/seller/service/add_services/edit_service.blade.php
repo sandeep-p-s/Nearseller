@@ -210,9 +210,7 @@
                         $("#ifYes").css("display", "none");
                     }
                 }
-
                 toggleAttributeFields();
-
                 $("input[name='customRadio']").on("change", function() {
                     toggleAttributeFields();
                 });
