@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Offer;
-use App\Models\UserAccount;
-use Illuminate\Http\Request;
 use DB;
 use Validator;
+use App\Models\Offer;
+use App\Models\MenuMaster;
+use App\Models\UserAccount;
+use Illuminate\Http\Request;
 
 class ShopOfferController extends Controller
 {
@@ -17,7 +18,8 @@ class ShopOfferController extends Controller
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $shop_offer = DB::table('offers')->where('type',1)->get();
-        return view('seller.offer.list_offer', compact('shop_offer', 'loggeduser', 'userdetails'));
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
+        return view('seller.offer.list_offer', compact('shop_offer', 'loggeduser', 'userdetails','structuredMenu'));
     }
 
     public function add_shop_offer()
@@ -25,8 +27,9 @@ class ShopOfferController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        return view('seller.offer.add_offer', compact('loggeduser', 'userdetails'));
+        return view('seller.offer.add_offer', compact('loggeduser', 'userdetails','structuredMenu'));
     }
 
     public function store_shop_offer(Request $request)
@@ -74,6 +77,7 @@ class ShopOfferController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $shopoffer = Offer::find($id);
 
@@ -81,7 +85,7 @@ class ShopOfferController extends Controller
             return redirect()->route('list.shop_offer')->with('error', 'Shop offer not found.');
         }
 
-        return view('seller.offer.edit_offer', compact('shopoffer', 'loggeduser', 'userdetails'));
+        return view('seller.offer.edit_offer', compact('shopoffer', 'loggeduser', 'userdetails','structuredMenu'));
     }
 
     public function update_shop_offer(Request $request, $id)
