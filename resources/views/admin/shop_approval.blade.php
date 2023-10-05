@@ -48,12 +48,12 @@
 
                           <input type="text" id="shopname" name="shopname" class="form-control  form-control-lg" placeholder="{{$shoporservice}} Name" onchange="shwdets();" />
                         </div>
-                        @if($typeid==1)
+
                         <div class="col-md-3">
 
                             <input type="text" id="ownername" name="ownername" class="form-control  form-control-lg" placeholder="Owner Name" onchange="shwdets();" />
                           </div>
-                        @endif
+
 
                         <div class="col-md-3">
                           <input type="text" id="referalid" name="referalid" class="form-control  form-control-lg" placeholder="Refferal ID" onchange="shwdets();" />
@@ -70,12 +70,16 @@
             </div>
             @endif
 
+            <div class="col-md-12">
+                <div id="shop_del-message" class="text-center" style="display: none;"></div>
+            </div>
+
             <div id="catcontent">
 
             </div>
 
 
-            <div class="modal fade" id="ViewEditModal" tabindex="-1" aria-labelledby="ViewEditModalLabel" aria-hidden="true">
+            <div class="modal fade" id="ViewEditModal" tabindex="-1" aria-labelledby="ViewEditModalLabel" aria-hidden="true" style="overflow-y: scroll;">
                 <div class="modal-dialog custom-modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -92,7 +96,7 @@
             </div>
 
 
-            <div class="modal fade" id="ShopApprovedModal" tabindex="-1" aria-labelledby="ShopApprovedModalLabel" aria-hidden="true">
+            <div class="modal fade" id="ShopApprovedModal" tabindex="-1" aria-labelledby="ShopApprovedModalLabel" aria-hidden="true" style="overflow-y: scroll;">
                 <div class="modal-dialog custom-modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -348,8 +352,9 @@
                     var values = decoded.split('#');
                     var imageSrc = values[0];
                     var shopid = values[1];
+                    $('#loading-image').fadeOut();
                     $('#loading-overlay').fadeIn();
-                    $('#loading-image').fadeIn();
+                    var typeid= $('#typeid').val();
                     var csrfToken = $('meta[name="csrf-token"]').attr('content');
                     $.ajax({
                         url: '{{ route("shopGalryDelte") }}',
@@ -369,7 +374,7 @@
                                         }, 5000);
                                         $('#loading-image').fadeOut();
                                         $('#loading-overlay').fadeOut();
-                                        shopvieweditdet(shopid);
+                                        shopvieweditdet(shopid,typeid);
                                     }
                                     else if((data.result==2))
                                     {
@@ -380,7 +385,7 @@
                                         }, 5000);
                                         $('#loading-image').fadeOut();
                                         $('#loading-overlay').fadeOut();
-                                        shopvieweditdet(shopid);
+                                        shopvieweditdet(shopid,typeid);
                                     }
                                     else{
                                         $("#showshopeviewedit").html('');

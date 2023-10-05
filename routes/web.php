@@ -19,7 +19,7 @@ use App\Http\Controllers\BusinessTypeController;
 use App\Http\Controllers\ServiceOfferController;
 use App\Http\Controllers\ServiceEmployeeController;
 
-
+use App\Http\Controllers\CategoryProductListController;
 
 use App\Http\Controllers\Masters\BankController as BankController;
 use App\Http\Controllers\Masters\StateController as StateController;
@@ -62,7 +62,7 @@ Route::controller(HomeController::class)->group(function () {
     Route::post('verifyOTP', 'verifyOTPCheck')->name('verifyOTP');
     Route::post('newpaswrd', 'ResetNewPaswd')->name('newpaswrd');
     Route::post('mobotpgenrte', 'MobLoginOTPgenrte')->name('mobotpgenrte');
-    Route::get('/getDistricts/{state}', 'getDistricts')->name('getDistricts');;
+    Route::get('/getDistricts/{state}', 'getDistricts')->name('getDistricts');
     Route::get('/getStates/{country}', 'getStates')->name('getStates');
     Route::post('BankBranches', 'getBankBranchesPage')->name('getBankBranches');
     Route::post('EmailLogin', 'EmailLoginPage')->name('EmailLogin');
@@ -70,6 +70,14 @@ Route::controller(HomeController::class)->group(function () {
     Route::post('affiliatorRegisteration', 'affiliatorRegisterationPage')->name('affiliatorRegisteration');
     Route::post('shopnotregreferal', 'ShopNotRegRefaralId')->name('shopnotregreferal');
     Route::post('getIFSCode', 'getIFSCodePage')->name('getIFSCode');
+    Route::get('/BusinessCategory/{catgry}', 'BusinessCategory')->name('BusinessCategory');
+    Route::get('/executivename/{executive}', 'executivename')->name('executivename');
+    Route::get('/shopservicetype/{shopservice}', 'shopservicetype')->name('shopservicetype');
+    Route::get('/getsubshopservice/{subshopservice}', 'getsubshopservice')->name('getsubshopservice');
+
+
+
+
 });
 
 Route::controller(UserLoggedController::class)->group(function () {
@@ -135,6 +143,10 @@ Route::controller(UserLoggedController::class)->group(function () {
         Route::get('userrole', 'AdmuUserRoleMenuPage')->name('user.userrolecreate');
         Route::post('userrolemenu', 'AdmgetUserRoleMenu')->name('user.getUserRoleMenu');
         Route::post('userrolepage', 'AdmAddUserRolePageMenu')->name('user.userrolepagemenu');
+
+        Route::get('changepassword', 'ChangePasswordPagerd')->name('user.changepassword');
+        Route::post('newpassword', 'ChangeNewPasswordPage')->name('ChangeNewPassword');
+
     });
 
 
@@ -142,9 +154,40 @@ Route::controller(UserLoggedController::class)->group(function () {
     Route::controller(ProductController::class)->group(function () {
         Route::get('listshopproduct', 'ProductListView')->name('user.shopproduct');
         Route::post('allproductview', 'AllProductList')->name('product.allproductview');
+        Route::post('addnewproduct', 'AdmNewPrdoductAdd')->name('AdmNewPrdoductAdd');
+        Route::post('productviewedit', 'AdmProductViewEdit')->name('productViewEdit');
+        Route::post('productimagedelete', 'AdmproductValDelte')->name('productValDelte');
+        Route::post('productedit', 'AdmNewPrdoductEdit')->name('AdmPrdoductEdit');
+        Route::post('shopsearch', 'AdmShopNameSearch')->name('ShopNameSearch');
+        Route::post('approvedall', 'AdmProductApprovedAll')->name('ProductApprovedAll');
+        Route::post('productapproved', 'AdmproductApproved')->name('productApproved');
+        Route::post('approvedproduct', 'AdmapprovedPrdoduct')->name('AdmApprovedprdoduct');
+        Route::post('ProductsDelete', 'AdmProductsDelete')->name('ProductsDelete');
+        Route::post('productCategory', 'productCategorySearch')->name('productCategorySearch');
+        Route::post('productname', 'ProductNameSearch')->name('ProductNameSearch');
+        Route::post('existproducts', 'ExistproductviewPage')->name('product.existproductview');
+        Route::post('existproductsview', 'AdmproductExistEdit')->name('productExistEdit');
+        Route::post('Prdoductexist', 'AdmPrdoductExist')->name('AdmPrdoductExist');
+    });
+    Route::controller(CategoryProductListController::class)->group(function () {
+        Route::get('listshopcategoryproduct', 'CategoryProductListView')->name('user.shopcategoryproduct');
+        Route::post('allcategoryproduct', 'AllCategoryProductList')->name('productlist.allcategoryproduct');
+        Route::post('categoryproductlist', 'categoryproductlist')->name('productlist.categoryproductlist');
+
+
+
+        Route::get('parentcategory', 'ParentProductListView');
+        Route::post('listparentcategory', 'ListParentCategory')->name('productlist.parentcategories');
+        Route::post('productview', 'AdmProductView')->name('productlist.productView');
+
+
 
 
     });
+
+
+
+
 
 
     Route::controller(BusinessTypeController::class)->group(function () {
@@ -260,6 +303,8 @@ Route::controller(UserLoggedController::class)->group(function () {
         Route::get('editcategory/{id}', 'edit_category')->name('edit.category');
         Route::post('updatecategory/{id}', 'update_category')->name('update.category');
         Route::get('deletecategory/{id}', 'delete_category')->name('delete.category');
+        Route::get('approvedcategory/{id}', 'approved_category')->name('approved.category');
+        Route::post('approvedstatuscategory/{id}', 'approvedstatus_category')->name('approvedstatus.category');
     });
 
     Route::controller(ExecutiveController::class)->group(function () {
@@ -322,7 +367,7 @@ Route::controller(UserLoggedController::class)->group(function () {
         Route::get('newaffiliate', 'AffiliateAddNew')->name('newaffiliate');
         Route::get('affiliatelist', 'AffiliatesList')->name('affiliate.affiliateslist');
         Route::post('affiliatesviews', 'ViewAffiliatesList')->name('affiliate.allaffiliatesview');
-        Route::get('affliateshops', 'ViewAffiliatesShopList')->name('affiliate.affliateshops');
+        Route::get('affliateshops/{id}', 'ViewAffiliatesShopList')->name('affiliate.affliateshops');
         Route::get('allaffilateshopsview', 'AllAffiliatesShopList')->name('affiliate.allaffilateshopsview');
     });
 

@@ -55,7 +55,7 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <input type="file" id="input-file-now-custom-1" class="dropify"
-                                                data-default-file="" name="category_image" />
+                                                data-default-file="" name="category_image" accept="image/jpeg, image/png" />
                                         </div>
                                     </div>
                                     @error('category_name')

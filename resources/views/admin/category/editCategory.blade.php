@@ -58,7 +58,7 @@
                                     <div class="card">
                                         <input type="file" id="input-file-now-custom-1" class="dropify"
                                             data-default-file="{{ asset('storage/' . config('imageupload.categorydir') . '/' . config('imageupload.category.image') . $current_category->category_image) }}"
-                                            alt="category image" width="300px" height="300px" name="category_image" />
+                                            alt="category image" width="300px" height="300px" name="category_image" accept="image/jpeg, image/png"/>
                                     </div>
                                     <label for="categoryStatus">Status</label>
                                     <select class="form-control" id="categoryStatus" name="status">

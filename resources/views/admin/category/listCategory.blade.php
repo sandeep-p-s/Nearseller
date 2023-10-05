@@ -56,6 +56,7 @@
                                         <th>No</th>
                                         <th>Category Name</th>
                                         <th>Status</th>
+                                        <th>Approved</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -85,6 +86,12 @@
                                                 </span>
                                             </td>
                                             <td>
+                                                <span
+                                                    class="badge p-2 {{ $c->approval_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
+                                                    {{ $c->approval_status === 'Y' ? 'Approved' : 'Not Approved' }}
+                                                </span>
+                                            </td>
+                                            <td>
                                                 {{-- {{ $c->id }} --}}
                                                 <div class="btn-group mb-2 mb-md-0">
                                                     <button type="button" class="btn view_btn dropdown-toggle"
@@ -94,6 +101,10 @@
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item view_btn1"
                                                             href="{{ route('edit.category', $c->category_slug) }}">Edit</a>
+                                                            @if(session('roleid')==1)
+                                                        <a class="dropdown-item view_btn1"
+                                                            href="{{ route('approved.category', $c->category_slug) }}">Approved</a>
+                                                            @endif
                                                         {{-- <a class="dropdown-item delete_btn"
                                                         href="{{ route('delete.category', $c->category_slug) }}"
                                                         onclick="return confirm('Are you sure you want to delete?')">Delete</a> --}}

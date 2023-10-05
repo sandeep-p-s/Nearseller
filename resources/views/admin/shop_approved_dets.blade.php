@@ -29,7 +29,7 @@
 
     @endphp
 
-    @foreach ($userdets as $shopapp)
+    @foreach ($userstus as $shopapp)
         @php
             $sellerapproved=$shopapp->approved;
             $userstus=$shopapp->user_status;
@@ -94,20 +94,25 @@
                                             {{ $sellerDetails->business_name }}
                                         </div>
                                     </div>
-                                    {{-- <hr class="new_hr"><div class="form-group row">
-                                        <label class="col-xl-6">Shop/Service Type</label>
-                                        <div class="col-xl-6 align-self-center">
-                                            {{ $sellerDetails->service_name }}
-                                        </div>
-                                    </div> --}}
                                     <hr class="new_hr"><div class="form-group row">
-                                        <label class="col-xl-6">{{$shoporservice}} Type</label>
+                                        <label class="col-xl-6">Shop/Service category Type</label>
                                         <div class="col-xl-6 align-self-center">
-                                            {{ $sellerDetails->shop_name }}
+                                            {{ $sellerDetails->service_category_name }}
+                                        </div>
+                                    </div>
+                                    <hr class="new_hr"><div class="form-group row">
+                                        <label class="col-xl-6">{{$shoporservice}} Sub Category Type</label>
+                                        <div class="col-xl-6 align-self-center">
+                                            {{ $sellerDetails->sub_category_name }}
                                         </div>
                                     </div>
 
-
+                                    <hr class="new_hr"><div class="form-group row">
+                                        <label class="col-xl-6">{{$shoporservice}} Type</label>
+                                        <div class="col-xl-6 align-self-center">
+                                            {{ $sellerDetails->service_name }}
+                                        </div>
+                                    </div>
 
                                     <hr class="new_hr"><div class="form-group row">
                                         <label class="col-xl-6">Executive Name</label>
