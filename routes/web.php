@@ -6,6 +6,8 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SellerController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ShopTypeController;
 use App\Http\Controllers\AffiliateController;
 use App\Http\Controllers\ExecutiveController;
@@ -14,24 +16,20 @@ use App\Http\Controllers\UserLoggedController;
 use App\Http\Controllers\ServiceTypeController;
 
 use App\Http\Controllers\BusinessTypeController;
-
 use App\Http\Controllers\ServiceOfferController;
 use App\Http\Controllers\ServiceEmployeeController;
-use App\Http\Controllers\ProductController;
+
 use App\Http\Controllers\CategoryProductListController;
 
-
-
-use App\Http\Controllers\Masters\AttributeController as AttributeController;
 use App\Http\Controllers\Masters\BankController as BankController;
 use App\Http\Controllers\Masters\StateController as StateController;
 use App\Http\Controllers\Admin\CategoryController as CategoryController;
 use App\Http\Controllers\Masters\CountryController as CountryController;
 use App\Http\Controllers\Masters\DistrictController as DistrictController;
-
 use App\Http\Controllers\Masters\ReligionController as ReligionController;
-use App\Http\Controllers\Masters\ProfessionsController as ProfessionsController;
 
+use App\Http\Controllers\Masters\AttributeController as AttributeController;
+use App\Http\Controllers\Masters\ProfessionsController as ProfessionsController;
 
 
 
@@ -336,7 +334,14 @@ Route::controller(UserLoggedController::class)->group(function () {
         Route::post('updateshopoffer/{id}', 'update_shop_offer')->name('update.shop_offer');
         Route::get('deleteshopoffer/{id}', 'delete_shop_offer')->name('delete.shop_offer');
     });
-
+    Route::controller(ServiceController::class)->group(function () {
+        Route::get('listservice', 'list_service')->name('list.service');
+        Route::get('addservice', 'add_service')->name('add.service');
+        Route::post('storeservice', 'store_service')->name('store.service');
+        Route::get('editservice/{id}', 'edit_service')->name('edit.service');
+        Route::post('updateservice/{id}', 'update_service')->name('update.service');
+        Route::get('deleteservice/{id}', 'delete_service')->name('delete.service');
+    });
     Route::controller(ServiceEmployeeController::class)->group(function () {
         Route::get('listserviceemp', 'list_service_employee')->name('list.service_employee');
         Route::get('addserviceemp', 'add_service_employee')->name('add.service_employee');

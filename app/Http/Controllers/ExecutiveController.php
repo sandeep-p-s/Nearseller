@@ -7,6 +7,8 @@ use App\Models\UserAccount;
 use App\Models\MenuMaster;
 use Illuminate\Http\Request;
 use DB;
+use App\Models\MenuMaster;
+
 class ExecutiveController extends Controller
 {
     public function list_executive()
@@ -17,7 +19,6 @@ class ExecutiveController extends Controller
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $executive = DB::table('executives')->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-
         return view('admin.executive.list', compact('executive', 'loggeduser', 'userdetails','structuredMenu'));
     }
     public function add_executive()

@@ -12,11 +12,14 @@ class BusinessTypeSeeder extends Seeder
      */
     public function run(): void
     {
+        $now = now();
+
         $data = [
-            ['business_name' => 'Sales'],
-            ['business_name' => 'Services'],
+            ['business_name' => 'Sales','created_at' => $now, 'updated_at' => $now],
+            ['business_name' => 'Services','created_at' => $now, 'updated_at' => $now],
         ];
         foreach ($data as $item){
-            DB::table('business_type')->insert(['business_name' => $item['business_name']],$item);
-        }    }
+            DB::table('business_type')->insert(['business_name' => $item['business_name'],'created_at' => $item['created_at'],'updated_at' => $item['updated_at']],$item);
+        }
+    }
 }
