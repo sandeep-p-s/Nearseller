@@ -59,7 +59,6 @@ class Category extends Model
     }
 
 
-
     private static function formatTree($categories, $allCategories, $prefix, &$formattedCategories, $category_level)
     {
         foreach ($categories as $category) {

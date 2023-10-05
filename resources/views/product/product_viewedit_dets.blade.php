@@ -292,22 +292,22 @@
                                                     </div>
                                                     <div class="col">
                                                         <input type="text" id="attatibutes1" name="attatibutes1"
-                                                            placeholder="Attatibute1" class="form-control"
+                                                            placeholder="Attribute1" class="form-control"
                                                             value="{{ $attribte->attribute_1 }}">
                                                     </div>
                                                     <div class="col">
                                                         <input type="text" id="attatibutes2" name="attatibutes2"
-                                                            placeholder="Attatibute2" class="form-control"
+                                                            placeholder="Attribute2" class="form-control"
                                                             value="{{ $attribte->attribute_2 }}">
                                                     </div>
                                                     <div class="col">
                                                         <input type="text" id="attatibutes3" name="attatibutes3"
-                                                            placeholder="Attatibute3" class="form-control"
+                                                            placeholder="Attribute3" class="form-control"
                                                             value="{{ $attribte->attribute_3 }}">
                                                     </div>
                                                     <div class="col">
                                                         <input type="text" id="attatibutes4" name="attatibutes4"
-                                                            placeholder="Attatibute4" class="form-control"
+                                                            placeholder="Attribute4" class="form-control"
                                                             value="{{ $attribte->attribute_4 }}">
                                                     </div>
                                                     <div class="col">
@@ -342,19 +342,19 @@
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" id="attatibutes1" name="attatibutes1"
-                                                        placeholder="Attatibute" class="form-control" />
+                                                        placeholder="Attribute" class="form-control" />
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" id="attatibutes2" name="attatibutes2"
-                                                        placeholder="Attatibute" class="form-control" />
+                                                        placeholder="Attribute" class="form-control" />
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" id="attatibutes3" name="attatibutes3"
-                                                        placeholder="Attatibute" class="form-control" />
+                                                        placeholder="Attribute" class="form-control" />
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" id="attatibutes4" name="attatibutes4"
-                                                        placeholder="Attatibute" class="form-control" />
+                                                        placeholder="Attribute" class="form-control" />
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" id="offerprices1" name="offerprices1"

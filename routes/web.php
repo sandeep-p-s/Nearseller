@@ -18,7 +18,7 @@ use App\Http\Controllers\BusinessTypeController;
 use App\Http\Controllers\ServiceOfferController;
 use App\Http\Controllers\ServiceEmployeeController;
 use App\Http\Controllers\ProductController;
-
+use App\Http\Controllers\CategoryProductListController;
 
 
 
@@ -170,11 +170,26 @@ Route::controller(UserLoggedController::class)->group(function () {
         Route::post('existproducts', 'ExistproductviewPage')->name('product.existproductview');
         Route::post('existproductsview', 'AdmproductExistEdit')->name('productExistEdit');
         Route::post('Prdoductexist', 'AdmPrdoductExist')->name('AdmPrdoductExist');
+    });
+    Route::controller(CategoryProductListController::class)->group(function () {
+        Route::get('listshopcategoryproduct', 'CategoryProductListView')->name('user.shopcategoryproduct');
+        Route::post('allcategoryproduct', 'AllCategoryProductList')->name('productlist.allcategoryproduct');
+        Route::post('categoryproductlist', 'categoryproductlist')->name('productlist.categoryproductlist');
+
+
+
+        Route::get('parentcategory', 'ParentProductListView');
+        Route::post('listparentcategory', 'ListParentCategory')->name('productlist.parentcategories');
+        Route::post('productview', 'AdmProductView')->name('productlist.productView');
 
 
 
 
     });
+
+
+
+
 
 
     Route::controller(BusinessTypeController::class)->group(function () {

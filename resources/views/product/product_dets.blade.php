@@ -286,22 +286,22 @@
                                                             </div>
                                                             <div class="col">
                                                                 <input type="text" id="attatibute1"
-                                                                    name="Attatibute1" placeholder="attatibute1"
+                                                                    name="attatibute1" placeholder="Attribute1"
                                                                     class="form-control">
                                                             </div>
                                                             <div class="col">
                                                                 <input type="text" id="attatibute2"
-                                                                    name="Attatibute2" placeholder="attatibute2"
+                                                                    name="attatibute2" placeholder="Attribute2"
                                                                     class="form-control">
                                                             </div>
                                                             <div class="col">
                                                                 <input type="text" id="attatibute3"
-                                                                    name="Attatibute3" placeholder="attatibute3"
+                                                                    name="attatibute3" placeholder="Attribute3"
                                                                     class="form-control">
                                                             </div>
                                                             <div class="col">
                                                                 <input type="text" id="attatibute4"
-                                                                    name="Attatibute4" placeholder="attatibute4"
+                                                                    name="attatibute4" placeholder="Attribute4"
                                                                     class="form-control">
                                                             </div>
                                                             <div class="col">

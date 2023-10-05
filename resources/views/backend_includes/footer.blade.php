@@ -64,6 +64,15 @@
 
         $('.carousel').carousel();
 
+        $('.selectcategoryauto').each(function() {
+            var $p = $(this).parent();
+            $(this).select2({
+                dropdownParent: $p
+            });
+        });
+
+
+
         var url = "{{ route('ShopNameSearch') }}"
         $('#shopid').autocomplete({
             source: function(request, response) {
@@ -204,6 +213,8 @@
             }
         });
     });
+
+
 </script>
 
 

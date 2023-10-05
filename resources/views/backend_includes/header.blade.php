@@ -111,7 +111,13 @@
             width: 100px;
             margin: 1px;
         }
-
+.new_image_response{
+    background-size: cover;
+    height: 300px;
+    width: 100%;
+    object-fit: cover;
+    border: 3px solid #ec9e0a;
+}
 
 
 </style>
