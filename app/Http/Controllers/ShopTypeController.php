@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Models\ShopType;
+use App\Models\MenuMaster;
 use App\Models\UserAccount;
 use Illuminate\Http\Request;
 class ShopTypeController extends Controller
@@ -17,7 +18,8 @@ class ShopTypeController extends Controller
         $shoptype = DB::table('shop_type')->get();
         $total_shoptypes = DB::table('shop_type')->count();
         $inactive_shoptypes = DB::table('shop_type as st')->where('st.status','N')->count();
-        return view('admin.shop_type.list', compact('shoptype','loggeduser','userdetails','total_shoptypes','inactive_shoptypes'));
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
+        return view('admin.shop_type.list', compact('shoptype','loggeduser','userdetails','total_shoptypes','inactive_shoptypes','structuredMenu'));
     }
 
     public function add_shop_type()
@@ -26,7 +28,8 @@ class ShopTypeController extends Controller
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        return view('admin.shop_type.add',compact('loggeduser','userdetails'));
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
+        return view('admin.shop_type.add',compact('loggeduser','userdetails','structuredMenu'));
     }
 
     public function store_shop_type(Request $request)
@@ -48,13 +51,14 @@ class ShopTypeController extends Controller
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
         $shoptype = ShopType::find($id);
 
         if (!$shoptype) {
             return redirect()->route('list.shoptype')->with('error', 'Shop Type not found.');
         }
 
-        return view('admin.shop_type.edit', compact('shoptype','loggeduser','userdetails'));
+        return view('admin.shop_type.edit', compact('shoptype','loggeduser','userdetails','structuredMenu'));
     }
 
     public function update_shop_type(Request $request, $id)

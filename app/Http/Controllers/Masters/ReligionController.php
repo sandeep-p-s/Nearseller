@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Masters;
 
 use DB;
-use App\Models\masters\Religion;
+use App\Models\MenuMaster;
 use App\Models\UserAccount;
-use App\Http\Controllers\Controller;
-use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use App\Models\masters\Religion;
+use App\Http\Controllers\Controller;
 
 class ReligionController extends Controller
 {
@@ -16,9 +17,10 @@ class ReligionController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $religions = DB::table('religions')->get();
-        return view('admin.masters.religion.listReligion',compact('loggeduser','userdetails','religions'));
+        return view('admin.masters.religion.listReligion',compact('loggeduser','userdetails','religions','structuredMenu'));
 
     }
     public function add_religion()
@@ -27,7 +29,8 @@ class ReligionController extends Controller
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        return view('admin.masters.religion.addReligion',compact('loggeduser','userdetails'));
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
+        return view('admin.masters.religion.addReligion',compact('loggeduser','userdetails','structuredMenu'));
     }
     public function store_religion(Request $request)
     {
@@ -53,6 +56,7 @@ class ReligionController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $religion = Religion::find($id);
 
@@ -60,7 +64,7 @@ class ReligionController extends Controller
             return redirect()->route('list.religion')->with('error', 'religion not found.');
         }
 
-        return view('admin.masters.religion.editReligion', compact('userdetails','loggeduser','religion'));
+        return view('admin.masters.religion.editReligion', compact('userdetails','loggeduser','religion','structuredMenu'));
     }
     public function update_religion(Request $request,$id)
     {

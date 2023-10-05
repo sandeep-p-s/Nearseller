@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Masters;
 
 use DB;
-use App\Models\masters\District;
+use App\Models\MenuMaster;
 use App\Models\UserAccount;
-use Illuminate\Validation\Rule;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use App\Models\masters\District;
+use App\Http\Controllers\Controller;
 
 class DistrictController extends Controller
 {
@@ -16,6 +17,7 @@ class DistrictController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $districts = DB::table('district as d')
             ->select('d.district_name','d.id','st.state_name','ct.country_name','d.status as d_status','st.status as st_status','ct.status as ct_status')
@@ -27,7 +29,7 @@ class DistrictController extends Controller
         $total_districts = DB::table('district')->count();
         $inactive_districts = DB::table('district as d')->where('d.status','N')->count();
 
-        return view('admin.masters.district.listDistrict',compact('loggeduser','userdetails','districts','total_districts','inactive_districts'));
+        return view('admin.masters.district.listDistrict',compact('loggeduser','userdetails','districts','total_districts','inactive_districts','structuredMenu'));
 
     }
     public function add_district()
@@ -35,6 +37,7 @@ class DistrictController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $states = DB::table('state as st')
         ->select('st.state_name','st.id', 'ct.country_name as country_name','st.status')
@@ -43,7 +46,7 @@ class DistrictController extends Controller
         ->where('ct.status','Y')
         ->get();
 
-        return view('admin.masters.district.addDistrict',compact('loggeduser','userdetails','states'));
+        return view('admin.masters.district.addDistrict',compact('loggeduser','userdetails','states','structuredMenu'));
     }
     public function store_district(Request $request)
     {
@@ -72,6 +75,7 @@ class DistrictController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $states = DB::table('state as st')
         ->select('st.state_name','st.id', 'ct.country_name as country_name','st.status')
@@ -85,7 +89,7 @@ class DistrictController extends Controller
             return redirect()->route('list.shoptype')->with('error', 'District not found.');
         }
 
-        return view('admin.masters.district.editDistrict', compact('district','userdetails','loggeduser','states'));
+        return view('admin.masters.district.editDistrict', compact('district','userdetails','loggeduser','states','structuredMenu'));
     }
     public function update_district(Request $request,$id)
     {

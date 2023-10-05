@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Masters;
 
 use DB;
-use App\Models\masters\Bank_type;
-use App\Models\masters\Bank_details;
+use App\Models\MenuMaster;
 use App\Models\UserAccount;
-use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use App\Models\masters\Bank_type;
 use App\Http\Controllers\Controller;
+use App\Models\masters\Bank_details;
 
 class BankController extends Controller
 {
@@ -17,9 +18,10 @@ class BankController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $banks = DB::table('bank_types')->get();
-        return view('admin.masters.bank.listBank',compact('loggeduser','userdetails','banks'));
+        return view('admin.masters.bank.listBank',compact('loggeduser','userdetails','banks','structuredMenu'));
 
     }
     public function add_bank()
@@ -27,8 +29,9 @@ class BankController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        return view('admin.masters.bank.addBank',compact('loggeduser','userdetails'));
+        return view('admin.masters.bank.addBank',compact('loggeduser','userdetails','structuredMenu'));
     }
     public function store_bank(Request $request)
     {
@@ -54,6 +57,7 @@ class BankController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $bank = Bank_type::find($id);
 
@@ -61,7 +65,7 @@ class BankController extends Controller
             return redirect()->route('list.shoptype')->with('error', 'Bank not found.');
         }
 
-        return view('admin.masters.bank.editBank', compact('bank','userdetails','loggeduser'));
+        return view('admin.masters.bank.editBank', compact('bank','userdetails','loggeduser','structuredMenu'));
     }
     public function update_bank(Request $request,$id)
     {
@@ -106,13 +110,14 @@ class BankController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $bankbranchs = DB::table('bank_details as bd')
         ->select('bd.branch_name','bd.id','bt.bank_name as bank_name','bt.status')
         ->join('bank_types as bt', 'bt.id', 'bd.bank_code')
         ->where('bt.status','Y')
         ->get();
-        return view('admin.masters.bank.listBankbranch',compact('loggeduser','userdetails','bankbranchs'));
+        return view('admin.masters.bank.listBankbranch',compact('loggeduser','userdetails','bankbranchs','structuredMenu'));
 
     }
     public function add_bank_branch()
@@ -120,6 +125,7 @@ class BankController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $districts = DB::table('district as d')
             ->select('d.district_name','d.id','st.state_name','ct.country_name','d.status','st.status','ct.status')
@@ -133,7 +139,7 @@ class BankController extends Controller
             ->select('bt.id','bt.bank_name','bt.status')
             ->where('bt.status','Y')
             ->get();
-        return view('admin.masters.bank.addBankbranch',compact('loggeduser','userdetails','districts','banks'));
+        return view('admin.masters.bank.addBankbranch',compact('loggeduser','userdetails','districts','banks','structuredMenu'));
     }
     public function store_bank_branch(Request $request)
     {
@@ -180,6 +186,7 @@ class BankController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $branch = DB::table('bank_details as bd')
             ->select('bd.id','bd.district_code','bd.bank_code','bd.branch_name','bd.branch_address','bd.ifsc_code','d.district_name','d.id as district_id','st.state_name','ct.country_name','bt.bank_name','bt.id as bank_id','d.status','st.status','ct.status','bt.status')
@@ -198,7 +205,7 @@ class BankController extends Controller
             return redirect()->route('list.bank_branch')->with('error', 'Bankbranch not found.');
         }
 
-        return view('admin.masters.bank.editBankbranch', compact('branch','userdetails','loggeduser'));
+        return view('admin.masters.bank.editBankbranch', compact('branch','userdetails','loggeduser','structuredMenu'));
     }
     public function update_bank_branch(Request $request,$id)
     {

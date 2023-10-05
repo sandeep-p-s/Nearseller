@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Masters;
 
 use DB;
-use App\Models\masters\State;
+use App\Models\MenuMaster;
 use App\Models\UserAccount;
-use App\Http\Controllers\Controller;
-use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
+use App\Models\masters\State;
+use Illuminate\Validation\Rule;
+use App\Http\Controllers\Controller;
 
 class StateController extends Controller
 {
@@ -17,6 +18,7 @@ class StateController extends Controller
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
         $states = DB::table('state as st')
         ->select('st.state_name','st.id','st.status as st_status','ct.country_name as country_name','ct.status as ct_status')
         ->join('country as ct', 'ct.id', 'st.country_id')
@@ -25,7 +27,7 @@ class StateController extends Controller
         $total_states = DB::table('state')->count();
         $inactive_states = DB::table('state as s')->where('s.status','N')->count();
         // dd($country);
-        return view('admin.masters.state.listState', compact('loggeduser', 'userdetails', 'states','total_states','inactive_states'));
+        return view('admin.masters.state.listState', compact('loggeduser', 'userdetails', 'states','total_states','inactive_states','structuredMenu'));
     }
     public function add_state()
     {
@@ -36,7 +38,8 @@ class StateController extends Controller
         $countries = DB::table('country as ct')
         ->where('ct.status','Y')
         ->get();
-        return view('admin.masters.state.addState', compact('loggeduser', 'userdetails','countries'));
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
+        return view('admin.masters.state.addState', compact('loggeduser', 'userdetails','countries','structuredMenu'));
     }
     public function store_state(Request $request)
     {
@@ -67,6 +70,7 @@ class StateController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $countries = DB::table('country as ct')
         ->where('ct.status','Y')
@@ -77,7 +81,7 @@ class StateController extends Controller
             return redirect()->route('list.state')->with('error', 'State not found.');
         }
 
-        return view('admin.masters.state.editState', compact('userdetails', 'loggeduser','countries', 'state'));
+        return view('admin.masters.state.editState', compact('userdetails', 'loggeduser','countries', 'state','structuredMenu'));
     }
     public function update_state(Request $request, $id)
     {

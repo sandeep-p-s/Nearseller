@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Masters;
 
 use DB;
-use App\Models\masters\Country;
+use App\Models\MenuMaster;
 use App\Models\UserAccount;
-use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
+use App\Models\masters\Country;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCountryRequest;
 
@@ -21,10 +22,11 @@ class CountryController extends Controller
         $countries = Country::allCountries();
         $total_countries = Country::countriesCount();
         $inactive_countries = Country::inactiveCountries();
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
         // $countries = DB::table('country')->get();
         // $total_countries = DB::table('country')->count();
         // $inactive_countries = DB::table('country as c')->where('c.status','N')->count();
-        return view('admin.masters.country.listCountry',compact('loggeduser','userdetails','countries','total_countries','inactive_countries'));
+        return view('admin.masters.country.listCountry',compact('loggeduser','userdetails','countries','total_countries','inactive_countries','structuredMenu'));
 
     }
     public function add_country()
@@ -33,7 +35,8 @@ class CountryController extends Controller
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        return view('admin.masters.country.addCountry',compact('loggeduser','userdetails'));
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
+        return view('admin.masters.country.addCountry',compact('loggeduser','userdetails','structuredMenu'));
     }
     public function store_country(Request $request)
     {
@@ -60,13 +63,14 @@ class CountryController extends Controller
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
         $country = Country::find($id);
 
         if (!$country) {
             return redirect()->route('list.shoptype')->with('error', 'Country not found.');
         }
 
-        return view('admin.masters.country.editCountry', compact('country','userdetails','loggeduser'));
+        return view('admin.masters.country.editCountry', compact('country','userdetails','loggeduser','structuredMenu'));
     }
     public function update_country(Request $request,$id)
     {
