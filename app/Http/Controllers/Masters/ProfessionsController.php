@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Masters;
 
 use DB;
-use App\Models\masters\Profession;
+use App\Models\MenuMaster;
 use App\Models\UserAccount;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
+use App\Models\masters\Profession;
+use App\Http\Controllers\Controller;
 
 class ProfessionsController extends Controller
 {
@@ -18,7 +19,8 @@ class ProfessionsController extends Controller
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $professions = DB::table('professions')->get();
-        return view('admin.masters.professions.listProfession',compact('loggeduser','userdetails','professions'));
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
+        return view('admin.masters.professions.listProfession',compact('loggeduser','userdetails','professions','structuredMenu'));
 
     }
     public function add_profession()
@@ -27,7 +29,8 @@ class ProfessionsController extends Controller
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        return view('admin.masters.professions.addProfession',compact('loggeduser','userdetails'));
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
+        return view('admin.masters.professions.addProfession',compact('loggeduser','userdetails','structuredMenu'));
     }
     public function store_profession(Request $request)
     {
@@ -53,6 +56,7 @@ class ProfessionsController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $profession = Profession::find($id);
 
@@ -60,7 +64,7 @@ class ProfessionsController extends Controller
             return redirect()->route('list.profession')->with('error', 'Profession not found.');
         }
 
-        return view('admin.masters.professions.editProfession', compact('userdetails','loggeduser','profession'));
+        return view('admin.masters.professions.editProfession', compact('userdetails','loggeduser','profession','structuredMenu'));
     }
     public function update_profession(Request $request,$id)
     {

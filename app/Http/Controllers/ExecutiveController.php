@@ -7,7 +7,7 @@ use App\Models\UserAccount;
 use App\Models\MenuMaster;
 use Illuminate\Http\Request;
 use DB;
-use App\Models\MenuMaster;
+
 
 class ExecutiveController extends Controller
 {

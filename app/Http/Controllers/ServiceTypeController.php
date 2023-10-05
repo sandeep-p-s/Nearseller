@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use DB;
+use App\Models\MenuMaster;
 use App\Models\ServiceType;
 use App\Models\UserAccount;
 use Illuminate\Http\Request;
@@ -16,7 +17,8 @@ class ServiceTypeController extends Controller
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $servicetype = DB::table('service_types')->get();
-        return view('admin.service_type.list', compact('servicetype','userdetails','loggeduser'));
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
+        return view('admin.service_type.list', compact('servicetype','userdetails','loggeduser','structuredMenu'));
     }
 
     public function add_service_type()
@@ -25,7 +27,8 @@ class ServiceTypeController extends Controller
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        return view('admin.service_type.add',compact('loggeduser','userdetails'));
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
+        return view('admin.service_type.add',compact('loggeduser','userdetails','structuredMenu'));
     }
 
     public function store_service_type(Request $request)
@@ -47,13 +50,14 @@ class ServiceTypeController extends Controller
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
         $servicetype = ServiceType::find($id);
 
         if (!$servicetype) {
             return redirect()->route('list.servicetype')->with('error', 'Service Type not found.');
         }
 
-        return view('admin.service_type.edit', compact('servicetype','loggeduser','userdetails'));
+        return view('admin.service_type.edit', compact('servicetype','loggeduser','userdetails','structuredMenu'));
     }
 
     public function update_service_type(Request $request, $id)
