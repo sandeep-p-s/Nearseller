@@ -33,16 +33,23 @@
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr>
+                                        <th>Check all<input type='checkbox' name='checkbox1' id='checkbox1'
+                                                onclick='check();' /></th>
                                         <th>No</th>
                                         <th>Services</th>
                                         <th>Attributes</th>
                                         <th>Price</th>
+                                        <th>Approved</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($services as $sr)
+                                    @foreach ($services as $index => $sr)
                                         <tr>
+                                            <td><input name="serviceid[]" type="checkbox" id="serviceid{{ $index + 1 }}"
+                                                    value="{{ $sr->id }}"
+                                                    {{ $sr->is_approved === 'Y' ? 'checked' : '' }} />
+                                            </td>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $sr->service_name }}</td>
                                             <td>
@@ -59,6 +66,14 @@
                                                     N/A
                                                 @endif
                                             </td>
+
+                                            <td>
+                                                <span
+                                                    class="badge p-2 {{ $sr->is_approved === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
+                                                    {{ $sr->is_approved === 'Y' ? 'Approved' : 'Not Approved' }}
+                                                </span>
+                                            </td>
+
                                             <td>
                                                 <div class="btn-group mb-2 mb-md-0">
                                                     <button type="button" class="btn view_btn dropdown-toggle"
@@ -68,6 +83,10 @@
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item view_btn1"
                                                             href="{{ route('edit.service', $sr->id) }}">Edit</a>
+                                                        @if (session('roleid') == 1)
+                                                        <a class="dropdown-item approve_btn" href="#"
+                                                        onclick="productapprovedet({{ $prodDetails->id }})">Approved</a>
+                                                        @endif
                                                         <a class="dropdown-item delete_btn"
                                                             href="{{ route('delete.service', $sr->id) }}"
                                                             onclick="return confirm('Are you sure you want to delete?')">Delete</a>
@@ -78,11 +97,79 @@
                                     @endforeach
                                 </tbody>
                             </table>
-
+                            <input type="hidden" value="{{ $index + 1 }}" id="totalservicecnt">
                         </div>
                     </div>
                 </div> <!-- end col -->
             </div> <!-- end row -->
 
         </div><!-- container -->
+        <script>
+            function check() {
+
+                if (document.getElementById('checkbox1').checked == true) {
+                    for (i = 1; i <= document.getElementById('totalservicecnt').value; i++) {
+                        document.getElementById('serviceid' + i).checked = true;
+                    }
+                } else {
+                    for (i = 1; i <= document.getElementById('totalservicecnt').value; i++) {
+                        document.getElementById('serviceid' + i).checked = false;
+                    }
+                }
+
+            }
+            function serviceapprovedall() {
+                var serviceid = '';
+                var totalservicecnt = document.getElementById('totalservicecnt').value;
+                for (var i = 1; i <= totalservicecnt; i++) {
+                    if (document.getElementById('serviceid' + i).checked) {
+                        serviceid = serviceid + '#' + document.getElementById('serviceid' + i).value;
+                    }
+                }
+                if (serviceid == '') {
+                    alert('No Services Selected');
+                    return false;
+                }
+
+                $('#loading-overlay').fadeIn();
+                $('#loading-image').fadeIn();
+                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    url: '{{ route('ServiceApprovedAll') }}',
+                    type: 'POST',
+                    data: {
+                        serviceid: serviceid
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    success: function(data) {
+                        if ((data.result == 1)) {
+                            $('#product_approved-message').text(data.mesge).fadeIn();
+                            $('#product_approved-message').addClass('success-message');
+                            setTimeout(function() {
+                                $('#product_approved-message').fadeOut();
+                            }, 5000);
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                            shwdets();
+                        } else if ((data.result == 2)) {
+                            $('#product_approved-message').text(data.mesge).fadeIn();
+                            $('#product_approved-message').addClass('error');
+                            setTimeout(function() {
+                                $('#product_approved-message').fadeOut();
+                            }, 5000);
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                            shwdets();
+                        } else {
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                            shwdets();
+                        }
+                    }
+                });
+
+            }
+        </script>
     @endsection

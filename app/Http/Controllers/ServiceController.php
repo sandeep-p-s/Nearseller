@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use Validator;
+use App\Models\LogDetails;
 use App\Models\MenuMaster;
 use App\Models\UserAccount;
 use Illuminate\Support\Arr;
@@ -26,6 +27,7 @@ class ServiceController extends Controller
                 'service_details.id',
                 'service_details.service_name',
                 'service_details.is_attribute',
+                'service_details.is_approved',
                 'add_service_attributes.attribute_1',
                 'add_service_attributes.attribute_2',
                 'add_service_attributes.attribute_3',
@@ -34,7 +36,11 @@ class ServiceController extends Controller
                 'add_service_attributes.mrp_price'
             )
             ->get();
-        return view('seller.service.add_services.list_service', compact('services', 'loggeduser', 'userdetails', 'structuredMenu'));
+            $userservicedets = DB::table('user_account')
+            ->select('id', 'name')
+            ->where('role_id', 9)
+            ->get();
+        return view('seller.service.add_services.list_service', compact('services', 'loggeduser', 'userdetails', 'structuredMenu','userservicedets'));
     }
     public function add_service()
     {
@@ -43,7 +49,11 @@ class ServiceController extends Controller
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('seller.service.add_services.add_service', compact('loggeduser', 'userdetails', 'structuredMenu'));
+        $userservicedets = DB::table('user_account')
+            ->select('id', 'name')
+            ->where('role_id', 9)
+            ->get();
+        return view('seller.service.add_services.add_service', compact('loggeduser', 'userdetails', 'structuredMenu','userservicedets'));
     }
     public function store_service(Request $request)
     {
@@ -64,7 +74,7 @@ class ServiceController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $isAttribute = $request->input('customRadio');
-        dd($isAttribute);
+        //dd($isAttribute);
         $service = new ServiceDetails;
         $service->service_name = $request->service_name;
         $upload_path = 'uploads/service_images/';
@@ -218,5 +228,49 @@ class ServiceController extends Controller
         $service->delete();
 
         return redirect()->route('list.service')->with('success', 'Service and its attributes deleted successfully.');
+    }
+
+    public function AdmServiceApprovedAll(Request $request)
+    {
+        $userRole = session('user_role');
+        $roleid = session('roleid');
+        $userId = session('user_id');
+        if ($userId == '') {
+            return redirect()->route('logout');
+        }
+        $loggedUserIp = $_SERVER['REMOTE_ADDR'];
+        $time = date('Y-m-d H:i:s');
+        $serviceid = $request->input('productid');
+        $service_id = explode('#', $serviceid);
+        $toregIDCount = count($service_id);
+        $flg = 0;
+        for ($i = 1; $i < $toregIDCount; $i++) {
+            $serv_id = $service_id[$i];
+            $serviceDetails = ServiceDetails::find($serv_id);
+            if (!empty($serviceDetails)) {
+                if ($serviceDetails->is_approved == 'N') {
+                    $serviceDetails->is_approved = 'Y';
+                } elseif ($serviceDetails->is_approved == 'R') {
+                }
+                $serviceDetails->approved_by = $userId;
+                $serviceDetails->approved_time = $time;
+                $serviceDetails->save();
+                $flg = 1;
+            }
+        }
+
+        $msg = 'Successfully Approved! Approved id : ' . $serviceid;
+        $LogDetails = new LogDetails();
+        $LogDetails->user_id = $userId;
+        $LogDetails->ip_address = $loggedUserIp;
+        $LogDetails->log_time = $time;
+        $LogDetails->status = $msg;
+        $LogDetails->save();
+
+        if ($flg == 1) {
+            return response()->json(['result' => 1, 'mesge' => 'Serice Successfully Approved']);
+        } else {
+            return response()->json(['result' => 2, 'mesge' => 'No Services Approved']);
+        }
     }
 }

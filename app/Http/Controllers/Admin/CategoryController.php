@@ -14,7 +14,7 @@ use App\Http\Controllers\Controller;
 use Storage;
 use Illuminate\Validation\Rule;
 use App\Rules\CategoryLevelRule;
-
+use Carbon\Carbon;
 class CategoryController extends Controller
 {
     public function list_category()
@@ -56,7 +56,7 @@ class CategoryController extends Controller
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $time = date('Y-m-d H:i:s');
+        //$time = date('Y-m-d H:i:s');
         $request->validate(
             [
                 'category_name' => 'required|unique:categories,category_name|string|max:255|min:4',
@@ -86,7 +86,7 @@ class CategoryController extends Controller
             if($roleid==1){
             $newcategory->approval_status = 'Y';
             $newcategory->approved_by = $userId;
-            $approved_time->approved_time = $time;
+            $newcategory->approved_time = Carbon::now();
             }
             $newcategory->category_image = '';
 
