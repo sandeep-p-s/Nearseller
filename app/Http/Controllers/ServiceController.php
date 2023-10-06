@@ -36,11 +36,11 @@ class ServiceController extends Controller
                 'add_service_attributes.mrp_price'
             )
             ->get();
-            $userservicedets = DB::table('user_account')
+        $userservicedets = DB::table('user_account')
             ->select('id', 'name')
             ->where('role_id', 9)
             ->get();
-        return view('seller.service.add_services.list_service', compact('services', 'loggeduser', 'userdetails', 'structuredMenu','userservicedets'));
+        return view('seller.service.add_services.list_service', compact('services', 'loggeduser', 'userdetails', 'structuredMenu', 'userservicedets'));
     }
     public function add_service()
     {
@@ -53,7 +53,7 @@ class ServiceController extends Controller
             ->select('id', 'name')
             ->where('role_id', 9)
             ->get();
-        return view('seller.service.add_services.add_service', compact('loggeduser', 'userdetails', 'structuredMenu','userservicedets'));
+        return view('seller.service.add_services.add_service', compact('loggeduser', 'userdetails', 'structuredMenu', 'userservicedets'));
     }
     public function store_service(Request $request)
     {
@@ -240,18 +240,18 @@ class ServiceController extends Controller
         }
         $loggedUserIp = $_SERVER['REMOTE_ADDR'];
         $time = date('Y-m-d H:i:s');
-        $serviceid = $request->input('productid');
+        $serviceid = $request->input('serviceid');
         $service_id = explode('#', $serviceid);
         $toregIDCount = count($service_id);
         $flg = 0;
-        for ($i = 1; $i < $toregIDCount; $i++) {
+
+        for ($i = 0; $i < $toregIDCount; $i++)
+        {
             $serv_id = $service_id[$i];
             $serviceDetails = ServiceDetails::find($serv_id);
-            if (!empty($serviceDetails)) {
-                if ($serviceDetails->is_approved == 'N') {
-                    $serviceDetails->is_approved = 'Y';
-                } elseif ($serviceDetails->is_approved == 'R') {
-                }
+
+            if (!empty($serviceDetails) && $serviceDetails->is_approved != 'Y') {
+                $serviceDetails->is_approved = 'Y';
                 $serviceDetails->approved_by = $userId;
                 $serviceDetails->approved_time = $time;
                 $serviceDetails->save();
@@ -259,7 +259,8 @@ class ServiceController extends Controller
             }
         }
 
-        $msg = 'Successfully Approved! Approved id : ' . $serviceid;
+        $msg = $flg ? 'Successfully Approved! Approved id : ' . $serviceid : 'No Services Approved';
+
         $LogDetails = new LogDetails();
         $LogDetails->user_id = $userId;
         $LogDetails->ip_address = $loggedUserIp;
@@ -268,9 +269,58 @@ class ServiceController extends Controller
         $LogDetails->save();
 
         if ($flg == 1) {
-            return response()->json(['result' => 1, 'mesge' => 'Serice Successfully Approved']);
+            return response()->json(['result' => 1, 'mesge' => 'Service Successfully Approved']);
         } else {
             return response()->json(['result' => 2, 'mesge' => 'No Services Approved']);
         }
+    }
+
+
+    public function approved_service($id)
+    {
+        $userRole = session('user_role');
+        $userId = session('user_id');
+        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
+        $service = ServiceDetails::find($id);
+
+        if (!$service) {
+            return redirect()->route('list.service')->with('error', 'Service not found.');
+        }
+        $attributes = DB::table('add_service_attributes')->where('service_id', $id)->get();
+        return view('seller.service.add_services.service_approved', compact('loggeduser', 'userdetails', 'structuredMenu', 'service', 'attributes'));
+    }
+
+    public function UpdateServiceApproval(Request $request, $id)
+    {
+        $request->validate([
+            'service_name' => 'required|string|max:255',
+            'productapproval' => 'required|in:Y,N,R',
+            // Other validation rules for other fields...
+        ]);
+
+        $service = ServiceDetails::find($id);
+
+        if (!$service) {
+            return redirect()->route('list.service')->with('error', 'Service not found.');
+        }
+
+        $service->service_name = $request->input('service_name');
+
+        if ($request->input('productapproval') === 'Y') {
+            $service->is_approved = 'Y'; // Approved
+        } elseif ($request->input('productapproval') === 'N') {
+            $service->is_approved = 'N'; // Not Approved
+        } elseif ($request->input('productapproval') === 'R') {
+            $service->is_approved = 'R'; // Rejected
+        } else {
+            $service->is_approved = 'N'; // Default to Not Approved if none of the above
+        }
+
+
+        $service->save();
+
+        return redirect()->route('list.service')->with('success', 'Service has been approved.');
     }
 }

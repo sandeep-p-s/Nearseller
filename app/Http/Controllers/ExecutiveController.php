@@ -33,9 +33,11 @@ class ExecutiveController extends Controller
 
     public function store_executive(Request $request)
     {
+        //dd($request->all());
         $request->validate(
             [
                 'executive_name' => 'required|string|min:5|max:255',
+                'executive_type' => 'required|in:1,2',
             ],
             [
                 'executive_name.required' => 'The executive name field is required.',
@@ -44,9 +46,8 @@ class ExecutiveController extends Controller
                 'executive_name.max' => 'The executive name cannot exceed 255 characters.',
             ]
         );
-
         $executive = new Executive();
-        $executive->executive_type = 1;
+        $executive->executive_type = $request->executive_type;
         $executive->executive_name = $request->executive_name;
         $executive->save();
 
