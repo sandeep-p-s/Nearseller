@@ -21,14 +21,16 @@ class AdminController extends Controller
 {
     public function admindashboard()
         {
-            $userRole = session('user_role');
+            $userRole = session('roleid');//session('user_role');
             $userId = session('user_id');
             $roleid = session('roleid');
+            $roleIdsArray = explode(',', $roleid);
             if ($userId == '') {
                 return redirect()->route('logout');
             }
 
-            $loggeduser = UserAccount::sessionValuereturn($userRole);
+            //$loggeduser = UserAccount::sessionValuereturn($userRole);
+            $loggeduser = UserAccount::sessionValuereturn_s($roleid);
 
             $userdetails = DB::table('user_account')->where('id', $userId)->get();
             $countUsers = DB::table('user_account')->where('role_id', 4)->count();
@@ -36,17 +38,17 @@ class AdminController extends Controller
             $countShops = DB::table('user_account')->where('role_id', 2)->count();
             $countservices = DB::table('user_account')->where('role_id', 9)->count();
 
-            if($roleid==1)
+            if (in_array('1', $roleIdsArray))
             {
             $countproductuser = DB::table('product_details')->count();
             $countserviceuser = DB::table('service_details')->count();
             }
-            else if($roleid==2)
+            else if (in_array('2', $roleIdsArray))
             {
             $countproductuser = DB::table('product_details')->where('shop_id', $userId)->count();
             $countserviceuser =0;
             }
-            else if($roleid==9)
+            else if (in_array('9', $roleIdsArray))
             {
             $countproductuser = 0;
             $countserviceuser = DB::table('service_details')->where('service_id', $userId)->count();
@@ -854,6 +856,7 @@ class AdminController extends Controller
     {
         $userRole = session('user_role');
         $roleid = session('roleid');
+
         $userId = session('user_id');
         if($userId==''){
             return redirect()->route('logout');
@@ -886,10 +889,14 @@ class AdminController extends Controller
         if ($referalid) {
             $query->where('seller_details.referal_id', $referalid);
         }
-        if($roleid==2)
-        {
+        $roleIdsArray = explode(',', $roleid);
+        if (in_array('2', $roleIdsArray)) {
             $query->where('seller_details.user_id', $userId);
         }
+        // if($roleid==2)
+        // {
+        //     $query->where('seller_details.user_id', $userId);
+        // }
         $query->where('seller_details.busnes_type',$typeid);
 
         $sellerDetails = $query->get();

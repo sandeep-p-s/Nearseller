@@ -5,8 +5,11 @@
 
 
     <div class="page-content">
-
-        @if(session('roleid')==1)
+        @php
+        $roleid=session('roleid');
+        $roleIdsArray = explode(',', $roleid);
+       @endphp
+        @if (in_array('1', $roleIdsArray))
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-12">
@@ -125,9 +128,9 @@
         </div>
         @endif
 
-        @if(session('roleid')==2)
+        @if (in_array('2', $roleIdsArray))
         <div class="container-fluid">
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-sm-12">
                     <div class="page-title-box">
                         <div class="row">
@@ -144,7 +147,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
 
             <div class="row justify-content-center">
@@ -188,9 +191,9 @@
         @endif
 
 
-        @if(session('roleid')==9)
+        @if (in_array('9', $roleIdsArray))
         <div class="container-fluid">
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-sm-12">
                     <div class="page-title-box">
                         <div class="row">
@@ -207,7 +210,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
 
             <div class="row justify-content-center">
@@ -253,7 +256,7 @@
         @endif
 
 
-        @if(session('roleid')==3)
+        @if (in_array('3', $roleIdsArray))
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-12">
