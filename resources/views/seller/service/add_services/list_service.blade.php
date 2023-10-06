@@ -31,7 +31,7 @@
             <div class="col-md-12">
                 <div id="product_del-message" class="text-center" style="display: none;"></div>
             </div>
-
+            @if(count($services)>0)
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -41,7 +41,7 @@
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr>
-                                        <th>Check all<input type='checkbox' name='checkbox1' id='checkbox1'
+                                        <th>Approved all<input type='checkbox' name='checkbox1' id='checkbox1'
                                                 onclick='check();' /></th>
                                         <th>No</th>
                                         <th>Services</th>
@@ -115,6 +115,23 @@
                     </div>
                 </div> <!-- end col -->
             </div> <!-- end row -->
+            @else
+            <table>
+                <tr>
+                    <td colspan="13" align="center">
+                        <img src="{{ asset('backend/assets/images/notfoundimg.png') }}" alt="notfound" class="rounded-circle"
+                            style="width: 30%;" />
+                    </td>
+                </tr>
+            </table>
+            @endif
+
+
+
+
+
+
+
 
         </div><!-- container -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
