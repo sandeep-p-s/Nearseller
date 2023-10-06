@@ -29,6 +29,25 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
+                                            <label for="service_name">Service User <span
+                                                    class="text-danger">*</span></label>
+                                            <select class="selectservice form-select form-control form-control-lg"
+                                                id="serviceuser_name" name="serviceuser_name" required tabindex="1">
+                                                <option value="">Select Service User</option><br />
+                                                @foreach ($userservicedets as $serviceuser)
+                                                    <option value="{{ $serviceuser->id }}">{{ $serviceuser->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('serviceuser_name')
+                                                <div class="text-danger mb-2">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
                                             <label for="service_name">Service Name <span
                                                     class="text-danger">*</span></label>
                                             <input type="text" class="form-control" id="service_name" name="service_name"
@@ -39,6 +58,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="form-group">
                                     <label for="service_images">Service Image<span class="text-danger">*</span></label>
                                 </div>
@@ -177,6 +197,13 @@
                     } else {
                         $("#ifYes").css("visibility", "hidden");
                     }
+                });
+
+                $('.selectservice').each(function() {
+                    var $p = $(this).parent();
+                    $(this).select2({
+                        dropdownParent: $p
+                    });
                 });
             });
         </script>

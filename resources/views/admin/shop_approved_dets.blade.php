@@ -59,7 +59,7 @@
                                         </div>
                                     </div>
 
-                                    @if($typeid==1)
+
                                     <hr class="new_hr">
                                     <div class="row">
                                         <label class="col-xl-6">Owner Name</label>
@@ -67,7 +67,7 @@
                                             {{ $sellerDetails->owner_name }}
                                         </div>
                                     </div>
-                                    @endif
+                                    
 
                                     <hr class="new_hr">
                                     <div class="form-group row">

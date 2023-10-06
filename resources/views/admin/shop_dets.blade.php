@@ -78,14 +78,14 @@
                                         placeholder="{{ $shoporservice }} Name" required tabindex="1" />
                                     <label for="s_name" class="error"></label>
                                 </div>
-                                @if ($typeid == 1)
+
                                     <div class="form-outline mb-3"><label>Owner Name</label>
                                         <input type="text" id="s_ownername" name="s_ownername"
                                             class="form-control form-control-lg" maxlength="50" placeholder="Owner Name"
                                             required tabindex="2" />
                                         <label for="s_ownername" class="error"></label>
                                     </div>
-                                @endif
+
                                 <div class="form-outline mb-3"><label>Mobile Number</label>
                                     <input type="text" id="s_mobno" name="s_mobno"
                                         class="form-control form-control-lg" maxlength="10" placeholder="Mobile No"

@@ -7,9 +7,9 @@
                 <th>SINO</th>
                 <th>Reg. ID</th>
                 <th>{{$shoporservice}} Name</th>
-                @if($typeid==1)
+
                 <th>Owner Name</th>
-                @endif
+
                 <th>Email</th>
                 <th>Mobile</th>
                 <th>Business Type</th>
