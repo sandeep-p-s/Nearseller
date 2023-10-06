@@ -52,13 +52,20 @@ class MenuMasterSeeder extends Seeder
             ['menu_desc' => 'Affiliate User Shops', 'menu_level_1' => '5','menu_level_2' => '1', 'menu_level_3' => '0','url' => 'affililateshops'],
             ['menu_desc' => 'Affiliate User Services', 'menu_level_1' => '5','menu_level_2' => '2', 'menu_level_3' => '0','url' => 'affliateshops/2'],
 
-            ['menu_desc' => 'Services', 'menu_level_1' => '6', 'menu_level_2' => '0','menu_level_3' => '0','url' => '#'],
-            ['menu_desc' => 'Add Services', 'menu_level_1' => '6','menu_level_2' => '1', 'menu_level_3' => '0','url' => 'listservice'],
+            ['menu_desc' => 'Services Details', 'menu_level_1' => '6', 'menu_level_2' => '0','menu_level_3' => '0','url' => '#'],
+            ['menu_desc' => 'Add Services Product', 'menu_level_1' => '6','menu_level_2' => '1', 'menu_level_3' => '0','url' => 'listservice'],
             ['menu_desc' => 'Employees', 'menu_level_1' => '6','menu_level_2' => '2', 'menu_level_3' => '0','url' => 'listserviceemp'],
-            ['menu_desc' => 'Offers', 'menu_level_1' => '6','menu_level_2' => '3', 'menu_level_3' => '0','url' => 'listserviceoffer'],
+            ['menu_desc' => 'Appointments', 'menu_level_1' => '6','menu_level_2' => '3', 'menu_level_3' => '0','url' => 'appointmentview'],
+            ['menu_desc' => 'Service Product Offers', 'menu_level_1' => '6','menu_level_2' => '4', 'menu_level_3' => '0','url' => 'listserviceoffer'],
 
             ['menu_desc' => 'Products', 'menu_level_1' => '7', 'menu_level_2' => '0','menu_level_3' => '0','url' => '#'],
             ['menu_desc' => 'Offers', 'menu_level_1' => '7','menu_level_2' => '1', 'menu_level_3' => '0','url' => 'listshopoffer'],
+
+            ['menu_desc' => 'Shops Details', 'menu_level_1' => '8', 'menu_level_2' => '0','menu_level_3' => '0','url' => '#'],
+            ['menu_desc' => 'Add New Shops', 'menu_level_1' => '8','menu_level_2' => '1', 'menu_level_3' => '0','url' => 'shopapprovalsadd/1'],
+            ['menu_desc' => 'Add Shop Product', 'menu_level_1' => '8','menu_level_2' => '2', 'menu_level_3' => '0','url' => 'listshopproductadd'],
+            ['menu_desc' => 'Shop Product Offers', 'menu_level_1' => '8','menu_level_2' => '3', 'menu_level_3' => '0','url' => 'listshopoffer'],
+            ['menu_desc' => 'My Shop Products', 'menu_level_1' => '8','menu_level_2' => '4', 'menu_level_3' => '0','url' => 'shopapprovalsadd/2'],
         ];
         foreach ($data as $item) {
             DB::table('menu_masters')->insert(['menu_desc' => $item['menu_desc'], 'menu_level_1' => $item['menu_level_1'], 'menu_level_2' => $item['menu_level_2'],'menu_level_3' => $item['menu_level_3'],'url' => $item['url']] ,$item);
