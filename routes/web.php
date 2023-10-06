@@ -341,7 +341,7 @@ Route::controller(UserLoggedController::class)->group(function () {
         Route::get('editservice/{id}', 'edit_service')->name('edit.service');
         Route::post('updateservice/{id}', 'update_service')->name('update.service');
         Route::get('deleteservice/{id}', 'delete_service')->name('delete.service');
-        Route::post('approvedall', 'AdmServiceApprovedAll')->name('ServiceApprovedAll');
+        Route::post('serviceapprovedall', 'AdmServiceApprovedAll')->name('ServiceApprovedAll');
     });
     Route::controller(ServiceEmployeeController::class)->group(function () {
         Route::get('listserviceemp', 'list_service_employee')->name('list.service_employee');
