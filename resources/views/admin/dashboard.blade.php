@@ -31,7 +31,7 @@
             </div>
 
 
-            <div class="row justify-content-center">
+            <div class="row">
                 <div class="col-md-6 col-lg-3">
                   <div class="card report-card">
                     <div class="card-body">
@@ -150,13 +150,13 @@
             </div> --}}
 
 
-            <div class="row justify-content-center">
+            <div class="row">
                 <div class="col-md-6 col-lg-3">
                     <div class="card report-card">
                         <div class="card-body">
                             <div class="row d-flex justify-content-center">
                                 <div class="col">
-                                  <p class="text-dark mb-1 font-weight-semibold">Products</p>
+                                  <p class="text-dark mb-1 font-weight-semibold">Shops Products</p>
                                   <h3 class="my-2">{{$countproductuser}}</h3>
 
                                 </div>
@@ -174,7 +174,7 @@
                     <div class="card-body">
                         <div class="row d-flex justify-content-center">
                             <div class="col">
-                                <p class="text-dark mb-1 font-weight-semibold">Wallets</p>
+                                <p class="text-dark mb-1 font-weight-semibold">Shops Wallets</p>
                                 <h3 class="my-2">0</h3>
                             </div>
                             <div class="col-auto align-self-center">
@@ -213,7 +213,7 @@
             </div> --}}
 
 
-            <div class="row justify-content-center">
+            <div class="row">
 
 
                 <div class="col-md-6 col-lg-3">
@@ -221,7 +221,7 @@
                         <div class="card-body">
                             <div class="row d-flex justify-content-center">
                                 <div class="col">
-                                  <p class="text-dark mb-1 font-weight-semibold">Services</p>
+                                  <p class="text-dark mb-1 font-weight-semibold">Services Product</p>
                                   <h3 class="my-2">{{$countserviceuser}}</h3>
 
                                 </div>
@@ -239,7 +239,7 @@
                     <div class="card-body">
                         <div class="row d-flex justify-content-center">
                             <div class="col">
-                                <p class="text-dark mb-1 font-weight-semibold">Wallets</p>
+                                <p class="text-dark mb-1 font-weight-semibold">Service Wallets</p>
                                 <h3 class="my-2">0</h3>
                             </div>
                             <div class="col-auto align-self-center">
@@ -278,7 +278,7 @@
             </div>
 
 
-            <div class="row justify-content-center">
+            <div class="row">
                 <div class="col-md-6 col-lg-3">
                   <div class="card report-card">
                     <div class="card-body">
