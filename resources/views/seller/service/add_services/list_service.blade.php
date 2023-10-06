@@ -24,6 +24,14 @@
                 </div><!--end col-->
             </div><!--end row-->
             <!-- end page title end breadcrumb -->
+
+            <div class="col-md-12">
+                <div id="product_approved-message" class="text-center" style="display: none;"></div>
+            </div>
+            <div class="col-md-12">
+                <div id="product_del-message" class="text-center" style="display: none;"></div>
+            </div>
+
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -69,8 +77,8 @@
 
                                             <td>
                                                 <span
-                                                    class="badge p-2 {{ $sr->is_approved === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
-                                                    {{ $sr->is_approved === 'Y' ? 'Approved' : 'Not Approved' }}
+                                                    class="badge p-2 {{ $sr->is_approved === 'Y' ? 'badge badge-success' : ($sr->is_approved === 'R' ? 'badge badge-danger' : 'badge badge-warning') }}">
+                                                    {{ $sr->is_approved === 'Y' ? 'Approved' : ($sr->is_approved === 'R' ? 'Rejected' : 'Not Approved') }}
                                                 </span>
                                             </td>
 
@@ -84,8 +92,8 @@
                                                         <a class="dropdown-item view_btn1"
                                                             href="{{ route('edit.service', $sr->id) }}">Edit</a>
                                                         @if (session('roleid') == 1)
-                                                        <a class="dropdown-item approve_btn" href="#"
-                                                        onclick="productapprovedet({{ $prodDetails->id }})">Approved</a>
+                                                            <a class="dropdown-item approve_btn"
+                                                                href="{{ route('approve.service', $sr->id) }}">Approved</a>
                                                         @endif
                                                         <a class="dropdown-item delete_btn"
                                                             href="{{ route('delete.service', $sr->id) }}"
@@ -97,6 +105,11 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button type="button" class="btn btn-success" id="approveAll">Approve All</button>
+                                </div>
+                            </div>
                             <input type="hidden" value="{{ $index + 1 }}" id="totalservicecnt">
                         </div>
                     </div>
@@ -104,7 +117,13 @@
             </div> <!-- end row -->
 
         </div><!-- container -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
         <script>
+            $('#approveAll').on('click', function() {
+                serviceapprovedall(); // Call the serviceapprovedall function
+            });
+
             function check() {
 
                 if (document.getElementById('checkbox1').checked == true) {
@@ -118,58 +137,65 @@
                 }
 
             }
+
             function serviceapprovedall() {
-                var serviceid = '';
-                var totalservicecnt = document.getElementById('totalservicecnt').value;
-                for (var i = 1; i <= totalservicecnt; i++) {
-                    if (document.getElementById('serviceid' + i).checked) {
-                        serviceid = serviceid + '#' + document.getElementById('serviceid' + i).value;
-                    }
-                }
-                if (serviceid == '') {
-                    alert('No Services Selected');
-                    return false;
-                }
+    var serviceid = '';
+    var totalservicecnt = document.getElementById('totalservicecnt').value;
+    for (var i = 1; i <= totalservicecnt; i++) {
+        if (document.getElementById('serviceid' + i).checked) {
+            serviceid = serviceid + '#' + document.getElementById('serviceid' + i).value;
+        }
+    }
+    if (serviceid == '') {
+        alert('No Services Selected');
+        return false;
+    }
 
-                $('#loading-overlay').fadeIn();
-                $('#loading-image').fadeIn();
-                var csrfToken = $('meta[name="csrf-token"]').attr('content');
-                $.ajax({
-                    url: '{{ route('ServiceApprovedAll') }}',
-                    type: 'POST',
-                    data: {
-                        serviceid: serviceid
-                    },
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken
-                    },
-                    success: function(data) {
-                        if ((data.result == 1)) {
-                            $('#product_approved-message').text(data.mesge).fadeIn();
-                            $('#product_approved-message').addClass('success-message');
-                            setTimeout(function() {
-                                $('#product_approved-message').fadeOut();
-                            }, 5000);
-                            $('#loading-image').fadeOut();
-                            $('#loading-overlay').fadeOut();
-                            shwdets();
-                        } else if ((data.result == 2)) {
-                            $('#product_approved-message').text(data.mesge).fadeIn();
-                            $('#product_approved-message').addClass('error');
-                            setTimeout(function() {
-                                $('#product_approved-message').fadeOut();
-                            }, 5000);
-                            $('#loading-image').fadeOut();
-                            $('#loading-overlay').fadeOut();
-                            shwdets();
-                        } else {
-                            $('#loading-image').fadeOut();
-                            $('#loading-overlay').fadeOut();
-                            shwdets();
-                        }
-                    }
-                });
-
+    $('#loading-overlay').fadeIn();
+    $('#loading-image').fadeIn();
+    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+    $.ajax({
+        url: '{{ route('ServiceApprovedAll') }}',
+        type: 'POST',
+        data: {
+            serviceid: serviceid
+        },
+        headers: {
+            'X-CSRF-TOKEN': csrfToken
+        },
+        success: function(data) {
+            if ((data.result == 1)) {
+                $('#product_approved-message').text(data.mesge).fadeIn();
+                $('#product_approved-message').addClass('success-message');
+                setTimeout(function() {
+                    $('#product_approved-message').fadeOut();
+                    setTimeout(function() {
+                        location.reload();
+                    }, 2000);
+                }, 5000);
+                $('#loading-image').fadeOut();
+                $('#loading-overlay').fadeOut();
+            } else if ((data.result == 2)) {
+                $('#product_approved-message').text(data.mesge).fadeIn();
+                $('#product_approved-message').addClass('error');
+                setTimeout(function() {
+                    $('#product_approved-message').fadeOut();
+                    setTimeout(function() {
+                        location.reload();
+                    }, 2000);
+                }, 5000);
+                $('#loading-image').fadeOut();
+                $('#loading-overlay').fadeOut();
+            } else {
+                $('#loading-image').fadeOut();
+                $('#loading-overlay').fadeOut();
+                setTimeout(function() {
+                    location.reload();
+                }, 2000);
             }
+        }
+    });
+}
+
         </script>
     @endsection

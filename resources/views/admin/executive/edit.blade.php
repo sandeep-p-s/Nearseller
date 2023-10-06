@@ -25,7 +25,7 @@
                             <form method="POST" action="{{ route('update.executive', $executive->id) }}">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Edit Executive</label>
+                                    <label for="exampleFormControlInput1">Executive Name</label>
                                     <input type="text" class="form-control mb-3" id="executive_name"
                                         name="executive_name" placeholder="Enter executive name"
                                         value="{{ $executive->executive_name }}">

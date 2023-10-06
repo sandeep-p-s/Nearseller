@@ -58,6 +58,7 @@ class BusinessTypeController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $businesstype = BusinessType::find($id);
 
@@ -65,7 +66,7 @@ class BusinessTypeController extends Controller
             return redirect()->route('list.businesstype')->with('error', 'Business Type not found.');
         }
 
-        return view('admin.business_type.edit', compact('businesstype', 'loggeduser', 'userdetails'));
+        return view('admin.business_type.edit', compact('businesstype', 'loggeduser', 'userdetails','structuredMenu'));
     }
 
     public function update_business_type(Request $request, $id)
