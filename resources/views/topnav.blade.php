@@ -17,8 +17,8 @@
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="#"><i data-feather="user"
-                            class="align-self-center icon-xs icon-dual mr-1"></i> Profile</a>
+                    {{-- <a class="dropdown-item" href="#"><i data-feather="user"
+                            class="align-self-center icon-xs icon-dual mr-1"></i> Profile</a> --}}
                     <a class="dropdown-item" href="{{ route('logout') }}"><i data-feather="power"
                             class="align-self-center icon-xs icon-dual mr-1"></i> Logout</a>
                 </div>

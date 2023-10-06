@@ -2,7 +2,7 @@
     <table id="datatable" class="table table-striped table-bordered">
         <thead>
             <tr>
-                <th>Check all<input type='checkbox' name='checkbox1' id='checkbox1' onclick='check();' /></th>
+                <th>Approved all<input type='checkbox' name='checkbox1' id='checkbox1' onclick='check();' /></th>
                 <th>SINO</th>
                 <th>Product ID</th>
                 <th>Product Name</th>
@@ -10,6 +10,7 @@
                 <th>Status</th>
                 <th>Is Approved?</th>
                 <th>Action</th>
+
             </tr>
         </thead>
         <tbody>
@@ -90,16 +91,22 @@
                         <div class="col-lg-6">
                             <div class="card">
                                 <div class="card-body">
-                                    <div class="form-group"><label>Shop Name</label>
+                                    @php
+                                    $shopshowhide = (session('roleid') == 1 || session('roleid') == 3) ? 'style=display:block;' : 'style=display:none;';
+                                    @endphp
+
+
+                                    <div class="form-group" {{ $shopshowhide }}><label>Shop Name</label>
                                         <select class="selectshops form-select form-control form-control-lg"
                                             id="shop_name" name="shop_name" required tabindex="1">
                                             <option value="">Select Shop Name</option><br />
                                             @foreach ($usershopdets as $shps)
-                                                <option value="{{ $shps->id }}">{{ $shps->name }}</option>
+                                                <option value="{{ $shps->id }}" @if ($shps->id == session('user_id')) selected @endif>{{ $shps->name }}</option>
                                             @endforeach
                                         </select>
                                         <label for="shop_name" class="error"></label>
                                     </div>
+
 
                                     <div class="form-group"><label>Product Name</label>
                                         <input type="text" id="prod_name" name="prod_name"

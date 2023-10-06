@@ -34,10 +34,31 @@ class AdminController extends Controller
             $countUsers = DB::table('user_account')->where('role_id', 4)->count();
             $countAffiliate = DB::table('user_account')->where('role_id', 3)->count();
             $countShops = DB::table('user_account')->where('role_id', 2)->count();
-            $countSeller = DB::table('user_account')->where('role_id', 9)->count();
+            $countservices = DB::table('user_account')->where('role_id', 9)->count();
+
+            if($roleid==1)
+            {
+            $countproductuser = DB::table('product_details')->count();
+            $countserviceuser = DB::table('service_details')->count();
+            }
+            else if($roleid==2)
+            {
+            $countproductuser = DB::table('product_details')->where('shop_id', $userId)->count();
+            $countserviceuser =0;
+            }
+            else if($roleid==9)
+            {
+            $countproductuser = 0;
+            $countserviceuser = DB::table('service_details')->where('service_id', $userId)->count();
+            }
+            else{
+            $countproductuser = 0;
+            $countserviceuser = 0;
+            }
+
 
             $structuredMenu = MenuMaster::UserPageMenu($userId);
-            return view('admin.dashboard', compact('userdetails', 'countUsers', 'countAffiliate', 'countShops', 'countSeller', 'userRole', 'loggeduser', 'structuredMenu'));
+            return view('admin.dashboard', compact('userdetails', 'countUsers', 'countAffiliate', 'countShops', 'countservices', 'userRole', 'loggeduser', 'structuredMenu','countproductuser','countserviceuser'));
         }
 
 

@@ -128,15 +128,16 @@
     <div class="left-sidenav">
         <!-- LOGO -->
         <div class="brand">
-            @if(session('roleid')=='1')
+
+        @if(session('roleid')=='1')
             <a href="{{ route('admin.dashboard') }}" class="logo">
-            @endif
-            @if(session('roleid')=='2')
+        @elseif(session('roleid')=='2')
             <a href="{{ route('seller.dashboard') }}" class="logo">
-            @endif
-            @if(session('roleid')=='3')
+        @elseif(session('roleid')=='3')
             <a href="{{ route('affiliate.dashboard') }}" class="logo">
-            @endif
+        @else
+
+        @endif
 
 
 
