@@ -90,6 +90,7 @@ Route::controller(UserLoggedController::class)->group(function () {
     Route::controller(AdminController::class)->group(function (){
         Route::get('dashboard', 'admindashboard')->name('admin.dashboard');
         Route::get('shopapprovals/{id}', 'ShopApproval')->name('admin.shopapprovals');
+        Route::get('shopapprovalsadd/{id}', 'ShopApproval')->name('admin.shopapprovalsadd');
         Route::get('allshopsview', 'AllShopsList')->name('admin.allshopsview');
         Route::post('AdmsellerRegisteration','AdmsellerRegisterationPage')->name('AdmsellerRegisteration');
         Route::post('shopViewEdit', 'AdmshopViewEdits')->name('shopViewEdit');
@@ -153,6 +154,7 @@ Route::controller(UserLoggedController::class)->group(function () {
 
     Route::controller(ProductController::class)->group(function () {
         Route::get('listshopproduct', 'ProductListView')->name('user.shopproduct');
+        Route::get('listshopproductadd', 'ProductListView')->name('user.shopproductadd');
         Route::post('allproductview', 'AllProductList')->name('product.allproductview');
         Route::post('addnewproduct', 'AdmNewPrdoductAdd')->name('AdmNewPrdoductAdd');
         Route::post('productviewedit', 'AdmProductViewEdit')->name('productViewEdit');
