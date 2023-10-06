@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use DB;
 class UserAccount extends Model
 {
     use HasFactory;
@@ -38,4 +38,27 @@ class UserAccount extends Model
 
         return $loggeduser;
     }
+    protected function sessionValueReturn_s($roleid)
+{
+    $roleIds = explode(',', $roleid);
+    $roleNames = [
+        '1' => 'Super Admin',
+        '2' => 'Seller',
+        '3' => 'Affiliate',
+        '4' => 'Customer',
+        '5' => 'Affiliate Co-ordinator',
+        '6' => 'Product Adding Executive',
+        '7' => 'HR',
+        '8' => 'Shop Co-ordinator',
+        '9' => 'Services',
+    ];
+    $roles = [];
+    foreach ($roleIds as $roleId) {
+        if (isset($roleNames[$roleId])) {
+            $roles[] = $roleNames[$roleId];
+        }
+    }
+    return implode(' , ', $roles);
+}
+
 }

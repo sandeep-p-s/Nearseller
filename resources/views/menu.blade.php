@@ -7,35 +7,39 @@
 @php
     //echo "<pre>";print_r($structuredMenu);exit;
 @endphp
+
     @foreach ($structuredMenu as $layer1 => $layer1Data)
         <li class="">
-            <a href="{{ $layer1Data[0][1] ?? '#' }}" href="javascript: void(0);" aria-expanded="false">
-                @if (is_array($layer1Data[0]))
-                    <span>
-                        @foreach ($layer1Data[0] as $item)
-                            {{ is_array($item) ? $item[0] : $item }}
-                        @endforeach
-                    </span>
-                @else
-                    <span>{{ $layer1Data[0] }}</span>
-                @endif
-                <span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span>
-            </a>
-            <ul class="nav-second-level mm-collapse" aria-expanded="false">
-                @foreach ($layer1Data as $layer2 => $layer2Data)
-                    @if ($layer2 > 0)
-                        @if (isset($layer2Data[0]) && is_array($layer2Data[0]) && isset($layer2Data[0][0]) && is_string($layer2Data[0][0]) && $layer2Data[0][0] != '')
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url($layer2Data[0][1] ?? '#') }}"><i class="ti-control-record"></i>{{ $layer2Data[0][0] }}</a>
-                            </li>
-                        @endif
+                <a href="{{ $layer1Data[0][1] ?? '#' }}" href="javascript:void(0);" aria-expanded="false">
+                    @if (is_array($layer1Data[0]))
+                        <span>
+                            @foreach ($layer1Data[0] as $item)
+                                @if(isset($item[0]))
+                                    {{ is_array($item) ? ($item[0] ?? '') : $item }}
+                                @endif
+                            @endforeach
+                        </span>
+                    @else
+                        <span>{{ $layer1Data[0] ?? '' }}</span>
                     @endif
-                @endforeach
-            </ul>
+                    <span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span>
+                </a>
+                <ul class="nav-second-level mm-collapse" aria-expanded="false">
+                    @foreach ($layer1Data as $layer2 => $layer2Data)
+                        @if ($layer2 > 0)
+                            @if (isset($layer2Data[0]) && is_array($layer2Data[0]) && isset($layer2Data[0][0]) && is_string($layer2Data[0][0]) && $layer2Data[0][0] != '')
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url($layer2Data[0][1] ?? '#') }}"><i class="ti-control-record"></i>{{ $layer2Data[0][0] ?? '' }}</a>
+                                </li>
+                            @endif
+                        @endif
+                    @endforeach
+                </ul>
+
         </li>
     @endforeach
-</ul>
+
 
 
 
