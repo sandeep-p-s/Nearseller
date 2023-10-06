@@ -81,7 +81,7 @@ class RoleController extends Controller
             ->select('*')
             ->orderby('module_order', 'asc')
             ->get();
-        $roles = DB::table('roles')->get();
+        $roles = DB::table('roles')->where('roles.is_active', '1')->get();
         $sm = [];
         foreach ($site_module as $mv) {
             $mv->sub = DB::table('permissions')
@@ -234,6 +234,7 @@ class RoleController extends Controller
         $alluserdetails = DB::table('user_account')
             ->select('user_account.id', 'user_account.name', 'user_account.email', 'user_account.mobno', 'user_account.user_status', 'roles.role_name')
             ->join('roles', 'user_account.role_id', '=', 'roles.id')
+            ->where('roles.is_active', '1')
             ->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         return view('admin.role.create_user', compact('userdetails', 'userRole', 'loggeduser', 'alluserdetails', 'structuredMenu'));
@@ -249,7 +250,7 @@ class RoleController extends Controller
         }
         $emal_mob = $request->input('emal_mob');
         $uname = $request->input('uname');
-        $query = UserAccount::select('user_account.*', 'roles.role_name')->leftJoin('roles', 'user_account.role_id', 'roles.id');
+        $query = UserAccount::select('user_account.*', 'roles.role_name')->leftJoin('roles', 'user_account.role_id', 'roles.id')->where('roles.is_active', '1');
         if ($emal_mob) {
             $query->where('user_account.email', 'LIKE', '%' . $emal_mob . '%')->orWhere('user_account.mobno', 'LIKE', '%' . $emal_mob . '%');
         }
@@ -259,7 +260,7 @@ class RoleController extends Controller
         $alluserdetails = $query->get();
         //echo $lastRegId = $query->toSql();exit;
         $allusercount = $alluserdetails->count();
-        $roles = DB::table('roles')->get();
+        $roles = DB::table('roles')->where('roles.is_active', '1')->get();
         return view('admin.role.user_dets', compact('alluserdetails', 'allusercount', 'roles'));
     }
 
@@ -405,12 +406,12 @@ class RoleController extends Controller
         }
         $id = $request->input('userid');
         $query = UserAccount::select('user_account.*', 'roles.role_name')
-            ->leftJoin('roles', 'user_account.role_id', 'roles.id')
+            ->leftJoin('roles', 'user_account.role_id', 'roles.id')->where('roles.is_active', '1')
             ->where('user_account.id', $id);
         $alluserdetails = $query->first();
         //echo $lastRegId = $query->toSql();exit;
         $roles = DB::table('roles')
-            ->where('id', $alluserdetails->role_id)
+            ->where('id', $alluserdetails->role_id)->where('roles.is_active', '1')
             ->get();
         return view('admin.role.user_viewedit', compact('alluserdetails', 'roles'));
     }
@@ -692,7 +693,7 @@ class RoleController extends Controller
         $userdetails = DB::table('user_account')
             ->where('id', $userId)
             ->get();
-        $roles = DB::table('roles')->get();
+        $roles = DB::table('roles')->where('roles.is_active', '1')->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         return view('admin.role.role_menu', compact('userdetails', 'userRole', 'loggeduser', 'roles', 'structuredMenu'));
     }
@@ -860,7 +861,7 @@ class RoleController extends Controller
         $userdetails = DB::table('user_account')
             ->where('id', $userId)
             ->get();
-        $rolesm = DB::table('roles')->get();
+        $rolesm = DB::table('roles')->where('roles.is_active', '1')->get();
         // $alluserdetails = DB::table('user_account')
         // ->select('user_account.id','user_account.name','user_account.email','user_account.mobno','user_account.user_status','roles.role_name')
         // ->join('roles', 'user_account.role_id', '=', 'roles.id')->get();
