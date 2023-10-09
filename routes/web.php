@@ -20,6 +20,7 @@ use App\Http\Controllers\ServiceOfferController;
 use App\Http\Controllers\ServiceEmployeeController;
 
 use App\Http\Controllers\CategoryProductListController;
+use App\Http\Controllers\AppointmentController;
 
 use App\Http\Controllers\Masters\BankController as BankController;
 use App\Http\Controllers\Masters\StateController as StateController;
@@ -187,7 +188,12 @@ Route::controller(UserLoggedController::class)->group(function () {
 
     });
 
+Route::controller(AppointmentController::class)->group(function () {
+        Route::get('appointmentview', 'Apponintmentview')->name('appointment.appointmentview');
+        Route::post('listappointmentadd', 'AppointmentListView')->name('appointment.listappointmentadd');
+        Route::post('addappointment', 'AdmNewAppointmentAdd')->name('AdmNewAppointmentAdd');
 
+    });
 
 
 

@@ -76,6 +76,7 @@ class ServiceController extends Controller
         $isAttribute = $request->input('customRadio');
         //dd($isAttribute);
         $service = new ServiceDetails;
+        $service->service_id = $request->serviceuser_name;
         $service->service_name = $request->service_name;
         $upload_path = 'uploads/service_images/';
         $file_path = $request->file('service_images');
@@ -93,6 +94,7 @@ class ServiceController extends Controller
             foreach ($request->input('car') as $attributes) {
                 $addServiceAttribute = new AddServiceAttribute;
                 $addServiceAttribute->service_id = $service->id;
+
                 $addServiceAttribute->attribute_1 = $attributes['attribute1'];
                 $addServiceAttribute->attribute_2 = $attributes['attribute2'];
                 $addServiceAttribute->attribute_3 = $attributes['attribute3'];
