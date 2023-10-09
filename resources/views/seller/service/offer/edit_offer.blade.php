@@ -32,6 +32,20 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
+                                            <label for="service_name">Service User <span
+                                                    class="text-danger">*</span></label>
+                                            <select class="selectservice form-select form-control form-control-lg"
+                                                id="serviceuser_name" name="serviceuser_name" required tabindex="1">
+                                                <option value="">Select Service User</option><br />
+                                                @foreach ($userservicedets as $serviceuser)
+                                                    <option value="{{ $serviceuser->id }}">{{ $serviceuser->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('serviceuser_name')
+                                                <div class="text-danger mb-2">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
                                             <label class="control-label">Offer to Display</label>
                                             <input type="text" class="form-control" id="offer"
                                                 name="offer_to_display" placeholder="Enter offer" value="{{ $serviceoffer->offer_to_display }}">
