@@ -29,7 +29,11 @@ class ServiceOfferController extends Controller
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('seller.service.offer.add_offer', compact('loggeduser', 'userdetails','structuredMenu'));
+        $userservicedets = DB::table('user_account')
+            ->select('id', 'name')
+            ->where('role_id', 9)
+            ->get();
+        return view('seller.service.offer.add_offer', compact('loggeduser', 'userdetails','structuredMenu','userservicedets'));
     }
 
     public function store_service_offer(Request $request)
@@ -57,6 +61,7 @@ class ServiceOfferController extends Controller
         }
         $service_offer = new Offer;
         $service_offer->type = 2;
+        $service_offer->user_id = $request->serviceuser_name;
         $service_offer->offer_to_display = $request->offer_to_display;
         $service_offer->conditions = json_encode($request->car);
         $service_offer->from_date_time = $request->from_date_time;
@@ -81,13 +86,17 @@ class ServiceOfferController extends Controller
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
+        $userservicedets = DB::table('user_account')
+            ->select('id', 'name')
+            ->where('role_id', 9)
+            ->get();
         $serviceoffer = Offer::find($id);
 
         if (!$serviceoffer) {
             return redirect()->route('list.Service_offer')->with('error', 'Service offer not found.');
         }
 
-        return view('seller.service.offer.edit_offer', compact('serviceoffer', 'loggeduser', 'userdetails','structuredMenu'));
+        return view('seller.service.offer.edit_offer', compact('serviceoffer', 'loggeduser', 'userdetails','structuredMenu','userservicedets'));
     }
 
     public function update_service_offer(Request $request, $id)
@@ -106,7 +115,7 @@ class ServiceOfferController extends Controller
         // if ($validator->fails()) {
         //     return redirect()->back()->withErrors($validator)->withInput();
         // }
-        
+        $serviceoffer->user_id = $request->serviceuser_name;
         $serviceoffer->offer_to_display = $request->offer_to_display;
         $serviceoffer->conditions = json_encode($request->car);
         $serviceoffer->from_date_time = $request->from_date_time;

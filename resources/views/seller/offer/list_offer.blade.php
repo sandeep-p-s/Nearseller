@@ -59,39 +59,39 @@
                                 </thead>
                                 <tbody>
                                     @if ($shop_offer)
-                                    @foreach ($shop_offer as $so)
-                                        <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $so->offer_to_display }}</td>
-                                            <td>
-                                                <span
-                                                    class="badge p-2 {{ $so->status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
-                                                    {{ $so->status === 'Y' ? 'Active' : 'Inactive' }}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <div class="btn-group mb-2 mb-md-0">
-                                                    <button type="button" class="btn view_btn dropdown-toggle"
-                                                        data-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">Action <i
-                                                            class="mdi mdi-chevron-down"></i></button>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item view_btn1"
-                                                            href="{{ route('edit.shop_offer', $so->id) }}">Edit</a>
-                                                        <a class="dropdown-item delete_btn"
-                                                            href="{{ route('delete.shop_offer', $so->id) }}"
-                                                            onclick="return confirm('Are you sure you want to delete?')">Delete</a>
+                                        @foreach ($shop_offer as $so)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $so->offer_to_display }}</td>
+                                                <td>
+                                                    <span
+                                                        class="badge p-2 {{ $so->status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
+                                                        {{ $so->status === 'Y' ? 'Active' : 'Inactive' }}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group mb-2 mb-md-0">
+                                                        <button type="button" class="btn view_btn dropdown-toggle"
+                                                            data-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false">Action <i
+                                                                class="mdi mdi-chevron-down"></i></button>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item view_btn1"
+                                                                href="{{ route('edit.shop_offer', $so->id) }}">Edit</a>
+                                                            <a class="dropdown-item delete_btn"
+                                                                href="{{ route('delete.shop_offer', $so->id) }}"
+                                                                onclick="return confirm('Are you sure you want to delete?')">Delete</a>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
+                                                </td>
 
-                                        </tr>
-                                    @endforeach
+                                            </tr>
+                                        @endforeach
                                     @else
-                                    <tr>
-                                        <td colspan='4' style="text-align: center;">No shop offers found.</td>
-                                    </tr>
-                                @endif
+                                        <tr>
+                                            <td colspan='4' style="text-align: center;">No shop offers found.</td>
+                                        </tr>
+                                    @endif
                                 </tbody>
                             </table>
 
@@ -103,4 +103,3 @@
         </div><!-- container -->
 
     @endsection
-
