@@ -27,6 +27,24 @@
                     <div class="col-lg-6">
                         <div class="card">
                             <div class="card-body">
+                                @php
+                                    $shopshowhide = (session('roleid') == 1 || session('roleid') == 3) ? 'style=display:block;' : 'style=display:none;';
+                                    @endphp
+                                <div class="form-group" {{ $shopshowhide }}>
+                                    <label for="service_name">Service User <span
+                                            class="text-danger">*</span></label>
+                                    <select class="selectservice form-select form-control form-control-lg"
+                                        id="serviceuser_name" name="serviceuser_name" required tabindex="1">
+                                        <option value="">Select Service User</option><br />
+                                        @foreach ($userservicedets as $serviceuser)
+                                            <option value="{{ $serviceuser->id }}" @if ($serviceuser->id == session('user_id')) selected @endif>{{ $serviceuser->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('serviceuser_name')
+                                        <div class="text-danger mb-2">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Employee Name </label>
                                     <input type="text" class="form-control" id="employee_name"
@@ -323,6 +341,13 @@
                     if (stateId) {
                         fetchPresentDistrict(stateId, null);
                     }
+                });
+
+                $('.selectservice').each(function() {
+                    var $p = $(this).parent();
+                    $(this).select2({
+                        dropdownParent: $p
+                    });
                 });
             });
         </script>

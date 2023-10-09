@@ -47,9 +47,7 @@
 <script src="{{ asset('backend/assets/pages/jquery.form-repeater.js') }}"></script>
 <script src="{{ asset('backend/plugins/select2/select2.min.js') }}"></script>
 
-
-
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/js/bootstrap-timepicker.min.js"></script>
 
 
 <!-- App js -->
@@ -70,6 +68,20 @@
                 dropdownParent: $p
             });
         });
+        $('.selectservicelist').each(function() {
+            var $p = $(this).parent();
+            $(this).select2({
+                dropdownParent: $p
+            });
+        });
+        $('.selectservicepoint').each(function() {
+            var $p = $(this).parent();
+            $(this).select2({
+                dropdownParent: $p
+            });
+        });
+
+
 
 
 

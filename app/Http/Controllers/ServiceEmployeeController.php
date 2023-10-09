@@ -30,7 +30,11 @@ class ServiceEmployeeController extends Controller
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $countries      = DB::table('country')->get();
-        return view('seller.service.employee.add_employee', compact('loggeduser', 'userdetails', 'countries','structuredMenu'));
+        $userservicedets = DB::table('user_account')
+        ->select('id', 'name')
+        ->where('role_id', 9)
+        ->get();
+        return view('seller.service.employee.add_employee', compact('loggeduser', 'userdetails', 'countries','structuredMenu','userservicedets'));
     }
     public function getStates($country)
     {
@@ -82,6 +86,7 @@ class ServiceEmployeeController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $service_emp = new ServiceEmployee;
+        $service->user_id = $request->serviceuser_name;
         $service_emp->employee_name = $request->employee_name;
         $service_emp->employee_id = $request->employee_id;
         $service_emp->designation = $request->designation;
