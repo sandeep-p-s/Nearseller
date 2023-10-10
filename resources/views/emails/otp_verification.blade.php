@@ -11,7 +11,7 @@
             <tr>
             <td align="center" valign="top" style="padding: 40px 0px 5px 0px;">
                 <div border="0">
-                <img src="{{ asset('img/login_banner.png') }}" style="width: 100%;">
+                <img src="{{ asset('img/email_banner.png') }}" style="width: 100%;">
             </div>
             </td>
             </tr>

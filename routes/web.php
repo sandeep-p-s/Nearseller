@@ -192,7 +192,9 @@ Route::controller(AppointmentController::class)->group(function () {
         Route::get('appointmentview', 'Apponintmentview')->name('appointment.appointmentview');
         Route::post('listappointmentadd', 'AppointmentListView')->name('appointment.listappointmentadd');
         Route::post('addappointment', 'AdmNewAppointmentAdd')->name('AdmNewAppointmentAdd');
-
+        Route::post('appointmentviewedit', 'AdmAppointmentViewEdit')->name('AppointmentViewEdit');
+        Route::post('appointmentupdate', 'AdmNewAppointmentEdit')->name('AdmNewAppointmentEdit');
+        Route::post('appointmentdelete', 'AppointmentDelete')->name('AppointmentDelete');
     });
 
 
@@ -306,6 +308,7 @@ Route::controller(AppointmentController::class)->group(function () {
 //admin
     Route::controller(CategoryController::class)->group(function () {
         Route::get('listcategory', 'list_category')->name('list.category');
+        Route::get('addlistcategory', 'list_category')->name('list.category');
         Route::get('addcategory', 'add_category')->name('add.category');
         Route::post('savecategory', 'store_category')->name('store.category');
         Route::get('editcategory/{id}', 'edit_category')->name('edit.category');

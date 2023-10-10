@@ -12,13 +12,20 @@
         </thead>
         <tbody>
             @foreach ($ServiceAppointment as $index => $service)
+            @php
+                $available_from_date = $service->available_from_date;
+                $available_to_date = $service->available_to_date;
+                $formattedFromDate = date("d-m-Y", strtotime($available_from_date));
+                $formattedToDate = date("d-m-Y", strtotime($available_to_date));
+            @endphp
+
                 <tr>
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $service->service_name }}</td>
-                    <td>{{ $service->available_from_date }}</td>
+                    <td><span class="badge p-2 badge badge-danger">&nbsp;{{ $formattedFromDate }}</span> &nbsp;<span class="badge p-2 badge badge-info">To</span> &nbsp;<span class="badge p-2 badge badge-danger"> &nbsp; {{ $formattedToDate }} </span></td>
                     <td><span
-                            class="badge p-2 {{ $service->service_point === '1' ? 'badge badge-success' : ($service->service_point === '2' ? 'badge badge-info' : 'badge badge-danger') }}">
-                            {{ $service->service_point === '1' ? 'At Home' : ($service->service_point === '2' ? 'At Shop' : 'None') }}
+                            class="badge p-2 {{ $service->service_point == '1' ? 'badge badge-success' : ($service->service_point == '2' ? 'badge badge-info' : 'badge badge-danger') }}">
+                            {{ $service->service_point == '1' ? 'At Home' : ($service->service_point == '2' ? 'At Shop' : 'None') }}
                         </span></td>
                     <td>
 
@@ -28,12 +35,12 @@
                                 <i class="mdi mdi-chevron-down"></i></button>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item view_btn1" href="#"
-                                    onclick="productvieweditdet({{ $service->id }})">View/Edit</a>
+                                    onclick="Appointmentvieweditdet({{ $service->id }})">View/Edit</a>
                                 @if (session('roleid') == '1')
-                                    <a class="dropdown-item approve_btn" href="#"
-                                        onclick="productapprovedet({{ $service->id }})">Approved</a>
+                                    {{-- <a class="dropdown-item approve_btn" href="#"
+                                        onclick="productapprovedet({{ $service->id }})">Approved</a> --}}
                                     <a class="dropdown-item delete_btn" href="#"
-                                        onclick="productdeletedet({{ $service->id }})">Delete</a>
+                                        onclick="Appointmentdeletedet({{ $service->id }})">Delete</a>
                                 @endif
                             </div>
                         </div>
@@ -180,6 +187,7 @@
                                                             <div class="col">
                                                                 <select id="setdays" name="setdays"
                                                                     class="day-select form-control">
+
                                                                     <option value="Sunday">Sunday</option>
                                                                     <option value="Monday">Monday</option>
                                                                     <option value="Tuesday">Tuesday</option>
@@ -289,14 +297,14 @@
 
                                     <div class="form-group"><label>Preffered Employee</label>
                                         <select class="selectserviceemploye form-select form-control form-control-lg"
-                                            id="service_type_id" name="service_type_id" required tabindex="1">
+                                            id="service_employe_id" name="service_employe_id" required tabindex="1">
                                             <option value="">Select Employee</option><br />
                                             @foreach ($serviceemployees as $emplye)
                                                 <option value="{{ $emplye->id }}">{{ $emplye->employee_name }}
                                                 </option>
                                             @endforeach
                                         </select>
-                                        <label for="service_type_id" class="error"></label>
+                                        <label for="service_employe_id" class="error"></label>
                                     </div>
 
                                     <div class="form-group"><label>Suggestions</label>
@@ -347,7 +355,7 @@
 
 
                     <div class="col-md-12">
-                        <div id="productsub-message" class="text-center" style="display: none;"></div>
+                        <div id="apptment-message" class="text-center" style="display: none;"></div>
                     </div>
 
 
@@ -492,18 +500,6 @@
     }
 
 
-
-
-
-
-
-
-    $('#addNewModal .selectauto').each(function() {
-        var $p = $(this).parent();
-        $(this).select2({
-            dropdownParent: $p
-        });
-    });
     $('#addNewModal .selectservicetype').each(function() {
         var $p = $(this).parent();
         $(this).select2({
@@ -574,7 +570,6 @@
 
     $('#AppointmentAddForm').submit(function(e) {
         e.preventDefault();
-        handleSubmit();
         if ($(this).valid()) {
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
             $('#loading-overlay').fadeIn();
@@ -593,36 +588,31 @@
 
 
                     if (response.result == 1) {
-                        $('#productsub-message').text(response.mesge).fadeIn();
-                        $('#productsub-message').addClass('success-message');
-                        $('#image-preview').empty();
-                        $("#preview")[0].src = "";
-                        $("#videofile").val('');
-                        $("#video-preview").hide();
-                        $('#pdfmm_preview').empty();
+                        $('#apptment-message').text(response.mesge).fadeIn();
+                        $('#apptment-message').addClass('success-message');
                         setTimeout(function() {
-                            $('#productsub-message').fadeOut();
+                            $('#apptment-message').fadeOut();
                         }, 5000);
-                        $('#ProductAddForm')[0].reset();
+                        $('#AppointmentAddForm')[0].reset();
                         $('#loading-image').fadeOut();
                         $('#loading-overlay').fadeOut();
                         $('#addNewModal').modal('hide');
                         shwdets();
                     } else if (response.result == 2) {
-                        $('#productsub-message').text(response.mesge).fadeIn();
-                        $('#productsub-message').addClass('error');
+                        $('#apptment-message').text(response.mesge).fadeIn();
+                        $('#apptment-message').addClass('error');
                         setTimeout(function() {
-                            $('#productsub-message').fadeOut();
+                            $('#apptment-message').fadeOut();
                         }, 5000);
                         $('#loading-image').fadeOut();
                         $('#loading-overlay').fadeOut();
                         $('#addNewModal').modal('show');
 
                     } else if (response.result == 3) {
-                        $('#productsub-message').text(response.mesge).fadeIn();
-                        $('#productsub-message').addClass('error');
+                        $('#apptment-message').text(response.mesge).fadeIn();
+                        $('#apptment-message').addClass('error');
                         setTimeout(function() {
-                            $('#productsub-message').fadeOut();
+                            $('#apptment-message').fadeOut();
                         }, 5000);
                         $('#loading-image').fadeOut();
                         $('#loading-overlay').fadeOut();
