@@ -31,8 +31,7 @@ use App\Http\Controllers\Masters\ReligionController as ReligionController;
 
 use App\Http\Controllers\Masters\AttributeController as AttributeController;
 use App\Http\Controllers\Masters\ProfessionsController as ProfessionsController;
-
-
+use App\Http\Controllers\ServiceCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -207,6 +206,24 @@ Route::controller(AppointmentController::class)->group(function () {
         Route::get('businessedit/{id}', 'edit_business_type')->name('edit.businesstype');
         Route::post('businessupdate/{id}', 'update_business_type')->name('update.businesstype');
         Route::get('businessdelete/{id}', 'delete_business_type')->name('delete.businesstype');
+    });
+
+    Route::controller(ServiceCategoryController::class)->group(function () {
+        Route::get('listservicecategory', 'list_service_category')->name('list.servicecategory');
+        Route::get('addservicecategory', 'add_service_category')->name('add.servicecategory');
+        Route::post('saveservicecategory', 'store_service_category')->name('store.servicecategory');
+        Route::get('servicecategoryedit/{id}', 'edit_service_category')->name('edit.servicecategory');
+        Route::post('servicecategoryupdate/{id}', 'update_service_category')->name('update.servicecategory');
+        Route::get('servicecategorydelete/{id}', 'delete_service_category')->name('delete.servicecategory');
+    });
+
+    Route::controller(ServiceCategoryController::class)->group(function () {
+        Route::get('listservicesubcategory', 'list_service_subcategory')->name('list.servicesubcategory');
+        Route::get('addservicesubcategory', 'add_service_subcategory')->name('add.servicesubcategory');
+        Route::post('saveservicesubcategory', 'store_service_subcategory')->name('store.servicesubcategory');
+        Route::get('servicesubcategoryedit/{id}', 'edit_service_subcategory')->name('edit.servicesubcategory');
+        Route::post('servicesubcategoryupdate/{id}', 'update_service_subcategory')->name('update.servicesubcategory');
+        Route::get('servicesubcategorydelete/{id}', 'delete_service_subcategory')->name('delete.servicesubcategory');
     });
 
     Route::controller(ShopTypeController::class)->group(function () {

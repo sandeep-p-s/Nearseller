@@ -92,11 +92,11 @@
     .dev3-3syxh487kww00 {
         display: none
     }
-
-    .dev3-243ztdnf8yww0:last-child {
+ 
+    /* .dev3-243ztdnf8yww0:last-child {
         flex-grow: 1;
         flex-shrink: 0
-    }
+    }  */
 }
 
 .dev3-3syxh487kww00 form {
@@ -477,7 +477,7 @@ span.dev3-23lo3gy0uta80:after {
     border-radius: 4px
 }
 
-@media only screen and (min-width:992px) {
+@media only screen and (min-width:767px) {
 
     .dev3-1se0vseabf5s0:hover>.dev3-25sat34b4n6o0,
     .dev3-3m8wtemb60w00:hover>.dev3-2rybrszefoe00,
@@ -1435,7 +1435,8 @@ span.dev3-23lo3gy0uta80:after {
     color: #ff1a00
 }
 
-@media only screen and (max-width:991px) {
+
+@media only screen and (max-width:767px) {
     .dev3-1szfcldvapsw0 {
         display: block;
         text-align: center;

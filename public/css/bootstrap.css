@@ -3154,6 +3154,10 @@ textarea.form-control.is-invalid {
     outline: 0;
     box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25)
 }
+.bg-lights
+{
+    background-color: #E4DFEF;
+}
 
 .btn.disabled,
 .btn:disabled,
@@ -3164,22 +3168,21 @@ fieldset:disabled .btn {
 
 .btn-primary {
     color: #fff;
-    background-color: #0d6efd;
-    border-color: #0d6efd
+    background-color: #232055;
+    border-color: #232055;
 }
 
 .btn-primary:hover {
     color: #fff;
-    background-color: #0b5ed7;
-    border-color: #0a58ca
+    background-color: #232055;
+    border-color: #232055;
 }
 
 .btn-check:focus+.btn-primary,
 .btn-primary:focus {
-    color: #fff;
-    background-color: #0b5ed7;
-    border-color: #0a58ca;
-    box-shadow: 0 0 0 .25rem rgba(49, 132, 253, .5)
+    color: #FF7A09;
+    background-color: #232055;
+    border-color: #232055;
 }
 
 .btn-check:active+.btn-primary,
@@ -3187,9 +3190,9 @@ fieldset:disabled .btn {
 .btn-primary.active,
 .btn-primary:active,
 .show>.btn-primary.dropdown-toggle {
-    color: #fff;
-    background-color: #0a58ca;
-    border-color: #0a53be
+    color: #FF7A09;
+    background-color: #232055;
+    border-color: #232055;
 }
 
 .btn-check:active+.btn-primary:focus,
@@ -3202,9 +3205,9 @@ fieldset:disabled .btn {
 
 .btn-primary.disabled,
 .btn-primary:disabled {
-    color: #fff;
-    background-color: #0d6efd;
-    border-color: #0d6efd
+    color: #FF7A09;
+    background-color: #232055;
+    border-color: #232055;
 }
 
 .btn-secondary {
@@ -4506,7 +4509,7 @@ fieldset:disabled .btn {
 
 .navbar-nav {
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     padding-left: 0;
     margin-bottom: 0;
     list-style: none
@@ -4606,7 +4609,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (min-width:768px) {
+@media (min-width:900px) {
     .navbar-expand-md {
         flex-wrap: nowrap;
         justify-content: flex-start
@@ -4633,11 +4636,20 @@ fieldset:disabled .btn {
         display: flex !important;
         flex-basis: auto
     }
-
     .navbar-expand-md .navbar-toggler {
-        display: none
+        display: none!important;
     }
 }
+
+
+/* @media (min-width:808px) {
+    .navbar-expand-md .navbar-toggler {
+        display: none;
+    }
+} */
+
+
+
 
 @media (min-width:992px) {
     .navbar-expand-lg {
@@ -5336,15 +5348,6 @@ fieldset:disabled .btn {
     padding: 1.25rem 1rem
 }
 
-.alert-dismissible .btnh-close {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 2;
-    padding: 1.25rem 1rem
-}
-
-
 .alert-primary {
     color: #084298;
     background-color: #cfe2ff;
@@ -5924,47 +5927,6 @@ fieldset:disabled .btn {
     filter: invert(1) grayscale(100%) brightness(200%)
 }
 
-
-
-.btnh-close {
-    box-sizing: content-box;
-    width: 1em;
-    height: 1em;
-    padding: .25em .25em;
-    color: #000;
-    background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
-    border: 0;
-    border-radius: .25rem;
-    opacity: .5
-}
-
-.btnh-close:hover {
-    color: #000;
-    text-decoration: none;
-    opacity: .75
-}
-
-.btnh-close:focus {
-    outline: 0;
-    box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25);
-    opacity: 1
-}
-
-.btnh-close.disabled,
-.btnh-close:disabled {
-    pointer-events: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-    opacity: .25
-}
-
-.btnh-close-white {
-    filter: invert(1) grayscale(100%) brightness(200%)
-}
-
-
-
 .toast {
     width: 350px;
     max-width: 100%;
@@ -6120,11 +6082,6 @@ fieldset:disabled .btn {
 }
 
 .modal-header .btn-close {
-    padding: .5rem .5rem;
-    margin: -.5rem -.5rem -.5rem auto
-}
-
-.modal-header .btnh-close {
     padding: .5rem .5rem;
     margin: -.5rem -.5rem -.5rem auto
 }
@@ -6730,7 +6687,7 @@ fieldset:disabled .btn {
 .carousel-control-next,
 .carousel-control-prev {
     position: relative;
-    top: -53px;
+    /* top: -53px; */
     /* bottom: 28px; */
     z-index: 1;
     display: flex;
@@ -6851,8 +6808,8 @@ fieldset:disabled .btn {
     padding-bottom: 1.25rem;
     color: #fff !important;
     /* text-align: center; */
-    top: 10%;
-    width: 50%;
+    top: 20%;
+    width: 80%;
 }
 
 /* .carousel-caption {
@@ -6990,14 +6947,6 @@ fieldset:disabled .btn {
     margin-right: -.5rem;
     margin-bottom: -.5rem
 }
-
-.offcanvas-header .btnh-close {
-    padding: .5rem .5rem;
-    margin-top: -.5rem;
-    margin-right: -.5rem;
-    margin-bottom: -.5rem
-}
-
 
 .offcanvas-title {
     margin-bottom: 0;
@@ -8400,7 +8349,7 @@ fieldset:disabled .btn {
 }
 
 .bg-dark {
-    background-color: #212529 !important
+    background-color: #331e70 !important;
 }
 
 .bg-body {
