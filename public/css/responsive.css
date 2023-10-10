@@ -2,6 +2,7 @@
   .navbar-brand img {
     margin-left: 45px;
     margin-right: 10px;
+    width: 140px;
   }
 
   .banner_cont {
@@ -15,15 +16,14 @@
   }
 
   .carousel-caption {
-    top: 5%;
-    width: 60%;
+    top: 10%;
+    width: 80%;
     padding-top: 0 !important;
   }
-
   .carousel-control-next,
   .carousel-control-prev {
-    top: -25px;
-  }
+    bottom: -25px;
+  } 
 
   .col {
     width: 16% !important;
@@ -31,9 +31,37 @@
     padding: 0.5rem;
     flex: 0 0 0%;
   }
-}
 
-@media (max-width:768px) {
+}
+  @media screen and (max-width: 767px) and (min-width: 560px) {
+    .carousel-caption {
+      top: 25%;
+    }
+  }
+  
+ 
+   @media screen and (max-width: 1440px) and (min-width: 1025px) {
+    .carousel-caption {
+      top: 5%!important;
+    }
+  } 
+  
+  /* @media screen and (max-width: 1025px) and (min-width: 1215px) {
+    .carousel_Next_Prev  {
+      bottom: -13%!important;
+    }
+  } */
+  .viewall_btn {
+    float: right;
+  }
+
+  @media (max-width:767px) {
+    .viewall_btn {
+      float: left;
+    }
+  }
+
+@media (max-width:825px) {
   .user_cart {
     width: 20%;
     padding: 5px;
@@ -120,6 +148,27 @@
   }
 }
 
+
+
+
+@media (max-width:767px) {
+  .girl_top_section {
+   margin-top: 0!important;
+  }
+}
+@media (max-width:767px) {
+  .topgirl {
+   display: none!important;
+  }
+}
+@media (max-width:1420px) {
+  .topgirl {
+    top: -85%!important;
+  }
+}
+
+
+
 /* // using variable here which is  768px */
 @media (max-width:576px) {
   nav .show {
@@ -181,7 +230,7 @@
 
   .carousel-control-next,
   .carousel-control-prev {
-    top: -13px;
+    /* top: -13px; */
     width: 30px;
     height: 30px;
   }
@@ -226,6 +275,12 @@
     width: auto !important;
     flex: 1 0 0%;
   }
+}
+@media (min-width: 992px)
+{
+  .mt-lg-0 {
+    margin-top: 0!important;
+}
 }
 
 
@@ -282,7 +337,7 @@
 
   .carousel-control-next,
   .carousel-control-prev {
-    top: -13px;
+    /* top: -13px; */
     width: 30px;
     height: 30px;
   }
@@ -328,3 +383,151 @@
     flex: 1 0 0%;
   }
 }
+
+@media (max-width:767px) {
+  .web_logo {
+    display: none!important;
+  }
+}  
+
+
+@media (max-width:991px) {
+  .mobile_input {
+   margin-bottom: 10px;
+   margin-top: 10px;
+   margin-right: 0;
+  }
+} 
+
+
+@media (max-width:400px) {
+  .carousel_text{
+    display: none;
+  }
+
+}
+@media (max-width:1023px) {
+  .carousel-control-prev {
+    display: none!important;
+  }
+}  
+@media (max-width:1023px) {
+  .carousel-control-next {
+    display: none!important;
+  }
+}  
+/* 
+.carousel-captions  {
+  margin: 0;
+  font-size: 12px;
+  position: absolute;
+  width: 100%;
+  top: 44%;
+  left: 60%;
+  padding-right: 80px;
+  color: white;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.carousel-control-prev  {
+  margin: 0;
+  font-size: 18px;
+  position: absolute;
+  top: 70%;
+  left: 12%;
+ 
+  color: rgb(0, 0, 0);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  background-color: white;
+  opacity: 1;
+  border-radius: 100%;
+}
+
+.carousel-control-next  {
+  margin: 0;
+  font-size: 18px;
+  position: absolute;
+  top: 70%;
+  left: 18%;
+
+  color: rgb(0, 0, 0);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  background-color: white;
+  opacity: 1;
+  border-radius: 100%;
+}
+.carousel-control-next:focus, .carousel-control-next:hover, .carousel-control-prev:focus, .carousel-control-prev:hover 
+{
+  background-color: #E3D7FE;
+}
+
+
+
+
+
+.banner_btn button {
+  border-radius: 0;
+  background: transparent;
+  color: #fff;
+  font-size: 12px;
+}
+.banner_btn button i {
+  rotate: 53deg;
+}
+
+
+
+
+@media (max-width:2560px) {
+  .carousel-control-prev {
+    margin: 0;
+    font-size: 18px;
+    position: absolute;
+    top: 87%;
+    left: 13%;
+    width:40px;
+    height: 40px;
+    color: rgb(0, 0, 0);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    background-color: white;
+    opacity: 1;
+    border-radius: 100%;
+  }
+}  
+@media (max-width:2560px) {
+  .carousel-control-next {
+    margin: 0;
+    font-size: 18px;
+    position: absolute;
+    top: 87%;
+    left: 22%;
+    width:40px;
+    height: 40px;
+    color: rgb(0, 0, 0);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    background-color: white;
+    opacity: 1;
+    border-radius: 100%;
+  }
+}  
+
+
+@media (max-width:440px) {
+  .carousel_text{
+    display: none;
+  }
+
+}
+
+
+@media screen and (max-width: 870px) and (min-width: 767px) {
+  .carousel-captions {
+    margin-top: 15px;
+  }
+}
+ */

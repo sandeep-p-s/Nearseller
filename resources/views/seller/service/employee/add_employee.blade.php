@@ -28,16 +28,17 @@
                         <div class="card">
                             <div class="card-body">
                                 @php
-                                    $shopshowhide = (session('roleid') == 1 || session('roleid') == 3) ? 'style=display:block;' : 'style=display:none;';
-                                    @endphp
+                                    $shopshowhide = session('roleid') == 1 || session('roleid') == 3 ? 'style=display:block;' : 'style=display:none;';
+                                @endphp
                                 <div class="form-group" {{ $shopshowhide }}>
-                                    <label for="service_name">Service User <span
-                                            class="text-danger">*</span></label>
+                                    <label for="service_name">Service User <span class="text-danger">*</span></label>
                                     <select class="selectservice form-select form-control form-control-lg"
                                         id="serviceuser_name" name="serviceuser_name" required tabindex="1">
                                         <option value="">Select Service User</option><br />
                                         @foreach ($userservicedets as $serviceuser)
-                                            <option value="{{ $serviceuser->id }}" @if ($serviceuser->id == session('user_id')) selected @endif>{{ $serviceuser->name }}</option>
+                                            <option value="{{ $serviceuser->id }}"
+                                                @if ($serviceuser->id == session('user_id')) selected @endif>{{ $serviceuser->name }}
+                                            </option>
                                         @endforeach
                                     </select>
                                     @error('serviceuser_name')
@@ -46,7 +47,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Employee Name </label>
+                                    <label for="exampleFormControlInput1">Employee Name <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="employee_name"
                                         placeholder="Enter Employee Name" name="employee_name"
                                         value="{{ old('employee_name') }}">
@@ -55,7 +56,7 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Employee ID</label>
+                                    <label for="exampleFormControlInput1">Employee ID <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="employee_id"
                                         placeholder="Enter employee id" name="employee_id" value="{{ old('employee_id') }}">
                                     @error('employee_id')
@@ -63,7 +64,7 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Designation/Skill</label>
+                                    <label for="exampleFormControlInput1">Designation/Skill <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="designation"
                                         placeholder="Enter Designation/Skill" name="designation"
                                         value="{{ old('designation') }}">
@@ -72,7 +73,7 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Joining Date</label>
+                                    <label for="exampleFormControlInput1">Joining Date <span class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="exampleFormControlInput1"
                                         placeholder="Enter date" name="joining_date" value="{{ old('joining_date') }}">
                                     @error('joining_date')
@@ -80,7 +81,7 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Aadhar Number</label>
+                                    <label for="exampleFormControlInput1">Aadhar Number <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="aadhar_no"
                                         placeholder="Enter aadhar number" name="aadhar_no" value="{{ old('aadhar_no') }}">
                                     @error('aadhar_no')
@@ -89,7 +90,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Permanent Address</label>
+                                    <label for="exampleFormControlInput1">Permanent Address <span class="text-danger">*</span></label>
                                     <textarea class="form-control" id="permanent_address" name="permanent_address" cols="5" rows="5">{{ old('permanent_address') }}</textarea>
                                     @error('permanent_address')
                                         <div class="text-danger mb15">{{ $message }}</div>
@@ -97,12 +98,14 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Country</label>
+                                    <label for="exampleFormControlInput1">Country <span class="text-danger">*</span></label>
                                     <select class="form-select form-control form-control-lg" name="country"
                                         aria-label="Default select example" id="country">
-                                        <option value="">Select country</option>
+                                        <option value="" selected disabled>Select country</option>
                                         @foreach ($countries as $country)
-                                            <option value="{{ $country->id }}" @if(old('country') == $country->id) selected @endif>{{ $country->country_name }}</option>
+                                            <option value="{{ $country->id }}"
+                                                @if (old('country') == $country->id) selected @endif>
+                                                {{ $country->country_name }}</option>
                                         @endforeach
                                     </select>
                                     @error('country')
@@ -110,18 +113,20 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">State</label>
+                                    <label for="exampleFormControlInput1">State <span class="text-danger">*</span></label>
                                     <select class="form-control" aria-label="Default select example" id="state"
                                         name="state">
+                                        <option value="" selected disabled>Select state</option>
                                     </select>
                                     @error('state')
                                         <div class="text-danger mb-2">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">District</label>
+                                    <label for="exampleFormControlInput1">District <span class="text-danger">*</span></label>
                                     <select class="form-control" aria-label="Default select example" id="district"
                                         name="district">
+                                        <option value="">Select district</option>
                                     </select>
                                     @error('district')
                                         <div class="text-danger mb-2">{{ $message }}</div>
@@ -129,9 +134,9 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Pincode/Zipcode</label>
-                                    <input type="text" class="form-control" id="pincode" placeholder="Enter pincode"
-                                        name="pincode">
+                                    <label for="exampleFormControlInput1">Pincode/Zipcode <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="pincode"
+                                        placeholder="Enter pincode" name="pincode" value="{{ old('pincode')}}">
                                     @error('pincode')
                                         <div class="text-danger mb-2">{{ $message }}</div>
                                     @enderror
@@ -202,7 +207,7 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Upload Image</label>
+                                    <label for="exampleFormControlInput1">Upload Image <span class="text-danger">*</span></label>
                                     <div class="row">
                                         <div class="col-lg-3">
                                             <div class="card">

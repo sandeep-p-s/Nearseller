@@ -85,17 +85,73 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-    const navbarAutocomplete = document.querySelector('#navbar-search-autocomplete');
-    const navbarData = ['One', 'Two', 'Three', 'Four', 'Five'];
-    const navbarDataFilter = (value) => {
-        return navbarData.filter((item) => {
-            return item.toLowerCase().startsWith(value.toLowerCase());
-        });
-    };
+    new Mmenu(
+        document.querySelector("#menu"),
+        {
+            theme: "white",
+            setSelected: {
+                hover: true,
+                parent: true,
+            },
+            // counters: {
+            //     add: true,
+            // },
+            searchfield: {
+                add: true,
+                placeholder: "Search menu items",
+                splash: "<p>What are you looking for?</p>",
+                title: "Search",
+            },
+            iconbar: {
+                use: "(min-width: 450px)",
+                top: [
+                    '<a href="#/"><span class="fa fa-home"></span></a>',
+                ],
+                bottom: [
+                    '<a href="#/"><span class="fa fa-twitter"></span></a>',
+                    '<a href="#/"><span class="fa fa-facebook"></span></a>',
+                    '<a href="#/"><span class="fa fa-youtube"></span></a>',
+                ],
+            },
+            iconPanels: {
+                add: true,
+                visible: 1,
+            },
+            // sidebar: {
+            //     collapsed: {
+            //         use: "(min-width: 200px)",
+            //     },
+            //     expanded: {
+            //         use: "(min-width: 1920px)",
+            //         initial: "closed",
+            //     },
+            // },
+            navbars: [
+                {
+                    content: ["searchfield"],
+                },
+                {
+                    type: "tabs",
+                    content: [
+                        '<a href="#panel-menu"><i class="fa fa-bars"></i> <span>Menu</span></a>',
+                        '<a href="#panel-account"><i class="fa fa-user"></i> <span></span></a>',
+                        '<a href="#panel-cart"><i class="fa fa-shopping-cart"></i> <span></span></a>',
+                    ],
+                },
+                {
+                    content: ["prev", "breadcrumbs", "close"],
+                },
 
-    new mdb.Autocomplete(navbarAutocomplete, {
-        filter: navbarDataFilter,
-    });
+            ],
+        },
+        {
+            searchfield: {
+                cancel: true,
+                clear: true,
+            },
+        }
+    );
+
 
 </script>
 

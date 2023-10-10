@@ -1,0 +1,203 @@
+.mr5
+{
+  margin-right: 5px;
+}
+.mr10
+{
+  margin-right: 10px;
+}
+.mr15
+{
+  margin-right: 15px;
+}
+.mr20
+{
+  margin-right: 20px;
+}
+.mr25
+{
+  margin-right: 25px;
+}
+.mr30
+{
+  margin-right: 30px;
+}
+
+.group {
+  display: flex;
+  line-height: 28px;
+  align-items: center;
+  position: relative;
+  
+ }
+
+ .input::placeholder 
+ {
+  color: #9e9ea7;
+ }
+
+ .icon {
+  position: absolute;
+  right: 1rem;
+  fill: #9e9ea7;
+  width: 1rem;
+  height: 1rem;
+ }
+
+ .input_design
+ {
+  border-color: #E3D7FE;
+  border-radius: 10px;
+ }
+ .btn-icon
+ {
+  background-color: #39207A;
+  color: white;
+ }
+
+ .btn-icon:hover
+ {
+  
+  color: #E4DFEF!important;
+ }
+ .nav-link
+{
+  color: #140933!important;
+}
+
+
+
+@media (max-width:991px) {
+  .mobile_input {
+   margin-bottom: 10px;
+   margin-top: 10px;
+   margin-right: 0;
+  }
+} 
+
+
+.carousel-captions  {
+  margin: 0;
+  font-size: 12px;
+  position: absolute;
+  width: 100%;
+  top: 44%;
+  left: 60%;
+  padding-right: 80px;
+  color: white;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.carousel-control-prev  {
+  margin: 0;
+  font-size: 18px;
+  position: absolute;
+  top: 70%;
+  left: 12%;
+  width:40px;
+  height: 40px;
+  color: rgb(0, 0, 0);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  background-color: white;
+  opacity: 1;
+  border-radius: 100%;
+}
+
+.carousel-control-next  {
+  margin: 0;
+  font-size: 18px;
+  position: absolute;
+  top: 70%;
+  left: 18%;
+  width:40px;
+  height: 40px;
+  color: rgb(0, 0, 0);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  background-color: white;
+  opacity: 1;
+  border-radius: 100%;
+}
+.carousel-control-next:focus, .carousel-control-next:hover, .carousel-control-prev:focus, .carousel-control-prev:hover 
+{
+  background-color: #E3D7FE;
+}
+
+
+
+
+
+.banner_btn button {
+  border-radius: 0;
+  background: transparent;
+  color: #fff;
+  font-size: 12px;
+}
+.banner_btn button i {
+  rotate: 53deg;
+}
+
+@media (max-width:1023px) {
+  .carousel-control-prev {
+    display: none!important;
+  }
+}  
+@media (max-width:1023px) {
+  .carousel-control-next {
+    display: none!important;
+  }
+}  
+
+
+@media (max-width:2560px) {
+  .carousel-control-prev {
+    margin: 0;
+    font-size: 18px;
+    position: absolute;
+    top: 87%;
+    left: 13%;
+    width:40px;
+    height: 40px;
+    color: rgb(0, 0, 0);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    background-color: white;
+    opacity: 1;
+    border-radius: 100%;
+  }
+}  
+@media (max-width:2560px) {
+  .carousel-control-next {
+    margin: 0;
+    font-size: 18px;
+    position: absolute;
+    top: 87%;
+    left: 22%;
+    width:40px;
+    height: 40px;
+    color: rgb(0, 0, 0);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    background-color: white;
+    opacity: 1;
+    border-radius: 100%;
+  }
+}  
+
+
+@media (max-width:440px) {
+  .carousel_text{
+    display: none;
+  }
+
+}
+
+
+@media screen and (max-width: 870px) and (min-width: 767px) {
+  .carousel-captions {
+    margin-top: 15px;
+  }
+}
+
