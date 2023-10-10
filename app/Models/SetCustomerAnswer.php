@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class SetCustomerAnswer extends Model
 {
     use HasFactory;
+    protected $table = 'set_customer_answers';
 }

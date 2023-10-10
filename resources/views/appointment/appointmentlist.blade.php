@@ -75,7 +75,7 @@
                 <div id="product_approved-message" class="text-center" style="display: none;"></div>
             </div>
             <div class="col-md-12">
-                <div id="product_del-message" class="text-center" style="display: none;"></div>
+                <div id="appointment_del-message" class="text-center" style="display: none;"></div>
             </div>
 
             <div id="catcontent">
@@ -87,12 +87,12 @@
                 <div class="modal-dialog custom-modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title text-center" id="ViewEditModalLabel">View / Edit Product Details</h5>
+                            <h5 class="modal-title text-center" id="ViewEditModalLabel">View / Edit Appointment Details</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                                 title="Close">x</button>
                         </div>
                         <div class="modal-body">
-                            <div id="showproductviewedit">
+                            <div id="showappointmentviewedit">
 
                             </div>
                         </div>
@@ -239,15 +239,15 @@
             }
 
 
-            function productvieweditdet(productid) {
+            function Appointmentvieweditdet(appointmentid) {
                 $('#loading-overlay').fadeIn();
                 $('#loading-image').fadeIn();
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
                 $.ajax({
-                    url: '{{ route('productViewEdit') }}',
+                    url: '{{ route('AppointmentViewEdit') }}',
                     type: 'POST',
                     data: {
-                        productid: productid
+                        appointmentid: appointmentid
                     },
                     headers: {
                         'X-CSRF-TOKEN': csrfToken
@@ -257,7 +257,7 @@
                         $('#loading-image').fadeOut();
                         $('#loading-overlay').fadeOut();
                         var data1 = data.trim();
-                        $("#showproductviewedit").html(data1);
+                        $("#showappointmentviewedit").html(data1);
                         $('#ViewEditModal').modal('show');
 
                     }
@@ -265,81 +265,7 @@
 
             }
 
-            function DeltProductImag(imgval) {
-                var decoded = atob(imgval);
-                var values = decoded.split('#');
-                var imageSrc = values[0];
-                var productid = values[1];
-                $('#loading-overlay').fadeIn();
-                $('#loading-image').fadeIn();
-                var csrfToken = $('meta[name="csrf-token"]').attr('content');
-                $.ajax({
-                    url: '{{ route('productValDelte') }}',
-                    type: 'POST',
-                    data: {
-                        imgval: imgval
-                    },
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken
-                    },
-                    success: function(data) {
-                        if ((data.result == 1)) {
-                            $('#product_gal-message').text(data.mesge).fadeIn();
-                            $('#product_gal-message').addClass('success-message');
-                            setTimeout(function() {
-                                $('#product_gal-message').fadeOut();
-                            }, 5000);
-                            $('#loading-image').fadeOut();
-                            $('#loading-overlay').fadeOut();
-                            productvieweditdet(productid);
-                        } else if ((data.result == 2)) {
-                            $('#product_gal-message').text(data.mesge).fadeIn();
-                            $('#product_gal-message').addClass('error');
-                            setTimeout(function() {
-                                $('#product_gal-message').fadeOut();
-                            }, 5000);
-                            $('#loading-image').fadeOut();
-                            $('#loading-overlay').fadeOut();
-                            productvieweditdet(productid);
-                        } else {
-                            $("#showproductviewedit").html('');
-                            $('#ViewEditModal').modal('hide');
-                            $('#loading-image').fadeOut();
-                            $('#loading-overlay').fadeOut();
-                        }
-                    }
-                });
-
-            }
-
-            function productapprovedet(productid) {
-                $('#loading-overlay').fadeIn();
-                $('#loading-image').fadeIn();
-                var csrfToken = $('meta[name="csrf-token"]').attr('content');
-                $.ajax({
-                    url: '{{ route('productApproved') }}',
-                    type: 'POST',
-                    data: {
-                        productid: productid
-                    },
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken
-                    },
-                    success: function(data) {
-
-                        $('#loading-image').fadeOut();
-                        $('#loading-overlay').fadeOut();
-                        var data1 = data.trim();
-                        $("#showproductapproved").html(data1);
-                        $('#ProductApprovedModal').modal('show');
-
-                    }
-                });
-
-            }
-
-
-            function productdeletedet(productid) {
+            function Appointmentdeletedet(appointmentid) {
                 $('#deleteConfirmationModal').modal('show');
                 $('#confirmDeleteBtn').click(function() {
                     $('#deleteConfirmationModal').modal('hide');
@@ -347,27 +273,27 @@
                     $('#loading-image').fadeIn();
                     var csrfToken = $('meta[name="csrf-token"]').attr('content');
                     $.ajax({
-                        url: '{{ route('ProductsDelete') }}',
+                        url: '{{ route('AppointmentDelete') }}',
                         type: 'POST',
                         data: {
-                            productid: productid,
+                            appointmentid: appointmentid,
                             _token: csrfToken
                         },
                         success: function(data) {
                             if ((data.result == 1)) {
-                                $('#product_del-message').text(data.mesge).fadeIn();
-                                $('#product_del-message').addClass('success-message');
+                                $('#appointment_del-message').text(data.mesge).fadeIn();
+                                $('#appointment_del-message').addClass('success-message');
                                 setTimeout(function() {
-                                    $('#product_del-message').fadeOut();
+                                    $('#appointment_del-message').fadeOut();
                                 }, 5000);
                                 $('#loading-image').fadeOut();
                                 $('#loading-overlay').fadeOut();
                                 shwdets();
                             } else if ((data.result == 2)) {
-                                $('#product_del-message').text(data.mesge).fadeIn();
-                                $('#product_del-message').addClass('error');
+                                $('#appointment_del-message').text(data.mesge).fadeIn();
+                                $('#appointment_del-message').addClass('error');
                                 setTimeout(function() {
-                                    $('#product_del-message').fadeOut();
+                                    $('#appointment_del-message').fadeOut();
                                 }, 5000);
                                 $('#loading-image').fadeOut();
                                 $('#loading-overlay').fadeOut();
@@ -377,5 +303,10 @@
                     });
                 });
             }
+
+
+
+
+
         </script>
     @endsection

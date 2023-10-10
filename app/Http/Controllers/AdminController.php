@@ -1262,8 +1262,8 @@ class AdminController extends Controller
             $sellerDetail   = SellerDetails::find($shopid);
             $sellerDetail->fill($validatedData);
             $sellerDetail->shop_name = $request->input('es_name');
-            if($request->input('es_shopservice')==1){
-            $sellerDetail->owner_name = $request->input('es_ownername');}
+            //if($request->input('es_shopservice')==1){
+            $sellerDetail->owner_name = $request->input('es_ownername');//}
             $sellerDetail->shop_email = $request->input('es_email');
             $sellerDetail->shop_mobno = $request->input('es_mobno');
             $sellerDetail->busnes_type = $request->input('es_busnestype');

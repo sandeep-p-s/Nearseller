@@ -326,7 +326,7 @@ class RoleController extends Controller
                 $sellerDetail->shop_name = $request->input('s_name');
                 $sellerDetail->shop_email = $request->input('s_email');
                 $sellerDetail->shop_mobno = $request->input('s_mobno');
-                $sellerDetail->shop_service_type = $shopservice;
+                $sellerDetail->busnes_type = $shopservice;
                 $sellerDetail->parent_id = $userId;
                 $sellerDetail->user_id = $last_id;
                 //$sellerDetail->referal_id = $refer_chars;
