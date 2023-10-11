@@ -165,12 +165,12 @@
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" id="setfrom_times" name="setfrom_times"
-                                                        class="form-control timepicker_s"
+                                                        class="form-control timepicker-input"
                                                         value="{{ $availdatetime->from_time }}">
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" id="setto_times" name="setto_times"
-                                                        class="form-control timepicker_s"
+                                                        class="form-control timepicker-input"
                                                         value="{{ $availdatetime->to_time }}">
                                                 </div>
                                                 <div class="col">
@@ -204,11 +204,11 @@
                                             </div>
                                             <div class="col">
                                                 <input type="text" id="setfrom_times" name="setfrom_times"
-                                                    class="form-control timepicker_s" value="">
+                                                    class="form-control timepicker-input" value="">
                                             </div>
                                             <div class="col">
                                                 <input type="text" id="setto_times" name="setto_times"
-                                                    class="form-control timepicker_s" value="">
+                                                    class="form-control timepicker-input" value="">
                                             </div>
                                             <div class="col">
                                                 <span data-repeater-delete="" class="btn btn-danger btn-sm">
@@ -397,7 +397,8 @@
     $(document).ready(function() {
 
         function initializeTimepicker() {
-            $('.timepicker_s').timepicker({
+            // Select all elements with the class '.timepicker-input' and initialize timepicker
+            $('.timepicker-input').timepicker({
                 showMeridian: true,
                 defaultTime: '00:00 AM',
                 minuteStep: 1,
@@ -405,25 +406,32 @@
                 showInputs: false,
                 format: 'hh:ii AA'
             });
-            //$('.timepickers').timepicker('setTime', '06:30 PM');
         }
 
+        // Initialize timepicker for the initial row
         initializeTimepicker();
 
-        $(document).on("click", "span[data-repeater-create]", function() {
-            var repeaterList = $(this).closest(".repeater-default-times").find(
-                "[data-repeater-list='availabletime_datas']");
-            var rowCount = repeaterList.children("[data-repeater-item]").length;
-            //alert(rowCount)
-            // if (rowCount < 14) {
-            var clonedRow = repeaterList.find("[data-repeater-item]:last").clone();
-            initializeTimepicker(clonedRow);
-            clonedRow.find(".timepicker_s").data('timepicker-enabled', true);
-            clonedRow.find(".timepicker_s").timepicker('setTime', '00:00 AM');
-            repeaterList.append(clonedRow);
-            // } else {
-            // alert("You cannot add more than 7 days.");
-            //}
+        $('.repeater-default-times').repeater({
+            show: function() {
+                $(this).find('.day-select').val('Sunday');
+                $(this).slideDown();
+                updateFieldIds($(this));
+
+                // Initialize timepicker for the new row
+                $(this).find('.timepicker-input').timepicker({
+                    showMeridian: true,
+                    defaultTime: '00:00 AM',
+                    minuteStep: 1,
+                    disableFocus: true,
+                    showInputs: false,
+                    format: 'hh:ii AA'
+                });
+            },
+            hide: function(deleteElement) {
+                if (confirm('Are you sure you want to delete this day time?')) {
+                    $(this).slideUp(deleteElement);
+                }
+            },
         });
 
 
@@ -477,20 +485,6 @@
         },
     });
 
-
-    $('.repeater-default-times').repeater({
-
-        show: function() {
-            $(this).find('.day-select').val('');
-            $(this).slideDown();
-            updateFieldIds($(this));
-        },
-        hide: function(deleteElement) {
-            if (confirm('Are you sure you want to delete this day time?')) {
-                $(this).slideUp(deleteElement);
-            }
-        },
-    });
 
     $('.repeater-default-questions').repeater({
 
