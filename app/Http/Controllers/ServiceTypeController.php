@@ -16,7 +16,10 @@ class ServiceTypeController extends Controller
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        $servicetype = DB::table('service_types')->get();
+        $servicetype = DB::table('service_types as srt')
+        ->join('business_type as bt', 'srt.business_type_id', '=', 'bt.id')
+        ->select('srt.*', 'bt.business_name')
+        ->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         return view('admin.service_type.list', compact('servicetype','userdetails','loggeduser','structuredMenu'));
     }
@@ -28,7 +31,10 @@ class ServiceTypeController extends Controller
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.service_type.add',compact('loggeduser','userdetails','structuredMenu'));
+        $businesstype = DB::table('business_type as bt')
+        ->where('bt.status','Y')
+        ->get();
+        return view('admin.service_type.add',compact('loggeduser','userdetails','structuredMenu','businesstype'));
     }
 
     public function store_service_type(Request $request)
@@ -39,6 +45,7 @@ class ServiceTypeController extends Controller
 
         $servicetype = new ServiceType;
         $servicetype->service_name = $request->service_name;
+        $servicetype->business_type_id = $request->business_name;
         $servicetype->save();
 
         return redirect()->route('list.servicetype')->with('success', 'Service Type added successfully.');
@@ -51,13 +58,16 @@ class ServiceTypeController extends Controller
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
+        $businesstype = DB::table('business_type as bt')
+        ->where('bt.status','Y')
+        ->get();
         $servicetype = ServiceType::find($id);
 
         if (!$servicetype) {
             return redirect()->route('list.servicetype')->with('error', 'Service Type not found.');
         }
 
-        return view('admin.service_type.edit', compact('servicetype','loggeduser','userdetails','structuredMenu'));
+        return view('admin.service_type.edit', compact('servicetype','loggeduser','userdetails','structuredMenu','businesstype'));
     }
 
     public function update_service_type(Request $request, $id)

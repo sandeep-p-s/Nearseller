@@ -11,7 +11,8 @@
     <link rel='stylesheet' type='text/css' media='screen' href='{{ asset('css/bootstrap.css') }}'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;700;800;900&display=swap"
@@ -275,11 +276,12 @@
                                         <label for="s_email" class="error"></label>
                                         <div id="semil-message" class="text-center" style="display: none;"></div>
                                     </div>
-                                    <div class="form-outline mb-3">
+                                    <div class="form-outline mb-3" style="height:64px;">
                                         <input type="text" id="s_refralid" name="s_refralid"
                                             class="form-control form-control-lg" maxlength="50"
                                             placeholder="Referral ID" tabindex="5"
                                             onchange="checkrefrelno(this.value,'1')" />
+                                        {{-- <label for="s_refralid" class="error"></label> --}}
                                         <div id="s_refralid-message" class="text-center" style="display: none;">
                                         </div>
                                     </div>
@@ -1062,7 +1064,7 @@
                     $.get("/executivename/" + busnescate, function(data) {
                         $('#s_shopexectename').empty().append(
                             '<option value="">Select ' + subshopexe + ' Executive Name</option>'
-                            );
+                        );
                         $.each(data, function(index, executive) {
                             $('#s_shopexectename').append('<option value="' + executive.id +
                                 '">' + executive.executive_name + '</option>');

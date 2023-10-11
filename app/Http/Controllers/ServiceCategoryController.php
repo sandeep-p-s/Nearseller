@@ -16,7 +16,10 @@ class ServiceCategoryController extends Controller
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        $servicecategory = DB::table('service_categories')->get();
+        $servicecategory = DB::table('service_categories as sc')
+        ->join('business_type as bt', 'sc.business_type_id', '=', 'bt.id')
+        ->select('sc.*', 'bt.business_name')
+        ->get();
         $total_servicecategories = DB::table('service_categories')->count();
         $inactive_servicecategories = DB::table('service_categories as sc')->where('sc.status','N')->count();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
@@ -76,7 +79,7 @@ class ServiceCategoryController extends Controller
         }
 
         $request->validate([
-            'service_category_name' => 'required|string|min:5|max:255',
+            'service_category_name' => 'required|string|max:255',
         ]);
 
         $servicecategory->service_category_name = $request->service_category_name;
@@ -111,7 +114,10 @@ class ServiceCategoryController extends Controller
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        $servicesubcategory = DB::table('service_sub_categories')->get();
+        $servicesubcategory = DB::table('service_sub_categories as ssc')
+        ->join('service_categories as sc', 'ssc.service_category_id', '=', 'sc.id')
+        ->select('ssc.*', 'sc.service_category_name')
+        ->get();
         $total_servicesubcategories = DB::table('service_sub_categories')->count();
         $inactive_servicesubcategories = DB::table('service_sub_categories as ssc')->where('ssc.status','N')->count();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
