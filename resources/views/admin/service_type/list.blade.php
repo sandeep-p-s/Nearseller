@@ -53,6 +53,7 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Service Type</th>
+                                        <th>Business Type</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -62,6 +63,11 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $srt->service_name }}</td>
+                                            <td>
+                                                <span class="badge p-2 {{ $srt->business_name === 'Sales' ? 'badge-success' : 'badge-danger' }}">
+                                                    {{ $srt->business_name }}
+                                                </span>
+                                            </td>
                                             <td>
                                                 <span class="badge p-2  {{ $srt->status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
                                                     {{ $srt->status === 'Y' ? 'Active' : 'Inactive' }}

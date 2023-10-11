@@ -59,6 +59,7 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Service Category</th>
+                                        <th>Business Type</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -67,6 +68,11 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $sc->service_category_name }}</td>
+                                            <td>
+                                                <span class="badge p-2 {{ $sc->business_name === 'Sales' ? 'badge-success' : 'badge-danger' }}">
+                                                    {{ $sc->business_name }}
+                                                </span>
+                                            </td>
                                             <td>
                                                 <div class="btn-group mb-2 mb-md-0">
                                                     <button type="button" class="btn view_btn dropdown-toggle"

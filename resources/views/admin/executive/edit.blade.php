@@ -25,7 +25,7 @@
                             <form method="POST" action="{{ route('update.executive', $executive->id) }}">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Executive Name</label>
+                                    <label for="exampleFormControlInput1">Executive Name <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control mb-3" id="executive_name"
                                         name="executive_name" placeholder="Enter executive name"
                                         value="{{ $executive->executive_name }}">
@@ -33,7 +33,17 @@
                                         <div class="text-danger mb15">{{ $message }}</div>
                                     @enderror
                                     <div class="form-group">
-                                        <label for="exampleFormControlSelect1">Status</label>
+                                        <label for="exampleFormControlSelect1">Executive Type <span class="text-danger">*</span></label>
+                                        <select class="form-control" id="exampleFormControlSelect1" name="executive_type">
+                                            <option value="1" @if($executive->executive_type === 1) selected @endif>Sales</option>
+                                            <option value="2" @if($executive->executive_type === 2) selected @endif>Service</option>
+                                        </select>
+                                    </div>
+                                    @error('executive_type')
+                                    <div class="text-danger mb15">{{ $message }}</div>
+                                @enderror
+                                    <div class="form-group">
+                                        <label for="exampleFormControlSelect1">Status <span class="text-danger">*</span></label>
                                         <select class="form-control" id="exampleFormControlSelect1" name="status">
                                             <option value="Active" @if($executive->status === 'Y') selected @endif>Active</option>
                                             <option value="Inactive" @if($executive->status === 'N') selected @endif>Inactive</option>

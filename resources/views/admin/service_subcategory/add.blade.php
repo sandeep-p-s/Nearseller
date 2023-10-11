@@ -27,7 +27,7 @@
                             <form method="POST" action="{{ route('store.servicesubcategory') }}">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="exampleFormControlSelect1">Service Category</label>
+                                    <label for="exampleFormControlSelect1">Service Category<span class="text-danger">*</span></label>
                                     <select class="form-control" id="exampleFormControlSelect1" name="service_category_name">
                                         <option value="0">Select Service Category</option>
                                         @foreach ($servicecategory as $sc)
@@ -36,7 +36,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="addShopType">Service Sub Category Name</label>
+                                    <label for="addShopType">Service Sub Category Name<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control mb-3" id="shop_id"
                                         placeholder="Enter service sub category name" name="service_subcategory_name">
                                         @error('service_subcategory_name')

@@ -28,14 +28,14 @@
                             <form action="{{ route('store.executive') }}" method="POST">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Executive Name</label>
+                                    <label for="exampleFormControlInput1">Executive Name <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control mb-3" id="executive_name"
                                         placeholder="Enter executive name" name="executive_name">
                                     @error('executive_name')
                                         <div class="text-danger mb15">{{ $message }}</div>
                                     @enderror
                                     <div class="form-group">
-                                        <label for="exampleFormControlSelect1">Executive Type</label>
+                                        <label for="exampleFormControlSelect1">Executive Type <span class="text-danger">*</span></label>
                                         <select class="form-control" id="exampleFormControlSelect1" name="executive_type">
                                             <option value="" selected disabled>Select</option>
                                             <option value="1">Sales</option>
