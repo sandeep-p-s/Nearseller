@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Validator;
 use App\Models\Offer;
+use App\Models\LogDetails;
 use App\Models\MenuMaster;
 use App\Models\UserAccount;
 use Illuminate\Http\Request;
@@ -38,7 +39,13 @@ class ShopOfferController extends Controller
 
     public function store_shop_offer(Request $request)
     {
-
+        $roleid = session('roleid');
+        $userId = session('user_id');
+        if ($userId == '') {
+            return redirect()->route('logout');
+        }
+        $loggedUserIp = $_SERVER['REMOTE_ADDR'];
+        $time = date('Y-m-d H:i:s');
         $validator = Validator::make(
             $request->all(),
             [
@@ -76,6 +83,14 @@ class ShopOfferController extends Controller
             }
         }
         $shop_offer->save();
+        $shop_offerid = $shop_offer->id;
+        $msg = 'New Service Successfully added. Service ID is: ' . $shop_offerid;
+            $LogDetails = new LogDetails();
+            $LogDetails->user_id = $userId;
+            $LogDetails->ip_address = $loggedUserIp;
+            $LogDetails->log_time = $time;
+            $LogDetails->status = $msg;
+            $LogDetails->save();
         return redirect()->route('list.shop_offer')->with('success', 'Shop Offer saved successfully');
     }
 
@@ -101,6 +116,12 @@ class ShopOfferController extends Controller
 
     public function update_shop_offer(Request $request, $id)
     {
+        $userId = session('user_id');
+        if ($userId == '') {
+            return redirect()->route('logout');
+        }
+        $loggedUserIp = $_SERVER['REMOTE_ADDR'];
+        $time = date('Y-m-d H:i:s');
         $shopoffer = Offer::find($id);
         if (!$shopoffer) {
             return redirect()->route('list.shopoffer')->with('error', 'Shop offer not found.');
@@ -146,12 +167,24 @@ class ShopOfferController extends Controller
             }
         }
         $shopoffer->save();
-
+        $msg = 'Shop offers successfully Updated. Updated service ID is :  ' . $id;
+        $LogDetails = new LogDetails();
+        $LogDetails->user_id = $userId;
+        $LogDetails->ip_address = $loggedUserIp;
+        $LogDetails->log_time = $time;
+        $LogDetails->status = $msg;
+        $LogDetails->save();
         return redirect()->route('list.shop_offer')->with('success', 'Shop offer updated successfully.');
     }
 
     public function delete_shop_offer($id)
     {
+        $userId = session('user_id');
+        if ($userId == '') {
+            return redirect()->route('logout');
+        }
+        $loggedUserIp = $_SERVER['REMOTE_ADDR'];
+        $time = date('Y-m-d H:i:s');
         $shopoffer = Offer::find($id);
 
         if (!$shopoffer) {
@@ -166,7 +199,13 @@ class ShopOfferController extends Controller
         }
 
         $shopoffer->delete();
-
+        $msg = 'Shop Offer deleted offer id : ' . $id;
+        $LogDetails = new LogDetails();
+        $LogDetails->user_id = $userId;
+        $LogDetails->ip_address = $loggedUserIp;
+        $LogDetails->log_time = $time;
+        $LogDetails->status = $msg;
+        $LogDetails->save();
         return redirect()->route('list.shop_offer')->with('success', 'Shop offer deleted successfully.');
     }
 }

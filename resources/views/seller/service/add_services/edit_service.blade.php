@@ -56,26 +56,27 @@
                                         @enderror --}}
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="exampleFormControlSelect1">Status</label>
+                                            <select class="form-control" id="exampleFormControlSelect1"
+                                                name="service_status">
+                                                <option value="">Select</option>
+                                                <option value="Active"
+                                                    {{ $service->service_status === 'Y' ? 'selected' : '' }}>Active</option>
+                                                <option value="Inactive"
+                                                    {{ $service->service_status === 'N' ? 'selected' : '' }}>Inactive
+                                                </option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-group mb-3 row">
                                     <label for="selectAttributes" class="col-md-3 my-1 control-label">Do you want to select
                                         attributes?</label>
                                     <div class="col-md-3">
-                                        {{-- <div class="form-check-inline my-1">
-                                            <div class="custom-control custom-radio">
-                                                <input type="radio" id="yesCheck" name="customRadio"
-                                                    class="custom-control-input" value="Y"
-                                                    {{ $service->is_attribute === 'Y' ? 'checked' : '' }}>
-                                                <label class="custom-control-label" for="yesCheck">Yes</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-check-inline my-1">
-                                            <div class="custom-control custom-radio">
-                                                <input type="radio" id="noCheck" name="customRadio"
-                                                    class="custom-control-input" value="N"
-                                                    {{ $service->is_attribute === 'N' ? 'checked' : '' }}>
-                                                <label class="custom-control-label" for="noCheck">No</label>
-                                            </div>
-                                        </div> --}}
                                         <div class="form-check-inline my-1">
                                             <div class="custom-control custom-radio">
                                                 <input type="radio" id="yesCheck" name="customRadio"
@@ -125,8 +126,9 @@
                                                             <div class="col">
                                                                 <label for="attribute2" class="control-label">Attribute
                                                                     2</label>
-                                                                <input type="text" class="form-control" name="attribute2"
-                                                                    id="attribute2" value="{{ $attribute->attribute_2 }}">
+                                                                <input type="text" class="form-control"
+                                                                    name="attribute2" id="attribute2"
+                                                                    value="{{ $attribute->attribute_2 }}">
                                                             </div>
                                                             <div class="col">
                                                                 <label for="attribute3" class="control-label">Attribute

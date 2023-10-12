@@ -90,12 +90,6 @@ class HomeController extends Controller
         return response()->json($bank_dets);
     }
 
-
-
-
-
-
-
     public function RegisterPage(Request $request)
     {
 
