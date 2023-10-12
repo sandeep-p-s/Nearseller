@@ -7,13 +7,16 @@
                         <h5>{{ $category->category_name }}</h5>
                         <hr>
                         <a href="#" onclick="showproductcategory1({{ $category->id }})">
-                            <img src="{{ asset('storage/' . config('imageupload.categorydir') . '/' . config('imageupload.category.image') . $category->category_image) }}"
+                            {{-- <img src="{{ asset($category->category_image) }}"
+                                alt="{{ $category->category_name }}" class="img-fluid new_image_response"> --}}
+
+                                <img src="{{ asset($category->category_image) }}"
                                 alt="{{ $category->category_name }}" class="img-fluid new_image_response">
 
                         </a>
                     </div>
                     <div class="col text-center">
-                        <a href="#" class="btn btn-info" onclick="productviewdet({{ $category->id }})">View
+                        <a href="#" class="btn btn-danger" onclick="productviewdet({{ $category->id }})">View
                             Products</a>
                     </div>
                 </div>
@@ -37,14 +40,14 @@
                         @endif
                         <hr>
                         <a href="#" onclick="showproductcategory2({{ $category->id }})">
-                            <img src="{{ asset('storage/' . config('imageupload.categorydir') . '/' . config('imageupload.category.image') . $category->category_image) }}"
+                            <img src="{{ asset($category->category_image) }}"
                                 alt="{{ $category->category_name }}" class="img-fluid new_image_response">
                         </a>
 
 
                     </div>
-                    <div class="col text-right">
-                        <a href="#" class="btn btn-info" onclick="productviewdet({{ $category->id }})">View
+                    <div class="col text-center">
+                        <a href="#" class="btn btn-danger" onclick="productviewdet({{ $category->id }})">View
                             Product</a>
                     </div>
                 </div>
@@ -68,12 +71,12 @@
                         @endif
                         <hr>
                         <a href="#" onclick="showproductcategory3({{ $category->id }})">
-                            <img src="{{ asset('storage/' . config('imageupload.categorydir') . '/' . config('imageupload.category.image') . $category->category_image) }}"
+                            <img src="{{ asset($category->category_image) }}"
                                 alt="{{ $category->category_name }}" class="img-fluid new_image_response">
                         </a>
                     </div>
-                    <div class="col text-right">
-                        <a href="#" class="btn btn-info" onclick="productviewdet({{ $category->id }})">View
+                    <div class="col text-center">
+                        <a href="#" class="btn btn-danger" onclick="productviewdet({{ $category->id }})">View
                             Product</a>
                     </div>
                 </div>
@@ -97,12 +100,12 @@
                         @endif
                         <hr>
                         <a href="#" onclick="showproductcategory2({{ $category->id }})">
-                            <img src="{{ asset('storage/' . config('imageupload.categorydir') . '/' . config('imageupload.category.image') . $category->category_image) }}"
+                            <img src="{{ asset($category->category_image) }}"
                                 alt="{{ $category->category_name }}" class="img-fluid new_image_response">
                         </a>
                     </div>
-                    <div class="col text-right">
-                        <a href="#" class="btn btn-info" onclick="productviewdet({{ $category->id }})">View
+                    <div class="col text-center">
+                        <a href="#" class="btn btn-danger" onclick="productviewdet({{ $category->id }})">View
                             Product</a>
                     </div>
                 </div>
@@ -126,12 +129,12 @@
                         @endif
                         <hr>
                         <a href="#" onclick="showproductcategory4({{ $category->id }})">
-                            <img src="{{ asset('storage/' . config('imageupload.categorydir') . '/' . config('imageupload.category.image') . $category->category_image) }}"
+                            <img src="{{ asset($category->category_image) }}"
                                 alt="{{ $category->category_name }}" class="img-fluid new_image_response">
                         </a>
                     </div>
-                    <div class="col text-right">
-                        <a href="#" class="btn btn-info" onclick="productviewdet({{ $category->id }})">View
+                    <div class="col text-center">
+                        <a href="#" class="btn btn-danger" onclick="productviewdet({{ $category->id }})">View
                             Product</a>
                     </div>
                 </div>
@@ -155,12 +158,12 @@
                         @endif
                         <hr>
                         <a href="#" onclick="showproductcategory5({{ $category->id }})">
-                            <img src="{{ asset('storage/' . config('imageupload.categorydir') . '/' . config('imageupload.category.image') . $category->category_image) }}"
+                            <img src="{{ asset($category->category_image) }}"
                                 alt="{{ $category->category_name }}" class="img-fluid new_image_response">
                         </a>
                     </div>
-                    <div class="col text-right">
-                        <a href="#" class="btn btn-info" onclick="productviewdet({{ $category->id }})">View
+                    <div class="col text-center">
+                        <a href="#" class="btn btn-danger" onclick="productviewdet({{ $category->id }})">View
                             Product</a>
                     </div>
                 </div>
@@ -184,12 +187,12 @@
                         @endif
                         <hr>
                         <a href="#" onclick="showproductcategory6({{ $category->id }})">
-                            <img src="{{ asset('storage/' . config('imageupload.categorydir') . '/' . config('imageupload.category.image') . $category->category_image) }}"
+                            <img src="{{ asset($category->category_image) }}"
                                 alt="{{ $category->category_name }}" class="img-fluid new_image_response">
                         </a>
                     </div>
-                    <div class="col text-right">
-                        <a href="#" class="btn btn-info" onclick="productviewdet({{ $category->id }})">View
+                    <div class="col text-center">
+                        <a href="#" class="btn btn-danger" onclick="productviewdet({{ $category->id }})">View
                             Product</a>
                     </div>
                 </div>
@@ -213,12 +216,12 @@
                         @endif
                         <hr>
                         <a href="#" onclick="showproductcategory7({{ $category->id }})">
-                            <img src="{{ asset('storage/' . config('imageupload.categorydir') . '/' . config('imageupload.category.image') . $category->category_image) }}"
+                            <img src="{{ asset($category->category_image) }}"
                                 alt="{{ $category->category_name }}" class="img-fluid new_image_response">
                         </a>
                     </div>
-                    <div class="col text-right">
-                        <a href="#" class="btn btn-info" onclick="productviewdet({{ $category->id }})">View
+                    <div class="col text-center">
+                        <a href="#" class="btn btn-danger" onclick="productviewdet({{ $category->id }})">View
                             Product</a>
                     </div>
                 </div>

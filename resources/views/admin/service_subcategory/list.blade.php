@@ -59,6 +59,7 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Service Sub Category</th>
+                                        <th>Service Category</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -67,6 +68,7 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $ssc->sub_category_name }}</td>
+                                            <td>{{ $ssc->service_category_name }}</td>
                                             <td>
                                                 <div class="btn-group mb-2 mb-md-0">
                                                     <button type="button" class="btn view_btn dropdown-toggle"

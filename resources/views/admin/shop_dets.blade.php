@@ -16,7 +16,8 @@
             @foreach ($sellerDetails as $index => $sellerDetail)
                 <tr>
                     <td>{{ $index + 1 }}</td>
-                    <td>{{ $typeid == 1 ? 'SHOP' : ($typeid == 2 ? 'SER' : '') }}{{ str_pad($sellerDetail->shop_reg_id, 9, '0', STR_PAD_LEFT) }}</td>
+                    <td>{{ $typeid == 1 ? 'SHOP' : ($typeid == 2 ? 'SER' : '') }}{{ str_pad($sellerDetail->shop_reg_id, 9, '0', STR_PAD_LEFT) }}
+                    </td>
                     <td>{{ $sellerDetail->shop_name }}</td>
                     <td>{{ $sellerDetail->owner_name }}</td>
                     <td>{{ $sellerDetail->shop_email }}</td>
@@ -43,6 +44,9 @@
             @endforeach
         </tbody>
     </table>
+    {{-- <div class="pagination">
+        {{ $sellerDetails->links() }}
+    </div> --}}
 @else
     <table>
         <tr>
@@ -57,7 +61,8 @@
 
 
 <!-- Modal Add New -->
-<div class="modal fade" id="addNewModal" tabindex="-1" aria-labelledby="addNewModalLabel" aria-hidden="true" style="overflow-y: scroll;">
+<div class="modal fade" id="addNewModal" tabindex="-1" aria-labelledby="addNewModalLabel" aria-hidden="true"
+    style="overflow-y: scroll;">
     <div class="modal-dialog custom-modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -79,12 +84,12 @@
                                     <label for="s_name" class="error"></label>
                                 </div>
 
-                                    <div class="form-outline mb-3"><label>Owner Name</label>
-                                        <input type="text" id="s_ownername" name="s_ownername"
-                                            class="form-control form-control-lg" maxlength="50" placeholder="Owner Name"
-                                            required tabindex="2" />
-                                        <label for="s_ownername" class="error"></label>
-                                    </div>
+                                <div class="form-outline mb-3"><label>Owner Name</label>
+                                    <input type="text" id="s_ownername" name="s_ownername"
+                                        class="form-control form-control-lg" maxlength="50" placeholder="Owner Name"
+                                        required tabindex="2" />
+                                    <label for="s_ownername" class="error"></label>
+                                </div>
 
                                 <div class="form-outline mb-3"><label>Mobile Number</label>
                                     <input type="text" id="s_mobno" name="s_mobno"
@@ -109,7 +114,7 @@
                                 <div class="form-outline mb-3"><label>Business Type</label>
                                     <select class="form-select form-control form-control-lg" id="s_busnestype"
                                         name="s_busnestype" required tabindex="6">
-                                        <option value="" >Business Type</option><br/>
+                                        <option value="">Business Type</option><br />
                                         @foreach ($business as $busnes)
                                             <option value="{{ $busnes->id }}">
                                                 {{ $busnes->business_name }}</option>
@@ -276,6 +281,23 @@
                                     </div>
                                 </div>
 
+                                <div class="form-outline mb-3"><label>{{ $shoporservice }} Logo</label>
+                                    <input type="file" id="s_logo" name="s_logo[]"
+                                        class="form-control form-control-lg" placeholder="Shop Logo" required
+                                        tabindex="19" accept="image/jpeg, image/png" />
+                                    <label for="s_logo" class="error"></label>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group" align="left">
+                                        <div id="image-preview-logo" class="row"></div>
+                                    </div>
+                                </div>
+                                <div class="form-outline mb-3"><label>{{ $shoporservice }} Background Color</label>
+                                    <input type="color" id="s_bgcolor" name="s_bgcolor" id
+                                        class="form-control" placeholder="{{ $shoporservice }} Background Color"
+                                        required tabindex="18" />
+                                    <label for="s_bgcolor" class="error"></label>
+                                </div>
 
                             </div>
                             <div class="col-md-4">
@@ -312,7 +334,7 @@
 
 
 
-                                <div class="form-outline mb-3">
+                                {{-- <div class="form-outline mb-3">
                                     <label>Open Time</label>
                                     <div class="input-group date" id="from-time-picker" data-target-input="nearest">
                                         <input type="text" class="form-control datetimepicker-input"
@@ -338,7 +360,83 @@
                                         </div>
                                         <label for="closetime" class="error"></label>
                                     </div>
+                                </div> --}}
+
+
+
+
+                                <div class="form-group">
+                                    <fieldset>
+                                        <div class="repeater-default-timem">
+                                            <div data-repeater-list="availabletime_datam">
+                                                <!-- Heading Row -->
+                                                <div class="form-group row">
+                                                    <div class="col">
+                                                        <label class="control-label"> Status </label>
+                                                    </div>
+                                                    <div class="col">
+                                                        <label class="control-label"> Day </label>
+                                                    </div>
+                                                    <div class="col">
+                                                        <label class="control-label"> From Time </label>
+                                                    </div>
+                                                    <div class="col">
+                                                        <label class="control-label"> To Time </label>
+                                                    </div>
+                                                </div>
+                                                <!-- Dynamic Rows -->
+                                                <div data-repeater-item="">
+                                                    <div class="form-group row d-flex align-items-end">
+                                                        <div class="col">
+                                                            <input class="form-control" type="checkbox"
+                                                                id="settimestatusm" name="settimestatusm"
+                                                                value="1" style="width: 20%;">
+                                                        </div>
+                                                        <div class="col">
+                                                            <select id="setdaysm" name="setdaysm"
+                                                                class="day-select form-control">
+                                                                <option value="Sunday">Sunday</option>
+                                                                <option value="Monday">Monday</option>
+                                                                <option value="Tuesday">Tuesday</option>
+                                                                <option value="Wednesday">Wednesday</option>
+                                                                <option value="Thursday">Thursday</option>
+                                                                <option value="Friday">Friday</option>
+                                                                <option value="Saturday">Saturday</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col">
+                                                            <input type="text" id="setfrom_timem"
+                                                                name="setfrom_timem"
+                                                                class="form-control timepicker-input">
+                                                        </div>
+                                                        <div class="col">
+                                                            <input type="text" id="setto_timem" name="setto_timem"
+                                                                class="form-control timepicker-input">
+                                                        </div>
+                                                        <div class="col">
+                                                            <span data-repeater-delete=""
+                                                                class="btn btn-danger btn-sm">
+                                                                <span class="far fa-trash-alt mr-1"></span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-0 row">
+                                                <div class="col-sm-12 text-right">
+                                                    <span data-repeater-create="" class="btn btn-secondary btn-sm">
+                                                        <span class="fas fa-plus"></span> Add New Time
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
                                 </div>
+
+
+
+
+
 
 
                                 <div class="form-outline mb-3"><label> Registration Date</label>
@@ -477,6 +575,58 @@
 
 
 <script>
+    $(document).ready(function() {
+        function initializeTimepicker() {
+            // Select all elements with the class '.timepicker-input' and initialize timepicker
+            $('.timepicker-input').timepicker({
+                showMeridian: true,
+                defaultTime: '00:00 AM',
+                minuteStep: 1,
+                disableFocus: true,
+                showInputs: false,
+                format: 'hh:ii AA'
+            });
+        }
+
+        // Initialize timepicker for the initial row
+        initializeTimepicker();
+
+        $('.repeater-default-timem').repeater({
+            show: function() {
+                $(this).find('.day-select').val('Sunday');
+                $(this).slideDown();
+                updateFieldIds($(this));
+
+                // Initialize timepicker for the new row
+                $(this).find('.timepicker-input').timepicker({
+                    showMeridian: true,
+                    defaultTime: '00:00 AM',
+                    minuteStep: 1,
+                    disableFocus: true,
+                    showInputs: false,
+                    format: 'hh:ii AA'
+                });
+            },
+            hide: function(deleteElement) {
+                if (confirm('Are you sure you want to delete this day time?')) {
+                    $(this).slideUp(deleteElement);
+                }
+            },
+        });
+
+        function updateFieldIds(row) {
+            var rowIndex = row.index() + 1;
+            row.find('[id]').each(function() {
+                var currentId = $(this).attr('id');
+                var newId = currentId + rowIndex;
+                $(this).attr('id', newId);
+            });
+        }
+    });
+
+
+
+
     $(function() {
         //$('#datetimepicker').datetimepicker();
         var datetimeFormat = 'ddd hh:mm A';
@@ -671,6 +821,66 @@
         $(this).closest('.img-div').remove();
     });
 
+    var fileArr = [];
+    var totalFiles = 0;
+
+        $("#s_logo").change(function(event) {
+        var totalFileCount = $(this)[0].files.length;
+        if (totalFiles + totalFileCount > 1) {
+            alert('Maximum 1 images allowed');
+            $(this).val('');
+            $('#image-preview-logo').html('');
+            return;
+        }
+
+        for (var i = 0; i < totalFileCount; i++) {
+            var file = $(this)[0].files[i];
+
+            if (file.size > 204800) {
+                alert('File size exceeds the limit of 200Kb');
+                $(this).val('');
+                $('#image-preview-logo').html('');
+                return;
+            }
+
+            fileArr.push(file);
+            totalFiles++;
+
+            var reader = new FileReader();
+            reader.onload = (function(file) {
+                return function(event) {
+                    var imgDiv = $('<div>').addClass('img-divs col-md-3 img-container');
+                    var img = $('<img>').attr('src', event.target.result).addClass(
+                        'img-responsive image new_thumpnail').attr('width', '100');
+                    var removeBtn = $('<button>').addClass('btn btn-danger remove-btnss').attr(
+                        'title', 'Remove Image').append('Remove').attr('role', file.name);
+
+                    imgDiv.append(img);
+                    imgDiv.append($('<div>').addClass('middle').append(removeBtn));
+
+                    $('#image-preview-logo').append(imgDiv);
+                };
+            })(file);
+
+            reader.readAsDataURL(file);
+        }
+    });
+
+    $(document).on('click', '.remove-btnss', function() {
+        var fileName = $(this).attr('role');
+
+        for (var i = 0; i < fileArr.length; i++) {
+            if (fileArr[i].name === fileName) {
+                fileArr.splice(i, 1);
+                totalFiles--;
+                break;
+            }
+        }
+
+        document.getElementById('s_logo').files = new FileListItem(fileArr);
+        $(this).closest('.img-divs').remove();
+    });
+
 
 
 
@@ -785,12 +995,16 @@
                 required: true,
                 extension: 'jpg|jpeg|png',
             },
-            opentime: {
+            s_logo: {
                 required: true,
+                extension: 'jpg|jpeg|png',
             },
-            closetime: {
-                required: true,
-            },
+            // opentime: {
+            //     required: true,
+            // },
+            // closetime: {
+            //     required: true,
+            // },
             s_registerdate: {
                 required: true,
             },
@@ -825,6 +1039,10 @@
             s_photo: {
                 extension: "Only JPG and PNG files are allowed.",
             },
+            s_logo: {
+                extension: "Only JPG and PNG files are allowed.",
+            },
+
             s_lisence: {
                 required: "Please enter the license number.",
                 maxlength: "License number must not exceed 25 characters."
@@ -871,12 +1089,12 @@
             s_termcondtn: {
                 required: "Please accept the terms and conditions."
             },
-            opentime: {
-                required: "Please select open time."
-            },
-            closetime: {
-                required: "Please select close time."
-            },
+            // opentime: {
+            //     required: "Please select open time."
+            // },
+            // closetime: {
+            //     required: "Please select close time."
+            // },
             s_registerdate: {
                 required: "Please select the registration date."
             }
@@ -899,6 +1117,28 @@
     $.validator.addMethod('maxSize', function(value, element, param) {
         return this.optional(element) || (element.files[0].size <= param);
     }, 'File size must be less than {0} KB');
+
+
+
+    $(document).ready(function() {
+        $("#SellerRegForm").submit(function(event) {
+            let valid = true;
+            $("div[data-repeater-item]").each(function() {
+                const $row = $(this);
+                const setDay = $row.find("[name='setdaysm']").val() !== '';
+                const setFromTime = $row.find("[name='setfrom_timem']").val() !== '';
+                const setToTime = $row.find("[name='setto_timem']").val() !== '';
+                if (!setDay || !setFromTime || !setToTime) {
+                    valid = false;
+                    return false;
+                }
+            });
+            if (!valid) {
+                alert("Please fill out all required fields in each row.");
+                event.preventDefault();
+            }
+        });
+    });
 
 
 

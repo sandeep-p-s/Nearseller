@@ -32,7 +32,16 @@
                             <form method="POST" action="{{ route('store.service_type') }}">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="addShopType">Add Service Type</label>
+                                    <label for="exampleFormControlSelect1">Business Type<span class="text-danger">*</span></label>
+                                    <select class="form-control" id="exampleFormControlSelect1" name="business_name">
+                                        <option value="0">Select Business Type</option>
+                                        @foreach ($businesstype as $bt)
+                                            <option value="{{ $bt->id }}" {{ old('business_name') == $bt->id ? 'selected' : '' }}>{{ $bt->business_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="addShopType">Add Service Type<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control mb-3" id="service_name"
                                         placeholder="Enter service type" name="service_name" required>
                                         @error('service_name')

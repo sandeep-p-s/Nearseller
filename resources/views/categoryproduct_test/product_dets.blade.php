@@ -5,7 +5,7 @@
                 <div class="col-md-3">
                     <div class="category-item">
                         <a href="#" onclick="showproductcategory({{ $category->categoryid }})">
-                            <img src="{{ asset('storage/' . config('imageupload.categorydir') . '/' . config('imageupload.category.image') . $category->category_image) }}"
+                            <img src="{{ asset($category->category_image) }}"
                                 alt="{{ $category->category_name }}" class="img-fluid new_image_response">
                             <h5>{{ $category->parent_id . ' ➤ ' . $category->category_id . ' ➤ ' . $category->category_name }}
                             </h5>

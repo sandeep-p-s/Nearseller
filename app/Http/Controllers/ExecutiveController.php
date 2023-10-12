@@ -17,9 +17,13 @@ class ExecutiveController extends Controller
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        $executive = DB::table('executives')->get();
+        $executive = DB::table('executives')
+        ->orderBy('executive_type', 'asc')
+        ->get();
+        $total_salesexecutives = DB::table('executives as ex')->where('ex.executive_type','1')->count();
+        $total_serviceexecutives = DB::table('executives as ex')->where('ex.executive_type','2')->count();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.executive.list', compact('executive', 'loggeduser', 'userdetails','structuredMenu'));
+        return view('admin.executive.list', compact('executive', 'loggeduser', 'userdetails','structuredMenu','total_salesexecutives','total_serviceexecutives'));
     }
     public function add_executive()
     {
@@ -82,6 +86,7 @@ class ExecutiveController extends Controller
         ]);
 
         $executive->executive_name = $request->executive_name;
+        $executive->executive_type = $request->executive_type;
         if ($request->status === 'Active')
         {
             $executive->status = 'Y';

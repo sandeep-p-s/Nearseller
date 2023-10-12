@@ -290,35 +290,97 @@
                             @for ($m = 0; $m < $totimg; $m++)
                                 <div class="col-md-3">
                                     <a href="#" data-toggle="modal" data-target="#myModal{{ $m }}">
-                                    <img id="img-bufferm" class="img-responsive image new_thumpnail" src="{{ asset($qrgallery[$m]) }}" width="450"
-                                        height="250">
-                                    @php
-                                        $valen = $qrgallery[$m] . '#' . $sellerDetails->id;
-                                        $deleencde = base64_encode($valen);
-                                    @endphp
+                                        <img id="img-bufferm" class="img-responsive image new_thumpnail"
+                                            src="{{ asset($qrgallery[$m]) }}" width="450" height="250">
+                                        @php
+                                            $valen = $qrgallery[$m] . '#' . $sellerDetails->id;
+                                            $deleencde = base64_encode($valen);
+                                        @endphp
                                     </a>
                                     <br>
-                                    @if (!($sel_approved == 'Y' && ($roleid == 3 || $roleid == 2)))
+                                    {{-- @if (!($sel_approved == 'Y' && ($roleid == 3 || $roleid == 2))) --}}
+                                    @if (!($sel_approved == 'Y'))
                                         <button id="remv" type="button" name="remv" class="btn btn-danger"
                                             onClick="DeltImagGalry('{{ $deleencde }}');">Remove</button>
                                     @endif
                                 </div>
 
-                                <div class="modal fade" id="myModal{{ $m }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 80%;">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <img src="{{ asset($qrgallery[$m]) }}" class="img-fluid">
-                                                    </div>
-                                                </div>
+                                <div class="modal fade" id="myModal{{ $m }}" tabindex="-1"
+                                    role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+                                    style="width: 80%;">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-hidden="true">&times;</button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <img src="{{ asset($qrgallery[$m]) }}" class="img-fluid">
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
                             @endfor
                         </div>
                     </div>
+                </div>
+
+
+
+                <div class="form-outline mb-3"><label>{{ $shoporservice }} Logo</label>
+                    <input type="file" id="es_logo" name="es_logo[]" class="form-control form-control-lg"
+                        placeholder="Shop Logo" tabindex="19" accept="image/jpeg, image/png" />
+                    <label for="es_logo" class="error"></label>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group" align="left">
+                        <div id="eimage-preview-logo" class="row"></div>
+                    </div>
+                </div>
+
+
+
+                <div class="col-md-12" style="{{ $sellerDetails->shoplogo ? 'display: block;' : 'display: none;' }}">
+                    <div class="form-group" align="center">
+                        <div class="row">@php
+                            $k = 1;
+                        @endphp
+
+                            <div class="col-md-3">
+                                <a href="#" data-toggle="modal" data-target="#myModalmm{{ $k }}">
+                                    <img id="img-bufferms" class="img-responsive image new_thumpnail"
+                                        src="{{ asset($sellerDetails->shoplogo) }}" width="450" height="250">
+                                    @php
+
+                                        $valenl = $sellerDetails->shoplogo . '#' . $sellerDetails->id;
+                                        $deleencdel = base64_encode($valenl);
+                                    @endphp
+                                </a>
+                            </div>
+
+                            <div class="modal fade" id="myModalmm{{ $k }}" tabindex="-1" role="dialog"
+                                aria-labelledby="myModalLabelmm" aria-hidden="true" style="width: 80%;">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-hidden="true">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <img src="{{ asset($sellerDetails->shoplogo) }}" class="img-fluid">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="form-outline mb-3"><label>{{ $shoporservice }} Background Color</label>
+                    <input type="color" id="es_bgcolor" name="es_bgcolor" id class="form-control"
+                        placeholder="{{ $shoporservice }} Background Color" required tabindex="18"
+                        value="{{ $sellerDetails->colorpicks }}" />
+                    <label for="es_bgcolor" class="error"></label>
                 </div>
 
 
@@ -354,7 +416,7 @@
                 </div>
 
 
-                <div class="form-outline mb-3"><label> Open Time</label>
+                {{-- <div class="form-outline mb-3"><label> Open Time</label>
                     <div class="input-group date" id="from-time-picker" data-target-input="nearest">
                         <input type="text" class="form-control datetimepicker-input"
                             data-target="#from-time-picker" id="eopentime" name="eopentime"
@@ -370,7 +432,144 @@
                             data-format="ddd hh:mm A" />
                         <label for="eclosetime" class="error"></label>
                     </div>
+                </div> --}}
+
+
+
+                <div class="form-group">
+                    <fieldset>
+                        <div class="repeater-default-times">
+                            <div data-repeater-list="availabletime_datas">
+                                <!-- Heading Row -->
+                                <div class="form-group row">
+                                    <div class="col">
+                                        <label class="control-label"> Set Available time </label>
+                                    </div>
+                                    <div class="col">
+                                        <label class="control-label"> Day </label>
+                                    </div>
+                                    <div class="col">
+                                        <label class="control-label"> Open Time </label>
+                                    </div>
+                                    <div class="col">
+                                        <label class="control-label"> Close Time </label>
+                                    </div>
+                                </div>
+                                <!-- Dynamic Rows -->
+                                @php
+                                    $countavialabletime = count($shopavailable);
+                                @endphp
+                                @if ($countavialabletime > 0)
+
+                                    @foreach ($shopavailable as $availdatetime)
+                                        <div data-repeater-item="">
+                                            <div class="form-group row d-flex align-items-end">
+                                                <div class="col">
+                                                    <input class="form-control" type="checkbox" id="settimestatuss"
+                                                        name="settimestatuss" value="1" style="width: 20%;"
+                                                        {{ $availdatetime->is_set_time == 1 ? 'checked' : '' }}>
+                                                </div>
+                                                <div class="col">
+                                                    <select id="setdayss" name="setdayss"
+                                                        class="day-select form-control">
+                                                        <option value="0">Day</option>
+                                                        <option value="Sunday"
+                                                            @if ($availdatetime->open_close_days == 'Sunday') selected @endif>Sunday
+                                                        </option>
+                                                        <option value="Monday"
+                                                            @if ($availdatetime->open_close_days == 'Monday') selected @endif>Monday
+                                                        </option>
+                                                        <option value="Tuesday"
+                                                            @if ($availdatetime->open_close_days == 'Tuesday') selected @endif>Tuesday
+                                                        </option>
+                                                        <option value="Wednesday"
+                                                            @if ($availdatetime->open_close_days == 'Wednesday') selected @endif>
+                                                            Wednesday
+                                                        </option>
+                                                        <option value="Thursday"
+                                                            @if ($availdatetime->open_close_days == 'Thursday') selected @endif>Thursday
+                                                        </option>
+                                                        <option value="Friday"
+                                                            @if ($availdatetime->open_close_days == 'Friday') selected @endif>Friday
+                                                        </option>
+                                                        <option value="Saturday"
+                                                            @if ($availdatetime->open_close_days == 'Saturday') selected @endif>Saturday
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="col">
+                                                    <input type="text" id="setfrom_times" name="setfrom_times"
+                                                        class="form-control timepicker-input"
+                                                        value="{{ $availdatetime->from_time }}">
+                                                </div>
+                                                <div class="col">
+                                                    <input type="text" id="setto_times" name="setto_times"
+                                                        class="form-control timepicker-input"
+                                                        value="{{ $availdatetime->to_time }}">
+                                                </div>
+                                                <div class="col">
+                                                    <span data-repeater-delete="" class="btn btn-danger btn-sm">
+                                                        <span class="far fa-trash-alt mr-1"></span> Delete
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
+                                @if ($countavialabletime == 0)
+                                    <div data-repeater-item="" id="availabletime_no" style="display: none;">
+                                        <div class="form-group row d-flex align-items-end">
+                                            <div class="col">
+                                                <input class="form-control" type="checkbox" id="settimestatuss"
+                                                    name="settimestatuss" value="1" style="width: 20%;">
+                                            </div>
+                                            <div class="col">
+                                                <select id="setdayss" name="setdayss"
+                                                    class="day-select form-control">
+                                                    <option value="0">Day</option>
+                                                    <option value="Sunday">Sunday</option>
+                                                    <option value="Monday">Monday</option>
+                                                    <option value="Tuesday">Tuesday</option>
+                                                    <option value="Wednesday">Wednesday</option>
+                                                    <option value="Thursday">Thursday</option>
+                                                    <option value="Friday">Friday</option>
+                                                    <option value="Saturday">Saturday</option>
+                                                </select>
+                                            </div>
+                                            <div class="col">
+                                                <input type="text" id="setfrom_times" name="setfrom_times"
+                                                    class="form-control timepicker-input" value="">
+                                            </div>
+                                            <div class="col">
+                                                <input type="text" id="setto_times" name="setto_times"
+                                                    class="form-control timepicker-input" value="">
+                                            </div>
+                                            <div class="col">
+                                                <span data-repeater-delete="" class="btn btn-danger btn-sm">
+                                                    <span class="far fa-trash-alt mr-1"></span> Delete
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="form-group mb-0 row">
+                                <div class="col-sm-12 text-right">
+                                    <span data-repeater-create="" class="btn btn-secondary btn-sm">
+                                        <span class="fas fa-plus"></span> Add New Time
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
                 </div>
+
+
+
+
+
+
+
 
 
                 <div class="form-outline mb-3"><label> Registration Date</label>
@@ -410,7 +609,8 @@
                             required tabindex="27">
                             <option value="">Select</option>
                             <option value="Y" @if ($userstatus == 'Y') selected @endif>Active</option>
-                            <option value="N" @if ($userstatus == 'N') selected @endif>Inactive</option>
+                            <option value="N" @if ($userstatus == 'N') selected @endif>Inactive
+                            </option>
 
                         </select>
                         <label for="userstatus" class="error"></label>
@@ -454,22 +654,75 @@
 
 
 <script>
-    $(function() {
-        var datetimeFormat = 'ddd hh:mm A';
-        $('#from-time-picker, #to-time-picker').datetimepicker({
-            format: datetimeFormat,
-            icons: {
-                up: "fa fa-chevron-up",
-                down: "fa fa-chevron-down"
-            }
+    $(document).ready(function() {
+        function initializeTimepicker() {
+            // Select all elements with the class '.timepicker-input' and initialize timepicker
+            $('.timepicker-input').timepicker({
+                showMeridian: true,
+                defaultTime: '00:00 AM',
+                minuteStep: 1,
+                disableFocus: true,
+                showInputs: false,
+                format: 'hh:ii AA'
+            });
+        }
+
+        // Initialize timepicker for the initial row
+        initializeTimepicker();
+
+        $('.repeater-default-times').repeater({
+            show: function() {
+                $(this).find('.day-select').val('Sunday');
+                $(this).slideDown();
+                updateFieldIds($(this));
+
+                // Initialize timepicker for the new row
+                $(this).find('.timepicker-input').timepicker({
+                    showMeridian: true,
+                    defaultTime: '00:00 AM',
+                    minuteStep: 1,
+                    disableFocus: true,
+                    showInputs: false,
+                    format: 'hh:ii AA'
+                });
+            },
+            hide: function(deleteElement) {
+                if (confirm('Are you sure you want to delete this day time?')) {
+                    $(this).slideUp(deleteElement);
+                }
+            },
         });
-        $('#from-time-picker, #to-time-picker').on('click', function() {
-            $(this).datetimepicker('toggle');
-        });
-        $('#from-time-picker, #to-time-picker').on('show.datetimepicker', function() {
-            $(this).datetimepicker('date', moment().format(datetimeFormat));
-        });
+
+        function updateFieldIds(row) {
+            var rowIndex = row.index() + 1;
+            row.find('[id]').each(function() {
+                var currentId = $(this).attr('id');
+                var newId = currentId + rowIndex;
+                $(this).attr('id', newId);
+            });
+        }
     });
+
+
+
+
+
+    // $(function() {
+    //     var datetimeFormat = 'ddd hh:mm A';
+    //     $('#from-time-picker, #to-time-picker').datetimepicker({
+    //         format: datetimeFormat,
+    //         icons: {
+    //             up: "fa fa-chevron-up",
+    //             down: "fa fa-chevron-down"
+    //         }
+    //     });
+    //     $('#from-time-picker, #to-time-picker').on('click', function() {
+    //         $(this).datetimepicker('toggle');
+    //     });
+    //     $('#from-time-picker, #to-time-picker').on('show.datetimepicker', function() {
+    //         $(this).datetimepicker('date', moment().format(datetimeFormat));
+    //     });
+    // });
 
     $('#ecountry').change(function() {
         $('#edistrict').empty();
@@ -647,6 +900,71 @@
     });
 
 
+    var fileArr = [];
+    var totalFiles = 0;
+
+    $("#es_logo").change(function(event) {
+        var totalFileCount = $(this)[0].files.length;
+        if (totalFiles + totalFileCount > 1) {
+            alert('Maximum 1 images allowed');
+            $(this).val('');
+            $('#eimage-preview-logo').html('');
+            return;
+        }
+
+        for (var i = 0; i < totalFileCount; i++) {
+            var file = $(this)[0].files[i];
+
+            if (file.size > 204800) {
+                alert('File size exceeds the limit of 200Kb');
+                $(this).val('');
+                $('#eimage-preview-logo').html('');
+                return;
+            }
+
+            fileArr.push(file);
+            totalFiles++;
+
+            var reader = new FileReader();
+            reader.onload = (function(file) {
+                return function(event) {
+                    var imgDiv = $('<div>').addClass('img-divs col-md-3 img-container');
+                    var img = $('<img>').attr('src', event.target.result).addClass(
+                        'img-responsive image new_thumpnail').attr('width', '100');
+                    var removeBtn = $('<button>').addClass('btn btn-danger remove-btnss').attr(
+                        'title', 'Remove Image').append('Remove').attr('role', file.name);
+
+                    imgDiv.append(img);
+                    imgDiv.append($('<div>').addClass('middle').append(removeBtn));
+
+                    $('#eimage-preview-logo').append(imgDiv);
+                };
+            })(file);
+
+            reader.readAsDataURL(file);
+        }
+    });
+
+    $(document).on('click', '.remove-btnss', function() {
+        var fileName = $(this).attr('role');
+
+        for (var i = 0; i < fileArr.length; i++) {
+            if (fileArr[i].name === fileName) {
+                fileArr.splice(i, 1);
+                totalFiles--;
+                break;
+            }
+        }
+
+        document.getElementById('es_logo').files = new FileListItem(fileArr);
+        $(this).closest('.img-divs').remove();
+    });
+
+
+
+
+
+
 
 
     function FileListItem(file) {
@@ -759,12 +1077,16 @@
                 // required: true,
                 extension: 'jpg|jpeg|png',
             },
-            eopentime: {
+            es_logo: {
                 required: true,
+                extension: 'jpg|jpeg|png',
             },
-            eclosetime: {
-                required: true,
-            },
+            // eopentime: {
+            //     required: true,
+            // },
+            // eclosetime: {
+            //     required: true,
+            // },
             es_registerdate: {
                 required: true,
             },
@@ -787,7 +1109,10 @@
             es_email: {
                 email: "Please enter a valid email address.",
             },
-            ees_photo: {
+            es_photo: {
+                extension: "Only JPG and PNG files are allowed.",
+            },
+            es_logo: {
                 extension: "Only JPG and PNG files are allowed.",
             },
             es_lisence: {
@@ -836,12 +1161,12 @@
             es_termcondtn: {
                 required: "Please accept the terms and conditions."
             },
-            eopentime: {
-                required: "Please select open time."
-            },
-            eclosetime: {
-                required: "Please select close time."
-            },
+            // eopentime: {
+            //     required: "Please select open time."
+            // },
+            // eclosetime: {
+            //     required: "Please select close time."
+            // },
             es_registerdate: {
                 required: "Please select the registration date."
             },
@@ -859,6 +1184,32 @@
     $.validator.addMethod('maxSize', function(value, element, param) {
         return this.optional(element) || (element.files[0].size <= param);
     }, 'File size must be less than {0} KB');
+
+
+    $(document).ready(function() {
+        $("#SellerRegFormEdit").submit(function(event) {
+            // Validate each row
+            let valid = true;
+            $("div[data-repeater-item]").each(function() {
+                const $row = $(this);
+                const setDay = $row.find("[name='setdayss']").val() !== '';
+                const setFromTime = $row.find("[name='setfrom_times']").val() !== '';
+                const setToTime = $row.find("[name='setto_times']").val() !== '';
+
+                if (!setDay || !setFromTime || !setToTime) {
+                    valid = false;
+                    return false;
+                }
+            });
+
+            if (!valid) {
+                alert("Please fill out all required fields in each row.");
+                event.preventDefault();
+            }
+        });
+    });
+
+
 
     $('#SellerRegFormEdit').submit(function(e) {
         e.preventDefault();

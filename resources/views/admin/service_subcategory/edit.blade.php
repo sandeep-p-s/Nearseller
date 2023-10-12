@@ -25,7 +25,7 @@
                             <form method="POST" action="{{ route('update.servicesubcategory', $servicesubcategory->id) }}">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="exampleFormControlSelect1">Service Category</label>
+                                    <label for="exampleFormControlSelect1">Service Category<span class="text-danger">*</span></label>
                                     <select class="form-control" id="exampleFormControlSelect1" name="service_category_name">
                                         <option value="0">Select Service Category</option>
                                         @foreach ($servicecategory as $sc)
@@ -35,7 +35,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Service Sub Category Name</label>
+                                    <label for="exampleFormControlInput1">Service Sub Category Name<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control mb-3" id="shop_id"
                                         placeholder="Enter service sub category name" name="service_subcategory_name" value="{{ $servicesubcategory->sub_category_name }}">
                                         @error('service_subcategory_name')
@@ -43,7 +43,7 @@
                                     @enderror
                                 </div>
                                     <div class="form-group">
-                                        <label for="exampleFormControlSelect1">Status</label>
+                                        <label for="exampleFormControlSelect1">Status<span class="text-danger">*</span></label>
                                         <select class="form-control" id="exampleFormControlSelect1" name="status">
                                             <option value="Active" @if($servicesubcategory->status === 'Y') selected @endif>Active</option>
                                             <option value="Inactive" @if($servicesubcategory->status === 'N') selected @endif>Inactive</option>

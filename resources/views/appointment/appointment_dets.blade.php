@@ -200,11 +200,11 @@
                                                             <div class="col">
                                                                 <input type="text" id="setfrom_time"
                                                                     name="setfrom_time"
-                                                                    class="form-control timepicker">
+                                                                    class="form-control timepicker-input">
                                                             </div>
                                                             <div class="col">
                                                                 <input type="text" id="setto_time"
-                                                                    name="setto_time" class="form-control timepicker">
+                                                                    name="setto_time" class="form-control timepicker-input">
                                                             </div>
                                                             <div class="col">
                                                                 <span data-repeater-delete=""
@@ -380,7 +380,8 @@
     $(document).ready(function() {
 
         function initializeTimepicker() {
-            $('.timepicker').timepicker({
+            // Select all elements with the class '.timepicker-input' and initialize timepicker
+            $('.timepicker-input').timepicker({
                 showMeridian: true,
                 defaultTime: '00:00 AM',
                 minuteStep: 1,
@@ -388,26 +389,34 @@
                 showInputs: false,
                 format: 'hh:ii AA'
             });
-            //$('.timepickers').timepicker('setTime', '06:30 PM');
         }
 
+        // Initialize timepicker for the initial row
         initializeTimepicker();
 
-        $(document).on("click", "span[data-repeater-create]", function() {
-            var repeaterList = $(this).closest(".repeater-default-time").find(
-                "[data-repeater-list='availabletime_data']");
-            var rowCount = repeaterList.children("[data-repeater-item]").length;
-            //alert(rowCount)
-            // if (rowCount < 14) {
-            var clonedRow = repeaterList.find("[data-repeater-item]:last").clone();
-            initializeTimepicker(clonedRow);
-            clonedRow.find(".timepicker").data('timepicker-enabled', true);
-            clonedRow.find(".timepicker").timepicker('setTime', '00:00 AM');
-            repeaterList.append(clonedRow);
-            // } else {
-            // alert("You cannot add more than 7 days.");
-            //}
+        $('.repeater-default-time').repeater({
+            show: function() {
+                $(this).find('.day-select').val('Sunday');
+                $(this).slideDown();
+                updateFieldIds($(this));
+
+                // Initialize timepicker for the new row
+                $(this).find('.timepicker-input').timepicker({
+                    showMeridian: true,
+                    defaultTime: '00:00 AM',
+                    minuteStep: 1,
+                    disableFocus: true,
+                    showInputs: false,
+                    format: 'hh:ii AA'
+                });
+            },
+            hide: function(deleteElement) {
+                if (confirm('Are you sure you want to delete this day time?')) {
+                    $(this).slideUp(deleteElement);
+                }
+            },
         });
+
 
 
 
@@ -461,19 +470,7 @@
     });
 
 
-    $('.repeater-default-time').repeater({
 
-        show: function() {
-            $(this).find('.day-select').val('Sunday');
-            $(this).slideDown();
-            updateFieldIds($(this));
-        },
-        hide: function(deleteElement) {
-            if (confirm('Are you sure you want to delete this day time?')) {
-                $(this).slideUp(deleteElement);
-            }
-        },
-    });
 
     $('.repeater-default-question').repeater({
 
