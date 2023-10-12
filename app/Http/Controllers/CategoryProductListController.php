@@ -26,6 +26,8 @@ class CategoryProductListController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
+        $roleid = session('roleid');
+        $roleIdsArray = explode(',', $roleid);
         if ($userId == '') {
             return redirect()->route('logout');
         }
@@ -34,9 +36,12 @@ class CategoryProductListController extends Controller
             ->where('id', $userId)
             ->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
+
+
+
         $usershopdets = DB::table('user_account')
             ->select('id', 'name')
-            ->where('role_id', 2)
+            ->whereIn('role_id', $roleIdsArray)
             ->get();
         $categories = Category::treeWithStatusY();
         $filteredCategories = $categories->filter(function ($category) {
@@ -62,7 +67,7 @@ class CategoryProductListController extends Controller
         $parentNames = [];
 
         $categories = DB::table('categories as c1')
-            ->select('c1.*', 'c1.category_name', 'c1.parent_id', 'c2.category_name as parent_name')
+            ->select('c1.id','c1.category_image', 'c1.category_name', 'c1.parent_id', 'c2.category_name as parent_name')
             ->leftJoin('categories as c2', 'c1.parent_id', '=', 'c2.id')
             ->leftJoin('product_details', 'product_details.category_id', '=', 'c1.id')
             ->leftJoin('user_account', 'user_account.id', '=', 'product_details.shop_id');
@@ -86,7 +91,7 @@ class CategoryProductListController extends Controller
         if ($roleid != 1) {
             $categories->where('user_account.id', $userId);
         }
-        $categories->groupBy('c1.id', 'c1.category_name', 'c1.parent_id', 'c2.category_name');
+        $categories->groupBy('c1.id','c1.category_image', 'c1.category_name', 'c1.parent_id', 'c2.category_name');
         //echo $lastRegId = $categories->toSql();
         $categories = $categories->get();
         // foreach ($categories as $product) {

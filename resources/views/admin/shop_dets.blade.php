@@ -44,6 +44,9 @@
             @endforeach
         </tbody>
     </table>
+    {{-- <div class="pagination">
+        {{ $sellerDetails->links() }}
+    </div> --}}
 @else
     <table>
         <tr>
@@ -278,6 +281,23 @@
                                     </div>
                                 </div>
 
+                                <div class="form-outline mb-3"><label>{{ $shoporservice }} Logo</label>
+                                    <input type="file" id="s_logo" name="s_logo[]"
+                                        class="form-control form-control-lg" placeholder="Shop Logo" required
+                                        tabindex="19" accept="image/jpeg, image/png" />
+                                    <label for="s_logo" class="error"></label>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group" align="left">
+                                        <div id="image-preview-logo" class="row"></div>
+                                    </div>
+                                </div>
+                                <div class="form-outline mb-3"><label>{{ $shoporservice }} Background Color</label>
+                                    <input type="color" id="s_bgcolor" name="s_bgcolor" id
+                                        class="form-control" placeholder="{{ $shoporservice }} Background Color"
+                                        required tabindex="18" />
+                                    <label for="s_bgcolor" class="error"></label>
+                                </div>
 
                             </div>
                             <div class="col-md-4">
@@ -391,7 +411,7 @@
                                                         </div>
                                                         <div class="col">
                                                             <input type="text" id="setto_timem" name="setto_timem"
-                                                                class="form-control timepicker-input" >
+                                                                class="form-control timepicker-input">
                                                         </div>
                                                         <div class="col">
                                                             <span data-repeater-delete=""
@@ -555,30 +575,10 @@
 
 
 <script>
-$(document).ready(function() {
-    function initializeTimepicker() {
-        // Select all elements with the class '.timepicker-input' and initialize timepicker
-        $('.timepicker-input').timepicker({
-            showMeridian: true,
-            defaultTime: '00:00 AM',
-            minuteStep: 1,
-            disableFocus: true,
-            showInputs: false,
-            format: 'hh:ii AA'
-        });
-    }
-
-    // Initialize timepicker for the initial row
-    initializeTimepicker();
-
-    $('.repeater-default-timem').repeater({
-        show: function() {
-            $(this).find('.day-select').val('Sunday');
-            $(this).slideDown();
-            updateFieldIds($(this));
-
-            // Initialize timepicker for the new row
-            $(this).find('.timepicker-input').timepicker({
+    $(document).ready(function() {
+        function initializeTimepicker() {
+            // Select all elements with the class '.timepicker-input' and initialize timepicker
+            $('.timepicker-input').timepicker({
                 showMeridian: true,
                 defaultTime: '00:00 AM',
                 minuteStep: 1,
@@ -586,23 +586,43 @@ $(document).ready(function() {
                 showInputs: false,
                 format: 'hh:ii AA'
             });
-        },
-        hide: function(deleteElement) {
-            if (confirm('Are you sure you want to delete this day time?')) {
-                $(this).slideUp(deleteElement);
-            }
-        },
-    });
+        }
 
-    function updateFieldIds(row) {
-        var rowIndex = row.index() + 1;
-        row.find('[id]').each(function() {
-            var currentId = $(this).attr('id');
-            var newId = currentId + rowIndex;
-            $(this).attr('id', newId);
+        // Initialize timepicker for the initial row
+        initializeTimepicker();
+
+        $('.repeater-default-timem').repeater({
+            show: function() {
+                $(this).find('.day-select').val('Sunday');
+                $(this).slideDown();
+                updateFieldIds($(this));
+
+                // Initialize timepicker for the new row
+                $(this).find('.timepicker-input').timepicker({
+                    showMeridian: true,
+                    defaultTime: '00:00 AM',
+                    minuteStep: 1,
+                    disableFocus: true,
+                    showInputs: false,
+                    format: 'hh:ii AA'
+                });
+            },
+            hide: function(deleteElement) {
+                if (confirm('Are you sure you want to delete this day time?')) {
+                    $(this).slideUp(deleteElement);
+                }
+            },
         });
-    }
-});
+
+        function updateFieldIds(row) {
+            var rowIndex = row.index() + 1;
+            row.find('[id]').each(function() {
+                var currentId = $(this).attr('id');
+                var newId = currentId + rowIndex;
+                $(this).attr('id', newId);
+            });
+        }
+    });
 
 
 
@@ -801,6 +821,66 @@ $(document).ready(function() {
         $(this).closest('.img-div').remove();
     });
 
+    var fileArr = [];
+    var totalFiles = 0;
+
+        $("#s_logo").change(function(event) {
+        var totalFileCount = $(this)[0].files.length;
+        if (totalFiles + totalFileCount > 1) {
+            alert('Maximum 1 images allowed');
+            $(this).val('');
+            $('#image-preview-logo').html('');
+            return;
+        }
+
+        for (var i = 0; i < totalFileCount; i++) {
+            var file = $(this)[0].files[i];
+
+            if (file.size > 204800) {
+                alert('File size exceeds the limit of 200Kb');
+                $(this).val('');
+                $('#image-preview-logo').html('');
+                return;
+            }
+
+            fileArr.push(file);
+            totalFiles++;
+
+            var reader = new FileReader();
+            reader.onload = (function(file) {
+                return function(event) {
+                    var imgDiv = $('<div>').addClass('img-divs col-md-3 img-container');
+                    var img = $('<img>').attr('src', event.target.result).addClass(
+                        'img-responsive image new_thumpnail').attr('width', '100');
+                    var removeBtn = $('<button>').addClass('btn btn-danger remove-btnss').attr(
+                        'title', 'Remove Image').append('Remove').attr('role', file.name);
+
+                    imgDiv.append(img);
+                    imgDiv.append($('<div>').addClass('middle').append(removeBtn));
+
+                    $('#image-preview-logo').append(imgDiv);
+                };
+            })(file);
+
+            reader.readAsDataURL(file);
+        }
+    });
+
+    $(document).on('click', '.remove-btnss', function() {
+        var fileName = $(this).attr('role');
+
+        for (var i = 0; i < fileArr.length; i++) {
+            if (fileArr[i].name === fileName) {
+                fileArr.splice(i, 1);
+                totalFiles--;
+                break;
+            }
+        }
+
+        document.getElementById('s_logo').files = new FileListItem(fileArr);
+        $(this).closest('.img-divs').remove();
+    });
+
 
 
 
@@ -915,6 +995,10 @@ $(document).ready(function() {
                 required: true,
                 extension: 'jpg|jpeg|png',
             },
+            s_logo: {
+                required: true,
+                extension: 'jpg|jpeg|png',
+            },
             // opentime: {
             //     required: true,
             // },
@@ -955,6 +1039,10 @@ $(document).ready(function() {
             s_photo: {
                 extension: "Only JPG and PNG files are allowed.",
             },
+            s_logo: {
+                extension: "Only JPG and PNG files are allowed.",
+            },
+
             s_lisence: {
                 required: "Please enter the license number.",
                 maxlength: "License number must not exceed 25 characters."

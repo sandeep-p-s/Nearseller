@@ -298,7 +298,8 @@
                                         @endphp
                                     </a>
                                     <br>
-                                    @if (!($sel_approved == 'Y' && ($roleid == 3 || $roleid == 2)))
+                                    {{-- @if (!($sel_approved == 'Y' && ($roleid == 3 || $roleid == 2))) --}}
+                                    @if (!($sel_approved == 'Y'))
                                         <button id="remv" type="button" name="remv" class="btn btn-danger"
                                             onClick="DeltImagGalry('{{ $deleencde }}');">Remove</button>
                                     @endif
@@ -322,6 +323,64 @@
                             @endfor
                         </div>
                     </div>
+                </div>
+
+
+
+                <div class="form-outline mb-3"><label>{{ $shoporservice }} Logo</label>
+                    <input type="file" id="es_logo" name="es_logo[]" class="form-control form-control-lg"
+                        placeholder="Shop Logo" tabindex="19" accept="image/jpeg, image/png" />
+                    <label for="es_logo" class="error"></label>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group" align="left">
+                        <div id="eimage-preview-logo" class="row"></div>
+                    </div>
+                </div>
+
+
+
+                <div class="col-md-12" style="{{ $sellerDetails->shoplogo ? 'display: block;' : 'display: none;' }}">
+                    <div class="form-group" align="center">
+                        <div class="row">@php
+                            $k = 1;
+                        @endphp
+
+                            <div class="col-md-3">
+                                <a href="#" data-toggle="modal" data-target="#myModalmm{{ $k }}">
+                                    <img id="img-bufferms" class="img-responsive image new_thumpnail"
+                                        src="{{ asset($sellerDetails->shoplogo) }}" width="450" height="250">
+                                    @php
+
+                                        $valenl = $sellerDetails->shoplogo . '#' . $sellerDetails->id;
+                                        $deleencdel = base64_encode($valenl);
+                                    @endphp
+                                </a>
+                            </div>
+
+                            <div class="modal fade" id="myModalmm{{ $k }}" tabindex="-1" role="dialog"
+                                aria-labelledby="myModalLabelmm" aria-hidden="true" style="width: 80%;">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-hidden="true">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <img src="{{ asset($sellerDetails->shoplogo) }}" class="img-fluid">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="form-outline mb-3"><label>{{ $shoporservice }} Background Color</label>
+                    <input type="color" id="es_bgcolor" name="es_bgcolor" id class="form-control"
+                        placeholder="{{ $shoporservice }} Background Color" required tabindex="18"
+                        value="{{ $sellerDetails->colorpicks }}" />
+                    <label for="es_bgcolor" class="error"></label>
                 </div>
 
 
@@ -841,6 +900,71 @@
     });
 
 
+    var fileArr = [];
+    var totalFiles = 0;
+
+    $("#es_logo").change(function(event) {
+        var totalFileCount = $(this)[0].files.length;
+        if (totalFiles + totalFileCount > 1) {
+            alert('Maximum 1 images allowed');
+            $(this).val('');
+            $('#eimage-preview-logo').html('');
+            return;
+        }
+
+        for (var i = 0; i < totalFileCount; i++) {
+            var file = $(this)[0].files[i];
+
+            if (file.size > 204800) {
+                alert('File size exceeds the limit of 200Kb');
+                $(this).val('');
+                $('#eimage-preview-logo').html('');
+                return;
+            }
+
+            fileArr.push(file);
+            totalFiles++;
+
+            var reader = new FileReader();
+            reader.onload = (function(file) {
+                return function(event) {
+                    var imgDiv = $('<div>').addClass('img-divs col-md-3 img-container');
+                    var img = $('<img>').attr('src', event.target.result).addClass(
+                        'img-responsive image new_thumpnail').attr('width', '100');
+                    var removeBtn = $('<button>').addClass('btn btn-danger remove-btnss').attr(
+                        'title', 'Remove Image').append('Remove').attr('role', file.name);
+
+                    imgDiv.append(img);
+                    imgDiv.append($('<div>').addClass('middle').append(removeBtn));
+
+                    $('#eimage-preview-logo').append(imgDiv);
+                };
+            })(file);
+
+            reader.readAsDataURL(file);
+        }
+    });
+
+    $(document).on('click', '.remove-btnss', function() {
+        var fileName = $(this).attr('role');
+
+        for (var i = 0; i < fileArr.length; i++) {
+            if (fileArr[i].name === fileName) {
+                fileArr.splice(i, 1);
+                totalFiles--;
+                break;
+            }
+        }
+
+        document.getElementById('es_logo').files = new FileListItem(fileArr);
+        $(this).closest('.img-divs').remove();
+    });
+
+
+
+
+
+
 
 
     function FileListItem(file) {
@@ -953,6 +1077,10 @@
                 // required: true,
                 extension: 'jpg|jpeg|png',
             },
+            es_logo: {
+                required: true,
+                extension: 'jpg|jpeg|png',
+            },
             // eopentime: {
             //     required: true,
             // },
@@ -981,7 +1109,10 @@
             es_email: {
                 email: "Please enter a valid email address.",
             },
-            ees_photo: {
+            es_photo: {
+                extension: "Only JPG and PNG files are allowed.",
+            },
+            es_logo: {
                 extension: "Only JPG and PNG files are allowed.",
             },
             es_lisence: {

@@ -7,10 +7,9 @@ use File;
 use App\Models\UserAccount;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-//use Image;
+use Image;
 use App\Models\admin\Category;
 use App\Models\MenuMaster;
-use App\Models\LogDetails;
 use App\Http\Controllers\Controller;
 use Storage;
 use Illuminate\Validation\Rule;
@@ -57,7 +56,7 @@ class CategoryController extends Controller
         if ($userId == '') {
             return redirect()->route('logout');
         }
-
+        //$time = date('Y-m-d H:i:s');
         $request->validate(
             [
                 'category_name' => 'required|unique:categories,category_name|string|max:255|min:4',
@@ -74,8 +73,8 @@ class CategoryController extends Controller
                 'slug_name.required' => 'Slug name is missing.',
                 'slug_name.unique' => 'Slug name should unique.',
                 'category_level.required' => 'Category level required.',
-                // 'category_image.mimes' => 'Image must be in the format jpeg,png,jpg.',
-                // 'category_image.max' => 'File not larger than 4mb.',
+                'category_image.mimes' => 'Image must be in the format jpeg,png,jpg.',
+                'category_image.max' => 'File not larger than 4mb.',
             ]
         );
 
@@ -89,46 +88,24 @@ class CategoryController extends Controller
             $newcategory->approved_by = $userId;
             $newcategory->approved_time = Carbon::now();
             }
+            $newcategory->category_image = '';
 
-            if ($request->hasFile('category_image')) {
-                $upload_imgpath = 'uploads/categoryimages/';
-                if (!is_dir($upload_imgpath)) {
-                    mkdir($upload_imgpath, 0777, true);
-                }
-                foreach ($request->file('category_image') as $fimg) {
-                    if ($fimg->isValid()) {
-                        $imgfile_name = time() . '_' . $fimg->getClientOriginalName();
-                        $fimg->move($upload_imgpath, $imgfile_name);
-                        $imgfilename = $upload_imgpath . $imgfile_name;
-                        $newcategory->category_image = $imgfilename;
-                    }
-                }
+            if (!empty($request->category_image)) {
+
+                $fileName = time() . '_' . Str::random(8) . '.' . $request->category_image->extension();
+
+                $img = Image::make($request->category_image->path());
+                $img->fit(config('imageupload.category.thumb_width'), config('imageupload.category.thumb_height'), function ($constraint) {
+                    //$constraint->upsize();
+                });
+                $img->save(Storage::disk('public')->path(config('imageupload.categorydir') . "/" . config('imageupload.category.imagethumb') . $fileName), 100);
+
+                Storage::disk('public')->put(config('imageupload.categorydir') . "/" . config('imageupload.category.image') . $fileName, File::get($request->category_image));
+
+                $newcategory->category_image = $fileName;
             }
 
-            // $newcategory->category_image = '';
-            // if (!empty($request->category_image)) {
-            //     $fileName = time() . '_' . Str::random(8) . '.' . $request->category_image->extension();
-            //     $img = Image::make($request->category_image->path());
-            //     $img->fit(config('imageupload.category.thumb_width'), config('imageupload.category.thumb_height'), function ($constraint) {
-            //         //$constraint->upsize();
-            //     });
-            //     $img->save(Storage::disk('public')->path(config('imageupload.categorydir') . "/" . config('imageupload.category.imagethumb') . $fileName), 100);
-            //     Storage::disk('public')->put(config('imageupload.categorydir') . "/" . config('imageupload.category.image') . $fileName, File::get($request->category_image));
-            //     $newcategory->category_image = $fileName;
-            // }
             $newcategory->save();
-            $loggedUserIp = $_SERVER['REMOTE_ADDR'];
-            $time = date('Y-m-d H:i:s');
-            $msg = 'Category Successfully Added. New Category Id is ' . $newcategory->id;
-            $LogDetails = new LogDetails();
-            $LogDetails->user_id = $request->es_email;
-            $LogDetails->ip_address = $loggedUserIp;
-            $LogDetails->log_time = $time;
-            $LogDetails->status = $msg;
-            $LogDetails->save();
-
-
-
             return redirect()->route('list.category')->with('success', 'Category successfully added');
     }
     public function edit_category($category_slug)
@@ -182,8 +159,8 @@ class CategoryController extends Controller
                 'category_slug.required' => 'Slug name is missing.',
                 'category_slug.unique' => 'Slug name should unique.',
                 'category_level.required' => 'Category level required.',
-                // 'category_image.mimes' => 'Image must be in the format jpeg,png,jpg.',
-                // 'category_image.max' => 'File not larger than 4mb.',
+                'category_image.mimes' => 'Image must be in the format jpeg,png,jpg.',
+                'category_image.max' => 'File not larger than 4mb.',
                 'status.in' => 'Invalid status value.',
             ]
         );
@@ -193,54 +170,33 @@ class CategoryController extends Controller
             $current_category->category_slug = trim($request->category_slug);
             $current_category->category_level = $request->category_level;
 
-            // if (!empty($request->category_image)) {
-            //     if ($current_category->category_image != null) {
-            //         if (Storage::disk('public')->exists(config('imageupload.categorydir') . "/" . config('imageupload.category.image') .$current_category->category_image)) {
-            //             Storage::disk('public')->delete(config('imageupload.categorydir') . "/" . config('imageupload.category.image') . $current_category->category_image);
-            //         }
-            //         if (Storage::disk('public')->exists(config('imageupload.categorydir') . "/" . config('imageupload.category.imagethumb') .$current_category->category_image)) {
-            //             Storage::disk('public')->delete(config('imageupload.categorydir') . "/" . config('imageupload.category.imagethumb') . $current_category->category_image);
-            //         }
-            //     }
-            //     $fileName = time() . '_' . Str::random(8) . '.' . $request->category_image->extension();
-            //     $img = Image::make($request->category_image->path());
-            //     $img->fit(config('imageupload.category.thumb_width'), config('imageupload.category.thumb_height'), function ($constraint) {
-            //         //$constraint->upsize();
-            //     });
-            //     $img->save(Storage::disk('public')->path(config('imageupload.categorydir') . "/" . config('imageupload.category.imagethumb') . $fileName), 100);
-            //     Storage::disk('public')->put(config('imageupload.categorydir') . "/" . config('imageupload.category.image') . $fileName, File::get($request->category_image));
-            //     $current_category->category_image = $fileName;
-            // }
+            if (!empty($request->category_image)) {
 
-
-            if ($request->hasFile('category_image')) {
-                $upload_imgpath = 'uploads/categoryimages/';
-                if (!is_dir($upload_imgpath)) {
-                    mkdir($upload_imgpath, 0777, true);
-                }
-                foreach ($request->file('category_image') as $fimg) {
-                    if ($fimg->isValid()) {
-                        $imgfile_name = time() . '_' . $fimg->getClientOriginalName();
-                        $fimg->move($upload_imgpath, $imgfile_name);
-                        $imgfilename = $upload_imgpath . $imgfile_name;
-                        $current_category->category_image = $imgfilename;
+                if ($current_category->category_image != null) {
+                    if (Storage::disk('public')->exists(config('imageupload.categorydir') . "/" . config('imageupload.category.image') .$current_category->category_image)) {
+                        Storage::disk('public')->delete(config('imageupload.categorydir') . "/" . config('imageupload.category.image') . $current_category->category_image);
+                    }
+                    if (Storage::disk('public')->exists(config('imageupload.categorydir') . "/" . config('imageupload.category.imagethumb') .$current_category->category_image)) {
+                        Storage::disk('public')->delete(config('imageupload.categorydir') . "/" . config('imageupload.category.imagethumb') . $current_category->category_image);
                     }
                 }
+
+                $fileName = time() . '_' . Str::random(8) . '.' . $request->category_image->extension();
+
+                $img = Image::make($request->category_image->path());
+                $img->fit(config('imageupload.category.thumb_width'), config('imageupload.category.thumb_height'), function ($constraint) {
+                    //$constraint->upsize();
+                });
+                $img->save(Storage::disk('public')->path(config('imageupload.categorydir') . "/" . config('imageupload.category.imagethumb') . $fileName), 100);
+
+                Storage::disk('public')->put(config('imageupload.categorydir') . "/" . config('imageupload.category.image') . $fileName, File::get($request->category_image));
+
+                $current_category->category_image = $fileName;
             }
 
             $current_category->status = $request->status;
 
             $current_category->save();
-            $loggedUserIp = $_SERVER['REMOTE_ADDR'];
-            $time = date('Y-m-d H:i:s');
-            $msg = 'Category Successfully Updated. Updated Category Id is ' . $id;
-            $LogDetails = new LogDetails();
-            $LogDetails->user_id = $request->es_email;
-            $LogDetails->ip_address = $loggedUserIp;
-            $LogDetails->log_time = $time;
-            $LogDetails->status = $msg;
-            $LogDetails->save();
-
             return redirect()->route('list.category')->with('success', 'Category successfully updated');
     }
 
@@ -262,15 +218,6 @@ class CategoryController extends Controller
         }
 
         $delete_category->delete();
-        $loggedUserIp = $_SERVER['REMOTE_ADDR'];
-        $time = date('Y-m-d H:i:s');
-        $msg = 'Category Successfully Deleted. Deleted Category slug is ' . $category_slug;
-        $LogDetails = new LogDetails();
-        $LogDetails->user_id = $request->es_email;
-        $LogDetails->ip_address = $loggedUserIp;
-        $LogDetails->log_time = $time;
-        $LogDetails->status = $msg;
-        $LogDetails->save();
 
         return redirect()->route('list.category')->with('success', 'Category deleted successfully.');
     }
@@ -340,8 +287,8 @@ class CategoryController extends Controller
                 'category_slug.required' => 'Slug name is missing.',
                 'category_slug.unique' => 'Slug name should unique.',
                 'category_level.required' => 'Category level required.',
-                // 'category_image.mimes' => 'Image must be in the format jpeg,png,jpg.',
-                // 'category_image.max' => 'File not larger than 4mb.',
+                'category_image.mimes' => 'Image must be in the format jpeg,png,jpg.',
+                'category_image.max' => 'File not larger than 4mb.',
                 'status.in' => 'Invalid status value.',
                 'categoryapproved.in' => 'Invalid approved status value.',
             ]
@@ -353,45 +300,30 @@ class CategoryController extends Controller
             $current_category->category_level = $request->category_level;
 
 
-            if ($request->hasFile('category_image')) {
-                $upload_imgpath = 'uploads/categoryimages/';
-                if (!is_dir($upload_imgpath)) {
-                    mkdir($upload_imgpath, 0777, true);
-                }
-                foreach ($request->file('category_image') as $fimg) {
-                    if ($fimg->isValid()) {
-                        $imgfile_name = time() . '_' . $fimg->getClientOriginalName();
-                        $fimg->move($upload_imgpath, $imgfile_name);
-                        $imgfilename = $upload_imgpath . $imgfile_name;
-                        $current_category->category_image = $imgfilename;
+
+            if (!empty($request->category_image)) {
+
+                if ($current_category->category_image != null) {
+                    if (Storage::disk('public')->exists(config('imageupload.categorydir') . "/" . config('imageupload.category.image') .$current_category->category_image)) {
+                        Storage::disk('public')->delete(config('imageupload.categorydir') . "/" . config('imageupload.category.image') . $current_category->category_image);
+                    }
+                    if (Storage::disk('public')->exists(config('imageupload.categorydir') . "/" . config('imageupload.category.imagethumb') .$current_category->category_image)) {
+                        Storage::disk('public')->delete(config('imageupload.categorydir') . "/" . config('imageupload.category.imagethumb') . $current_category->category_image);
                     }
                 }
+
+                $fileName = time() . '_' . Str::random(8) . '.' . $request->category_image->extension();
+
+                $img = Image::make($request->category_image->path());
+                $img->fit(config('imageupload.category.thumb_width'), config('imageupload.category.thumb_height'), function ($constraint) {
+                    //$constraint->upsize();
+                });
+                $img->save(Storage::disk('public')->path(config('imageupload.categorydir') . "/" . config('imageupload.category.imagethumb') . $fileName), 100);
+
+                Storage::disk('public')->put(config('imageupload.categorydir') . "/" . config('imageupload.category.image') . $fileName, File::get($request->category_image));
+
+                $current_category->category_image = $fileName;
             }
-
-
-            // if (!empty($request->category_image)) {
-
-            //     if ($current_category->category_image != null) {
-            //         if (Storage::disk('public')->exists(config('imageupload.categorydir') . "/" . config('imageupload.category.image') .$current_category->category_image)) {
-            //             Storage::disk('public')->delete(config('imageupload.categorydir') . "/" . config('imageupload.category.image') . $current_category->category_image);
-            //         }
-            //         if (Storage::disk('public')->exists(config('imageupload.categorydir') . "/" . config('imageupload.category.imagethumb') .$current_category->category_image)) {
-            //             Storage::disk('public')->delete(config('imageupload.categorydir') . "/" . config('imageupload.category.imagethumb') . $current_category->category_image);
-            //         }
-            //     }
-
-            //     $fileName = time() . '_' . Str::random(8) . '.' . $request->category_image->extension();
-
-            //     $img = Image::make($request->category_image->path());
-            //     $img->fit(config('imageupload.category.thumb_width'), config('imageupload.category.thumb_height'), function ($constraint) {
-            //         //$constraint->upsize();
-            //     });
-            //     $img->save(Storage::disk('public')->path(config('imageupload.categorydir') . "/" . config('imageupload.category.imagethumb') . $fileName), 100);
-
-            //     Storage::disk('public')->put(config('imageupload.categorydir') . "/" . config('imageupload.category.image') . $fileName, File::get($request->category_image));
-
-            //     $current_category->category_image = $fileName;
-            // }
 
             $current_category->status = $request->status;
             $current_category->approval_status = $request->categoryapproved;
@@ -399,16 +331,6 @@ class CategoryController extends Controller
             $current_category->approved_time = $time;
 
             $current_category->save();
-
-            $loggedUserIp = $_SERVER['REMOTE_ADDR'];
-            $time = date('Y-m-d H:i:s');
-            $msg = 'Category Successfully Deleted. Approved Category id is ' . $id;
-            $LogDetails = new LogDetails();
-            $LogDetails->user_id = $request->es_email;
-            $LogDetails->ip_address = $loggedUserIp;
-            $LogDetails->log_time = $time;
-            $LogDetails->status = $msg;
-            $LogDetails->save();
             return redirect()->route('list.category')->with('success', 'Category successfully Approved');
     }
 
