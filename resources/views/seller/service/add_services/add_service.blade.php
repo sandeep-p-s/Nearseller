@@ -31,7 +31,7 @@
                                         <div class="form-group">
                                             <label for="service_name">Service User <span
                                                     class="text-danger">*</span></label>
-                                            <select class="selectservice form-select form-control form-control-lg"
+                                            <select class="selectservice form-select form-control "
                                                 id="serviceuser_name" name="serviceuser_name" required tabindex="1">
                                                 <option value="">Select Service User</option><br />
                                                 @foreach ($userservicedets as $serviceuser)
