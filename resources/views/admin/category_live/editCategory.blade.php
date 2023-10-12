@@ -55,70 +55,11 @@
                                     <input type="hidden" class="form-control mb15" id="category_level" placeholder=""
                                         name="category_level" value="{{ $current_category->category_level }}">
                                     <label for="addImage">Edit Image</label>
-
-                                    {{-- <div class="card">
+                                    <div class="card">
                                         <input type="file" id="input-file-now-custom-1" class="dropify"
                                             data-default-file="{{ asset('storage/' . config('imageupload.categorydir') . '/' . config('imageupload.category.image') . $current_category->category_image) }}"
                                             alt="category image" width="300px" height="300px" name="category_image" accept="image/jpeg, image/png"/>
-                                    </div> --}}
-
-                                    {{-- <div class="card">
-                                        <input type="file" id="input-file-now-custom-1" class="dropify"
-                                            data-default-file="{{ asset($current_category->category_image)  }}"
-                                            alt="category image" width="300px" height="300px" name="category_image" accept="image/jpeg, image/png"/>
-                                    </div> --}}
-
-
-                                    <label>Category Image</label>
-                                        <input type="file" id="category_image" name="category_image[]"
-                                            class="form-control form-control-lg" placeholder="Category Images"                                             tabindex="19" accept="image/jpeg, image/png" />
-                                        <label for="category_image" class="error"></label>
-
-                                    <div class="col-md-12">
-                                        <div class="form-group" align="left">
-                                            <div id="image-preview" class="row"></div>
-                                        </div>
                                     </div>
-
-
-
-                                    <div class="col-md-12" style="{{ $current_category->category_image ? 'display: block;' : 'display: none;' }}">
-                                        <div class="form-group" align="center">
-                                            <div class="row">@php
-                                                $k = 1;
-                                            @endphp
-
-                                                <div class="col-md-3">
-                                                    <a href="#" data-toggle="modal" data-target="#myModalmm{{ $k }}">
-                                                        <img id="img-bufferms" class="img-responsive image new_thumpnail"
-                                                            src="{{ asset($current_category->category_image) }}" width="450" height="250">
-                                                        @php
-
-                                                            $valenl = $current_category->category_image . '#' . $current_category->id;
-                                                            $deleencdel = base64_encode($valenl);
-                                                        @endphp
-                                                    </a>
-                                                </div>
-
-                                                <div class="modal fade" id="myModalmm{{ $k }}" tabindex="-1" role="dialog"
-                                                    aria-labelledby="myModalLabelmm" aria-hidden="true" style="width: 80%;">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <button type="button" class="close" data-dismiss="modal"
-                                                                    aria-hidden="true">&times;</button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <img src="{{ asset($current_category->category_image) }}" class="img-fluid">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <label for="categoryStatus">Status</label>
                                     <select class="form-control" id="categoryStatus" name="status">
                                         <option value="Y" {{ $current_category->status == 'Y' ? 'selected' : '' }}>
@@ -158,7 +99,7 @@
                         </div><!--end card-header-->
                         <div class="card-body">
                             <img class="img-fluid"
-                                src="{{ asset($current_category->category_image) }}"
+                                src="{{ asset('storage/' . config('imageupload.categorydir') . '/' . config('imageupload.category.image') . $current_category->category_image) }}"
                                 alt="category image" width="67%" height="100%">
                         </div><!--end card-body-->
                     </div>
@@ -182,84 +123,5 @@
 
                 levelInput.value = level;
             }
-
-
-
-            var fileArrs = [];
-    var totalFiless = 0;
-
-    $("#category_image").change(function(event) {
-        var totalFileCount = $(this)[0].files.length;
-        if (totalFiless + totalFileCount > 5) {
-            alert('Maximum 5 images allowed');
-            $(this).val('');
-            $('#image-preview').html('');
-            return;
-        }
-
-        for (var i = 0; i < totalFileCount; i++) {
-            var file = $(this)[0].files[i];
-
-            if (file.size > 3145728) {
-                alert('File size exceeds the limit of 3MB');
-                $(this).val('');
-                $('#image-preview').html('');
-                return;
-            }
-
-            fileArrs.push(file);
-            totalFiless++;
-
-            var reader = new FileReader();
-            reader.onload = (function(file) {
-                return function(event) {
-                    var imgDiv = $('<div>').addClass('img-div col-md-3 img-container');
-                    var img = $('<img>').attr('src', event.target.result).addClass(
-                        'img-responsive image new_thumpnail').attr('width', '100');
-                    var removeBtn = $('<button>').addClass('btn btn-danger remove-btns').attr(
-                        'title', 'Remove Image').append('Remove').attr('role', file.name);
-
-                    imgDiv.append(img);
-                    imgDiv.append($('<div>').addClass('middle').append(removeBtn));
-
-                    $('#image-preview').append(imgDiv);
-                };
-            })(file);
-
-            reader.readAsDataURL(file);
-        }
-    });
-
-    $(document).on('click', '.remove-btns', function() {
-        var fileName = $(this).attr('role');
-
-        for (var i = 0; i < fileArrs.length; i++) {
-            if (fileArrs[i].name === fileName) {
-                fileArrs.splice(i, 1);
-                totalFiless--;
-                break;
-            }
-        }
-
-        document.getElementById('category_image').files = new FileListItem(fileArrs);
-        $(this).closest('.img-div').remove();
-    });
-
-            function FileListItem(file) {
-        file = [].slice.call(Array.isArray(file) ? file : arguments);
-        var b = file.length;
-        var d = true;
-        for (var c; b-- && d;) {
-            d = file[b] instanceof File;
-        }
-        if (!d) {
-            throw new TypeError('Expected argument to FileList is File or array of File objects');
-        }
-        var clipboardData = new ClipboardEvent('').clipboardData || new DataTransfer();
-        for (b = d = file.length; b--;) {
-            clipboardData.items.add(file[b]);
-        }
-        return clipboardData.files;
-    }
         </script>
     @endsection

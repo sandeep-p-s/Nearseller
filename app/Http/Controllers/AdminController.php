@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\Builder;
 use App\Models\UserAccount;
 use App\Models\LogDetails;
 use App\Models\SellerDetails;
@@ -930,18 +931,25 @@ class AdminController extends Controller
         // if (in_array('9', $roleIdsArray)) {
 
         // }
-        if ($typeid == 1) {
+        if($roleid==1)
+        {
+        }
+        else{
             $query->where('seller_details.user_id', $userId);
+        }
+        if ($typeid == 1) {
+
             $query->where('seller_details.busnes_type', $typeid);
         }
         if ($typeid == 2) {
-            $query->where('seller_details.user_id', $userId);
             $query->where('seller_details.busnes_type', $typeid);
 
         }
+        //$perPage = 5; // Number of records per page
+        //$sellerDetails = $query->paginate($perPage);
 
         $sellerDetails = $query->get();
-        //echo $lastRegId = $query->toSql();exit();
+        //echo $lastRegId = $query->toSql();
 
         $sellerCount = $sellerDetails->count();
         if ($typeid == 1) {
@@ -994,6 +1002,8 @@ class AdminController extends Controller
             's_pincode' => 'required|max:6',
             's_googlelink' => 'required',
             'manufactringdets' => 'required',
+            //'s_logo' => 'required|image|mimes:jpeg,png|max:1024',
+            's_bgcolor' => 'required',
             //'s_photo' => 'required|image|mimes:jpeg,png|max:1024',
             's_gstno' => 'required|max:25',
             's_panno' => 'required|max:12',
@@ -1091,7 +1101,7 @@ class AdminController extends Controller
             $sellerDetail->direct_affiliate = $request->input('directafflte');
             $sellerDetail->second_affiliate = $request->input('secondafflte');
             $sellerDetail->shop_coordinator = $request->input('coordinater');
-
+            $sellerDetail->colorpicks = $request->input('s_bgcolor');
             $sellerDetail->seller_approved = 'Y';
 
             $sellerDetail->parent_id = $userId;
@@ -1123,6 +1133,22 @@ class AdminController extends Controller
                 $jsonimages = json_encode($input_vals);
                 $sellerDetail->shop_photo = $jsonimages;
             }
+
+            if ($request->hasFile('s_logo')) {
+                $upload_logopath = 'uploads/shoplogos/';
+                if (!is_dir($upload_logopath)) {
+                    mkdir($upload_logopath, 0777, true);
+                }
+                foreach ($request->file('s_logo') as $flogo) {
+                    if ($flogo->isValid()) {
+                        $logofile_name = time() . '_' . $flogo->getClientOriginalName();
+                        $flogo->move($upload_logopath, $logofile_name);
+                        $logofilename = $upload_logopath . $logofile_name;
+                        $sellerDetail->shoplogo = $logofilename;
+                    }
+                }
+            }
+
 
             $input_media = [];
             $input_valmedia = [];
@@ -1366,6 +1392,7 @@ class AdminController extends Controller
         $sellerDetail->direct_affiliate = $request->input('sdirectafflte');
         $sellerDetail->second_affiliate = $request->input('ssecondafflte');
         $sellerDetail->shop_coordinator = $request->input('scoordinater');
+        $sellerDetail->colorpicks = $request->input('es_bgcolor');
         $sellerImag = DB::table('seller_details')
             ->select('shop_photo')
             ->where('id', $shopid)
@@ -1396,6 +1423,21 @@ class AdminController extends Controller
             $input_vals = ['fileval' => $input_datas];
             $jsonimages = json_encode($input_vals);
             $sellerDetail->shop_photo = $jsonimages;
+        }
+
+        if ($request->hasFile('es_logo')) {
+            $upload_logopath = 'uploads/shoplogos/';
+            if (!is_dir($upload_logopath)) {
+                mkdir($upload_logopath, 0777, true);
+            }
+            foreach ($request->file('es_logo') as $flogo) {
+                if ($flogo->isValid()) {
+                    $logofile_name = time() . '_' . $flogo->getClientOriginalName();
+                    $flogo->move($upload_logopath, $logofile_name);
+                    $logofilename = $upload_logopath . $logofile_name;
+                    $sellerDetail->shoplogo = $logofilename;
+                }
+            }
         }
 
         $input_media = [];
