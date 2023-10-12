@@ -892,7 +892,7 @@ class AdminController extends Controller
         $userRole = session('user_role');
         $roleid = session('roleid');
 
-        echo $userId = session('user_id');
+        $userId = session('user_id');
         if ($userId == '') {
             return redirect()->route('logout');
         }
