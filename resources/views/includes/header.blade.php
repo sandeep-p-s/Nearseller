@@ -40,7 +40,7 @@
                     <ul>
                         <li> <a href="{{ route('Home') }}">Home</a></li>
                         <li> <a href="{{ route('user.products') }}">Products</a></li>
-                        <li><a href="#/">Services</a> </li>
+                        <li><a href="{{ route('user.services') }}">Services</a> </li>
                         <li><a href="#/">Shops</a> </li>
                         <li> <a href="#/">Best Deals</a></li>
 
@@ -84,7 +84,7 @@
                             <a class="nav-link active" aria-current="page" href="{{ route('user.products') }}">Products</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="services.html">Services</a>
+                            <a class="nav-link" href="{{ route('user.services') }}">Services</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="shops.html">Shops</a>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use Validator;
+use App\Models\LogDetails;
 use App\Models\MenuMaster;
 use App\Models\UserAccount;
 use Illuminate\Support\Arr;
@@ -48,6 +49,14 @@ class ServiceEmployeeController extends Controller
     }
     public function store_service_employee(Request $request)
     {
+
+        $roleid = session('roleid');
+        $userId = session('user_id');
+        if ($userId == '') {
+            return redirect()->route('logout');
+        }
+        $loggedUserIp = $_SERVER['REMOTE_ADDR'];
+        $time = date('Y-m-d H:i:s');
         $validator = Validator::make($request->all(), [
             'employee_name' => 'required|string|max:255',
             'employee_id' => 'required|string|max:255|unique:service_employees',
@@ -86,7 +95,7 @@ class ServiceEmployeeController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $service_emp = new ServiceEmployee;
-        $service->user_id = $request->serviceuser_name;
+        $service_emp->user_id = $request->serviceuser_name;
         $service_emp->employee_name = $request->employee_name;
         $service_emp->employee_id = $request->employee_id;
         $service_emp->designation = $request->designation;
@@ -113,6 +122,14 @@ class ServiceEmployeeController extends Controller
             }
         }
         $service_emp->save();
+        $service_empid = $service_emp->id;
+        $msg = 'New Service Successfully added. Service ID is: ' . $service_empid;
+            $LogDetails = new LogDetails();
+            $LogDetails->user_id = $userId;
+            $LogDetails->ip_address = $loggedUserIp;
+            $LogDetails->log_time = $time;
+            $LogDetails->status = $msg;
+            $LogDetails->save();
 
         return redirect()->route('list.service_employee')->with('success', 'Employee added successfully.');
     }
@@ -139,6 +156,13 @@ class ServiceEmployeeController extends Controller
 
     public function update_service_employee(Request $request, $id)
     {
+
+        $userId = session('user_id');
+        if ($userId == '') {
+            return redirect()->route('logout');
+        }
+        $loggedUserIp = $_SERVER['REMOTE_ADDR'];
+        $time = date('Y-m-d H:i:s');
         $service_emp = ServiceEmployee::find($id);
 
         if (!$service_emp) {
@@ -212,13 +236,25 @@ class ServiceEmployeeController extends Controller
         }
 
         $service_emp->save();
-
+        $msg = 'Service Employees successfully Updated. Updated service ID is :  ' . $id;
+        $LogDetails = new LogDetails();
+        $LogDetails->user_id = $userId;
+        $LogDetails->ip_address = $loggedUserIp;
+        $LogDetails->log_time = $time;
+        $LogDetails->status = $msg;
+        $LogDetails->save();
         return redirect()->route('list.service_employee')->with('success', 'Employee updated successfully.');
     }
 
 
     public function delete_service_employee($id)
     {
+        $userId = session('user_id');
+        if ($userId == '') {
+            return redirect()->route('logout');
+        }
+        $loggedUserIp = $_SERVER['REMOTE_ADDR'];
+        $time = date('Y-m-d H:i:s');
         $service_emp = ServiceEmployee::find($id);
 
         if (!$service_emp) {
@@ -233,7 +269,13 @@ class ServiceEmployeeController extends Controller
         }
 
         $service_emp->delete();
-
+        $msg = 'Service Employee deleted employee id : ' . $id;
+        $LogDetails = new LogDetails();
+        $LogDetails->user_id = $userId;
+        $LogDetails->ip_address = $loggedUserIp;
+        $LogDetails->log_time = $time;
+        $LogDetails->status = $msg;
+        $LogDetails->save();
         return redirect()->route('list.service_employee')->with('success', 'Employee deleted successfully.');
     }
 }

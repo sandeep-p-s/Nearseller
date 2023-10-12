@@ -57,15 +57,24 @@ class ServiceController extends Controller
     }
     public function store_service(Request $request)
     {
+        $roleid = session('roleid');
+        $userId = session('user_id');
+        if ($userId == '') {
+            return redirect()->route('logout');
+        }
+        $loggedUserIp = $_SERVER['REMOTE_ADDR'];
+        $time = date('Y-m-d H:i:s');
+
         $validator = Validator::make($request->all(), [
             'service_name' => 'required|string|max:255',
             'service_images' => 'required|mimes:jpeg,png,jpg,gif|max:2048',
-
         ]);
+
         $messages = [
             'service_name.required' => 'Service name field is required',
             'service_images.required' => 'Please upload an image',
         ];
+
         $validator->setCustomMessages($messages);
 
         if ($validator->fails()) {
@@ -73,13 +82,14 @@ class ServiceController extends Controller
             $errors = implode("\n", $errors);
             return redirect()->back()->withErrors($validator)->withInput();
         }
+
         $isAttribute = $request->input('customRadio');
-        //dd($isAttribute);
         $service = new ServiceDetails;
         $service->service_id = $request->serviceuser_name;
         $service->service_name = $request->service_name;
         $upload_path = 'uploads/service_images/';
         $file_path = $request->file('service_images');
+
         if ($file_path != '') {
             if ($file_path->isValid()) {
                 $new_name = time() . '_' . $file_path->getClientOriginalName();
@@ -87,13 +97,18 @@ class ServiceController extends Controller
                 $service->service_images = $new_name;
             }
         }
+
         $service->is_attribute = $isAttribute;
-        $service->save();
+        $service->save(); // Save the service first
+
+        // Now, retrieve the ID after saving the service
+        $service_id = $service->id;
+
         if ($isAttribute === 'Y' && $request->has('car')) {
             $showStatus = $request->input('car.0.showstatus.0', '0');
             foreach ($request->input('car') as $attributes) {
                 $addServiceAttribute = new AddServiceAttribute;
-                $addServiceAttribute->service_id = $service->id;
+                $addServiceAttribute->service_id = $service_id; // Use the retrieved service ID
 
                 $addServiceAttribute->attribute_1 = $attributes['attribute1'];
                 $addServiceAttribute->attribute_2 = $attributes['attribute2'];
@@ -105,9 +120,18 @@ class ServiceController extends Controller
                 $addServiceAttribute->show_status = $showStatus;
                 $addServiceAttribute->save();
             }
+            $msg = 'New Service Successfully added. Service ID is: ' . $service_id;
+            $LogDetails = new LogDetails();
+            $LogDetails->user_id = $userId;
+            $LogDetails->ip_address = $loggedUserIp;
+            $LogDetails->log_time = $time;
+            $LogDetails->status = $msg;
+            $LogDetails->save();
         }
+
         return redirect()->route('list.service')->with('success', 'Service details saved successfully');
     }
+
 
     public function edit_service($id)
     {
@@ -127,6 +151,12 @@ class ServiceController extends Controller
 
     public function update_service(Request $request, $id)
     {
+        $userId = session('user_id');
+        if ($userId == '') {
+            return redirect()->route('logout');
+        }
+        $loggedUserIp = $_SERVER['REMOTE_ADDR'];
+        $time = date('Y-m-d H:i:s');
         $validator = Validator::make($request->all(), [
             'service_name' => 'required|string|max:255',
             'service_images' => 'nullable|mimes:jpeg,png,jpg,gif|max:2048',
@@ -144,6 +174,12 @@ class ServiceController extends Controller
             return redirect()->route('list.service')->with('error', 'Service not found.');
         }
         $service->service_name = $request->service_name;
+        if ($request->service_status === 'Active')
+        {
+            $service->service_status = 'Y';
+        } else {
+            $service->service_status = 'N';
+        }
         $upload_path = 'uploads/service_images/';
         $file_path = $request->file('service_images');
 
@@ -201,12 +237,24 @@ class ServiceController extends Controller
 
             AddServiceAttribute::where('service_id', $id)->delete();
         }
-
+        $msg = 'Service Successfully Updated. Updated service ID is :  ' . $id;
+        $LogDetails = new LogDetails();
+        $LogDetails->user_id = $userId;
+        $LogDetails->ip_address = $loggedUserIp;
+        $LogDetails->log_time = $time;
+        $LogDetails->status = $msg;
+        $LogDetails->save();
         return redirect()->route('list.service')->with('success', 'Service details updated successfully');
     }
 
     public function delete_service($id)
     {
+        $userId = session('user_id');
+        if ($userId == '') {
+            return redirect()->route('logout');
+        }
+        $loggedUserIp = $_SERVER['REMOTE_ADDR'];
+        $time = date('Y-m-d H:i:s');
         $service = ServiceDetails::find($id);
 
         if (!$service) {
@@ -228,7 +276,13 @@ class ServiceController extends Controller
         }
 
         $service->delete();
-
+        $msg = 'Service Product Deleted service id : ' . $id;
+        $LogDetails = new LogDetails();
+        $LogDetails->user_id = $userId;
+        $LogDetails->ip_address = $loggedUserIp;
+        $LogDetails->log_time = $time;
+        $LogDetails->status = $msg;
+        $LogDetails->save();
         return redirect()->route('list.service')->with('success', 'Service and its attributes deleted successfully.');
     }
 
@@ -247,8 +301,7 @@ class ServiceController extends Controller
         $toregIDCount = count($service_id);
         $flg = 0;
 
-        for ($i = 0; $i < $toregIDCount; $i++)
-        {
+        for ($i = 0; $i < $toregIDCount; $i++) {
             $serv_id = $service_id[$i];
             $serviceDetails = ServiceDetails::find($serv_id);
 
@@ -285,6 +338,8 @@ class ServiceController extends Controller
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
+        $loggedUserIp = $_SERVER['REMOTE_ADDR'];
+        $time = date('Y-m-d H:i:s');
         $service = ServiceDetails::find($id);
 
         if (!$service) {
@@ -296,10 +351,15 @@ class ServiceController extends Controller
 
     public function UpdateServiceApproval(Request $request, $id)
     {
+        $userId = session('user_id');
+        if ($userId == '') {
+            return redirect()->route('logout');
+        }
+        $loggedUserIp = $_SERVER['REMOTE_ADDR'];
+        $time = date('Y-m-d H:i:s');
         $request->validate([
             'service_name' => 'required|string|max:255',
             'productapproval' => 'required|in:Y,N,R',
-            // Other validation rules for other fields...
         ]);
 
         $service = ServiceDetails::find($id);
@@ -311,18 +371,24 @@ class ServiceController extends Controller
         $service->service_name = $request->input('service_name');
 
         if ($request->input('productapproval') === 'Y') {
-            $service->is_approved = 'Y'; // Approved
+            $service->is_approved = 'Y';
         } elseif ($request->input('productapproval') === 'N') {
-            $service->is_approved = 'N'; // Not Approved
+            $service->is_approved = 'N';
         } elseif ($request->input('productapproval') === 'R') {
-            $service->is_approved = 'R'; // Rejected
+            $service->is_approved = 'R';
         } else {
-            $service->is_approved = 'N'; // Default to Not Approved if none of the above
+            $service->is_approved = 'N';
         }
-
 
         $service->save();
 
+        $msg = 'Approved Status = ' . $service->is_approved . ' service approved id : ' . $id;
+        $LogDetails = new LogDetails();
+        $LogDetails->user_id = $userId;
+        $LogDetails->ip_address = $loggedUserIp;
+        $LogDetails->log_time = $time;
+        $LogDetails->status = $msg;
+        $LogDetails->save();
         return redirect()->route('list.service')->with('success', 'Service has been approved.');
     }
 }

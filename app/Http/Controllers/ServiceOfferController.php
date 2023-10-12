@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Validator;
 use App\Models\Offer;
+use App\Models\LogDetails;
 use App\Models\MenuMaster;
 use App\Models\UserAccount;
 use Illuminate\Http\Request;
@@ -38,7 +39,13 @@ class ServiceOfferController extends Controller
 
     public function store_service_offer(Request $request)
     {
-        //$Offer->update($request->all());
+        $roleid = session('roleid');
+        $userId = session('user_id');
+        if ($userId == '') {
+            return redirect()->route('logout');
+        }
+        $loggedUserIp = $_SERVER['REMOTE_ADDR'];
+        $time = date('Y-m-d H:i:s');
         $validator = Validator::make(
             $request->all(),
             [
@@ -76,6 +83,14 @@ class ServiceOfferController extends Controller
             }
         }
         $service_offer->save();
+        $service_offerid = $service_offer->id;
+        $msg = 'New Service Successfully added. Service ID is: ' . $service_offerid;
+            $LogDetails = new LogDetails();
+            $LogDetails->user_id = $userId;
+            $LogDetails->ip_address = $loggedUserIp;
+            $LogDetails->log_time = $time;
+            $LogDetails->status = $msg;
+            $LogDetails->save();
         return redirect()->route('list.service_offer')->with('success', 'Service Offer saved successfully');
     }
 
@@ -101,6 +116,13 @@ class ServiceOfferController extends Controller
 
     public function update_service_offer(Request $request, $id)
     {
+
+        $userId = session('user_id');
+        if ($userId == '') {
+            return redirect()->route('logout');
+        }
+        $loggedUserIp = $_SERVER['REMOTE_ADDR'];
+        $time = date('Y-m-d H:i:s');
         $serviceoffer = Offer::find($id);
         if (!$serviceoffer) {
             return redirect()->route('list.service_offer')->with('error', 'Service offer not found.');
@@ -135,12 +157,24 @@ class ServiceOfferController extends Controller
             }
         }
         $serviceoffer->save();
-
+        $msg = 'Service offers successfully Updated. Updated service ID is :  ' . $id;
+        $LogDetails = new LogDetails();
+        $LogDetails->user_id = $userId;
+        $LogDetails->ip_address = $loggedUserIp;
+        $LogDetails->log_time = $time;
+        $LogDetails->status = $msg;
+        $LogDetails->save();
         return redirect()->route('list.service_offer')->with('success', 'Service offer updated successfully.');
     }
 
     public function delete_service_offer($id)
     {
+        $userId = session('user_id');
+        if ($userId == '') {
+            return redirect()->route('logout');
+        }
+        $loggedUserIp = $_SERVER['REMOTE_ADDR'];
+        $time = date('Y-m-d H:i:s');
         $service_offer = Offer::find($id);
 
         if (!$service_offer) {
@@ -155,7 +189,13 @@ class ServiceOfferController extends Controller
         }
 
         $service_offer->delete();
-
+        $msg = 'Service Offer deleted offer id : ' . $id;
+        $LogDetails = new LogDetails();
+        $LogDetails->user_id = $userId;
+        $LogDetails->ip_address = $loggedUserIp;
+        $LogDetails->log_time = $time;
+        $LogDetails->status = $msg;
+        $LogDetails->save();
         return redirect()->route('list.service_offer')->with('success', 'Service offer deleted successfully.');
     }
 }

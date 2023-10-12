@@ -403,7 +403,9 @@ Route::controller(AppointmentController::class)->group(function () {
     });
 
 
-    Route::get('/products', [UserController::class, 'homepage'])->name('user.products');
+    Route::get('/products', [UserController::class, 'productPage'])->name('user.products');
+
+    Route::get('/services', [UserController::class, 'servicePage'])->name('user.services');
 
 
 
