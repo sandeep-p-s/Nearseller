@@ -539,6 +539,7 @@ a {
 }
 
 /*............... service.................. */
+
 .service .circle_img {
   border: 1px solid #E3D7FE;
   border-radius: 100%;
@@ -1603,7 +1604,10 @@ input[type='checkbox'] {
   border-bottom: 1px solid #ccc;
   padding: 15px 0;
 }
-
+.service {
+    border-bottom: 1px solid #ccc;
+    padding: 15px 0;
+}
 .cart_tb_head {
   /* background: #F2EFF7; */
   padding: 10px;
