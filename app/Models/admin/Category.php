@@ -28,8 +28,7 @@ class Category extends Model
 
     public static function treeWithStatusY()
     {
-        $allCategories = DB::table('categories')->where('status', 'Y')->get(); // Get active categories
-
+        $allCategories = DB::table('categories')->where('status', 'Y')->where('approval_status', 'Y')->get(); // Get active categories
         $rootCategories = $allCategories->where('parent_id', '0');
 
         // Create a new collection to store the modified categories
@@ -41,6 +40,39 @@ class Category extends Model
 
         return $sortedCategories;
     }
+
+    public static function treeWithStatusYandTypeSort($category_type)
+    {
+        $allCategories = DB::table('categories')->where('status', 'Y')->where('approval_status', 'Y')->where('category_type', $category_type)->get(); // Get active categories
+        $rootCategories = $allCategories->where('parent_id', '0');
+
+        // Create a new collection to store the modified categories
+        $formattedCategories = collect();
+
+        self::formatTree($rootCategories, $allCategories, '', $formattedCategories, 0); // Start at level 0
+
+        $sortedCategories = $formattedCategories->sortBy('parent_id');
+
+        return $sortedCategories;
+    }
+
+    public static function treeWithStatusOnchange($typeValue)
+    {
+        $allCategories = DB::table('categories')->where('status', 'Y')->where('approval_status', 'Y')->get(); // Get active categories
+        $rootCategories = $allCategories->where('parent_id', '0')->where('category_type',$typeValue);
+
+        // Create a new collection to store the modified categories
+        $formattedCategories = collect();
+
+        self::formatTree($rootCategories, $allCategories, '', $formattedCategories, 0); // Start at level 0
+
+        $sortedCategories = $formattedCategories->sortBy('parent_id');
+
+        return $sortedCategories;
+    }
+
+
+
 
 
     public static function treeWithautocomplete($searchTerm)
@@ -70,11 +102,12 @@ class Category extends Model
                 'id' => $category->id,
                 'category_slug' => $category->category_slug,
                 'parent_id' => $category->parent_id,
-                'category_level' => $category_level, // Store the current level
-                'approval_status' => $category->approval_status
+                'category_level' => $category_level,
+                'approval_status' => $category->approval_status,
+                'category_type' => $category->category_type
             ]);
             $category->children = $allCategories->where('parent_id', $category->id)->values();
-            if ($category->children->isNotEmpty() && $category->status == 'Y') {
+            if ($category->children->isNotEmpty() && $category->status == 'Y' && $category->approval_status == 'Y') {
                 self::formatTree($category->children, $allCategories, $categoryPath . ' ➤ ', $formattedCategories, $category_level + 1); // Increment the level
             }
         }

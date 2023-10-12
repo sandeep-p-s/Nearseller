@@ -32,7 +32,7 @@
                                 <div class="form-group">
                                     <label for="categorySelector">Select Parent Category</label>
                                     <select class="form-control mb15" id="categorySelector" name="parent_category"
-                                        onchange="updateLevel()">
+                                        onchange="updateLevel()" disabled>
                                         <option value="0">Select Parent Category</option>
                                         @if ($filteredCategories)
                                             @foreach ($filteredCategories as $category)
@@ -49,19 +49,19 @@
                                         Edit Category Name</label>
                                     <input type="text" class="form-control mb15" id="exampleFormControlInput1"
                                         name="category_name" placeholder="Enter Category Name"
-                                        value="{{ $current_category->category_name }}">
+                                        value="{{ $current_category->category_name }}" disabled>
                                     <input type="hidden" class="form-control mb15" id="category_slug" placeholder=""
-                                        name="category_slug" value="{{ $current_category->category_slug }}">
+                                        name="category_slug" value="{{ $current_category->category_slug }}" disabled>
                                     <input type="hidden" class="form-control mb15" id="category_level" placeholder=""
-                                        name="category_level" value="{{ $current_category->category_level }}">
+                                        name="category_level" value="{{ $current_category->category_level }}" disabled>
                                     <label for="addImage">Edit Image</label>
                                     <div class="card">
                                         <input type="file" id="input-file-now-custom-1" class="dropify"
                                             data-default-file="{{ asset('storage/' . config('imageupload.categorydir') . '/' . config('imageupload.category.image') . $current_category->category_image) }}"
-                                            alt="category image" width="300px" height="300px" name="category_image" />
+                                            alt="category image" width="300px" height="300px" name="category_image" disabled />
                                     </div>
                                     <label for="categoryStatus">Status</label>
-                                    <select class="form-control" id="categoryStatus" name="status">
+                                    <select class="form-control mb15" id="categoryStatus" name="status" disabled>
                                         <option value="">Select </option>
                                         <option value="Y" {{ $current_category->status == 'Y' ? 'selected' : '' }}>
                                             Active

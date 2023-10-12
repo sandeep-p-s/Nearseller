@@ -32,19 +32,27 @@
                             <form method="POST" action="{{ route('store.category') }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="categorySelector">Select Parent Category</label>
-                                    <select class="form-control mb15" id="categorySelector" name="parent_category" onchange="updateLevel()">
-                                        <option value="0">Select Parent Category</option>
-                                        @foreach ($filteredCategories as $key => $category)
-                                            <option value="{{ $category->id }}" data-level="{{ $category->category_level }}">
-                                                @for ($i = 0; $i < $category->category_level; $i++)
-                                                     {{-- You can add any other content here for indentation if needed --}}
-                                                @endfor
-                                                <span class="{{ $key === count($filteredCategories) - 1 ? 'last-child' : '' }}">{{ $category->category_name }}</span>
-                                            </option>
-                                        @endforeach
+                                    <label for="categorySelector">Select Type<span class="text-danger">*</span></label>
+                                    <select class="form-control mb15" id="typeSelector" name="select_type">
+                                        <option value="0">Select Type</option>
+                                        <option value="1">Shop</option>
+                                        <option value="2">Service</option>
                                     </select>
-                                     <label for="addShopType">Category Name</label>
+                                    <label for="categorySelector">Select Parent Category</label>
+                                    <select class="form-control mb15" id="categorySelector" name="parent_category"
+                                        onchange="updateLevel()">
+                                        <option value="0">Select Parent Category (optional)</option>
+                                        {{-- @foreach ($filteredCategories as $key => $category)
+                                            <option value="{{ $category->id }}"
+                                                data-level="{{ $category->category_level }}">
+                                                @for ($i = 0; $i < $category->category_level; $i++)
+                                                @endfor
+                                                <span
+                                                    class="{{ $key === count($filteredCategories) - 1 ? 'last-child' : '' }}">{{ $category->category_name }}</span>
+                                            </option>
+                                        @endforeach --}}
+                                    </select>
+                                    <label for="addShopType">Category Name<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control mb15" id="category_name"
                                         placeholder="Enter Category Name" name="category_name">
                                     <input type="hidden" class="form-control mb15" id="slug_name" placeholder=""
@@ -58,6 +66,9 @@
                                                 data-default-file="" name="category_image" accept="image/jpeg, image/png" />
                                         </div>
                                     </div>
+                                    @error('select_type')
+                                        <div class="text-danger mb15">{{ $message }}</div>
+                                    @enderror
                                     @error('category_name')
                                         <div class="text-danger mb15">{{ $message }}</div>
                                     @enderror
@@ -114,5 +125,26 @@
                 levelInput.value = level;
             }
 
+            document.addEventListener("DOMContentLoaded", function() {
+                var typeSelector = document.getElementById("typeSelector");
+                var categorySelector = document.getElementById("categorySelector");
+
+                typeSelector.addEventListener("change", function() {
+                    var selectedType = parseInt(typeSelector.value, 10);
+
+                    if (selectedType !== 0 && (selectedType === 1 || selectedType === 2)) {
+                        $.get("/parentcategory/" + selectedType, function(data) {
+                            $('#categorySelector').empty().append(
+                                '<option value="0">Select Parent Category (optional)</option>');
+                            $.each(data, function(index, filteredCategories) {
+                                $('#categorySelector').append('<option value="' +
+                                    filteredCategories.id + '" data-level="' + filteredCategories.category_level + '">' +
+                                    filteredCategories
+                                    .category_name + '</option>');
+                            });
+                        });
+                    }
+                });
+            });
         </script>
     @endsection
