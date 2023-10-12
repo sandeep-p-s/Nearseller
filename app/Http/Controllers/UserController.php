@@ -6,8 +6,13 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function homepage()
+    public function productPage()
     {
         return view('user.products');
+    }
+
+    public function servicePage()
+    {
+        return view('user.services');
     }
 }

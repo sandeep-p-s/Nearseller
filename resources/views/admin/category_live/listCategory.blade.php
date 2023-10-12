@@ -53,6 +53,8 @@
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr>
+                                        <th>Select all&nbsp;&nbsp;<input type='checkbox' name='checkbox1' id='checkbox1'
+                                                onclick='check();' /></th>
                                         <th>No</th>
                                         <th>Category Name</th>
                                         <th>Status</th>
@@ -61,13 +63,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($categories as $c)
-                                        <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>
+                                    @foreach ($categories as $index => $c)
+                                    <tr>
+                                        <td width="5%" ><input name="categoryid[]" type="checkbox" id="categoryid{{ $index + 1 }}"
+                                                value="{{ $c->id }}"
+                                                {{ $c->approval_status === 'Y' ? 'checked' : '' }} />
+                                        </td>
+
+                                            <td width="5%" >{{ $loop->iteration }}</td>
+                                            <td width="65%">
                                                 @foreach (explode(' ➤ ', $c->category_name) as $key => $path)
                                                     @if ($loop->last)
-                                                        <span class="badge badge-soft-orange p-2"
+                                                        <span
+                                                            class="badge {{ $c->category_type === 1 ? 'badge-soft-orange' : 'badge-soft-primary' }}  p-2"
                                                             style="font-size: 15px !important;">{{ $path }}</span>
                                                     @else
                                                         @if ($key === count(explode(' ➤ ', $c->category_name)) - 1)
@@ -79,19 +87,19 @@
                                                 @endforeach
                                             </td>
 
-                                            <td>
+                                            <td width="5%" class="text-center">
                                                 <span
                                                     class="badge p-2 {{ $c->status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
                                                     {{ $c->status === 'Y' ? 'Active' : 'Inactive' }}
                                                 </span>
                                             </td>
-                                            <td>
+                                            <td width="10%" class="text-center">
                                                 <span
                                                     class="badge p-2 {{ $c->approval_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
                                                     {{ $c->approval_status === 'Y' ? 'Approved' : 'Not Approved' }}
                                                 </span>
                                             </td>
-                                            <td>
+                                            <td width="10%" class="text-center">
                                                 {{-- {{ $c->id }} --}}
                                                 <div class="btn-group mb-2 mb-md-0">
                                                     <button type="button" class="btn view_btn dropdown-toggle"
@@ -101,10 +109,10 @@
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item view_btn1"
                                                             href="{{ route('edit.category', $c->category_slug) }}">Edit</a>
-                                                            @if(session('roleid')==1)
-                                                        <a class="dropdown-item view_btn1"
-                                                            href="{{ route('approved.category', $c->category_slug) }}">Approved</a>
-                                                            @endif
+                                                        @if (session('roleid') == 1)
+                                                            <a class="dropdown-item view_btn1"
+                                                                href="{{ route('approved.category', $c->category_slug) }}">Approved</a>
+                                                        @endif
                                                         {{-- <a class="dropdown-item delete_btn"
                                                         href="{{ route('delete.category', $c->category_slug) }}"
                                                         onclick="return confirm('Are you sure you want to delete?')">Delete</a> --}}
@@ -116,9 +124,33 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            <input type="hidden" value="{{ $index + 1 }}" id="totalservicecnt">
+
                         </div>
                     </div>
                 </div> <!-- end col -->
             </div> <!-- end row -->
         </div><!-- container -->
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <script>
+            $('#approveAll').on('click', function() {
+                serviceapprovedall(); // Call the serviceapprovedall function
+            });
+
+            function check() {
+
+                if (document.getElementById('checkbox1').checked == true) {
+                    for (i = 1; i <= document.getElementById('totalservicecnt').value; i++) {
+                        document.getElementById('categoryid' + i).checked = true;
+                    }
+                } else {
+                    for (i = 1; i <= document.getElementById('totalservicecnt').value; i++) {
+                        document.getElementById('categoryid' + i).checked = false;
+                    }
+                }
+
+            }
+            </script>
     @endsection

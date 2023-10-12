@@ -44,6 +44,7 @@
                                     <div class="form-group">
                                         <label for="exampleFormControlSelect1">Status</label>
                                         <select class="form-control" id="exampleFormControlSelect1" name="status">
+                                            <option value="select">Select</option>
                                             <option value="Active" @if($servicecategory->status === 'Y') selected @endif>Active</option>
                                             <option value="Inactive" @if($servicecategory->status === 'N') selected @endif>Inactive</option>
                                         </select>

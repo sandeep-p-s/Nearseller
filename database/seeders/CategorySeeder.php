@@ -14,9 +14,9 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $data = array(
-            array('category_name' => 'Fashion', 'parent_id' => '0', 'category_level' => '0', 'category_type' => '1' , 'status' => 'Y', 'category_slug' => 'fashion-22', 'approval_status' => 'Y'),
-            array('category_name' => 'Electronics', 'parent_id' => '0', 'category_level' => '0', 'category_type' => '1' , 'status' => 'Y', 'category_slug' => 'electronics-22', 'approval_status' => 'Y'),
-            array('category_name' => 'Home Appliances', 'parent_id' => '0', 'category_level' => '0', 'category_type' => '1' , 'status' => 'Y', 'category_slug' => 'home-appliances-22', 'approval_status' => 'Y'),
+            array('category_name' => 'Fashion', 'parent_id' => '0', 'category_level' => '0', 'category_type' => '1' , 'status' => 'Y', 'category_slug' => 'fashion-22', 'created_by' => '1', 'approval_status' => 'Y', 'approved_by' => '1'),
+            array('category_name' => 'Electronics', 'parent_id' => '0', 'category_level' => '0', 'category_type' => '1' , 'status' => 'Y', 'category_slug' => 'electronics-22', 'created_by' => '1', 'approval_status' => 'Y', 'approved_by' => '1'),
+            array('category_name' => 'Home Appliances', 'parent_id' => '0', 'category_level' => '0', 'category_type' => '1' , 'status' => 'Y', 'category_slug' => 'home-appliances-22', 'created_by' => '1', 'approval_status' => 'Y', 'approved_by' => '1'),
 
         );
         foreach ($data as $item) {
@@ -27,7 +27,9 @@ class CategorySeeder extends Seeder
                 'category_type'    => $item['category_type'],
                 'status'            => $item['status'],
                 'category_slug'     => $item['category_slug'],
+                'created_by'     => $item['created_by'],
                 'approval_status'   => $item['approval_status'],
+                'approved_by'   => $item['approved_by'],
             ]);
         }
     }

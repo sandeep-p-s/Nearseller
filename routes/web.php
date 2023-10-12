@@ -327,6 +327,7 @@ Route::controller(AppointmentController::class)->group(function () {
         Route::get('listcategory', 'list_category')->name('list.category');
         Route::get('addlistcategory', 'list_category')->name('list.category');
         Route::get('addcategory', 'add_category')->name('add.category');
+        Route::get('parentcategory/{value}', 'parent_category')->name('parent.category');
         Route::post('savecategory', 'store_category')->name('store.category');
         Route::get('editcategory/{id}', 'edit_category')->name('edit.category');
         Route::post('updatecategory/{id}', 'update_category')->name('update.category');
@@ -403,7 +404,9 @@ Route::controller(AppointmentController::class)->group(function () {
     });
 
 
-    Route::get('/products', [UserController::class, 'homepage'])->name('user.products');
+    Route::get('/products', [UserController::class, 'productPage'])->name('user.products');
+
+    Route::get('/services', [UserController::class, 'servicePage'])->name('user.services');
 
 
 
