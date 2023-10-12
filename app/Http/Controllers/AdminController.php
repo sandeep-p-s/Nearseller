@@ -900,7 +900,7 @@ class AdminController extends Controller
         $shopname = $request->input('shopname');
         $ownername = $request->input('ownername');
         $referalid = $request->input('referalid');
-        echo $typeid = $request->input('typeid');
+        $typeid = $request->input('typeid');
 
         $query = SellerDetails::select('seller_details.*', 'business_type.business_name', 'service_categories.service_category_name', 'service_sub_categories.sub_category_name', 'service_types.service_name', 'executives.executive_name', 'country.country_name', 'state.state_name', 'district.district_name')
             ->leftJoin('business_type', 'business_type.id', 'seller_details.busnes_type')
