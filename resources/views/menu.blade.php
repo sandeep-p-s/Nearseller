@@ -1,5 +1,6 @@
 <!-- Admin menus -->
-<div class="menu-content h-100" data-simplebar>
+{{-- <div class="menu-content h-100" data-simplebar  style="background-color: {{ isset($allsectdetails->colorpicks) ? $allsectdetails->colorpicks : '' }}"> --}}
+    <div class="menu-content h-100" data-simplebar >
 
 <!-- menu.blade.php -->
 <ul class="metismenu left-sidenav-menu">

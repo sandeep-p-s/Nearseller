@@ -1660,6 +1660,7 @@ hr.hr-dashed {
 .badge.badge-outline-info {
     border: 1px solid rgba(18, 164, 237, 0.5);
     color: #12a4ed
+    /* color: #040b1f */
 }
 
 .badge.badge-outline-light {
@@ -5685,6 +5686,7 @@ pre[class*="language-"] {
 .badge.badge-soft-primary {
     background-color: rgba(23, 97, 253, 0.15) !important;
     color: #1761fd !important;
+    /* color: #040b1f !important; */
     -webkit-box-shadow: 0px 0px 13px 0px rgba(23, 97, 253, 0.05);
     box-shadow: 0px 0px 13px 0px rgba(23, 97, 253, 0.05)
 }

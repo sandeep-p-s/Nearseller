@@ -4,7 +4,13 @@
     @include('topnav')
 
 
-    <div class="page-content">
+
+
+
+
+
+
+<div class="page-content" >
         @php
         $roleid=session('roleid');
         $roleIdsArray = explode(',', $roleid);
@@ -39,6 +45,7 @@
                             <div class="col">
                                 <p class="text-dark mb-1 font-weight-semibold">Users</p>
                                 <h3 class="my-2">{{ $countUsers }}</h3>
+                                <a href="#" class="badge p-2 badge badge-info" >View All</a>
                             </div>
                             <div class="col-auto align-self-center">
                                 <div class="report-main-icon bg-light-alt">
@@ -56,6 +63,7 @@
                             <div class="col">
                                 <p class="text-dark mb-1 font-weight-semibold">Affiliates</p>
                                 <h3 class="my-2">{{$countAffiliate}}</h3>
+                                <a href="#" class="badge p-2 badge badge-info" >View All</a>
                             </div>
                             <div class="col-auto align-self-center">
                                 <div class="report-main-icon bg-light-alt">
@@ -72,9 +80,9 @@
                         <div class="card-body">
                             <div class="row d-flex justify-content-center">
                                 <div class="col">
-                                  <p class="text-dark mb-1 font-weight-semibold">Shops</p>
+                                  <p class="text-dark mb-1 font-weight-semibold">Total Shops</p>
                                   <h3 class="my-2">{{$countShops}}</h3>
-
+                                  <a href="{{ route('admin.shopapprovals',1) }}" class="badge p-2 badge badge-info" >View All</a>
                                 </div>
                                 <div class="col-auto align-self-center">
                                   <div class="report-main-icon bg-light-alt">
@@ -91,9 +99,49 @@
                         <div class="card-body">
                             <div class="row d-flex justify-content-center">
                                 <div class="col">
-                                  <p class="text-dark mb-1 font-weight-semibold">Services</p>
-                                  <h3 class="my-2">{{$countservices}}</h3>
+                                  <p class="text-dark mb-1 font-weight-semibold">Inactive Shops</p>
+                                  <h3 class="my-2">{{$countInactiveShops}}</h3>
+                                  <a href="{{ route('admin.shopapprovalsinactive',1) }}" class="badge p-2 badge badge-info" >View All</a>
+                                </div>
+                                <div class="col-auto align-self-center">
+                                  <div class="report-main-icon bg-light-alt">
+                                    <i class="fa-solid fa-shop"></i>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="card report-card">
+                        <div class="card-body">
+                            <div class="row d-flex justify-content-center">
+                                <div class="col">
+                                  <p class="text-dark mb-1 font-weight-semibold">Total Services</p>
+                                  <h3 class="my-2">{{$countservices}}</h3>
+                                  <a href="{{ route('admin.shopapprovals',2) }}" class="badge p-2 badge badge-info" >View All</a>
+                                </div>
+                                <div class="col-auto align-self-center">
+                                  <div class="report-main-icon bg-light-alt">
+                                    <i class="fa-solid fa-shop"></i>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="card report-card">
+                        <div class="card-body">
+                            <div class="row d-flex justify-content-center">
+                                <div class="col">
+                                  <p class="text-dark mb-1 font-weight-semibold">Inactive Services</p>
+                                  <h3 class="my-2">{{$countInactiveservices}}</h3>
+                                  <a href="{{ route('admin.shopapprovalsinactive',2) }}" class="badge p-2 badge badge-info" >View All</a>
                                 </div>
                                 <div class="col-auto align-self-center">
                                   <div class="report-main-icon bg-light-alt">
@@ -114,6 +162,7 @@
                             <div class="col">
                                 <p class="text-dark mb-1 font-weight-semibold">Wallets</p>
                                 <h3 class="my-2">0</h3>
+                                <a href="#" class="badge p-2 badge badge-info" >View All</a>
                             </div>
                             <div class="col-auto align-self-center">
                                 <div class="report-main-icon bg-light-alt">

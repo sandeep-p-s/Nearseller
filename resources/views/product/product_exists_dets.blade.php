@@ -297,17 +297,17 @@
                                                     </div>
                                                     <div class="col">
                                                         <input type="text" id="attatibutesx1" name="attatibutesx1"
-                                                            placeholder="Attribute1" class="form-control"
+                                                            placeholder="Attribute1" class="form-control" required
                                                             value="{{ $attribte->attribute_1 }}">
                                                     </div>
                                                     <div class="col">
                                                         <input type="text" id="attatibutesx2" name="attatibutesx2"
-                                                            placeholder="Attribute2" class="form-control"
+                                                            placeholder="Attribute2" class="form-control" required
                                                             value="{{ $attribte->attribute_2 }}">
                                                     </div>
                                                     <div class="col">
                                                         <input type="text" id="attatibutesx3" name="attatibutesx3"
-                                                            placeholder="Attribute3" class="form-control"
+                                                            placeholder="Attribute3" class="form-control" required
                                                             value="{{ $attribte->attribute_3 }}">
                                                     </div>
                                                     <div class="col">
@@ -347,15 +347,15 @@
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" id="attatibutesx1" name="attatibutesx1"
-                                                        placeholder="Attribute" class="form-control" />
+                                                        placeholder="Attribute" class="form-control" required />
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" id="attatibutesx2" name="attatibutesx2"
-                                                        placeholder="Attribute" class="form-control" />
+                                                        placeholder="Attribute" class="form-control" required />
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" id="attatibutesx3" name="attatibutesx3"
-                                                        placeholder="Attribute" class="form-control" />
+                                                        placeholder="Attribute" class="form-control" required />
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" id="attatibutesx4" name="attatibutesx4"
@@ -599,17 +599,75 @@
 
 
 
+    // var fileArrs = [];
+    // var totalFiless = 0;
+
+    // $("#s_photosx").change(function(event) {
+    //     var totalFileCount = $(this)[0].files.length;
+    //     if (totalFiless + totalFileCount > 10) {
+    //         alert('Maximum 10 images allowed');
+    //         $(this).val('');
+    //         $('#image-previewsx').html('');
+    //         return;
+    //     }
+
+    //     for (var i = 0; i < totalFileCount; i++) {
+    //         var file = $(this)[0].files[i];
+
+    //         if (file.size > 3145728) {
+    //             alert('File size exceeds the limit of 3MB');
+    //             $(this).val('');
+    //             $('#image-previewsx').html('');
+    //             return;
+    //         }
+
+    //         fileArrs.push(file);
+    //         totalFiless++;
+
+    //         var reader = new FileReader();
+    //         reader.onload = (function(file) {
+    //             return function(event) {
+    //                 var imgDiv = $('<div>').addClass('img-div col-md-3 img-container');
+    //                 var img = $('<img>').attr('src', event.target.result).addClass(
+    //                     'img-responsive image img-thumbnail').attr('width', '200', 'height',
+    //                     '200');
+    //                 var removeBtn = $('<button>').addClass('btn btn-danger remove-btnsx').attr(
+    //                     'title', 'Remove Image').append('Remove').attr('role', file.name);
+
+    //                 imgDiv.append(img);
+    //                 imgDiv.append($('<div class="text-center">').addClass('middle').append(
+    //                     removeBtn));
+
+    //                 $('#image-previewsx').append(imgDiv);
+    //             };
+    //         })(file);
+
+    //         reader.readAsDataURL(file);
+    //     }
+    // });
+
+    // $(document).on('click', '.remove-btnsx', function() {
+    //     var fileName = $(this).attr('role');
+
+    //     for (var i = 0; i < fileArrs.length; i++) {
+    //         if (fileArrs[i].name === fileName) {
+    //             fileArrs.splice(i, 1);
+    //             totalFiless--;
+    //             break;
+    //         }
+    //     }
+
+    //     document.getElementById('s_photosx').files = new FileListItem(fileArrs);
+    //     $(this).closest('.img-div').remove();
+    // });
+
     var fileArrs = [];
     var totalFiless = 0;
 
     $("#s_photosx").change(function(event) {
+        //$('#image-previewsx').html('');
         var totalFileCount = $(this)[0].files.length;
-        if (totalFiless + totalFileCount > 10) {
-            alert('Maximum 10 images allowed');
-            $(this).val('');
-            $('#image-previewsx').html('');
-            return;
-        }
+
 
         for (var i = 0; i < totalFileCount; i++) {
             var file = $(this)[0].files[i];
@@ -623,20 +681,27 @@
 
             fileArrs.push(file);
             totalFiless++;
+            if (totalFiless  > 10) {
+            alert('Maximum 10 images allowed');
+            $(this).val('');
+            $('#image-previewsx').html('');
+            totalFiless = 0;
+            fileArrs = [];
+            return;
+        }
+
 
             var reader = new FileReader();
             reader.onload = (function(file) {
                 return function(event) {
                     var imgDiv = $('<div>').addClass('img-div col-md-3 img-container');
                     var img = $('<img>').attr('src', event.target.result).addClass(
-                        'img-responsive image img-thumbnail').attr('width', '200', 'height',
-                        '200');
-                    var removeBtn = $('<button>').addClass('btn btn-danger remove-btnsx').attr(
+                        'img-responsive image new_thumpnail').attr('width', '100');
+                    var removeBtn = $('<button>').addClass('btn btn-danger remove-btns').attr(
                         'title', 'Remove Image').append('Remove').attr('role', file.name);
 
                     imgDiv.append(img);
-                    imgDiv.append($('<div class="text-center">').addClass('middle').append(
-                        removeBtn));
+                    imgDiv.append($('<div>').addClass('middle').append(removeBtn));
 
                     $('#image-previewsx').append(imgDiv);
                 };
@@ -644,9 +709,12 @@
 
             reader.readAsDataURL(file);
         }
+        document.getElementById('s_photosx').files = new FileListItem([]);
+        document.getElementById('s_photosx').files = new FileListItem(fileArrs);
+
     });
 
-    $(document).on('click', '.remove-btnsx', function() {
+    $(document).on('click', '.remove-btns', function() {
         var fileName = $(this).attr('role');
 
         for (var i = 0; i < fileArrs.length; i++) {
@@ -660,6 +728,7 @@
         document.getElementById('s_photosx').files = new FileListItem(fileArrs);
         $(this).closest('.img-div').remove();
     });
+
 
 
 

@@ -15,10 +15,10 @@
                                 <h4 class="page-title">Business Type</h4>
 
                             </div>
-                            <div class="col-auto align-self-center">
+                            {{-- <div class="col-auto align-self-center">
                                 <a href="{{ route('add.businesstype') }}"><button type="button" class="btn add_btn ">Add
                                         Business Type </button></a>
-                            </div><!--end col-->
+                            </div><!--end col--> --}}
 
 
                         </div><!--end row-->
@@ -53,7 +53,7 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Business Type</th>
-                                        <th>Action</th>
+                                        {{-- <th>Action</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -61,7 +61,7 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $bt->business_name }}</td>
-                                            <td>
+                                           {{--  <td>
                                                 <div class="btn-group mb-2 mb-md-0">
                                                     <button type="button" class="btn view_btn dropdown-toggle"
                                                         data-toggle="dropdown" aria-haspopup="true"
@@ -75,7 +75,7 @@
                                                             onclick="return confirm('Are you sure you want to delete?')">Delete</a>
                                                     </div>
                                                 </div>
-                                            </td>
+                                            </td>--}}
 
                                         </tr>
                                     @endforeach
@@ -88,6 +88,6 @@
             </div> <!-- end row -->
 
         </div><!-- container -->
-    
+
     @endsection
 
