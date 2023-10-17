@@ -74,6 +74,12 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/executivename/{executive}', 'executivename')->name('executivename');
     Route::get('/shopservicetype/{shopservice}', 'shopservicetype')->name('shopservicetype');
     Route::get('/getsubshopservice/{subshopservice}', 'getsubshopservice')->name('getsubshopservice');
+    Route::post('existshopname', 'ExistShopNameCheck')->name('existshopname');
+    Route::post('existExecutivename', 'ExistExecutivenameCheck')->name('existExecutivename');
+    Route::post('existcategoryname', 'ExistCategoryName')->name('existcategoryName');
+    Route::post('existServicetypeName', 'ExistServiceTypeName')->name('existServicetypeName');
+
+
 });
 
 Route::controller(UserLoggedController::class)->group(function () {
@@ -108,7 +114,13 @@ Route::controller(AdminController::class)->group(function () {
     Route::post('affiliateApproved', 'AdmaffiliateApproved')->name('affiliateApproved');
     Route::post('AdmsAffiliateApproved', 'AdmsAffiliateApprovedPage')->name('AdmsAffiliateApproved');
     Route::post('AffiliateDelete', 'AdmaffiliateDeletePage')->name('AffiliateDelete');
+    Route::get('shopsinactive/{id}', 'ShopInactives')->name('admin.shopapprovalsinactive');
+    Route::get('allshopsinactive', 'AllShopsInactiveList')->name('admin.allshopsinactiveview');
 });
+        
+
+
+
 
 Route::controller(RoleController::class)->group(function () {
     Route::get('listrole', 'get_roles')->name('get.roles');

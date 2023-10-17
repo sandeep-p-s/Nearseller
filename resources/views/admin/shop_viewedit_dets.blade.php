@@ -43,7 +43,8 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-4">
-                <div class="form-outline mb-3"><label>{{ $shoporservice }} Name</label>
+                <div class="form-outline mb-3"><label>{{ $shoporservice }} Name<span
+                            class="text-danger">*</span></label>
                     <input type="text" id="es_name" name="es_name" value="{{ $sellerDetails->shop_name }}"
                         class="form-control form-control-lg" maxlength="50" placeholder="Shop Name" required
                         tabindex="1" />
@@ -51,7 +52,7 @@
                 </div>
 
 
-                <div class="form-outline mb-3"><label>Owner Name</label>
+                <div class="form-outline mb-3"><label>Owner Name<span class="text-danger">*</span></label>
                     <input type="text" id="es_ownername" name="es_ownername" value="{{ $sellerDetails->owner_name }}"
                         class="form-control form-control-lg" maxlength="50" placeholder="Owner Name" required
                         tabindex="2" />
@@ -60,7 +61,7 @@
 
 
 
-                <div class="form-outline mb-3"><label>Mobile Number</label>
+                <div class="form-outline mb-3"><label>Mobile Number<span class="text-danger">*</span></label>
                     <input type="text" id="es_mobno" name="es_mobno" value="{{ $sellerDetails->shop_mobno }}"
                         class="form-control form-control-lg" maxlength="10" placeholder="Mobile No" required
                         tabindex="3" onchange="exstmobno(this.value,'2')" />
@@ -69,8 +70,8 @@
                 </div>
                 <div class="form-outline mb-3"><label>Email ID</label>
                     <input type="email" id="es_email" name="es_email" value="{{ $sellerDetails->shop_email }}"
-                        class="form-control form-control-lg" maxlength="35" placeholder="Email ID" required
-                        tabindex="4" onchange="exstemilid(this.value,'2')" />
+                        class="form-control form-control-lg" maxlength="35" placeholder="Email ID" tabindex="4"
+                        onchange="exstemilid(this.value,'2')" />
                     <label for="es_email" class="error"></label>
                     <div id="esemil-message" class="text-center" style="display: none;"></div>
                 </div>
@@ -81,10 +82,9 @@
                     <div id="es_refralid-message" class="text-center" style="display: none;"></div>
                 </div>
 
-                <div class="form-outline mb-3"><label>Business Type</label>
+                <div class="form-outline mb-3" style="display: none;"><label>Business Type<span class="text-danger">*</span></label>
                     <select class="form-select form-control form-control-lg" id="es_busnestype" name="es_busnestype"
                         required tabindex="6">
-                        <option value="">Business Type</option><br />
                         @foreach ($business as $busnes)
                             <option value="{{ $busnes->id }}" @if ($busnes->id == $sellerDetails->busnes_type) selected @endif>
                                 {{ $busnes->business_name }}</option>
@@ -92,7 +92,8 @@
                     </select>
                     <label for="es_busnestype" class="error"></label>
                 </div>
-                <div class="form-outline mb-3"><label>{{ $shoporservice }} Category</label>
+                <div class="form-outline mb-3"><label>{{ $shoporservice }} Category<span
+                            class="text-danger">*</span></label>
                     <select class="form-select form-control form-control-lg" id="es_shopservice" name="es_shopservice"
                         required tabindex="7">
                         <option value="">{{ $shoporservice }} Category</option><br />
@@ -108,7 +109,7 @@
 
 
 
-                <div class="form-outline mb-3"><label>{{ $shoporservice }} Sub Category</label>
+                {{-- <div class="form-outline mb-3"><label>{{ $shoporservice }} Sub Category</label>
                     <select class="form-select form-control form-control-lg" id="es_subshopservice"
                         name="es_subshopservice" required tabindex="7">
                         <option value="">{{ $shoporservice }} Sub Category</option><br />
@@ -119,10 +120,11 @@
                         @endforeach
                     </select>
                     <label for="es_subshopservice" class="error"></label>
-                </div>
+                </div> --}}
 
 
-                <div class="form-outline mb-3"><label>{{ $shoporservice }} Type</label>
+                <div class="form-outline mb-3"><label>{{ $shoporservice }} Type<span
+                            class="text-danger">*</span></label>
                     <select class="form-select form-control form-control-lg" id="es_shopservicetype"
                         name="es_shopservicetype" required tabindex="7">
                         <option value="">{{ $shoporservice }} Type</option><br />
@@ -137,7 +139,7 @@
 
                 <div class="form-outline mb-3"><label>{{ $shoporservice }} Executive Name</label>
                     <select class="form-select form-control form-control-lg" id="es_shopexectename"
-                        name="es_shopexectename" required tabindex="8">
+                        name="es_shopexectename" tabindex="8">
                         <option value="">{{ $shoporservice }} Executive Name</option><br />
                         @foreach ($executives as $exec)
                             <option value="{{ $exec->id }}" @if ($exec->id == $sellerDetails->shop_executive) selected @endif>
@@ -207,26 +209,28 @@
             <div class="col-md-4">
 
 
-                <div class="form-outline mb-3"><label>Building/House Name & Number</label>
+                <div class="form-outline mb-3"><label>Building/House Name & Number<span
+                            class="text-danger">*</span></label>
                     <input type="text" id="es_buldingorhouseno" name="es_buldingorhouseno"
                         value="{{ $sellerDetails->house_name_no }}" maxlength="100"
                         class="form-control form-control-lg" placeholder="Building/House Name & Number" required
                         tabindex="11" />
                     <label for="es_buldingorhouseno" class="error"></label>
                 </div>
-                <div class="form-outline mb-3"><label>Locality</label>
+                <div class="form-outline mb-3"><label>Locality<span class="text-danger">*</span></label>
                     <input type="text" id="es_locality" name="es_locality"
                         value="{{ $sellerDetails->locality }}" maxlength="100" class="form-control form-control-lg"
                         placeholder="Locality" required tabindex="12" />
                     <label for="es_locality" class="error"></label>
                 </div>
-                <div class="form-outline mb-3"><label>Village/Town/Municipality</label>
+                <div class="form-outline mb-3"><label>Village/Town/Municipality<span
+                            class="text-danger">*</span></label>
                     <input type="text" id="es_villagetown" name="es_villagetown"
                         value="{{ $sellerDetails->village }}" maxlength="100" class="form-control form-control-lg"
                         placeholder="Village/Town/Municipality" required tabindex="13" />
                     <label for="es_villagetown" class="error"></label>
                 </div>
-                <div class="form-outline mb-3"><label>Country</label>
+                <div class="form-outline mb-3"><label>Country<span class="text-danger">*</span></label>
                     <select class="form-select form-control form-control-lg" name="ecountry"
                         aria-label="Default select example" id="ecountry" required tabindex="14">
                         <option value="">Select country</option>
@@ -237,7 +241,7 @@
                     </select>
                     <label for="ecountry" class="error"></label>
                 </div>
-                <div class="form-outline mb-3"><label>State</label>
+                <div class="form-outline mb-3"><label>State<span class="text-danger">*</span></label>
                     <select class="form-select form-control form-control-lg" name="estate"
                         aria-label="Default select example" id="estate" required tabindex="15">
                         @foreach ($states as $state)
@@ -247,7 +251,7 @@
                     </select>
                     <label for="estate" class="error"></label>
                 </div>
-                <div class="form-outline mb-3"><label>District</label>
+                <div class="form-outline mb-3"><label>District<span class="text-danger">*</span></label>
                     <select class="form-select form-control form-control-lg" aria-label="Default select example"
                         id="edistrict" name="edistrict" required tabindex="16">
                         @foreach ($districts as $dist)
@@ -258,19 +262,46 @@
                     <label for="edistrict" class="error"></label>
                 </div>
 
-                <div class="form-outline mb-3"><label>Pincode</label>
+                <div class="form-outline mb-3"><label>Pincode<span class="text-danger">*</span></label>
                     <input type="text" id="es_pincode" name="es_pincode" value="{{ $sellerDetails->pincode }}"
                         maxlength="6" class="form-control form-control-lg" placeholder="Pin Code" required
                         tabindex="17" />
                     <label for="es_pincode" class="error"></label>
                 </div>
-                <div class="form-outline mb-3"><label>Google map link location</label>
+
+
+
+
+                {{-- <div class="form-outline mb-3"><label>Google map link location</label>
                     <input type="text" id="es_googlelink" name="es_googlelink"
                         value="{{ $sellerDetails->googlemap }}" id class="form-control form-control-lg"
                         placeholder="Google map link location" required tabindex="18" />
                     <label for="es_googlelink" class="error"></label>
+                </div> --}}
+
+
+                <div class="form-outline mb-3"><label>Latitude (Google map location)<span
+                            class="text-danger">*</span></label>
+                    <input type="text" id="es_googlelatitude" name="es_googlelatitude"
+                        value="{{ $sellerDetails->latitude }}" class="form-control form-control-lg"
+                        placeholder="Latitude (Google map location)" required tabindex="18" />
+                    <label for="es_googlelatitude" class="error"></label>
                 </div>
-                <div class="form-outline mb-3"><label>{{ $shoporservice }} Photo's</label>
+
+
+
+                <div class="form-outline mb-3"><label>Longitude (Google map location)<span
+                            class="text-danger">*</span></label>
+                    <input type="text" id="es_googlelongitude" name="es_googlelongitude"
+                        value="{{ $sellerDetails->longitude }}" class="form-control form-control-lg"
+                        placeholder="Longitude (Google map location)" required tabindex="18" />
+                    <label for="es_googlelongitude" class="error"></label>
+                </div>
+
+
+
+                <div class="form-outline mb-3"><label>{{ $shoporservice }} Photo's<span
+                            class="text-danger">*</span></label>
                     <input type="file" id="es_photo" multiple="" name="es_photo[]"
                         class="form-control form-control-lg" placeholder="Shop Photo" tabindex="19"
                         accept="image/jpeg, image/png" />
@@ -325,63 +356,67 @@
                     </div>
                 </div>
 
-
-
-                <div class="form-outline mb-3"><label>{{ $shoporservice }} Logo</label>
-                    <input type="file" id="es_logo" name="es_logo[]" class="form-control form-control-lg"
-                        placeholder="Shop Logo" tabindex="19" accept="image/jpeg, image/png" />
-                    <label for="es_logo" class="error"></label>
-                </div>
-                <div class="col-md-12">
-                    <div class="form-group" align="left">
-                        <div id="eimage-preview-logo" class="row"></div>
+                @if (session('roleid') == '1')
+                    <div class="form-outline mb-3"><label>{{ $shoporservice }} Logo</label>
+                        <input type="file" id="es_logo" name="es_logo[]" class="form-control form-control-lg"
+                            placeholder="Shop Logo" tabindex="19" accept="image/jpeg, image/png" />
+                        <label for="es_logo" class="error"></label>
                     </div>
-                </div>
+                    <div class="col-md-12">
+                        <div class="form-group" align="left">
+                            <div id="eimage-preview-logo" class="row"></div>
+                        </div>
+                    </div>
 
 
 
-                <div class="col-md-12" style="{{ $sellerDetails->shoplogo ? 'display: block;' : 'display: none;' }}">
-                    <div class="form-group" align="center">
-                        <div class="row">@php
-                            $k = 1;
-                        @endphp
+                    <div class="col-md-12"
+                        style="{{ $sellerDetails->shoplogo ? 'display: block;' : 'display: none;' }}">
+                        <div class="form-group" align="center">
+                            <div class="row">@php
+                                $k = 1;
+                            @endphp
 
-                            <div class="col-md-3">
-                                <a href="#" data-toggle="modal" data-target="#myModalmm{{ $k }}">
-                                    <img id="img-bufferms" class="img-responsive image new_thumpnail"
-                                        src="{{ asset($sellerDetails->shoplogo) }}" width="450" height="250">
-                                    @php
+                                <div class="col-md-3">
+                                    <a href="#" data-toggle="modal"
+                                        data-target="#myModalmm{{ $k }}">
+                                        <img id="img-bufferms" class="img-responsive image new_thumpnail"
+                                            src="{{ asset($sellerDetails->shoplogo) }}" width="450"
+                                            height="250">
+                                        @php
 
-                                        $valenl = $sellerDetails->shoplogo . '#' . $sellerDetails->id;
-                                        $deleencdel = base64_encode($valenl);
-                                    @endphp
-                                </a>
-                            </div>
+                                            $valenl = $sellerDetails->shoplogo . '#' . $sellerDetails->id;
+                                            $deleencdel = base64_encode($valenl);
+                                        @endphp
+                                    </a>
+                                </div>
 
-                            <div class="modal fade" id="myModalmm{{ $k }}" tabindex="-1" role="dialog"
-                                aria-labelledby="myModalLabelmm" aria-hidden="true" style="width: 80%;">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-hidden="true">&times;</button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <img src="{{ asset($sellerDetails->shoplogo) }}" class="img-fluid">
+                                <div class="modal fade" id="myModalmm{{ $k }}" tabindex="-1"
+                                    role="dialog" aria-labelledby="myModalLabelmm" aria-hidden="true"
+                                    style="width: 80%;">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-hidden="true">&times;</button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <img src="{{ asset($sellerDetails->shoplogo) }}" class="img-fluid">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-outline mb-3"><label>{{ $shoporservice }} Background Color</label>
-                    <input type="color" id="es_bgcolor" name="es_bgcolor" id class="form-control"
-                        placeholder="{{ $shoporservice }} Background Color" required tabindex="18"
-                        value="{{ $sellerDetails->colorpicks }}" />
-                    <label for="es_bgcolor" class="error"></label>
-                </div>
+                    <div class="form-outline mb-3"><label>{{ $shoporservice }} Background Color</label>
+                        <input type="color" id="es_bgcolor" name="es_bgcolor" id class="form-control"
+                            placeholder="{{ $shoporservice }} Background Color" required tabindex="18"
+                            value="{{ $sellerDetails->colorpicks }}" />
+                        <label for="es_bgcolor" class="error"></label>
+                    </div>
+                @endif
 
 
 
@@ -405,13 +440,15 @@
                         maxlength="12" class="form-control form-control-lg" placeholder="PAN Number" required
                         tabindex="21" />
                     <label for="es_panno" class="error"></label>
+                    <div id="epan-error-message" style="color: red;"></div>
                 </div>
 
 
                 <div class="form-outline mb-3"><label> Establishment Date</label>
                     <input type="date" id="es_establishdate" name="es_establishdate"
                         value="{{ $sellerDetails->establish_date }}" maxlength="10"
-                        class="form-control form-control-lg" placeholder="Establishment Date" tabindex="22" />
+                        class="form-control form-control-lg" placeholder="Establishment Date" tabindex="22"
+                        max="{{ date('Y-m-d') }}" />
                     <label for="es_establishdate" class="error"></label>
                 </div>
 
@@ -572,7 +609,7 @@
 
 
 
-                <div class="form-outline mb-3"><label> Registration Date</label>
+                {{-- <div class="form-outline mb-3"><label> Registration Date</label>
                     <input type="date" id="es_registerdate" name="es_registerdate"
                         value="{{ $sellerDetails->registration_date }}" maxlength="10"
                         class="form-control form-control-lg" placeholder="Registration Date" tabindex="24"
@@ -584,7 +621,7 @@
                     <textarea id="emanufactringdets" name="emanufactringdets" placeholder="Manufactoring Details"
                         class="form-control form-control-lg" tabindex="25" required>{{ $sellerDetails->manufactoring_details }}</textarea>
                     <label for="emanufactringdets" class="error"></label>
-                </div>
+                </div> --}}
 
                 <div class="form-outline mb-3"><label>Direct Affiliate</label>
                     <input type="text" class="form-control form-control-lg" id="sdirectafflte"
@@ -618,7 +655,7 @@
                 @endif
 
 
-                <div class="checkbox form-check-inline">
+                <div class="form-check-inline">
                     <input class="form-check-input" type="checkbox" id="es_termcondtn" name="es_termcondtn"
                         value="1" required tabindex="25"
                         {{ $sellerDetails->term_condition == 1 ? 'checked' : '' }}>
@@ -654,6 +691,18 @@
 
 
 <script>
+    document.getElementById('es_panno').addEventListener('input', function() {
+        var panInput = this.value;
+        var panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
+
+        if (panRegex.test(panInput)) {
+            // PAN format is valid
+            document.getElementById('pan-error-message').textContent = "";
+        } else {
+            // PAN format is invalid
+            //document.getElementById('pan-error-message').textContent = "Invalid PAN format. It should be in the format AEDFR2568H";
+        }
+    });
     $(document).ready(function() {
         function initializeTimepicker() {
             // Select all elements with the class '.timepicker-input' and initialize timepicker
@@ -814,42 +863,99 @@
 
     });
 
-    $('#es_shopservice').change(function() {
-        var shopcategryid = $(this).val();
-        var busnescate = $("#es_busnestype").val();
-        if (shopcategryid) {
-            var subshopcategry = '';
-            if (busnescate == 1) {
-                subshopcategry = 'Shop';
-            } else if (busnescate == 2) {
-                subshopcategry = 'Service';
-            }
+    // $('#es_shopservice').change(function() {
+    //     var shopcategryid = $(this).val();
+    //     var busnescate = $("#es_busnestype").val();
+    //     if (shopcategryid) {
+    //         var subshopcategry = '';
+    //         if (busnescate == 1) {
+    //             subshopcategry = 'Shop';
+    //         } else if (busnescate == 2) {
+    //             subshopcategry = 'Service';
+    //         }
 
-            $.get("/getsubshopservice/" + shopcategryid, function(data) {
-                $('#es_subshopservice').empty().append(
-                    '<option value="">Select ' + subshopcategry +
-                    ' Sub Category</option>');
-                $.each(data, function(index, category) {
-                    $('#es_subshopservice').append('<option value="' + category.id +
-                        '">' +
-                        category.sub_category_name + '</option>');
-                });
-            });
-        }
-    });
+    //         $.get("/getsubshopservice/" + shopcategryid, function(data) {
+    //             $('#es_subshopservice').empty().append(
+    //                 '<option value="">Select ' + subshopcategry +
+    //                 ' Sub Category</option>');
+    //             $.each(data, function(index, category) {
+    //                 $('#es_subshopservice').append('<option value="' + category.id +
+    //                     '">' +
+    //                     category.sub_category_name + '</option>');
+    //             });
+    //         });
+    //     }
+    // });
+
+
+    // var fileArrs = [];
+    // var totalFiless = 0;
+
+    // $("#es_photo").change(function(event) {
+    //     var totalFileCount = $(this)[0].files.length;
+    //     if (totalFiless + totalFileCount > 5) {
+    //         alert('Maximum 5 images allowed');
+    //         $(this).val('');
+    //         $('#eimage-preview').html('');
+    //         return;
+    //     }
+
+    //     for (var i = 0; i < totalFileCount; i++) {
+    //         var file = $(this)[0].files[i];
+
+    //         if (file.size > 3145728) {
+    //             alert('File size exceeds the limit of 3MB');
+    //             $(this).val('');
+    //             $('#eimage-preview').html('');
+    //             return;
+    //         }
+
+    //         fileArrs.push(file);
+    //         totalFiless++;
+
+    //         var reader = new FileReader();
+    //         reader.onload = (function(file) {
+    //             return function(event) {
+    //                 var imgDiv = $('<div>').addClass('img-div col-md-3 img-container');
+    //                 var img = $('<img>').attr('src', event.target.result).addClass(
+    //                     'img-responsive image new_thumpnail').attr('width', '100');
+    //                 var removeBtn = $('<button>').addClass('btn btn-danger remove-btns').attr(
+    //                     'title', 'Remove Image').append('Remove').attr('role', file.name);
+
+    //                 imgDiv.append(img);
+    //                 imgDiv.append($('<div>').addClass('middle').append(removeBtn));
+
+    //                 $('#eimage-preview').append(imgDiv);
+    //             };
+    //         })(file);
+
+    //         reader.readAsDataURL(file);
+    //     }
+    // });
+
+    // $(document).on('click', '.remove-btns', function() {
+    //     var fileName = $(this).attr('role');
+
+    //     for (var i = 0; i < fileArrs.length; i++) {
+    //         if (fileArrs[i].name === fileName) {
+    //             fileArrs.splice(i, 1);
+    //             totalFiless--;
+    //             break;
+    //         }
+    //     }
+
+    //     document.getElementById('es_photo').files = new FileListItem(fileArrs);
+    //     $(this).closest('.img-div').remove();
+    // });
 
 
     var fileArrs = [];
     var totalFiless = 0;
 
     $("#es_photo").change(function(event) {
+        //$('#eimage-preview').html('');
         var totalFileCount = $(this)[0].files.length;
-        if (totalFiless + totalFileCount > 5) {
-            alert('Maximum 5 images allowed');
-            $(this).val('');
-            $('#eimage-preview').html('');
-            return;
-        }
+
 
         for (var i = 0; i < totalFileCount; i++) {
             var file = $(this)[0].files[i];
@@ -863,6 +969,15 @@
 
             fileArrs.push(file);
             totalFiless++;
+            if (totalFiless > 5) {
+                alert('Maximum 5 images allowed');
+                $(this).val('');
+                $('#eimage-preview').html('');
+                totalFiless = 0;
+                fileArrs = [];
+                return;
+            }
+
 
             var reader = new FileReader();
             reader.onload = (function(file) {
@@ -882,6 +997,9 @@
 
             reader.readAsDataURL(file);
         }
+        document.getElementById('es_photo').files = new FileListItem([]);
+        document.getElementById('es_photo').files = new FileListItem(fileArrs);
+
     });
 
     $(document).on('click', '.remove-btns', function() {
@@ -899,24 +1017,79 @@
         $(this).closest('.img-div').remove();
     });
 
+    // var fileArr = [];
+    // var totalFiles = 0;
+
+    // $("#es_logo").change(function(event) {
+    //     var totalFileCount = $(this)[0].files.length;
+    //     if (totalFiles + totalFileCount > 1) {
+    //         alert('Maximum 1 images allowed');
+    //         $(this).val('');
+    //         $('#eimage-preview-logo').html('');
+    //         return;
+    //     }
+
+    //     for (var i = 0; i < totalFileCount; i++) {
+    //         var file = $(this)[0].files[i];
+
+    //         if (file.size > 204800) {
+    //             alert('File size exceeds the limit of 200Kb');
+    //             $(this).val('');
+    //             $('#eimage-preview-logo').html('');
+    //             return;
+    //         }
+
+    //         fileArr.push(file);
+    //         totalFiles++;
+
+    //         var reader = new FileReader();
+    //         reader.onload = (function(file) {
+    //             return function(event) {
+    //                 var imgDiv = $('<div>').addClass('img-divs col-md-3 img-container');
+    //                 var img = $('<img>').attr('src', event.target.result).addClass(
+    //                     'img-responsive image new_thumpnail').attr('width', '100');
+    //                 var removeBtn = $('<button>').addClass('btn btn-danger remove-btnss').attr(
+    //                     'title', 'Remove Image').append('Remove').attr('role', file.name);
+
+    //                 imgDiv.append(img);
+    //                 imgDiv.append($('<div>').addClass('middle').append(removeBtn));
+
+    //                 $('#eimage-preview-logo').append(imgDiv);
+    //             };
+    //         })(file);
+
+    //         reader.readAsDataURL(file);
+    //     }
+    // });
+
+    // $(document).on('click', '.remove-btnss', function() {
+    //     var fileName = $(this).attr('role');
+
+    //     for (var i = 0; i < fileArr.length; i++) {
+    //         if (fileArr[i].name === fileName) {
+    //             fileArr.splice(i, 1);
+    //             totalFiles--;
+    //             break;
+    //         }
+    //     }
+
+    //     document.getElementById('es_logo').files = new FileListItem(fileArr);
+    //     $(this).closest('.img-divs').remove();
+    // });
+
 
     var fileArr = [];
     var totalFiles = 0;
 
     $("#es_logo").change(function(event) {
+        //$('#eimage-preview').html('');
         var totalFileCount = $(this)[0].files.length;
-        if (totalFiles + totalFileCount > 1) {
-            alert('Maximum 1 images allowed');
-            $(this).val('');
-            $('#eimage-preview-logo').html('');
-            return;
-        }
 
         for (var i = 0; i < totalFileCount; i++) {
             var file = $(this)[0].files[i];
 
-            if (file.size > 204800) {
-                alert('File size exceeds the limit of 200Kb');
+            if (file.size > 3145728) {
+                alert('File size exceeds the limit of 3MB');
                 $(this).val('');
                 $('#eimage-preview-logo').html('');
                 return;
@@ -924,6 +1097,15 @@
 
             fileArr.push(file);
             totalFiles++;
+            if (totalFiles > 1) {
+                alert('Maximum 1 images allowed');
+                $(this).val('');
+                $('#eimage-preview-logo').html('');
+                totalFiles = 0;
+                fileArr = [];
+                return;
+            }
+
 
             var reader = new FileReader();
             reader.onload = (function(file) {
@@ -943,6 +1125,9 @@
 
             reader.readAsDataURL(file);
         }
+        document.getElementById('es_logo').files = new FileListItem([]);
+        document.getElementById('es_logo').files = new FileListItem(fileArr);
+
     });
 
     $(document).on('click', '.remove-btnss', function() {
@@ -959,7 +1144,6 @@
         document.getElementById('es_logo').files = new FileListItem(fileArr);
         $(this).closest('.img-divs').remove();
     });
-
 
 
 
@@ -984,17 +1168,22 @@
         return clipboardData.files;
     }
 
+    jQuery.validator.addMethod("validPAN", function(value, element) {
+        // Define the PAN format regular expression
+        var panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
+        return this.optional(element) || panRegex.test(value);
+    }, "Invalid PAN format. It should be in the format AEDFR2568H");
 
     $("#SellerRegFormEdit").validate({
 
         rules: {
             es_name: {
                 required: true,
-                pattern: /^[A-Za-z\s\.]+$/,
+                // pattern: /^[A-Za-z\s\.]+$/,
             },
             es_ownername: {
                 required: true,
-                pattern: /^[A-Za-z\s\.]+$/,
+                // pattern: /^[A-Za-z\s\.]+$/,
             },
             es_mobno: {
                 required: true,
@@ -1002,7 +1191,7 @@
                 minlength: 10,
             },
             es_email: {
-                required: true,
+                // required: true,
                 email: true,
             },
 
@@ -1014,21 +1203,21 @@
                 required: true,
 
             },
-            es_subshopservice: {
-                required: true,
+            // es_subshopservice: {
+            //     required: true,
 
-            },
+            // },
             es_shopservicetype: {
                 required: true,
 
             },
-            es_shopexectename: {
-                required: true,
+            // es_shopexectename: {
+            //     required: true,
 
-            },
-            es_lisence: {
-                required: true,
-            },
+            // },
+            // es_lisence: {
+            //     required: true,
+            // },
             es_buldingorhouseno: {
                 required: true,
             },
@@ -1058,14 +1247,17 @@
                 minlength: 6,
 
             },
-            es_googlelink: {
+            es_googlelatitude: {
+                required: true,
+            },
+            es_googlelongitude: {
                 required: true,
             },
             es_gstno: {
-                required: true,
+                //     required: true,
             },
             es_panno: {
-                required: true,
+                //     required: true,
             },
             es_establishdate: {
                 required: true,
@@ -1077,22 +1269,25 @@
                 // required: true,
                 extension: 'jpg|jpeg|png',
             },
-            es_logo: {
-                required: true,
-                extension: 'jpg|jpeg|png',
-            },
+            // es_logo: {
+            //     required: true,
+            //     extension: 'jpg|jpeg|png',
+            // },
             // eopentime: {
             //     required: true,
             // },
             // eclosetime: {
             //     required: true,
             // },
-            es_registerdate: {
-                required: true,
-            },
-            emanufactringdets: {
-                required: true,
-            },
+            // es_registerdate: {
+            //     required: true,
+            // },
+            // emanufactringdets: {
+            //     required: true,
+            // },
+            es_panno: {
+                validPAN: true // Apply the custom PAN validation
+            }
 
 
         },
@@ -1112,13 +1307,13 @@
             es_photo: {
                 extension: "Only JPG and PNG files are allowed.",
             },
-            es_logo: {
-                extension: "Only JPG and PNG files are allowed.",
-            },
-            es_lisence: {
-                required: "Please enter the license number.",
-                maxlength: "License number must not exceed 25 characters."
-            },
+            // es_logo: {
+            //     extension: "Only JPG and PNG files are allowed.",
+            // },
+            // es_lisence: {
+            //     required: "Please enter the license number.",
+            //     maxlength: "License number must not exceed 25 characters."
+            // },
             es_buldingorhouseno: {
                 required: "Please enter building/house name and number.",
                 maxlength: "Building/house name and number must not exceed 100 characters."
@@ -1144,22 +1339,29 @@
                 required: "Please enter the pin code.",
                 maxlength: "Pin code must be 6 digits."
             },
-            es_googlelink: {
-                required: "Please enter the Google map link location."
+            es_googlelatitude: {
+                required: "Please enter google map location - Latitude."
             },
-            es_gstno: {
-                required: "Please enter the GST number.",
-                maxlength: "GST number must not exceed 25 characters."
+
+            es_googlelongitude: {
+                required: "Please enter google map location - Longitude."
             },
-            es_panno: {
-                required: "Please enter the PAN number.",
-                maxlength: "PAN number must not exceed 12 characters."
-            },
+            // es_gstno: {
+            //     required: "Please enter the GST number.",
+            //     maxlength: "GST number must not exceed 25 characters."
+            // },
+            // es_panno: {
+            //     required: "Please enter the PAN number.",
+            //     maxlength: "PAN number must not exceed 12 characters."
+            // },
             es_establishdate: {
                 required: "Please select the establishment date."
             },
             es_termcondtn: {
                 required: "Please accept the terms and conditions."
+            },
+            s_panno: {
+                validPAN: "Invalid PAN format. It should be in the format AEDFR2568H"
             },
             // eopentime: {
             //     required: "Please select open time."
@@ -1167,19 +1369,19 @@
             // eclosetime: {
             //     required: "Please select close time."
             // },
-            es_registerdate: {
-                required: "Please select the registration date."
-            },
+            // es_registerdate: {
+            //     required: "Please select the registration date."
+            // },
 
         },
     });
 
 
-    $('#es_name, #es_ownername').on('input', function() {
-        var value = $(this).val();
-        value = value.replace(/[^A-Za-z\s\.]+/, '');
-        $(this).val(value);
-    });
+    // $('#es_name, #es_ownername').on('input', function() {
+    //     var value = $(this).val();
+    //     value = value.replace(/[^A-Za-z\s\.]+/, '');
+    //     $(this).val(value);
+    // });
 
     $.validator.addMethod('maxSize', function(value, element, param) {
         return this.optional(element) || (element.files[0].size <= param);
@@ -1233,6 +1435,7 @@
                     $('#eshopreg-message').text('Shop details successfully updated!').fadeIn();
                     $('#eshopreg-message').addClass('success-message');
                     $('#eimage-preview').empty();
+                    $('#eimage-preview-logo').empty();
                     setTimeout(function() {
                         $('#eshopreg-message').fadeOut();
                     }, 5000); // 5000 milliseconds = 5 seconds

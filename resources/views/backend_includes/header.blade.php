@@ -39,6 +39,33 @@
 
 </head>
 
+{{-- @php
+$roleid=session('roleid');
+$roleIdsArray = explode(',', $roleid);
+if (in_array('2', $roleIdsArray)) {
+    $gallery_dets = $allsectdetails->shop_photo;
+    $qrgallerydetsarray = json_decode($gallery_dets);
+    $qrgallery = $qrgallerydetsarray->fileval;
+    if (!empty($qrgallery)) {
+        $firstImage = $qrgallery[0];
+    } else {
+        $firstImage='';
+    }
+}
+if (in_array('9', $roleIdsArray)) {
+    $gallery_dets = $allsectdetails->shop_photo;
+    $qrgallerydetsarray = json_decode($gallery_dets);
+    $qrgallery = $qrgallerydetsarray->fileval;
+    if (!empty($qrgallery)) {
+        $firstImage = $qrgallery[0];
+    } else {
+        $firstImage='';
+    }
+}
+else {
+    $firstImage='';
+}
+@endphp --}}
 <style>
     .error{
         color: red;
@@ -124,30 +151,51 @@
 }
 
 
+
+
+
 </style>
+
+@php
+    /* .page-content {
+        background-image: {{ $firstImage ? 'url('.asset($firstImage).')' : 'url('.asset('path_to_default_image.jpg').')' }};
+        background-repeat: no-repeat;
+        background-size: cover;
+
+    } */
+@endphp
+
 
 <body class="dark-sidenav">
     <!-- Left Sidenav -->
     <div class="left-sidenav">
         <!-- LOGO -->
         <div class="brand">
-
-        @if(session('roleid')=='1')
-            <a href="{{ route('admin.dashboard') }}" class="logo">
-        @elseif(session('roleid')=='2')
-            <a href="{{ route('seller.dashboard') }}" class="logo">
-        @elseif(session('roleid')=='3')
-            <a href="{{ route('affiliate.dashboard') }}" class="logo">
-        @else
-
-        @endif
-
-
-
-
                 <span>
-                    <img src="{{ asset('backend/assets/images/logo.png') }}" alt="logo-large"
-                        class="logo-lg logo-light">
+                    <span>
+                        {{-- @php
+                            $roleid = session('roleid');
+                            $roleIdsArray = explode(',', $roleid);
+                            if (in_array('2', $roleIdsArray)) {
+                        @endphp
+                        <img src="{{ asset($allsectdetails->shoplogo ?: 'backend/assets/images/logo.png') }}" style="width: 100%; height: 100%;" alt="logo-large" class="logo-lg logo-light">
+
+                        @php
+                            } elseif (in_array('9', $roleIdsArray)) {
+                        @endphp
+                        <img src="{{ asset($allsectdetails->shoplogo ?: 'backend/assets/images/logo.png') }}" style="width: 100%; height: 100%;" alt="logo-large" class="logo-lg logo-light">
+
+                        @php
+                            } else {
+                        @endphp
+                                <img src="{{ asset('backend/assets/images/logo.png') }}" alt="logo-large" class="logo-lg logo-light">
+                        @php
+                            }
+                        @endphp --}}
+
+                        <img src="{{ asset('backend/assets/images/logo.png') }}" alt="logo-large" class="logo-lg logo-light">
+                    </span>
+
                 </span>
             </a>
         </div>

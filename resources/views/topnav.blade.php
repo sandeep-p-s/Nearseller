@@ -1,7 +1,8 @@
 <!-- Top Bar Start -->
-<div class="topbar">
+<div class="topbar" >
     <!-- Navbar -->
-    <nav class="navbar-custom">
+    {{-- <nav class="navbar-custom"  style="background-color: {{ isset($allsectdetails->colorpicks) ? $allsectdetails->colorpicks : '' }}"> --}}
+        <nav class="navbar-custom">
         <ul class="list-unstyled topbar-nav float-right mb-0">
 
             <li class="dropdown">
@@ -13,7 +14,7 @@
                     {{-- <span class="ml-1 nav-user-name hidden-sm">{{ $user->name }}</span> --}}
                     @endforeach
 
-                    <img src="{{ asset('backend/assets/images/users/profile.png') }}" alt="profile-user" class="rounded-circle" />
+                    <img src="{{ asset(isset($allsectdetails->shoplogo) ? $allsectdetails->shoplogo : 'backend/assets/images/users/profile.png' ) }}" alt="profile-user" class="rounded-circle" />
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-right">
@@ -27,7 +28,7 @@
 
         <ul class="list-unstyled topbar-nav mb-0">
             <li>
-                <button class="nav-link button-menu-mobile">
+                <button class="nav-link button-menu-mobile" style="background-color: #f0f8ff">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="feather feather-menu align-self-center topbar-icon">

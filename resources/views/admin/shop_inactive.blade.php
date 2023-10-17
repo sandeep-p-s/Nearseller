@@ -13,12 +13,11 @@
                         <div class="row">
                             <div class="col">
                                 @if (session('roleid') == '1')
-                                    <h4 class="page-title">{{ $shoporservice }} Approval List</h4>
-                                    <div class="col text-right">
+                                    <h4 class="page-title">{{ $shoporservice }} Inactive List</h4>
+                                    {{-- <div class="col text-right">
                                         <button class="btn add_btn" data-bs-toggle="modal" data-bs-target="#addNewModal">Add
                                             New {{ $shoporservice }}</button>
-                                        {{-- <button class="btn add_btn" data-bs-toggle="modal" data-bs-target="#UploadShopModal">Upload Shops</button> --}}
-                                    </div>
+                                    </div> --}}
                                 @endif
                             </div>
                         </div>
@@ -159,7 +158,7 @@
                 var typeid = $("#typeid").val();
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
                 $.ajax({
-                    url: '{{ route('admin.allshopsview') }}',
+                    url: '{{ route('admin.allshopsinactiveview') }}',
                     type: 'GET',
                     data: {
                         emal_mob: emal_mob,

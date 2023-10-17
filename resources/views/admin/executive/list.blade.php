@@ -47,14 +47,14 @@
                     <div class="card">
 
                         <div class="card-body">
-                            <div class="text-center">
+                            {{-- <div class="text-center">
                                 <span class="badge badge-soft-info p-2">
                                     Total Sales Executives : {{ $total_salesexecutives }}
                                 </span>
                                 <span class="badge badge-soft-danger p-2">
                                     Total Service Executives : {{ $total_serviceexecutives }}
                                 </span>
-                            </div>
+                            </div> --}}
                             <table id="datatable" class="table table-bordered dt-responsive nowrap"
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
@@ -72,9 +72,9 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $ex->executive_name }}</td>
                                             <td>
-                                                @if ($ex->executive_type === 1)
+                                                @if ($ex->executive_type == 1)
                                                     <span class="badge badge-success p-2">Sales</span>
-                                                @elseif ($ex->executive_type === 2)
+                                                @elseif ($ex->executive_type == 2)
                                                     <span class="badge badge-danger p-2">Service</span>
                                                 @endif
                                             </td>

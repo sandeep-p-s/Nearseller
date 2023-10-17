@@ -117,6 +117,7 @@ class ProductController extends Controller
         } else {
             $query->where('user_account.id', $userId);
         }
+        $query->orderBy('product_details.product_name');
         $ProductDetails = $query->get();
         //echo $lastRegId = $query->toSql();exit;
         $ProductCount = $ProductDetails->count();
@@ -143,6 +144,7 @@ class ProductController extends Controller
         $time = date('Y-m-d H:i:s');
         $productid = $request->input('productid');
         $product_id = explode('#', $productid);
+        //echo "<pre>";print_r($product_id);exit;
         $toregIDCount = count($product_id);
         $flg = 0;
         for ($i = 1; $i < $toregIDCount; $i++) {
