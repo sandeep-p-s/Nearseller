@@ -618,7 +618,7 @@
                             </form>
                         </div>
                     </div>
-                    <div class="Reset_password" style="display: none;" id="password_reset">
+                    <div class="Reset_password align-items-center h-custom-2 login_credentails" style="display: none;" id="password_reset">
                         <h5 class="mb-3 pb-3 mt-5 text-center">Reset Password</h5>
                         <form id="ResetPasswd">
                             <div class="form-outline mb-4">
@@ -644,7 +644,7 @@
                     </div>
 
 
-                    <div class="Resetnew_password" style="display: none;" id="passwordnew_reset">
+                    <div class="Resetnew_password align-items-center h-custom-2 login_credentails" style="display: none;" id="passwordnew_reset">
                         <h5 class="mb-3 pb-3 mt-5 text-center">Reset Password</h5>
                         <form id="ResetNewPasswd">
                             <div class="form-outline mb-4">
