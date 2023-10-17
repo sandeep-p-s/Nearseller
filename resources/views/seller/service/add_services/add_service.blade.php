@@ -77,7 +77,7 @@
                                 </div>
                                 <div class="form-group mb-3 row">
                                     <label for="selectAttributes" class="col-md-3 my-1 control-label">Do you want to select
-                                        attributes?</label>
+                                        attributes?<span class="text-danger">*</span></label>
                                     <div class="col-md-3">
                                         <div class="form-check-inline my-1">
                                             <div class="custom-control custom-radio">
@@ -105,7 +105,7 @@
                                                     <div class="form-group row d-flex align-items-end">
 
                                                         <div class="col">
-                                                            <label for="showstatus" class="control-label">Show status
+                                                            <label for="showstatus" class="control-label">Show status<span class="text-danger">*</span>
                                                             </label>
                                                             <input type="checkbox" class="form-control" id="showstatus"
                                                                 name="showstatus" value="1" style="width: 10%"
@@ -113,41 +113,41 @@
                                                         </div>
                                                         <div class="col">
                                                             <label for="attribute1" class="control-label">Attribute
-                                                                1</label>
+                                                                1<span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control" name="attribute1"
                                                                 id="attribute1">
                                                         </div>
                                                         <div class="col">
                                                             <label for="attribute2" class="control-label">Attribute
-                                                                2</label>
+                                                                2<span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control" name="attribute2"
                                                                 id="attribute2">
                                                         </div>
                                                         <div class="col">
                                                             <label for="attribute3" class="control-label">Attribute
-                                                                3</label>
+                                                                3<span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control" name="attribute3"
                                                                 id="attribute3">
                                                         </div>
                                                         <div class="col">
                                                             <label for="attribute4" class="control-label">Attribute
-                                                                4</label>
+                                                                4<span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control" name="attribute4"
                                                                 id="attribute4">
                                                         </div>
                                                         <div class="col">
                                                             <label for="offerprice" class="control-label">Offer
-                                                                Price</label>
+                                                                Price<span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control" name="offerprice"
                                                                 id="offerprice">
                                                         </div>
                                                         <div class="col">
-                                                            <label for="mrp" class="control-label">MRP</label>
+                                                            <label for="mrp" class="control-label">MRP<span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control" name="mrp"
                                                                 id="mrp">
                                                         </div>
                                                         <div class="col">
-                                                            <label for="callshop" class="control-label">Call shop</label>
+                                                            <label for="callshop" class="control-label">Call shop<span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control" name="callshop"
                                                                 id="callshop">
                                                         </div>
