@@ -1,4 +1,10 @@
-<footer class="footer text-center text-sm-left"> &copy;<a href="https://hyzventures.com/" target="_blank"> Hyz Ventures
+
+
+
+{{-- <footer class="footer text-center text-sm-left" style="background-color: {{ isset($allsectdetails->colorpicks) ? $allsectdetails->colorpicks : '' }}"> --}}
+    <footer class="footer text-center text-sm-left">
+
+    &copy;<a href="https://hyzventures.com/" target="_blank"> Hyz Ventures
         Intl Pvt Ltd</a></footer><!--end footer-->
 </div>
 <!-- end page content -->
@@ -53,6 +59,7 @@
 <!-- App js -->
 <script src="{{ asset('backend/assets/js/app.js') }}"></script>
 <script>
+
     $(document).ready(function() {
 
         shwdets();

@@ -22,10 +22,21 @@ class UserLoggedController extends Controller
         $emlormobno = $valuexplode[0];
         $logtype = $valuexplode[1];
 
-        if ($logtype == 'mob') {
-            $userAccount = UserAccount::where('mobno', $emlormobno)->first();
-        } else if ($logtype == 'eml') {
-            $userAccount = UserAccount::where('email', $emlormobno)->first();
+        // if ($logtype == 'mob') {
+        //     $userAccount = UserAccount::where('mobno', $emlormobno)->first();
+        // } else if ($logtype == 'eml') {
+        //     $userAccount = UserAccount::where('email', $emlormobno)->first();
+        // }
+
+        if (strpos($emlormobno, '@') !== false) {
+            $email = $emlormobno;
+            $mobile = null;
+            $userAccount = UserAccount::where('email', $email)->first();
+        }
+        else{
+            $email = null;
+            $mobile = $emlormobno;
+            $userAccount = UserAccount::where('mobno', $mobile)->first();
         }
 
         if ($userAccount) {
@@ -34,8 +45,9 @@ class UserLoggedController extends Controller
             //$roleid = $userAccount->role->id;
             $roleid = $userAccount->role_id;
             //echo "<pre>";print_r($roleid);exit;
+            $u_s_name = $userAccount->name;
 
-            session(['user_role' => $role, 'user_id' => $userAccount->id, 'roleid' => $roleid]);
+            session(['user_role' => $role, 'user_id' => $userAccount->id, 'roleid' => $roleid, 'u_s_name' => $u_s_name]);
                 return redirect()->route('admin.dashboard');
 
 

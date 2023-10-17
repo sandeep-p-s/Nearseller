@@ -45,14 +45,14 @@
                     <div class="card">
 
                         <div class="card-body">
-                            <div class="text-center">
+                            {{-- <div class="text-center">
                                 <span class="badge badge-soft-info p-2">
                                     Total Service Categories : {{ $total_servicecategories }}
                                 </span>
                                 <span class="badge badge-soft-danger p-2">
                                     Inactive Service Categories : {{ $inactive_servicecategories }}
                                 </span>
-                            </div>
+                            </div> --}}
                             <table id="datatable" class="table table-bordered dt-responsive nowrap"
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
