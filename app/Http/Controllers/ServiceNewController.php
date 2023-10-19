@@ -93,6 +93,7 @@ class ServiceNewController extends Controller
         $ProductCount = $ServiceDetails->count();
         $roleIdsArray = explode(',', $roleid);
         if (in_array('9', $roleIdsArray)) {
+            echo "haii";exit;
         $userservicedets = DB::table('user_account')
             ->select('id', 'name')
             ->where('id', $userId)
