@@ -1021,7 +1021,7 @@ class AdminController extends Controller
             's_bgcolor' => 'required',
             //'s_photo' => 'required|image|mimes:jpeg,png|max:1024',
             's_gstno' => ['sometimes', 'max:25'],
-            's_panno' => ['sometimes', 'regex:/^[A-Z]{5}[0-9]{4}[A-Z]$/', 'max:10'],
+            's_panno' => ['sometimes', 'max:10'],
             's_establishdate' => 'required|date',
             // 's_paswd' => 'required|max:10',
             // 's_rpaswd' => 'required|same:s_paswd',

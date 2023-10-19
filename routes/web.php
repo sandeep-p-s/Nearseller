@@ -21,6 +21,7 @@ use App\Http\Controllers\ServiceEmployeeController;
 
 use App\Http\Controllers\CategoryProductListController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\ServiceNewController;
 
 use App\Http\Controllers\Masters\BankController as BankController;
 use App\Http\Controllers\Masters\StateController as StateController;
@@ -374,6 +375,28 @@ Route::controller(ServiceController::class)->group(function () {
     Route::get('approveservice/{id}', 'approved_service')->name('approve.service');
     Route::post('updateserviceapproval/{id}', 'UpdateServiceApproval')->name('update.serviceapproval');
 });
+
+Route::controller(ServiceNewController::class)->group(function () {
+    Route::get('listallservice', 'ServiceProductListView')->name('user.serviceslist');
+    // Route::get('listserviceadd', 'ServiceProductListView')->name('user.serviceproductadd');
+    Route::post('allserviceview', 'AllServiceProductList')->name('serviceproduct.allserviceproductview');
+    // Route::post('addnewproduct', 'AdmNewPrdoductAdd')->name('AdmNewPrdoductAdd');
+    // Route::post('productviewedit', 'AdmProductViewEdit')->name('productViewEdit');
+    // Route::post('productimagedelete', 'AdmproductValDelte')->name('productValDelte');
+    // Route::post('productedit', 'AdmNewPrdoductEdit')->name('AdmPrdoductEdit');
+    // Route::post('shopsearch', 'AdmShopNameSearch')->name('ShopNameSearch');
+    // Route::post('approvedall', 'AdmProductApprovedAll')->name('ProductApprovedAll');
+    // Route::post('productapproved', 'AdmproductApproved')->name('productApproved');
+    // Route::post('approvedproduct', 'AdmapprovedPrdoduct')->name('AdmApprovedprdoduct');
+    // Route::post('ProductsDelete', 'AdmProductsDelete')->name('ProductsDelete');
+    // Route::post('productCategory', 'productCategorySearch')->name('productCategorySearch');
+    // Route::post('productname', 'ProductNameSearch')->name('ProductNameSearch');
+    // Route::post('existproducts', 'ExistproductviewPage')->name('product.existproductview');
+    // Route::post('existproductsview', 'AdmproductExistEdit')->name('productExistEdit');
+    // Route::post('Prdoductexist', 'AdmPrdoductExist')->name('AdmPrdoductExist');
+});
+
+
 Route::controller(ServiceEmployeeController::class)->group(function () {
     Route::get('listserviceemp', 'list_service_employee')->name('list.service_employee');
     Route::get('addserviceemp', 'add_service_employee')->name('add.service_employee');

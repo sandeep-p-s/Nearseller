@@ -20,9 +20,9 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $product = DB::table('product_details')->select('product_name','product_images')->where('is_approved','Y')->get();
-        $services = DB::table('service_details')->select('service_name','service_images')->where('is_approved','Y')->get();
-        $shops = DB::table('seller_details')->select('shop_name','shop_photo')->where('seller_approved','Y')->get();
+        $product = DB::table('product_details')->select('id','product_name','product_images')->where('is_approved','Y')->get();
+        $services = DB::table('service_details')->select('id','service_name','service_images')->where('is_approved','Y')->get();
+        $shops = DB::table('seller_details')->select('id','shop_name','shop_photo')->where('seller_approved','Y')->get();
         return view('user.main', compact('product','services','shops'));
     }
     public function Login()
