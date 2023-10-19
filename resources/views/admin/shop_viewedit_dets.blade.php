@@ -425,19 +425,19 @@
                 <div class="form-outline mb-3"><label>License Number</label>
                     <input type="text" id="es_lisence" name="es_lisence"
                         value="{{ $sellerDetails->shop_licence }}" class="form-control form-control-lg"
-                        maxlength="25" placeholder="License Number" required tabindex="10" />
+                        maxlength="25" placeholder="License Number"  tabindex="10" />
                     <label for="es_lisence" class="error"></label>
                 </div>
 
                 <div class="form-outline mb-3"><label>GST Number</label>
                     <input type="text" id="es_gstno" name="es_gstno" value="{{ $sellerDetails->shop_gstno }}"
-                        maxlength="25" class="form-control form-control-lg" placeholder="GST Number" required
+                        maxlength="25" class="form-control form-control-lg" placeholder="GST Number"
                         tabindex="20" />
                     <label for="es_gstno" class="error"></label>
                 </div>
                 <div class="form-outline mb-3"><label>PAN Number</label>
                     <input type="text" id="es_panno" name="es_panno" value="{{ $sellerDetails->shop_panno }}"
-                        maxlength="12" class="form-control form-control-lg" placeholder="PAN Number" required
+                        maxlength="12" class="form-control form-control-lg" placeholder="PAN Number"
                         tabindex="21" />
                     <label for="es_panno" class="error"></label>
                     <div id="epan-error-message" style="color: red;"></div>
@@ -697,7 +697,7 @@
 
         if (panRegex.test(panInput)) {
             // PAN format is valid
-            document.getElementById('pan-error-message').textContent = "";
+            document.getElementById('epan-error-message').textContent = "";
         } else {
             // PAN format is invalid
             //document.getElementById('pan-error-message').textContent = "Invalid PAN format. It should be in the format AEDFR2568H";

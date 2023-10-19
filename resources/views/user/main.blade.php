@@ -91,7 +91,7 @@
 
     </section>
 
-    <section class="product py-5 section_wrapper">
+    <section class="product py-3 section_wrapper">
         <div class="container-fluid">
             <div class="row mb-3">
                 <div class="col-md-8">
@@ -151,7 +151,7 @@
     <!-- Product section ends -->
 
     <!-- Services section starts -->
-    <section class="service py-5 section_wrapper">
+    <section class="service py-3 section_wrapper">
         <div class="container-fluid">
             <div class="row mb-3">
                 <div class="col-md-8">
@@ -192,7 +192,7 @@
     <!-- Services section ends -->
 
     <!-- Shops section starts -->
-    <section class="shop py-5 section_wrapper">
+    <section class="shop py-3 section_wrapper">
         <div class="container-fluid">
             <div class="row mb-3">
                 <div class="col-md-8">
