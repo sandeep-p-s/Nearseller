@@ -27,7 +27,7 @@
             <div id="loading-overlay"></div>
             <img id="loading-image" src="{{ asset('img/loading.gif') }}" style="display: none; width:100px;">
 
-                <div class="row">
+                {{-- <div class="row">
                     <div class="col-12">
 
                         <div class="row">
@@ -66,7 +66,7 @@
                         </div>
 
                     </div>
-                </div>
+                </div> --}}
 
 
 
