@@ -207,7 +207,7 @@
                                 <div class="form-outline  mb-2">
                                     <input tabindex="3" type="text" id="u_mobno" name="u_mobno"
                                         class="form-control form-control-lg" maxlength="10"
-                                        placeholder="Enter Mobile Nohhh" required onchange="exstmobno(this.value,'1')" />
+                                        placeholder="Enter Mobile No." required onchange="exstmobno(this.value,'1')" />
                                     <label for="u_mobno" class="error" id="umob-message"></label>
                                     {{-- <div id="umob-message" class="text-center" style="display: none;"></div> --}}
                                 </div>
@@ -221,7 +221,7 @@
                                 <div class="form-outline  mb-2">
                                     <input tabindex="5" type="password" id="u_rpaswd" name="u_rpaswd"
                                         class="form-control form-control-lg" maxlength="10"
-                                        placeholder="Re-Enter password" required />
+                                        placeholder="Re-enter Password" required />
                                     <label for="u_rpaswd" class="error"></label>
                                 </div>
                                 <div class="form-outline">

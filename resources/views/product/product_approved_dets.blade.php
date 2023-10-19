@@ -116,7 +116,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group"><label>Product Status</label>
+                    {{-- <div class="form-group"><label>Product Status</label>
                         <select class="form-select form-control form-control-lg" name="productstatus" id="productstatus"
                             required tabindex="6">
                             <option value="">Select</option>
@@ -125,7 +125,7 @@
                             </option>
                         </select>
 
-                    </div>
+                    </div> --}}
 
 
                     <div class="form-group"><label>Approval Status</label>

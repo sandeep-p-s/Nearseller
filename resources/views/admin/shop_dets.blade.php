@@ -407,13 +407,13 @@
                                                     <div class="col-md-2" >
                                                         <label class="control-label"> Status </label>
                                                     </div>
-                                                    <div class="col-md-2" >
+                                                    <div class="col-md-3" >
                                                         <label class="control-label"> Day </label>
                                                     </div>
-                                                    <div class="col-md-2" >
+                                                    <div class="col-md-3" >
                                                         <label class="control-label"> From Time </label>
                                                     </div>
-                                                    <div class="col-md-2" >
+                                                    <div class="col-md-3" >
                                                         <label class="control-label"> To Time </label>
                                                     </div>
                                                 </div>
@@ -428,7 +428,7 @@
                                                         <div class="col-md-3">
                                                             <select id="setdaysm" name="setdaysm"
                                                                 class="day-select form-control">
-                                                                <option value="Sunday">Sunday</option>
+                                                                <option lvaue="Sunday">Sunday</option>
                                                                 <option value="Monday">Monday</option>
                                                                 <option value="Tuesday">Tuesday</option>
                                                                 <option value="Wednesday">Wednesday</option>
@@ -437,16 +437,16 @@
                                                                 <option value="Saturday">Saturday</option>
                                                             </select>
                                                         </div>
-                                                        <div class="col-md-2">
+                                                        <div class="col-md-3">
                                                             <input type="text" id="setfrom_timem"
                                                                 name="setfrom_timem"
                                                                 class="form-control timepicker-input">
                                                         </div>
-                                                        <div class="col-md-2">
+                                                        <div class="col-md-3">
                                                             <input type="text" id="setto_timem" name="setto_timem"
                                                                 class="form-control timepicker-input">
                                                         </div>
-                                                        <div class="col-md-2">
+                                                        <div class="col-md-1">
                                                             <span data-repeater-delete=""
                                                                 class="btn btn-danger btn-sm">
                                                                 <span class="far fa-trash-alt mr-1"></span>
