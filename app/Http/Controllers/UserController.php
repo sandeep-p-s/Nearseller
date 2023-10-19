@@ -20,4 +20,9 @@ class UserController extends Controller
         $service = DB::table('service_details')->select('service_name')->first();
         return view('user.services', compact('services','service'));
     }
+    // public function serviceMenus($id)
+    // {
+    //     $service = DB::table('service_details')->where('id', $id)->first();
+    //     return view('services.show', compact('service'));
+    // }
 }

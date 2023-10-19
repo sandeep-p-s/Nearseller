@@ -117,7 +117,7 @@ Route::controller(AdminController::class)->group(function () {
     Route::get('shopsinactive/{id}', 'ShopInactives')->name('admin.shopapprovalsinactive');
     Route::get('allshopsinactive', 'AllShopsInactiveList')->name('admin.allshopsinactiveview');
 });
-        
+
 
 
 
@@ -408,5 +408,5 @@ Route::controller(AffiliateController::class)->group(function () {
 Route::controller(UserController::class)->group(function () {
     Route::get('/products', 'productPage')->name('user.products');
     Route::get('/services', 'servicePage')->name('user.services');
-    // Route::get('/services/show/{id}', 'show')->name('services.show');
+    // Route::get('/services/show/{id}', 'serviceMenus')->name('services.show');
 });

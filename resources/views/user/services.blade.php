@@ -22,16 +22,16 @@
     <!-- Services near me starts -->
     <section class="exclusive_offer section_wrapper">
         <div class="container-fluid">
-            <div class="row">
+            <div class="row mb-3 mt-5">
                 <div class="col-md-8">
-                    <div class="mt-5">
+                    <div class="">
                         <h3>{{ $service->service_name }} near you</h3>
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero molestiae maxime consequuntur
                             voluptatum ipsam quas quos minus et officia doloremque harum illo facere sunt, laudantium
                             soluta hic vitae non tenetur!</p>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 col-sm-12">
                     <div class="viewall_btn mt-5">
                         <select class="form-select control_filter" aria-label="Default select example">
                             <option selected="">Sort by</option>
@@ -44,8 +44,8 @@
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <h6 class="mt-5 filter_head">Filter</h6>
-                    <div class="filter">
+                    {{-- <h6 class="mt-5 filter_head">Filter</h6> --}}
+                    <div class="filter mt-5">
 
                         <!-- Sidebar filter section -->
                         <section id="sidebar">
@@ -90,8 +90,8 @@
                                     <div class="form-group"> <label for="">More than 10 km</label>
                                         <input type="checkbox" id="" class="float-end">
                                     </div>
-                                    <div class="more">
-                                        <p>More</p>
+                                    <a href=""><div class="more">
+                                        <p>More</p></a>
                                     </div>
                                 </form>
                             </div>
@@ -116,7 +116,7 @@
                                         <input type="checkbox" id="" class="float-end">
                                     </div>
                                     <div class="more">
-                                        <p>More Shops</p>
+                                        <p>More</p>
                                     </div>
                                 </form>
                             </div>
