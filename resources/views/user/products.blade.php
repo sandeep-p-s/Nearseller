@@ -311,15 +311,15 @@
                 </div>
             </div>
             <div class="col-md-4 col-sm-12">
-                <div class="viewall_btn">
-                    <select class="form-select" aria-label="Default select example">
+                <div class="viewall_btn mt-5">
+                    <select class="form-select control_filter" aria-label="Default select example">
                         <option selected="">Sort by</option>
                         <option value="1">Recomended</option>
                         <option value="2">New Arrival</option>
                         <option value="3">Best Deals</option>
-                        <option value="2">Price low to high</option>
-                        <option value="3">Price high to low</option>
-                      </select>
+                        <option value="2">Distance low to high</option>
+                        <option value="3">Distance high to low</option>
+                    </select>
                 </div>
             </div>
         </div>
