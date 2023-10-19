@@ -975,7 +975,8 @@ class AdminController extends Controller
             ->where('status', 'Y')
             ->where('id', $typeid)
             ->get();
-        $shopservicecategory    = DB::table('service_categories')->where('business_type_id',$typeid)->get();
+        $shopservicecategory    = DB::table('service_categories')->where(['business_type_id' => $typeid])->get();
+        //echo $lastRegId = $shopservicecategory->toSql();
         // $shop_service_type      = $sellerDetails->first()->shop_service_type;
         // $shopservicesubcategory = DB::table('service_sub_categories')->where('service_category_id',$shop_service_type)->get();
         $shopservice            = DB::table('service_types')->where('business_type_id',$typeid)->get();
@@ -1853,6 +1854,13 @@ class AdminController extends Controller
             ->where('status', 'Y')
             ->where('id', $typeid)
             ->get();
-        return view('admin.shop_dets', compact('sellerDetails', 'sellerCount', 'countries', 'business', 'shoporservice', 'typeid'));
+        $shopservicecategory    = DB::table('service_categories')->where(['business_type_id' => $typeid])->get();
+        //echo $lastRegId = $shopservicecategory->toSql();
+        // $shop_service_type      = $sellerDetails->first()->shop_service_type;
+        // $shopservicesubcategory = DB::table('service_sub_categories')->where('service_category_id',$shop_service_type)->get();
+        $shopservice            = DB::table('service_types')->where('business_type_id',$typeid)->get();
+        $executives             = DB::table('executives')->where(['executive_type' => $typeid])->get();
+        return view('admin.shop_dets', compact('sellerDetails', 'sellerCount', 'countries', 'business', 'shoporservice', 'typeid','shopservicecategory','shopservice','executives'));
+
     }
 }
