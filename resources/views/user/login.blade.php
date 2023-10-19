@@ -1570,7 +1570,7 @@
                     },
                     s_email: {
                         // required: true,
-                        minlength: 50,
+                        //minlength: 50,
                         email: true,
                     },
 
