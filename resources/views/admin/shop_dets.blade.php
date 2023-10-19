@@ -404,28 +404,28 @@
                                             <div data-repeater-list="availabletime_datam">
                                                 <!-- Heading Row -->
                                                 <div class="form-group row">
-                                                    <div class="col">
+                                                    <div class="col-md-2" >
                                                         <label class="control-label"> Status </label>
                                                     </div>
-                                                    <div class="col">
+                                                    <div class="col-md-2" >
                                                         <label class="control-label"> Day </label>
                                                     </div>
-                                                    <div class="col">
+                                                    <div class="col-md-2" >
                                                         <label class="control-label"> From Time </label>
                                                     </div>
-                                                    <div class="col">
+                                                    <div class="col-md-2" >
                                                         <label class="control-label"> To Time </label>
                                                     </div>
                                                 </div>
                                                 <!-- Dynamic Rows -->
                                                 <div data-repeater-item="">
-                                                    <div class="form-group row d-flex align-items-end">
-                                                        <div class="col">
+                                                    <div class="form-group row ">
+                                                        <div class="col-md-2">
                                                             <input class="form-control" type="checkbox"
                                                                 id="settimestatusm" name="settimestatusm"
                                                                 value="1" style="width: 20%;">
                                                         </div>
-                                                        <div class="col">
+                                                        <div class="col-md-3">
                                                             <select id="setdaysm" name="setdaysm"
                                                                 class="day-select form-control">
                                                                 <option value="Sunday">Sunday</option>
@@ -437,16 +437,16 @@
                                                                 <option value="Saturday">Saturday</option>
                                                             </select>
                                                         </div>
-                                                        <div class="col">
+                                                        <div class="col-md-2">
                                                             <input type="text" id="setfrom_timem"
                                                                 name="setfrom_timem"
                                                                 class="form-control timepicker-input">
                                                         </div>
-                                                        <div class="col">
+                                                        <div class="col-md-2">
                                                             <input type="text" id="setto_timem" name="setto_timem"
                                                                 class="form-control timepicker-input">
                                                         </div>
-                                                        <div class="col">
+                                                        <div class="col-md-2">
                                                             <span data-repeater-delete=""
                                                                 class="btn btn-danger btn-sm">
                                                                 <span class="far fa-trash-alt mr-1"></span>

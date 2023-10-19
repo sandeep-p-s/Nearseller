@@ -190,26 +190,26 @@
 
                         <div id="userreg">
                             <form id="userRegForm">
-                                <div class="form-outline  mb-2">
+                                <div class="form-outline">
                                     <input tabindex="1" type="text" id="u_name" name="u_name"
                                         class="form-control form-control-lg" maxlength="50" placeholder="Enter Name"
                                         required />
-                                    <label for="u_name" class="error"></label>
+                                    <label for="u_name" class="error  "></label>
                                 </div>
-                                <div class="form-outline  mb-2">
+                                <div class="form-outline">
                                     <input tabindex="2" type="email" id="u_emid" name="u_emid"
                                         class="form-control form-control-lg" maxlength="50" placeholder="Enter Email"
                                         required onchange="exstemilid(this.value,'1')" />
-                                    <label for="u_emid" class="error"></label>
-                                    <div id="uemil-message" class="text-center" style="display: none;"></div>
+                                    <label for="u_emid" class="error " id="uemil-message" ></label>
+                                    {{-- <div  class="text-center" style="display: none;"></div> --}}
                                 </div>
 
                                 <div class="form-outline  mb-2">
                                     <input tabindex="3" type="text" id="u_mobno" name="u_mobno"
                                         class="form-control form-control-lg" maxlength="10"
-                                        placeholder="Enter Mobile No" required onchange="exstmobno(this.value,'1')" />
-                                    <label for="u_mobno" class="error"></label>
-                                    <div id="umob-message" class="text-center" style="display: none;"></div>
+                                        placeholder="Enter Mobile Nohhh" required onchange="exstmobno(this.value,'1')" />
+                                    <label for="u_mobno" class="error" id="umob-message"></label>
+                                    {{-- <div id="umob-message" class="text-center" style="display: none;"></div> --}}
                                 </div>
 
                                 <div class="form-outline  mb-2">
