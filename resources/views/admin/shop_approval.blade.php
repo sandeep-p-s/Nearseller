@@ -79,6 +79,10 @@
 
             </div>
 
+            <div class="col-md-12">
+                <div id="shop_approved-message" class="text-center" style="display: none;"></div>
+            </div>
+
 
             <div class="modal fade" id="ViewEditModal" tabindex="-1" aria-labelledby="ViewEditModalLabel"
                 aria-hidden="true" style="overflow-y: scroll;">
@@ -512,5 +516,77 @@
                 });
 
             }
+
+             function check() {
+
+                if (document.getElementById('checkbox1').checked == true) {
+                    for (i = 1; i <= document.getElementById('totalshopcnt').value; i++) {
+                        document.getElementById('shopid' + i).checked = true;
+                    }
+                } else {
+                    for (i = 1; i <= document.getElementById('totalshopcnt').value; i++) {
+                        document.getElementById('shopid' + i).checked = false;
+                    }
+                }
+
+            }
+
+
+
+            function seller_service_approvedall() {
+                var shopid = '';
+                var totalshopcnt = document.getElementById('totalshopcnt').value;
+                for (var i = 1; i <= totalshopcnt; i++) {
+                    if (document.getElementById('shopid' + i).checked) {
+                        shopid = shopid + '#' + document.getElementById('shopid' + i).value;
+                    }
+                }
+                if (shopid == '') {
+                    alert('No Shops Selected');
+                    return false;
+                }
+
+                $('#loading-overlay').fadeIn();
+                $('#loading-image').fadeIn();
+                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    url: '{{ route('ShopServiceApprovedAll') }}',
+                    type: 'POST',
+                    data: {
+                        shopid: shopid
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    success: function(data) {
+                        if ((data.result == 1)) {
+                            $('#shop_approved-message').text(data.mesge).fadeIn();
+                            $('#shop_approved-message').addClass('success-message');
+                            setTimeout(function() {
+                                $('#shop_approved-message').fadeOut();
+                            }, 5000);
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                            shwdets();
+                        } else if ((data.result == 2)) {
+                            $('#shop_approved-message').text(data.mesge).fadeIn();
+                            $('#shop_approved-message').addClass('error');
+                            setTimeout(function() {
+                                $('#product_approved-message').fadeOut();
+                            }, 5000);
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                            shwdets();
+                        } else {
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                            shwdets();
+                        }
+                    }
+                });
+
+            }
+
+
         </script>
     @endsection

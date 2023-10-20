@@ -320,16 +320,16 @@
                                                             <div class="col">
                                                                 <input type="text" id="offerprice1"
                                                                     name="offerprice1" placeholder="Offer Price"
-                                                                    class="form-control">
+                                                                    class="form-control" oninput="numberOnlyAllowedDot(this)">
                                                             </div>
                                                             <div class="col">
                                                                 <input type="text" id="mrprice1" name="mrprice1"
-                                                                    placeholder="MRP" class="form-control">
+                                                                    placeholder="MRP" class="form-control" oninput="numberOnlyAllowedDot(this)">
                                                             </div>
                                                             <div class="col">
                                                                 <input type="text" id="attr_stock1"
                                                                     name="attr_stock1" placeholder="Attribute Stock"
-                                                                    class="form-control attr-stock">
+                                                                    class="form-control attr-stock" oninput="numberOnlyAllowed(this)">
                                                             </div>
                                                             <div class="col">
                                                                 <span data-repeater-delete=""
@@ -411,6 +411,24 @@
 
 
 <script>
+
+    function numberOnlyAllowed(inputElement) {
+        let value = inputElement.value.replace(/\D/g, '');
+        if (value.length > 10) {
+            value = value.slice(0, 10);
+        }
+        inputElement.value = value;
+    }
+
+    function numberOnlyAllowedDot(inputElement) {
+        let value = inputElement.value.replace(/[^0-9.]/g, '');
+        if (value.length > 10) {
+            value = value.slice(0, 10);
+        }
+        inputElement.value = value;
+    }
+
+
     function yesnoCheck() {
         if (document.getElementById('yesCheck').checked) {
             document.getElementById('ifYes').style.display = 'block';

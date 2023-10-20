@@ -565,7 +565,7 @@
                         }, 5000); // 5000 milliseconds = 5 seconds
                         $('#loading-image').fadeOut();
                         $('#loading-overlay').fadeOut();
-                        $('#ShopApprovedModal').modal('show');
+                        $('#ShopApprovedModal').modal('hide');
                         shwdets();
 
                     } else {

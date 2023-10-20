@@ -40,6 +40,9 @@
     @endif
     <input type="hidden" id="shopidhid" name="shopidhid" value="{{ $sellerDetails->id }}"
         class="form-control form-control-lg" maxlength="50" placeholder="Shop id" required tabindex="1" />
+    <input type="hidden" id="etypeidhid" name="etypeidhid" value="{{ $typeid }}" />
+
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-4">
@@ -64,7 +67,7 @@
                 <div class="form-outline mb-3"><label>Mobile Number<span class="text-danger">*</span></label>
                     <input type="text" id="es_mobno" name="es_mobno" value="{{ $sellerDetails->shop_mobno }}"
                         class="form-control form-control-lg" maxlength="10" placeholder="Mobile No" required
-                        tabindex="3" onchange="exstmobno(this.value,'2')" />
+                        tabindex="3" onchange="exstmobno(this.value,'2')"  oninput="numberOnlyAllowed(this)"/>
                     <label for="es_mobno" class="error"></label>
                     <div id="esmob-message" class="text-center" style="display: none;"></div>
                 </div>
@@ -265,7 +268,7 @@
                 <div class="form-outline mb-3"><label>Pincode<span class="text-danger">*</span></label>
                     <input type="text" id="es_pincode" name="es_pincode" value="{{ $sellerDetails->pincode }}"
                         maxlength="6" class="form-control form-control-lg" placeholder="Pin Code" required
-                        tabindex="17" />
+                        tabindex="17"  oninput="numberOnlyAllowed(this)" />
                     <label for="es_pincode" class="error"></label>
                 </div>
 
@@ -431,20 +434,21 @@
 
                 <div class="form-outline mb-3"><label>GST Number</label>
                     <input type="text" id="es_gstno" name="es_gstno" value="{{ $sellerDetails->shop_gstno }}"
-                        maxlength="25" class="form-control form-control-lg" placeholder="GST Number"
+                        maxlength="25" class="form-control form-control-lg" placeholder="GST Number" maxlength="15"
                         tabindex="20" />
                     <label for="es_gstno" class="error"></label>
                 </div>
                 <div class="form-outline mb-3"><label>PAN Number</label>
                     <input type="text" id="es_panno" name="es_panno" value="{{ $sellerDetails->shop_panno }}"
-                        maxlength="12" class="form-control form-control-lg" placeholder="PAN Number"
+                        maxlength="12" class="form-control form-control-lg" placeholder="PAN Number" maxlength="10"
                         tabindex="21" />
                     <label for="es_panno" class="error"></label>
                     <div id="epan-error-message" style="color: red;"></div>
                 </div>
 
 
-                <div class="form-outline mb-3"><label> Establishment Date</label>
+                <div class="form-outline mb-3"><label> Establishment Date @if($typeid==1)<span
+                    class="text-danger">*</span> @endif</label>
                     <input type="date" id="es_establishdate" name="es_establishdate"
                         value="{{ $sellerDetails->establish_date }}" maxlength="10"
                         class="form-control form-control-lg" placeholder="Establishment Date" tabindex="22"
@@ -691,6 +695,22 @@
 
 
 <script>
+
+    function numberOnlyAllowed(inputElement) {
+        let value = inputElement.value.replace(/\D/g, '');
+        if (value.length > 10) {
+            value = value.slice(0, 10);
+        }
+        inputElement.value = value;
+    }
+
+    function numberOnlyAllowedDot(inputElement) {
+        let value = inputElement.value.replace(/[^0-9.]/g, '');
+        if (value.length > 10) {
+            value = value.slice(0, 10);
+        }
+        inputElement.value = value;
+    }
     document.getElementById('es_panno').addEventListener('input', function() {
         var panInput = this.value;
         var panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
@@ -1174,6 +1194,11 @@
         return this.optional(element) || panRegex.test(value);
     }, "Invalid PAN format. It should be in the format AEDFR2568H");
 
+    jQuery.validator.addMethod("validGST", function(value, element) {
+        var gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9]{1}[A-Z]{1}[0-9]{1}$/;
+        return this.optional(element) || gstRegex.test(value);
+    }, "Invalid GST format. It should be in the format 29ABCDE1234F1Z5");
+
     $("#SellerRegFormEdit").validate({
 
         rules: {
@@ -1260,7 +1285,9 @@
                 //     required: true,
             },
             es_establishdate: {
-                required: true,
+                required: function(element) {
+                return $("#etypeidhid").val() === "1";
+                }
             },
             es_termcondtn: {
                 required: true,
@@ -1287,6 +1314,9 @@
             // },
             es_panno: {
                 validPAN: true // Apply the custom PAN validation
+            },
+            es_gstno: {
+                validGST: true // Apply the custom PAN validation
             }
 
 
@@ -1363,6 +1393,11 @@
             s_panno: {
                 validPAN: "Invalid PAN format. It should be in the format AEDFR2568H"
             },
+            es_gstno: {
+                validGST: "Invalid GST format. It should be in the format 29ABCDE1234F1Z5"
+            },
+
+
             // eopentime: {
             //     required: "Please select open time."
             // },

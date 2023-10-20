@@ -157,7 +157,7 @@
                 $('#loading-image').fadeIn();
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
                 $.ajax({
-                    url: '{{ route('ProductApprovedAll') }}',
+                    url: '{{ route('ServiceApprovedAll') }}',
                     type: 'POST',
                     data: {
                         productid: productid
@@ -200,7 +200,7 @@
                 $('#loading-image').fadeIn();
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
                 $.ajax({
-                    url: '{{ route('productViewEdit') }}',
+                    url: '{{ route('serviceNewViewEdit') }}',
                     type: 'POST',
                     data: {
                         productid: productid
@@ -268,15 +268,15 @@
 
             }
 
-            function productapprovedet(productid) {
+            function productapprovedet(serviceid) {
                 $('#loading-overlay').fadeIn();
                 $('#loading-image').fadeIn();
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
                 $.ajax({
-                    url: '{{ route('productApproved') }}',
+                    url: '{{ route('serviceApproved') }}',
                     type: 'POST',
                     data: {
-                        productid: productid
+                        serviceid: serviceid
                     },
                     headers: {
                         'X-CSRF-TOKEN': csrfToken
@@ -295,7 +295,7 @@
             }
 
 
-            function productdeletedet(productid) {
+            function productdeletedet(serviceid) {
                 $('#deleteConfirmationModal').modal('show');
                 $('#confirmDeleteBtn').click(function() {
                     $('#deleteConfirmationModal').modal('hide');
@@ -303,10 +303,10 @@
                     $('#loading-image').fadeIn();
                     var csrfToken = $('meta[name="csrf-token"]').attr('content');
                     $.ajax({
-                        url: '{{ route('ProductsDelete') }}',
+                        url: '{{ route('ServiceDelete') }}',
                         type: 'POST',
                         data: {
-                            productid: productid,
+                            serviceid: serviceid,
                             _token: csrfToken
                         },
                         success: function(data) {
