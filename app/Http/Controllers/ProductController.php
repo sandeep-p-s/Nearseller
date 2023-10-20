@@ -707,7 +707,7 @@ class ProductController extends Controller
         $LogDetails->status = $msg;
         $LogDetails->save();
         if ($newproductreg > 0) {
-            return response()->json(['result' => 1, 'mesge' => '( ' . $request->input('prod_name') . ') Product Successfully Updated']);
+            return response()->json(['result' => 1, 'mesge' => '( ' . $request->input('prod_names') . ') Product Successfully Updated']);
         } else {
             return response()->json(['result' => 2, 'mesge' => 'Failed']);
         }
