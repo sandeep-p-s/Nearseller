@@ -1,5 +1,5 @@
 @if ($sellerCount > 0)
-<table id="datatable" class="table table-striped table-bordered">
+    <table id="datatable" class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th>SINO</th>
@@ -86,7 +86,8 @@
                                             class="text-danger">*</span></label>
                                     <input type="text" id="s_name" name="s_name"
                                         class="form-control form-control-lg" maxlength="50"
-                                        placeholder="{{ $shoporservice }} Name" required tabindex="1" onchange="exstshopname(this.value,'1')" />
+                                        placeholder="{{ $shoporservice }} Name" required tabindex="1"
+                                        onchange="exstshopname(this.value,'1')" />
                                     <label for="s_name" class="error"></label>
                                     <div id="existshopname-message" class="text-center" style="display: none;"></div>
                                 </div>
@@ -137,9 +138,9 @@
                                         name="s_shopservice" required tabindex="7">
                                         <option value="">{{ $shoporservice }} Category</option><br />
                                         @foreach ($shopservicecategory as $shopser)
-                                    <option value="{{ $shopser->id }}">{{ $shopser->service_category_name }}
-                                    </option>
-                                @endforeach
+                                            <option value="{{ $shopser->id }}">{{ $shopser->service_category_name }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                     <label for="s_shopservice" class="error"></label>
                                 </div>
@@ -163,8 +164,8 @@
                                         name="s_shopservicetype" required tabindex="7">
                                         <option value="">{{ $shoporservice }} Type</option><br />
                                         @foreach ($shopservice as $shtypes)
-                                    <option value="{{ $shtypes->id }}">{{ $shtypes->service_name }}</option>
-                                @endforeach
+                                            <option value="{{ $shtypes->id }}">{{ $shtypes->service_name }}</option>
+                                        @endforeach
                                     </select>
                                     <label for="s_shopservicetype" class="error"></label>
                                 </div>
@@ -175,8 +176,8 @@
                                         name="s_shopexectename" tabindex="8">
                                         <option value="">{{ $shoporservice }} Executive Name</option><br />
                                         @foreach ($executives as $exec)
-                                    <option value="{{ $exec->id }}">{{ $exec->executive_name }}</option>
-                                @endforeach
+                                            <option value="{{ $exec->id }}">{{ $exec->executive_name }}</option>
+                                        @endforeach
                                     </select>
                                     <label for="s_shopexectename" class="error"></label>
                                 </div>
@@ -208,17 +209,8 @@
                                         </div>
                                     </div>
                                     <div id="addedUrls"></div>
-
                                 </div>
-
-
-
                             </div>
-
-
-
-
-
 
                             <div class="col-md-4">
 
@@ -404,16 +396,16 @@
                                             <div data-repeater-list="availabletime_datam">
                                                 <!-- Heading Row -->
                                                 <div class="form-group row">
-                                                    <div class="col-md-2" >
+                                                    <div class="col-md-2">
                                                         <label class="control-label"> Status </label>
                                                     </div>
-                                                    <div class="col-md-3" >
+                                                    <div class="col-md-3">
                                                         <label class="control-label"> Day </label>
                                                     </div>
-                                                    <div class="col-md-3" >
+                                                    <div class="col-md-3">
                                                         <label class="control-label"> From Time </label>
                                                     </div>
-                                                    <div class="col-md-3" >
+                                                    <div class="col-md-3">
                                                         <label class="control-label"> To Time </label>
                                                     </div>
                                                 </div>
@@ -917,14 +909,14 @@
 
             fileArrs.push(file);
             totalFiless++;
-            if (totalFiless  > 5) {
-            alert('Maximum 5 images allowed');
-            $(this).val('');
-            $('#image-preview').html('');
-            totalFiless = 0;
-            fileArrs = [];
-            return;
-        }
+            if (totalFiless > 5) {
+                alert('Maximum 5 images allowed');
+                $(this).val('');
+                $('#image-preview').html('');
+                totalFiless = 0;
+                fileArrs = [];
+                return;
+            }
 
 
             var reader = new FileReader();
@@ -1468,11 +1460,11 @@
     $(document).ready(function() {
         $('#addMoreurls').click(function(event) {
             event.preventDefault();
-            $("#mediaurl,#mediatype").prop('required',true);
-            var checkTe =$('#mediaurl,#mediatype').valid();
-           $("#mediaurl,#mediatype").prop('required',false);
-            if(!checkTe)
-            return false;
+            $("#mediaurl,#mediatype").prop('required', true);
+            var checkTe = $('#mediaurl,#mediatype').valid();
+            $("#mediaurl,#mediatype").prop('required', false);
+            if (!checkTe)
+                return false;
             mm++;
             var recRowm = '<div class="row mb-5" id="addedfieldurl' + mm +
                 '"><div class="col-md-3 fv-row fv-plugins-icon-container"><select required class="form-select form-control form-control-lg" id="mediatype' +

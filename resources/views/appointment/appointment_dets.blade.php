@@ -4,7 +4,7 @@
             <tr>
                 <th>SINO</th>
                 <th>Service Name</th>
-                <th>Date and Time</th>
+                <th>Date & Time</th>
                 <th>Service Type</th>
                 <th>Action</th>
 
@@ -22,15 +22,19 @@
                 <tr>
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $service->service_name }}</td>
-                    <td><span class="badge p-2 badge badge-danger">&nbsp;{{ $formattedFromDate }}</span> &nbsp;<span
+                    <td>
+                        <span class="badge p-2 badge badge-danger">&nbsp;{{ $formattedFromDate }}</span> &nbsp;<span
                             class="badge p-2 badge badge-info">To</span> &nbsp;<span class="badge p-2 badge badge-danger">
-                            &nbsp; {{ $formattedToDate }} </span></td>
-                    <td><span
+                            &nbsp; {{ $formattedToDate }}
+                        </span>
+                    </td>
+                    <td>
+                        <span
                             class="badge p-2 {{ $service->service_point == '1' ? 'badge badge-success' : ($service->service_point == '2' ? 'badge badge-info' : 'badge badge-danger') }}">
                             {{ $service->service_point == '1' ? 'At Home' : ($service->service_point == '2' ? 'At Shop' : 'None') }}
-                        </span></td>
+                        </span>
+                    </td>
                     <td>
-
                         <div class="btn-group mb-2 mb-md-0">
                             <button type="button" class="btn view_btn dropdown-toggle" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">Action
@@ -73,7 +77,7 @@
     <div class="modal-dialog custom-modal-dialog" style="overflow-y: scroll;">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-center" id="addNewModalLabel">Add New Appontment</h5>
+                <h5 class="modal-title text-center" id="addNewModalLabel">Add New Appointment</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                     title="Close">x</button>
             </div>
@@ -87,7 +91,7 @@
 
 
                                     <div class="form-group"><label>Set Availability Dates<span
-                                        class="text-danger">*</span></label>
+                                                class="text-danger">*</span></label>
                                         <select class="form-select form-control form-control-lg" id="setavailbledate"
                                             name="setavailbledate" required tabindex="1">
                                             <option value="">Select</option><br />
@@ -166,28 +170,28 @@
                                                 <div data-repeater-list="availabletime_data">
                                                     <!-- Heading Row -->
                                                     <div class="form-group row">
-                                                        <div class="col">
+                                                        <div class="col-md-2">
                                                             <label class="control-label"> Set Available time </label>
                                                         </div>
-                                                        <div class="col">
+                                                        <div class="col-md-3">
                                                             <label class="control-label"> Day </label>
                                                         </div>
-                                                        <div class="col">
+                                                        <div class="col-md-3">
                                                             <label class="control-label"> From Time </label>
                                                         </div>
-                                                        <div class="col">
+                                                        <div class="col-md-3">
                                                             <label class="control-label"> To Time </label>
                                                         </div>
                                                     </div>
                                                     <!-- Dynamic Rows -->
                                                     <div data-repeater-item="">
                                                         <div class="form-group row d-flex align-items-end">
-                                                            <div class="col">
+                                                            <div class="col-md-2">
                                                                 <input class="form-control" type="checkbox"
                                                                     id="settimestatus" name="settimestatus"
                                                                     value="1" style="width: 10%;">
                                                             </div>
-                                                            <div class="col">
+                                                            <div class="col-md-3">
                                                                 <select id="setdays" name="setdays"
                                                                     class="day-select form-control">
 
@@ -200,20 +204,20 @@
                                                                     <option value="Saturday">Saturday</option>
                                                                 </select>
                                                             </div>
-                                                            <div class="col">
+                                                            <div class="col-md-3">
                                                                 <input type="text" id="setfrom_time"
                                                                     name="setfrom_time"
                                                                     class="form-control timepicker-input">
                                                             </div>
-                                                            <div class="col">
+                                                            <div class="col-md-3">
                                                                 <input type="text" id="setto_time"
                                                                     name="setto_time"
                                                                     class="form-control timepicker-input">
                                                             </div>
-                                                            <div class="col">
+                                                            <div class="col-md-1">
                                                                 <span data-repeater-delete=""
                                                                     class="btn btn-danger btn-sm">
-                                                                    <span class="far fa-trash-alt mr-1"></span> Delete
+                                                                    <span class="far fa-trash-alt mr-1"></span>
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -262,7 +266,7 @@
 
                                                             <div class="col">
                                                                 <textarea id="setquestion" name="setquestion" placeholder="Set Question" class="form-control" maxlength="250"
-                                                                    tabindex="6"></textarea>
+                                                                    tabindex="6" rows="5" cols="5"></textarea>
                                                                 <label for="setquestion"></label>
                                                             </div>
 
@@ -287,12 +291,8 @@
                                         </fieldset>
                                     </div>
 
-
-
-
-
                                     <div class="form-group"><label>Service Required?<span
-                                        class="text-danger">*</span></label>
+                                                class="text-danger">*</span></label>
                                         <select class="selectservicetype form-select form-control form-control-lg"
                                             id="service_type_id" name="service_type_id" required tabindex="1">
                                             <option value="">Select Services</option><br />
@@ -303,11 +303,8 @@
                                         <label for="service_type_id" class="error"></label>
                                     </div>
 
-
-
-
                                     <div class="form-group"><label>Preffered Employee<span
-                                        class="text-danger">*</span></label>
+                                                class="text-danger">*</span></label>
                                         <select class="selectserviceemploye form-select form-control form-control-lg"
                                             id="service_employe_id" name="service_employe_id" required
                                             tabindex="1">
@@ -325,12 +322,6 @@
                                             tabindex="6"></textarea>
                                         <label for="sugection" class="error"></label>
                                     </div>
-
-
-
-
-
-
 
                                     <div class="form-group mb-0 row">
                                         <label class="col-md-4">Service Point </label>
