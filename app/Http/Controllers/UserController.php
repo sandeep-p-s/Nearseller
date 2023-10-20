@@ -16,9 +16,8 @@ class UserController extends Controller
 
     public function servicePage()
     {
-        $services = DB::table('service_details')->select('id','service_name')->where('is_approved', 'Y')->get();
-        // $service = DB::table('service_details')->select('id','service_name')->first();
-        return view('user.services', compact('services','service'));
+        $services = DB::table('service_details')->where('is_approved', 'Y')->get();
+        return view('user.services', compact('services'));
     }
     // public function serviceMenus($id)
     // {

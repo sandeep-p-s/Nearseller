@@ -94,6 +94,7 @@
 
 
 
+
                     <div class="align-items-center h-custom-2 login_credentails">
                         <h5 class="mb-3 pb-3 mt-5 text-center">Sign in</h5>
                         <fieldset>
@@ -155,8 +156,11 @@
 
                         <div>
                             <p class="text-center" id="signup">Don't have an account? <a href="#"
-                                    class="" style="color: #452896;">Sign Up</a></p>
+                                    class="" style="color: #452896;">Sign Up</a>
+                                    &nbsp;&nbsp;<a href="{{ route('Home') }}"
+                                    class="" style="color: #e7071d;" title="Home"><i class="fas fa-home"></i></a></p>
                         </div>
+
                     </div>
 
 
@@ -797,7 +801,9 @@
                 <div id="otpentered-message" class="text-center" style="display: none;"></div>
             </div>
         </div>
+
     </div>
+
 
 
 
@@ -811,6 +817,9 @@
     <script src="{{ asset('js/main.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+
     <script>
         document.getElementById('s_panno').addEventListener('input', function() {
             var panInput = this.value;
