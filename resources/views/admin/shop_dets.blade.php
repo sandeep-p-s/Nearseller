@@ -445,7 +445,7 @@
                                                         <div class="col-md-3">
                                                             <select id="setdaysm" name="setdaysm"
                                                                 class="day-select form-control">
-                                                                <option lvaue="Sunday">Sunday</option>
+                                                                <option value="Sunday">Sunday</option>
                                                                 <option value="Monday">Monday</option>
                                                                 <option value="Tuesday">Tuesday</option>
                                                                 <option value="Wednesday">Wednesday</option>
