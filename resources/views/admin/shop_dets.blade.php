@@ -2,32 +2,47 @@
     <table id="datatable" class="table table-striped table-bordered">
         <thead>
             <tr>
+                <th width="5px">Active All <input type='checkbox' name='checkbox1' id='checkbox1' onclick='check();' />
+                </th>
                 <th>SINO</th>
                 <th>Reg. ID</th>
                 <th>{{ $shoporservice }} Name</th>
                 <th>Owner Name</th>
-                <th>Email</th>
+                {{-- <th>Email</th> --}}
                 <th>Mobile</th>
-                <th>Business Type</th>
+                {{-- <th>Business Type</th> --}}
                 <th>User Status</th>
+                <th>Approved Status</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($sellerDetails as $index => $sellerDetail)
                 <tr>
+                    <td><input name="shopid[]" type="checkbox" id="shopid{{ $index + 1 }}"
+                            value="{{ $sellerDetail->id . '*' . $sellerDetail->user_id }}"
+                            {{ $sellerDetail->user_status === 'Y' ? 'checked' : '' }} />
+                    </td>
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $typeid == 1 ? 'SHOP' : ($typeid == 2 ? 'SER' : '') }}{{ str_pad($sellerDetail->shop_reg_id, 9, '0', STR_PAD_LEFT) }}
                     </td>
                     <td>{{ $sellerDetail->shop_name }}</td>
                     <td>{{ $sellerDetail->owner_name }}</td>
-                    <td>{{ $sellerDetail->shop_email }}</td>
+                    {{-- <td>{{ $sellerDetail->shop_email }}</td> --}}
                     <td>{{ $sellerDetail->shop_mobno }}</td>
-                    <td class="text-success">{{ $sellerDetail->business_name }}</td>
+                    {{-- <td class="text-success">{{ $sellerDetail->business_name }}</td> --}}
                     <td><span
                             class="badge p-2 {{ $sellerDetail->user_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
                             {{ $sellerDetail->user_status === 'Y' ? 'Active' : 'Inactive' }}
-                        </span></td>
+                        </span>
+                    </td>
+                    <td><span
+                            class="badge p-2 {{ $sellerDetail->seller_approved === 'Y' ? 'badge badge-info' : 'badge badge-danger' }}">
+                            {{ $sellerDetail->seller_approved === 'Y' ? 'Approved' : 'Not Approved' }}
+                        </span>
+                    </td>
+
+
                     <td>
                         <div class="btn-group mb-2 mb-md-0">
                             <button type="button" class="btn view_btn dropdown-toggle" data-toggle="dropdown"
@@ -49,6 +64,7 @@
             @endforeach
         </tbody>
     </table>
+    <input type="hidden" value="{{ $index + 1 }}" id="totalshopcnt">
     {{-- <div class="pagination">
         {{ $sellerDetails->links() }}
     </div> --}}
@@ -61,6 +77,13 @@
             </td>
         </tr>
     </table>
+@endif
+
+@if ($sellerCount > 0)
+    <div class="col text-center">
+        <button class="btn btn-primary" style="cursor:pointer" onclick="seller_service_approvedall();">Active
+            All</button>
+    </div>
 @endif
 
 
@@ -79,6 +102,7 @@
 
 
                 <form id="SellerRegForm" enctype="multipart/form-data" method="POST">
+                    <input type="hidden" id="typeidhid" name="typeidhid" value="{{ $typeid }}" />
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-md-4">
@@ -104,7 +128,7 @@
                                             class="text-danger">*</span></label>
                                     <input type="text" id="s_mobno" name="s_mobno"
                                         class="form-control form-control-lg" maxlength="10" placeholder="Mobile No"
-                                        required tabindex="3" onchange="exstmobno(this.value,'2')" />
+                                        required tabindex="3" onchange="exstmobno(this.value,'2')"  oninput="numberOnlyAllowed(this)"/>
                                     <label for="s_mobno" class="error"></label>
                                     <div id="smob-message" class="text-center" style="display: none;"></div>
                                 </div>
@@ -266,7 +290,7 @@
                                             class="text-danger">*</span></label>
                                     <input type="text" id="s_pincode" name="s_pincode" maxlength="6"
                                         class="form-control form-control-lg" placeholder="Pin Code" required
-                                        tabindex="17" />
+                                        tabindex="17"  oninput="numberOnlyAllowed(this)"/>
                                     <label for="s_pincode" class="error"></label>
                                 </div>
 
@@ -333,13 +357,14 @@
                                 </div>
 
                                 <div class="form-outline mb-3"><label>GST Number</label>
-                                    <input type="text" id="s_gstno" name="s_gstno" maxlength="25"
+                                    <input type="text" id="s_gstno" name="s_gstno" maxlength="15"
                                         class="form-control form-control-lg" placeholder="GST Number"
                                         tabindex="20" />
                                     <label for="s_gstno" class="error"></label>
+                                    <div id="gst-error-message" style="color: red;"></div>
                                 </div>
                                 <div class="form-outline mb-3"><label>PAN Number</label>
-                                    <input type="text" id="s_panno" name="s_panno" maxlength="12"
+                                    <input type="text" id="s_panno" name="s_panno" maxlength="10"
                                         class="form-control form-control-lg" placeholder="PAN Number"
                                         tabindex="21" />
                                     <label for="s_panno" class="error"></label>
@@ -347,8 +372,8 @@
                                 </div>
 
 
-                                <div class="form-outline mb-3"><label> Establishment Date<span
-                                            class="text-danger">*</span></label>
+                                <div class="form-outline mb-3"><label> Establishment Date @if($typeid==1)<span
+                                           class="text-danger">*</span> @endif</label>
                                     <input type="date" id="s_establishdate" name="s_establishdate" maxlength="10"
                                         class="form-control form-control-lg" placeholder="Establishment Date"
                                         tabindex="22" max="{{ date('Y-m-d') }}" />
@@ -609,6 +634,25 @@
 
 
 <script>
+    function numberOnlyAllowed(inputElement) {
+        let value = inputElement.value.replace(/\D/g, '');
+        if (value.length > 10) {
+            value = value.slice(0, 10);
+        }
+        inputElement.value = value;
+    }
+
+    function numberOnlyAllowedDot(inputElement) {
+        let value = inputElement.value.replace(/[^0-9.]/g, '');
+        if (value.length > 10) {
+            value = value.slice(0, 10);
+        }
+        inputElement.value = value;
+    }
+
+
+
+
     document.getElementById('s_panno').addEventListener('input', function() {
         var panInput = this.value;
         var panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
@@ -621,6 +665,19 @@
             //document.getElementById('pan-error-message').textContent = "Invalid PAN format. It should be in the format AEDFR2568H";
         }
     });
+
+    // document.getElementById('s_gstno').addEventListener('input', function() {
+    //     var gstInput = this.value;
+    //     var gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9]{1}[A-Z\d]{1}$/;
+
+    //     if (gstRegex.test(gstInput)) {
+    //         // PAN format is valid
+    //         document.getElementById('gst-error-message').textContent = "";
+    //     } else {
+    //         // PAN format is invalid
+    //         //document.getElementById('pan-error-message').textContent = "Invalid PAN format. It should be in the format AEDFR2568H";
+    //     }
+    // });
 
 
 
@@ -1106,10 +1163,15 @@
     }
 
     jQuery.validator.addMethod("validPAN", function(value, element) {
-        // Define the PAN format regular expression
         var panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
         return this.optional(element) || panRegex.test(value);
     }, "Invalid PAN format. It should be in the format AEDFR2568H");
+
+    jQuery.validator.addMethod("validGST", function(value, element) {
+        var gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9]{1}[A-Z]{1}[0-9]{1}$/;
+        return this.optional(element) || gstRegex.test(value);
+    }, "Invalid GST format. It should be in the format 29ABCDE1234F1Z5");
+
 
     $("#SellerRegForm").validate({
 
@@ -1188,12 +1250,12 @@
             // s_googlelink: {
             //      required: true,
             // },
-            s_gstno: {
-                // required: true,
-            },
-            s_panno: {
-                //required: true,
-            },
+            //s_gstno: {
+            // required: true,
+            //},
+            //s_panno: {
+            //required: true,
+            // },
             s_googlelatitude: {
                 required: true,
             },
@@ -1202,7 +1264,9 @@
             },
 
             s_establishdate: {
-                required: true,
+                required: function(element) {
+                return $("#typeidhid").val() === "1";
+                }
             },
             s_termcondtn: {
                 required: true,
@@ -1225,8 +1289,16 @@
             //     required: true,
             // },
             s_panno: {
-                validPAN: true // Apply the custom PAN validation
-            }
+                validPAN: true,
+                // minlength: 10,
+                // maxlength: 10
+            },
+            s_gstno: {
+                validGST: true,
+                // minlength: 15,
+                // maxlength: 15
+            },
+
             // manufactringdets: {
             //     required: true,
             // },
@@ -1321,6 +1393,9 @@
             },
             s_panno: {
                 validPAN: "Invalid PAN format. It should be in the format AEDFR2568H"
+            },
+            s_gstno: {
+                validGST: "Invalid GST format. It should be in the format 29ABCDE1234F1Z5"
             },
 
             // opentime: {

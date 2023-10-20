@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\Builder;
+use Carbon\Carbon;
 use App\Models\UserAccount;
 use App\Models\LogDetails;
 use App\Models\SellerDetails;
@@ -74,12 +76,6 @@ class ServiceNewController extends Controller
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $prodname = $request->input('prodname');
-        $atribute = $request->input('atribute');
-        $shopid = $request->input('shopid');
-        $shop_id = explode('-', $shopid);
-        $shopval = $shop_id[0];
-
         $query = ServiceDetails::select('service_details.*', 'user_account.name as shopname')
         ->leftJoin('user_account', 'user_account.id', 'service_details.service_id');
 
@@ -91,21 +87,106 @@ class ServiceNewController extends Controller
         $ServiceDetails = $query->get();
         //echo $lastRegId = $query->toSql();exit;
         $ProductCount = $ServiceDetails->count();
-        $roleIdsArray = explode(',', $roleid);
-        if (in_array('9', $roleIdsArray)) {
-            echo "haii";exit;
         $userservicedets = DB::table('user_account')
             ->select('id', 'name')
-            ->where('id', $userId)
+            ->where('role_id', 9)
             ->get();
-        }
-        else{
-            $userservicedets='';
-        }
         return view('serviceproduct.product_dets', compact('ServiceDetails', 'ProductCount', 'userservicedets'));
     }
 
-    public function AdmProductApprovedAll(Request $request)
+    function AdmNewServiceAdd(Request $request)
+    {
+        $userRole = session('user_role');
+        $roleid = session('roleid');
+        $userId = session('user_id');
+        if ($userId == '') {
+            return redirect()->route('logout');
+        }
+        $loggedUserIp = $_SERVER['REMOTE_ADDR'];
+        $time = date('Y-m-d H:i:s');
+
+        $validatedData = $request->validate([
+            'shop_name' => 'required',
+            'prod_name' => 'required',
+            'customRadio' => 'required|in:Y,N',
+        ]);
+
+
+        $ServiceDetails = new ServiceDetails();
+        $ServiceDetails->fill($validatedData);
+        $ServiceDetails->service_id = $request->input('shop_name');
+        $ServiceDetails->service_name = $request->input('prod_name');
+        $ServiceDetails->created_by = $userId;
+        $ServiceDetails->created_time = $time;
+        $ServiceDetails->service_status = 'Y';
+        if ($roleid == 1) {
+            $ServiceDetails->is_approved = 'Y';
+            $ServiceDetails->approved_by = $userId;
+            $ServiceDetails->approved_time = $time;
+        }
+
+        if ($request->hasFile('s_photo')) {
+            $upload_imgpath = 'uploads/ser_provdr_images/';
+            if (!is_dir($upload_imgpath)) {
+                mkdir($upload_imgpath, 0777, true);
+            }
+            foreach ($request->file('s_photo') as $fimg) {
+                if ($fimg->isValid()) {
+                    $imgfile_name = time() . '_' . $fimg->getClientOriginalName();
+                    $fimg->move($upload_imgpath, $imgfile_name);
+                    $imgfilename = $upload_imgpath . $imgfile_name;
+                    $ServiceDetails->service_images = $imgfilename;
+                }
+            }
+        }
+
+
+        $ServiceDetails->is_attribute = $request->input('customRadio');
+        $newproductreg = $ServiceDetails->save();
+        $service_id = $ServiceDetails->id;
+        if ($request->input('customRadio') === 'Y') {
+            $attributes = $request->input('attributedata');
+            //echo "<pre>";print_r($attributes);exit;
+            try {
+                foreach ($attributes as $attribute) {
+                    if ($attribute['attatibute1'] == '' && $attribute['attatibute2'] == '' && $attribute['attatibute3'] == '' && $attribute['attatibute4'] == '' && $attribute['offerprice1'] == '' && $attribute['mrprice1'] == '' && $attribute['attr_calshop1'] == '') {
+                    } else {
+                        $productAttribute = new AddServiceAttribute();
+                        $productAttribute->service_id = $service_id;
+                        $productAttribute->attribute_1 = $attribute['attatibute1'];
+                        $productAttribute->attribute_2 = $attribute['attatibute2'];
+                        $productAttribute->attribute_3 = $attribute['attatibute3'];
+                        $productAttribute->attribute_4 = $attribute['attatibute4'];
+                        $productAttribute->offer_price = $attribute['offerprice1'];
+                        $productAttribute->mrp_price = $attribute['mrprice1'];
+                        $productAttribute->call_shop = $attribute['attr_calshop1'];
+                        $stockStatus = isset($attribute['stockstatus1']) ? 1 : 0;
+                        $productAttribute->show_status = $stockStatus;
+                        $newattribute = $productAttribute->save();
+                    }
+                }
+            } catch (\Exception $e) {
+                dd($e->getMessage());
+            }
+        }
+        $msg = 'New Services Successfully added. Service ID is :  ' . $service_id;
+        $LogDetails = new LogDetails();
+        $LogDetails->user_id = $userId;
+        $LogDetails->ip_address = $loggedUserIp;
+        $LogDetails->log_time = $time;
+        $LogDetails->status = $msg;
+        $LogDetails->save();
+        if ($newproductreg > 0) {
+            return response()->json(['result' => 1, 'mesge' => '( ' . $request->input('prod_name') . ') Services Successfully Added']);
+        } else {
+            return response()->json(['result' => 2, 'mesge' => 'Failed']);
+        }
+    }
+
+
+
+
+    public function AdmServiceApprovedAll(Request $request)
     {
         $userRole = session('user_role');
         $roleid = session('roleid');
@@ -122,15 +203,15 @@ class ServiceNewController extends Controller
         $flg = 0;
         for ($i = 1; $i < $toregIDCount; $i++) {
             $prod_id = $product_id[$i];
-            $productDetails = ProductDetails::find($prod_id);
-            if (!empty($productDetails)) {
-                if ($productDetails->is_approved == 'N') {
-                    $productDetails->is_approved = 'Y';
-                } elseif ($productDetails->is_approved == 'R') {
+            $ServiceDetails = ServiceDetails::find($prod_id);
+            if (!empty($ServiceDetails)) {
+                if ($ServiceDetails->is_approved == 'N') {
+                    $ServiceDetails->is_approved = 'Y';
+                } elseif ($ServiceDetails->is_approved == 'R') {
                 }
-                $productDetails->approved_by = $userId;
-                $productDetails->approved_time = $time;
-                $productDetails->save();
+                $ServiceDetails->approved_by = $userId;
+                $ServiceDetails->approved_time = $time;
+                $ServiceDetails->save();
                 $flg = 1;
             }
         }
@@ -144,301 +225,17 @@ class ServiceNewController extends Controller
         $LogDetails->save();
 
         if ($flg == 1) {
-            return response()->json(['result' => 1, 'mesge' => 'Product Successfully Approved']);
+            return response()->json(['result' => 1, 'mesge' => 'Services Successfully Approved']);
         } else {
-            return response()->json(['result' => 2, 'mesge' => 'No Products Approved']);
+            return response()->json(['result' => 2, 'mesge' => 'No Services Approved']);
         }
     }
 
-    function AdmNewPrdoductAdd(Request $request)
-    {
-        $userRole = session('user_role');
-        $roleid = session('roleid');
-        $userId = session('user_id');
-        if ($userId == '') {
-            return redirect()->route('logout');
-        }
-        $loggedUserIp = $_SERVER['REMOTE_ADDR'];
-        $time = date('Y-m-d H:i:s');
 
-        $validatedData = $request->validate([
-            'shop_name' => 'required',
-            'prod_name' => 'required|regex:/^[A-Za-z\s\.]+$/',
-            'prod_specification' => 'nullable|max:250',
-            'parent_category' => 'required',
-            'prod_description' => 'required|max:7000',
-            'totstock' => 'required|numeric',
-            'customRadio' => 'required|in:Y,N',
-            'paymode' => 'required|in:cod,shop,calshop',
-            'prod_manufacture' => 'nullable|max:250',
-            'brand_name' => 'nullable|max:120',
-            'videofile' => 'nullable|mimes:mp4|max:102400', // Max 100MB video file
-            'prod_doc' => 'nullable|mimes:pdf|max:1024', // Max 1MB PDF file
-            //'s_photo'             => 'nullable|image|mimes:jpeg,png|max:2048', // Max 2MB per image
-        ]);
 
-        if ($request->input('customRadio') === 'Y') {
-            $totalStock = (int) $request->input('totstock', 0);
-            $attributeStock = 0;
-            if ($request->has('attributedata')) {
-                foreach ($request->input('attributedata') as $attributeData) {
-                    $attributeStock += (int) ($attributeData['attr_stock1'] ?? 0);
-                }
-            }
-            if ($totalStock !== $attributeStock) {
-                return response()->json(['result' => 3, 'mesge' => 'Total stock and attribute stock must be equal.']);
-            }
-        }
-        $ProductDetails = new ProductDetails();
-        $ProductDetails->fill($validatedData);
-        $ProductDetails->shop_id = $request->input('shop_name');
-        $ProductDetails->product_name = $request->input('prod_name');
-        $ProductDetails->product_specification = $request->input('prod_specification');
-        $ProductDetails->category_id = $request->input('parent_category');
-        $ProductDetails->product_description = $request->input('prod_description');
-        $ProductDetails->manufacture_details = $request->input('prod_manufacture');
-        $ProductDetails->brand_name = $request->input('brand_name');
-        $ProductDetails->paying_mode = $request->input('paymode');
-        $ProductDetails->product_stock = $request->input('totstock');
-        $ProductDetails->created_by = $userId;
-        $ProductDetails->created_time = $time;
-        $ProductDetails->product_status = 'Y';
-        if ($roleid == 1) {
-            $ProductDetails->is_approved = 'Y';
-            $ProductDetails->approved_by = $userId;
-            $ProductDetails->approved_time = $time;
-        }
 
-        if ($request->hasFile('prod_doc')) {
-            $file = $request->file('prod_doc');
-            $fileName = rand() . time() . '.' . $file->getClientOriginalExtension();
-            $upload_doc = 'uploads/product_document/';
-            if (!is_dir($upload_doc)) {
-                mkdir($upload_doc, 0777, true);
-            }
-            $file->move(public_path($upload_doc), $fileName);
-            $document = $upload_doc . $fileName;
-            $ProductDetails->product_document = $document;
-        }
 
-        if ($request->hasFile('videofile')) {
-            $file = $request->file('videofile');
-            $filevideo = rand() . time() . '.' . $file->getClientOriginalExtension();
-            $upload_video = 'uploads/product_video/';
-            if (!is_dir($upload_video)) {
-                mkdir($upload_video, 0777, true);
-            }
-            $file->move(public_path($upload_video), $filevideo);
-            $prod_video = $upload_video . $filevideo;
-            $ProductDetails->product_videos = $prod_video;
-        }
-
-        if ($request->hasFile('s_photo')) {
-            $upload_path = 'uploads/product_images/';
-            if (!is_dir($upload_path)) {
-                mkdir($upload_path, 0777, true);
-            }
-
-            $input_datas = [];
-            foreach ($request->file('s_photo') as $file) {
-                if ($file->isValid()) {
-                    $new_name = rand() . time() . '_' . $file->getClientOriginalExtension();
-                    $file->move($upload_path, $new_name);
-                    $filename = $upload_path . $new_name;
-                    array_push($input_datas, $filename);
-                }
-            }
-            $input_vals = ['fileval' => $input_datas];
-            $jsonimages = json_encode($input_vals);
-            $ProductDetails->product_images = $jsonimages;
-        }
-        $ProductDetails->is_attribute = $request->input('customRadio');
-        $newproductreg = $ProductDetails->save();
-        $product_id = $ProductDetails->id;
-        if ($request->input('customRadio') === 'Y') {
-            $attributes = $request->input('attributedata');
-            //echo "<pre>";print_r($attributes);exit;
-            try {
-                foreach ($attributes as $attribute) {
-                    if ($attribute['attatibute1'] == '' && $attribute['attatibute2'] == '' && $attribute['attatibute3'] == '' && $attribute['attatibute4'] == '' && $attribute['offerprice1'] == '' && $attribute['mrprice1'] == '' && $attribute['attr_stock1'] == '') {
-                    } else {
-                        $productAttribute = new AddProductAttribute();
-                        $productAttribute->product_id = $product_id;
-                        $productAttribute->attribute_1 = $attribute['attatibute1'];
-                        $productAttribute->attribute_2 = $attribute['attatibute2'];
-                        $productAttribute->attribute_3 = $attribute['attatibute3'];
-                        $productAttribute->attribute_4 = $attribute['attatibute4'];
-                        $productAttribute->offer_price = $attribute['offerprice1'];
-                        $productAttribute->mrp_price = $attribute['mrprice1'];
-                        $productAttribute->attribute_stock = $attribute['attr_stock1'];
-                        $stockStatus = isset($attribute['stockstatus1']) ? 1 : 0;
-                        $productAttribute->stock_status = $stockStatus;
-                        $newattribute = $productAttribute->save();
-                    }
-                }
-            } catch (\Exception $e) {
-                dd($e->getMessage());
-            }
-        }
-        $msg = 'New Product Successfully added. product ID is :  ' . $product_id;
-        $LogDetails = new LogDetails();
-        $LogDetails->user_id = $userId;
-        $LogDetails->ip_address = $loggedUserIp;
-        $LogDetails->log_time = $time;
-        $LogDetails->status = $msg;
-        $LogDetails->save();
-        if ($newproductreg > 0) {
-            return response()->json(['result' => 1, 'mesge' => '( ' . $request->input('prod_name') . ') Product Successfully Added']);
-        } else {
-            return response()->json(['result' => 2, 'mesge' => 'Failed']);
-        }
-    }
-
-    function AdmPrdoductExist(Request $request)
-    {
-        $userRole = session('user_role');
-        $roleid = session('roleid');
-        $userId = session('user_id');
-        if ($userId == '') {
-            return redirect()->route('logout');
-        }
-        $loggedUserIp = $_SERVER['REMOTE_ADDR'];
-        $time = date('Y-m-d H:i:s');
-
-        $validatedData = $request->validate([
-            'shop_namesx' => 'required',
-            'prod_namesx' => 'required|regex:/^[A-Za-z\s\.]+$/',
-            'prod_specificationsx' => 'nullable|max:250',
-            'parent_categorysx' => 'required',
-            'prod_descriptionsx' => 'required|max:7000',
-            'totstocksx' => 'required|numeric',
-            'customRadiosx' => 'required|in:Y,N',
-            'paymodesx' => 'required|in:cod,shop,calshop',
-            'prod_manufacturesx' => 'nullable|max:250',
-            'brand_namesx' => 'nullable|max:120',
-            'videofilesx' => 'nullable|mimes:mp4|max:102400', // Max 100MB video file
-            'prod_docsx' => 'nullable|mimes:pdf|max:1024', // Max 1MB PDF file
-            //'s_photo'             => 'nullable|image|mimes:jpeg,png|max:2048', // Max 2MB per image
-        ]);
-
-        if ($request->input('customRadiosx') === 'Y') {
-            $totalStock = (int) $request->input('totstocksx', 0);
-            $attributeStock = 0;
-            if ($request->has('attributedatasx')) {
-                foreach ($request->input('attributedatasx') as $attributeData) {
-                    $attributeStock += (int) ($attributeData['attr_stocksx1'] ?? 0);
-                }
-            }
-            if ($totalStock !== $attributeStock) {
-                return response()->json(['result' => 3, 'mesge' => 'Total stock and attribute stock must be equal.']);
-            }
-        }
-        $ProductDetails = new ProductDetails();
-        $ProductDetails->fill($validatedData);
-        $ProductDetails->shop_id = $request->input('shop_namesx');
-        $ProductDetails->product_name = $request->input('prod_namesx');
-        $ProductDetails->product_specification = $request->input('prod_specificationsx');
-        $ProductDetails->category_id = $request->input('parent_categorysx');
-        $ProductDetails->product_description = $request->input('prod_descriptionsx');
-        $ProductDetails->manufacture_details = $request->input('prod_manufacturesx');
-        $ProductDetails->brand_name = $request->input('brand_namesx');
-        $ProductDetails->paying_mode = $request->input('paymodesx');
-        $ProductDetails->product_stock = $request->input('totstocksx');
-        $ProductDetails->created_by = $userId;
-        $ProductDetails->created_time = $time;
-        $ProductDetails->product_status = 'Y';
-        if ($roleid == 1) {
-            $ProductDetails->is_approved = 'Y';
-            $ProductDetails->approved_by = $userId;
-            $ProductDetails->approved_time = $time;
-        }
-
-        if ($request->hasFile('prod_docsx')) {
-            $file = $request->file('prod_docsx');
-            $fileName = rand() . time() . '.' . $file->getClientOriginalExtension();
-            $upload_doc = 'uploads/product_document/';
-            if (!is_dir($upload_doc)) {
-                mkdir($upload_doc, 0777, true);
-            }
-            $file->move(public_path($upload_doc), $fileName);
-            $document = $upload_doc . $fileName;
-            $ProductDetails->product_document = $document;
-        }
-
-        if ($request->hasFile('videofilesx')) {
-            $file = $request->file('videofilesx');
-            $filevideo = rand() . time() . '.' . $file->getClientOriginalExtension();
-            $upload_video = 'uploads/product_video/';
-            if (!is_dir($upload_video)) {
-                mkdir($upload_video, 0777, true);
-            }
-            $file->move(public_path($upload_video), $filevideo);
-            $prod_video = $upload_video . $filevideo;
-            $ProductDetails->product_videos = $prod_video;
-        }
-
-        if ($request->hasFile('s_photosx')) {
-            $upload_path = 'uploads/product_images/';
-            if (!is_dir($upload_path)) {
-                mkdir($upload_path, 0777, true);
-            }
-
-            $input_datas = [];
-            foreach ($request->file('s_photosx') as $file) {
-                if ($file->isValid()) {
-                    $new_name = rand() . time() . '_' . $file->getClientOriginalExtension();
-                    $file->move($upload_path, $new_name);
-                    $filename = $upload_path . $new_name;
-                    array_push($input_datas, $filename);
-                }
-            }
-            $input_vals = ['fileval' => $input_datas];
-            $jsonimages = json_encode($input_vals);
-            $ProductDetails->product_images = $jsonimages;
-        }
-        $ProductDetails->is_attribute = $request->input('customRadiosx');
-        $newproductreg = $ProductDetails->save();
-        $product_id = $ProductDetails->id;
-        if ($request->input('customRadiosx') === 'Y') {
-            $attributes = $request->input('attributedatasx');
-            //echo "<pre>";print_r($attributes);exit;
-            try {
-                foreach ($attributes as $attribute) {
-                    if ($attribute['attatibutesx1'] == '' && $attribute['attatibutesx2'] == '' && $attribute['attatibutesx3'] == '' && $attribute['attatibutesx4'] == '' && $attribute['offerpricesx1'] == '' && $attribute['mrpricesx1'] == '' && $attribute['attr_stocksx1'] == '') {
-                    } else {
-                        $productAttribute = new AddProductAttribute();
-                        $productAttribute->product_id = $product_id;
-                        $productAttribute->attribute_1 = $attribute['attatibutesx1'];
-                        $productAttribute->attribute_2 = $attribute['attatibutesx2'];
-                        $productAttribute->attribute_3 = $attribute['attatibutesx3'];
-                        $productAttribute->attribute_4 = $attribute['attatibutesx4'];
-                        $productAttribute->offer_price = $attribute['offerpricesx1'];
-                        $productAttribute->mrp_price = $attribute['mrpricesx1'];
-                        $productAttribute->attribute_stock = $attribute['attr_stocksx1'];
-                        $stockStatus = isset($attribute['stockstatussx1']) ? 1 : 0;
-                        $productAttribute->stock_status = $stockStatus;
-                        $newattribute = $productAttribute->save();
-                    }
-                }
-            } catch (\Exception $e) {
-                dd($e->getMessage());
-            }
-        }
-        $msg = 'New Product Successfully added. product ID is :  ' . $product_id;
-        $LogDetails = new LogDetails();
-        $LogDetails->user_id = $userId;
-        $LogDetails->ip_address = $loggedUserIp;
-        $LogDetails->log_time = $time;
-        $LogDetails->status = $msg;
-        $LogDetails->save();
-        if ($newproductreg > 0) {
-            return response()->json(['result' => 1, 'mesge' => '( ' . $request->input('prod_name') . ') Product Successfully Added']);
-        } else {
-            return response()->json(['result' => 2, 'mesge' => 'Failed']);
-        }
-    }
-
-    function AdmProductViewEdit(Request $request)
+    function AdmServiceViewEdit(Request $request)
     {
         $userRole = session('user_role');
         $roleid = session('roleid');
@@ -447,79 +244,23 @@ class ServiceNewController extends Controller
             return redirect()->route('logout');
         }
         $productid = $request->input('productid');
-        $ProductDetails = ProductDetails::select('product_details.*')
-            ->leftJoin('categories', 'categories.id', 'product_details.category_id')
-            ->where('product_details.id', $productid)
+        $ServiceDetails = ServiceDetails::select('service_details.*')
+            ->where('service_details.id', $productid)
             ->first();
-
-        $productAttibutes = DB::table('add_product_attributes')
-            ->where('product_id', $ProductDetails->id)
+        //echo $lastRegId = $ServiceDetails->toSql();exit;
+        $productAttibutes = DB::table('add_service_attributes')
+            ->where('service_id', $ServiceDetails->id)
             ->get();
-        //echo $lastRegId = $Affiliate->toSql();exit;
-        $categories = Category::treeWithStatusY();
-        $filteredCategories = $categories->filter(function ($category) {
-            return $category->category_level != 5;
-        });
-        $usershopdets = DB::table('user_account')
+        $userservicede = DB::table('user_account')
             ->select('id', 'name')
-            ->where('role_id', 2)
+            ->where('role_id', 9)
             ->get();
-        return view('product.product_viewedit_dets', compact('ProductDetails', 'filteredCategories', 'productAttibutes', 'usershopdets'));
+        //dd($userservicedets);
+        return view('serviceproduct.product_viewedit_dets', compact('ServiceDetails', 'productAttibutes', 'userservicede'));
     }
 
-    function AdmproductValDelte(Request $request)
-    {
-        $userRole = session('user_role');
-        $userId = session('user_id');
-        if ($userId == '') {
-            return redirect()->route('logout');
-        }
-        $imgval = $request->input('imgval');
-        $typevals = urldecode($imgval);
-        $typevalm = base64_decode($typevals);
-        $exlodval = explode('#', $typevalm);
-        //echo "<pre>";print_r($exlodval);exit;
-        $imgremove = $exlodval[0];
-        $productid = $exlodval[1];
-        $ProductDetails = ProductDetails::find($productid);
-        $ProductImg = DB::table('product_details')
-            ->where('id', $productid)
-            ->get();
-        //echo $lastRegId = $sellerDetail->toSql();exit;
-        foreach ($ProductImg as $gal) {
-            $json_data = $gal->product_images;
-        }
-        $data = json_decode($json_data, true);
-        $delete_item = $imgremove;
-        $index = array_search($delete_item, $data['fileval']);
-        //echo "<pre>";print_r($index);exit;
-        if ($index !== false) {
-            $file_path = $imgremove;
-            unlink($file_path);
-            unset($data['fileval'][$index]);
-            $data['fileval'] = array_values($data['fileval']);
-            $updated_json_data = json_encode($data);
-            $ProductDetails->product_images = $updated_json_data;
-            $result = $ProductDetails->save();
-            //echo $lastRegId = $sellerDetail->toSql();exit;
-            $loggedUserIp = $_SERVER['REMOTE_ADDR'];
-            $time = date('Y-m-d H:i:s');
-            $msg = 'Deleted Image ' . $imgremove;
-            $LogDetails = new LogDetails();
-            $LogDetails->user_id = $userId;
-            $LogDetails->ip_address = $loggedUserIp;
-            $LogDetails->log_time = $time;
-            $LogDetails->status = $msg;
-            $LogDetails->save();
-            if ($result > 0) {
-                return response()->json(['result' => 1, 'mesge' => 'Deleted Successfully']);
-            } else {
-                return response()->json(['result' => 2, 'mesge' => 'Failed']);
-            }
-        }
-    }
 
-    function AdmNewPrdoductEdit(Request $request)
+    function AdmNewServiceEdit(Request $request)
     {
         $userRole = session('user_role');
         $roleid = session('roleid');
@@ -532,119 +273,51 @@ class ServiceNewController extends Controller
 
         $validatedData = $request->validate([
             'shop_names' => 'required',
-            'prod_names' => 'required|regex:/^[A-Za-z\s\.]+$/',
-            'prod_specifications' => 'nullable|max:250',
-            'parent_categorys' => 'required',
-            'prod_descriptions' => 'required|max:7000',
-            'totstocks' => 'required|numeric',
+            'prod_names' => 'required',
             'customRadios' => 'required|in:Y,N',
-            'paymodes' => 'required|in:cod,shop,calshop',
-            'prod_manufactures' => 'nullable|max:250',
-            'productstatus' => 'required',
-            'brand_names' => 'nullable|max:120',
-            'videofiles' => 'nullable|mimes:mp4|max:102400', // Max 100MB video file
-            'prod_docs' => 'nullable|mimes:pdf|max:1024', // Max 1MB PDF file
-            //'s_photo'             => 'nullable|image|mimes:jpeg,png|max:2048', // Max 2MB per image
         ]);
 
-        if ($request->input('customRadio') === 'Y') {
-            $totalStock = (int) $request->input('totstock', 0);
-            $attributeStock = 0;
-            if ($request->has('attributedata')) {
-                foreach ($request->input('attributedata') as $attributeData) {
-                    $attributeStock += (int) ($attributeData['attr_stock1'] ?? 0);
-                }
-            }
-            if ($totalStock !== $attributeStock) {
-                return response()->json(['result' => 3, 'mesge' => 'Total stock and attribute stock must be equal.']);
-            }
-        }
-        $product_id = $request->prod_id;
-        $ProductDetails = ProductDetails::find($product_id);
-        $ProductDetails->fill($validatedData);
-        $ProductDetails->shop_id = $request->input('shop_names');
-        $ProductDetails->product_name = $request->input('prod_names');
-        $ProductDetails->product_specification = $request->input('prod_specifications');
-        $ProductDetails->category_id = $request->input('parent_categorys');
-        $ProductDetails->product_description = $request->input('prod_descriptions');
-        $ProductDetails->manufacture_details = $request->input('prod_manufactures');
-        $ProductDetails->brand_name = $request->input('brand_names');
-        $ProductDetails->paying_mode = $request->input('paymodes');
-        $ProductDetails->product_stock = $request->input('totstocks');
-        $ProductDetails->product_status = $request->input('productstatus');
-        // if($roleid==1)
-        // {
-        //     $ProductDetails->is_approved = 'Y';
-        //     $ProductDetails->approved_by = $userId;
-        //     $ProductDetails->approved_time = $time;
-        // }
-        $ProductImag = DB::table('product_details')
-            ->select('product_images', 'product_videos', 'product_document')
-            ->where('id', $product_id)
+        $service_id = $request->serprod_id;
+        $ServiceDetails = ServiceDetails::find($service_id);
+        $ServiceDetails->fill($validatedData);
+        $ServiceDetails->service_id = $request->input('shop_names');
+        $ServiceDetails->service_name = $request->input('prod_names');
+        $ServiceDetails->service_status = $request->input('productstatus');
+
+        $ProductImag = DB::table('service_details')
+            ->select('service_images')
+            ->where('id', $service_id)
             ->get();
         foreach ($ProductImag as $gala) {
-            $existproduct_images = $gala->product_images;
-            $existproduct_videos = $gala->product_videos;
-            $existproduct_document = $gala->product_document;
+            $existproduct_images = $gala->service_images;
         }
-
-        if ($request->hasFile('prod_docs')) {
-            unlink($existproduct_document);
-            $file = $request->file('prod_docs');
-            $fileName = rand() . time() . '.' . $file->getClientOriginalExtension();
-            $upload_doc = 'uploads/product_document/';
-            if (!is_dir($upload_doc)) {
-                mkdir($upload_doc, 0777, true);
-            }
-            $file->move(public_path($upload_doc), $fileName);
-            $document = $upload_doc . $fileName;
-            $ProductDetails->product_document = $document;
-        }
-
-        if ($request->hasFile('videofiles')) {
-            unlink($existproduct_videos);
-            $file = $request->file('videofiles');
-            $filevideo = rand() . time() . '.' . $file->getClientOriginalExtension();
-            $upload_video = 'uploads/product_video/';
-            if (!is_dir($upload_video)) {
-                mkdir($upload_video, 0777, true);
-            }
-            $file->move(public_path($upload_video), $filevideo);
-            $prod_video = $upload_video . $filevideo;
-            $ProductDetails->product_videos = $prod_video;
-        }
-
-        $input_datas = [];
-        $input_vals = [];
-        $existing_array = json_decode($existproduct_images, true);
-        $existing_images = isset($existing_array['fileval']) ? $existing_array['fileval'] : [];
-        $input_datas = $existing_images;
         if ($request->hasFile('s_photos')) {
-            $upload_path = 'uploads/product_images/';
-            if (!is_dir($upload_path)) {
-                mkdir($upload_path, 0777, true);
+            unlink($existproduct_images);
+            $upload_imgpath = 'uploads/ser_provdr_images/';
+            if (!is_dir($upload_imgpath)) {
+                mkdir($upload_imgpath, 0777, true);
             }
-            foreach ($request->file('s_photos') as $file) {
-                if ($file->isValid()) {
-                    $new_name = time() . '_' . $file->getClientOriginalExtension();
-                    $file->move($upload_path, $new_name);
-                    $filename = $upload_path . $new_name;
-                    array_push($input_datas, $filename);
+            foreach ($request->file('s_photos') as $fimg) {
+                if ($fimg->isValid()) {
+                    $imgfile_name = time() . '_' . $fimg->getClientOriginalName();
+                    $fimg->move($upload_imgpath, $imgfile_name);
+                    $imgfilename = $upload_imgpath . $imgfile_name;
+                    $ServiceDetails->service_images = $imgfilename;
                 }
             }
-            $input_vals = ['fileval' => $input_datas];
-            $jsonimages = json_encode($input_vals);
-            $ProductDetails->product_images = $jsonimages;
         }
-        $ProductDetails->is_attribute = $request->input('customRadios');
-        $updteproductreg = $ProductDetails->save();
+
+
+
+        $ServiceDetails->is_attribute = $request->input('customRadios');
+        $updteproductreg = $ServiceDetails->save();
 
         //delete product attributes
-        $delteProductAttributesDetail = AddProductAttribute::where('product_id', $product_id)->delete();
+        $delteProductAttributesDetail = AddServiceAttribute::where('service_id', $service_id)->delete();
         //end delete attributes
 
         if ($request->input('customRadios') === 'N') {
-            $delteProductAttributesDetail = AddProductAttribute::where('product_id', $product_id)->delete();
+            $delteProductAttributesDetail = AddServiceAttribute::where('service_id', $service_id)->delete();
         }
 
         if ($request->input('customRadios') === 'Y') {
@@ -652,69 +325,65 @@ class ServiceNewController extends Controller
             //echo "<pre>";print_r($attributes);exit;
             try {
                 foreach ($attributes as $attribute) {
-                    if ($attribute['attatibutes1'] == '' && $attribute['attatibutes2'] == '' && $attribute['attatibutes3'] == '' && $attribute['attatibutes4'] == '' && $attribute['offerprices1'] == '' && $attribute['mrprices1'] == '' && $attribute['attr_stocks1'] == '') {
+                    if ($attribute['attatibutes1'] == '' && $attribute['attatibutes2'] == '' && $attribute['attatibutes3'] == '' && $attribute['attatibutes4'] == '' && $attribute['offerprices1'] == '' && $attribute['mrprices1'] == '' && $attribute['attr_calshops1'] == '') {
                     } else {
-                        $productAttribute = new AddProductAttribute();
-                        $productAttribute->product_id = $product_id;
+                        $productAttribute = new AddServiceAttribute();
+                        $productAttribute->service_id = $service_id;
                         $productAttribute->attribute_1 = $attribute['attatibutes1'];
                         $productAttribute->attribute_2 = $attribute['attatibutes2'];
                         $productAttribute->attribute_3 = $attribute['attatibutes3'];
                         $productAttribute->attribute_4 = $attribute['attatibutes4'];
                         $productAttribute->offer_price = $attribute['offerprices1'];
                         $productAttribute->mrp_price = $attribute['mrprices1'];
-                        $productAttribute->attribute_stock = $attribute['attr_stocks1'];
+                        $productAttribute->call_shop = $attribute['attr_calshops1'];
                         $stockStatus = isset($attribute['stockstatuss1']) ? 1 : 0;
-                        $productAttribute->stock_status = $stockStatus;
-                        $newproductreg = $productAttribute->save();
+                        $productAttribute->show_status = $stockStatus;
+                        $newattribute = $productAttribute->save();
                     }
                 }
             } catch (\Exception $e) {
                 dd($e->getMessage());
             }
         }
-        $msg = 'Product Successfully Updated. Updated product ID is :  ' . $product_id;
+        $msg = 'Service Successfully Updated. Updated service ID is :  ' . $service_id;
         $LogDetails = new LogDetails();
         $LogDetails->user_id = $userId;
         $LogDetails->ip_address = $loggedUserIp;
         $LogDetails->log_time = $time;
         $LogDetails->status = $msg;
         $LogDetails->save();
-        if ($newproductreg > 0) {
-            return response()->json(['result' => 1, 'mesge' => '( ' . $request->input('prod_name') . ') Product Successfully Updated']);
+        if ($updteproductreg > 0) {
+            return response()->json(['result' => 1, 'mesge' => '( ' . $request->input('prod_names') . ') Services Successfully Updated']);
         } else {
             return response()->json(['result' => 2, 'mesge' => 'Failed']);
         }
     }
 
-    function AdmproductApproved(Request $request)
+    function AdmserviceApproved(Request $request)
     {
         $userRole = session('user_role');
+        $roleid = session('roleid');
         $userId = session('user_id');
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $productid = $request->input('productid');
-        $ProductDetails = ProductDetails::select('product_details.*')
-            ->leftJoin('categories', 'categories.id', 'product_details.category_id')
-            ->where('product_details.id', $productid)
+        $serviceid = $request->input('serviceid');
+        $ServiceDetails = ServiceDetails::select('service_details.*')
+            ->where('service_details.id', $serviceid)
             ->first();
-
-        $productAttibutes = DB::table('add_product_attributes')
-            ->where('product_id', $ProductDetails->id)
+        //echo $lastRegId = $ServiceDetails->toSql();exit;
+        $productAttibutes = DB::table('add_service_attributes')
+            ->where('service_id', $ServiceDetails->id)
             ->get();
-        //echo $lastRegId = $Affiliate->toSql();exit;
-        $categories = Category::treeWithStatusY();
-        $filteredCategories = $categories->filter(function ($category) {
-            return $category->category_level != 5;
-        });
-        $usershopdets = DB::table('user_account')
+        $userservicede = DB::table('user_account')
             ->select('id', 'name')
-            ->where('role_id', 2)
+            ->where('role_id', 9)
             ->get();
-        return view('product.product_approved_dets', compact('ProductDetails', 'filteredCategories', 'productAttibutes', 'usershopdets'));
+        //dd($userservicedets);
+        return view('serviceproduct.product_approved_dets', compact('ServiceDetails', 'productAttibutes', 'userservicede'));
     }
 
-    function AdmapprovedPrdoduct(Request $request)
+    function AdmapprovedService(Request $request)
     {
         $userRole = session('user_role');
         $userId = session('user_id');
@@ -726,16 +395,16 @@ class ServiceNewController extends Controller
         $validatedData = $request->validate([
             'productapproval' => 'required|max:1',
         ]);
-        $prod_id = $request->prod_ids;
+        $serprod_ids = $request->serprod_ids;
 
-        $ProductDetails = ProductDetails::find($prod_id);
+        $ServiceDetails = ServiceDetails::find($serprod_ids);
+        $ServiceDetails->fill($validatedData);
+        $ServiceDetails->is_approved = $request->productapproval;
+        $ServiceDetails->approved_by = $userId;
+        $ServiceDetails->approved_time = $time;
+        $submt = $ServiceDetails->save();
 
-        $ProductDetails->is_approved = $request->productapproval;
-        $ProductDetails->approved_by = $userId;
-        $ProductDetails->approved_time = $time;
-        $submt = $ProductDetails->save();
-
-        $msg = 'Aprroved Status =  ' . $request->productapproval . ' product approved id : ' . $prod_id;
+        $msg = 'Service Aprroved Status =  ' . $request->productapproval . ' service approved id : ' . $serprod_ids;
         $LogDetails = new LogDetails();
         $LogDetails->user_id = $userId;
         $LogDetails->ip_address = $loggedUserIp;
@@ -743,13 +412,13 @@ class ServiceNewController extends Controller
         $LogDetails->status = $msg;
         $LogDetails->save();
         if ($submt > 0) {
-            return response()->json(['result' => 1, 'mesge' => ' Product Successfully Approved']);
+            return response()->json(['result' => 1, 'mesge' => ' Service Successfully Approved']);
         } else {
             return response()->json(['result' => 2, 'mesge' => 'Failed']);
         }
     }
 
-    function AdmProductsDelete(Request $request)
+    function AdmServiceDelete(Request $request)
     {
         $userRole = session('user_role');
         $userId = session('user_id');
@@ -758,11 +427,11 @@ class ServiceNewController extends Controller
         }
         $loggedUserIp = $_SERVER['REMOTE_ADDR'];
         $time = date('Y-m-d H:i:s');
-        $productid = $request->input('productid');
-        $ProductDetails = ProductDetails::find($productid);
+        $serviceid = $request->input('serviceid');
+        $ProductDetails = ServiceDetails::find($serviceid);
         $deltesellerDetail = $ProductDetails->delete();
-        $delteProductAttributesDetail = AddProductAttribute::where('product_id', $productid)->delete();
-        $msg = 'Product Deleted  product id : ' . $productid;
+        $delteProductAttributesDetail = AddServiceAttribute::where('service_id', $serviceid)->delete();
+        $msg = 'Service Deleted.  service id : ' . $serviceid;
         $LogDetails = new LogDetails();
         $LogDetails->user_id = $userId;
         $LogDetails->ip_address = $loggedUserIp;
@@ -770,49 +439,12 @@ class ServiceNewController extends Controller
         $LogDetails->status = $msg;
         $LogDetails->save();
         if ($deltesellerDetail > 0 && $delteProductAttributesDetail > 0) {
-            return response()->json(['result' => 1, 'mesge' => 'Product Deleted Successfully']);
+            return response()->json(['result' => 1, 'mesge' => 'Service Deleted Successfully']);
         } else {
             return response()->json(['result' => 2, 'mesge' => 'Failed']);
         }
     }
 
-    function productCategorySearch(Request $request)
-    {
-        $categoryname = $request->input('categoryname');
-        $categories = Category::treeWithautocomplete($categoryname);
-        $filteredCategories = $categories->filter(function ($category) {
-            return $category->category_level != 5;
-        });
-        header('Content-Type: application/json');
-        echo json_encode($filteredCategories);
-    }
 
-    function AdmproductExistEdit(Request $request)
-    {
-        $userRole = session('user_role');
-        $roleid = session('roleid');
-        $userId = session('user_id');
-        if ($userId == '') {
-            return redirect()->route('logout');
-        }
-        $productid = $request->input('productid');
-        $ProductDetails = ProductDetails::select('product_details.*')
-            ->leftJoin('categories', 'categories.id', 'product_details.category_id')
-            ->where('product_details.id', $productid)
-            ->first();
 
-        $productAttibutes = DB::table('add_product_attributes')
-            ->where('product_id', $ProductDetails->id)
-            ->get();
-        //echo $lastRegId = $Affiliate->toSql();exit;
-        $categories = Category::treeWithStatusY();
-        $filteredCategories = $categories->filter(function ($category) {
-            return $category->category_level != 5;
-        });
-        $usershopdets = DB::table('user_account')
-            ->select('id', 'name')
-            ->where('role_id', 2)
-            ->get();
-        return view('product.product_exists_dets', compact('ProductDetails', 'filteredCategories', 'productAttibutes', 'usershopdets'));
-    }
 }

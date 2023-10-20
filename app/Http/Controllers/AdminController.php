@@ -1020,9 +1020,9 @@ class AdminController extends Controller
             //'s_logo' => 'required|image|mimes:jpeg,png|max:1024',
             's_bgcolor' => 'required',
             //'s_photo' => 'required|image|mimes:jpeg,png|max:1024',
-            's_gstno' => ['sometimes', 'max:25'],
+            's_gstno' => ['sometimes', 'max:15'],
             's_panno' => ['sometimes', 'max:10'],
-            's_establishdate' => 'required|date',
+            's_establishdate' => $request->input('typeidhid') == 1 ? 'required|date' : 'nullable|date',
             // 's_paswd' => 'required|max:10',
             // 's_rpaswd' => 'required|same:s_paswd',
             's_termcondtn' => 'accepted',
@@ -1375,9 +1375,9 @@ class AdminController extends Controller
             //'s_logo' => 'required|image|mimes:jpeg,png|max:1024',
             'es_bgcolor' => 'required',
             //'s_photo' => 'required|image|mimes:jpeg,png|max:1024',
-            'es_gstno' => ['sometimes', 'max:25'],
+            'es_gstno' => ['sometimes', 'max:15'],
             'es_panno' => ['sometimes', 'max:10'],
-            'es_establishdate' => 'required|date',
+            'es_establishdate' => $request->input('etypeidhid') == 1 ? 'required|date' : 'nullable|date',
             // 's_paswd' => 'required|max:10',
             // 's_rpaswd' => 'required|same:s_paswd',
             'es_termcondtn' => 'accepted',
@@ -1621,7 +1621,8 @@ class AdminController extends Controller
         }
 
 
-        if ($userstatus == 'Y') {
+        if (($userstatus == 'Y') && ($request->approvedstatus=='Y')) {
+            //echo "1=".$request->approvedstatus.'='.$userstatus;exit;
             $user->approved = $request->approvedstatus;
             $user->approved_by = $userId;
             $user->approved_at = $time;
@@ -1670,7 +1671,8 @@ class AdminController extends Controller
                 return response()->json(['result' => 1, 'mesge' => $appstus]);
             }
         }
-        else if ($userstatus!='Y' && $request->approvedstatus=='Y') {
+        else if (($userstatus!='Y') && ($request->approvedstatus=='Y')) {
+            //echo "2=".$request->approvedstatus.'='.$userstatus;exit;
             $user->approved = 'N';
             $user->approved_by = $userId;
             $user->approved_at = $time;
@@ -1701,7 +1703,8 @@ class AdminController extends Controller
             $LogDetails->save();
             return response()->json(['result' => 2, 'mesge' => 'Inactive '.$shoporservice.', So cant be approved']);
         }
-        else if ($userstatus!='Y' && $request->approvedstatus=='N') {
+        else if (($userstatus!='Y') && ($request->approvedstatus!='Y')) {
+            //echo "3=".$request->approvedstatus.'='.$userstatus;exit;
             $user->approved = 'N';
             $user->approved_by = $userId;
             $user->approved_at = $time;
@@ -1732,10 +1735,95 @@ class AdminController extends Controller
             $LogDetails->save();
             return response()->json(['result' => 2, 'mesge' => 'Inactive '.$shoporservice.'']);
         }
+        else if (($userstatus=='Y') && ($request->approvedstatus!='Y')) {
+            //echo "4=".$request->approvedstatus.'='.$userstatus;exit;
+            $user->approved = 'N';
+            $user->approved_by = $userId;
+            $user->approved_at = $time;
+            $submt = $user->save();
+
+            $SellerDetails = SellerDetails::find($shopselrid);
+            $SellerDetails->seller_approved = 'N';
+            $submtapp = $SellerDetails->save();
+
+            if($SellerDetails->busnes_type=='1')
+            {
+                $shoporservice='Shop';
+            }
+            else if($SellerDetails->busnes_type=='2')
+            {
+                $shoporservice='Service';
+            }
+            else{
+                $shoporservice='';
+            }
+
+            $msg = 'Inactive '.$shoporservice.', '.$shoporservice.' updated id : ' . $shopid;
+            $LogDetails = new LogDetails();
+            $LogDetails->user_id = $user->mobno;
+            $LogDetails->ip_address = $loggedUserIp;
+            $LogDetails->log_time = $time;
+            $LogDetails->status = $msg;
+            $LogDetails->save();
+            return response()->json(['result' => 2, 'mesge' => 'Not Approved '.$shoporservice.'']);
+        }
 
 
 
         else {
+        }
+    }
+
+
+
+    public function AdmShopServiceApprovedAll(Request $request)
+    {
+        $userRole = session('user_role');
+        $roleid = session('roleid');
+        $userId = session('user_id');
+        if ($userId == '') {
+            return redirect()->route('logout');
+        }
+        $loggedUserIp = $_SERVER['REMOTE_ADDR'];
+        $time = date('Y-m-d H:i:s');
+        $shopid = $request->input('shopid');
+        $shopid_userid = explode('#', $shopid);
+        //echo "<pre>";print_r($product_id);exit;
+        $toregIDCount = count($shopid_userid);
+        $flg = 0;
+        for ($i = 1; $i < $toregIDCount; $i++) {
+                $shopidexplode = $shopid_userid[$i];
+                $shops_user=explode('*',$shopidexplode);
+                $shopserviceid=$shops_user[0];
+                $shopserviceuserid=$shops_user[1];
+                $SellerDetails = SellerDetails::find($shopserviceid);
+                $user = UserAccount::find($shopserviceuserid);
+                if ($user->approved == 'R' || $SellerDetails->seller_approved == 'R') {
+                }
+                else{
+                    $user->user_status = 'Y';
+                    $user->approved = 'Y';
+                    $user->approved_by = $userId;
+                    $user->approved_at = $time;
+                    $user->save();
+                    $SellerDetails->seller_approved = 'Y';
+                    $SellerDetails->save();
+                    $flg = 1;
+                }
+            }
+
+        $msg = 'Shop and Service Successfully Activate or Inactivate!';
+        $LogDetails = new LogDetails();
+        $LogDetails->user_id = $userId;
+        $LogDetails->ip_address = $loggedUserIp;
+        $LogDetails->log_time = $time;
+        $LogDetails->status = $msg;
+        $LogDetails->save();
+
+        if ($flg == 1) {
+            return response()->json(['result' => 1, 'mesge' => 'Successfully Activate and Approved']);
+        } else {
+            return response()->json(['result' => 2, 'mesge' => 'Not Activate']);
         }
     }
 

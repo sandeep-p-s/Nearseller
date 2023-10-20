@@ -17,10 +17,13 @@
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-body">
-                    <div class="form-group"><label>Shop Name</label>
-                        <select class="form-select form-control form-control-lg" id="shop_names" name="shop_names" required tabindex="1">
+                    @php
+                        $shopshowhide = session('roleid') == 1 || session('roleid') == 3 ? 'style=display:block;' : 'style=display:none;';
+                    @endphp
+                    <div class="form-group"  {{ $shopshowhide }}><label>Shop Name</label>
+                        <select class="selectshopss form-select form-control form-control-lg" id="shop_names" name="shop_names" required tabindex="1">
                             <option value="">Select Shop Name</option><br/>
-                            @foreach ($usershopdets as $shps)
+                                @foreach ($usershopdets as $shps)
                                     <option value="{{ $shps->id }}" @if ($shps->id == $ProductDetails->shop_id) selected @endif>{{ $shps->name }}</option>
                                 @endforeach
                         </select>
@@ -312,18 +315,18 @@
                                                     </div>
                                                     <div class="col">
                                                         <input type="text" id="offerprices1" name="offerprices1"
-                                                            placeholder="Offer Price" class="form-control"
+                                                            placeholder="Offer Price" class="form-control" oninput="numberOnlyAllowedDot(this)"
                                                             value="{{ $attribte->offer_price }}">
                                                     </div>
                                                     <div class="col">
                                                         <input type="text" id="mrprices1" name="mrprices1"
-                                                            placeholder="MRP" class="form-control"
+                                                            placeholder="MRP" class="form-control" oninput="numberOnlyAllowedDot(this)"
                                                             value="{{ $attribte->mrp_price }}">
                                                     </div>
                                                     <div class="col">
                                                         <input type="text" id="attr_stocks1" name="attr_stocks1"
                                                             placeholder="Attribute Stock"
-                                                            class="form-control attr-stocks"
+                                                            class="form-control attr-stocks" oninput="numberOnlyAllowed(this)"
                                                             value="{{ $attribte->attribute_stock }}">
                                                     </div>
                                                     <div class="col">
@@ -358,16 +361,16 @@
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" id="offerprices1" name="offerprices1"
-                                                        placeholder="Offer Price" class="form-control" />
+                                                        placeholder="Offer Price" class="form-control" oninput="numberOnlyAllowedDot(this)"/>
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" id="mrprices1" name="mrprices1"
-                                                        placeholder="MRP" class="form-control" />
+                                                        placeholder="MRP" class="form-control" oninput="numberOnlyAllowedDot(this)"/>
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" id="attr_stocks1" name="attr_stocks1"
                                                         placeholder="Attribute Stock"
-                                                        class="form-control attr-stocks" />
+                                                        class="form-control attr-stocks" oninput="numberOnlyAllowed(this)"/>
                                                 </div>
                                                 <div class="col">
                                                     <span data-repeater-delete="" class="btn btn-danger btn-sm">
@@ -415,6 +418,24 @@
 
 
 <script>
+
+    function numberOnlyAllowed(inputElement) {
+        let value = inputElement.value.replace(/\D/g, '');
+        if (value.length > 10) {
+            value = value.slice(0, 10);
+        }
+        inputElement.value = value;
+    }
+
+    function numberOnlyAllowedDot(inputElement) {
+        let value = inputElement.value.replace(/[^0-9.]/g, '');
+        if (value.length > 10) {
+            value = value.slice(0, 10);
+        }
+        inputElement.value = value;
+    }
+
+
     function updateLevel() {
         var select = document.getElementById("categorySelectors");
         var levelInput = document.getElementById("category_levels");
@@ -532,6 +553,13 @@
         $(document).on('click', '.remove-btn', function() {
             $(this).closest('.img-div').remove();
             $('#prod_docs').val('');
+        });
+
+        $('#ProductRegFormEdit .selectshopss').each(function() {
+            var $p = $(this).parent();
+            $(this).select2({
+                dropdownParent: $p
+            });
         });
     });
 

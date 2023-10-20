@@ -317,18 +317,18 @@
                                                     </div>
                                                     <div class="col">
                                                         <input type="text" id="offerpricesx1" name="offerpricesx1"
-                                                            placeholder="Offer Price" class="form-control"
+                                                            placeholder="Offer Price" class="form-control" oninput="numberOnlyAllowedDot(this)"
                                                             value="{{ $attribte->offer_price }}">
                                                     </div>
                                                     <div class="col">
                                                         <input type="text" id="mrpricesx1" name="mrpricesx1"
-                                                            placeholder="MRP" class="form-control"
+                                                            placeholder="MRP" class="form-control" oninput="numberOnlyAllowedDot(this)"
                                                             value="{{ $attribte->mrp_price }}">
                                                     </div>
                                                     <div class="col">
                                                         <input type="text" id="attr_stocksx1" name="attr_stocksx1"
                                                             placeholder="Attribute Stock"
-                                                            class="form-control attr-stocksx"
+                                                            class="form-control attr-stocksx" oninput="numberOnlyAllowed(this)"
                                                             value="{{ $attribte->attribute_stock }}">
                                                     </div>
                                                     <div class="col">
@@ -363,16 +363,16 @@
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" id="offerpricesx1" name="offerpricesx1"
-                                                        placeholder="Offer Price" class="form-control" />
+                                                        placeholder="Offer Price" class="form-control" oninput="numberOnlyAllowedDot(this)"/>
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" id="mrpricesx1" name="mrpricesx1"
-                                                        placeholder="MRP" class="form-control" />
+                                                        placeholder="MRP" class="form-control" oninput="numberOnlyAllowedDot(this)"/>
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" id="attr_stocksx1" name="attr_stocksx1"
                                                         placeholder="Attribute Stock"
-                                                        class="form-control attr-stocksx" />
+                                                        class="form-control attr-stocksx" oninput="numberOnlyAllowed(this)"/>
                                                 </div>
                                                 <div class="col">
                                                     <span data-repeater-delete="" class="btn btn-danger btn-sm">
@@ -420,6 +420,24 @@
 
 
 <script>
+
+    function numberOnlyAllowed(inputElement) {
+        let value = inputElement.value.replace(/\D/g, '');
+        if (value.length > 10) {
+            value = value.slice(0, 10);
+        }
+        inputElement.value = value;
+    }
+
+    function numberOnlyAllowedDot(inputElement) {
+        let value = inputElement.value.replace(/[^0-9.]/g, '');
+        if (value.length > 10) {
+            value = value.slice(0, 10);
+        }
+        inputElement.value = value;
+    }
+
+
     function updateLevel() {
         var select = document.getElementById("categorySelectorsx");
         var levelInput = document.getElementById("category_levelsx");

@@ -117,6 +117,8 @@ Route::controller(AdminController::class)->group(function () {
     Route::post('AffiliateDelete', 'AdmaffiliateDeletePage')->name('AffiliateDelete');
     Route::get('shopsinactive/{id}', 'ShopInactives')->name('admin.shopapprovalsinactive');
     Route::get('allshopsinactive', 'AllShopsInactiveList')->name('admin.allshopsinactiveview');
+    Route::post('shopserviceapproved', 'AdmShopServiceApprovedAll')->name('ShopServiceApprovedAll');
+
 });
 
 
@@ -380,20 +382,14 @@ Route::controller(ServiceNewController::class)->group(function () {
     Route::get('listallservice', 'ServiceProductListView')->name('user.serviceslist');
     // Route::get('listserviceadd', 'ServiceProductListView')->name('user.serviceproductadd');
     Route::post('allserviceview', 'AllServiceProductList')->name('serviceproduct.allserviceproductview');
-    // Route::post('addnewproduct', 'AdmNewPrdoductAdd')->name('AdmNewPrdoductAdd');
-    // Route::post('productviewedit', 'AdmProductViewEdit')->name('productViewEdit');
-    // Route::post('productimagedelete', 'AdmproductValDelte')->name('productValDelte');
-    // Route::post('productedit', 'AdmNewPrdoductEdit')->name('AdmPrdoductEdit');
-    // Route::post('shopsearch', 'AdmShopNameSearch')->name('ShopNameSearch');
-    // Route::post('approvedall', 'AdmProductApprovedAll')->name('ProductApprovedAll');
-    // Route::post('productapproved', 'AdmproductApproved')->name('productApproved');
-    // Route::post('approvedproduct', 'AdmapprovedPrdoduct')->name('AdmApprovedprdoduct');
-    // Route::post('ProductsDelete', 'AdmProductsDelete')->name('ProductsDelete');
-    // Route::post('productCategory', 'productCategorySearch')->name('productCategorySearch');
-    // Route::post('productname', 'ProductNameSearch')->name('ProductNameSearch');
-    // Route::post('existproducts', 'ExistproductviewPage')->name('product.existproductview');
-    // Route::post('existproductsview', 'AdmproductExistEdit')->name('productExistEdit');
-    // Route::post('Prdoductexist', 'AdmPrdoductExist')->name('AdmPrdoductExist');
+    Route::post('addnewservice', 'AdmNewServiceAdd')->name('AdmNewServiceAdd');
+    Route::post('serviceviewedit', 'AdmServiceViewEdit')->name('serviceNewViewEdit');
+    Route::post('newserviceedit', 'AdmNewServiceEdit')->name('AdmNewServiceEdit');
+    Route::post('approvedallservice', 'AdmServiceApprovedAll')->name('ServiceApprovedAll');
+    Route::post('serviceapproved', 'AdmserviceApproved')->name('serviceApproved');
+    Route::post('approvedservice', 'AdmapprovedService')->name('AdmApprovedservice');
+    Route::post('Servicedelete', 'AdmServiceDelete')->name('ServiceDelete');
+
 });
 
 
