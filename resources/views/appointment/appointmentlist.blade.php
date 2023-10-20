@@ -13,7 +13,7 @@
                         <div class="row">
                             <div class="col">
                                 {{-- @if (session('roleid') == '1') --}}
-                                    <h4 class="page-title">Add Appointments</h4>
+                                    <h4 class="page-title">Appointments</h4>
                                     <div class="col text-right">
                                         <button class="btn add_btn" data-bs-toggle="modal" data-bs-target="#addNewModal">Add
                                             New Appointment</button>
