@@ -17,15 +17,13 @@
         </div>
     </div>
     </header>
-
-
     <!-- Services near me starts -->
     <section class="exclusive_offer section_wrapper">
         <div class="container-fluid">
             <div class="row mb-3 mt-5">
                 <div class="col-md-8">
                     <div class="">
-                        <h3>{{ $service->service_name }} near you</h3>
+                        {{-- <h3>{{ $service->service_name }} near you</h3> --}}
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero molestiae maxime consequuntur
                             voluptatum ipsam quas quos minus et officia doloremque harum illo facere sunt, laudantium
                             soluta hic vitae non tenetur!</p>
@@ -126,23 +124,18 @@
 
                 <div class="col-md-9">
                     <div class="row mb-3 mt-5">
-                        <!-- <div class="col-md-12">
-                        <div class="exclusive_offer_heading">
-                            <p>Exclusive Offers</p>
-                        </div>
-                    </div> -->
 
-
+                        @foreach ($services as $srm)
                         <div class="col-lg-3 col-md-4 col-sm-3 col-6 d-flex flex-wrap mb-3">
                             <div class="product_card border rounded p-2">
 
 
                                 <div class="product_card_img">
-                                    <img src="{{ asset('img/Saloon/saloon1.png') }}">
+                                    <img src="{{ asset($srm->service_images) }}">
                                 </div>
                                 <div class="product_details p-2">
                                     <div class="product_name">
-                                        <h6>ABC Saloon Shop</h6>
+                                        <h6>{{ $srm->service_name }}</h6>
                                     </div>
                                     <div class="product_offer">
                                     </div>
@@ -161,314 +154,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-4 col-sm-3 col-6 d-flex flex-wrap mb-3">
-                            <div class="product_card border rounded p-2">
+                        @endforeach
 
 
-                                <div class="product_card_img">
-                                    <img src="{{ asset('img/Saloon/saloon2.png') }}">
-                                </div>
-                                <div class="product_details p-2">
-                                    <div class="product_name">
-                                        <h6>Fair Saloon</h6>
-                                    </div>
-                                    <div class="product_offer">
-                                    </div>
-                                    <div class="pro_detail">
-                                        <p class="text-secondary">Lorem ipsum dolor sit amet consectetur adipisicing
-                                            elit.</p>
-                                    </div>
-                                    <div class="product_card-footer">
-                                        <div class="wcf-left"><span class="price">> 2 km</span></div>
-                                        <div class="wcf-right">
-                                            <a href="#" class="buy-btn">
-                                                <i class="fa-regular fa-heart"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-3 col-6 d-flex flex-wrap mb-3">
-                            <div class="product_card border rounded p-2">
-
-                                <div class="product_card_img">
-                                    <img src="{{ asset('img/Saloon/saloon3.png') }}">
-                                </div>
-                                <div class="product_details p-2">
-                                    <div class="product_name">
-                                        <h6>Toni & guy</h6>
-                                    </div>
-                                    <div class="product_offer">
-                                    </div>
-                                    <div class="pro_detail">
-                                        <p class="text-secondary">Lorem ipsum dolor sit amet consectetur adipisicing
-                                            elit.</p>
-                                    </div>
-                                    <div class="product_card-footer">
-                                        <div class="wcf-left"><span class="price">> 2 km</span></div>
-                                        <div class="wcf-right">
-                                            <a href="#" class="buy-btn">
-                                                <i class="fa-regular fa-heart"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-3 col-6 d-flex flex-wrap mb-3">
-                            <div class="product_card border rounded p-2">
-
-                                <div class="product_card_img">
-                                    <img src="{{ asset('img/Saloon/saloon4.png') }}">
-                                </div>
-                                <div class="product_details p-2">
-                                    <div class="product_name">
-                                        <h6>Naturals</h6>
-                                    </div>
-                                    <div class="product_offer">
-                                        <p>50% off</p>
-                                    </div>
-                                    <div class="pro_detail">
-                                        <p class="text-secondary">Lorem ipsum dolor sit amet consectetur adipisicing
-                                            elit.</p>
-                                    </div>
-                                    <div class="product_card-footer">
-                                        <div class="wcf-left"><span class="price">> 2 km</span></div>
-                                        <div class="wcf-right">
-                                            <a href="#" class="buy-btn">
-                                                <i class="fa-regular fa-heart"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-3 col-6 d-flex flex-wrap mb-3">
-                            <div class="product_card border rounded p-2">
-                                <div class="product_card_img">
-                                    <img src="{{ asset('img/Saloon/saloon5.png') }}">
-                                </div>
-                                <div class="product_details p-2">
-                                    <div class="product_name">
-                                        <h6>Super saloon</h6>
-                                    </div>
-                                    <div class="product_offer">
-                                    </div>
-                                    <div class="pro_detail">
-                                        <p class="text-secondary">Lorem ipsum dolor sit amet consectetur adipisicing
-                                            elit.</p>
-                                    </div>
-                                    <div class="product_card-footer">
-                                        <div class="wcf-left"><span class="price">> 2 km</span></div>
-                                        <div class="wcf-right">
-                                            <a href="#" class="buy-btn">
-                                                <i class="fa-regular fa-heart"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-3 col-6 d-flex flex-wrap mb-3">
-                            <div class="product_card border rounded p-2">
 
 
-                                <div class="product_card_img">
-                                    <img src="{{ asset('img/Saloon/saloon6.png') }}">
-                                </div>
-                                <div class="product_details p-2">
-                                    <div class="product_name">
-                                        <h6>Fair shop</h6>
-                                    </div>
-                                    <div class="product_offer">
-                                    </div>
-                                    <div class="pro_detail">
-                                        <p class="text-secondary">Lorem ipsum dolor sit amet consectetur adipisicing
-                                            elit.</p>
-                                    </div>
-                                    <div class="product_card-footer">
-                                        <div class="wcf-left"><span class="price">> 2 km</span></div>
-                                        <div class="wcf-right">
-                                            <a href="#" class="buy-btn">
-                                                <i class="fa-regular fa-heart"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 col-md-4 col-sm-3 col-6 mb-3">
-                            <div class="product_card border rounded p-2">
-                                <div class="product_card_img">
-                                    <img src="{{ asset('img/Saloon/saloon1.png') }}">
-                                </div>
-                                <div class="product_details p-2">
-                                    <div class="product_name">
-                                        <h6>Finger touch</h6>
-                                    </div>
-                                    <div class="product_offer">
-                                    </div>
-                                    <div class="pro_detail">
-                                        <p class="text-secondary">Lorem ipsum dolor sit amet consectetur adipisicing
-                                            elit.</p>
-                                    </div>
-                                    <div class="product_card-footer">
-                                        <div class="wcf-left"><span class="price">> 3 km</span></div>
-                                        <div class="wcf-right">
-                                            <a href="#" class="buy-btn">
-                                                <i class="fa-regular fa-heart"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-3 col-6 mb-3">
-                            <div class="product_card border rounded p-2">
-
-
-                                <div class="product_card_img">
-                                    <img src="{{ asset('img/Saloon/saloon2.png') }}">
-                                </div>
-                                <div class="product_details p-2">
-                                    <div class="product_name">
-                                        <h6>Naturals</h6>
-                                    </div>
-                                    <div class="product_offer">
-                                    </div>
-                                    <div class="pro_detail">
-                                        <p class="text-secondary">Lorem ipsum dolor sit amet consectetur adipisicing
-                                            elit.</p>
-                                    </div>
-                                    <div class="product_card-footer">
-                                        <div class="wcf-left"><span class="price">> 3 km</span></div>
-                                        <div class="wcf-right">
-                                            <a href="#" class="buy-btn">
-                                                <i class="fa-regular fa-heart"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-3 col-6 mb-3">
-                            <div class="product_card border rounded p-2">
-
-
-                                <div class="product_card_img">
-                                    <img src="{{ asset('img/Saloon/saloon3.png') }}">
-                                </div>
-                                <div class="product_details p-2">
-                                    <div class="product_name">
-                                        <h6>Toni & guy</h6>
-                                    </div>
-                                    <div class="product_offer">
-                                    </div>
-                                    <div class="pro_detail">
-                                        <p class="text-secondary">Lorem ipsum dolor sit amet consectetur adipisicing
-                                            elit.</p>
-                                    </div>
-                                    <div class="product_card-footer">
-                                        <div class="wcf-left"><span class="price">> 3 km</span></div>
-                                        <div class="wcf-right">
-                                            <a href="#" class="buy-btn">
-                                                <i class="fa-regular fa-heart"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-3 col-6 mb-3">
-                            <div class="product_card border rounded p-2">
-
-
-                                <div class="product_card_img">
-                                    <img src="{{ asset('img/Saloon/saloon4.png') }}">
-                                </div>
-                                <div class="product_details p-2">
-                                    <div class="product_name">
-                                        <h6>ABC saloon</h6>
-                                    </div>
-                                    <div class="product_offer">
-                                    </div>
-                                    <div class="pro_detail">
-                                        <p class="text-secondary">Lorem ipsum dolor sit amet consectetur adipisicing
-                                            elit.</p>
-                                    </div>
-                                    <div class="product_card-footer">
-                                        <div class="wcf-left"><span class="price">> 4 km</span></div>
-                                        <div class="wcf-right">
-                                            <a href="#" class="buy-btn">
-                                                <i class="fa-regular fa-heart"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-3 col-6 mb-3">
-                            <div class="product_card border rounded p-2">
-
-
-                                <div class="product_card_img">
-                                    <img src="{{ asset('img/Saloon/saloon5.png') }}">
-                                </div>
-                                <div class="product_details p-2">
-                                    <div class="product_name">
-                                        <h6>Super saloon</h6>
-                                    </div>
-                                    <div class="product_offer">
-                                    </div>
-                                    <div class="pro_detail">
-                                        <p class="text-secondary">Lorem ipsum dolor sit amet consectetur adipisicing
-                                            elit.</p>
-                                    </div>
-                                    <div class="product_card-footer">
-                                        <div class="wcf-left"><span class="price">> 5 km</span></div>
-                                        <div class="wcf-right">
-                                            <a href="#" class="buy-btn">
-                                                <i class="fa-regular fa-heart"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-3 col-6 mb-3">
-                            <div class="product_card border rounded p-2">
-
-
-                                <div class="product_card_img">
-                                    <img src="{{ asset('img/Saloon/saloon6.png') }}">
-                                </div>
-                                <div class="product_details p-2">
-                                    <div class="product_name">
-                                        <h6>VK saloon</h6>
-                                    </div>
-                                    <div class="product_offer">
-                                    </div>
-                                    <div class="pro_detail">
-                                        <p class="text-secondary">Lorem ipsum dolor sit amet consectetur adipisicing
-                                            elit.</p>
-                                    </div>
-                                    <div class="product_card-footer">
-                                        <div class="wcf-left"><span class="price">> 5 km</span></div>
-                                        <div class="wcf-right">
-                                            <a href="#" class="buy-btn">
-                                                <i class="fa-regular fa-heart"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <p class="text-center"><a href="#" class="text-secondary">View More <i
-                                    class="fa fa-angles-down"></i></a></p>
-                        <!-- </div>
-                        <div class="row mb-3"> -->
 
                     </div>
                 </div>
