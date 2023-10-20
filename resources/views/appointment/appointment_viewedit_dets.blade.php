@@ -109,16 +109,16 @@
                                 <div data-repeater-list="availabletime_datas">
                                     <!-- Heading Row -->
                                     <div class="form-group row">
-                                        <div class="col">
+                                        <div class="col-md-2">
                                             <label class="control-label"> Set Available time </label>
                                         </div>
-                                        <div class="col">
+                                        <div class="col-md-3">
                                             <label class="control-label"> Day </label>
                                         </div>
-                                        <div class="col">
+                                        <div class="col-md-3">
                                             <label class="control-label"> From Time </label>
                                         </div>
-                                        <div class="col">
+                                        <div class="col-md-3">
                                             <label class="control-label"> To Time </label>
                                         </div>
                                     </div>
@@ -131,12 +131,12 @@
                                     @foreach ($appointmentavailable as $availdatetime)
                                         <div data-repeater-item="">
                                             <div class="form-group row d-flex align-items-end">
-                                                <div class="col">
+                                                <div class="col-md-2">
                                                     <input class="form-control" type="checkbox" id="settimestatuss"
                                                         name="settimestatuss" value="1" style="width: 10%;"
                                                         {{ $availdatetime->is_set_time == 1 ? 'checked' : '' }}>
                                                 </div>
-                                                <div class="col">
+                                                <div class="col-md-3">
                                                     <select id="setdayss" name="setdayss"
                                                         class="day-select form-control">
                                                         <option value="0">Days</option>
@@ -163,19 +163,19 @@
                                                         </option>
                                                     </select>
                                                 </div>
-                                                <div class="col">
+                                                <div class="col-md-3">
                                                     <input type="text" id="setfrom_times" name="setfrom_times"
                                                         class="form-control timepicker-input"
                                                         value="{{ $availdatetime->from_time }}">
                                                 </div>
-                                                <div class="col">
+                                                <div class="col-md-3">
                                                     <input type="text" id="setto_times" name="setto_times"
                                                         class="form-control timepicker-input"
                                                         value="{{ $availdatetime->to_time }}">
                                                 </div>
-                                                <div class="col">
+                                                <div class="col-md-1">
                                                     <span data-repeater-delete="" class="btn btn-danger btn-sm">
-                                                        <span class="far fa-trash-alt mr-1"></span> Delete
+                                                        <span class="far fa-trash-alt mr-1"></span>
                                                     </span>
                                                 </div>
                                             </div>

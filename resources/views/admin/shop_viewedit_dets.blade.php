@@ -483,16 +483,16 @@
                             <div data-repeater-list="availabletime_datas">
                                 <!-- Heading Row -->
                                 <div class="form-group row">
-                                    <div class="col">
-                                        <label class="control-label"> Set Available time </label>
+                                    <div class="col-md-2">
+                                        <label class="control-label"> Status </label>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-md-3">
                                         <label class="control-label"> Day </label>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-md-3">
                                         <label class="control-label"> Open Time </label>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-md-3">
                                         <label class="control-label"> Close Time </label>
                                     </div>
                                 </div>
@@ -505,12 +505,12 @@
                                     @foreach ($shopavailable as $availdatetime)
                                         <div data-repeater-item="">
                                             <div class="form-group row d-flex align-items-end">
-                                                <div class="col">
+                                                <div class="col-md-2">
                                                     <input class="form-control" type="checkbox" id="settimestatuss"
-                                                        name="settimestatuss" value="1" style="width: 20%;"
+                                                        name="settimestatuss" value="1" style="width: 15%;"
                                                         {{ $availdatetime->is_set_time == 1 ? 'checked' : '' }}>
                                                 </div>
-                                                <div class="col">
+                                                <div class="col-md-3">
                                                     <select id="setdayss" name="setdayss"
                                                         class="day-select form-control">
                                                         <option value="0">Day</option>
@@ -538,19 +538,19 @@
                                                         </option>
                                                     </select>
                                                 </div>
-                                                <div class="col">
+                                                <div class="col-md-3">
                                                     <input type="text" id="setfrom_times" name="setfrom_times"
                                                         class="form-control timepicker-input"
                                                         value="{{ $availdatetime->from_time }}">
                                                 </div>
-                                                <div class="col">
+                                                <div class="col-md-3">
                                                     <input type="text" id="setto_times" name="setto_times"
                                                         class="form-control timepicker-input"
                                                         value="{{ $availdatetime->to_time }}">
                                                 </div>
-                                                <div class="col">
+                                                <div class="col-md-1">
                                                     <span data-repeater-delete="" class="btn btn-danger btn-sm">
-                                                        <span class="far fa-trash-alt mr-1"></span> Delete
+                                                        <span class="far fa-trash-alt mr-1"></span>
                                                     </span>
                                                 </div>
                                             </div>
@@ -562,7 +562,7 @@
                                         <div class="form-group row d-flex align-items-end">
                                             <div class="col">
                                                 <input class="form-control" type="checkbox" id="settimestatuss"
-                                                    name="settimestatuss" value="1" style="width: 20%;">
+                                                    name="settimestatuss" value="1" style="width: 10%;">
                                             </div>
                                             <div class="col">
                                                 <select id="setdayss" name="setdayss"
