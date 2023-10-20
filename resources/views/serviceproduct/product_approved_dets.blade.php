@@ -89,6 +89,22 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Service Description <span
+                            class="text-danger">*</span></label>
+                        <textarea id="prod_descriptions" name="prod_descriptions" placeholder="Service Description" class="form-control"
+                            maxlength="7000" tabindex="4" required rows="3">{{ $ServiceDetails->service_description }}</textarea>
+                        <label for="prod_descriptions"></label>
+                    </div>
 
                     <div class="form-group"><label>Service Status</label>
                         <select class="form-select form-control form-control-lg" name="productstatus" id="productstatus"
@@ -117,13 +133,8 @@
                     <div class="col-md-12">
                         <div id="product_gal-message" class="text-center" style="display: none;"></div>
                     </div>
-
-
-
                 </div>
-
             </div>
-
         </div>
 
         <div class="col-md-12">

@@ -108,6 +108,7 @@ class ServiceNewController extends Controller
         $validatedData = $request->validate([
             'shop_name' => 'required',
             'prod_name' => 'required',
+            'prod_description' => 'required',
             'customRadio' => 'required|in:Y,N',
         ]);
 
@@ -116,6 +117,7 @@ class ServiceNewController extends Controller
         $ServiceDetails->fill($validatedData);
         $ServiceDetails->service_id = $request->input('shop_name');
         $ServiceDetails->service_name = $request->input('prod_name');
+        $ServiceDetails->service_description = $request->input('prod_description');
         $ServiceDetails->created_by = $userId;
         $ServiceDetails->created_time = $time;
         $ServiceDetails->service_status = 'Y';
@@ -274,6 +276,7 @@ class ServiceNewController extends Controller
         $validatedData = $request->validate([
             'shop_names' => 'required',
             'prod_names' => 'required',
+            'prod_descriptions' => 'required',
             'customRadios' => 'required|in:Y,N',
         ]);
 
@@ -283,7 +286,7 @@ class ServiceNewController extends Controller
         $ServiceDetails->service_id = $request->input('shop_names');
         $ServiceDetails->service_name = $request->input('prod_names');
         $ServiceDetails->service_status = $request->input('productstatus');
-
+        $ServiceDetails->service_description = $request->input('prod_descriptions');
         $ProductImag = DB::table('service_details')
             ->select('service_images')
             ->where('id', $service_id)

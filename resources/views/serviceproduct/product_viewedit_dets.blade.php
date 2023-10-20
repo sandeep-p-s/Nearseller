@@ -90,6 +90,26 @@
                         </div>
                     </div>
 
+
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Service Description <span
+                            class="text-danger">*</span></label>
+                        <textarea id="prod_descriptions" name="prod_descriptions" placeholder="Service Description" class="form-control"
+                            maxlength="7000" tabindex="4" required rows="3">{{ $ServiceDetails->service_description }}</textarea>
+                        <label for="prod_descriptions"></label>
+                    </div>
                     <div class="form-group"><label>Service Status</label>
                         <select class="form-select form-control form-control-lg" name="productstatus" id="productstatus"
                             required tabindex="6">
@@ -105,14 +125,12 @@
                     <div class="col-md-12">
                         <div id="product_gal-message" class="text-center" style="display: none;"></div>
                     </div>
-
-
-
                 </div>
-
             </div>
-
         </div>
+
+
+
 
         <div class="col-md-12">
             <div class="card">
@@ -521,6 +539,10 @@
             prod_name: {
                 required: true,
             },
+            prod_descriptions: {
+                required: true,
+            },
+
             customRadio: {
                 required: true,
             },
@@ -531,7 +553,10 @@
                 required: "Please select shop name",
             },
             prod_name: {
-                pattern: "Only characters, spaces, and dots are allowed.",
+                required: "Please enter services name.",
+            },
+            prod_descriptions: {
+                required: "Only characters, spaces, and dots are allowed.",
             },
             customRadio: {
                 required: "Please select attribute",
