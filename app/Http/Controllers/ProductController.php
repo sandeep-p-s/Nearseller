@@ -117,6 +117,7 @@ class ProductController extends Controller
         } else {
             $query->where('user_account.id', $userId);
         }
+        $query->orderBy('product_details.product_name');
         $ProductDetails = $query->get();
         //echo $lastRegId = $query->toSql();exit;
         $ProductCount = $ProductDetails->count();
@@ -143,6 +144,7 @@ class ProductController extends Controller
         $time = date('Y-m-d H:i:s');
         $productid = $request->input('productid');
         $product_id = explode('#', $productid);
+        //echo "<pre>";print_r($product_id);exit;
         $toregIDCount = count($product_id);
         $flg = 0;
         for ($i = 1; $i < $toregIDCount; $i++) {
@@ -705,7 +707,7 @@ class ProductController extends Controller
         $LogDetails->status = $msg;
         $LogDetails->save();
         if ($newproductreg > 0) {
-            return response()->json(['result' => 1, 'mesge' => '( ' . $request->input('prod_name') . ') Product Successfully Updated']);
+            return response()->json(['result' => 1, 'mesge' => '( ' . $request->input('prod_names') . ') Product Successfully Updated']);
         } else {
             return response()->json(['result' => 2, 'mesge' => 'Failed']);
         }

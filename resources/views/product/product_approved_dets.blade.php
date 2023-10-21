@@ -18,7 +18,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="form-group"><label>Shop Name</label>
-                        <select class="form-select form-control form-control-lg" id="shop_names" name="shop_names"
+                        <select class="selectshopsss form-select form-control form-control-lg" id="shop_names" name="shop_names"
                             required tabindex="1">
                             <option value="">Select Shop Name</option><br />
                             @foreach ($usershopdets as $shps)
@@ -116,7 +116,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group"><label>Product Status</label>
+                    {{-- <div class="form-group"><label>Product Status</label>
                         <select class="form-select form-control form-control-lg" name="productstatus" id="productstatus"
                             required tabindex="6">
                             <option value="">Select</option>
@@ -125,7 +125,7 @@
                             </option>
                         </select>
 
-                    </div>
+                    </div> --}}
 
 
                     <div class="form-group"><label>Approval Status</label>
@@ -541,6 +541,13 @@
         $(document).on('click', '.remove-btn', function() {
             $(this).closest('.img-div').remove();
             $('#prod_docs').val('');
+        });
+
+        $('#ProductRegFormApproved .selectshopsss').each(function() {
+            var $p = $(this).parent();
+            $(this).select2({
+                dropdownParent: $p
+            });
         });
     });
 

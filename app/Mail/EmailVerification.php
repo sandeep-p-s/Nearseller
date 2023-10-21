@@ -79,6 +79,7 @@ class EmailVerification extends Mailable
             $subject = 'Approved Registered Affiliate';
             return $this->from('itsuportshyzventures@gmail.com', 'NEAR SELLERS')->subject($subject)->view('emails.admaffilate_approved');
         }
+        
 
 
 

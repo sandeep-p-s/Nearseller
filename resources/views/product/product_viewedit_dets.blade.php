@@ -17,10 +17,13 @@
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-body">
-                    <div class="form-group"><label>Shop Name</label>
-                        <select class="form-select form-control form-control-lg" id="shop_names" name="shop_names" required tabindex="1">
+                    @php
+                        $shopshowhide = session('roleid') == 1 || session('roleid') == 3 ? 'style=display:block;' : 'style=display:none;';
+                    @endphp
+                    <div class="form-group"  {{ $shopshowhide }}><label>Shop Name</label>
+                        <select class="selectshopss form-select form-control form-control-lg" id="shop_names" name="shop_names" required tabindex="1">
                             <option value="">Select Shop Name</option><br/>
-                            @foreach ($usershopdets as $shps)
+                                @foreach ($usershopdets as $shps)
                                     <option value="{{ $shps->id }}" @if ($shps->id == $ProductDetails->shop_id) selected @endif>{{ $shps->name }}</option>
                                 @endforeach
                         </select>
@@ -292,17 +295,17 @@
                                                     </div>
                                                     <div class="col">
                                                         <input type="text" id="attatibutes1" name="attatibutes1"
-                                                            placeholder="Attribute1" class="form-control"
+                                                            placeholder="Attribute1" class="form-control" required
                                                             value="{{ $attribte->attribute_1 }}">
                                                     </div>
                                                     <div class="col">
                                                         <input type="text" id="attatibutes2" name="attatibutes2"
-                                                            placeholder="Attribute2" class="form-control"
+                                                            placeholder="Attribute2" class="form-control" required
                                                             value="{{ $attribte->attribute_2 }}">
                                                     </div>
                                                     <div class="col">
                                                         <input type="text" id="attatibutes3" name="attatibutes3"
-                                                            placeholder="Attribute3" class="form-control"
+                                                            placeholder="Attribute3" class="form-control" required
                                                             value="{{ $attribte->attribute_3 }}">
                                                     </div>
                                                     <div class="col">
@@ -312,18 +315,18 @@
                                                     </div>
                                                     <div class="col">
                                                         <input type="text" id="offerprices1" name="offerprices1"
-                                                            placeholder="Offer Price" class="form-control"
+                                                            placeholder="Offer Price" class="form-control" oninput="numberOnlyAllowedDot(this)"
                                                             value="{{ $attribte->offer_price }}">
                                                     </div>
                                                     <div class="col">
                                                         <input type="text" id="mrprices1" name="mrprices1"
-                                                            placeholder="MRP" class="form-control"
+                                                            placeholder="MRP" class="form-control" oninput="numberOnlyAllowedDot(this)"
                                                             value="{{ $attribte->mrp_price }}">
                                                     </div>
                                                     <div class="col">
                                                         <input type="text" id="attr_stocks1" name="attr_stocks1"
                                                             placeholder="Attribute Stock"
-                                                            class="form-control attr-stocks"
+                                                            class="form-control attr-stocks" oninput="numberOnlyAllowed(this)"
                                                             value="{{ $attribte->attribute_stock }}">
                                                     </div>
                                                     <div class="col">
@@ -342,15 +345,15 @@
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" id="attatibutes1" name="attatibutes1"
-                                                        placeholder="Attribute" class="form-control" />
+                                                        placeholder="Attribute" class="form-control" required />
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" id="attatibutes2" name="attatibutes2"
-                                                        placeholder="Attribute" class="form-control" />
+                                                        placeholder="Attribute" class="form-control" required />
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" id="attatibutes3" name="attatibutes3"
-                                                        placeholder="Attribute" class="form-control" />
+                                                        placeholder="Attribute" class="form-control" required />
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" id="attatibutes4" name="attatibutes4"
@@ -358,16 +361,16 @@
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" id="offerprices1" name="offerprices1"
-                                                        placeholder="Offer Price" class="form-control" />
+                                                        placeholder="Offer Price" class="form-control" oninput="numberOnlyAllowedDot(this)"/>
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" id="mrprices1" name="mrprices1"
-                                                        placeholder="MRP" class="form-control" />
+                                                        placeholder="MRP" class="form-control" oninput="numberOnlyAllowedDot(this)"/>
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" id="attr_stocks1" name="attr_stocks1"
                                                         placeholder="Attribute Stock"
-                                                        class="form-control attr-stocks" />
+                                                        class="form-control attr-stocks" oninput="numberOnlyAllowed(this)"/>
                                                 </div>
                                                 <div class="col">
                                                     <span data-repeater-delete="" class="btn btn-danger btn-sm">
@@ -415,6 +418,24 @@
 
 
 <script>
+
+    function numberOnlyAllowed(inputElement) {
+        let value = inputElement.value.replace(/\D/g, '');
+        if (value.length > 10) {
+            value = value.slice(0, 10);
+        }
+        inputElement.value = value;
+    }
+
+    function numberOnlyAllowedDot(inputElement) {
+        let value = inputElement.value.replace(/[^0-9.]/g, '');
+        if (value.length > 10) {
+            value = value.slice(0, 10);
+        }
+        inputElement.value = value;
+    }
+
+
     function updateLevel() {
         var select = document.getElementById("categorySelectors");
         var levelInput = document.getElementById("category_levels");
@@ -533,6 +554,13 @@
             $(this).closest('.img-div').remove();
             $('#prod_docs').val('');
         });
+
+        $('#ProductRegFormEdit .selectshopss').each(function() {
+            var $p = $(this).parent();
+            $(this).select2({
+                dropdownParent: $p
+            });
+        });
     });
 
 
@@ -577,17 +605,76 @@
 
 
 
+    // var fileArrs = [];
+    // var totalFiless = 0;
+
+    // $("#s_photos").change(function(event) {
+    //     var totalFileCount = $(this)[0].files.length;
+    //     if (totalFiless + totalFileCount > 10) {
+    //         alert('Maximum 10 images allowed');
+    //         $(this).val('');
+    //         $('#image-previews').html('');
+    //         return;
+    //     }
+
+    //     for (var i = 0; i < totalFileCount; i++) {
+    //         var file = $(this)[0].files[i];
+
+    //         if (file.size > 3145728) {
+    //             alert('File size exceeds the limit of 3MB');
+    //             $(this).val('');
+    //             $('#image-previews').html('');
+    //             return;
+    //         }
+
+    //         fileArrs.push(file);
+    //         totalFiless++;
+
+    //         var reader = new FileReader();
+    //         reader.onload = (function(file) {
+    //             return function(event) {
+    //                 var imgDiv = $('<div>').addClass('img-div col-md-3 img-container');
+    //                 var img = $('<img>').attr('src', event.target.result).addClass(
+    //                     'img-responsive image img-thumbnail').attr('width', '200', 'height',
+    //                     '200');
+    //                 var removeBtn = $('<button>').addClass('btn btn-danger remove-btns').attr(
+    //                     'title', 'Remove Image').append('Remove').attr('role', file.name);
+
+    //                 imgDiv.append(img);
+    //                 imgDiv.append($('<div class="text-center">').addClass('middle').append(
+    //                     removeBtn));
+
+    //                 $('#image-previews').append(imgDiv);
+    //             };
+    //         })(file);
+
+    //         reader.readAsDataURL(file);
+    //     }
+    // });
+
+    // $(document).on('click', '.remove-btns', function() {
+    //     var fileName = $(this).attr('role');
+
+    //     for (var i = 0; i < fileArrs.length; i++) {
+    //         if (fileArrs[i].name === fileName) {
+    //             fileArrs.splice(i, 1);
+    //             totalFiless--;
+    //             break;
+    //         }
+    //     }
+
+    //     document.getElementById('s_photos').files = new FileListItem(fileArrs);
+    //     $(this).closest('.img-div').remove();
+    // });
+
+
     var fileArrs = [];
     var totalFiless = 0;
 
     $("#s_photos").change(function(event) {
+        //$('#image-preview').html('');
         var totalFileCount = $(this)[0].files.length;
-        if (totalFiless + totalFileCount > 10) {
-            alert('Maximum 10 images allowed');
-            $(this).val('');
-            $('#image-previews').html('');
-            return;
-        }
+
 
         for (var i = 0; i < totalFileCount; i++) {
             var file = $(this)[0].files[i];
@@ -601,20 +688,27 @@
 
             fileArrs.push(file);
             totalFiless++;
+            if (totalFiless  > 10) {
+            alert('Maximum 10 images allowed');
+            $(this).val('');
+            $('#image-previews').html('');
+            totalFiless = 0;
+            fileArrs = [];
+            return;
+        }
+
 
             var reader = new FileReader();
             reader.onload = (function(file) {
                 return function(event) {
                     var imgDiv = $('<div>').addClass('img-div col-md-3 img-container');
                     var img = $('<img>').attr('src', event.target.result).addClass(
-                        'img-responsive image img-thumbnail').attr('width', '200', 'height',
-                        '200');
+                        'img-responsive image new_thumpnail').attr('width', '100');
                     var removeBtn = $('<button>').addClass('btn btn-danger remove-btns').attr(
                         'title', 'Remove Image').append('Remove').attr('role', file.name);
 
                     imgDiv.append(img);
-                    imgDiv.append($('<div class="text-center">').addClass('middle').append(
-                        removeBtn));
+                    imgDiv.append($('<div>').addClass('middle').append(removeBtn));
 
                     $('#image-previews').append(imgDiv);
                 };
@@ -622,6 +716,9 @@
 
             reader.readAsDataURL(file);
         }
+        document.getElementById('s_photos').files = new FileListItem([]);
+        document.getElementById('s_photos').files = new FileListItem(fileArrs);
+
     });
 
     $(document).on('click', '.remove-btns', function() {

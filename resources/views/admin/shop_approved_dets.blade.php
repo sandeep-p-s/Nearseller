@@ -95,18 +95,18 @@
                     </div>
                     <hr class="new_hr">
                     <div class="form-group row">
-                        <label class="col-xl-6">Shop/Service category Type</label>
+                        <label class="col-xl-6">{{ $shoporservice }}  category Type</label>
                         <div class="col-xl-6 align-self-center">
                             {{ $sellerDetails->service_category_name }}
                         </div>
                     </div>
-                    <hr class="new_hr">
+                    {{-- <hr class="new_hr">
                     <div class="form-group row">
                         <label class="col-xl-6">{{ $shoporservice }} Sub Category Type</label>
                         <div class="col-xl-6 align-self-center">
                             {{ $sellerDetails->sub_category_name }}
                         </div>
-                    </div>
+                    </div> --}}
 
                     <hr class="new_hr">
                     <div class="form-group row">
@@ -246,12 +246,27 @@
 
                     <hr class="new_hr">
                     <div class="form-group row">
-                        <label class="col-xl-6">Google map link location</label>
-                        <div class="col-xl-6 align-self-center">
-                            <a href="{{ $sellerDetails->googlemap }}" target="_blank"
-                                title="Google map link location" class="success-message">Click Here</a>
+                        <label class="col-xl-6">Latitude (Google map location)</label>
+                        <div class="col-xl-6 align-self-center">{{ $sellerDetails->latitude }}
+                            {{-- <a href="{{ $sellerDetails->latitude }}" target="_blank"
+                                title="Google map link location" class="success-message">Click Here</a> --}}
                         </div>
                     </div>
+
+
+                    <hr class="new_hr">
+                    <div class="form-group row">
+                        <label class="col-xl-6">longitude (Google map location)</label>
+                        <div class="col-xl-6 align-self-center">{{ $sellerDetails->longitude }}
+                            {{-- <a href="{{ $sellerDetails->googlemap }}" target="_blank"
+                                title="Google map link location" class="success-message">Click Here</a> --}}
+                        </div>
+                    </div>
+
+
+
+
+
 
                     <hr class="new_hr">
                     <div class="form-group row">
@@ -317,7 +332,7 @@
                     <div class="form-group row">
                         <label class="col-xl-6">Establishment Date</label>
                         <div class="col-xl-6 align-self-center">
-                            {{ $sellerDetails->establish_date }}
+                            {{ date("d-m-Y", strtotime($sellerDetails->establish_date)) }}
                         </div>
                     </div>
                     <hr class="new_hr">
@@ -356,10 +371,10 @@
                     <div class="form-group row">
                         <label class="col-xl-6">Registration Date</label>
                         <div class="col-xl-6 align-self-center">
-                            {{ $sellerDetails->registration_date }}
+                            {{ date("d-m-Y H:i:s", strtotime($sellerDetails->created_at)) }}
                         </div>
                     </div>
-                    <hr class="new_hr">
+                    {{-- <hr class="new_hr">
                     <div class="form-group row">
                         <label class="col-xl-6">Manufacturing Details</label>
                         <div class="content-container">
@@ -367,7 +382,7 @@
                                 {{ $sellerDetails->manufactoring_details }}
                             </p>
                         </div>
-                    </div>
+                    </div> --}}
 
 
 
@@ -531,37 +546,32 @@
                     'X-CSRF-TOKEN': csrfToken
                 },
                 success: function(response) {
+                    if (response.result == 1) {
+                        $('#appshopreg-message').text(response.mesge).fadeIn();
+                        $('#appshopreg-message').addClass('success-message');
+                        setTimeout(function() {
+                            $('#appshopreg-message').fadeOut();
+                        }, 5000); // 5000 milliseconds = 5 seconds
+                        $('#SellerRegFormApproved')[0].reset();
+                        $('#loading-image').fadeOut();
+                        $('#loading-overlay').fadeOut();
+                        $('#ShopApprovedModal').modal('hide');
+                        shwdets();
+                    } else if (response.result == 2) {
+                        $('#appshopreg-message').text(response.mesge).fadeIn();
+                        $('#appshopreg-message').addClass('error');
+                        setTimeout(function() {
+                            $('#appshopreg-message').fadeOut();
+                        }, 5000); // 5000 milliseconds = 5 seconds
+                        $('#loading-image').fadeOut();
+                        $('#loading-overlay').fadeOut();
+                        $('#ShopApprovedModal').modal('hide');
+                        shwdets();
 
-                    console.log(response);
-                    if (approvedstatus == 'Y') {
-                        var approve = "Successfully Approved!";
                     } else {
-                        var approve = "Not Approved!";
+                        $('#loading-image').fadeOut();
+                        $('#loading-overlay').fadeOut();
                     }
-                    $('#appshopreg-message').text(approve).fadeIn();
-                    $('#appshopreg-message').addClass('success-message');
-                    setTimeout(function() {
-                        $('#appshopreg-message').fadeOut();
-                    }, 5000); // 5000 milliseconds = 5 seconds
-                    $('#SellerRegFormApproved')[0].reset();
-                    $('#loading-image').fadeOut();
-                    $('#loading-overlay').fadeOut();
-                    $('#ShopApprovedModal').modal('hide');
-                    shwdets();
-
-
-                },
-                error: function(xhr) {
-                    console.log(xhr.responseText);
-                    $('#appshopreg-message').text('Inactive user.so can not be approved.').fadeIn();
-                    $('#appshopreg-message').addClass('error');
-                    setTimeout(function() {
-                        $('#appshopreg-message').fadeOut();
-                    }, 5000);
-                    $('#loading-image').fadeOut();
-                    $('#loading-overlay').fadeOut();
-                    $('#ShopApprovedModal').modal('show');
-
                 }
             });
         }

@@ -94,6 +94,7 @@
 
 
 
+
                     <div class="align-items-center h-custom-2 login_credentails">
                         <h5 class="mb-3 pb-3 mt-5 text-center">Sign in</h5>
                         <fieldset>
@@ -101,11 +102,11 @@
                                 <div>
                                     <input type="radio" class="radio" name="x" value="y" id="email"
                                         checked />
-                                    <label for="y">Email</label>
+                                    <label for="y">Login with password</label>
                                 </div>
                                 <div>
                                     <input type="radio" class="radio" name="x" value="z" id="mobile" />
-                                    <label for="z">Mobile</label>
+                                    <label for="z">Login with OTP</label>
                                 </div>
                             </div>
                         </fieldset>
@@ -114,8 +115,8 @@
                         <div class="emailform">
                             <form id="userEmailForm">
                                 <div class="form-outline mb-4">
-                                    <input type="email" id="emailid" name="emailid"
-                                        class="form-control form-control-lg" placeholder="Email"
+                                    <input type="text" id="emailid" name="emailid"
+                                        class="form-control form-control-lg" placeholder="Email ID/Mobile Number"
                                         onchange="checkemilmob(this.value,'3')" required />
                                 </div>
                                 <div class="form-outline mb-4">
@@ -140,7 +141,7 @@
                                 <div class="form-outline mb-4">
 
                                     <input type="text" id="logn_mob" name="logn_mob"
-                                        class="form-control form-control-lg" placeholder="Enter Mobile No"
+                                        class="form-control form-control-lg" placeholder="Email ID/Mobile Number"
                                         onchange="checkemilmob(this.value,'1')" required />
                                 </div>
                                 <div id="moblogn-message" class="text-center" style="display: none;"></div>
@@ -155,8 +156,11 @@
 
                         <div>
                             <p class="text-center" id="signup">Don't have an account? <a href="#"
-                                    class="" style="color: #452896;">Sign Up</a></p>
+                                    class="" style="color: #452896;">Sign Up</a>
+                                    &nbsp;&nbsp;<a href="{{ route('Home') }}"
+                                    class="" style="color: #e7071d;" title="Home"><i class="fas fa-home"></i></a></p>
                         </div>
+
                     </div>
 
 
@@ -190,18 +194,20 @@
 
                         <div id="userreg">
                             <form id="userRegForm">
-                                <div class="form-outline  mb-2">
+                                <div class="form-outline">
                                     <input tabindex="1" type="text" id="u_name" name="u_name"
                                         class="form-control form-control-lg" maxlength="50" placeholder="Enter Name"
                                         required />
                                     <div for="u_name" class="error"></div>
                                 </div>
-                                <div class="form-outline  mb-2">
+                                <div class="form-outline">
                                     <input tabindex="2" type="email" id="u_emid" name="u_emid"
                                         class="form-control form-control-lg" maxlength="50" placeholder="Enter Email"
                                         required onchange="exstemilid(this.value,'1')" />
                                     <div for="u_emid" class="error"></div>
                                     <div id="uemil-message" class="text-center" style="display: none;"></div>
+                                    <label for="u_emid" class="error " id="uemil-message" ></label>
+                                    {{-- <div  class="text-center" style="display: none;"></div> --}}
                                 </div>
 
                                 <div class="form-outline  mb-2">
@@ -210,6 +216,9 @@
                                         placeholder="Enter Mobile No" required onchange="exstmobno(this.value,'1')" />
                                     <div for="u_mobno" class="error"></div>
                                     <div id="umob-message" class="text-center" style="display: none;"></div>
+                                        placeholder="Enter Mobile No." required onchange="exstmobno(this.value,'1')" />
+                                    <label for="u_mobno" class="error" id="umob-message"></label>
+                                    {{-- <div id="umob-message" class="text-center" style="display: none;"></div> --}}
                                 </div>
 
                                 <div class="form-outline  mb-2">
@@ -223,6 +232,8 @@
                                         class="form-control form-control-lg" maxlength="10"
                                         placeholder="Re-Enter password" required />
                                     <div for="u_rpaswd" class="error"></div>
+                                        placeholder="Re-enter Password" required />
+                                    <label for="u_rpaswd" class="error"></label>
                                 </div>
                                 <div class="form-outline">
                                     <input type="hidden" id="regval" name="regval"
@@ -253,6 +264,9 @@
                                             class="form-control form-control-lg" maxlength="50"
                                             placeholder="Shop Name" required tabindex="1" />
                                         <div for="s_name" class="error"></div>
+                                            placeholder="Shop Name" required tabindex="1"  onchange="exstshopname(this.value,'1')" />
+                                        <label for="s_name" class="error"></label>
+                                        <div id="existshopname-message" class="text-center" style="display: none;"></div>
                                     </div>
                                     <div class="form-outline mb-3">
                                         <input type="text" id="s_ownername" name="s_ownername"
@@ -271,7 +285,7 @@
                                     <div class="form-outline mb-3">
                                         <input type="email" id="s_email" name="s_email"
                                             class="form-control form-control-lg" maxlength="35"
-                                            placeholder="Enter Email" required tabindex="4"
+                                            placeholder="Enter Email" tabindex="4"
                                             onchange="exstemilid(this.value,'2')" />
                                         <div for="s_email" class="error"></div>
                                         <div id="semil-message" class="text-center" style="display: none;"></div>
@@ -304,13 +318,15 @@
                                         <div for="s_shopservice" class="error"></div>
                                     </div>
 
-                                    <div class="form-outline mb-3">
+                                    {{-- <div class="form-outline mb-3">
                                         <select class="form-select form-control form-control-lg" id="s_subshopservice"
                                             name="s_subshopservice" required tabindex="7">
 
                                         </select>
                                         <div for="s_subshopservice" class="error"></div>
                                     </div>
+                                        <label for="s_subshopservice" class="error"></label>
+                                    </div> --}}
 
 
                                     <div class="form-outline mb-3">
@@ -351,6 +367,8 @@
                                             class="form-control form-control-lg" maxlength="25"
                                             placeholder="License Number" required tabindex="10" />
                                         <div for="s_lisence" class="error"></div>
+                                            placeholder="License Number" tabindex="10" />
+                                        <label for="s_lisence" class="error"></label>
                                     </div>
                                     <div class="form-outline mb-3">
                                         <input type="text" id="s_buldingorhouseno" name="s_buldingorhouseno"
@@ -360,7 +378,7 @@
                                     </div>
                                     <div class="form-outline mb-3">
                                         <input type="text" id="s_locality" name="s_locality" maxlength="100"
-                                            class="form-control form-control-lg"placeholder="Locality" required
+                                            class="form-control form-control-lg" placeholder="Locality" required
                                             tabindex="12" />
                                         <div for="s_locality" class="error"></div>
                                     </div>
@@ -404,12 +422,40 @@
                                             tabindex="17" />
                                         <div for="s_pincode" class="error"></div>
                                     </div>
-                                    <div class="form-outline mb-3">
+
+
+
+                                    <div class="form-outline mb-3"><label>Latitude (Google map location)<span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" id="s_googlelatitude" name="s_googlelatitude"
+                                            class="form-control form-control-lg"
+                                            placeholder="Latitude (Google map location)" required tabindex="18" />
+                                        <label for="s_googlelatitude" class="error"></label>
+                                    </div>
+
+
+
+                                    <div class="form-outline mb-3"><label>Longitude (Google map location)<span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" id="s_googlelongitude" name="s_googlelongitude"
+                                            class="form-control form-control-lg"
+                                            placeholder="Longitude (Google map location)" required tabindex="18" />
+                                        <label for="s_googlelongitude" class="error"></label>
+                                    </div>
+
+
+
+                                    {{-- <div class="form-outline mb-3">
                                         <input type="text" id="s_googlelink" name="s_googlelink" id
                                             class="form-control form-control-lg"
                                             placeholder="Google map link location" required tabindex="18" />
                                         <div for="s_googlelink" class="error"></div>
                                     </div>
+                                        <label for="s_googlelink" class="error"></label>
+                                    </div> --}}
+
+
+
                                     <div class="form-outline mb-3">
                                         <input type="file" id="s_photo" multiple="" name="s_photo[]"
                                             class="form-control form-control-lg" placeholder="Shop Photo" required
@@ -432,15 +478,17 @@
 
                                     <div class="form-outline mb-3">
                                         <input type="text" id="s_gstno" name="s_gstno" maxlength="25"
-                                            class="form-control form-control-lg" placeholder="GST Number" required
+                                            class="form-control form-control-lg" placeholder="GST Number"
                                             tabindex="20" />
                                         <div for="s_gstno" class="error"></div>
                                     </div>
                                     <div class="form-outline mb-3">
                                         <input type="text" id="s_panno" name="s_panno" maxlength="12"
-                                            class="form-control form-control-lg" placeholder="PAN Number" required
+                                            class="form-control form-control-lg" placeholder="PAN Number"
                                             tabindex="21" />
                                         <div for="s_panno" class="error"></div>
+                                        <label for="s_panno" class="error"></label>
+                                        <div id="pan-error-message" style="color: red;"></div>
                                     </div>
 
 
@@ -449,6 +497,9 @@
                                             maxlength="10" class="form-control form-control-lg"
                                             placeholder="Establishment Date" tabindex="22" />
                                         <div for="s_establishdate" class="error"></div>
+                                            placeholder="Establishment Date" tabindex="22"
+                                            max="{{ date('Y-m-d') }}" />
+                                        <label for="s_establishdate" class="error"></label>
                                     </div>
 
 
@@ -466,7 +517,7 @@
                                     </div>
 
 
-                                    <div class="checkbox form-check-inline">
+                                    <div class="form-check-inline">
                                         <input class="form-check-input" type="checkbox" id="s_termcondtn"
                                             name="s_termcondtn" value="1" required tabindex="25">
                                         <div class="inlineCheckbox1" for="s_termcondtn"> Accept Terms & Conditions
@@ -618,7 +669,7 @@
                             </form>
                         </div>
                     </div>
-                    <div class="Reset_password" style="display: none;" id="password_reset">
+                    <div class="Reset_password align-items-center h-custom-2 login_credentails" style="display: none;" id="password_reset">
                         <h5 class="mb-3 pb-3 mt-5 text-center">Reset Password</h5>
                         <form id="ResetPasswd">
                             <div class="form-outline mb-4">
@@ -644,7 +695,7 @@
                     </div>
 
 
-                    <div class="Resetnew_password" style="display: none;" id="passwordnew_reset">
+                    <div class="Resetnew_password align-items-center h-custom-2 login_credentails" style="display: none;" id="passwordnew_reset">
                         <h5 class="mb-3 pb-3 mt-5 text-center">Reset Password</h5>
                         <form id="ResetNewPasswd">
                             <div class="form-outline mb-4">
@@ -768,7 +819,9 @@
                 <div id="otpentered-message" class="text-center" style="display: none;"></div>
             </div>
         </div>
+
     </div>
+
 
 
 
@@ -782,7 +835,22 @@
     <script src="{{ asset('js/main.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+
     <script>
+        document.getElementById('s_panno').addEventListener('input', function() {
+            var panInput = this.value;
+            var panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
+
+            if (panRegex.test(panInput)) {
+                // PAN format is valid
+                document.getElementById('pan-error-message').textContent = "";
+            } else {
+                // PAN format is invalid
+                //document.getElementById('pan-error-message').textContent = "Invalid PAN format. It should be in the format AEDFR2568H";
+            }
+        });
         $(document).ready(function() {
             $("#email").click(function() {
                 $(".login_credentails").show();
@@ -1074,29 +1142,29 @@
 
             });
 
-            $('#s_shopservice').change(function() {
-                var shopcategryid = $(this).val();
-                var busnescate = $("#s_busnestype").val();
-                if (shopcategryid) {
-                    var subshopcategry = '';
-                    if (busnescate == 1) {
-                        subshopcategry = 'Shop';
-                    } else if (busnescate == 2) {
-                        subshopcategry = 'Service';
-                    }
+            // $('#s_shopservice').change(function() {
+            //     var shopcategryid = $(this).val();
+            //     var busnescate = $("#s_busnestype").val();
+            //     if (shopcategryid) {
+            //         var subshopcategry = '';
+            //         if (busnescate == 1) {
+            //             subshopcategry = 'Shop';
+            //         } else if (busnescate == 2) {
+            //             subshopcategry = 'Service';
+            //         }
 
-                    $.get("/getsubshopservice/" + shopcategryid, function(data) {
-                        $('#s_subshopservice').empty().append(
-                            '<option value="">Select ' + subshopcategry +
-                            ' Sub Category</option>');
-                        $.each(data, function(index, category) {
-                            $('#s_subshopservice').append('<option value="' + category.id +
-                                '">' +
-                                category.sub_category_name + '</option>');
-                        });
-                    });
-                }
-            });
+            //         $.get("/getsubshopservice/" + shopcategryid, function(data) {
+            //             $('#s_subshopservice').empty().append(
+            //                 '<option value="">Select ' + subshopcategry +
+            //                 ' Sub Category</option>');
+            //             $.each(data, function(index, category) {
+            //                 $('#s_subshopservice').append('<option value="' + category.id +
+            //                     '">' +
+            //                     category.sub_category_name + '</option>');
+            //             });
+            //         });
+            //     }
+            // });
 
         });
 
@@ -1345,17 +1413,17 @@
 
                     logn_mob: {
                         required: true,
-                        digits: true,
-                        minlength: 10,
-                        maxlength: 10,
-                        pattern: /^(?!0+$)\d+$/
+                        // digits: true,
+                        // minlength: 10,
+                        // maxlength: 10,
+                        // pattern: /^(?!0+$)\d+$/
                     },
 
                 },
                 messages: {
-                    logn_mob: {
-                        pattern: "Please enter a valid 10-digit mobile number without leading zeroes."
-                    }
+                    // logn_mob: {
+                    //     pattern: "Please enter a valid 10-digit mobile number without leading zeroes."
+                    // }
                 }
             });
 
@@ -1422,8 +1490,8 @@
 
                     emailid: {
                         required: true,
-                        maxlength: 75,
-                        email: true
+                        maxlength: 35,
+                        // email: true
                     },
                     passwd: {
                         required: true,
@@ -1506,17 +1574,21 @@
             });
 
 
-
+            jQuery.validator.addMethod("validPAN", function(value, element) {
+                // Define the PAN format regular expression
+                var panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
+                return this.optional(element) || panRegex.test(value);
+            }, "Invalid PAN format. It should be in the format AEDFR2568H");
 
             $("#SellerRegForm").validate({
                 rules: {
                     s_name: {
                         required: true,
-                        pattern: /^[A-Za-z\s\.]+$/,
+                        // pattern: /^[A-Za-z\s\.]+$/,
                     },
                     s_ownername: {
                         required: true,
-                        pattern: /^[A-Za-z\s\.]+$/,
+                        // pattern: /^[A-Za-z\s\.]+$/,
                     },
                     s_mobno: {
                         required: true,
@@ -1524,7 +1596,8 @@
                         minlength: 10,
                     },
                     s_email: {
-                        required: true,
+                        // required: true,
+                        //minlength: 50,
                         email: true,
                     },
 
@@ -1536,21 +1609,21 @@
                         required: true,
 
                     },
-                    s_subshopservice: {
-                        required: true,
+                    // s_subshopservice: {
+                    //     required: true,
 
-                    },
+                    // },
                     s_shopservicetype: {
                         required: true,
 
                     },
 
                     s_shopexectename: {
-                        required: true,
+                        // required: true,
 
                     },
                     s_lisence: {
-                        required: true,
+                        // required: true,
                     },
                     s_buldingorhouseno: {
                         required: true,
@@ -1582,17 +1655,21 @@
                         minlength: 6,
 
                     },
-                    s_googlelink: {
-                        required: true,
-                    },
                     s_gstno: {
-                        required: true,
+                        //required: true,
                     },
                     s_panno: {
+                        validPAN: true // Apply the custom PAN validation
+                    },
+                    s_googlelatitude: {
                         required: true,
                     },
-                    s_establishdate: {
+                    s_googlelongitude: {
                         required: true,
+                    },
+
+                    s_establishdate: {
+                        // required: true,
                     },
                     s_termcondtn: {
                         required: true,
@@ -1629,7 +1706,7 @@
                         extension: "Only JPG and PNG files are allowed.",
                     },
                     s_lisence: {
-                        required: "Please enter the license number.",
+                        //required: "Please enter the license number.",
                         maxlength: "License number must not exceed 25 characters."
                     },
                     s_buldingorhouseno: {
@@ -1657,16 +1734,22 @@
                         required: "Please enter the pin code.",
                         maxlength: "Pin code must be 6 digits."
                     },
-                    s_googlelink: {
-                        required: "Please enter the Google map link location."
+                    // s_googlelink: {
+                    //     required: "Please enter the Google map link location."
+                    // },
+                    s_googlelatitude: {
+                        required: "Please enter google map location - Latitude."
+                    },
+
+                    s_googlelongitude: {
+                        required: "Please enter google map location - Longitude."
                     },
                     s_gstno: {
-                        required: "Please enter the GST number.",
+                        //required: "Please enter the GST number.",
                         maxlength: "GST number must not exceed 25 characters."
                     },
                     s_panno: {
-                        required: "Please enter the PAN number.",
-                        maxlength: "PAN number must not exceed 12 characters."
+                        validPAN: "Invalid PAN format. It should be in the format AEDFR2568H"
                     },
                     s_establishdate: {
                         required: "Please select the establishment date."
@@ -1839,11 +1922,11 @@
             });
 
 
-            $('#s_name, #s_ownername, #a_name').on('input', function() {
-                var value = $(this).val();
-                value = value.replace(/[^A-Za-z\s\.]+/, '');
-                $(this).val(value);
-            });
+            // $('#s_name, #s_ownername, #a_name').on('input', function() {
+            //     var value = $(this).val();
+            //     value = value.replace(/[^A-Za-z\s\.]+/, '');
+            //     $(this).val(value);
+            // });
 
 
             $.validator.addMethod("strongPassword", function(value, element) {
@@ -2144,7 +2227,7 @@
                         $('#restpass-message').addClass('success-message');
                         setTimeout(function() {
                             $('#restpass-message').fadeOut();
-                        }, 5000);
+                        }, 10000);
                         //$('#emal_mob').val('');
                         $('#loading-image').fadeOut();
                         $('#loading-overlay').fadeOut();
@@ -2275,7 +2358,7 @@
                         $('#mobotp-message').addClass('success-message');
                         setTimeout(function() {
                             $('#mobotp-message').fadeOut();
-                        }, 10000);
+                        }, 100000);
                         // $('#emal_mob').val('');
                         $('#loading-image').fadeOut();
                         $('#loading-overlay').fadeOut();
@@ -2798,6 +2881,50 @@
             };
             reader.readAsDataURL(input.files[0]);
         }
+
+
+
+        function exstshopname(u_shop, checkval) {
+                $('#loading-overlay').fadeIn();
+                $('#loading-image').fadeIn();
+                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    url: '{{ route('existshopname') }}',
+                    type: 'POST',
+                    data: {
+                        u_shop: u_shop
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    success: function(data) {
+                        if (data.result == 1 && checkval == 1) {
+                            $('#existshopname-message').text('Shop Name Already Exists.').fadeIn();
+                            $('#existshopname-message').addClass('error');
+                            setTimeout(function() {
+                                $('#existshopname-message').fadeOut();
+                            }, 5000);
+                            $('#s_name').val('');
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                        } else if (data.result == 3 && checkval == 1) {
+                            $('#existshopname-message').text('Error in Data').fadeIn();
+                            $('#existshopname-message').addClass('error');
+                            setTimeout(function() {
+                                $('#existshopname-message').fadeOut();
+                            }, 5000);
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                        } else {
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                        }
+                    }
+                });
+
+            }
+
+
     </script>
 </body>
 

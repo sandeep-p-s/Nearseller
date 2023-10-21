@@ -123,10 +123,10 @@ p {
 .card {
   padding: 1.5em 0.5em 0.5em;
   text-align: center;
-
+  height: 100%;
 }
 
-.card img {
+/* .card img {
   width: 75%;
   border-radius: 50%;
   margin: 0 auto;
@@ -135,7 +135,18 @@ p {
     background-repeat:   no-repeat;
     background-position: center center;
 
+} */
+.card img {
+      width: 100px;
+    border-radius: 50%;
+    margin: 0 auto;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 100px;
+
 }
+
 .card-text
 {
     font-size: 14px;

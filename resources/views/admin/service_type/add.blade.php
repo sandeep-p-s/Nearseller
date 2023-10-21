@@ -21,7 +21,8 @@
                 </div><!--end col-->
             </div> <!--end row-->
 
-
+            <div id="loading-overlay"></div>
+            <img id="loading-image" src="{{ asset('img/loading.gif') }}" style="display: none; width:100px;">
             <div class="row">
 
 
@@ -43,7 +44,9 @@
                                 <div class="form-group">
                                     <label for="addShopType">Add Service Type<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control mb-3" id="service_name"
-                                        placeholder="Enter service type" name="service_name" required>
+                                        placeholder="Enter service type" name="service_name" required onchange="existservicecategory(this.value)">
+                                        <div id="existcategory-message" class="text-center" style="display: none;"></div>
+
                                         @error('service_name')
                                         <div class="text-danger mb15">{{ $message }}</div>
                                     @enderror
@@ -61,4 +64,46 @@
             <!-- end page title end breadcrumb -->
 
         </div><!-- container -->
+        <script>
+            function existservicecategory(category) {
+                $('#loading-overlay').fadeIn();
+                $('#loading-image').fadeIn();
+                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    url: '{{ route('existServicetypeName') }}',
+                    type: 'POST',
+                    data: {
+                        category: category
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    success: function(data) {
+                        if (data.result == 1) {
+                            $('#existcategory-message').text('Service Type Name Already Exists.').fadeIn();
+                            $('#existcategory-message').addClass('error');
+                            setTimeout(function() {
+                                $('#existcategory-message').fadeOut();
+                            }, 5000);
+                            $('#service_name').val('');
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                        } else if (data.result == 3) {
+                            $('#existcategory-message').text('Error in Data').fadeIn();
+                            $('#existcategory-message').addClass('error');
+                            setTimeout(function() {
+                                $('#existcategory-message').fadeOut();
+                            }, 5000);
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                        } else {
+                            $('#loading-image').fadeOut();
+                            $('#loading-overlay').fadeOut();
+                        }
+                    }
+                });
+
+            }
+        </script>
+
     @endsection

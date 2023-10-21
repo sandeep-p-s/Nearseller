@@ -50,6 +50,16 @@ class AdminController extends Controller
             ->where('role_id', 9)
             ->count();
 
+        $countInactiveShops = DB::table('user_account')
+            ->where('role_id', 2)
+            ->where('user_status', '<>', 'Y')
+            ->count();
+        $countInactiveservices = DB::table('user_account')
+            ->where('role_id', 9)
+            ->where('user_status', '<>', 'Y')
+            ->count();
+
+
         if (in_array('1', $roleIdsArray)) {
             $countproductuser = DB::table('product_details')->count();
             $countserviceuser = DB::table('service_details')->count();
@@ -69,7 +79,9 @@ class AdminController extends Controller
         }
 
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.dashboard', compact('userdetails', 'countUsers', 'countAffiliate', 'countShops', 'countservices', 'userRole', 'loggeduser', 'structuredMenu', 'countproductuser', 'countserviceuser'));
+        //$allsectdetails = MenuMaster::AllSecrtorDetails($userId,$roleid);
+
+        return view('admin.dashboard', compact('userdetails', 'countUsers', 'countAffiliate', 'countShops', 'countservices', 'userRole', 'loggeduser', 'structuredMenu', 'countproductuser', 'countserviceuser','countInactiveShops','countInactiveservices'));
     }
 
     ////////////////////////////Affiliate//////////////////////////////
@@ -78,6 +90,7 @@ class AdminController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
+        $roleid = session('roleid');
         if ($userId == '') {
             return redirect()->route('logout');
         }
@@ -86,7 +99,8 @@ class AdminController extends Controller
             ->where('id', $userId)
             ->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.affilate_approval', compact('userdetails', 'userRole', 'loggeduser', 'structuredMenu'));
+        $allsectdetails = MenuMaster::AllSecrtorDetails($userId, $roleid);
+        return view('admin.affilate_approval', compact('userdetails', 'userRole', 'loggeduser', 'structuredMenu', 'allsectdetails'));
     }
 
     function AllAffiliatesList(Request $request)
@@ -870,6 +884,7 @@ class AdminController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
+        $roleid = session('roleid');
         if ($userId == '') {
             return redirect()->route('logout');
         }
@@ -885,7 +900,8 @@ class AdminController extends Controller
             return redirect()->route('logout');
         }
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.shop_approval', compact('userdetails', 'userRole', 'loggeduser', 'shoporservice', 'typeid', 'structuredMenu'));
+        $allsectdetails = MenuMaster::AllSecrtorDetails($userId, $roleid);
+        return view('admin.shop_approval', compact('userdetails', 'userRole', 'loggeduser', 'shoporservice', 'typeid', 'structuredMenu', 'allsectdetails'));
     }
 
     function AllShopsList(Request $request)
@@ -903,7 +919,8 @@ class AdminController extends Controller
         $referalid = $request->input('referalid');
         $typeid = $request->input('typeid');
 
-        $query = SellerDetails::select('seller_details.*', 'business_type.business_name', 'service_categories.service_category_name', 'service_sub_categories.sub_category_name', 'service_types.service_name', 'executives.executive_name', 'country.country_name', 'state.state_name', 'district.district_name')
+        $query = SellerDetails::select('seller_details.*', 'user_account.user_status', 'business_type.business_name', 'service_categories.service_category_name', 'service_sub_categories.sub_category_name', 'service_types.service_name', 'executives.executive_name', 'country.country_name', 'state.state_name', 'district.district_name')
+            ->leftJoin('user_account', 'user_account.id', 'seller_details.user_id')
             ->leftJoin('business_type', 'business_type.id', 'seller_details.busnes_type')
             ->leftJoin('service_categories', 'service_categories.id', 'seller_details.shop_service_type')
             ->leftJoin('service_sub_categories', 'service_sub_categories.id', 'seller_details.service_subcategory_id')
@@ -931,19 +948,15 @@ class AdminController extends Controller
         // if (in_array('9', $roleIdsArray)) {
 
         // }
-        if($roleid==1)
-        {
-        }
-        else{
+        if ($roleid == 1) {
+        } else {
             $query->where('seller_details.user_id', $userId);
         }
         if ($typeid == 1) {
-
             $query->where('seller_details.busnes_type', $typeid);
         }
         if ($typeid == 2) {
             $query->where('seller_details.busnes_type', $typeid);
-
         }
         //$perPage = 5; // Number of records per page
         //$sellerDetails = $query->paginate($perPage);
@@ -962,12 +975,13 @@ class AdminController extends Controller
             ->where('status', 'Y')
             ->where('id', $typeid)
             ->get();
-        // $shopservicecategory    = DB::table('service_categories')->where('business_type_id',$typeid)->get();
+        $shopservicecategory    = DB::table('service_categories')->where(['business_type_id' => $typeid])->get();
+        //echo $lastRegId = $shopservicecategory->toSql();
         // $shop_service_type      = $sellerDetails->first()->shop_service_type;
         // $shopservicesubcategory = DB::table('service_sub_categories')->where('service_category_id',$shop_service_type)->get();
-        // $shopservice            = DB::table('service_types')->where('id',$typeid)->get();
-        // $executives             = DB::table('executives')->where(['executive_type' => $typeid])->get();
-        return view('admin.shop_dets', compact('sellerDetails', 'sellerCount', 'countries', 'business', 'shoporservice', 'typeid'));
+        $shopservice            = DB::table('service_types')->where('business_type_id',$typeid)->get();
+        $executives             = DB::table('executives')->where(['executive_type' => $typeid])->get();
+        return view('admin.shop_dets', compact('sellerDetails', 'sellerCount', 'countries', 'business', 'shoporservice', 'typeid','shopservicecategory','shopservice','executives'));
     }
 
     function AdmsellerRegisterationPage(Request $request)
@@ -983,16 +997,16 @@ class AdminController extends Controller
         $time = date('Y-m-d H:i:s');
         $validatedData = $request->validate([
             's_name' => 'required|max:50',
-            's_ownername' => 'max:50',
+            's_ownername' => 'required|max:50',
             's_mobno' => 'required|max:10',
-            's_email' => 'required|email|max:35',
+            //'s_email' => ['sometimes', 'email', 'max:35'],
             's_refralid' => 'max:50',
             's_busnestype' => 'required',
             's_shopservice' => 'required',
-            's_subshopservice' => 'required',
+            // 's_subshopservice' => 'required',
             's_shopservicetype' => 'required',
-            's_shopexectename' => 'required',
-            's_lisence' => 'required|max:25',
+            // 's_shopexectename' => 'required',
+            's_lisence' => ['sometimes', 'max:25'],
             's_buldingorhouseno' => 'required|max:100',
             's_locality' => 'required|max:100',
             's_villagetown' => 'required|max:100',
@@ -1000,18 +1014,24 @@ class AdminController extends Controller
             'state' => 'required',
             'district' => 'required',
             's_pincode' => 'required|max:6',
-            's_googlelink' => 'required',
-            'manufactringdets' => 'required',
+            's_googlelatitude' => 'required',
+            's_googlelongitude' => 'required',
+            // 'manufactringdets' => 'required',
             //'s_logo' => 'required|image|mimes:jpeg,png|max:1024',
             's_bgcolor' => 'required',
             //'s_photo' => 'required|image|mimes:jpeg,png|max:1024',
-            's_gstno' => 'required|max:25',
-            's_panno' => 'required|max:12',
-            's_establishdate' => 'required|date',
+            's_gstno' => ['sometimes', 'max:15'],
+            's_panno' => ['sometimes', 'max:10'],
+            's_establishdate' => $request->input('typeidhid') == 1 ? 'required|date' : 'nullable|date',
             // 's_paswd' => 'required|max:10',
             // 's_rpaswd' => 'required|same:s_paswd',
             's_termcondtn' => 'accepted',
         ]);
+        if ($request->s_email == '' || $request->s_email == '0') {
+            $emailivalue = 'hyzvinukumar@gmail.com';
+        } else {
+            $emailivalue = $request->s_email;
+        }
         $user = new UserAccount();
         $user->name = $request->s_name;
         $user->email = $request->s_email;
@@ -1059,9 +1079,9 @@ class AdminController extends Controller
         $submt = $user->save();
         $lastRegId = $user->toSql();
         $last_id = $user->id;
-        $msg = 'Registration Success! ' . $request->s_email . ' register id : ' . $last_id;
+        $msg = 'Registration Success! ' . $request->s_mobno . ' register id : ' . $last_id;
         $LogDetails = new LogDetails();
-        $LogDetails->user_id = $request->s_email;
+        $LogDetails->user_id = $request->s_mobno;
         $LogDetails->ip_address = $loggedUserIp;
         $LogDetails->log_time = $time;
         $LogDetails->status = $msg;
@@ -1076,7 +1096,7 @@ class AdminController extends Controller
             $sellerDetail->referal_id = $request->input('s_refralid');
             $sellerDetail->busnes_type = $request->input('s_busnestype');
             $sellerDetail->shop_service_type = $request->input('s_shopservice');
-            $sellerDetail->service_subcategory_id = $request->input('s_subshopservice');
+            // $sellerDetail->service_subcategory_id = $request->input('s_subshopservice');
             $sellerDetail->shop_type = $request->input('s_shopservicetype');
             $sellerDetail->shop_executive = $request->input('s_shopexectename');
             $sellerDetail->term_condition = $request->has('s_termcondtn') ? 1 : 0;
@@ -1088,7 +1108,9 @@ class AdminController extends Controller
             $sellerDetail->state = $request->input('state');
             $sellerDetail->district = $request->input('district');
             $sellerDetail->pincode = $request->input('s_pincode');
-            $sellerDetail->googlemap = $request->input('s_googlelink');
+            $sellerDetail->latitude = $request->input('s_googlelatitude');
+            $sellerDetail->longitude = $request->input('s_googlelongitude');
+
             $sellerDetail->shop_gstno = $request->input('s_gstno');
             $sellerDetail->shop_panno = $request->input('s_panno');
             $sellerDetail->establish_date = $request->input('s_establishdate');
@@ -1096,8 +1118,8 @@ class AdminController extends Controller
             // $closetime  =   $request->input('closetime');
             // $openclosdsetime=$opentime.'-'.$closetime;
             // $sellerDetail->open_close_time = $openclosdsetime;
-            $sellerDetail->registration_date = $request->input('s_registerdate');
-            $sellerDetail->manufactoring_details = $request->input('manufactringdets');
+            // $sellerDetail->registration_date = $request->input('s_registerdate');
+            // $sellerDetail->manufactoring_details = $request->input('manufactringdets');
             $sellerDetail->direct_affiliate = $request->input('directafflte');
             $sellerDetail->second_affiliate = $request->input('secondafflte');
             $sellerDetail->shop_coordinator = $request->input('coordinater');
@@ -1149,7 +1171,6 @@ class AdminController extends Controller
                 }
             }
 
-
             $input_media = [];
             $input_valmedia = [];
             $mediatype = $request->input('mediatype', []);
@@ -1194,13 +1215,16 @@ class AdminController extends Controller
                 dd($e->getMessage());
             }
 
-            $valencodemm = $lastRegId . '-' . $request->s_email;
-            $valsmm = base64_encode($valencodemm);
-            $verificationToken = base64_encode($last_id . '-' . $request->s_email . '-' . $pass_chars . '-' . $refer_chars);
-            $checkval = '4';
-            $message = '';
-            $email = new EmailVerification($verificationToken, $request->s_name, $request->s_email, $checkval, $message);
-            Mail::to($request->s_email)->send($email);
+            if ($request->s_email == '' || $request->s_email == '0') {
+            } else {
+                $valencodemm = $lastRegId . '-' . $request->s_email;
+                $valsmm = base64_encode($valencodemm);
+                $verificationToken = base64_encode($last_id . '-' . $request->s_email . '-' . $pass_chars . '-' . $refer_chars);
+                $checkval = '4';
+                $message = '';
+                $email = new EmailVerification($verificationToken, $request->s_name, $request->s_email, $checkval, $message);
+                Mail::to($request->s_email)->send($email);
+            }
         } else {
         }
     }
@@ -1328,16 +1352,16 @@ class AdminController extends Controller
 
         $validatedData = $request->validate([
             'es_name' => 'required|max:50',
-            'es_ownername' => 'max:50',
+            'es_ownername' => 'required|max:50',
             'es_mobno' => 'required|max:10',
-            'es_email' => 'required|email|max:35',
+            //'es_email' => ['sometimes', 'email', 'max:35'],
             'es_refralid' => 'max:50',
             'es_busnestype' => 'required',
             'es_shopservice' => 'required',
-            'es_subshopservice' => 'required',
+            // 's_subshopservice' => 'required',
             'es_shopservicetype' => 'required',
-            'es_shopexectename' => 'required',
-            'es_lisence' => 'required|max:25',
+            // 'es_shopexectename' => 'required',
+            'es_lisence' => ['sometimes', 'max:25'],
             'es_buldingorhouseno' => 'required|max:100',
             'es_locality' => 'required|max:100',
             'es_villagetown' => 'required|max:100',
@@ -1345,14 +1369,17 @@ class AdminController extends Controller
             'estate' => 'required',
             'edistrict' => 'required',
             'es_pincode' => 'required|max:6',
-            'es_googlelink' => 'required',
-            'emanufactringdets' => 'required',
-            'es_gstno' => 'required|max:25',
-            'es_panno' => 'required|max:12',
-            'es_establishdate' => 'required|date',
-            'es_registerdate' => 'required|date',
-            // 'eopentime' => 'required',
-            // 'eclosetime' => 'required',
+            'es_googlelatitude' => 'required',
+            'es_googlelongitude' => 'required',
+            // 'manufactringdets' => 'required',
+            //'s_logo' => 'required|image|mimes:jpeg,png|max:1024',
+            'es_bgcolor' => 'required',
+            //'s_photo' => 'required|image|mimes:jpeg,png|max:1024',
+            'es_gstno' => ['sometimes', 'max:15'],
+            'es_panno' => ['sometimes', 'max:10'],
+            'es_establishdate' => $request->input('etypeidhid') == 1 ? 'required|date' : 'nullable|date',
+            // 's_paswd' => 'required|max:10',
+            // 's_rpaswd' => 'required|same:s_paswd',
             'es_termcondtn' => 'accepted',
         ]);
         $shopid = $request->shopidhid;
@@ -1366,7 +1393,7 @@ class AdminController extends Controller
         $sellerDetail->shop_mobno = $request->input('es_mobno');
         $sellerDetail->busnes_type = $request->input('es_busnestype');
         $sellerDetail->shop_service_type = $request->input('es_shopservice');
-        $sellerDetail->service_subcategory_id = $request->input('es_subshopservice');
+        //$sellerDetail->service_subcategory_id = $request->input('es_subshopservice');
         $sellerDetail->shop_type = $request->input('es_shopservicetype');
         $sellerDetail->shop_executive = $request->input('es_shopexectename');
         $sellerDetail->term_condition = $request->has('es_termcondtn') ? 1 : 0;
@@ -1378,16 +1405,18 @@ class AdminController extends Controller
         $sellerDetail->state = $request->input('estate');
         $sellerDetail->district = $request->input('edistrict');
         $sellerDetail->pincode = $request->input('es_pincode');
-        $sellerDetail->googlemap = $request->input('es_googlelink');
+        //$sellerDetail->googlemap = $request->input('es_googlelink');
         $sellerDetail->shop_gstno = $request->input('es_gstno');
         $sellerDetail->shop_panno = $request->input('es_panno');
         $sellerDetail->establish_date = $request->input('es_establishdate');
-        $sellerDetail->manufactoring_details = $request->input('emanufactringdets');
+        $sellerDetail->latitude = $request->input('es_googlelatitude');
+        $sellerDetail->longitude = $request->input('es_googlelongitude');
+        //$sellerDetail->manufactoring_details = $request->input('emanufactringdets');
         // $opentime   =   $request->input('eopentime');
         // $closetime  =   $request->input('eclosetime');
         // $openclosdsetime=$opentime.'-'.$closetime;
         // $sellerDetail->open_close_time = $openclosdsetime;
-        $sellerDetail->registration_date = $request->input('es_registerdate');
+        //$sellerDetail->registration_date = $request->input('es_registerdate');
         $sellerDetail->referal_id = $request->input('es_refralid');
         $sellerDetail->direct_affiliate = $request->input('sdirectafflte');
         $sellerDetail->second_affiliate = $request->input('ssecondafflte');
@@ -1500,9 +1529,9 @@ class AdminController extends Controller
         $user->ip = $loggedUserIp;
         $submt = $user->save();
 
-        $msg = 'Successfully updated! ' . $request->es_email . ' shop updated id : ' . $sellerDetail->user_id;
+        $msg = 'Successfully updated! ' . $request->es_mobno . ' shop updated id : ' . $sellerDetail->user_id;
         $LogDetails = new LogDetails();
-        $LogDetails->user_id = $request->es_email;
+        $LogDetails->user_id = $request->es_mobno;
         $LogDetails->ip_address = $loggedUserIp;
         $LogDetails->log_time = $time;
         $LogDetails->status = $msg;
@@ -1584,7 +1613,16 @@ class AdminController extends Controller
         $shopselrid = $request->shopidhidselapp;
         $user = UserAccount::find($shopid);
         $userstatus = $user->user_status;
-        if ($userstatus == 'Y') {
+        $usermail=$user->email;
+        if (!empty($usermail)) {
+            $usermail=$user->email;
+        } else {
+            $usermail="hyzvinukumar@gmail.com";
+        }
+
+
+        if (($userstatus == 'Y') && ($request->approvedstatus=='Y')) {
+            //echo "1=".$request->approvedstatus.'='.$userstatus;exit;
             $user->approved = $request->approvedstatus;
             $user->approved_by = $userId;
             $user->approved_at = $time;
@@ -1594,24 +1632,198 @@ class AdminController extends Controller
             $SellerDetails->seller_approved = $request->approvedstatus;
             $submtapp = $SellerDetails->save();
 
+            if($SellerDetails->busnes_type=='1')
+            {
+                $shoporservice='Shop';
+            }
+            else if($SellerDetails->busnes_type=='2')
+            {
+                $shoporservice='Service';
+            }
+            else{
+                $shoporservice='';
+            }
+
+
             $msg = 'Aprroved Status =  ' . $request->approvedstatus . ' shop updated id : ' . $shopid;
             $LogDetails = new LogDetails();
-            $LogDetails->user_id = $user->email;
+            $LogDetails->user_id = $user->mobno;
             $LogDetails->ip_address = $loggedUserIp;
             $LogDetails->log_time = $time;
             $LogDetails->status = $msg;
             $LogDetails->save();
             if ($request->approvedstatus == 'Y') {
-                $valencodemm = $shopid . '-' . $user->email;
+                $valencodemm = $shopid . '-' . $usermail;
                 $valsmm = base64_encode($valencodemm);
                 $apprveTime = date('d/m/Y H:i:s', strtotime($time));
-                $verificationToken = base64_encode($shopid . '-' . $user->email . '-' . $apprveTime . '-' . '');
+                $verificationToken = base64_encode($shopid . '-' . $usermail . '-' . $apprveTime . '-' . '');
                 $checkval = '5';
                 $message = 'Shop Successfully Approved';
-                $email = new EmailVerification($verificationToken, $user->name, $user->email, $checkval, $message);
-                Mail::to($user->email)->send($email);
+                $emailsend = new EmailVerification($verificationToken, $user->name, $usermail, $checkval, $message);
+                Mail::to($usermail)->send($emailsend);
+                if($request->approvedstatus=='Y')
+                {
+                    $appstus='Successfully Approved';
+                }
+                else{
+                    $appstus='Not Approved';
+                }
+                return response()->json(['result' => 1, 'mesge' => $appstus]);
             }
+        }
+        else if (($userstatus!='Y') && ($request->approvedstatus=='Y')) {
+            //echo "2=".$request->approvedstatus.'='.$userstatus;exit;
+            $user->approved = 'N';
+            $user->approved_by = $userId;
+            $user->approved_at = $time;
+            $submt = $user->save();
+
+            $SellerDetails = SellerDetails::find($shopselrid);
+            $SellerDetails->seller_approved = 'N';
+            $submtapp = $SellerDetails->save();
+
+            if($SellerDetails->busnes_type=='1')
+            {
+                $shoporservice='Shop';
+            }
+            else if($SellerDetails->busnes_type=='2')
+            {
+                $shoporservice='Service';
+            }
+            else{
+                $shoporservice='';
+            }
+
+            $msg = 'Inactive '.$shoporservice.', '.$shoporservice.' updated id : ' . $shopid;
+            $LogDetails = new LogDetails();
+            $LogDetails->user_id = $user->mobno;
+            $LogDetails->ip_address = $loggedUserIp;
+            $LogDetails->log_time = $time;
+            $LogDetails->status = $msg;
+            $LogDetails->save();
+            return response()->json(['result' => 2, 'mesge' => 'Inactive '.$shoporservice.', So cant be approved']);
+        }
+        else if (($userstatus!='Y') && ($request->approvedstatus!='Y')) {
+            //echo "3=".$request->approvedstatus.'='.$userstatus;exit;
+            $user->approved = 'N';
+            $user->approved_by = $userId;
+            $user->approved_at = $time;
+            $submt = $user->save();
+
+            $SellerDetails = SellerDetails::find($shopselrid);
+            $SellerDetails->seller_approved = 'N';
+            $submtapp = $SellerDetails->save();
+
+            if($SellerDetails->busnes_type=='1')
+            {
+                $shoporservice='Shop';
+            }
+            else if($SellerDetails->busnes_type=='2')
+            {
+                $shoporservice='Service';
+            }
+            else{
+                $shoporservice='';
+            }
+
+            $msg = 'Inactive '.$shoporservice.', '.$shoporservice.' updated id : ' . $shopid;
+            $LogDetails = new LogDetails();
+            $LogDetails->user_id = $user->mobno;
+            $LogDetails->ip_address = $loggedUserIp;
+            $LogDetails->log_time = $time;
+            $LogDetails->status = $msg;
+            $LogDetails->save();
+            return response()->json(['result' => 2, 'mesge' => 'Inactive '.$shoporservice.'']);
+        }
+        else if (($userstatus=='Y') && ($request->approvedstatus!='Y')) {
+            //echo "4=".$request->approvedstatus.'='.$userstatus;exit;
+            $user->approved = 'N';
+            $user->approved_by = $userId;
+            $user->approved_at = $time;
+            $submt = $user->save();
+
+            $SellerDetails = SellerDetails::find($shopselrid);
+            $SellerDetails->seller_approved = 'N';
+            $submtapp = $SellerDetails->save();
+
+            if($SellerDetails->busnes_type=='1')
+            {
+                $shoporservice='Shop';
+            }
+            else if($SellerDetails->busnes_type=='2')
+            {
+                $shoporservice='Service';
+            }
+            else{
+                $shoporservice='';
+            }
+
+            $msg = 'Inactive '.$shoporservice.', '.$shoporservice.' updated id : ' . $shopid;
+            $LogDetails = new LogDetails();
+            $LogDetails->user_id = $user->mobno;
+            $LogDetails->ip_address = $loggedUserIp;
+            $LogDetails->log_time = $time;
+            $LogDetails->status = $msg;
+            $LogDetails->save();
+            return response()->json(['result' => 2, 'mesge' => 'Not Approved '.$shoporservice.'']);
+        }
+
+
+
+        else {
+        }
+    }
+
+
+
+    public function AdmShopServiceApprovedAll(Request $request)
+    {
+        $userRole = session('user_role');
+        $roleid = session('roleid');
+        $userId = session('user_id');
+        if ($userId == '') {
+            return redirect()->route('logout');
+        }
+        $loggedUserIp = $_SERVER['REMOTE_ADDR'];
+        $time = date('Y-m-d H:i:s');
+        $shopid = $request->input('shopid');
+        $shopid_userid = explode('#', $shopid);
+        //echo "<pre>";print_r($product_id);exit;
+        $toregIDCount = count($shopid_userid);
+        $flg = 0;
+        for ($i = 1; $i < $toregIDCount; $i++) {
+                $shopidexplode = $shopid_userid[$i];
+                $shops_user=explode('*',$shopidexplode);
+                $shopserviceid=$shops_user[0];
+                $shopserviceuserid=$shops_user[1];
+                $SellerDetails = SellerDetails::find($shopserviceid);
+                $user = UserAccount::find($shopserviceuserid);
+                if ($user->approved == 'R' || $SellerDetails->seller_approved == 'R') {
+                }
+                else{
+                    $user->user_status = 'Y';
+                    $user->approved = 'Y';
+                    $user->approved_by = $userId;
+                    $user->approved_at = $time;
+                    $user->save();
+                    $SellerDetails->seller_approved = 'Y';
+                    $SellerDetails->save();
+                    $flg = 1;
+                }
+            }
+
+        $msg = 'Shop and Service Successfully Activate or Inactivate!';
+        $LogDetails = new LogDetails();
+        $LogDetails->user_id = $userId;
+        $LogDetails->ip_address = $loggedUserIp;
+        $LogDetails->log_time = $time;
+        $LogDetails->status = $msg;
+        $LogDetails->save();
+
+        if ($flg == 1) {
+            return response()->json(['result' => 1, 'mesge' => 'Successfully Activate and Approved']);
         } else {
+            return response()->json(['result' => 2, 'mesge' => 'Not Activate']);
         }
     }
 
@@ -1627,9 +1839,12 @@ class AdminController extends Controller
         $shopid = $request->input('userid');
         $sellerDetail = SellerDetails::find($shopid);
         $user = UserAccount::find($sellerDetail->user_id);
+        if ($user) {
+            $user->delete();
+        }
         $deltesellerDetail = $sellerDetail->delete();
         $delteuser = $user->delete();
-        $msg = 'Shop Deleted =  ' . $user->email . ' shop updated id : ' . $sellerDetail->user_id;
+        $msg = 'Shop Deleted =  ' . $user->email . ' shop deleted id : ' . $sellerDetail->user_id;
         $LogDetails = new LogDetails();
         $LogDetails->user_id = $user->email;
         $LogDetails->ip_address = $loggedUserIp;
@@ -1641,5 +1856,99 @@ class AdminController extends Controller
         } else {
             return response()->json(['result' => 2, 'mesge' => 'Failed']);
         }
+    }
+
+    function ShopInactives($typeid)
+    {
+        $userRole = session('user_role');
+        $userId = session('user_id');
+        $roleid = session('roleid');
+        if ($userId == '') {
+            return redirect()->route('logout');
+        }
+        $loggeduser = UserAccount::sessionValuereturn($userRole);
+        $userdetails = DB::table('user_account')
+            ->where('id', $userId)
+            ->get();
+        if ($typeid == 1) {
+            $shoporservice = 'Shops';
+        } elseif ($typeid == 2) {
+            $shoporservice = 'Services';
+        } else {
+            return redirect()->route('logout');
+        }
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
+        $allsectdetails = MenuMaster::AllSecrtorDetails($userId, $roleid);
+        return view('admin.shop_inactive', compact('userdetails', 'userRole', 'loggeduser', 'shoporservice', 'typeid', 'structuredMenu', 'allsectdetails'));
+    }
+
+    function AllShopsInactiveList(Request $request)
+    {
+        $userRole = session('user_role');
+        $roleid = session('roleid');
+
+        $userId = session('user_id');
+        if ($userId == '') {
+            return redirect()->route('logout');
+        }
+        $emal_mob = $request->input('emal_mob');
+        $shopname = $request->input('shopname');
+        $ownername = $request->input('ownername');
+        $referalid = $request->input('referalid');
+        $typeid = $request->input('typeid');
+
+        $query = SellerDetails::select('seller_details.*', 'user_account.user_status', 'business_type.business_name', 'service_categories.service_category_name', 'service_sub_categories.sub_category_name', 'service_types.service_name', 'executives.executive_name', 'country.country_name', 'state.state_name', 'district.district_name')
+            ->leftJoin('user_account', 'user_account.id', 'seller_details.user_id')
+            ->leftJoin('business_type', 'business_type.id', 'seller_details.busnes_type')
+            ->leftJoin('service_categories', 'service_categories.id', 'seller_details.shop_service_type')
+            ->leftJoin('service_sub_categories', 'service_sub_categories.id', 'seller_details.service_subcategory_id')
+            ->leftJoin('service_types', 'service_types.id', 'seller_details.shop_type')
+            ->leftJoin('executives', 'executives.id', 'seller_details.shop_executive')
+            ->leftJoin('country', 'country.id', 'seller_details.country')
+            ->leftJoin('state', 'state.id', 'seller_details.state')
+            ->leftJoin('district', 'district.id', 'seller_details.district');
+
+        // $roleIdsArray = explode(',', $roleid);
+        // if (in_array('2', $roleIdsArray)) {
+
+        // }
+        // if (in_array('9', $roleIdsArray)) {
+
+        // }
+        if ($roleid == 1) {
+        } else {
+            $query->where('seller_details.user_id', $userId);
+        }
+        if ($typeid == 1) {
+            $query->where('seller_details.busnes_type', $typeid);
+        }
+        if ($typeid == 2) {
+            $query->where('seller_details.busnes_type', $typeid);
+        }
+        //$perPage = 5; // Number of records per page
+        //$sellerDetails = $query->paginate($perPage);
+        $query->where('user_account.user_status','N');
+        $sellerDetails = $query->get();
+        //echo $lastRegId = $query->toSql();
+
+        $sellerCount = $sellerDetails->count();
+        if ($typeid == 1) {
+            $shoporservice = 'Shops';
+        } elseif ($typeid == 2) {
+            $shoporservice = 'Services';
+        }
+        $countries = DB::table('country')->get();
+        $business = DB::table('business_type')
+            ->where('status', 'Y')
+            ->where('id', $typeid)
+            ->get();
+        $shopservicecategory    = DB::table('service_categories')->where(['business_type_id' => $typeid])->get();
+        //echo $lastRegId = $shopservicecategory->toSql();
+        // $shop_service_type      = $sellerDetails->first()->shop_service_type;
+        // $shopservicesubcategory = DB::table('service_sub_categories')->where('service_category_id',$shop_service_type)->get();
+        $shopservice            = DB::table('service_types')->where('business_type_id',$typeid)->get();
+        $executives             = DB::table('executives')->where(['executive_type' => $typeid])->get();
+        return view('admin.shop_dets', compact('sellerDetails', 'sellerCount', 'countries', 'business', 'shoporservice', 'typeid','shopservicecategory','shopservice','executives'));
+
     }
 }

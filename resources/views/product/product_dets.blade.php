@@ -96,7 +96,8 @@
                                     @endphp
 
 
-                                    <div class="form-group" {{ $shopshowhide }}><label>Shop Name</label>
+                                    <div class="form-group" {{ $shopshowhide }}><label>Shop Name<span
+                                        class="text-danger">*</span></label>
                                         <select class="selectshops form-select form-control form-control-lg"
                                             id="shop_name" name="shop_name" required tabindex="1">
                                             <option value="">Select Shop Name</option><br />
@@ -108,23 +109,26 @@
                                     </div>
 
 
-                                    <div class="form-group"><label>Product Name</label>
+                                    <div class="form-group"><label>Product Name<span
+                                        class="text-danger">*</span></label>
                                         <input type="text" id="prod_name" name="prod_name"
                                             class="enterproduct form-control" maxlength="60" placeholder="Product Name"
                                             required tabindex="1" onchange="showexistproduct();" />
                                         <label for="prod_name" class="error"></label>
                                     </div>
-                                    <div class="form-group"><label> Product Specification</label>
+                                    <div class="form-group"><label> Product Specification<span
+                                        class="text-danger">*</span></label>
                                         <textarea id="prod_specification" name="prod_specification" placeholder="Product Specification" class="form-control"
                                             maxlength="250" tabindex="2" required></textarea>
                                         <label for="prod_specification"></label>
                                     </div>
 
 
-                                    <div class="form-group"><label>Category</label>
+                                    <div class="form-group"><label>Category<span
+                                        class="text-danger">*</span></label>
                                         <select class="selectauto form-control" id="categorySelector"
                                             name="parent_category" tabindex="3" required>
-                                            <option value="0">Select Category</option>
+                                            <option value="">Select Category</option>
                                             @foreach ($filteredCategories as $key => $category)
                                                 <option value="{{ $category->id }}"
                                                     data-level="{{ $category->category_level }}">
@@ -134,21 +138,23 @@
                                                         class="{{ $key === count($filteredCategories) - 1 ? 'last-child' : '' }}">{{ $category->category_name }}</span>
                                                 </option>
                                             @endforeach
-                                        </select>
+                                        </select><label for="categorySelector"></label>
                                     </div>
 
 
                                     <div class="form-group">
-                                        <label>Product description </label>
-                                        <textarea id="prod_description" name="prod_description" placeholder="Product Specification" class="form-control"
+                                        <label>Product Description <span
+                                            class="text-danger">*</span></label>
+                                        <textarea id="prod_description" name="prod_description" placeholder="Product Description" class="form-control"
                                             maxlength="7000" tabindex="4" required rows="3"></textarea>
                                         <label for="prod_description"></label>
                                     </div>
 
 
-                                    <div class="form-group"><label>Product Images</label>
+                                    <div class="form-group"><label>Product Images<span
+                                        class="text-danger">*</span></label>
                                         <input type="file" id="s_photo" multiple="" name="s_photo[]"
-                                            class="form-control" placeholder="Shop Photo" tabindex="5"
+                                            class="form-control" placeholder="Shop Photo" tabindex="5" required
                                             accept="image/jpeg, image/png" />
                                         <label for="s_photo" class="error"></label>
                                     </div>
@@ -192,7 +198,7 @@
                                     <div class="form-group">
                                         <label>Manufacturer Details</label>
                                         <textarea id="prod_manufacture" name="prod_manufacture" placeholder="Manufacturer Details" class="form-control"
-                                            maxlength="250" rows="2" tabindex="8" required></textarea>
+                                            maxlength="250" rows="2" tabindex="8" ></textarea>
                                         <label for="prod_manufacture" class="error"></label>
                                     </div>
                                     <div class="form-group">
@@ -293,17 +299,17 @@
                                                             </div>
                                                             <div class="col">
                                                                 <input type="text" id="attatibute1"
-                                                                    name="attatibute1" placeholder="Attribute1"
+                                                                    name="attatibute1" placeholder="Attribute1" required
                                                                     class="form-control">
                                                             </div>
                                                             <div class="col">
                                                                 <input type="text" id="attatibute2"
-                                                                    name="attatibute2" placeholder="Attribute2"
+                                                                    name="attatibute2" placeholder="Attribute2" required
                                                                     class="form-control">
                                                             </div>
                                                             <div class="col">
                                                                 <input type="text" id="attatibute3"
-                                                                    name="attatibute3" placeholder="Attribute3"
+                                                                    name="attatibute3" placeholder="Attribute3" required
                                                                     class="form-control">
                                                             </div>
                                                             <div class="col">
@@ -314,16 +320,16 @@
                                                             <div class="col">
                                                                 <input type="text" id="offerprice1"
                                                                     name="offerprice1" placeholder="Offer Price"
-                                                                    class="form-control">
+                                                                    class="form-control" oninput="numberOnlyAllowedDot(this)">
                                                             </div>
                                                             <div class="col">
                                                                 <input type="text" id="mrprice1" name="mrprice1"
-                                                                    placeholder="MRP" class="form-control">
+                                                                    placeholder="MRP" class="form-control" oninput="numberOnlyAllowedDot(this)">
                                                             </div>
                                                             <div class="col">
                                                                 <input type="text" id="attr_stock1"
                                                                     name="attr_stock1" placeholder="Attribute Stock"
-                                                                    class="form-control attr-stock">
+                                                                    class="form-control attr-stock" oninput="numberOnlyAllowed(this)">
                                                             </div>
                                                             <div class="col">
                                                                 <span data-repeater-delete=""
@@ -356,6 +362,7 @@
                     <div class="col-md-12">
                         <div style="float:right">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-danger" id="resetButton">Reset</button>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </div>
@@ -404,6 +411,24 @@
 
 
 <script>
+
+    function numberOnlyAllowed(inputElement) {
+        let value = inputElement.value.replace(/\D/g, '');
+        if (value.length > 10) {
+            value = value.slice(0, 10);
+        }
+        inputElement.value = value;
+    }
+
+    function numberOnlyAllowedDot(inputElement) {
+        let value = inputElement.value.replace(/[^0-9.]/g, '');
+        if (value.length > 10) {
+            value = value.slice(0, 10);
+        }
+        inputElement.value = value;
+    }
+
+
     function yesnoCheck() {
         if (document.getElementById('yesCheck').checked) {
             document.getElementById('ifYes').style.display = 'block';
@@ -413,6 +438,19 @@
         }
 
     }
+
+    $(document).ready(function() {
+        $('#resetButton').click(function() {
+            $('#ProductAddForm input, #ProductAddForm select, #ProductAddForm textarea').val('');
+            $('#ProductAddForm .error').text('');
+            $('#image-preview').html('');
+            $('#video-preview').html('');
+            $('#pdfmm_preview').html('');
+            $('#ProductAddForm input[type="file"]').val('');
+            $('#ProductAddForm .selectpicker').selectpicker('val', '');
+        });
+    });
+
 
     $(document).ready(function() {
         var url = "{{ route('ProductNameSearch') }}";
@@ -595,17 +633,77 @@
 
 
 
+    // var fileArrs = [];
+    // var totalFiless = 0;
+
+    // $("#s_photo").change(function(event) {
+    //     var totalFileCount = $(this)[0].files.length;
+    //     if (totalFiless + totalFileCount > 10) {
+    //         alert('Maximum 10 images allowed');
+    //         $(this).val('');
+    //         $('#image-preview').html('');
+    //         return;
+    //     }
+
+    //     for (var i = 0; i < totalFileCount; i++) {
+    //         var file = $(this)[0].files[i];
+
+    //         if (file.size > 3145728) {
+    //             alert('File size exceeds the limit of 3MB');
+    //             $(this).val('');
+    //             $('#image-preview').html('');
+    //             return;
+    //         }
+
+    //         fileArrs.push(file);
+    //         totalFiless++;
+
+    //         var reader = new FileReader();
+    //         reader.onload = (function(file) {
+    //             return function(event) {
+    //                 var imgDiv = $('<div>').addClass('img-div col-md-3 img-container');
+    //                 var img = $('<img>').attr('src', event.target.result).addClass(
+    //                     'img-responsive image img-thumbnail').attr('width', '200', 'height',
+    //                     '200');
+    //                 var removeBtn = $('<button>').addClass('btn btn-danger remove-btns').attr(
+    //                     'title', 'Remove Image').append('Remove').attr('role', file.name);
+
+    //                 imgDiv.append(img);
+    //                 imgDiv.append($('<div class="text-center">').addClass('middle').append(
+    //                     removeBtn));
+
+    //                 $('#image-preview').append(imgDiv);
+    //             };
+    //         })(file);
+
+    //         reader.readAsDataURL(file);
+    //     }
+    // });
+
+    // $(document).on('click', '.remove-btns', function() {
+    //     var fileName = $(this).attr('role');
+
+    //     for (var i = 0; i < fileArrs.length; i++) {
+    //         if (fileArrs[i].name === fileName) {
+    //             fileArrs.splice(i, 1);
+    //             totalFiless--;
+    //             break;
+    //         }
+    //     }
+
+    //     document.getElementById('s_photo').files = new FileListItem(fileArrs);
+    //     $(this).closest('.img-div').remove();
+    // });
+
+
+
     var fileArrs = [];
     var totalFiless = 0;
 
     $("#s_photo").change(function(event) {
+        //$('#image-preview').html('');
         var totalFileCount = $(this)[0].files.length;
-        if (totalFiless + totalFileCount > 10) {
-            alert('Maximum 10 images allowed');
-            $(this).val('');
-            $('#image-preview').html('');
-            return;
-        }
+
 
         for (var i = 0; i < totalFileCount; i++) {
             var file = $(this)[0].files[i];
@@ -619,20 +717,27 @@
 
             fileArrs.push(file);
             totalFiless++;
+            if (totalFiless  > 10) {
+            alert('Maximum 10 images allowed');
+            $(this).val('');
+            $('#image-preview').html('');
+            totalFiless = 0;
+            fileArrs = [];
+            return;
+        }
+
 
             var reader = new FileReader();
             reader.onload = (function(file) {
                 return function(event) {
                     var imgDiv = $('<div>').addClass('img-div col-md-3 img-container');
                     var img = $('<img>').attr('src', event.target.result).addClass(
-                        'img-responsive image img-thumbnail').attr('width', '200', 'height',
-                        '200');
+                        'img-responsive image new_thumpnail').attr('width', '100');
                     var removeBtn = $('<button>').addClass('btn btn-danger remove-btns').attr(
                         'title', 'Remove Image').append('Remove').attr('role', file.name);
 
                     imgDiv.append(img);
-                    imgDiv.append($('<div class="text-center">').addClass('middle').append(
-                        removeBtn));
+                    imgDiv.append($('<div>').addClass('middle').append(removeBtn));
 
                     $('#image-preview').append(imgDiv);
                 };
@@ -640,6 +745,9 @@
 
             reader.readAsDataURL(file);
         }
+        document.getElementById('s_photo').files = new FileListItem([]);
+        document.getElementById('s_photo').files = new FileListItem(fileArrs);
+
     });
 
     $(document).on('click', '.remove-btns', function() {

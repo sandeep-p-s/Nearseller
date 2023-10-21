@@ -4,7 +4,7 @@
             <tr>
                 <th>SINO</th>
                 <th>Service Name</th>
-                <th>Date and Time</th>
+                <th>Date & Time</th>
                 <th>Service Type</th>
                 <th>Action</th>
 
@@ -12,23 +12,29 @@
         </thead>
         <tbody>
             @foreach ($ServiceAppointment as $index => $service)
-            @php
-                $available_from_date = $service->available_from_date;
-                $available_to_date = $service->available_to_date;
-                $formattedFromDate = date("d-m-Y", strtotime($available_from_date));
-                $formattedToDate = date("d-m-Y", strtotime($available_to_date));
-            @endphp
+                @php
+                    $available_from_date = $service->available_from_date;
+                    $available_to_date = $service->available_to_date;
+                    $formattedFromDate = date('d-m-Y', strtotime($available_from_date));
+                    $formattedToDate = date('d-m-Y', strtotime($available_to_date));
+                @endphp
 
                 <tr>
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $service->service_name }}</td>
-                    <td><span class="badge p-2 badge badge-danger">&nbsp;{{ $formattedFromDate }}</span> &nbsp;<span class="badge p-2 badge badge-info">To</span> &nbsp;<span class="badge p-2 badge badge-danger"> &nbsp; {{ $formattedToDate }} </span></td>
-                    <td><span
+                    <td>
+                        <span class="badge p-2 badge badge-danger">&nbsp;{{ $formattedFromDate }}</span> &nbsp;<span
+                            class="badge p-2 badge badge-info">To</span> &nbsp;<span class="badge p-2 badge badge-danger">
+                            &nbsp; {{ $formattedToDate }}
+                        </span>
+                    </td>
+                    <td>
+                        <span
                             class="badge p-2 {{ $service->service_point == '1' ? 'badge badge-success' : ($service->service_point == '2' ? 'badge badge-info' : 'badge badge-danger') }}">
                             {{ $service->service_point == '1' ? 'At Home' : ($service->service_point == '2' ? 'At Shop' : 'None') }}
-                        </span></td>
+                        </span>
+                    </td>
                     <td>
-
                         <div class="btn-group mb-2 mb-md-0">
                             <button type="button" class="btn view_btn dropdown-toggle" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">Action
@@ -71,7 +77,7 @@
     <div class="modal-dialog custom-modal-dialog" style="overflow-y: scroll;">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-center" id="addNewModalLabel">Add New Appontment</h5>
+                <h5 class="modal-title text-center" id="addNewModalLabel">Add New Appointment</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                     title="Close">x</button>
             </div>
@@ -84,7 +90,8 @@
                                 <div class="card-body">
 
 
-                                    <div class="form-group"><label>Set Availability Dates</label>
+                                    <div class="form-group"><label>Set Availability Dates<span
+                                                class="text-danger">*</span></label>
                                         <select class="form-select form-control form-control-lg" id="setavailbledate"
                                             name="setavailbledate" required tabindex="1">
                                             <option value="">Select</option><br />
@@ -163,28 +170,28 @@
                                                 <div data-repeater-list="availabletime_data">
                                                     <!-- Heading Row -->
                                                     <div class="form-group row">
-                                                        <div class="col">
+                                                        <div class="col-md-2">
                                                             <label class="control-label"> Set Available time </label>
                                                         </div>
-                                                        <div class="col">
+                                                        <div class="col-md-3">
                                                             <label class="control-label"> Day </label>
                                                         </div>
-                                                        <div class="col">
+                                                        <div class="col-md-3">
                                                             <label class="control-label"> From Time </label>
                                                         </div>
-                                                        <div class="col">
+                                                        <div class="col-md-3">
                                                             <label class="control-label"> To Time </label>
                                                         </div>
                                                     </div>
                                                     <!-- Dynamic Rows -->
                                                     <div data-repeater-item="">
                                                         <div class="form-group row d-flex align-items-end">
-                                                            <div class="col">
+                                                            <div class="col-md-2">
                                                                 <input class="form-control" type="checkbox"
                                                                     id="settimestatus" name="settimestatus"
                                                                     value="1" style="width: 10%;">
                                                             </div>
-                                                            <div class="col">
+                                                            <div class="col-md-3">
                                                                 <select id="setdays" name="setdays"
                                                                     class="day-select form-control">
 
@@ -197,19 +204,20 @@
                                                                     <option value="Saturday">Saturday</option>
                                                                 </select>
                                                             </div>
-                                                            <div class="col">
+                                                            <div class="col-md-3">
                                                                 <input type="text" id="setfrom_time"
                                                                     name="setfrom_time"
                                                                     class="form-control timepicker-input">
                                                             </div>
-                                                            <div class="col">
+                                                            <div class="col-md-3">
                                                                 <input type="text" id="setto_time"
-                                                                    name="setto_time" class="form-control timepicker-input">
+                                                                    name="setto_time"
+                                                                    class="form-control timepicker-input">
                                                             </div>
-                                                            <div class="col">
+                                                            <div class="col-md-1">
                                                                 <span data-repeater-delete=""
                                                                     class="btn btn-danger btn-sm">
-                                                                    <span class="far fa-trash-alt mr-1"></span> Delete
+                                                                    <span class="far fa-trash-alt mr-1"></span>
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -221,6 +229,12 @@
                                                             class="btn btn-secondary btn-sm">
                                                             <span class="fas fa-plus"></span> Add New Time
                                                         </span>
+                                                        @if (session('roleid') == 1)
+                                                            <button type="button" id="addSameTiming"
+                                                                class="btn btn-primary btn-sm">
+                                                                Add Same Timing for All Days
+                                                            </button>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
@@ -252,7 +266,7 @@
 
                                                             <div class="col">
                                                                 <textarea id="setquestion" name="setquestion" placeholder="Set Question" class="form-control" maxlength="250"
-                                                                    tabindex="6"></textarea>
+                                                                    tabindex="6" rows="5" cols="5"></textarea>
                                                                 <label for="setquestion"></label>
                                                             </div>
 
@@ -277,11 +291,8 @@
                                         </fieldset>
                                     </div>
 
-
-
-
-
-                                    <div class="form-group"><label>Service Required?</label>
+                                    <div class="form-group"><label>Service Required?<span
+                                                class="text-danger">*</span></label>
                                         <select class="selectservicetype form-select form-control form-control-lg"
                                             id="service_type_id" name="service_type_id" required tabindex="1">
                                             <option value="">Select Services</option><br />
@@ -292,12 +303,11 @@
                                         <label for="service_type_id" class="error"></label>
                                     </div>
 
-
-
-
-                                    <div class="form-group"><label>Preffered Employee</label>
+                                    <div class="form-group"><label>Preffered Employee<span
+                                                class="text-danger">*</span></label>
                                         <select class="selectserviceemploye form-select form-control form-control-lg"
-                                            id="service_employe_id" name="service_employe_id" required tabindex="1">
+                                            id="service_employe_id" name="service_employe_id" required
+                                            tabindex="1">
                                             <option value="">Select Employee</option><br />
                                             @foreach ($serviceemployees as $emplye)
                                                 <option value="{{ $emplye->id }}">{{ $emplye->employee_name }}
@@ -312,12 +322,6 @@
                                             tabindex="6"></textarea>
                                         <label for="sugection" class="error"></label>
                                     </div>
-
-
-
-
-
-
 
                                     <div class="form-group mb-0 row">
                                         <label class="col-md-4">Service Point </label>
@@ -379,9 +383,47 @@
 <script>
     $(document).ready(function() {
 
-        function initializeTimepicker() {
-            // Select all elements with the class '.timepicker-input' and initialize timepicker
-            $('.timepicker-input').timepicker({
+        // function initializeTimepicker() {
+        //     // Select all elements with the class '.timepicker-input' and initialize timepicker
+        //     $('.timepicker-input').timepicker({
+        //         showMeridian: true,
+        //         defaultTime: '00:00 AM',
+        //         minuteStep: 1,
+        //         disableFocus: true,
+        //         showInputs: false,
+        //         format: 'hh:ii AA'
+        //     });
+        // }
+
+        // // Initialize timepicker for the initial row
+        // initializeTimepicker();
+
+        // $('.repeater-default-time').repeater({
+        //     show: function() {
+        //         $(this).find('.day-select').val('Sunday');
+        //         $(this).slideDown();
+        //         updateFieldIds($(this));
+
+        //         // Initialize timepicker for the new row
+        //         $(this).find('.timepicker-input').timepicker({
+        //             showMeridian: true,
+        //             defaultTime: '00:00 AM',
+        //             minuteStep: 1,
+        //             disableFocus: true,
+        //             showInputs: false,
+        //             format: 'hh:ii AA'
+        //         });
+        //     },
+        //     hide: function(deleteElement) {
+        //         if (confirm('Are you sure you want to delete this day time?')) {
+        //             $(this).slideUp(deleteElement);
+        //         }
+        //     },
+        // });
+
+
+        function initializeTimepicker(element) {
+            element.timepicker({
                 showMeridian: true,
                 defaultTime: '00:00 AM',
                 minuteStep: 1,
@@ -391,30 +433,35 @@
             });
         }
 
-        // Initialize timepicker for the initial row
-        initializeTimepicker();
+        initializeTimepicker($('.timepicker-input'));
 
-        $('.repeater-default-time').repeater({
+        var repeater = $('.repeater-default-time');
+        repeater.repeater({
             show: function() {
-                $(this).find('.day-select').val('Sunday');
-                $(this).slideDown();
-                updateFieldIds($(this));
-
-                // Initialize timepicker for the new row
-                $(this).find('.timepicker-input').timepicker({
-                    showMeridian: true,
-                    defaultTime: '00:00 AM',
-                    minuteStep: 1,
-                    disableFocus: true,
-                    showInputs: false,
-                    format: 'hh:ii AA'
-                });
+                var row = $(this);
+                row.find('.day-select').val('Sunday');
+                row.slideDown();
+                updateFieldIds(row);
+                initializeTimepicker(row.find('.timepicker-input'));
             },
             hide: function(deleteElement) {
                 if (confirm('Are you sure you want to delete this day time?')) {
                     $(this).slideUp(deleteElement);
                 }
             },
+        });
+
+        $('#addSameTiming').on('click', function() {
+            var firstDayTimingRow = repeater.find('[data-repeater-item]').first();
+            var timing = {
+                from: firstDayTimingRow.find('[id^="setfrom_time"]').val(),
+                to: firstDayTimingRow.find('[id^="setto_time"]').val()
+            };
+
+            repeater.find('[data-repeater-item]').not(':first').each(function() {
+                $(this).find('[id^="setfrom_time"]').val(timing.from);
+                $(this).find('[id^="setto_time"]').val(timing.to);
+            });
         });
 
 
@@ -515,19 +562,19 @@
         rules: {
             setavailbledate: "required",
             setavailblefromdate: {
-                required: function () {
+                required: function() {
                     return $("#setavailbledate").val() !== '';
                 },
                 date: true
             },
             setavailbletodate: {
-                required: function () {
+                required: function() {
                     return $("#setavailbledate").val() !== '';
                 },
                 date: true
             },
             "notavailabledate_data[][setavailblesingledate]": {
-                required: function () {
+                required: function() {
                     return $("#isnotavailable").is(":checked");
                 },
                 date: true
@@ -552,9 +599,10 @@
             setquestion: "Question for the customer is mandatory.",
             service_type_id: "Service Required is mandatory."
         },
-        errorPlacement: function (error, element) {
+        errorPlacement: function(error, element) {
             if (element.attr("name") === "notavailabledate_data[][setavailblesingledate]") {
-                if ($("#isnotavailable").is(":checked") && $("[name^='notavailabledate_data[']").length > 0) {
+                if ($("#isnotavailable").is(":checked") && $("[name^='notavailabledate_data[']").length >
+                    0) {
                     error.insertAfter(element.closest(".form-group"));
                 }
             } else {
