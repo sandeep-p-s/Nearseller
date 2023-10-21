@@ -31,7 +31,7 @@ class CategoryController extends Controller
         $total_categories = DB::table('categories')->count();
         $inactive_categories = DB::table('categories as c')->where('c.status', 'N')->count();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.category.listCategory', compact('loggeduser', 'userdetails', 'categories', 'total_categories', 'inactive_categories','structuredMenu'));
+        return view('admin.category.listCategory', compact('loggeduser', 'userdetails', 'categories', 'total_categories', 'inactive_categories', 'structuredMenu'));
     }
     public function add_category()
     {
@@ -47,8 +47,30 @@ class CategoryController extends Controller
             return $category->category_level != 5;
         });
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.category.addCategory', compact('loggeduser', 'userdetails', 'filteredCategories','structuredMenu'));
+        return view('admin.category.addCategory', compact('loggeduser', 'userdetails', 'filteredCategories', 'structuredMenu'));
     }
+
+    public function parent_category($typeValue)
+    {
+        $categories = Category::treeWithStatusOnchange($typeValue);
+        $filteredCategories = $categories->filter(function ($category) {
+            return $category->category_level != 5;
+        });
+
+        return response()->json($filteredCategories);
+    }
+
+    public function parent_category_edit($typeValue,$category_slug)
+    {
+        $categories = Category::treeWithStatusOnchange($typeValue);
+        $current_category = $categories->where('category_slug', $category_slug);
+        $filteredCategories = $categories->filter(function ($category) use ($category_slug , $current_category) {
+            return $category->category_level < $current_category->category_level && $category->category_slug != $category_slug;
+        });
+
+        return response()->json($filteredCategories);
+    }
+
     public function store_category(Request $request)
     {
         $userRole = session('user_role');
@@ -116,10 +138,13 @@ class CategoryController extends Controller
             //     Storage::disk('public')->put(config('imageupload.categorydir') . "/" . config('imageupload.category.image') . $fileName, File::get($request->category_image));
             //     $newcategory->category_image = $fileName;
             // }
+            $newcategory->category_type = $request->select_type;
+            $newcategory->created_by = $userId;
             $newcategory->save();
             $loggedUserIp = $_SERVER['REMOTE_ADDR'];
             $time = date('Y-m-d H:i:s');
             $msg = 'Category Successfully Added. New Category Id is ' . $newcategory->id;
+
             $LogDetails = new LogDetails();
             $LogDetails->user_id = $request->es_email;
             $LogDetails->ip_address = $loggedUserIp;
@@ -141,7 +166,7 @@ class CategoryController extends Controller
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $current_category = Category::where('category_slug', $category_slug)->first();
-        $categories = Category::treeWithStatusY();
+        $categories = Category::treeWithStatusYandTypeSort($current_category->category_type);
         $filteredCategories = $categories->filter(function ($category) use ($category_slug , $current_category) {
             return $category->category_level < $current_category->category_level && $category->category_slug != $category_slug;
         });
@@ -229,7 +254,7 @@ class CategoryController extends Controller
             }
 
             $current_category->status = $request->status;
-
+            $current_category->category_type = $request->select_type;
             $current_category->save();
             $loggedUserIp = $_SERVER['REMOTE_ADDR'];
             $time = date('Y-m-d H:i:s');
@@ -243,10 +268,6 @@ class CategoryController extends Controller
 
             return redirect()->route('list.category')->with('success', 'Category successfully updated');
     }
-
-
-
-
 
     public function delete_category($category_slug)
     {
