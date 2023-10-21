@@ -32,6 +32,12 @@
                             <form method="POST" action="{{ route('store.category') }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
+                                    <label for="categorySelector">Select Type<span class="text-danger">*</span></label>
+                                    <select class="form-control mb15" id="typeSelector" name="select_type">
+                                        <option value="0">Select Type</option>
+                                        <option value="1">Shop</option>
+                                        <option value="2">Service</option>
+                                    </select>
                                     <label for="categorySelector">Select Parent Category</label>
                                     <select class="form-control mb15" id="categorySelector" name="parent_category" onchange="updateLevel()">
                                         <option value="0">Select Parent Category</option>
@@ -208,5 +214,27 @@
         }
         return clipboardData.files;
     }
+
+    document.addEventListener("DOMContentLoaded", function() {
+                var typeSelector = document.getElementById("typeSelector");
+                var categorySelector = document.getElementById("categorySelector");
+
+                typeSelector.addEventListener("change", function() {
+                    var selectedType = parseInt(typeSelector.value, 10);
+
+                    if (selectedType !== 0 && (selectedType === 1 || selectedType === 2)) {
+                        $.get("/parentcategory/" + selectedType, function(data) {
+                            $('#categorySelector').empty().append(
+                                '<option value="0">Select Parent Category (optional)</option>');
+                            $.each(data, function(index, filteredCategories) {
+                                $('#categorySelector').append('<option value="' +
+                                    filteredCategories.id + '" data-level="' + filteredCategories.category_level + '">' +
+                                    filteredCategories
+                                    .category_name + '</option>');
+                            });
+                        });
+                    }
+                });
+            });
         </script>
     @endsection

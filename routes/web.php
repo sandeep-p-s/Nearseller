@@ -328,6 +328,7 @@ Route::controller(AppointmentController::class)->group(function () {
         Route::get('addlistcategory', 'list_category')->name('list.category');
         Route::get('addcategory', 'add_category')->name('add.category');
         Route::get('parentcategory/{value}', 'parent_category')->name('parent.category');
+        Route::get('parentcategoryedit/{value}', 'parent_category_edit')->name('parent.categoryedit');
         Route::post('savecategory', 'store_category')->name('store.category');
         Route::get('editcategory/{id}', 'edit_category')->name('edit.category');
         Route::post('updatecategory/{id}', 'update_category')->name('update.category');
