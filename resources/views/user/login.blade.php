@@ -1562,6 +1562,11 @@
                 return this.optional(element) || panRegex.test(value);
             }, "Invalid PAN format. It should be in the format AEDFR2568H");
 
+            jQuery.validator.addMethod("validGST", function(value, element) {
+                var gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9]{1}[A-Z]{1}[0-9]{1}$/;
+                return this.optional(element) || gstRegex.test(value);
+            }, "Invalid GST format. It should be in the format 29ABCDE1234F1Z5");
+
             $("#SellerRegForm").validate({
                 rules: {
                     s_name: {
@@ -1639,6 +1644,7 @@
                     },
                     s_gstno: {
                         //required: true,
+                        validGST: true
                     },
                     s_panno: {
                         validPAN: true // Apply the custom PAN validation
@@ -1727,8 +1733,7 @@
                         required: "Please enter google map location - Longitude."
                     },
                     s_gstno: {
-                        //required: "Please enter the GST number.",
-                        maxlength: "GST number must not exceed 25 characters."
+                        validGST: "Invalid GST format. It should be in the format 29ABCDE1234F1Z5"
                     },
                     s_panno: {
                         validPAN: "Invalid PAN format. It should be in the format AEDFR2568H"
