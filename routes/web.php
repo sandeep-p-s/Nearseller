@@ -126,11 +126,20 @@ Route::controller(AdminController::class)->group(function () {
 
 
 Route::controller(RoleController::class)->group(function () {
+
+    Route::get('listroles', 'list_roles')->name('list.roles');
+    Route::get('addroles', 'add_roles')->name('add.roles');
+    Route::post('saveroles', 'store_roles')->name('store.roles');
+    Route::get('editroles/{id}', 'edit_roles')->name('edit.roles');
+    Route::post('updateroles/{id}', 'update_roles')->name('update.roles');
+    Route::get('deleteroles/{id}', 'delete_roles')->name('delete.roles');
+
+
     Route::get('listrole', 'get_roles')->name('get.roles');
-    Route::get('addrole', 'add_roles')->name('add.role');
+    Route::get('addrole', 'add_role')->name('add.role');
     Route::post('storerole', 'store_role')->name('store.role');
-    Route::get('editrole/{id}', 'edit_roles')->name('edit.role');
-    Route::post('updaterole/{id}', 'update_roles')->name('update.role');
+    Route::get('editrole/{id}', 'edit_role')->name('edit.role');
+    Route::post('updaterole/{id}', 'update_role')->name('update.role');
     Route::post('/update/activation/{id}', 'updateActivation')->name('update.activation');
 
     Route::get('newuser', 'CreateNewUser')->name('user.usercreate');

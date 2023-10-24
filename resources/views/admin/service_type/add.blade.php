@@ -40,11 +40,14 @@
                                             <option value="{{ $bt->id }}" {{ old('business_name') == $bt->id ? 'selected' : '' }}>{{ $bt->business_name }}</option>
                                         @endforeach
                                     </select>
+                                    @error('business_name')
+                                        <div class="text-danger mb-2">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="addShopType">Add Service Type<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control mb-3" id="service_name"
-                                        placeholder="Enter service type" name="service_name" required onchange="existservicecategory(this.value)">
+                                        placeholder="Enter service type" name="service_name" onchange="existservicecategory(this.value)" value="{{ old('service_name') }}">
                                         <div id="existcategory-message" class="text-center" style="display: none;"></div>
 
                                         @error('service_name')
@@ -64,7 +67,7 @@
             <!-- end page title end breadcrumb -->
 
         </div><!-- container -->
-        <script>
+        {{-- <script>
             function existservicecategory(category) {
                 $('#loading-overlay').fadeIn();
                 $('#loading-image').fadeIn();
@@ -104,6 +107,6 @@
                 });
 
             }
-        </script>
+        </script> --}}
 
     @endsection

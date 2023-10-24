@@ -35,19 +35,21 @@ class BusinessTypeController extends Controller
     {
         $request->validate(
             [
-                'business_name' => 'required|string|min:5|max:255',
+                'business_name' => 'required|regex:/^[A-Za-z\s]+$/|min:5|max:255|unique:business_type',
             ],
                 [
                     'business_name.required' => 'The business name field is required.',
-                    'business_name.string' => 'The business name must be a string.',
+                    'business_name.regex' => 'The business name must contain only letters and spaces.',
                     'business_name.min' => 'The business name must be at least 5 characters.',
                     'business_name.max' => 'The business name cannot exceed 255 characters.',
+                    'business_name.unique' => 'This business name is already in use.',
+
                 ]
         );
 
 
         $businesstype = new BusinessType;
-        $businesstype->business_name = $request->business_name;
+        $businesstype->business_name = ucfirst($request->business_name);
         $businesstype->save();
 
         return redirect()->route('list.businesstype')->with('success', 'Business Type added successfully.');

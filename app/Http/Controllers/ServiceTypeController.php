@@ -39,8 +39,19 @@ class ServiceTypeController extends Controller
 
     public function store_service_type(Request $request)
     {
-        $request->validate([
-            'service_name' => 'required|string|max:255',
+        $request->validate(
+        [
+            'service_name' => 'required|regex:/^[A-Za-z\s]+$/|min:5|max:255|unique:service_types',
+            'business_name' => 'required|not_in:0',
+        ],
+        [
+            'service_name.required' => 'The service name field is required.',
+            'service_name.regex' => 'The service name must contain only letters and spaces.',
+            'service_name.min' => 'The service name must be at least 5 characters.',
+            'service_name.max' => 'The service name cannot exceed 255 characters.',
+            'service_name.unique' => 'This service name is already in use.',
+            'business_name.not_in' => 'Please select a Business Type in the list.',
+
         ]);
 
         $servicetype = new ServiceType;
@@ -77,9 +88,19 @@ class ServiceTypeController extends Controller
             return redirect()->route('list.servicetype')->with('error', 'Service Type not found.');
         }
 
-        $request->validate([
-            'service_name' => 'required|string|max:255',
-        ]);
+        $request->validate(
+            [
+                'service_name' => 'required|regex:/^[A-Za-z\s]+$/|min:5|max:255',
+                'business_name' => 'required|not_in:0',
+            ],
+            [
+                'service_name.required' => 'The service name field is required.',
+                'service_name.regex' => 'The service name must contain only letters and spaces.',
+                'service_name.min' => 'The service name must be at least 5 characters.',
+                'service_name.max' => 'The service name cannot exceed 255 characters.',
+                'business_name.not_in' => 'Please select a Business Type in the list.',
+
+            ]);
 
         $servicetype->service_name = $request->service_name;
         if ($request->status === 'Active')
