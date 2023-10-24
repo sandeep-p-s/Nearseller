@@ -41,14 +41,14 @@ class CountryController extends Controller
     public function store_country(Request $request)
     {
         $request->validate([
-            'country_name' => 'required|unique:country,country_name|regex:/^[a-zA-Z &]+$/|max:255|min:4',
+            'country_name' => 'required|unique:country,country_name|regex:/^[a-zA-Z &]+$/|max:59|min:4',
         ],
         [
             'country_name.required' => 'The country name field is missing.',
             'country_name.regex' => 'Invalid format the country name.',
             'country_name.unique' => 'The country name must be unique.',
             'country_name.min' => 'The country name must be at least 4 characters.',
-            'country_name.max' => 'The country name cannot exceed 255 characters.',
+            'country_name.max' => 'The country name cannot exceed 59 characters.',
         ]);
 
         $newcountry = new Country;
