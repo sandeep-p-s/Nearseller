@@ -12,12 +12,12 @@
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-                                <h4 class="page-title">Service Type</h4>
+                                <h4 class="page-title">Role List</h4>
 
                             </div>
                             <div class="col-auto align-self-center">
-                                <a href="{{ route('add.servicetype') }}"><button type="button" class="btn add_btn ">Add
-                                        Service Type</button></a>
+                                <a href="{{ route('add.roles') }}"><button type="button" class="btn add_btn ">Add
+                                        Role </button></a>
                             </div><!--end col-->
 
 
@@ -52,28 +52,21 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Service Type</th>
-                                        <th>Business Type</th>
-                                        <th>Status</th>
+                                        <th>Roles</th>
+                                        {{-- <th>Status</th> --}}
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($servicetype as $srt)
+                                    @foreach ($roles as $rl)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $srt->service_name }}</td>
-                                            <td>
-                                                <span class="badge p-2 badge-success }}">
-                                                    {{ $srt->business_name }}
+                                            <td>{{ $rl->role_name }}</td>
+                                            {{-- <td>
+                                                <span class="badge p-2  {{ $rl->status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
+                                                    {{ $rl->status === 'Y' ? 'Active' : 'Inactive' }}
                                                 </span>
-                                            </td>
-                                            <td>
-                                                <span class="badge p-2  {{ $srt->status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
-                                                    {{ $srt->status === 'Y' ? 'Active' : 'Inactive' }}
-                                                </span>
-                                            </td>
-
+                                            </td> --}}
                                             <td>
                                                 <div class="btn-group mb-2 mb-md-0">
                                                     <button type="button" class="btn view_btn dropdown-toggle"
@@ -82,9 +75,9 @@
                                                             class="mdi mdi-chevron-down"></i></button>
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item view_btn1"
-                                                            href="{{ route('edit.servicetype', $srt->id) }}">Edit</a>
+                                                            href="{{ route('edit.roles', $rl->id) }}">Edit</a>
                                                         <a class="dropdown-item delete_btn"
-                                                            href="{{ route('delete.servicetype', $srt->id) }}"
+                                                            href="{{ route('delete.roles', $rl->id) }}"
                                                             onclick="return confirm('Are you sure you want to delete?')">Delete</a>
                                                     </div>
                                                 </div>
@@ -101,4 +94,6 @@
             </div> <!-- end row -->
 
         </div><!-- container -->
+
     @endsection
+

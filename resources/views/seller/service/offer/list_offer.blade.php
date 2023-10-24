@@ -12,12 +12,12 @@
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-                                <h4 class="page-title">Offer</h4>
+                                <h4 class="page-title">Service Offer</h4>
 
                             </div>
                             <div class="col-auto align-self-center">
                                 <a href="{{ route('add.service_offer') }}"><button type="button" class="btn add_btn ">Add
-                                        Offer </button></a>
+                                    Service Offer </button></a>
                             </div><!--end col-->
 
 

@@ -92,7 +92,7 @@
                                                     <label class="control-label">From Date & Time<span
                                                             class="text-danger">*</span></label>
                                                     <input type="datetime-local" class="form-control" id="from_time"
-                                                        name="from_date_time" placeholder="Enter offer">
+                                                        name="from_date_time" placeholder="Enter Date" min="{{ date('Y-m-d\TH:i') }}">
                                                     @error('from_date_time')
                                                         <div class="text-danger mb15">{{ $message }}</div>
                                                     @enderror
@@ -104,7 +104,7 @@
                                                     <label class="control-label">To Date & Time<span
                                                             class="text-danger">*</span></label>
                                                     <input type="datetime-local" class="form-control" id="to_time"
-                                                        name="to_date_time" placeholder="Enter offer">
+                                                        name="to_date_time" placeholder="Enter Date" min="{{ date('Y-m-d\TH:i') }}">
                                                     @error('to_date_time')
                                                         <div class="text-danger mb15">{{ $message }}</div>
                                                     @enderror

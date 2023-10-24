@@ -11,7 +11,7 @@
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-                                <h4 class="page-title">Add Business Type</h4>
+                                <h4 class="page-title">Add Role</h4>
 
                             </div>
 
@@ -28,13 +28,13 @@
                 <div class="col-lg-6">
                     <div class="card">
                         <div class="card-body">
-                            <form action="{{ route('store.business_type') }}" method="POST">
+                            <form action="{{ route('store.roles') }}" method="POST">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Add Business Type</label>
-                                    <input type="text" class="form-control mb-3" id="business_name"
-                                        placeholder="Enter business type" name="business_name" value="{{ old('business_name') }}">
-                                    @error('business_name')
+                                    <label for="exampleFormControlInput1">Role Name</label>
+                                    <input type="text" class="form-control mb-3" id="role_name"
+                                        placeholder="Enter role name" name="role_name" value="{{ old('role_name') }}">
+                                    @error('role_name')
                                         <div class="text-danger mb15">{{ $message }}</div>
                                     @enderror
                                     <button type="submit" class="btn view_btn" id="addBusinessType">Add</button>

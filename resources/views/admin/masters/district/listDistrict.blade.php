@@ -12,7 +12,7 @@
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-                                <h4 class="page-title">Add District</h4>
+                                <h4 class="page-title">District List</h4>
 
                             </div>
                             <div class="col-auto align-self-center">

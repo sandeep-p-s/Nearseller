@@ -64,10 +64,10 @@
 
     <section class="vh-100">
         <div class="container-fluid">
-            <div id="loading-overlay"></div>
+            {{-- <div id="loading-overlay"></div>
             <img id="loading-image" src="{{ asset('img/loading.gif') }}" style="display: none; width:100px;">
 
-
+ --}}
             <div class="row">
                 <div class="col-lg-5 col-md-6 col-sm-6 text-black">
                     <div class="px-5 pt-5 mt-5 login_logo">
@@ -119,6 +119,7 @@
                                         class="form-control form-control-lg" placeholder="Email ID/Mobile Number"
                                         onchange="checkemilmob(this.value,'3')" required />
                                 </div>
+                                <div id="emailnotregister-message" class="text-center" style="display: none;"></div>
                                 <div class="form-outline mb-4">
                                     <input type="password" id="passwd" name="passwd"
                                         class="form-control form-control-lg" placeholder="password" required />
@@ -130,7 +131,7 @@
                                 </div>
                                 <div id="errinemaillogn-message" class="text-center" style="display: none;"></div>
                                 <div id="emailnotapproved-message" class="text-center" style="display: none;"></div>
-                                <div id="emailnotregister-message" class="text-center" style="display: none;"></div>
+                                {{-- <div id="emailnotregister-message" class="text-center" style="display: none;"></div> --}}
                             </form>
                         </div>
 
@@ -194,39 +195,39 @@
 
                         <div id="userreg">
                             <form id="userRegForm">
-                                <div class="form-outline">
+                                <div class="form-outline mb-4">
                                     <input tabindex="1" type="text" id="u_name" name="u_name"
                                         class="form-control form-control-lg" maxlength="50" placeholder="Enter Name"
                                         required />
-                                    <label for="u_name" class="error  "></label>
+                                    {{-- <label for="u_name" class="error"></label> --}}
                                 </div>
-                                <div class="form-outline">
+                                <div class="form-outline mb-4">
                                     <input tabindex="2" type="email" id="u_emid" name="u_emid"
                                         class="form-control form-control-lg" maxlength="50" placeholder="Enter Email"
                                         required onchange="exstemilid(this.value,'1')" />
                                     <label for="u_emid" class="error " id="uemil-message" ></label>
-                                    {{-- <div  class="text-center" style="display: none;"></div> --}}
+                                    {{-- <div class="text-center"></div> --}}
                                 </div>
 
-                                <div class="form-outline  mb-2">
+                                <div class="form-outline mb-4">
                                     <input tabindex="3" type="text" id="u_mobno" name="u_mobno"
                                         class="form-control form-control-lg" maxlength="10"
                                         placeholder="Enter Mobile No." required onchange="exstmobno(this.value,'1')" />
-                                    <label for="u_mobno" class="error" id="umob-message"></label>
+                                    {{-- <label for="u_mobno" class="error" id="umob-message"></label> --}}
                                     {{-- <div id="umob-message" class="text-center" style="display: none;"></div> --}}
                                 </div>
 
-                                <div class="form-outline  mb-2">
+                                <div class="form-outline mb-4">
                                     <input tabindex="4" type="password" id="u_paswd" name="u_paswd"
                                         class="form-control form-control-lg" maxlength="10"
                                         placeholder="Enter Password" required />
-                                    <label for="u_paswd" class="error"></label>
+                                    {{-- <label for="u_paswd" class="error"></label> --}}
                                 </div>
-                                <div class="form-outline  mb-2">
+                                <div class="form-outline mb-4">
                                     <input tabindex="5" type="password" id="u_rpaswd" name="u_rpaswd"
                                         class="form-control form-control-lg" maxlength="10"
                                         placeholder="Re-enter Password" required />
-                                    <label for="u_rpaswd" class="error"></label>
+                                    {{-- <label for="u_rpaswd" class="error"></label> --}}
                                 </div>
                                 <div class="form-outline">
                                     <input type="hidden" id="regval" name="regval"
@@ -812,14 +813,12 @@
 
     {{-- <script src="{{ asset('js/jquery.min.js') }}"></,script>
     <script src="{{ asset('js/jquery.min_upgrade.js') }}"></script> --}}
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script src="{{ asset('js/bootstrap.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-
     <script>
         document.getElementById('s_panno').addEventListener('input', function() {
             var panInput = this.value;
@@ -2612,7 +2611,7 @@
                         $('#loading-image').fadeOut();
                         $('#loading-overlay').fadeOut();
                     } else if ((data.result == 1) && (numr == 3)) {
-                        $('#emailnotregister-message').text('Email ID not registered').fadeIn();
+                        $('#emailnotregister-message').text('Email not registered').fadeIn();
                         $('#emailnotregister-message').addClass('error');
                         setTimeout(function() {
                             $('#emailnotregister-message').fadeOut();

@@ -68,7 +68,7 @@ class RoleController extends Controller
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         return view('admin.role.list', compact('userdetails', 'loggeduser', 'rolesList', 'structuredMenu'));
     }
-    function add_roles()
+    function add_role()
     {
         $userRole = session('user_role');
         $userId = session('user_id');
@@ -130,7 +130,7 @@ class RoleController extends Controller
             ->with('success', 'Role created successfully.');
     }
 
-    function edit_roles($id)
+    function edit_role($id)
     {
         $userRole = session('user_role');
         $userId = session('user_id');
@@ -170,7 +170,7 @@ class RoleController extends Controller
         return view('admin.role.edit', compact('role', 'loggeduser', 'userdetails', 'roles', 'site_module', 'rs', 'selectedRolePermissions', 'structuredMenu'));
     }
 
-    function update_roles(Request $request, $id)
+    function update_role(Request $request, $id)
     {
         // Retrieve the role you want to update
         $role = Role::find($id);
@@ -1009,5 +1009,102 @@ class RoleController extends Controller
         } else {
             return response()->json(['result' => 2, 'mesge' => 'Failed']);
         }
+    }
+
+    public function list_roles()
+    {
+        $userRole = session('user_role');
+        $userId = session('user_id');
+        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $roles = DB::table('roles')->get();
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
+        return view('admin.role.Role_Creation.list', compact('roles', 'loggeduser', 'userdetails','structuredMenu'));
+    }
+
+    public function add_roles()
+    {
+        $userRole = session('user_role');
+        $userId = session('user_id');
+        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
+        return view('admin.role.Role_Creation.add', compact('loggeduser', 'userdetails','structuredMenu'));
+    }
+
+    public function store_roles(Request $request)
+    {
+        $request->validate(
+            [
+                'role_name' => 'required|regex:/^[A-Za-z\s]+$/|min:5|max:255|unique:roles',
+            ],
+                [
+                    'role_name.required' => 'The role name field is required.',
+                    'role_name.regex' => 'The role name must contain only letters and spaces.',
+                    'role_name.min' => 'The role name must be at least 5 characters.',
+                    'role_name.max' => 'The role name cannot exceed 255 characters.',
+                    'role_name.unique' => 'This role name is already in use.',
+
+                ]
+        );
+
+
+        $role = new Role;
+        $role->role_name = ucfirst($request->role_name);
+        $role->save();
+
+        return redirect()->route('list.roles')->with('success', 'Role created successfully.');
+    }
+
+    public function edit_roles($id)
+    {
+        $userRole = session('user_role');
+        $userId = session('user_id');
+        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
+        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $role = Role::find($id);
+        if (!$role) {
+            return redirect()->route('list.roles')->with('error', 'Role not found.');
+        }
+
+        return view('admin.role.Role_Creation.edit', compact('role', 'loggeduser', 'userdetails','structuredMenu'));
+    }
+
+    public function update_roles(Request $request, $id)
+    {
+        $role = Role::find($id);
+        if (!$role) {
+            return redirect()->route('list.roles')->with('error', 'Business Type not found.');
+        }
+        //dd($request->all());
+        $request->validate([
+            'role_name' => 'required|string|max:255',
+            'status' => 'required|in:Active,Inactive',
+        ]);
+
+        $role->role_name = $request->role_name;
+        if ($request->status === 'Active')
+        {
+            $role->is_active = 1;
+        } else {
+            $role->is_active = 0;
+        }
+        $role->save();
+
+        return redirect()->route('list.roles')->with('success', 'Role updated successfully.');
+    }
+
+    public function delete_roles($id)
+    {
+        $role = Role::find($id);
+
+        if (!$role) {
+            return redirect()->route('list.roles')->with('error', 'Role not found.');
+        }
+
+        $role->delete();
+
+        return redirect()->route('list.roles')->with('success', 'Role deleted successfully.');
     }
 }
