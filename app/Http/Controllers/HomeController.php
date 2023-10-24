@@ -1191,7 +1191,7 @@ class HomeController extends Controller
                 's_gstno' => ['sometimes', 'max:25'],
                 's_panno' => ['sometimes', 'regex:/^[A-Z]{5}[0-9]{4}[A-Z]$/', 'max:10'],
                 's_establishdate' => 'required|date',
-                's_paswd' => 'required|max:10',
+                's_paswd' => 'required|max:20',
                 's_rpaswd' => 'required|same:s_paswd',
                 's_termcondtn' => 'accepted',
             ]);
@@ -1330,7 +1330,7 @@ class HomeController extends Controller
                 'a_district' => 'required',
                 // 'uplodadhar' => 'required|image|mimes:jpeg,png|max:1024',
                 'a_dob' => 'required|date|before:today|max:10',
-                'a_paswd' => 'required|max:10',
+                'a_paswd' => 'required|max:20',
                 'a_rpaswd' => 'required|same:a_paswd',
                 'a_termcondtn' => 'accepted',
             ]);

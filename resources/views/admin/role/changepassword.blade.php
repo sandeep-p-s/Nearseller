@@ -51,13 +51,13 @@
 
                                 <div class="form-outline mb-3"><label>New password</label>
                                     <input tabindex="4" type="password" id="u_paswd" name="u_paswd"
-                                        class="form-control form-control-lg" maxlength="10" placeholder="Enter new password"
+                                        class="form-control form-control-lg" maxlength="20" placeholder="Enter new password"
                                         required />
                                     <label for="u_paswd" class="error"></label>
                                 </div>
                                 <div class="form-outline mb-3"><label>Re-enter password</label>
                                     <input tabindex="5" type="password" id="u_rpaswd" name="u_rpaswd"
-                                        class="form-control form-control-lg" maxlength="10" placeholder="Re-enter password"
+                                        class="form-control form-control-lg" maxlength="20" placeholder="Re-enter password"
                                         required />
                                     <label for="u_rpaswd" class="error"></label>
                                 </div>
