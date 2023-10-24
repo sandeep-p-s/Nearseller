@@ -28,7 +28,7 @@
                                     <label for="exampleFormControlInput1">Edit Role</label>
                                     <input type="text" class="form-control mb-3" id="exampleFormControlInput1"
                                         name="role_name" placeholder="Enter role"
-                                        value="{{ $role->role_name }}" maxlength="50">
+                                        value="{{ $role->role_name }}" maxlength="50" >
                                         @error('role_name')
                                         <div class="text-danger mb15">{{ $message }}</div>
                                     @enderror
