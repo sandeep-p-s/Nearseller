@@ -194,19 +194,18 @@
 
                         <div id="userreg">
                             <form id="userRegForm">
-                                <div class="form-outline">
+                                <div class="form-outline  mb-2">
                                     <input tabindex="1" type="text" id="u_name" name="u_name"
                                         class="form-control form-control-lg" maxlength="50" placeholder="Enter Name"
                                         required />
                                     <div for="u_name" class="error"></div>
                                 </div>
-                                <div class="form-outline">
+                                <div class="form-outline  mb-2">
                                     <input tabindex="2" type="email" id="u_emid" name="u_emid"
                                         class="form-control form-control-lg" maxlength="50" placeholder="Enter Email"
                                         required onchange="exstemilid(this.value,'1')" />
                                     <div for="u_emid" class="error"></div>
                                     <div id="uemil-message" class="text-center" style="display: none;"></div>
-                                    <label for="u_emid" class="error " id="uemil-message" ></label>
                                     {{-- <div  class="text-center" style="display: none;"></div> --}}
                                 </div>
 
@@ -216,8 +215,6 @@
                                         placeholder="Enter Mobile No" required onchange="exstmobno(this.value,'1')" />
                                     <div for="u_mobno" class="error"></div>
                                     <div id="umob-message" class="text-center" style="display: none;"></div>
-                                        placeholder="Enter Mobile No." required onchange="exstmobno(this.value,'1')" />
-                                    <label for="u_mobno" class="error" id="umob-message"></label>
                                     {{-- <div id="umob-message" class="text-center" style="display: none;"></div> --}}
                                 </div>
 
@@ -238,7 +235,7 @@
                                         class="form-control form-control-lg" value="1" />
                                 </div>
                                 <p class="small mb-2 pb-lg-2 float-end" id="login_form">Already have an account?<a
-                                        href="#" style="color:#432791;">Sign in</a></p>
+                                        href="#" style="color:#432791;"> Sign in</a></p>
 
 
                                 <div class="pt-1 mb-2 loginform_btn">
@@ -262,8 +259,6 @@
                                             class="form-control form-control-lg" maxlength="50"
                                             placeholder="Shop Name" required tabindex="1" />
                                         <div for="s_name" class="error"></div>
-                                            placeholder="Shop Name" required tabindex="1"  onchange="exstshopname(this.value,'1')" />
-                                        <label for="s_name" class="error"></label>
                                         <div id="existshopname-message" class="text-center" style="display: none;"></div>
                                     </div>
                                     <div class="form-outline mb-3">
