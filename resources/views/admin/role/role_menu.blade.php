@@ -48,10 +48,10 @@
                             <label for="roleid" class="error"></label>
                         </div>
 
-                        <div class="col-md-12 col-lg-12 d-flex justify-content-center" style="margin-top: 20px;">
+                        {{-- <div class="col-md-12 col-lg-12 d-flex justify-content-center" style="margin-top: 20px;">
                           <input type="button" id="btnsearch" name="btnsearch" class="btn btn-primary" value="Search" onClick="showRoleMenuitems(roleid.value)" />
 
-                        </div>
+                        </div> --}}
 
                     </div>
                 </div>

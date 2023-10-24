@@ -138,6 +138,22 @@
 
                         </div>
 
+
+
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label>Service Description <span
+                                            class="text-danger">*</span></label>
+                                        <textarea id="prod_description" name="prod_description" placeholder="Service Description" class="form-control"
+                                            maxlength="7000" tabindex="4" required rows="3"></textarea>
+                                        <label for="prod_description"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-body">
@@ -463,6 +479,9 @@
             prod_name: {
                 required: true,
             },
+            prod_description: {
+                required: true,
+            },
             customRadio: {
                 required: true,
             },
@@ -473,7 +492,10 @@
                 required: "Please select shop name",
             },
             prod_name: {
-                pattern: "Only characters, spaces, and dots are allowed.",
+                required: "Please enter services name",
+            },
+            prod_description: {
+                required: "Please enter service description",
             },
             customRadio: {
                 required: "Please select attribute",

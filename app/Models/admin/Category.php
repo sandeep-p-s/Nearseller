@@ -71,10 +71,6 @@ class Category extends Model
         return $sortedCategories;
     }
 
-
-
-
-
     public static function treeWithautocomplete($searchTerm)
     {
         $allCategories = DB::table('categories')->select('categories.*')->where('category_name', 'like', '%' . $searchTerm.'%')->get();
@@ -89,7 +85,6 @@ class Category extends Model
         $sortedCategories = $formattedCategories->sortBy('parent_id');
         return $sortedCategories;
     }
-
 
     private static function formatTree($categories, $allCategories, $prefix, &$formattedCategories, $category_level)
     {
