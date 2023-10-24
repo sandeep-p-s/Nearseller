@@ -53,7 +53,7 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Roles</th>
-                                        {{-- <th>Status</th> --}}
+                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -62,11 +62,11 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $rl->role_name }}</td>
-                                            {{-- <td>
-                                                <span class="badge p-2  {{ $rl->status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
-                                                    {{ $rl->status === 'Y' ? 'Active' : 'Inactive' }}
+                                            <td>
+                                                <span class="badge p-2  {{ $rl->is_active === 1 ? 'badge badge-success' : 'badge badge-danger' }}">
+                                                    {{ $rl->is_active === 1 ? 'Active' : 'Inactive' }}
                                                 </span>
-                                            </td> --}}
+                                            </td>
                                             <td>
                                                 <div class="btn-group mb-2 mb-md-0">
                                                     <button type="button" class="btn view_btn dropdown-toggle"

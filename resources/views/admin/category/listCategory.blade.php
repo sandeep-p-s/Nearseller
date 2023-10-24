@@ -100,9 +100,9 @@
                                                             class="mdi mdi-chevron-down"></i></button>
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item view_btn1"
-                                                            href="{{ route('edit.category', $c->category_slug) }}">Edit</a>
+                                                            href="{{ route('edit.category', $c->category_slug) }}">Edit/View</a>
                                                             @if(session('roleid')==1)
-                                                        <a class="dropdown-item view_btn1"
+                                                        <a class="dropdown-item approve_btn"
                                                             href="{{ route('approved.category', $c->category_slug) }}">Approved</a>
                                                             @endif
                                                         {{-- <a class="dropdown-item delete_btn"

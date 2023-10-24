@@ -33,7 +33,7 @@
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Role Name</label>
                                     <input type="text" class="form-control mb-3" id="role_name"
-                                        placeholder="Enter role name" name="role_name" value="{{ old('role_name') }}">
+                                        placeholder="Enter role name" name="role_name" value="{{ old('role_name') }}" maxlength="50">
                                     @error('role_name')
                                         <div class="text-danger mb15">{{ $message }}</div>
                                     @enderror
