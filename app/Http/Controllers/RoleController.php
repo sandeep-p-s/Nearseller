@@ -282,7 +282,7 @@ class RoleController extends Controller
             'roleid' => 'required',
         ]);
         $user = new UserAccount();
-        $user->name = $request->s_name;
+        $user->name = ucfirst($request->s_name);
         $user->email = $request->s_email;
         $user->mobno = $request->s_mobno;
         $pass_characters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'M', 'N', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', '@', '#', "$", '%', '&', '!', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'm', 'n', 'r', 's', 't', 'u', 'v', 'w', 'x', 'z', '2', '3', '4', '5', '6', '7', '8', '9'];
@@ -443,7 +443,7 @@ class RoleController extends Controller
             }
             $sellerDetail = SellerDetails::find($sellerid);
             $sellerDetail->fill($validatedData);
-            $sellerDetail->shop_name = $request->input('es_name');
+            $sellerDetail->shop_name = ucfirst($request->input('es_name'));
             $sellerDetail->shop_email = $request->input('es_email');
             $sellerDetail->shop_mobno = $request->input('es_mobno');
             $shopreg = $sellerDetail->save();
@@ -458,7 +458,7 @@ class RoleController extends Controller
 
             $Affiliate = Affiliate::find($affliateid);
             $Affiliate->fill($validatedData);
-            $Affiliate->name = $request->input('es_name');
+            $Affiliate->name = ucfirst($request->input('es_name'));
             $Affiliate->email = $request->input('es_email');
             $Affiliate->mob_no = $request->input('es_mobno');
             $affiliatereg = $Affiliate->save();
@@ -469,7 +469,7 @@ class RoleController extends Controller
             $user->email = $request->es_email;
             $user->mobno = $request->es_mobno;
         }
-        $user->name = $request->es_name;
+        $user->name = ucfirst($request->es_name);
         $user->role_id = $request->eroleid;
         $user->ip = $loggedUserIp;
         $submt = $user->save();
