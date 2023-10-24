@@ -185,7 +185,7 @@
                                 <div style="display: none;">
                                     <input type="radio" class="radio" name="h" value="c"
                                         id="affiliatereg_r" />
-                                    <label for="c">Affiliate</label>
+                                    <div for="c">Affiliate</div>
                                 </div>
 
 
@@ -198,12 +198,14 @@
                                     <input tabindex="1" type="text" id="u_name" name="u_name"
                                         class="form-control form-control-lg" maxlength="50" placeholder="Enter Name"
                                         required />
-                                    <label for="u_name" class="error  "></label>
+                                    <div for="u_name" class="error"></div>
                                 </div>
                                 <div class="form-outline">
                                     <input tabindex="2" type="email" id="u_emid" name="u_emid"
                                         class="form-control form-control-lg" maxlength="50" placeholder="Enter Email"
                                         required onchange="exstemilid(this.value,'1')" />
+                                    <div for="u_emid" class="error"></div>
+                                    <div id="uemil-message" class="text-center" style="display: none;"></div>
                                     <label for="u_emid" class="error " id="uemil-message" ></label>
                                     {{-- <div  class="text-center" style="display: none;"></div> --}}
                                 </div>
@@ -211,6 +213,9 @@
                                 <div class="form-outline  mb-2">
                                     <input tabindex="3" type="text" id="u_mobno" name="u_mobno"
                                         class="form-control form-control-lg" maxlength="10"
+                                        placeholder="Enter Mobile No" required onchange="exstmobno(this.value,'1')" />
+                                    <div for="u_mobno" class="error"></div>
+                                    <div id="umob-message" class="text-center" style="display: none;"></div>
                                         placeholder="Enter Mobile No." required onchange="exstmobno(this.value,'1')" />
                                     <label for="u_mobno" class="error" id="umob-message"></label>
                                     {{-- <div id="umob-message" class="text-center" style="display: none;"></div> --}}
@@ -220,13 +225,13 @@
                                     <input tabindex="4" type="password" id="u_paswd" name="u_paswd"
                                         class="form-control form-control-lg" maxlength="20"
                                         placeholder="Enter Password" required />
-                                    <label for="u_paswd" class="error"></label>
+                                    <div for="u_paswd" class="error"></div>
                                 </div>
                                 <div class="form-outline  mb-2">
                                     <input tabindex="5" type="password" id="u_rpaswd" name="u_rpaswd"
                                         class="form-control form-control-lg" maxlength="20"
-                                        placeholder="Re-enter Password" required />
-                                    <label for="u_rpaswd" class="error"></label>
+                                        placeholder="Re-Enter password" required />
+                                    <div for="u_rpaswd" class="error"></div> 
                                 </div>
                                 <div class="form-outline">
                                     <input type="hidden" id="regval" name="regval"
@@ -255,6 +260,8 @@
                                     <div class="form-outline mb-3">
                                         <input type="text" id="s_name" name="s_name"
                                             class="form-control form-control-lg" maxlength="50"
+                                            placeholder="Shop Name" required tabindex="1" />
+                                        <div for="s_name" class="error"></div>
                                             placeholder="Shop Name" required tabindex="1"  onchange="exstshopname(this.value,'1')" />
                                         <label for="s_name" class="error"></label>
                                         <div id="existshopname-message" class="text-center" style="display: none;"></div>
@@ -263,14 +270,14 @@
                                         <input type="text" id="s_ownername" name="s_ownername"
                                             class="form-control form-control-lg" maxlength="50"
                                             placeholder="Owner Name" required tabindex="2" />
-                                        <label for="s_ownername" class="error"></label>
+                                        <div for="s_ownername" class="error"></div>
                                     </div>
                                     <div class="form-outline mb-3">
                                         <input type="text" id="s_mobno" name="s_mobno"
                                             class="form-control form-control-lg" maxlength="10"
                                             placeholder="Enter Mobile No" required tabindex="3"
                                             onchange="exstmobno(this.value,'2')" />
-                                        <label for="s_mobno" class="error"></label>
+                                        <div for="s_mobno" class="error"></div>
                                         <div id="smob-message" class="text-center" style="display: none;"></div>
                                     </div>
                                     <div class="form-outline mb-3">
@@ -278,15 +285,15 @@
                                             class="form-control form-control-lg" maxlength="35"
                                             placeholder="Enter Email" tabindex="4"
                                             onchange="exstemilid(this.value,'2')" />
-                                        <label for="s_email" class="error"></label>
+                                        <div for="s_email" class="error"></div>
                                         <div id="semil-message" class="text-center" style="display: none;"></div>
                                     </div>
-                                    <div class="form-outline mb-3" style="height:64px;">
+                                    <div class="form-outline mb-3">
                                         <input type="text" id="s_refralid" name="s_refralid"
                                             class="form-control form-control-lg" maxlength="50"
                                             placeholder="Referral ID" tabindex="5"
                                             onchange="checkrefrelno(this.value,'1')" />
-                                        {{-- <label for="s_refralid" class="error"></label> --}}
+                                        {{-- <div for="s_refralid" class="error"></div> --}}
                                         <div id="s_refralid-message" class="text-center" style="display: none;">
                                         </div>
                                     </div>
@@ -299,14 +306,14 @@
                                                 </option>
                                             @endforeach
                                         </select>
-                                        <label for="s_busnestype" class="error"></label>
+                                        <div for="s_busnestype" class="error"></div>
                                     </div>
                                     <div class="form-outline mb-3">
                                         <select class="form-select form-control form-control-lg" id="s_shopservice"
                                             name="s_shopservice" required tabindex="7">
                                             <option value="">Shop/Service Category</option><br />
                                         </select>
-                                        <label for="s_shopservice" class="error"></label>
+                                        <div for="s_shopservice" class="error"></div>
                                     </div>
 
                                     {{-- <div class="form-outline mb-3">
@@ -314,6 +321,8 @@
                                             name="s_subshopservice" required tabindex="7">
 
                                         </select>
+                                        <div for="s_subshopservice" class="error"></div>
+                                    </div>
                                         <label for="s_subshopservice" class="error"></label>
                                     </div> --}}
 
@@ -323,7 +332,7 @@
                                             id="s_shopservicetype" name="s_shopservicetype" required tabindex="8">
 
                                         </select>
-                                        <label for="s_shopservicetype" class="error"></label>
+                                        <div for="s_shopservicetype" class="error"></div>
                                     </div>
 
 
@@ -332,7 +341,7 @@
                                             name="s_shopexectename" required tabindex="8">
 
                                         </select>
-                                        <label for="s_shopexectename" class="error"></label>
+                                        <div for="s_shopexectename" class="error"></div>
                                     </div>
                                     <p class="small mb-3 pb-lg-2 float-end" id="login_form_shopfirst">Already have an
                                         account?<a href="#" style="color:#432791;">Sign in</a></p>
@@ -354,6 +363,8 @@
                                     <div class="form-outline mb-3">
                                         <input type="text" id="s_lisence" name="s_lisence"
                                             class="form-control form-control-lg" maxlength="25"
+                                            placeholder="License Number" required tabindex="10" />
+                                        <div for="s_lisence" class="error"></div>
                                             placeholder="License Number" tabindex="10" />
                                         <label for="s_lisence" class="error"></label>
                                     </div>
@@ -361,19 +372,19 @@
                                         <input type="text" id="s_buldingorhouseno" name="s_buldingorhouseno"
                                             maxlength="100" class="form-control form-control-lg"
                                             placeholder="Building/House Name & Number" required tabindex="11" />
-                                        <label for="s_buldingorhouseno" class="error"></label>
+                                        <div for="s_buldingorhouseno" class="error"></div>
                                     </div>
                                     <div class="form-outline mb-3">
                                         <input type="text" id="s_locality" name="s_locality" maxlength="100"
                                             class="form-control form-control-lg" placeholder="Locality" required
                                             tabindex="12" />
-                                        <label for="s_locality" class="error"></label>
+                                        <div for="s_locality" class="error"></div>
                                     </div>
                                     <div class="form-outline mb-3">
                                         <input type="text" id="s_villagetown" name="s_villagetown"
                                             maxlength="100" class="form-control form-control-lg"
                                             placeholder="Village/Town/Municipality" required tabindex="13" />
-                                        <label for="s_villagetown" class="error"></label>
+                                        <div for="s_villagetown" class="error"></div>
                                     </div>
                                     <div class="form-outline mb-3">
                                         <select class="form-select form-control form-control-lg" name="country"
@@ -385,7 +396,7 @@
                                                 </option>
                                             @endforeach
                                         </select>
-                                        <label for="country" class="error"></label>
+                                        <div for="country" class="error"></div>
                                     </div>
                                     <div class="form-outline mb-3">
                                         <select class="form-select form-control form-control-lg" name="state"
@@ -393,7 +404,7 @@
                                             tabindex="15">
 
                                         </select>
-                                        <label for="state" class="error"></label>
+                                        <div for="state" class="error"></div>
                                     </div>
                                     <div class="form-outline mb-3">
                                         <select class="form-select form-control form-control-lg"
@@ -401,13 +412,13 @@
                                             required tabindex="16">
 
                                         </select>
-                                        <label for="district" class="error"></label>
+                                        <div for="district" class="error"></div>
                                     </div>
                                     <div class="form-outline mb-3">
                                         <input type="text" id="s_pincode" name="s_pincode" maxlength="6"
                                             class="form-control form-control-lg" placeholder="Pin Code" required
                                             tabindex="17" />
-                                        <label for="s_pincode" class="error"></label>
+                                        <div for="s_pincode" class="error"></div>
                                     </div>
 
 
@@ -436,6 +447,8 @@
                                         <input type="text" id="s_googlelink" name="s_googlelink" id
                                             class="form-control form-control-lg"
                                             placeholder="Google map link location" required tabindex="18" />
+                                        <div for="s_googlelink" class="error"></div>
+                                    </div>
                                         <label for="s_googlelink" class="error"></label>
                                     </div> --}}
 
@@ -445,7 +458,7 @@
                                         <input type="file" id="s_photo" multiple="" name="s_photo[]"
                                             class="form-control form-control-lg" placeholder="Shop Photo" required
                                             tabindex="19" accept="image/jpeg, image/png" />
-                                        <label for="s_photo" class="error"></label>
+                                        <div for="s_photo" class="error"></div>
                                     </div>
                                     {{-- <div class="image-preview" style="display: none;">
                                             <img id="preview" src="#" alt="Preview" style="max-width: 100px;" />
@@ -465,12 +478,13 @@
                                         <input type="text" id="s_gstno" name="s_gstno" maxlength="25"
                                             class="form-control form-control-lg" placeholder="GST Number"
                                             tabindex="20" />
-                                        <label for="s_gstno" class="error"></label>
+                                        <div for="s_gstno" class="error"></div>
                                     </div>
                                     <div class="form-outline mb-3">
                                         <input type="text" id="s_panno" name="s_panno" maxlength="12"
                                             class="form-control form-control-lg" placeholder="PAN Number"
                                             tabindex="21" />
+                                        <div for="s_panno" class="error"></div>
                                         <label for="s_panno" class="error"></label>
                                         <div id="pan-error-message" style="color: red;"></div>
                                     </div>
@@ -479,6 +493,8 @@
                                     <div class="form-outline mb-3">Establishment Date
                                         <input type="date" id="s_establishdate" name="s_establishdate"
                                             maxlength="10" class="form-control form-control-lg"
+                                            placeholder="Establishment Date" tabindex="22" />
+                                        <div for="s_establishdate" class="error"></div>
                                             placeholder="Establishment Date" tabindex="22"
                                             max="{{ date('Y-m-d') }}" />
                                         <label for="s_establishdate" class="error"></label>
@@ -489,21 +505,21 @@
                                         <input tabindex="23" type="password" id="s_paswd" name="s_paswd"
                                             maxlength="10" class="form-control form-control-lg" maxlength="20"
                                             placeholder="Enter Password" required />
-                                        <label for="s_paswd" class="error"></label>
+                                        <div for="s_paswd" class="error"></div>
                                     </div>
                                     <div class="form-outline  mb-2">
                                         <input tabindex="24" type="password" id="s_rpaswd" name="s_rpaswd"
                                             maxlength="10" class="form-control form-control-lg" maxlength="20"
                                             placeholder="Re-Enter password" required />
-                                        <label for="s_rpaswd" class="error"></label>
+                                        <div for="s_rpaswd" class="error"></div>
                                     </div>
 
 
                                     <div class="form-check-inline">
                                         <input class="form-check-input" type="checkbox" id="s_termcondtn"
                                             name="s_termcondtn" value="1" required tabindex="25">
-                                        <label class="inlineCheckbox1" for="s_termcondtn"> Accept Terms & Conditions
-                                        </label>
+                                        <div class="inlineCheckbox1" for="s_termcondtn"> Accept Terms & Conditions
+                                        </div>
                                     </div>
 
                                     <p class="small mb-3 pb-lg-2 float-end" id="login_form_shopsecond">Already have an
@@ -530,35 +546,35 @@
                                     <input type="text" id="a_name" name="a_name"
                                         class="form-control form-control-lg" placeholder="Name" required
                                         tabindex="1" maxlength="25" />
-                                    <label for="a_name" class="error"></label>
+                                    <div for="a_name" class="error"></div>
                                 </div>
                                 <div class="form-outline mb-3">
                                     <input type="text" id="a_mobno" name="a_mobno"
                                         class="form-control form-control-lg" maxlength="10"
                                         placeholder="Enter Mobile No" required tabindex="2"
                                         onchange="exstmobno(this.value,'3')" />
-                                    <label for="s_mobno" class="error"></label>
+                                    <div for="s_mobno" class="error"></div>
                                     <div id="amob-message" class="text-center" style="display: none;"></div>
                                 </div>
                                 <div class="form-outline mb-3">
                                     <input type="email" id="a_email" name="a_email"
                                         class="form-control form-control-lg" maxlength="35" placeholder="Enter Email"
                                         required tabindex="3" onchange="exstemilid(this.value,'3')" />
-                                    <label for="a_email" class="error"></label>
+                                    <div for="a_email" class="error"></div>
                                     <div id="aemil-message" class="text-center" style="display: none;"></div>
                                 </div>
 
-                                <div class="form-outline mb-3"><label class="w-100">Date of Birth</label>
+                                <div class="form-outline mb-3"><div class="w-100">Date of Birth</div>
                                     <input type="date" id="a_dob" name="a_dob"
                                         class="form-control form-control-lg" placeholder="Date of birth" required
                                         tabindex="4" maxlength="10" max="{{ date('Y-m-d') }}" />
-                                    <label for="a_dob" class="error"></label>
+                                    <div for="a_dob" class="error"></div>
                                 </div>
                                 <div class="form-outline mb-3">
                                     <input type="text" id="a_refralid" name="a_refralid"
                                         class="form-control form-control-lg" placeholder="Referral ID" tabindex="5"
                                         onchange="checkrefrelno(this.value,'2')" />
-                                    <label for="a_refralid" class="error"></label>
+                                    <div for="a_refralid" class="error"></div>
                                     <div id="a_refralid-message" class="text-center" style="display: none;"></div>
                                 </div>
 
@@ -566,13 +582,13 @@
                                     <input type="text" id="a_aadharno" name="a_aadharno"
                                         class="form-control form-control-lg" placeholder="Aadhaar Number"
                                         maxlength="12" required tabindex="6" />
-                                    <label for="a_aadharno" class="error"></label>
+                                    <div for="a_aadharno" class="error"></div>
                                 </div>
                                 <div class="form-outline mb-3">
                                     <input type="text" id="a_locality" name="a_locality"
                                         class="form-control form-control-lg" placeholder="Locality" required
                                         tabindex="7" />
-                                    <label for="a_aadharno" class="error"></label>
+                                    <div for="a_aadharno" class="error"></div>
                                 </div>
 
                                 <div class="form-outline mb-3">
@@ -585,7 +601,7 @@
                                             </option>
                                         @endforeach
                                     </select>
-                                    <label for="a_country" class="error"></label>
+                                    <div for="a_country" class="error"></div>
                                 </div>
                                 <div class="form-outline mb-3">
                                     <select class="form-select form-control form-control-lg"
@@ -593,7 +609,7 @@
                                         tabindex="9">
 
                                     </select>
-                                    <label for="a_state" class="error"></label>
+                                    <div for="a_state" class="error"></div>
                                 </div>
                                 <div class="form-outline mb-3">
                                     <select class="form-select form-control form-control-lg"
@@ -601,16 +617,16 @@
                                         required tabindex="10">
 
                                     </select>
-                                    <label for="a_district" class="error"></label>
+                                    <div for="a_district" class="error"></div>
                                 </div>
 
                                 <div class="form-outline mb-3">
-                                    <label class="w-100">Upload aadhaar</label>
+                                    <div class="w-100">Upload aadhaar</div>
                                     <input type="file" id="uplodadhar" multiple="" name="uplodadhar[]"
                                         class="form-control form-control-lg"
                                         placeholder="Upload Aadhaar (front & back)" required tabindex="11"
                                         accept="image/jpeg, image/png" />
-                                    <label for="uplodadhar" class="error"></label>
+                                    <div for="uplodadhar" class="error"></div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group" align="left">
@@ -622,20 +638,20 @@
                                     <input tabindex="23" type="password" id="a_paswd" name="a_paswd"
                                         maxlength="10" class="form-control form-control-lg" maxlength="10"
                                         placeholder="Enter Password" required />
-                                    <label for="a_paswd" class="error"></label>
+                                    <div for="a_paswd" class="error"></div>
                                 </div>
                                 <div class="form-outline  mb-2">
                                     <input tabindex="24" type="password" id="a_rpaswd" name="a_rpaswd"
                                         maxlength="10" class="form-control form-control-lg" maxlength="10"
                                         placeholder="Re-Enter password" required />
-                                    <label for="a_rpaswd" class="error"></label>
+                                    <div for="a_rpaswd" class="error"></div>
                                 </div>
 
                                 <div class="checkbox form-check-inline">
                                     <input class="form-check-input" type="checkbox" id="a_termcondtn"
                                         name="a_termcondtn" value="1" required tabindex="12">
-                                    <label class="inlineCheckbox1" for="a_termcondtn"> Accept Terms & Conditions
-                                    </label>
+                                    <div class="inlineCheckbox1" for="a_termcondtn"> Accept Terms & Conditions
+                                    </div>
 
                                 </div>
 

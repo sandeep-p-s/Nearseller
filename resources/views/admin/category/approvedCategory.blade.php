@@ -30,9 +30,15 @@
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
+                                    <label for="categorySelector">Select Type<span class="text-danger">*</span></label>
+                                    <select class="form-control mb15" id="typeSelector" name="select_type" disabled>
+                                        <option value="0">Select Type</option>
+                                        <option value="1" {{ $current_category->category_type == '1' ? 'selected' : '' }}>Shop</option>
+                                        <option value="2" {{ $current_category->category_type == '2' ? 'selected' : '' }}>Service</option>
+                                    </select>
                                     <label for="categorySelector">Select Parent Category</label>
                                     <select class="form-control mb15" id="categorySelector" name="parent_category"
-                                        onchange="updateLevel()">
+                                        onchange="updateLevel()" disabled>
                                         <option value="0">Select Parent Category</option>
                                         @if ($filteredCategories)
                                             @foreach ($filteredCategories as $category)
@@ -49,7 +55,7 @@
                                         Edit Category Name</label>
                                     <input type="text" class="form-control mb15" id="exampleFormControlInput1"
                                         name="category_name" placeholder="Enter Category Name"
-                                        value="{{ $current_category->category_name }}">
+                                        value="{{ $current_category->category_name }}" disabled>
                                     <input type="hidden" class="form-control mb15" id="category_slug" placeholder=""
                                         name="category_slug" value="{{ $current_category->category_slug }}">
                                     <input type="hidden" class="form-control mb15" id="category_level" placeholder=""
@@ -64,7 +70,7 @@
 
                                     <label>Category Image</label>
                                     <input type="file" id="category_image" name="category_image[]"
-                                        class="form-control form-control-lg" placeholder="Category Images"                                             tabindex="19" accept="image/jpeg, image/png" />
+                                        class="form-control form-control-lg" placeholder="Category Images"                                             tabindex="19" accept="image/jpeg, image/png" disabled/>
                                     <label for="category_image" class="error"></label>
 
                                 <div class="col-md-12">
@@ -109,12 +115,8 @@
                                         </div>
                                     </div>
                                 </div>
-
-
-
                                     <label for="categoryStatus">Status</label>
-                                    <select class="form-control" id="categoryStatus" name="status">
-                                        <option value="">Select </option>
+                                    <select class="form-control mb15" id="categoryStatus" name="status" disabled>
                                         <option value="Y" {{ $current_category->status == 'Y' ? 'selected' : '' }}>
                                             Active
                                         </option>
@@ -125,7 +127,6 @@
 
                                     <label for="categoryapprovedStatus">Approved Status</label>
                                     <select class="form-control" id="categoryapproved" name="categoryapproved">
-                                        <option value="">Select </option>
                                         <option value="Y" {{ $current_category->approval_status  == 'Y' ? 'selected' : '' }}>
                                             Approved
                                         </option>
