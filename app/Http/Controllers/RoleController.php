@@ -1036,20 +1036,21 @@ class RoleController extends Controller
     {
         $request->validate(
             [
-                'role_name' => 'required|regex:/^[A-Za-z\s]+$/|min:5|max:255|unique:roles',
+                'role_name' => 'required|min:5|max:255|unique:roles',
             ],
                 [
                     'role_name.required' => 'The role name field is required.',
-                    'role_name.regex' => 'The role name must contain only letters and spaces.',
+                    // 'role_name.regex' => 'The role name must contain only letters and spaces.',
                     'role_name.min' => 'The role name must be at least 5 characters.',
-                    'role_name.max' => 'The role name cannot exceed 255 characters.',
+                    'role_name.max' => 'The role name cannot exceed 50 characters.',
                     'role_name.unique' => 'This role name is already in use.',
-
+                    // 'role_name.unique' => 'This role name is already in use.',
                 ]
         );
 
 
         $role = new Role;
+        $role->is_active = 1;
         $role->role_name = ucfirst($request->role_name);
         $role->save();
 

@@ -108,11 +108,11 @@
                                                             class="mdi mdi-chevron-down"></i></button>
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item view_btn1"
-                                                            href="{{ route('edit.category', $c->category_slug) }}">Edit</a>
-                                                        @if (session('roleid') == 1)
-                                                            <a class="dropdown-item view_btn1"
-                                                                href="{{ route('approved.category', $c->category_slug) }}">Approved</a>
-                                                        @endif
+                                                            href="{{ route('edit.category', $c->category_slug) }}">Edit/View</a>
+                                                            @if(session('roleid')==1)
+                                                        <a class="dropdown-item approve_btn"
+                                                            href="{{ route('approved.category', $c->category_slug) }}">Approved</a>
+                                                            @endif
                                                         {{-- <a class="dropdown-item delete_btn"
                                                         href="{{ route('delete.category', $c->category_slug) }}"
                                                         onclick="return confirm('Are you sure you want to delete?')">Delete</a> --}}
