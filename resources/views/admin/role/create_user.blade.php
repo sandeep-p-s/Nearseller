@@ -31,7 +31,7 @@
 
 
 
-            @if(session('roleid')=='1')
+            {{-- @if(session('roleid')=='1')
             <div class="row">
                 <div class="col-12">
 
@@ -52,7 +52,7 @@
                     </div>
                 </div>
             </div>
-            @endif
+            @endif --}}
 
             <div id="catcontent">
 
