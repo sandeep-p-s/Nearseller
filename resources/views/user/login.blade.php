@@ -121,7 +121,7 @@
                                 </div>
                                 <div class="form-outline mb-4">
                                     <input type="password" id="passwd" name="passwd"
-                                        class="form-control form-control-lg" placeholder="password" required />
+                                        class="form-control form-control-lg" placeholder="password" required maxlength="20" />
                                 </div>
                                 <p class="small mb-5 pb-lg-2 float-end" id="forget"><a class="" href="#"
                                         style="color:#432791;">Forgot password?</a></p>
@@ -218,13 +218,13 @@
 
                                 <div class="form-outline  mb-2">
                                     <input tabindex="4" type="password" id="u_paswd" name="u_paswd"
-                                        class="form-control form-control-lg" maxlength="10"
+                                        class="form-control form-control-lg" maxlength="20"
                                         placeholder="Enter Password" required />
                                     <label for="u_paswd" class="error"></label>
                                 </div>
                                 <div class="form-outline  mb-2">
                                     <input tabindex="5" type="password" id="u_rpaswd" name="u_rpaswd"
-                                        class="form-control form-control-lg" maxlength="10"
+                                        class="form-control form-control-lg" maxlength="20"
                                         placeholder="Re-enter Password" required />
                                     <label for="u_rpaswd" class="error"></label>
                                 </div>
@@ -487,13 +487,13 @@
 
                                     <div class="form-outline  mb-2">
                                         <input tabindex="23" type="password" id="s_paswd" name="s_paswd"
-                                            maxlength="10" class="form-control form-control-lg" maxlength="10"
+                                            maxlength="10" class="form-control form-control-lg" maxlength="20"
                                             placeholder="Enter Password" required />
                                         <label for="s_paswd" class="error"></label>
                                     </div>
                                     <div class="form-outline  mb-2">
                                         <input tabindex="24" type="password" id="s_rpaswd" name="s_rpaswd"
-                                            maxlength="10" class="form-control form-control-lg" maxlength="10"
+                                            maxlength="10" class="form-control form-control-lg" maxlength="20"
                                             placeholder="Re-Enter password" required />
                                         <label for="s_rpaswd" class="error"></label>
                                     </div>

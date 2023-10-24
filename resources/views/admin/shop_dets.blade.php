@@ -2,9 +2,11 @@
     <table id="datatable" class="table table-striped table-bordered">
         <thead>
             <tr>
+                @if (session('roleid') == '1')
                 <th width="5px">Active All <input type='checkbox' name='checkbox1' id='checkbox1' onclick='check();' />
                 </th>
-                <th>SINO</th>
+
+                <th>SINO</th>@endif
                 <th>Reg. ID</th>
                 <th>{{ $shoporservice }} Name</th>
                 <th>Owner Name</th>
@@ -18,12 +20,12 @@
         </thead>
         <tbody>
             @foreach ($sellerDetails as $index => $sellerDetail)
-                <tr>
+                <tr>@if (session('roleid') == '1')
                     <td><input name="shopid[]" type="checkbox" id="shopid{{ $index + 1 }}"
                             value="{{ $sellerDetail->id . '*' . $sellerDetail->user_id }}"
                             {{ $sellerDetail->user_status === 'Y' ? 'checked' : '' }} />
                     </td>
-                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $index + 1 }}</td>@endif
                     <td>{{ $typeid == 1 ? 'SHOP' : ($typeid == 2 ? 'SER' : '') }}{{ str_pad($sellerDetail->shop_reg_id, 9, '0', STR_PAD_LEFT) }}
                     </td>
                     <td>{{ $sellerDetail->shop_name }}</td>

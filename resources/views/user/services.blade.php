@@ -131,7 +131,7 @@
 
 
                                 <div class="product_card_img">
-                                    <img src="{{ asset($srm->service_images) }}">
+                                    <img src="{{ asset($srm->service_images) }}" style="height: 213px;">
                                 </div>
                                 <div class="product_details p-2">
                                     <div class="product_name">
@@ -140,8 +140,7 @@
                                     <div class="product_offer">
                                     </div>
                                     <div class="pro_detail">
-                                        <p class="text-secondary">Lorem ipsum dolor sit amet consectetur adipisicing
-                                            elit.</p>
+                                        <p class="text-secondary">{{ $srm->service_description }}</p>
                                     </div>
                                     <div class="product_card-footer">
                                         <div class="wcf-left"><span class="price">> 2 Km</span></div>
