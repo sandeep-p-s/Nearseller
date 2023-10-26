@@ -193,6 +193,20 @@ class HomeController extends Controller
         }
     }
 
+    public function ExistnewusercreateCheck(Request $request)
+    {
+        $u_shop = $request->input('u_shop');
+        $roleidcheck = $request->input('roleidcheck');
+        $user = UserAccount::where('name', $u_shop)->where('role_id', $roleidcheck)->get();
+        $count = $user->count();
+        if ($count > 0) {
+            return response()->json(['result' => 1]);
+        } else {
+            return response()->json(['result' => 2]);
+        }
+    }
+
+
     public function ExistExecutivenameCheck(Request $request)
     {
         $executename = $request->input('executename');

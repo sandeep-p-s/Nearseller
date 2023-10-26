@@ -2,7 +2,7 @@
     @if ($flag == 1)
         <div class="row">
             @foreach ($categories as $category)
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="category-item">
                         <h5>{{ $category->category_name }}</h5>
                         <hr>
@@ -16,8 +16,8 @@
                         </a>
                     </div>
                     <div class="col text-center">
-                        <a href="#" class="btn btn-danger" onclick="productviewdet({{ $category->id }})">View
-                            Products</a>
+                        <a href="#" class="btn btn-danger" style="margin-top: 15px" onclick="productviewdet({{ $category->id }})">View
+                           </a>
                     </div>
                 </div>
             @endforeach
