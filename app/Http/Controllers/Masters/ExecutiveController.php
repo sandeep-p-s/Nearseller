@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Masters;
 
 use App\Models\Executive;
 use App\Models\UserAccount;
 use App\Models\MenuMaster;
 use Illuminate\Http\Request;
 use DB;
-
+use App\Http\Controllers\Controller;
 
 class ExecutiveController extends Controller
 {
@@ -17,13 +17,11 @@ class ExecutiveController extends Controller
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        $executive = DB::table('executives')
-        ->orderBy('executive_type', 'asc')
+        $executive = DB::table('executives as ex')
+        ->orderBy('ex.executive_name', 'asc')
         ->get();
-        $total_salesexecutives = DB::table('executives as ex')->where('ex.executive_type','1')->count();
-        $total_serviceexecutives = DB::table('executives as ex')->where('ex.executive_type','2')->count();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.executive.list', compact('executive', 'loggeduser', 'userdetails','structuredMenu','total_salesexecutives','total_serviceexecutives'));
+        return view('admin.masters.executive.list', compact('executive', 'loggeduser', 'userdetails','structuredMenu'));
     }
     public function add_executive()
     {
@@ -32,7 +30,7 @@ class ExecutiveController extends Controller
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.executive.add', compact('loggeduser', 'userdetails','structuredMenu'));
+        return view('admin.masters.executive.add', compact('loggeduser', 'userdetails','structuredMenu'));
     }
 
     public function store_executive(Request $request)
@@ -70,7 +68,7 @@ class ExecutiveController extends Controller
             return redirect()->route('list.executive')->with('error', 'Executive not found.');
         }
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.executive.edit', compact('executive', 'loggeduser', 'userdetails','structuredMenu'));
+        return view('admin.masters.executive.edit', compact('executive', 'loggeduser', 'userdetails','structuredMenu'));
     }
 
     public function update_executive_type(Request $request, $id)

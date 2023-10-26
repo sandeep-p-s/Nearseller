@@ -54,7 +54,7 @@
                                         <th>No</th>
                                         <th>Business Type</th>
                                         <th>Status</th>
-                                        {{-- <th>Action</th> --}}
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -67,7 +67,7 @@
                                                     {{ $bt->status === 'Y' ? 'Active' : 'Inactive' }}
                                                 </span>
                                             </td>
-                                           {{--  <td>
+                                            <td>
                                                 <div class="btn-group mb-2 mb-md-0">
                                                     <button type="button" class="btn view_btn dropdown-toggle"
                                                         data-toggle="dropdown" aria-haspopup="true"
@@ -81,7 +81,7 @@
                                                             onclick="return confirm('Are you sure you want to delete?')">Delete</a>
                                                     </div>
                                                 </div>
-                                            </td>--}}
+                                            </td>
 
                                         </tr>
                                     @endforeach

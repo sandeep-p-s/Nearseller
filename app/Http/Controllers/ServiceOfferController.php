@@ -9,6 +9,7 @@ use App\Models\LogDetails;
 use App\Models\MenuMaster;
 use App\Models\UserAccount;
 use Illuminate\Http\Request;
+use App\Models\ServiceDetails;
 
 class ServiceOfferController extends Controller
 {
@@ -50,16 +51,16 @@ class ServiceOfferController extends Controller
             $request->all(),
             [
                 'offer_to_display' => 'required|string',
-                'conditions' => 'required|string|max:255',
+                // 'conditions' => 'required|string|max:255',
                 'from_date_time' => 'required|date',
                 'to_date_time' => 'required|date',
                 'offer_image' => 'required|mimes:jpeg,png,jpg,gif|max:2048',
             ],
             [
                 'offer_to_display.required' => 'The Display offer field is required',
-                'conditions.required' => 'The conditions field is required.',
-                'conditions.string' => 'The conditions field must be a string.',
-                'conditions.max' => 'The conditions field may not be greater than :max characters.',
+                // 'conditions.required' => 'The conditions field is required.',
+                // 'conditions.string' => 'The conditions field must be a string.',
+                // 'conditions.max' => 'The conditions field may not be greater than :max characters.',
 
             ]
         );
@@ -94,13 +95,17 @@ class ServiceOfferController extends Controller
         return redirect()->route('list.service_offer')->with('success', 'Service Offer saved successfully');
     }
 
-    public function edit_service_offer($id)
+    public function edit_service_offer(Request $request, $id)
     {
         $userRole = session('user_role');
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
+        $productid = $request->input('productid');
+        $ServiceDetails = ServiceDetails::select('service_details.*')
+            ->where('service_details.id', $productid)
+            ->first();
         $userservicedets = DB::table('user_account')
             ->select('id', 'name')
             ->where('role_id', 9)
@@ -111,7 +116,7 @@ class ServiceOfferController extends Controller
             return redirect()->route('list.Service_offer')->with('error', 'Service offer not found.');
         }
 
-        return view('seller.service.offer.edit_offer', compact('serviceoffer', 'loggeduser', 'userdetails','structuredMenu','userservicedets'));
+        return view('seller.service.offer.edit_offer', compact('serviceoffer', 'loggeduser', 'userdetails','structuredMenu','userservicedets','ServiceDetails'));
     }
 
     public function update_service_offer(Request $request, $id)

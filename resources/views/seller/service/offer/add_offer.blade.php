@@ -92,11 +92,11 @@
                                                     <label class="control-label">From Date & Time<span
                                                             class="text-danger">*</span></label>
                                                     <input type="datetime-local" class="form-control" id="from_time"
-                                                        name="from_date_time" placeholder="Enter Date" min="{{ date('Y-m-d\TH:i') }}">
+                                                        name="from_date_time" placeholder="Enter Date"
+                                                        min="{{ date('Y-m-d\TH:i') }}">
                                                     @error('from_date_time')
                                                         <div class="text-danger mb15">{{ $message }}</div>
                                                     @enderror
-                                                    <!--end col-->
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
@@ -104,11 +104,11 @@
                                                     <label class="control-label">To Date & Time<span
                                                             class="text-danger">*</span></label>
                                                     <input type="datetime-local" class="form-control" id="to_time"
-                                                        name="to_date_time" placeholder="Enter Date" min="{{ date('Y-m-d\TH:i') }}">
+                                                        name="to_date_time" placeholder="Enter Date"
+                                                        min="{{ date('Y-m-d\TH:i') }}">
                                                     @error('to_date_time')
                                                         <div class="text-danger mb15">{{ $message }}</div>
                                                     @enderror
-                                                    <!--end col-->
                                                 </div>
                                             </div>
                                         </div>
@@ -176,6 +176,28 @@
                     var $p = $(this).parent();
                     $(this).select2({
                         dropdownParent: $p
+                    });
+                });
+            });
+            document.addEventListener("DOMContentLoaded", function() {
+                const fromTimeInput = document.getElementById("from_time");
+                const toTimeInput = document.getElementById("to_time");
+
+                fromTimeInput.addEventListener("change", function() {
+                    // Get the value of the "From Date & Time" input
+                    const fromTimeValue = new Date(fromTimeInput.value);
+
+                    // Set the minimum value for the "To Date & Time" input
+                    toTimeInput.min = fromTimeValue.toISOString().slice(0, 16); // Format it as YYYY-MM-DDTHH:mm
+
+                    // Disable the selected "From Date & Time" in the "To Date & Time"
+                    toTimeInput.addEventListener("change", function() {
+                        const toTimeValue = new Date(toTimeInput.value);
+                        if (toTimeValue <= fromTimeValue) {
+                            alert("To Date & Time should be after From Date & Time");
+                            // You can clear the "To Date & Time" input or take other actions as needed.
+                            toTimeInput.value = ""; // Clear the input
+                        }
                     });
                 });
             });

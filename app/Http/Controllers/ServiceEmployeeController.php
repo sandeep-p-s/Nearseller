@@ -30,10 +30,14 @@ class ServiceEmployeeController extends Controller
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        $countries      = DB::table('country')->get();
-        $userservicedets = DB::table('user_account')
-        ->select('id', 'name')
-        ->where('role_id', 9)
+        $countries = DB::table('country as ct')
+        ->orderByRaw('ct.id = ? desc', [1])
+        ->orderBy('ct.country_name', 'asc')
+        ->get();
+        $userservicedets = DB::table('seller_details')
+        ->select('id', 'shop_name')
+        ->where('busnes_type', 2)
+        ->where('seller_approved','Y')
         ->get();
         return view('seller.service.employee.add_employee', compact('loggeduser', 'userdetails', 'countries','structuredMenu','userservicedets'));
     }
@@ -58,26 +62,28 @@ class ServiceEmployeeController extends Controller
         $loggedUserIp = $_SERVER['REMOTE_ADDR'];
         $time = date('Y-m-d H:i:s');
         $validator = Validator::make($request->all(), [
-            'employee_name' => 'required|string|max:255',
-            'employee_id' => 'required|string|max:255|unique:service_employees',
-            'designation' => 'required|string|max:255',
+            'serviceuser_name' => 'required',
+            'employee_name' => 'required|string|max:50',
+            'employee_id' => 'required|string|max:50|unique:service_employees',
+            'designation' => 'required|string|max:80',
             'joining_date' => 'required|date',
-            'aadhar_no' => 'required|string|max:255|unique:service_employees',
+            'aadhar_no' => 'required|string|max:14|regex:/^[2-9]\d{3}\s\d{4}\s\d{4}$/',
             'permanent_address' => 'required|string',
             'country' => 'required|exists:country,id',
             'state' => 'required|exists:state,id',
             'district' => 'required|exists:district,id',
-            'pincode' => 'required|string|max:10',
+            'pincode' => 'required|string|max:6',
             'present_address' => 'required|string',
             'present_country' => 'required|exists:country,id',
             'present_state' => 'required|exists:state,id',
             'present_district' => 'required|exists:district,id',
-            'present_pincode' => 'required|string|max:10',
+            'present_pincode' => 'required|string|max:6',
             'image' => 'required|mimes:jpeg,png,jpg,gif|max:2048',
 
         ]);
 
         $messages = [
+            'serviceuser_name.required' => 'Please select Service user in the list',
             'country.required' => 'Please select country in the list',
             'state.required' => 'Please select state in the list',
             'district.required' => 'Please select district in the list',
@@ -141,6 +147,10 @@ class ServiceEmployeeController extends Controller
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $userservicedets = DB::table('user_account')
+        ->select('id', 'name')
+        ->where('role_id', 9)
+        ->get();
         $service_emp = ServiceEmployee::find($id);
         $countries      = DB::table('country')->get();
         $states = DB::table('state')->where('country_id', $service_emp->country)->get();
@@ -151,7 +161,7 @@ class ServiceEmployeeController extends Controller
             return redirect()->route('list.shop_offer')->with('error', 'Shop offer not found.');
         }
 
-        return view('seller.service.employee.edit_employee', compact('service_emp', 'loggeduser', 'userdetails', 'countries','states','districts','structuredMenu'));
+        return view('seller.service.employee.edit_employee', compact('service_emp', 'loggeduser', 'userdetails', 'countries','states','districts','structuredMenu','userservicedets'));
     }
 
     public function update_service_employee(Request $request, $id)
@@ -170,26 +180,28 @@ class ServiceEmployeeController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'employee_name' => 'required|string|max:255',
-            'employee_id' => 'required|string|max:255',
-            'designation' => 'required|string|max:255',
+            'serviceuser_name' => 'required',
+            'employee_name' => 'required|string|max:50',
+            'employee_id' => 'required|string|max:50',
+            'designation' => 'required|string|max:80',
             'joining_date' => 'required|date',
-            'aadhar_no' => 'required|string|max:255',
+            'aadhar_no' => 'required|string|max:12',
             'permanent_address' => 'required|string',
             'country' => 'required|exists:country,id',
             'state' => 'required|exists:state,id',
             'district' => 'required|exists:district,id',
-            'pincode' => 'required|string|max:10',
+            'pincode' => 'required|string|max:6',
             'present_address' => 'required|string',
             'present_country' => 'required|exists:country,id',
             'present_state' => 'required|exists:state,id',
             'present_district' => 'required|exists:district,id',
-            'present_pincode' => 'required|string|max:10',
+            'present_pincode' => 'required|string|max:6',
             'image' => 'required|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
 
         $messages = [
+            'serviceuser_name.required' => 'Please select Service user in the list',
             'country.required' => 'Please select country in the list',
             'state.required' => 'Please select state in the list',
             'district.required' => 'Please select district in the list',
@@ -234,7 +246,12 @@ class ServiceEmployeeController extends Controller
             $file_path->move($upload_path, $new_name);
             $service_emp->image = $new_name;
         }
-
+        if ($request->status === 'Active')
+        {
+            $service_emp->status = 'Y';
+        } else {
+            $service_emp->status = 'N';
+        }
         $service_emp->save();
         $msg = 'Service Employees successfully Updated. Updated service ID is :  ' . $id;
         $LogDetails = new LogDetails();

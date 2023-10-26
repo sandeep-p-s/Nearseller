@@ -29,11 +29,27 @@
                     <div class="col-lg-6">
                         <div class="card">
                             <div class="card-body">
+                                @php
+                                    $shopshowhide = session('roleid') == 1 || session('roleid') == 3 ? 'style=display:block;' : 'style=display:none;';
+                                @endphp
+                                <div class="form-group" {{ $shopshowhide }} style="display: none;">
+                                    <label for="service_name">Service User <span class="text-danger">*</span></label>
+                                    <select class="selectservice form-select form-control form-control-lg"
+                                        id="serviceuser_name" name="serviceuser_name" required tabindex="1">
+                                        <option value="">Select Service User</option><br />
+                                        @foreach ($userservicedets as $serviceuser)
+                                                    <option value="{{ $serviceuser->id }}" @if ($serviceuser->id == $service_emp->user_id) selected @endif>{{ $serviceuser->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('serviceuser_name')
+                                        <div class="text-danger mb-2">{{ $message }}</div>
+                                    @enderror
+                                </div>
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Employee Name </label>
                                     <input type="text" class="form-control" id="employee_name"
                                         placeholder="Enter Employee Name" name="employee_name"
-                                        value="{{ $service_emp->employee_name }}">
+                                        value="{{ $service_emp->employee_name }}" readonly>
                                     @error('employee_name')
                                         <div class="text-danger mb15">{{ $message }}</div>
                                     @enderror
@@ -42,7 +58,7 @@
                                     <label for="exampleFormControlInput1">Employee ID</label>
                                     <input type="text" class="form-control" id="employee_id"
                                         placeholder="Enter employee id" name="employee_id"
-                                        value="{{ $service_emp->employee_id }}">
+                                        value="{{ $service_emp->employee_id }}" readonly>
                                     @error('employee_id')
                                         <div class="text-danger mb15">{{ $message }}</div>
                                     @enderror
@@ -239,6 +255,14 @@
                                     @enderror --}}
                                 </div>
 
+                                <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Status</label>
+                                    <select class="form-control" id="exampleFormControlSelect1" name="status">
+                                        <option value="select">Select</option>
+                                        <option value="Active" @if($service_emp->status === 'Y') selected @endif>Active</option>
+                                        <option value="Inactive" @if($service_emp->status === 'N') selected @endif>Inactive</option>
+                                    </select>
+                                </div>
 
                                 <div class="form-group mt10">
                                     <button type="submit" class="btn view_btn">Update</button>
@@ -363,6 +387,12 @@
                     if (stateId) {
                         fetchPresentDistrict(stateId, null);
                     }
+                });
+                $('.selectservice').each(function() {
+                    var $p = $(this).parent();
+                    $(this).select2({
+                        dropdownParent: $p
+                    });
                 });
             });
         </script>

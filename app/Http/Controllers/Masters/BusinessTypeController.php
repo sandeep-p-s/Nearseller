@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Masters;
 
 use DB;
 use App\Models\MenuMaster;
 use App\Models\UserAccount;
 use App\Models\BusinessType;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class BusinessTypeController extends Controller
 {
@@ -18,7 +19,7 @@ class BusinessTypeController extends Controller
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $businesstype = DB::table('business_type')->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.business_type.list', compact('businesstype', 'loggeduser', 'userdetails','structuredMenu'));
+        return view('admin.masters.business_type.list', compact('businesstype', 'loggeduser', 'userdetails','structuredMenu'));
     }
 
     public function add_business_type()
@@ -28,7 +29,7 @@ class BusinessTypeController extends Controller
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.business_type.add', compact('loggeduser', 'userdetails','structuredMenu'));
+        return view('admin.masters.business_type.add', compact('loggeduser', 'userdetails','structuredMenu'));
     }
 
     public function store_business_type(Request $request)
@@ -68,7 +69,7 @@ class BusinessTypeController extends Controller
             return redirect()->route('list.businesstype')->with('error', 'Business Type not found.');
         }
 
-        return view('admin.business_type.edit', compact('businesstype', 'loggeduser', 'userdetails','structuredMenu'));
+        return view('admin.masters.business_type.edit', compact('businesstype', 'loggeduser', 'userdetails','structuredMenu'));
     }
 
     public function update_business_type(Request $request, $id)
@@ -83,7 +84,7 @@ class BusinessTypeController extends Controller
             'status' => 'required|in:Active,Inactive',
         ]);
 
-        $businesstype->business_name = $request->business_name;
+        $businesstype->business_name = ucfirst($request->business_name);
         if ($request->status === 'Active')
         {
             $businesstype->status = 'Y';

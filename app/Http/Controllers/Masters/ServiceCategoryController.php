@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Masters;
 
 use DB;
 use App\Models\ServiceCategory;
@@ -8,6 +8,8 @@ use App\Models\MenuMaster;
 use App\Models\ServiceSubCategory;
 use App\Models\UserAccount;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
 class ServiceCategoryController extends Controller
 {
     public function list_service_category()
@@ -19,11 +21,12 @@ class ServiceCategoryController extends Controller
         $servicecategory = DB::table('service_categories as sc')
         ->join('business_type as bt', 'sc.business_type_id', '=', 'bt.id')
         ->select('sc.*', 'bt.business_name')
+        ->orderBy('sc.service_category_name', 'asc')
         ->get();
         $total_servicecategories = DB::table('service_categories')->count();
         $inactive_servicecategories = DB::table('service_categories as sc')->where('sc.status','N')->count();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.service_category.list', compact('servicecategory','loggeduser','userdetails','total_servicecategories','inactive_servicecategories','structuredMenu'));
+        return view('admin.masters.service_category.list', compact('servicecategory','loggeduser','userdetails','total_servicecategories','inactive_servicecategories','structuredMenu'));
     }
 
     public function add_service_category()
@@ -36,17 +39,26 @@ class ServiceCategoryController extends Controller
         $businesstype = DB::table('business_type as bt')
         ->where('bt.status','Y')
         ->get();
-        return view('admin.service_category.add',compact('loggeduser','userdetails','structuredMenu','businesstype'));
+        return view('admin.masters.service_category.add',compact('loggeduser','userdetails','structuredMenu','businesstype'));
     }
 
     public function store_service_category(Request $request)
     {
         $request->validate([
-            'service_category_name' => 'required|string|max:255',
+            'service_category_name' => 'required|string|min:5|max:50',
+            'business_name' => 'required|not_in:0',
+        ],
+        [
+            'service_category_name.required' => 'The service category name field is required.',
+            'service_category_name.min' => 'The service category name must be at least 5 characters.',
+            'service_category_name.max' => 'The service category name cannot exceed 50 characters.',
+            'service_category_name.unique' => 'This service category name is already in use.',
+            'business_name.not_in' => 'Please select a Business Type in the list.',
+
         ]);
 
         $servicecategory = new ServiceCategory;
-        $servicecategory->service_category_name = $request->service_category_name;
+        $servicecategory->service_category_name = ucfirst($request->service_category_name);
         $servicecategory->business_type_id = $request->business_name;
         $servicecategory->save();
 
@@ -68,7 +80,7 @@ class ServiceCategoryController extends Controller
             return redirect()->route('list.servicecategory')->with('error', 'Service Category not found.');
         }
 
-        return view('admin.service_category.edit', compact('servicecategory','loggeduser','userdetails','structuredMenu','businesstype'));
+        return view('admin.masters.service_category.edit', compact('servicecategory','loggeduser','userdetails','structuredMenu','businesstype'));
     }
 
     public function update_service_category(Request $request, $id)
@@ -82,7 +94,7 @@ class ServiceCategoryController extends Controller
             'service_category_name' => 'required|string|max:255',
         ]);
 
-        $servicecategory->service_category_name = $request->service_category_name;
+        $servicecategory->service_category_name = ucfirst($request->service_category_name);
         $servicecategory->business_type_id = $request->business_name;
         if ($request->status === 'Active')
         {

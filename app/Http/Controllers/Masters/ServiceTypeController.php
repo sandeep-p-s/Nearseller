@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Masters;
 
 use DB;
 use App\Models\MenuMaster;
 use App\Models\ServiceType;
 use App\Models\UserAccount;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ServiceTypeController extends Controller
 {
@@ -19,9 +20,10 @@ class ServiceTypeController extends Controller
         $servicetype = DB::table('service_types as srt')
         ->join('business_type as bt', 'srt.business_type_id', '=', 'bt.id')
         ->select('srt.*', 'bt.business_name')
+        ->orderBy('srt.service_name', 'asc')
         ->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.service_type.list', compact('servicetype','userdetails','loggeduser','structuredMenu'));
+        return view('admin.masters.service_type.list', compact('servicetype','userdetails','loggeduser','structuredMenu'));
     }
 
     public function add_service_type()
@@ -34,7 +36,7 @@ class ServiceTypeController extends Controller
         $businesstype = DB::table('business_type as bt')
         ->where('bt.status','Y')
         ->get();
-        return view('admin.service_type.add',compact('loggeduser','userdetails','structuredMenu','businesstype'));
+        return view('admin.masters.service_type.add',compact('loggeduser','userdetails','structuredMenu','businesstype'));
     }
 
     public function store_service_type(Request $request)
@@ -55,7 +57,7 @@ class ServiceTypeController extends Controller
         ]);
 
         $servicetype = new ServiceType;
-        $servicetype->service_name = $request->service_name;
+        $servicetype->service_name = ucfirst($request->service_name);
         $servicetype->business_type_id = $request->business_name;
         $servicetype->save();
 
@@ -78,7 +80,7 @@ class ServiceTypeController extends Controller
             return redirect()->route('list.servicetype')->with('error', 'Service Type not found.');
         }
 
-        return view('admin.service_type.edit', compact('servicetype','loggeduser','userdetails','structuredMenu','businesstype'));
+        return view('admin.masters.service_type.edit', compact('servicetype','loggeduser','userdetails','structuredMenu','businesstype'));
     }
 
     public function update_service_type(Request $request, $id)
@@ -90,7 +92,7 @@ class ServiceTypeController extends Controller
 
         $request->validate(
             [
-                'service_name' => 'required|regex:/^[A-Za-z\s]+$/|min:5|max:255',
+                'service_name' => 'required|regex:/^[A-Za-z\s]+$/|min:5|max:255||unique:service_types',
                 'business_name' => 'required|not_in:0',
             ],
             [
@@ -99,10 +101,11 @@ class ServiceTypeController extends Controller
                 'service_name.min' => 'The service name must be at least 5 characters.',
                 'service_name.max' => 'The service name cannot exceed 255 characters.',
                 'business_name.not_in' => 'Please select a Business Type in the list.',
+                'service_name.unique' => 'This service name is already in use.',
 
             ]);
 
-        $servicetype->service_name = $request->service_name;
+        $servicetype->service_name = ucfirst($request->service_name);
         if ($request->status === 'Active')
         {
             $servicetype->status = 'Y';

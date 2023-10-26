@@ -19,10 +19,13 @@ class CountryController extends Controller
         $userId = session('user_id');
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        $countries = Country::allCountries();
         $total_countries = Country::countriesCount();
         $inactive_countries = Country::inactiveCountries();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
+        $countries = DB::table('country as ct')
+        ->orderByRaw('ct.id = ? desc', [1])
+        ->orderBy('ct.country_name', 'asc')
+        ->get();
         // $countries = DB::table('country')->get();
         // $total_countries = DB::table('country')->count();
         // $inactive_countries = DB::table('country as c')->where('c.status','N')->count();
