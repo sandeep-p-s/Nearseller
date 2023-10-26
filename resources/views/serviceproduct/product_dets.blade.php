@@ -75,7 +75,7 @@
 
 
 <!-- Modal Add New -->
-<div class="modal fade" id="addNewModal" tabindex="-1" aria-labelledby="addNewModalLabel" aria-hidden="true">
+<div class="modal fade p-5" id="addNewModal" tabindex="-1" aria-labelledby="addNewModalLabel" aria-hidden="true">
     <div class="modal-dialog custom-modal-dialog" style="overflow-y: scroll;">
         <div class="modal-content">
             <div class="modal-header">

@@ -53,26 +53,26 @@
                                     </div>
                                     <!-- Dynamic Rows -->
                                     @php
-                                        $countnotavailabledates=count($notavailabledates);
+                                        $countnotavailabledates = count($notavailabledates);
                                     @endphp
-                                    @if($countnotavailabledates>0)
-                                    @foreach ($notavailabledates as $notavaildate)
-                                        <div data-repeater-item="">
-                                            <div class="form-group row d-flex align-items-end">
-                                                <div class="col">
-                                                    <input type="date" class="form-control form-control-lg"
-                                                        name="setavailblesingledates" tabindex="4"
-                                                        value="{{ $notavaildate->not_available_date }}">
-                                                    <div class="dateValidationMessages" style="color: red;"></div>
-                                                </div>
-                                                <div class="col">
-                                                    <span data-repeater-delete="" class="btn btn-danger btn-sm">
-                                                        <span class="far fa-trash-alt mr-1"></span> Delete
-                                                    </span>
+                                    @if ($countnotavailabledates > 0)
+                                        @foreach ($notavailabledates as $notavaildate)
+                                            <div data-repeater-item="">
+                                                <div class="form-group row d-flex align-items-end">
+                                                    <div class="col">
+                                                        <input type="date" class="form-control form-control-lg"
+                                                            name="setavailblesingledates" tabindex="4"
+                                                            value="{{ $notavaildate->not_available_date }}">
+                                                        <div class="dateValidationMessages" style="color: red;"></div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <span data-repeater-delete="" class="btn btn-danger btn-sm">
+                                                            <span class="far fa-trash-alt mr-1"></span> Delete
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    @endforeach
+                                        @endforeach
                                     @endif
                                     <div data-repeater-item="" id="notavailbledate_no" style="display: none;">
                                         <div class="form-group row d-flex align-items-end">
@@ -124,70 +124,75 @@
                                     </div>
                                     <!-- Dynamic Rows -->
                                     @php
-                                        $countavialabletime=count($appointmentavailable);
+                                        $countavialabletime = count($appointmentavailable);
                                     @endphp
-                                    @if($countavialabletime>0)
+                                    @if ($countavialabletime > 0)
 
-                                    @foreach ($appointmentavailable as $availdatetime)
-                                        <div data-repeater-item="">
-                                            <div class="form-group row d-flex align-items-end">
-                                                <div class="col-md-2">
-                                                    <input class="form-control" type="checkbox" id="settimestatuss"
-                                                        name="settimestatuss" value="1" style="width: 10%;"
-                                                        {{ $availdatetime->is_set_time == 1 ? 'checked' : '' }}>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <select id="setdayss" name="setdayss"
-                                                        class="day-select form-control">
-                                                        <option value="0">Days</option>
-                                                        <option value="Sunday"
-                                                            @if ($availdatetime->appt_days == 'Sunday') selected @endif>Sunday
-                                                        </option>
-                                                        <option value="Monday"
-                                                            @if ($availdatetime->appt_days == 'Monday') selected @endif>Monday
-                                                        </option>
-                                                        <option value="Tuesday"
-                                                            @if ($availdatetime->appt_days == 'Tuesday') selected @endif>Tuesday
-                                                        </option>
-                                                        <option value="Wednesday"
-                                                            @if ($availdatetime->appt_days == 'Wednesday') selected @endif>Wednesday
-                                                        </option>
-                                                        <option value="Thursday"
-                                                            @if ($availdatetime->appt_days == 'Thursday') selected @endif>Thursday
-                                                        </option>
-                                                        <option value="Friday"
-                                                            @if ($availdatetime->appt_days == 'Friday') selected @endif>Friday
-                                                        </option>
-                                                        <option value="Saturday"
-                                                            @if ($availdatetime->appt_days == 'Saturday') selected @endif>Saturday
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <input type="text" id="setfrom_times" name="setfrom_times"
-                                                        class="form-control timepicker-input"
-                                                        value="{{ $availdatetime->from_time }}">
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <input type="text" id="setto_times" name="setto_times"
-                                                        class="form-control timepicker-input"
-                                                        value="{{ $availdatetime->to_time }}">
-                                                </div>
-                                                <div class="col-md-1">
-                                                    <span data-repeater-delete="" class="btn btn-danger btn-sm">
-                                                        <span class="far fa-trash-alt mr-1"></span>
-                                                    </span>
+                                        @foreach ($appointmentavailable as $availdatetime)
+                                            <div data-repeater-item="">
+                                                <div class="form-group row d-flex align-items-end">
+                                                    <div class="col-md-2">
+                                                        <input class="form-control" type="checkbox"
+                                                            id="settimestatuss" name="settimestatuss" value="1"
+                                                            style="width: 15%;"
+                                                            {{ $availdatetime->is_set_time == 1 ? 'checked' : '' }}>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <select id="setdayss" name="setdayss"
+                                                            class="day-select form-control">
+                                                            <option value="0">Days</option>
+                                                            <option value="Sunday"
+                                                                @if ($availdatetime->appt_days == 'Sunday') selected @endif>Sunday
+                                                            </option>
+                                                            <option value="Monday"
+                                                                @if ($availdatetime->appt_days == 'Monday') selected @endif>Monday
+                                                            </option>
+                                                            <option value="Tuesday"
+                                                                @if ($availdatetime->appt_days == 'Tuesday') selected @endif>
+                                                                Tuesday
+                                                            </option>
+                                                            <option value="Wednesday"
+                                                                @if ($availdatetime->appt_days == 'Wednesday') selected @endif>
+                                                                Wednesday
+                                                            </option>
+                                                            <option value="Thursday"
+                                                                @if ($availdatetime->appt_days == 'Thursday') selected @endif>
+                                                                Thursday
+                                                            </option>
+                                                            <option value="Friday"
+                                                                @if ($availdatetime->appt_days == 'Friday') selected @endif>Friday
+                                                            </option>
+                                                            <option value="Saturday"
+                                                                @if ($availdatetime->appt_days == 'Saturday') selected @endif>
+                                                                Saturday
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <input type="text" id="setfrom_times" name="setfrom_times"
+                                                            class="form-control timepicker-input"
+                                                            value="{{ $availdatetime->from_time }}">
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <input type="text" id="setto_times" name="setto_times"
+                                                            class="form-control timepicker-input"
+                                                            value="{{ $availdatetime->to_time }}">
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <span data-repeater-delete="" class="btn btn-danger btn-sm">
+                                                            <span class="far fa-trash-alt mr-1"></span>
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    @endforeach
+                                        @endforeach
                                     @endif
 
-                                    <div data-repeater-item="" id="availabletime_no" style="display: none;" >
+                                    <div data-repeater-item="" id="availabletime_no" style="display: none;">
                                         <div class="form-group row d-flex align-items-end">
                                             <div class="col">
                                                 <input class="form-control" type="checkbox" id="settimestatuss"
-                                                    name="settimestatuss" value="1" style="width: 10%;">
+                                                    name="settimestatuss" value="1" style="width: 15%;">
                                             </div>
                                             <div class="col">
                                                 <select id="setdayss" name="setdayss"
@@ -250,27 +255,27 @@
                                     </div>
                                     <!-- Dynamic Rows -->
                                     @php
-                                        $countsetquestions=count($setquestions);
+                                        $countsetquestions = count($setquestions);
                                     @endphp
-                                    @if($countsetquestions>0)
-                                    @foreach ($setquestions as $setqustn)
-                                        <div data-repeater-item="">
-                                            <div class="form-group row d-flex align-items-end">
+                                    @if ($countsetquestions > 0)
+                                        @foreach ($setquestions as $setqustn)
+                                            <div data-repeater-item="">
+                                                <div class="form-group row d-flex align-items-end">
 
-                                                <div class="col">
-                                                    <textarea id="setquestions" name="setquestions" placeholder="Set Question" class="form-control" maxlength="250"
-                                                        tabindex="6">{{ $setqustn->questions }}</textarea>
-                                                    <label for="setquestions"></label>
-                                                </div>
+                                                    <div class="col">
+                                                        <textarea id="setquestions" name="setquestions" placeholder="Set Question" class="form-control" maxlength="250"
+                                                            tabindex="6">{{ $setqustn->questions }}</textarea>
+                                                        <label for="setquestions"></label>
+                                                    </div>
 
-                                                <div class="col">
-                                                    <span data-repeater-delete="" class="btn btn-danger btn-sm">
-                                                        <span class="far fa-trash-alt mr-1"></span> Delete
-                                                    </span>
+                                                    <div class="col">
+                                                        <span data-repeater-delete="" class="btn btn-danger btn-sm">
+                                                            <span class="far fa-trash-alt mr-1"></span> Delete
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    @endforeach
+                                        @endforeach
                                     @endif
                                     <div data-repeater-item="" id="setquestion_no" style="display: none;">
                                         <div class="form-group row d-flex align-items-end">
@@ -310,7 +315,8 @@
                             id="service_type_ids" name="service_type_ids" required tabindex="1">
                             <option value="">Select Services</option><br />
                             @foreach ($servicedetails as $shps)
-                                <option value="{{ $shps->id }}" @if ($shps->id == $ServiceAppointment->service_id) selected @endif>
+                                <option value="{{ $shps->id }}"
+                                    @if ($shps->id == $ServiceAppointment->service_id) selected @endif>
                                     {{ $shps->service_name }}</option>
                             @endforeach
                         </select>
@@ -325,7 +331,8 @@
                             id="service_employe_ids" name="service_employe_ids" required tabindex="1">
                             <option value="">Select Employee</option><br />
                             @foreach ($serviceemployees as $emplye)
-                                <option value="{{ $emplye->id }}" @if ($emplye->id == $ServiceAppointment->employee_id) selected @endif>
+                                <option value="{{ $emplye->id }}"
+                                    @if ($emplye->id == $ServiceAppointment->employee_id) selected @endif>
                                     {{ $emplye->employee_name }}
                                 </option>
                             @endforeach
@@ -341,15 +348,38 @@
 
 
 
-
+                    @php
+                        $servicepoint = $ServiceAppointment->service_point;
+                        $explodeservice = explode(',', $servicepoint);
+                        $servicepointa = $explodeservice[0];
+                        $servicepointb = $explodeservice[1];
+                    @endphp
 
 
 
                     <div class="form-group mb-0 row">
-                        <label class="col-md-4">Service Point </label>
-                        <div class="col-md-8">
+                        <label class="col-md-3">Service Point </label>
+                        <div class="col-md-9">
                             <div class="form-group">
+
                                 <div class="form-check form-check-inline">
+                                    <input class="form-control" type="checkbox" id="servicepointa"
+                                        name="servicepointa" value="1"
+                                        {{ $servicepointa == 1 ? 'checked' : '' }} style="width: 18%;">
+                                    <label class="form-check-label" for="servicepointa">At
+                                        Home</label>
+                                </div>s
+                                <div class="form-check form-check-inline">
+                                    <input class="form-control" type="checkbox" id="servicepointb"
+                                        name="servicepointb" value="1"
+                                        {{ $servicepointb == 1 ? 'checked' : '' }}  style="width: 19%;">
+                                    <label class="form-check-label" for="servicepointb">At
+                                        Shop</label>
+                                </div>
+
+
+
+                                {{-- <div class="form-check form-check-inline">
                                     <input type="radio" class="form-check-input" id="athomes"
                                         name="servicepoints" value="1" tabindex="10"
                                         {{ $ServiceAppointment->service_point == 1 ? 'checked' : '' }}>
@@ -357,10 +387,10 @@
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <input type="radio" class="form-check-input" id="atshops"
-                                        name="servicepoints" value="2" tabindex="11"
+                                        name="servicepoints" value="1" tabindex="11"
                                         {{ $ServiceAppointment->service_point == 2 ? 'checked' : '' }}>
                                     <label class="form-check-label" for="atshops">At Shop</label>
-                                </div>
+                                </div> --}}
 
                             </div>
                         </div>
@@ -486,10 +516,36 @@
     });
 
 
-    $('.repeater-default-questions').repeater({
+    // $('.repeater-default-questions').repeater({
 
+    //     show: function() {
+    //         $(this).slideDown();
+    //         updateFieldIds($(this));
+    //     },
+    //     hide: function(deleteElement) {
+    //         if (confirm('Are you sure you want to delete the question?')) {
+    //             $(this).slideUp(deleteElement);
+    //         }
+    //     },
+    // });
+
+
+
+
+    var maxQuestions = 8;
+    $('.repeater-default-questions').repeater({
         show: function() {
-            $(this).slideDown();
+            var $list = $('[data-repeater-list="setquestion_datas"]');
+            var currentCount = $list.children('[data-repeater-item]').length;
+            if (currentCount < maxQuestions) {
+                $(this).slideDown();
+                $list.find('[data-repeater-create]').trigger('click');
+
+                currentCount = $list.children('[data-repeater-item]').length;
+            } else {
+                alert("You can add a maximum of 6 questions.");
+            }
+
             updateFieldIds($(this));
         },
         hide: function(deleteElement) {

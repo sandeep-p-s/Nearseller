@@ -70,7 +70,7 @@
             {{-- @endif --}}
             <br>
 
-            <div class="modal fade" id="ViewEditModal" tabindex="-1" aria-labelledby="ViewEditModalLabel"
+            <div class="modal fade p-5" id="ViewEditModal" tabindex="-1" aria-labelledby="ViewEditModalLabel"
                 aria-hidden="true" style="overflow-y: scroll;">
                 <div class="modal-dialog custom-modal-dialog">
                     <div class="modal-content">

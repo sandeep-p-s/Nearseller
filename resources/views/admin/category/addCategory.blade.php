@@ -143,8 +143,8 @@
 
     $("#category_image").change(function(event) {
         var totalFileCount = $(this)[0].files.length;
-        if (totalFiless + totalFileCount > 5) {
-            alert('Maximum 5 images allowed');
+        if (totalFiless + totalFileCount > 1) {
+            alert('Maximum 1 images allowed');
             $(this).val('');
             $('#image-preview').html('');
             return;

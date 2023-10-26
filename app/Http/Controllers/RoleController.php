@@ -278,7 +278,7 @@ class RoleController extends Controller
         $validatedData = $request->validate([
             's_name' => 'required|max:50',
             's_mobno' => 'required|max:10',
-            's_email' => 'required|email|max:35',
+            // 's_email' => 'required|email|max:35',
             'roleid' => 'required',
         ]);
         $user = new UserAccount();
@@ -300,7 +300,7 @@ class RoleController extends Controller
         $user->password = Hash::make($pass_chars);
         $user->role_id = $request->roleid;
         $user->forgot_pass = $pass_chars;
-        $user->user_status = 'N';
+        $user->user_status = 'Y';
         $user->ip = $loggedUserIp;
         $user->parent_id = $userId;
         $submt = $user->save();
@@ -386,6 +386,9 @@ class RoleController extends Controller
                 //echo $lastRegId = $affliteDetail->toSql();exit;
             }
 
+
+
+            if($request->input('s_email')!=''){
             $valencodemm = $lastRegId . '-' . $request->s_email;
             $valsmm = base64_encode($valencodemm);
             $verificationToken = base64_encode($last_id . '-' . $request->s_email . '-' . $pass_chars . '-');
@@ -393,6 +396,9 @@ class RoleController extends Controller
             $message = '';
             $email = new EmailVerification($verificationToken, $request->s_name, $request->s_email, $checkval, $message);
             Mail::to($request->s_email)->send($email);
+            }
+
+
         } else {
         }
     }
@@ -429,8 +435,9 @@ class RoleController extends Controller
         $validatedData = $request->validate([
             'es_name' => 'required|max:50',
             'es_mobno' => 'required|max:10',
-            'es_email' => 'required|email|max:35',
+            // 'es_email' => 'required|email|max:35',
             'eroleid' => 'required',
+            'userstatus' => 'required',
         ]);
         $useridhid = $request->useridhid;
         if ($request->eroleid == 2 || $request->eroleid == 9) {
@@ -471,6 +478,7 @@ class RoleController extends Controller
         }
         $user->name = ucfirst($request->es_name);
         $user->role_id = $request->eroleid;
+        $user->user_status = $request->userstatus;
         $user->ip = $loggedUserIp;
         $submt = $user->save();
 
@@ -947,6 +955,7 @@ class RoleController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
+        $roleid = session('roleid');
         if ($userId == '') {
             return redirect()->route('logout');
         }
@@ -954,8 +963,18 @@ class RoleController extends Controller
         $userdetails = DB::table('user_account')
             ->where('id', $userId)
             ->get();
+        $roleIdsArray = explode(',', $roleid);
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+        {
+            $selrdetails = DB::table('seller_details')->select('busnes_type')
+            ->where('user_id', $userId)
+            ->first();
+        }
+        else{
+            $selrdetails='';
+        }
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.role.changepassword', compact('userdetails', 'userRole', 'loggeduser', 'structuredMenu'));
+        return view('admin.role.changepassword', compact('userdetails', 'userRole', 'loggeduser', 'structuredMenu','selrdetails'));
     }
 
     public function ChangeNewPasswordPage(Request $request)

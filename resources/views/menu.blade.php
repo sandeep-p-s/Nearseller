@@ -1,23 +1,55 @@
 <!-- Admin menus -->
 {{-- <div class="menu-content h-100" data-simplebar  style="background-color: {{ isset($allsectdetails->colorpicks) ? $allsectdetails->colorpicks : '' }}"> --}}
-    <div class="menu-content h-100" data-simplebar >
+<div class="menu-content h-100" data-simplebar>
 
-<!-- menu.blade.php -->
-<ul class="metismenu left-sidenav-menu">
-    <li><a href="{{ route('admin.dashboard') }}"><i data-feather="hhh" class="align-self-center menu-icon"></i><span>Dashboard</span></a></li>
-@php
-    //echo "<pre>";print_r($structuredMenu);exit;
-@endphp
+    <!-- menu.blade.php -->
+    <ul class="metismenu left-sidenav-menu">
+        <li><a href="{{ route('admin.dashboard') }}"><i data-feather="hhh"
+                    class="align-self-center menu-icon"></i><span>Dashboard</span></a></li>
 
-    @foreach ($structuredMenu as $layer1 => $layer1Data)
-        <li class="">
+        @php
+            $countmenu = count($structuredMenu);
+            $roleid = session('roleid');
+            $roleIdsArray = explode(',', $roleid);
+            $roleCount = count($roleIdsArray);
+        @endphp
+        @foreach ($userdetails as $userdts)
+            @if (in_array('2', $roleIdsArray) && $userdts->approved != 'Y' && $selrdetails->busnes_type == 1)
+                <li><a href="{{ route('admin.shopapprovalsadd', 1) }}"><i data-feather="hhh"
+                            class="align-self-center menu-icon"></i><span>Shop Details</span></a></li>
+                <li><a href="{{ route('user.changepassword') }}"><i data-feather="hhh"
+                            class="align-self-center menu-icon"></i><span>Change Password</span></a></li>
+            @endif
+            @if (in_array('9', $roleIdsArray) && $userdts->approved != 'Y' && $selrdetails->busnes_type == 2)
+                <li><a href="{{ route('admin.shopapprovalsadd', 2) }}"><i data-feather="hhh"
+                            class="align-self-center menu-icon"></i><span>Service Details</span></a></li>
+                <li><a href="{{ route('user.changepassword') }}"><i data-feather="hhh"
+                            class="align-self-center menu-icon"></i><span>Change Password</span></a></li>
+            @endif
+
+            @if (in_array('2', $roleIdsArray) && $userdts->approved == 'Y' && $countmenu == 0 && $selrdetails->busnes_type == 1)
+                <li><a href="{{ route('admin.shopapprovalsadd', 1) }}"><i data-feather="hhh"
+                            class="align-self-center menu-icon"></i><span>Shop Details</span></a></li>
+                <li><a href="{{ route('user.changepassword') }}"><i data-feather="hhh"
+                            class="align-self-center menu-icon"></i><span>Change Password</span></a></li>
+            @endif
+            @if (in_array('9', $roleIdsArray) && $userdts->approved == 'Y' && $countmenu == 0 && $selrdetails->busnes_type == 2)
+                <li><a href="{{ route('admin.shopapprovalsadd', 2) }}"><i data-feather="hhh"
+                            class="align-self-center menu-icon"></i><span>Service Details</span></a></li>
+                <li><a href="{{ route('user.changepassword') }}"><i data-feather="hhh"
+                            class="align-self-center menu-icon"></i><span>Change Password</span></a></li>
+            @endif
+        @endforeach
+
+        @foreach ($structuredMenu as $layer1 => $layer1Data)
+            <li class="">
 
                 <a href="{{ $layer1Data[0][1] ?? '#' }}" href="javascript:void(0);" aria-expanded="false">
                     @if (is_array($layer1Data[0]))
                         <span>
                             @foreach ($layer1Data[0] as $item)
-                                @if(isset($item[0]))
-                                    {{ is_array($item) ? ($item[0] ?? '') : $item }}
+                                @if (isset($item[0]))
+                                    {{ is_array($item) ? $item[0] ?? '' : $item }}
                                 @endif
                             @endforeach
                         </span>
@@ -29,17 +61,22 @@
                 <ul class="nav-second-level mm-collapse" aria-expanded="false">
                     @foreach ($layer1Data as $layer2 => $layer2Data)
                         @if ($layer2 > 0)
-                            @if (isset($layer2Data[0]) && is_array($layer2Data[0]) && isset($layer2Data[0][0]) && is_string($layer2Data[0][0]) && $layer2Data[0][0] != '')
+                            @if (isset($layer2Data[0]) &&
+                                    is_array($layer2Data[0]) &&
+                                    isset($layer2Data[0][0]) &&
+                                    is_string($layer2Data[0][0]) &&
+                                    $layer2Data[0][0] != '')
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ url($layer2Data[0][1] ?? '#') }}"><i class="ti-control-record"></i>{{ $layer2Data[0][0] ?? '' }}</a>
+                                    <a class="nav-link" href="{{ url($layer2Data[0][1] ?? '#') }}"><i
+                                            class="ti-control-record"></i>{{ $layer2Data[0][0] ?? '' }}</a>
                                 </li>
                             @endif
                         @endif
                     @endforeach
                 </ul>
 
-        </li>
-    @endforeach
+            </li>
+        @endforeach
 
 
 
@@ -60,7 +97,7 @@
 
 
 
-{{--
+        {{--
 @if (session('roleid') == '1')
 <ul class="metismenu left-sidenav-menu">
     <li><a href="{{ route('admin.dashboard') }}"> <i data-feather="hhh"
@@ -260,7 +297,7 @@
 </ul>
 @endif --}}
 
-<!-- end affiliate menu -->
+        <!-- end affiliate menu -->
 
 
 

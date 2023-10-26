@@ -42,8 +42,8 @@
                     </div>
 
                     <div class="form-group"><label>Category</label>
-                        <select class="selectautox form-control" id="categorySelectorsx" name="parent_categorysx" tabindex="3"
-                            required>
+                        <select class="selectautox form-control" id="categorySelectorsx" name="parent_categorysx"
+                            tabindex="3" required>
                             <option value="0">Select Category</option>
                             @foreach ($filteredCategories as $key => $category)
                                 <option value="{{ $category->id }}" data-level="{{ $category->category_level }}"
@@ -117,8 +117,8 @@
                     </div> --}}
 
                     <div class="form-group"><label>Product Status</label>
-                        <select class="form-select form-control form-control-lg" name="productstatusx" id="productstatusx"
-                            required tabindex="6">
+                        <select class="form-select form-control form-control-lg" name="productstatusx"
+                            id="productstatusx" required tabindex="6">
                             <option value="">Select</option>
                             <option value="Y" @if ($ProductDetails->product_status == 'Y') selected @endif>Available</option>
                             <option value="N" @if ($ProductDetails->product_status == 'N') selected @endif>Not Available
@@ -199,26 +199,44 @@
                                 value="{{ $ProductDetails->brand_name }}" />
                         </div>
 
+                        @php
+                            $paymodes = $ProductDetails->paying_mode;
+                            $explodepaymode = explode(',', $paymodes);
+                            $cashdeposit = $explodepaymode[0];
+                            $fromshop = $explodepaymode[1];
+                            $calshop = $explodepaymode[2];
+                        @endphp
+
                         <div class="form-group mb-0 row">
                             <label class="col-md-4">Buying Option : </label>
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <div class="form-check form-check-inline">
-                                        <input type="radio" class="form-check-input" id="codsx"
+                                        <input class="form-control" type="checkbox" id="cashdeposits"
+                                            name="cashdeposits" value="1"
+                                            {{ $cashdeposit == 1 ? 'checked' : '' }} style="width: 27%;">
+
+                                        {{-- <input type="radio" class="form-check-input" id="codsx"
                                             name="paymodesx" value="cod" tabindex="10"
-                                            {{ $ProductDetails->paying_mode === 'cod' ? 'checked' : '' }}>
+                                            {{ $ProductDetails->paying_mode === 'cod' ? 'checked' : '' }}> --}}
                                         <label class="form-check-label" for="cod">COD</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input type="radio" class="form-check-input" id="fromshopsx"
+                                        <input class="form-control" type="checkbox" id="fromshops" name="fromshops"
+                                            value="1" {{ $fromshop == 1 ? 'checked' : '' }} style="width: 11%;">
+
+                                        {{-- <input type="radio" class="form-check-input" id="fromshopsx"
                                             name="paymodesx" value="shop" tabindex="11"
-                                            {{ $ProductDetails->paying_mode === 'shop' ? 'checked' : '' }}>
+                                            {{ $ProductDetails->paying_mode === 'shop' ? 'checked' : '' }}> --}}
                                         <label class="form-check-label" for="fromshop">Buy From Shop</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input type="radio" class="form-check-input" id="calshopsx"
+                                        <input class="form-control" type="checkbox" id="calshops" name="calshops"
+                                            value="1" {{ $calshop == 1 ? 'checked' : '' }} style="width: 16%;">
+
+                                        {{-- <input type="radio" class="form-check-input" id="calshopsx"
                                             name="paymodesx" value="calshop" tabindex="12"
-                                            {{ $ProductDetails->paying_mode === 'calshop' ? 'checked' : '' }}>
+                                            {{ $ProductDetails->paying_mode === 'calshop' ? 'checked' : '' }}> --}}
                                         <label class="form-check-label" for="calshop">Call Shop</label>
                                     </div>
                                 </div>
@@ -228,7 +246,7 @@
                         <div class="form-group">
                             <label>Stock </label>
                             <input type="number" class="form-control" id="totstocksx" name="totstocksx"
-                                tabindex="13" required value="{{ $ProductDetails->product_stock }}" />
+                                tabindex="13" value="{{ $ProductDetails->product_stock }}" />
                         </div>
                         <div class="form-group">
                             <div id="errorstocksx-message" class="text-danger" style="display: none;">Total
@@ -317,18 +335,21 @@
                                                     </div>
                                                     <div class="col">
                                                         <input type="text" id="offerpricesx1" name="offerpricesx1"
-                                                            placeholder="Offer Price" class="form-control" oninput="numberOnlyAllowedDot(this)"
+                                                            placeholder="Offer Price" class="form-control"
+                                                            oninput="numberOnlyAllowedDot(this)"
                                                             value="{{ $attribte->offer_price }}">
                                                     </div>
                                                     <div class="col">
                                                         <input type="text" id="mrpricesx1" name="mrpricesx1"
-                                                            placeholder="MRP" class="form-control" oninput="numberOnlyAllowedDot(this)"
+                                                            placeholder="MRP" class="form-control"
+                                                            oninput="numberOnlyAllowedDot(this)"
                                                             value="{{ $attribte->mrp_price }}">
                                                     </div>
                                                     <div class="col">
                                                         <input type="text" id="attr_stocksx1" name="attr_stocksx1"
                                                             placeholder="Attribute Stock"
-                                                            class="form-control attr-stocksx" oninput="numberOnlyAllowed(this)"
+                                                            class="form-control attr-stocksx"
+                                                            oninput="numberOnlyAllowed(this)"
                                                             value="{{ $attribte->attribute_stock }}">
                                                     </div>
                                                     <div class="col">
@@ -363,16 +384,19 @@
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" id="offerpricesx1" name="offerpricesx1"
-                                                        placeholder="Offer Price" class="form-control" oninput="numberOnlyAllowedDot(this)"/>
+                                                        placeholder="Offer Price" class="form-control"
+                                                        oninput="numberOnlyAllowedDot(this)" />
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" id="mrpricesx1" name="mrpricesx1"
-                                                        placeholder="MRP" class="form-control" oninput="numberOnlyAllowedDot(this)"/>
+                                                        placeholder="MRP" class="form-control"
+                                                        oninput="numberOnlyAllowedDot(this)" />
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" id="attr_stocksx1" name="attr_stocksx1"
                                                         placeholder="Attribute Stock"
-                                                        class="form-control attr-stocksx" oninput="numberOnlyAllowed(this)"/>
+                                                        class="form-control attr-stocksx"
+                                                        oninput="numberOnlyAllowed(this)" />
                                                 </div>
                                                 <div class="col">
                                                     <span data-repeater-delete="" class="btn btn-danger btn-sm">
@@ -420,7 +444,6 @@
 
 
 <script>
-
     function numberOnlyAllowed(inputElement) {
         let value = inputElement.value.replace(/\D/g, '');
         if (value.length > 10) {
@@ -468,6 +491,12 @@
 
 
     $(document).ready(function() {
+        $('#totstocksx').on('input', function() {
+            var value = $(this).val();
+            if (parseFloat(value) < 0) {
+                $(this).val(0);
+            }
+        });
 
         $('#ExistProductModal .selectshopse').each(function() {
             var $p = $(this).parent();
@@ -699,14 +728,14 @@
 
             fileArrs.push(file);
             totalFiless++;
-            if (totalFiless  > 10) {
-            alert('Maximum 10 images allowed');
-            $(this).val('');
-            $('#image-previewsx').html('');
-            totalFiless = 0;
-            fileArrs = [];
-            return;
-        }
+            if (totalFiless > 10) {
+                alert('Maximum 10 images allowed');
+                $(this).val('');
+                $('#image-previewsx').html('');
+                totalFiless = 0;
+                fileArrs = [];
+                return;
+            }
 
 
             var reader = new FileReader();
@@ -791,7 +820,7 @@
                 required: true,
             },
             totstocksx: {
-                required: true,
+                // required: true,
                 digits: true,
             },
             paymodesx: {

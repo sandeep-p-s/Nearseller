@@ -34,7 +34,10 @@
 <form id="SellerRegFormEdit" enctype="multipart/form-data" method="POST">
     @if ($sel_approved == 'Y')
         <div class="col-md-12">
-            <h3 style="text-align: center; color:#ff002b;">{{ $shoporservice }} Approved</h3>
+            <h3 style="text-align: center; color:#ff002b;"><span class="badge badge-soft-danger p-2">
+                {{ $shoporservice }} Approved
+            </span></h3>
+
         </div>
         <hr>
     @endif
@@ -67,7 +70,7 @@
                 <div class="form-outline mb-3"><label>Mobile Number<span class="text-danger">*</span></label>
                     <input type="text" id="es_mobno" name="es_mobno" value="{{ $sellerDetails->shop_mobno }}"
                         class="form-control form-control-lg" maxlength="10" placeholder="Mobile No" required
-                        tabindex="3" onchange="exstmobno(this.value,'2')"  oninput="numberOnlyAllowed(this)"/>
+                        tabindex="3" onchange="exstmobno(this.value,'2')" oninput="numberOnlyAllowed(this)" />
                     <label for="es_mobno" class="error"></label>
                     <div id="esmob-message" class="text-center" style="display: none;"></div>
                 </div>
@@ -85,7 +88,8 @@
                     <div id="es_refralid-message" class="text-center" style="display: none;"></div>
                 </div>
 
-                <div class="form-outline mb-3" style="display: none;"><label>Business Type<span class="text-danger">*</span></label>
+                <div class="form-outline mb-3" style="display: none;"><label>Business Type<span
+                            class="text-danger">*</span></label>
                     <select class="form-select form-control form-control-lg" id="es_busnestype" name="es_busnestype"
                         required tabindex="6">
                         @foreach ($business as $busnes)
@@ -97,8 +101,8 @@
                 </div>
                 <div class="form-outline mb-3"><label>{{ $shoporservice }} Category<span
                             class="text-danger">*</span></label>
-                    <select class="form-select form-control form-control-lg" id="es_shopservice" name="es_shopservice"
-                        required tabindex="7">
+                    <select class="form-select form-control form-control-lg" id="es_shopservice"
+                        name="es_shopservice" required tabindex="7">
                         <option value="">{{ $shoporservice }} Category</option><br />
                         @foreach ($shopservicecategory as $shopser)
                             <option value="{{ $shopser->id }}" @if ($shopser->id == $sellerDetails->shop_service_type) selected @endif>
@@ -268,7 +272,7 @@
                 <div class="form-outline mb-3"><label>Pincode<span class="text-danger">*</span></label>
                     <input type="text" id="es_pincode" name="es_pincode" value="{{ $sellerDetails->pincode }}"
                         maxlength="6" class="form-control form-control-lg" placeholder="Pin Code" required
-                        tabindex="17"  oninput="numberOnlyAllowed(this)" />
+                        tabindex="17" oninput="numberOnlyAllowed(this)" />
                     <label for="es_pincode" class="error"></label>
                 </div>
 
@@ -413,7 +417,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-outline mb-3"><label>{{ $shoporservice }} Background Color</label>
+                    <div class="form-outline mb-3" style="display: none;"><label>{{ $shoporservice }} Background
+                            Color</label>
                         <input type="color" id="es_bgcolor" name="es_bgcolor" id class="form-control"
                             placeholder="{{ $shoporservice }} Background Color" required tabindex="18"
                             value="{{ $sellerDetails->colorpicks }}" />
@@ -425,10 +430,10 @@
 
             </div>
             <div class="col-md-4">
-                <div class="form-outline mb-3"><label>License Number</label>
+                <div class="form-outline mb-3"><label>{{ $shoporservice }} License Number</label>
                     <input type="text" id="es_lisence" name="es_lisence"
                         value="{{ $sellerDetails->shop_licence }}" class="form-control form-control-lg"
-                        maxlength="25" placeholder="License Number"  tabindex="10" />
+                        maxlength="8" placeholder="License Number" tabindex="10" />
                     <label for="es_lisence" class="error"></label>
                 </div>
 
@@ -447,8 +452,10 @@
                 </div>
 
 
-                <div class="form-outline mb-3"><label> Establishment Date @if($typeid==1)<span
-                    class="text-danger">*</span> @endif</label>
+                <div class="form-outline mb-3"><label> Establishment Date @if ($typeid == 1)
+                            <span class="text-danger">*</span>
+                        @endif
+                    </label>
                     <input type="date" id="es_establishdate" name="es_establishdate"
                         value="{{ $sellerDetails->establish_date }}" maxlength="10"
                         class="form-control form-control-lg" placeholder="Establishment Date" tabindex="22"
@@ -507,7 +514,7 @@
                                             <div class="form-group row d-flex align-items-end">
                                                 <div class="col-md-2">
                                                     <input class="form-control" type="checkbox" id="settimestatuss"
-                                                        name="settimestatuss" value="1" style="width: 15%;"
+                                                        name="settimestatuss" value="1" style="width: 20%;"
                                                         {{ $availdatetime->is_set_time == 1 ? 'checked' : '' }}>
                                                 </div>
                                                 <div class="col-md-3">
@@ -562,7 +569,7 @@
                                         <div class="form-group row d-flex align-items-end">
                                             <div class="col">
                                                 <input class="form-control" type="checkbox" id="settimestatuss"
-                                                    name="settimestatuss" value="1" style="width: 10%;">
+                                                    name="settimestatuss" value="1" style="width: 20%;">
                                             </div>
                                             <div class="col">
                                                 <select id="setdayss" name="setdayss"
@@ -644,7 +651,7 @@
                         value="{{ $sellerDetails->shop_coordinator }}">
                     <label for="coordinater" class="error"></label>
                 </div>
-                @if (!($roleid == 3 || $roleid == 2))
+                @if (!($roleid == 9 || $roleid == 2))
                     <div class="form-outline mb-3"><label>User Status</label>
                         <select class="form-select form-control form-control-lg" name="userstatus" id="userstatus"
                             required tabindex="27">
@@ -673,7 +680,9 @@
                 <div style="float:right">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     {{-- @if (!($sel_approved == 'Y' && ($roleid == 3 || $roleid == 2))) --}}
+                    @if ($sel_approved!='Y')
                     <button type="submit" class="btn btn-primary">Save</button>
+                    @endif
                     {{-- @endif --}}
                 </div>
             </div>
@@ -695,6 +704,25 @@
 
 
 <script>
+    $('#es_locality').on('input', function() {
+        var inputText = $(this).val();
+        var pattern = /^[a-zA-Z0-9\s]+$/;
+        if (!pattern.test(inputText)) {
+            $(this).next('.error').text('Must include at least one alphabetic character.');
+        } else {
+            $(this).next('.error').text('');
+        }
+    });
+
+    $('#es_villagetown').on('input', function() {
+        var inputText = $(this).val();
+        var pattern = /^[a-zA-Z0-9\s]+$/;
+        if (!pattern.test(inputText)) {
+            $(this).next('.error').text('Must include at least one alphabetic character.');
+        } else {
+            $(this).next('.error').text('');
+        }
+    });
 
     function numberOnlyAllowed(inputElement) {
         let value = inputElement.value.replace(/\D/g, '');
@@ -1199,6 +1227,11 @@
         return this.optional(element) || gstRegex.test(value);
     }, "Invalid GST format. It should be in the format 29ABCDE1234F1Z5");
 
+    jQuery.validator.addMethod("validLicence", function(value, element) {
+        var licenceRegex = /^[A-Z]{3}\d{5}$/;
+        return this.optional(element) || licenceRegex.test(value);
+    }, "Invalid license number format. It should be 3 uppercase letters followed by 5 digits.");
+
     $("#SellerRegFormEdit").validate({
 
         rules: {
@@ -1240,9 +1273,9 @@
             //     required: true,
 
             // },
-            // es_lisence: {
-            //     required: true,
-            // },
+             es_lisence: {
+                 validLicence: true,
+             },
             es_buldingorhouseno: {
                 required: true,
             },
@@ -1286,7 +1319,7 @@
             },
             es_establishdate: {
                 required: function(element) {
-                return $("#etypeidhid").val() === "1";
+                    return $("#etypeidhid").val() === "1";
                 }
             },
             es_termcondtn: {
@@ -1340,10 +1373,9 @@
             // es_logo: {
             //     extension: "Only JPG and PNG files are allowed.",
             // },
-            // es_lisence: {
-            //     required: "Please enter the license number.",
-            //     maxlength: "License number must not exceed 25 characters."
-            // },
+             es_lisence: {
+                validLicence: "Invalid license number format. It should be 3 uppercase letters followed by 5 digits."
+             },
             es_buldingorhouseno: {
                 required: "Please enter building/house name and number.",
                 maxlength: "Building/house name and number must not exceed 100 characters."
@@ -1511,11 +1543,11 @@
                 j++;
 
                 var recRowmm = '<div class="row mb-5" id="added_fieldah' + i +
-                    '"><div class="col-md-3 fv-row fv-plugins-icon-container"><select class="form-select form-control form-control-lg" id="mediatype' +
+                    '"><div class="col-md-3 fv-row fv-plugins-icon-container"><select required class="form-select form-control form-control-lg" id="mediatype' +
                     i + '" name="mediatype[' + j +
-                    ']"><option selected="">Choose...</option><option value="1">Facebook</option><option value="2">Instagram</option><option value="3">Linked In</option><option value="4">Web site URL</option><option value="5">Youtub Video URL</option></select></div><div class="col-md-9 fv-row fv-plugins-icon-container"><div class="input-group"><input type="text"  id="mediaurl' +
+                    ']"><option value="">Choose...</option><option value="1">Facebook</option><option value="2">Instagram</option><option value="3">Linked In</option><option value="4">Web site URL</option><option value="5">Youtub Video URL</option></select></div><div class="col-md-9 fv-row fv-plugins-icon-container"><div class="input-group"><input type="text"  id="mediaurl' +
                     i + '" name="mediaurl[' + j +
-                    ']" class="form-control form-control-lg" placeholder="https://"  value="" tabindex="22"  maxlength="60"/><div align="right"><button id="removeRowsh' +
+                    ']" class="form-control form-control-lg" placeholder="https://" required value="" tabindex="22"  maxlength="60"/><div align="right"><button id="removeRowsh' +
                     i +
                     '" type="button" name="add_fieldss" class="btn btn-danger" onclick="removeRowsh(' +
                     i + ');" >-</button></div></div></div>';
