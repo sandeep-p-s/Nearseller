@@ -63,25 +63,38 @@ class AdminController extends Controller
         if (in_array('1', $roleIdsArray)) {
             $countproductuser = DB::table('product_details')->count();
             $countserviceuser = DB::table('service_details')->count();
+
         } elseif (in_array('2', $roleIdsArray)) {
             $countproductuser = DB::table('product_details')
                 ->where('shop_id', $userId)
                 ->count();
+
             $countserviceuser = 0;
         } elseif (in_array('9', $roleIdsArray)) {
             $countproductuser = 0;
             $countserviceuser = DB::table('service_details')
                 ->where('service_id', $userId)
                 ->count();
+
         } else {
             $countproductuser = 0;
             $countserviceuser = 0;
+
+        }
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+        {
+            $selrdetails = DB::table('seller_details')->select('busnes_type')
+            ->where('user_id', $userId)
+            ->first();
+        }
+        else{
+            $selrdetails='';
         }
 
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         //$allsectdetails = MenuMaster::AllSecrtorDetails($userId,$roleid);
 
-        return view('admin.dashboard', compact('userdetails', 'countUsers', 'countAffiliate', 'countShops', 'countservices', 'userRole', 'loggeduser', 'structuredMenu', 'countproductuser', 'countserviceuser','countInactiveShops','countInactiveservices'));
+        return view('admin.dashboard', compact('userdetails', 'countUsers', 'countAffiliate', 'countShops', 'countservices', 'userRole', 'loggeduser', 'structuredMenu', 'countproductuser', 'countserviceuser','countInactiveShops','countInactiveservices','selrdetails'));
     }
 
     ////////////////////////////Affiliate//////////////////////////////
@@ -899,9 +912,19 @@ class AdminController extends Controller
         } else {
             return redirect()->route('logout');
         }
+        $roleIdsArray = explode(',', $roleid);
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+        {
+            $selrdetails = DB::table('seller_details')->select('busnes_type')
+            ->where('user_id', $userId)
+            ->first();
+        }
+        else{
+            $selrdetails='';
+        }
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $allsectdetails = MenuMaster::AllSecrtorDetails($userId, $roleid);
-        return view('admin.shop_approval', compact('userdetails', 'userRole', 'loggeduser', 'shoporservice', 'typeid', 'structuredMenu', 'allsectdetails'));
+        return view('admin.shop_approval', compact('userdetails', 'userRole', 'loggeduser', 'shoporservice', 'typeid', 'structuredMenu', 'allsectdetails','selrdetails'));
     }
 
     function AllShopsList(Request $request)
@@ -1620,6 +1643,22 @@ class AdminController extends Controller
             $usermail="hyzvinukumar@gmail.com";
         }
 
+        $Sellercheck = SellerDetails::find($shopselrid);
+        if($Sellercheck->busnes_type=='1')
+            {
+                $shoporservice='Shop';
+            }
+            else if($Sellercheck->busnes_type=='2')
+            {
+                $shoporservice='Service';
+            }
+            else{
+                $shoporservice='';
+            }
+        if($Sellercheck->term_condition=='' || $Sellercheck->term_condition=='0')
+        {
+            return response()->json(['result' => 2, 'mesge' => $shoporservice.' Registration not completed. So can not be approved.']);
+        }
 
         if (($userstatus == 'Y') && ($request->approvedstatus=='Y')) {
             //echo "1=".$request->approvedstatus.'='.$userstatus;exit;
@@ -1627,6 +1666,7 @@ class AdminController extends Controller
             $user->approved_by = $userId;
             $user->approved_at = $time;
             $submt = $user->save();
+
 
             $SellerDetails = SellerDetails::find($shopselrid);
             $SellerDetails->seller_approved = $request->approvedstatus;
@@ -1798,7 +1838,7 @@ class AdminController extends Controller
                 $shopserviceuserid=$shops_user[1];
                 $SellerDetails = SellerDetails::find($shopserviceid);
                 $user = UserAccount::find($shopserviceuserid);
-                if ($user->approved == 'R' || $SellerDetails->seller_approved == 'R') {
+                if($user->approved == 'R' || $SellerDetails->seller_approved == 'R' || $SellerDetails->term_condition=='' || $SellerDetails->term_condition=='0') {
                 }
                 else{
                     $user->user_status = 'Y';

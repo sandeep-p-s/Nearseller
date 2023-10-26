@@ -24,10 +24,25 @@
                             <div id="esmob-message"  class="text-center" style="display: none;"></div>
                         </div>
                         <div class="form-outline mb-3"><label >Email ID</label>
-                            <input type="email" id="es_email" name="es_email"  value="{{ $alluserdetails->email }}"  class="form-control form-control-lg"  maxlength="35"  placeholder="Email ID" required tabindex="4"  onchange="exstemilid(this.value,'2')" />
+                            <input type="email" id="es_email" name="es_email"  value="{{ $alluserdetails->email }}"  class="form-control form-control-lg"  maxlength="35"  placeholder="Email ID" tabindex="4"  onchange="exstemilid(this.value,'2')" />
                             <label for="es_email" class="error"></label>
                             <div id="esemil-message"  class="text-center" style="display: none;"></div>
                         </div>
+                        <div class="form-outline mb-3"><label>User Status</label>
+                            <select class="form-select form-control form-control-lg" name="userstatus" id="userstatus"
+                                required tabindex="27">
+                                <option value="">Select</option>
+                                <option value="Y" @if ($alluserdetails->user_status == 'Y') selected @endif>Active</option>
+                                <option value="N" @if ($alluserdetails->user_status == 'N') selected @endif>Inactive
+                                </option>
+
+                            </select>
+                            <label for="userstatus" class="error"></label>
+                        </div>
+
+
+
+
                     </div>
 
 
@@ -54,7 +69,10 @@
 
 
 <script>
-
+    jQuery.validator.addMethod("validEmail", function(value, element) {
+            var emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+            return this.optional(element) || emailRegex.test(value);
+        }, "Invalid e-Mail ID. It should be in the format abcdxxxxxx123@gmail.com");
 
         $("#UserRegFormEdit").validate({
 
@@ -69,11 +87,15 @@
                     minlength: 10,
                 },
                 es_email: {
-                    required: true,
+                    //required: true,
                     email: true,
+                    validEmail: true,
                 },
 
                 eroleid: {
+                    required: true,
+                },
+                userstatus: {
                     required: true,
                 },
 
@@ -88,21 +110,24 @@
                     pattern: "Only characters, spaces, and dots are allowed.",
                 },
                 es_email: {
-                    email: "Please enter a valid email address.",
+                    validEmail: "Invalid email format. It should be in the format 29ABCDE1234F1Z5"
                 },
                 es_mobno: {
                     digits: "Please enter a valid mobile number.",
+                },
+                userstatus: {
+                    digits: "Please select user status.",
                 }
 
             },
             });
 
 
-            $('#es_name').on('input', function() {
-            var value = $(this).val();
-            value = value.replace(/[^A-Za-z\s\.]+/, '');
-            $(this).val(value);
-            });
+            // $('#es_name').on('input', function() {
+            // var value = $(this).val();
+            // value = value.replace(/[^A-Za-z\s\.]+/, '');
+            // $(this).val(value);
+            // });
 
             $('#UserRegFormEdit').submit(function(e) {
             e.preventDefault();

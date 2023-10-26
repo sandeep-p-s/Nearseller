@@ -18,8 +18,8 @@
             <div class="card">
                 <div class="card-body">
                     <div class="form-group"><label>Shop Name</label>
-                        <select class="selectshopsss form-select form-control form-control-lg" id="shop_names" name="shop_names"
-                            required tabindex="1">
+                        <select class="selectshopsss form-select form-control form-control-lg" id="shop_names"
+                            name="shop_names" required tabindex="1">
                             <option value="">Select Shop Name</option><br />
                             @foreach ($usershopdets as $shps)
                                 <option value="{{ $shps->id }}" @if ($shps->id == $ProductDetails->shop_id) selected @endif>
@@ -204,26 +204,45 @@
                                 value="{{ $ProductDetails->brand_name }}" />
                         </div>
 
+                        @php
+                            $paymodes = $ProductDetails->paying_mode;
+                            $explodepaymode = explode(',', $paymodes);
+                            $cashdeposit = $explodepaymode[0];
+                            $fromshop = $explodepaymode[1];
+                            $calshop = $explodepaymode[2];
+                        @endphp
+
                         <div class="form-group mb-0 row">
                             <label class="col-md-4">Buying Option : </label>
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <div class="form-check form-check-inline">
-                                        <input type="radio" class="form-check-input" id="cods"
-                                            name="paymodes" value="cod" tabindex="10"
-                                            {{ $ProductDetails->paying_mode === 'cod' ? 'checked' : '' }}>
+                                        <input class="form-control" type="checkbox" id="cashdepositsm"
+                                            name="cashdepositsm" value="1"
+                                            {{ $cashdeposit == 1 ? 'checked' : '' }} style="width: 27%;">
+
+                                        {{-- <input type="radio" class="form-check-input" id="codsx"
+                                            name="paymodesx" value="cod" tabindex="10"
+                                            {{ $ProductDetails->paying_mode === 'cod' ? 'checked' : '' }}> --}}
                                         <label class="form-check-label" for="cod">COD</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input type="radio" class="form-check-input" id="fromshops"
-                                            name="paymodes" value="shop" tabindex="11"
-                                            {{ $ProductDetails->paying_mode === 'shop' ? 'checked' : '' }}>
+                                        <input class="form-control" type="checkbox" id="fromshopsm"
+                                            name="fromshopsm" value="1" {{ $fromshop == 1 ? 'checked' : '' }}
+                                            style="width: 11%;">
+
+                                        {{-- <input type="radio" class="form-check-input" id="fromshopsx"
+                                            name="paymodesx" value="shop" tabindex="11"
+                                            {{ $ProductDetails->paying_mode === 'shop' ? 'checked' : '' }}> --}}
                                         <label class="form-check-label" for="fromshop">Buy From Shop</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input type="radio" class="form-check-input" id="calshops"
-                                            name="paymodes" value="calshop" tabindex="12"
-                                            {{ $ProductDetails->paying_mode === 'calshop' ? 'checked' : '' }}>
+                                        <input class="form-control" type="checkbox" id="calshopsm" name="calshopsm"
+                                            value="1" {{ $calshop == 1 ? 'checked' : '' }} style="width: 16%;">
+
+                                        {{-- <input type="radio" class="form-check-input" id="calshopsx"
+                                            name="paymodesx" value="calshop" tabindex="12"
+                                            {{ $ProductDetails->paying_mode === 'calshop' ? 'checked' : '' }}> --}}
                                         <label class="form-check-label" for="calshop">Call Shop</label>
                                     </div>
                                 </div>

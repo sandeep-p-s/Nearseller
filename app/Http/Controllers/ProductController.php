@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use App\Models\UserAccount;
 use App\Models\LogDetails;
 use App\Models\SellerDetails;
@@ -188,21 +189,26 @@ class ProductController extends Controller
         $loggedUserIp = $_SERVER['REMOTE_ADDR'];
         $time = date('Y-m-d H:i:s');
 
-        $validatedData = $request->validate([
+
+        $validatedData = Validator::make($request->all(), [
             'shop_name' => 'required',
             'prod_name' => 'required|regex:/^[A-Za-z\s\.]+$/',
             'prod_specification' => 'nullable|max:250',
             'parent_category' => 'required',
             'prod_description' => 'required|max:7000',
-            'totstock' => 'required|numeric',
+            'totstock' => 'numeric',
             'customRadio' => 'required|in:Y,N',
-            'paymode' => 'required|in:cod,shop,calshop',
+            // 'paymode' => 'required|in:cod,shop,calshop',
             'prod_manufacture' => 'nullable|max:250',
             'brand_name' => 'nullable|max:120',
             'videofile' => 'nullable|mimes:mp4|max:102400', // Max 100MB video file
             'prod_doc' => 'nullable|mimes:pdf|max:1024', // Max 1MB PDF file
-            //'s_photo'             => 'nullable|image|mimes:jpeg,png|max:2048', // Max 2MB per image
+            //'s_photo' => 'nullable|image|mimes:jpeg,png|max:2048', // Max 2MB per image
         ]);
+
+        if ($validatedData->fails()) {
+            return response()->json(['result' => 3, 'mesge' => $validatedData->errors()]);
+        }
 
         if ($request->input('customRadio') === 'Y') {
             $totalStock = (int) $request->input('totstock', 0);
@@ -218,6 +224,10 @@ class ProductController extends Controller
         }
         $ProductDetails = new ProductDetails();
         $ProductDetails->fill($validatedData);
+        $cashdeposit=$request->has('cashdeposit') ? 1 : 0;
+        $fromshop=$request->has('fromshop') ? 1 : 0;
+        $calshop=$request->has('calshop') ? 1 : 0;
+        $paymodes=$cashdeposit.','.$fromshop.','.$calshop;
         $ProductDetails->shop_id = $request->input('shop_name');
         $ProductDetails->product_name = $request->input('prod_name');
         $ProductDetails->product_specification = $request->input('prod_specification');
@@ -225,7 +235,7 @@ class ProductController extends Controller
         $ProductDetails->product_description = $request->input('prod_description');
         $ProductDetails->manufacture_details = $request->input('prod_manufacture');
         $ProductDetails->brand_name = $request->input('brand_name');
-        $ProductDetails->paying_mode = $request->input('paymode');
+        $ProductDetails->paying_mode = $paymodes;
         $ProductDetails->product_stock = $request->input('totstock');
         $ProductDetails->created_by = $userId;
         $ProductDetails->created_time = $time;
@@ -338,9 +348,9 @@ class ProductController extends Controller
             'prod_specificationsx' => 'nullable|max:250',
             'parent_categorysx' => 'required',
             'prod_descriptionsx' => 'required|max:7000',
-            'totstocksx' => 'required|numeric',
+            'totstocksx' => 'numeric',
             'customRadiosx' => 'required|in:Y,N',
-            'paymodesx' => 'required|in:cod,shop,calshop',
+            // 'paymodesx' => 'required|in:cod,shop,calshop',
             'prod_manufacturesx' => 'nullable|max:250',
             'brand_namesx' => 'nullable|max:120',
             'videofilesx' => 'nullable|mimes:mp4|max:102400', // Max 100MB video file
@@ -362,6 +372,10 @@ class ProductController extends Controller
         }
         $ProductDetails = new ProductDetails();
         $ProductDetails->fill($validatedData);
+        $cashdeposit=$request->has('cashdeposits') ? 1 : 0;
+        $fromshop=$request->has('fromshops') ? 1 : 0;
+        $calshop=$request->has('calshops') ? 1 : 0;
+        $paymodes=$cashdeposit.','.$fromshop.','.$calshop;
         $ProductDetails->shop_id = $request->input('shop_namesx');
         $ProductDetails->product_name = $request->input('prod_namesx');
         $ProductDetails->product_specification = $request->input('prod_specificationsx');
@@ -369,7 +383,7 @@ class ProductController extends Controller
         $ProductDetails->product_description = $request->input('prod_descriptionsx');
         $ProductDetails->manufacture_details = $request->input('prod_manufacturesx');
         $ProductDetails->brand_name = $request->input('brand_namesx');
-        $ProductDetails->paying_mode = $request->input('paymodesx');
+        $ProductDetails->paying_mode = $paymodes;
         $ProductDetails->product_stock = $request->input('totstocksx');
         $ProductDetails->created_by = $userId;
         $ProductDetails->created_time = $time;
@@ -563,9 +577,9 @@ class ProductController extends Controller
             'prod_specifications' => 'nullable|max:250',
             'parent_categorys' => 'required',
             'prod_descriptions' => 'required|max:7000',
-            'totstocks' => 'required|numeric',
+            'totstocks' => 'numeric',
             'customRadios' => 'required|in:Y,N',
-            'paymodes' => 'required|in:cod,shop,calshop',
+            // 'paymodes' => 'required|in:cod,shop,calshop',
             'prod_manufactures' => 'nullable|max:250',
             'productstatus' => 'required',
             'brand_names' => 'nullable|max:120',
@@ -589,6 +603,10 @@ class ProductController extends Controller
         $product_id = $request->prod_id;
         $ProductDetails = ProductDetails::find($product_id);
         $ProductDetails->fill($validatedData);
+        $cashdeposit=$request->has('cashdepositss') ? 1 : 0;
+        $fromshop=$request->has('fromshopss') ? 1 : 0;
+        $calshop=$request->has('calshopss') ? 1 : 0;
+        $paymodes=$cashdeposit.','.$fromshop.','.$calshop;
         $ProductDetails->shop_id = $request->input('shop_names');
         $ProductDetails->product_name = $request->input('prod_names');
         $ProductDetails->product_specification = $request->input('prod_specifications');
@@ -596,7 +614,7 @@ class ProductController extends Controller
         $ProductDetails->product_description = $request->input('prod_descriptions');
         $ProductDetails->manufacture_details = $request->input('prod_manufactures');
         $ProductDetails->brand_name = $request->input('brand_names');
-        $ProductDetails->paying_mode = $request->input('paymodes');
+        $ProductDetails->paying_mode = $paymodes;
         $ProductDetails->product_stock = $request->input('totstocks');
         $ProductDetails->product_status = $request->input('productstatus');
         // if($roleid==1)

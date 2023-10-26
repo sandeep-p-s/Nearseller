@@ -82,7 +82,7 @@
 
             </div>
 
-            <div class="modal fade" id="ViewEditModal" tabindex="-1" aria-labelledby="ViewEditModalLabel"
+            <div class="modal fade p-5" id="ViewEditModal" tabindex="-1" aria-labelledby="ViewEditModalLabel"
                 aria-hidden="true" style="overflow-y: scroll;">
                 <div class="modal-dialog custom-modal-dialog">
                     <div class="modal-content">
@@ -100,7 +100,7 @@
                 </div>
             </div>
 
-            <div class="modal fade" id="ProductApprovedModal" tabindex="-1" aria-labelledby="ProductApprovedModalLabel"
+            <div class="modal fade p-5" id="ProductApprovedModal" tabindex="-1" aria-labelledby="ProductApprovedModalLabel"
                 aria-hidden="true" style="overflow-y: scroll;">
                 <div class="modal-dialog custom-modal-dialog">
                     <div class="modal-content">
@@ -118,7 +118,7 @@
                 </div>
             </div>
 
-            <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog"
+            <div class="modal fade p-5" id="deleteConfirmationModal" tabindex="-1" role="dialog"
                 aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true" >
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">

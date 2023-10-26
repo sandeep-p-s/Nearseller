@@ -1151,9 +1151,9 @@ class HomeController extends Controller
                 if($user_status!='Y'){
                         return response()->json(['result' => 5,'mesge'=>'Inactive User. Please verify your register email.','sendto'=>$emailid]);
                 }
-                if (($role_id != 4 && $role_id != 1) && $approved !== 'Y') {
-                    return response()->json(['result' => 5,'mesge'=>'Not Approved.Please contact adminstrator','sendto'=>$emailid]);
-                }
+                // if (($role_id != 4 && $role_id != 1) && $approved !== 'Y') {
+                //     return response()->json(['result' => 5,'mesge'=>'Not Approved.Please contact adminstrator','sendto'=>$emailid]);
+                // }
 
                 return response()->json(['result' => 3,'mesge' => 'Successfully Logged In.','sendto' => $emailid]);
             } else {

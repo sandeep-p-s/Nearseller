@@ -7,6 +7,7 @@
                 <th>Email</th>
                 <th>Mobile</th>
                 <th>Role</th>
+                <th>User Status</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -18,6 +19,10 @@
                     <td>{{ $userDets->email }}</td>
                     <td>{{ $userDets->mobno }}</td>
                     <td>{{ $userDets->role_name }}</td>
+                    <td><span
+                        class="badge p-2 {{ $userDets->user_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
+                        {{ $userDets->user_status === 'Y' ? 'Active' : 'Inactive' }}
+                    </span></td>
                     <td>
                         <div class="btn-group mb-2 mb-md-0">
                             <button type="button" class="btn view_btn dropdown-toggle" data-toggle="dropdown"
@@ -79,7 +84,7 @@
                                     <label for="roleid" class="error"></label>
                                 </div>
 
-                                <div class="form-outline mb-3"><label>Name <font style="color: #0d3c1a;">
+                                <div class="form-outline mb-3"><label>Name <font style="color: #097728;">
                                             (Shop/Service/Customer/Others)</font></label>
                                     <input type="text" id="s_name" name="s_name"
                                         class="form-control form-control-lg" maxlength="50" placeholder="Name" required
@@ -97,7 +102,7 @@
                                 <div class="form-outline mb-3"><label>Email ID</label>
                                     <input type="email" id="s_email" name="s_email"
                                         class="form-control form-control-lg" maxlength="35" placeholder="Email ID"
-                                        required tabindex="4" onchange="exstemilid(this.value,'2')" />
+                                        tabindex="4" onchange="exstemilid(this.value,'2')" />
                                     <label for="s_email" class="error"></label>
                                     <div id="semil-message" class="text-center" style="display: none;"></div>
                                     <span id="emailid-error" style="color: red;"></span>
@@ -109,6 +114,7 @@
                                 <div style="float:right">
                                     <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-danger" id="resetButton">Reset</button>
                                     <button type="submit" class="btn btn-primary">Save</button>
                                 </div>
                             </div>
@@ -140,6 +146,13 @@
 
 
 <script>
+
+    $(document).ready(function() {
+        $('#resetButton').click(function() {
+            $('#UserRegForm input, #UserRegForm select').val('');
+            $('#UserRegForm .error').text('');
+        });
+    });
     function numberOnlyAllowed(inputElement) {
         let value = inputElement.value.replace(/\D/g, '');
         if (value.length > 10) {
@@ -167,7 +180,7 @@
                 minlength: 10,
             },
             s_email: {
-                required: true,
+                //required: true,
                 email: true,
                 validEmail: true,
             },
@@ -186,8 +199,8 @@
             s_name: {
                 pattern: "Only characters, spaces, and dots are allowed.",
             },
-            s_gstno: {
-                validEmail: "Invalid GST format. It should be in the format 29ABCDE1234F1Z5"
+            s_email: {
+                validEmail: "Invalid email format. It should be in the format abcdxxxxxx123@gmail.com"
             },
             s_mobno: {
                 digits: "Please enter a valid mobile number.",

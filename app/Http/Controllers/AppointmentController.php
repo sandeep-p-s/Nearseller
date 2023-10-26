@@ -130,6 +130,9 @@ class AppointmentController extends Controller
 
         $appointmentDetail = new ServiceAppointment();
         $appointmentDetail->fill($validatedData);
+        $servicepoint1=$request->has('servicepoint1') ? 1 : 0;
+        $servicepoint2=$request->has('servicepoint2') ? 1 : 0;
+        $servicepoint=$servicepoint1.','.$servicepoint2;
         $isnotappointment = $request->has('isnotavailable') ? 1 : 0;
         $appointmentDetail->is_setdates = $request->input('setavailbledate');
         $appointmentDetail->available_from_date = $request->input('setavailblefromdate');
@@ -138,7 +141,7 @@ class AppointmentController extends Controller
         $appointmentDetail->service_id = $request->input('service_type_id');
         $appointmentDetail->employee_id = $request->input('service_employe_id');
         $appointmentDetail->suggestion = $request->input('sugection');
-        $appointmentDetail->service_point = $request->input('servicepoint');
+        $appointmentDetail->service_point = $servicepoint;
         $newappointmentreg = $appointmentDetail->save();
         $appointment_id = $appointmentDetail->id;
         if ($isnotappointment == '1') {
@@ -266,10 +269,13 @@ class AppointmentController extends Controller
             'setavailblefromdates' => ['required_if:setavailbledates,1', 'date'],
             'setavailbletodates' => ['required_if:setavailbledates,1', 'date'],
             'service_type_ids' => 'required',
-            'servicepoints' => 'required',
+            // 'servicepoints' => 'required',
         ]);
         $appointmentDetail = ServiceAppointment::find($appointmentid);
         $appointmentDetail->fill($validatedData);
+        $servicepointa=$request->has('servicepointa') ? 1 : 0;
+        $servicepointb=$request->has('servicepointb') ? 1 : 0;
+        $servicepoint=$servicepointa.','.$servicepointb;
         $isnotappointment = $request->has('isnotavailables') ? 1 : 0;
         $appointmentDetail->is_setdates = $request->input('setavailbledates');
         $appointmentDetail->available_from_date = $request->input('setavailblefromdates');
@@ -278,7 +284,7 @@ class AppointmentController extends Controller
         $appointmentDetail->service_id = $request->input('service_type_ids');
         $appointmentDetail->employee_id = $request->input('service_employe_ids');
         $appointmentDetail->suggestion = $request->input('sugections');
-        $appointmentDetail->service_point = $request->input('servicepoints');
+        $appointmentDetail->service_point = $servicepoint;
         $newappointmentreg = $appointmentDetail->save();
         //delete product attributes
         $notavailabledateDetail = NotAvailableDate::where('appointment_id', $appointmentid)->delete();
