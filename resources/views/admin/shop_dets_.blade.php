@@ -203,15 +203,15 @@
 
                         <div class="form-outline mb-3"><label >Building/House Name & Number</label>
                             <input type="text" id="s_buldingorhouseno" name="s_buldingorhouseno"  maxlength="100"  class="form-control form-control-lg" placeholder="Building/House Name & Number" required  tabindex="11" />
-                            <label for="s_buldingorhouseno" class="error"></label>
+                            <div for="s_buldingorhouseno" class="error"></div>
                         </div>
                         <div class="form-outline mb-3"><label >Locality</label>
                             <input type="text" id="s_locality" name="s_locality"  maxlength="100"  class="form-control form-control-lg"placeholder="Locality" required  tabindex="12" />
-                            <label for="s_locality" class="error"></label>
+                            <div for="s_locality" class="error"></div>
                         </div>
                         <div class="form-outline mb-3"><label >Village/Town/Municipality</label>
                             <input type="text" id="s_villagetown" name="s_villagetown"  maxlength="100"  class="form-control form-control-lg" placeholder="Village/Town/Municipality" required  tabindex="13" />
-                            <label for="s_villagetown" class="error"></label>
+                            <div for="s_villagetown" class="error"></div>
                         </div>
                         <div class="form-outline mb-3"><label >Country</label>
                             <select class="form-select form-control form-control-lg" name="country"  aria-label="Default select example" id="country" required  tabindex="14" >
@@ -220,31 +220,31 @@
                                         <option value="{{ $country->id }}">{{ $country->country_name }}</option>
                                     @endforeach
                             </select>
-                            <label for="country" class="error"></label>
+                            <div for="country" class="error"></div>
                         </div>
                         <div class="form-outline mb-3"><label >State</label>
                             <select class="form-select form-control form-control-lg" name="state" aria-label="Default select example" id="state" required  tabindex="15">
 
                             </select>
-                            <label for="state" class="error"></label>
+                            <div for="state" class="error"></div>
                         </div>
                         <div class="form-outline mb-3"><label >District</label>
                             <select class="form-select form-control form-control-lg" aria-label="Default select example" id="district" name="district" required  tabindex="16">
 
                             </select>
-                            <label for="district" class="error"></label>
+                            <div for="district" class="error"></div>
                         </div>
                         <div class="form-outline mb-3"><label >Pincode</label>
                             <input type="text" id="s_pincode" name="s_pincode"  maxlength="6"  class="form-control form-control-lg" placeholder="Pin Code" required  tabindex="17" />
-                            <label for="s_pincode" class="error"></label>
+                            <div for="s_pincode" class="error"></div>
                         </div>
                         <div class="form-outline mb-3"><label >Google map link location</label>
                             <input type="text" id="s_googlelink" name="s_googlelink"   id class="form-control form-control-lg"   placeholder="Google map link location" required  tabindex="18" />
-                            <label for="s_googlelink" class="error"></label>
+                            <div for="s_googlelink" class="error"></div>
                         </div>
                         <div class="form-outline mb-3"><label >Shop Photo's</label>
                             <input type="file" id="s_photo"  multiple=""  name="s_photo[]" class="form-control form-control-lg" placeholder="Shop Photo" required tabindex="19" accept="image/jpeg, image/png"  />
-                            <label for="s_photo" class="error"></label>
+                            <div for="s_photo" class="error"></div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group" align="left">
@@ -258,22 +258,22 @@
 
                         <div class="form-outline mb-3"><label >License Number</label>
                             <input type="text" id="s_lisence" name="s_lisence" class="form-control form-control-lg"  maxlength="25"  placeholder="License Number" required  tabindex="10"/>
-                            <label for="s_lisence" class="error"></label>
+                            <div for="s_lisence" class="error"></div>
                         </div>
 
                         <div class="form-outline mb-3"><label >GST Number</label>
                             <input type="text" id="s_gstno" name="s_gstno"  maxlength="25"  class="form-control form-control-lg" placeholder="GST Number" required   tabindex="20" />
-                            <label for="s_gstno" class="error"></label>
+                            <div for="s_gstno" class="error"></div>
                         </div>
                         <div class="form-outline mb-3"><label >PAN Number</label>
                             <input type="text" id="s_panno" name="s_panno"  maxlength="12"  class="form-control form-control-lg" placeholder="PAN Number" required  tabindex="21" />
-                            <label for="s_panno" class="error"></label>
+                            <div for="s_panno" class="error"></div>
                         </div>
 
 
                         <div class="form-outline mb-3"><label > Establishment Date</label>
                             <input type="date" id="s_establishdate" name="s_establishdate"  maxlength="10"  class="form-control form-control-lg" placeholder="Establishment Date"  tabindex="22" />
-                            <label for="s_establishdate" class="error"></label>
+                            <div for="s_establishdate" class="error"></div>
                         </div>
 
 
@@ -287,7 +287,7 @@
                                 <div class="input-group-append" data-target="#from-time-picker" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-clock"></i></div>
                                 </div>
-                                <label for="opentime" class="error"></label>
+                                <div for="opentime" class="error"></div>
                             </div>
                         </div>
 
@@ -298,39 +298,39 @@
                                 <div class="input-group-append" data-target="#to-time-picker" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-clock"></i></div>
                                 </div>
-                                <label for="closetime" class="error"></label>
+                                <div for="closetime" class="error"></div>
                             </div>
                         </div>
 
 
                         <div class="form-outline mb-3"><label > Registration Date</label>
                             <input type="date" id="s_registerdate" name="s_registerdate"  maxlength="10"  class="form-control form-control-lg" placeholder="Registration Date"  tabindex="24" maxlength="10" />
-                            <label for="s_registerdate" class="error"></label>
+                            <div for="s_registerdate" class="error"></div>
                         </div>
 
                         <div class="form-outline mb-3"><label >Manufactoring Details</label>
                             <textarea id="manufactringdets" name="manufactringdets" placeholder="Manufactoring Details" class="form-control form-control-lg"  tabindex="25" required ></textarea>
-                            <label for="manufactringdets" class="error"></label>
+                            <div for="manufactringdets" class="error"></div>
                         </div>
 
                         <div class="form-outline mb-3"><label >Direct Affiliate</label>
                             <input type="text" class="form-control form-control-lg" id="directafflte" name="directafflte">
-                            <label for="directafflte" class="error"></label>
+                            <div for="directafflte" class="error"></div>
                         </div>
 
                         <div class="form-outline mb-3"><label >Second Affiliate</label>
                             <input type="text" class="form-control form-control-lg" id="secondafflte" name="secondafflte">
-                            <label for="secondafflte" class="error"></label>
+                            <div for="secondafflte" class="error"></div>
                         </div>
 
                         <div class="form-outline mb-3"><label >Co-Ordinator</label>
                             <input type="text" class="form-control form-control-lg" id="coordinater" name="coordinater">
-                            <label for="coordinater" class="error"></label>
+                            <div for="coordinater" class="error"></div>
                         </div>
 
                         <div class="checkbox form-check-inline">
                             <input class="form-check-input" type="checkbox" id="s_termcondtn" name="s_termcondtn" value="1" required tabindex="26" >
-                            <label class="inlineCheckbox1" for="s_termcondtn"> Accept Terms & Conditions </label>
+                            <div class="inlineCheckbox1" for="s_termcondtn"> Accept Terms & Conditions </div>
                         </div>
 
                     </div>
@@ -387,7 +387,7 @@
                     <div class="col-md-12">
                         <div class="form-outline mb-3"><label >Upload File</label>
                             <input type="file" id="shopupload" name="shopupload" class="form-control form-control-lg" placeholder="Upload File" accept=".csv" required tabindex="1" />
-                            <label for="shopupload" class="error"></label>
+                            <div for="shopupload" class="error"></div>
                         </div>
 
                     </div>
