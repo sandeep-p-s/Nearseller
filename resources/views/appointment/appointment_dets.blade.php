@@ -4,8 +4,8 @@
             <tr>
                 <th>SINO</th>
                 <th>Service Name</th>
-                <th>Date & Time</th>
-                <th>Service Type</th>
+                <th>Available Date</th>
+                {{-- <th>Service Type</th> --}}
                 <th>Action</th>
 
             </tr>
@@ -28,12 +28,12 @@
                             &nbsp; {{ $formattedToDate }}
                         </span>
                     </td>
-                    <td>
+                    {{-- <td>
                         <span
                             class="badge p-2 {{ $service->service_point == '1' ? 'badge badge-success' : ($service->service_point == '2' ? 'badge badge-info' : 'badge badge-danger') }}">
                             {{ $service->service_point == '1' ? 'At Home' : ($service->service_point == '2' ? 'At Shop' : 'None') }}
                         </span>
-                    </td>
+                    </td> --}}
                     <td>
                         <div class="btn-group mb-2 mb-md-0">
                             <button type="button" class="btn view_btn dropdown-toggle" data-toggle="dropdown"
@@ -73,7 +73,7 @@
 
 
 <!-- Modal Add New -->
-<div class="modal fade" id="addNewModal" tabindex="-1" aria-labelledby="addNewModalLabel" aria-hidden="true">
+<div class="modal fade p-5" id="addNewModal" tabindex="-1" aria-labelledby="addNewModalLabel" aria-hidden="true">
     <div class="modal-dialog custom-modal-dialog" style="overflow-y: scroll;">
         <div class="modal-content">
             <div class="modal-header">
@@ -189,7 +189,7 @@
                                                             <div class="col-md-2">
                                                                 <input class="form-control" type="checkbox"
                                                                     id="settimestatus" name="settimestatus"
-                                                                    value="1" style="width: 10%;">
+                                                                    value="1" style="width: 20%;">
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <select id="setdays" name="setdays"
@@ -324,18 +324,19 @@
                                     </div>
 
                                     <div class="form-group mb-0 row">
-                                        <label class="col-md-4">Service Point </label>
-                                        <div class="col-md-8">
+                                        <label class="col-md-3">Service Point </label>
+                                        <div class="col-md-9">
                                             <div class="form-group">
                                                 <div class="form-check form-check-inline">
-                                                    <input type="radio" class="form-check-input" id="athome"
-                                                        name="servicepoint" value="1" tabindex="10">
-                                                    <label class="form-check-label" for="athome">At Home</label>
+
+                                                    <input class="form-control" type="checkbox" id="servicepoint1"
+                                                        name="servicepoint1" value="1" style="width: 18%;">
+                                                    <label class="form-check-label" for="servicepoint1">At Home</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input type="radio" class="form-check-input" id="atshop"
-                                                        name="servicepoint" value="2" tabindex="11">
-                                                    <label class="form-check-label" for="atshop">At Shop</label>
+                                                    <input class="form-control" type="checkbox" id="servicepoint2"
+                                                        name="servicepoint2" value="1" style="width: 19%;">
+                                                    <label class="form-check-label" for="servicepoint2">At Shop</label>
                                                 </div>
 
                                             </div>
@@ -353,6 +354,7 @@
                     <div class="col-md-12">
                         <div style="float:right">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-danger" id="resetButton">Reset</button>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </div>
@@ -381,7 +383,16 @@
 
 
 <script>
+
+
+
+
     $(document).ready(function() {
+        $('#resetButton').click(function() {
+            $('#AppointmentAddForm input, #AppointmentAddForm select, #AppointmentAddForm textarea').val('');
+            $('#AppointmentAddForm .error').text('');
+            $('#AppointmentAddForm .selectpicker').selectpicker('val', '');
+        });
 
         // function initializeTimepicker() {
         //     // Select all elements with the class '.timepicker-input' and initialize timepicker
@@ -519,10 +530,34 @@
 
 
 
-    $('.repeater-default-question').repeater({
+    // $('.repeater-default-question').repeater({
 
+    //     show: function() {
+    //         $(this).slideDown();
+    //         updateFieldIds($(this));
+    //     },
+    //     hide: function(deleteElement) {
+    //         if (confirm('Are you sure you want to delete the question?')) {
+    //             $(this).slideUp(deleteElement);
+    //         }
+    //     },
+    // });
+
+
+    var maxQuestions = 6;
+    $('.repeater-default-question').repeater({
         show: function() {
-            $(this).slideDown();
+            var $list = $('[data-repeater-list="setquestion_data"]');
+            var currentCount = $list.children('[data-repeater-item]').length;
+            if (currentCount < maxQuestions) {
+                $(this).slideDown();
+                $list.find('[data-repeater-create]').trigger('click');
+
+                currentCount = $list.children('[data-repeater-item]').length;
+            } else {
+                alert("You can add a maximum of " + maxQuestions + " questions.");
+            }
+
             updateFieldIds($(this));
         },
         hide: function(deleteElement) {

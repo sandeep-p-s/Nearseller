@@ -75,7 +75,7 @@
 
 
 <!-- Modal Add New -->
-<div class="modal fade" id="addNewModal" tabindex="-1" aria-labelledby="addNewModalLabel" aria-hidden="true">
+<div class="modal fade p-5" id="addNewModal" tabindex="-1" aria-labelledby="addNewModalLabel" aria-hidden="true">
     <div class="modal-dialog custom-modal-dialog" style="overflow-y: scroll;">
         <div class="modal-content">
             <div class="modal-header">
@@ -92,17 +92,19 @@
                             <div class="card">
                                 <div class="card-body">
                                     @php
-                                    $shopshowhide = (session('roleid') == 1 || session('roleid') == 3) ? 'style=display:block;' : 'style=display:none;';
+                                        $shopshowhide = session('roleid') == 1 || session('roleid') == 3 ? 'style=display:block;' : 'style=display:none;';
                                     @endphp
 
 
                                     <div class="form-group" {{ $shopshowhide }}><label>Shop Name<span
-                                        class="text-danger">*</span></label>
+                                                class="text-danger">*</span></label>
                                         <select class="selectshops form-select form-control form-control-lg"
                                             id="shop_name" name="shop_name" required tabindex="1">
                                             <option value="">Select Shop Name</option><br />
                                             @foreach ($usershopdets as $shps)
-                                                <option value="{{ $shps->id }}" @if ($shps->id == session('user_id')) selected @endif>{{ $shps->name }}</option>
+                                                <option value="{{ $shps->id }}"
+                                                    @if ($shps->id == session('user_id')) selected @endif>
+                                                    {{ $shps->name }}</option>
                                             @endforeach
                                         </select>
                                         <label for="shop_name" class="error"></label>
@@ -110,22 +112,21 @@
 
 
                                     <div class="form-group"><label>Product Name<span
-                                        class="text-danger">*</span></label>
+                                                class="text-danger">*</span></label>
                                         <input type="text" id="prod_name" name="prod_name"
                                             class="enterproduct form-control" maxlength="60" placeholder="Product Name"
                                             required tabindex="1" onchange="showexistproduct();" />
                                         <label for="prod_name" class="error"></label>
                                     </div>
                                     <div class="form-group"><label> Product Specification<span
-                                        class="text-danger">*</span></label>
+                                                class="text-danger">*</span></label>
                                         <textarea id="prod_specification" name="prod_specification" placeholder="Product Specification" class="form-control"
                                             maxlength="250" tabindex="2" required></textarea>
                                         <label for="prod_specification"></label>
                                     </div>
 
 
-                                    <div class="form-group"><label>Category<span
-                                        class="text-danger">*</span></label>
+                                    <div class="form-group"><label>Category<span class="text-danger">*</span></label>
                                         <select class="selectauto form-control" id="categorySelector"
                                             name="parent_category" tabindex="3" required>
                                             <option value="">Select Category</option>
@@ -143,8 +144,7 @@
 
 
                                     <div class="form-group">
-                                        <label>Product Description <span
-                                            class="text-danger">*</span></label>
+                                        <label>Product Description <span class="text-danger">*</span></label>
                                         <textarea id="prod_description" name="prod_description" placeholder="Product Description" class="form-control"
                                             maxlength="7000" tabindex="4" required rows="3"></textarea>
                                         <label for="prod_description"></label>
@@ -152,7 +152,7 @@
 
 
                                     <div class="form-group"><label>Product Images<span
-                                        class="text-danger">*</span></label>
+                                                class="text-danger">*</span></label>
                                         <input type="file" id="s_photo" multiple="" name="s_photo[]"
                                             class="form-control" placeholder="Shop Photo" tabindex="5" required
                                             accept="image/jpeg, image/png" />
@@ -198,7 +198,7 @@
                                     <div class="form-group">
                                         <label>Manufacturer Details</label>
                                         <textarea id="prod_manufacture" name="prod_manufacture" placeholder="Manufacturer Details" class="form-control"
-                                            maxlength="250" rows="2" tabindex="8" ></textarea>
+                                            maxlength="250" rows="2" tabindex="8"></textarea>
                                         <label for="prod_manufacture" class="error"></label>
                                     </div>
                                     <div class="form-group">
@@ -212,19 +212,27 @@
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <div class="form-check form-check-inline">
-                                                    <input type="radio" class="form-check-input" id="cod"
-                                                        name="paymode" value="cod" tabindex="10">
+                                                    <input class="form-control" type="checkbox" id="cashdeposit"
+                                                        name="cashdeposit" value="1" style="width: 27%;">
+
+                                                    {{-- <input type="radio" class="form-check-input" id="cod"
+                                                        name="paymode" value="cod" tabindex="10"> --}}
                                                     <label class="form-check-label" for="cod">COD</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input type="radio" class="form-check-input" id="fromshop"
-                                                        name="paymode" value="shop" tabindex="11">
+                                                    <input class="form-control" type="checkbox" id="fromshop"
+                                                        name="fromshop" value="1" style="width: 11%;">
+
+                                                    {{-- <input type="radio" class="form-check-input" id="fromshop"
+                                                        name="paymode" value="shop" tabindex="11"> --}}
                                                     <label class="form-check-label" for="fromshop">Buy From
                                                         Shop</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input type="radio" class="form-check-input" id="calshop"
-                                                        name="paymode" value="calshop" tabindex="12">
+                                                    <input class="form-control" type="checkbox" id="calshop"
+                                                        name="calshop" value="1" style="width: 16%;">
+                                                    {{-- <input type="radio" class="form-check-input" id="calshop"
+                                                        name="paymode" value="calshop" tabindex="12"> --}}
                                                     <label class="form-check-label" for="calshop">Call Shop</label>
                                                 </div>
                                             </div>
@@ -233,7 +241,7 @@
                                     <div class="form-group">
                                         <label>Stock </label>
                                         <input type="number" class="form-control" id="totstock" name="totstock"
-                                            tabindex="13" required>
+                                            tabindex="13" value="0">
                                     </div>
                                     <div class="form-group">
                                         <div id="errorstock-message" class="text-danger" style="display: none;">Total
@@ -299,18 +307,18 @@
                                                             </div>
                                                             <div class="col">
                                                                 <input type="text" id="attatibute1"
-                                                                    name="attatibute1" placeholder="Attribute1" required
-                                                                    class="form-control">
+                                                                    name="attatibute1" placeholder="Attribute1"
+                                                                    required class="form-control">
                                                             </div>
                                                             <div class="col">
                                                                 <input type="text" id="attatibute2"
-                                                                    name="attatibute2" placeholder="Attribute2" required
-                                                                    class="form-control">
+                                                                    name="attatibute2" placeholder="Attribute2"
+                                                                    required class="form-control">
                                                             </div>
                                                             <div class="col">
                                                                 <input type="text" id="attatibute3"
-                                                                    name="attatibute3" placeholder="Attribute3" required
-                                                                    class="form-control">
+                                                                    name="attatibute3" placeholder="Attribute3"
+                                                                    required class="form-control">
                                                             </div>
                                                             <div class="col">
                                                                 <input type="text" id="attatibute4"
@@ -320,16 +328,19 @@
                                                             <div class="col">
                                                                 <input type="text" id="offerprice1"
                                                                     name="offerprice1" placeholder="Offer Price"
-                                                                    class="form-control" oninput="numberOnlyAllowedDot(this)">
+                                                                    class="form-control"
+                                                                    oninput="numberOnlyAllowedDot(this)">
                                                             </div>
                                                             <div class="col">
                                                                 <input type="text" id="mrprice1" name="mrprice1"
-                                                                    placeholder="MRP" class="form-control" oninput="numberOnlyAllowedDot(this)">
+                                                                    placeholder="MRP" class="form-control"
+                                                                    oninput="numberOnlyAllowedDot(this)">
                                                             </div>
                                                             <div class="col">
                                                                 <input type="text" id="attr_stock1"
                                                                     name="attr_stock1" placeholder="Attribute Stock"
-                                                                    class="form-control attr-stock" oninput="numberOnlyAllowed(this)">
+                                                                    class="form-control attr-stock"
+                                                                    oninput="numberOnlyAllowed(this)">
                                                             </div>
                                                             <div class="col">
                                                                 <span data-repeater-delete=""
@@ -391,27 +402,26 @@
 
 
 <div class="modal fade" id="ExistProductModal" tabindex="-1" aria-labelledby="ExistProductModalLabel"
-                aria-hidden="true" style="overflow-y: scroll;">
-                <div class="modal-dialog custom-modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title text-center" id="ExistProductModalLabel">Exist Product Details</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                                title="Close">x</button>
-                        </div>
-                        <div class="modal-body">
-                            <div id="showproductexistedit">
+    aria-hidden="true" style="overflow-y: scroll;">
+    <div class="modal-dialog custom-modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center" id="ExistProductModalLabel">Exist Product Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    title="Close">x</button>
+            </div>
+            <div class="modal-body">
+                <div id="showproductexistedit">
 
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
 
 
 
 <script>
-
     function numberOnlyAllowed(inputElement) {
         let value = inputElement.value.replace(/\D/g, '');
         if (value.length > 10) {
@@ -443,11 +453,18 @@
         $('#resetButton').click(function() {
             $('#ProductAddForm input, #ProductAddForm select, #ProductAddForm textarea').val('');
             $('#ProductAddForm .error').text('');
+            $('#ProductAddForm #errorstock-message').text('');
             $('#image-preview').html('');
             $('#video-preview').html('');
             $('#pdfmm_preview').html('');
             $('#ProductAddForm input[type="file"]').val('');
             $('#ProductAddForm .selectpicker').selectpicker('val', '');
+        });
+        $('#totstock').on('input', function() {
+            var value = $(this).val();
+            if (parseFloat(value) < 0) {
+                $(this).val(0);
+            }
         });
     });
 
@@ -623,6 +640,7 @@
             var totalAttributeStock = calculateTotalAttributeStock();
             if (totalAttributeStock !== totalStock) {
                 $('#errorstock-message').show();
+                return false;
             }
             // else {
             //     $('#ProductAddForm').submit();
@@ -717,14 +735,14 @@
 
             fileArrs.push(file);
             totalFiless++;
-            if (totalFiless  > 10) {
-            alert('Maximum 10 images allowed');
-            $(this).val('');
-            $('#image-preview').html('');
-            totalFiless = 0;
-            fileArrs = [];
-            return;
-        }
+            if (totalFiless > 10) {
+                alert('Maximum 10 images allowed');
+                $(this).val('');
+                $('#image-preview').html('');
+                totalFiless = 0;
+                fileArrs = [];
+                return;
+            }
 
 
             var reader = new FileReader();
@@ -807,12 +825,12 @@
                 required: true,
             },
             totstock: {
-                required: true,
+                //required: true,
                 digits: true,
             },
-            paymode: {
-                required: true,
-            },
+            // paymode: {
+            //     required: true,
+            // },
             customRadio: {
                 required: true,
             },
@@ -835,9 +853,9 @@
             totstock: {
                 digits: "Please enter a number.",
             },
-            paymode: {
-                required: "Please select Buying Option",
-            },
+            // paymode: {
+            //     required: "Please select Buying Option",
+            // },
             customRadio: {
                 required: "Please select attribute",
             },
@@ -906,6 +924,14 @@
                         $('#addNewModal').modal('show');
 
                     } else if (response.result == 3) {
+                        // var errorMessages = response.mesge;
+                        // var errorText = "";
+                        // for (var key in errorMessages) {
+                        //     if (errorMessages.hasOwnProperty(key)) {
+                        //         errorText += key + ": " + errorMessages[key] + "\n";
+                        //     }
+                        // }
+                        // alert(errorText)
                         $('#productsub-message').text(response.mesge).fadeIn();
                         $('#productsub-message').addClass('error');
                         setTimeout(function() {
@@ -924,35 +950,37 @@
         }
     });
 
+
+
     function showexistproduct() {
         $('#loading-overlay').fadeIn();
         $('#loading-image').fadeIn();
         var existprodid = $('#selectedProductId').val();
-        if (existprodid == '' || existprodid=='0') {
+        if (existprodid == '' || existprodid == '0') {
             $('#loading-image').fadeOut();
             $('#loading-overlay').fadeOut();
         } else {
-                var csrfToken = $('meta[name="csrf-token"]').attr('content');
-                $.ajax({
-                    url: '{{ route('productExistEdit') }}',
-                    type: 'POST',
-                    data: {
-                        productid: existprodid
-                    },
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken
-                    },
-                    success: function(data) {
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                url: '{{ route('productExistEdit') }}',
+                type: 'POST',
+                data: {
+                    productid: existprodid
+                },
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function(data) {
 
-                        $('#loading-image').fadeOut();
-                        $('#loading-overlay').fadeOut();
-                        var data1 = data.trim();
-                        $("#showproductexistedit").html(data1);
-                        $('#ExistProductModal').modal('show');
-                        $('#addNewModal').modal('hide');
+                    $('#loading-image').fadeOut();
+                    $('#loading-overlay').fadeOut();
+                    var data1 = data.trim();
+                    $("#showproductexistedit").html(data1);
+                    $('#ExistProductModal').modal('show');
+                    $('#addNewModal').modal('hide');
 
-                    }
-                });
+                }
+            });
 
         }
     }

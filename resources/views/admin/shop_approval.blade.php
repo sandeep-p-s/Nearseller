@@ -83,8 +83,12 @@
                 <div id="shop_approved-message" class="text-center" style="display: none;"></div>
             </div>
 
+            <div class="col-md-12">
+                <div id="appshopreg-message" class="text-center" style="display: none;"></div>
+            </div>
 
-            <div class="modal fade" id="ViewEditModal" tabindex="-1" aria-labelledby="ViewEditModalLabel"
+
+            <div class="modal fade p-5" id="ViewEditModal" tabindex="-1" aria-labelledby="ViewEditModalLabel"
                 aria-hidden="true" style="overflow-y: scroll;">
                 <div class="modal-dialog custom-modal-dialog">
                     <div class="modal-content">
@@ -104,7 +108,7 @@
             </div>
 
 
-            <div class="modal fade" id="ShopApprovedModal" tabindex="-1" aria-labelledby="ShopApprovedModalLabel"
+            <div class="modal fade p-5" id="ShopApprovedModal" tabindex="-1" aria-labelledby="ShopApprovedModalLabel"
                 aria-hidden="true" style="overflow-y: scroll;">
                 <div class="modal-dialog custom-modal-dialog">
                     <div class="modal-content">
@@ -123,7 +127,7 @@
                 </div>
             </div>
 
-            <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog"
+            <div class="modal fade p-5" id="deleteConfirmationModal" tabindex="-1" role="dialog"
                 aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">

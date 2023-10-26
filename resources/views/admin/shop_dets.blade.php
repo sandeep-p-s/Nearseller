@@ -25,7 +25,8 @@
                             value="{{ $sellerDetail->id . '*' . $sellerDetail->user_id }}"
                             {{ $sellerDetail->user_status === 'Y' ? 'checked' : '' }} />
                     </td>
-                    <td>{{ $index + 1 }}</td>@endif
+                    <td>{{ $index + 1 }}</td>
+                    @endif
                     <td>{{ $typeid == 1 ? 'SHOP' : ($typeid == 2 ? 'SER' : '') }}{{ str_pad($sellerDetail->shop_reg_id, 9, '0', STR_PAD_LEFT) }}
                     </td>
                     <td>{{ $sellerDetail->shop_name }}</td>
@@ -82,16 +83,18 @@
 @endif
 
 @if ($sellerCount > 0)
+    @if (session('roleid') == '1')
     <div class="col text-center">
         <button class="btn btn-primary" style="cursor:pointer" onclick="seller_service_approvedall();">Active
             All</button>
     </div>
+    @endif
 @endif
 
 
 
 <!-- Modal Add New -->
-<div class="modal fade" id="addNewModal" tabindex="-1" aria-labelledby="addNewModalLabel" aria-hidden="true"
+<div class="modal fade p-5" id="addNewModal" tabindex="-1" aria-labelledby="addNewModalLabel" aria-hidden="true"
     style="overflow-y: scroll;">
     <div class="modal-dialog custom-modal-dialog">
         <div class="modal-content">
@@ -224,7 +227,7 @@
 
                                         <div class="col-md-9 fv-row fv-plugins-icon-container">
                                             <div class="input-group">
-                                                <input type="text" id="mediaurl" name="mediaurl[1]"
+                                                <input type="url" id="mediaurl" name="mediaurl[1]"
                                                     class="form-control form-control-lg" placeholder="https://"
                                                     value="" tabindex="22" maxlength="60" />
                                                 <div align="right">
@@ -341,7 +344,7 @@
                                         <div id="image-preview-logo" class="row"></div>
                                     </div>
                                 </div>
-                                <div class="form-outline mb-3"><label>{{ $shoporservice }} Background Color</label>
+                                <div class="form-outline mb-3" style="display: none;"><label>{{ $shoporservice }} Background Color</label>
                                     <input type="color" id="s_bgcolor" name="s_bgcolor" id class="form-control"
                                         placeholder="{{ $shoporservice }} Background Color" required
                                         tabindex="18" />
@@ -351,10 +354,10 @@
                             </div>
                             <div class="col-md-4">
 
-                                <div class="form-outline mb-3"><label>License Number</label>
+                                <div class="form-outline mb-3"><label>{{ $shoporservice }} License Number</label>
                                     <input type="text" id="s_lisence" name="s_lisence"
-                                        class="form-control form-control-lg" maxlength="25"
-                                        placeholder="License Number" tabindex="10" />
+                                        class="form-control form-control-lg" maxlength="8"
+                                        placeholder="{{ $shoporservice }} License Number" tabindex="10" />
                                     <label for="s_lisence" class="error"></label>
                                 </div>
 
@@ -686,6 +689,31 @@
 
 
     $(document).ready(function() {
+
+        $('#s_locality').on('input', function () {
+                var inputText = $(this).val();
+                var pattern = /^[a-zA-Z0-9\s]+$/;
+                if (!pattern.test(inputText)) {
+                    $(this).next('.error').text('Must include at least one alphabetic character.');
+                } else {
+                    $(this).next('.error').text('');
+                }
+            });
+
+            $('#s_villagetown').on('input', function () {
+                var inputText = $(this).val();
+                var pattern = /^[a-zA-Z0-9\s]+$/;
+                if (!pattern.test(inputText)) {
+                    $(this).next('.error').text('Must include at least one alphabetic character.');
+                } else {
+                    $(this).next('.error').text('');
+                }
+            });
+
+
+
+
+
         $('#resetButton').click(function() {
             $('#SellerRegForm input, #SellerRegForm select, #SellerRegForm textarea').val('');
             $('#SellerRegForm .error').text('');
@@ -950,21 +978,33 @@
 
     var fileArrs = [];
     var totalFiless = 0;
+    var maxSize = 10485760; // 10MB in bytes
+    var minSize = 512000;  // 500KB in bytes
 
     $("#s_photo").change(function(event) {
         //$('#image-preview').html('');
         var totalFileCount = $(this)[0].files.length;
-
-
         for (var i = 0; i < totalFileCount; i++) {
             var file = $(this)[0].files[i];
-
             if (file.size > 3145728) {
                 alert('File size exceeds the limit of 3MB');
                 $(this).val('');
                 $('#image-preview').html('');
                 return;
             }
+            // var fileSize = file.size;
+            // if (fileSize > maxSize) {
+            //     alert('File size exceeds the limit of 10MB');
+            //     $(this).val('');
+            //     $('#image-preview').html('');
+            //     return;
+            // }
+            // if (fileSize < minSize) {
+            //     alert('File size is less than 500KB');
+            //     $(this).val('');
+            //     $('#image-preview').html('');
+            //     return;
+            // }
 
             fileArrs.push(file);
             totalFiless++;
@@ -1174,6 +1214,11 @@
         return this.optional(element) || gstRegex.test(value);
     }, "Invalid GST format. It should be in the format 29ABCDE1234F1Z5");
 
+    jQuery.validator.addMethod("validLicence", function(value, element) {
+        var licenceRegex = /^[A-Z]{3}\d{5}$/;
+        return this.optional(element) || licenceRegex.test(value);
+    }, "Invalid license number format. It should be 3 uppercase letters followed by 5 digits.");
+
 
     $("#SellerRegForm").validate({
 
@@ -1216,9 +1261,9 @@
             //     required: true,
 
             // },
-            // s_lisence: {
-            //     required: true,
-            // },
+            s_lisence: {
+                validLicence: true,
+            },
             s_buldingorhouseno: {
                 required: true,
             },
@@ -1336,10 +1381,9 @@
             //     extension: "Only JPG and PNG files are allowed.",
             // },
 
-            // s_lisence: {
-            //     required: "Please enter the license number.",
-            //     maxlength: "License number must not exceed 25 characters."
-            // },
+            s_lisence: {
+                validLicence: "Invalid license number format. It should be 3 uppercase letters followed by 5 digits."
+            },
             s_buldingorhouseno: {
                 required: "Please enter building/house name and number.",
                 maxlength: "Building/house name and number must not exceed 100 characters."
@@ -1546,7 +1590,7 @@
             var recRowm = '<div class="row mb-5" id="addedfieldurl' + mm +
                 '"><div class="col-md-3 fv-row fv-plugins-icon-container"><select required class="form-select form-control form-control-lg" id="mediatype' +
                 mm + '" name="mediatype[' + mm +
-                ']"><option option="">Choose...</option><option value="1">Facebook</option><option value="2">Instagram</option><option value="3">Linked In</option><option value="4">Web site URL</option><option value="5">Youtub Video URL</option></select></div><div class="col-md-9 fv-row fv-plugins-icon-container"><div class="input-group"><input type="text"  id="mediaurl' +
+                ']"><option value="">Choose...</option><option value="1">Facebook</option><option value="2">Instagram</option><option value="3">Linked In</option><option value="4">Web site URL</option><option value="5">Youtub Video URL</option></select></div><div class="col-md-9 fv-row fv-plugins-icon-container"><div class="input-group"><input type="url"  id="mediaurl' +
                 mm + '" name="mediaurl[' + mm +
                 ']" class="form-control form-control-lg" placeholder="https://" required  value="" tabindex="22"  maxlength="60"/><div align="right"><button id="removeRowurl' +
                 mm +

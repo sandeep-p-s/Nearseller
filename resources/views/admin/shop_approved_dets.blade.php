@@ -309,7 +309,7 @@
                                 </div> --}}
                 <div class="card-body">
                     <div class="row">
-                        <label class="col-xl-6">License Number</label>
+                        <label class="col-xl-6">{{ $shoporservice }} License Number</label>
                         <div class="col-xl-6 align-self-center">
                             {{ $sellerDetails->shop_licence }}
                         </div>
@@ -495,9 +495,7 @@
         </div>
     </div>
 
-    <div class="col-md-12">
-        <div id="appshopreg-message" class="text-center" style="display: none;"></div>
-    </div>
+
 
 </form>
 

@@ -197,26 +197,44 @@
                                 value="{{ $ProductDetails->brand_name }}" />
                         </div>
 
+                        @php
+                            $paymodes = $ProductDetails->paying_mode;
+                            $explodepaymode = explode(',', $paymodes);
+                            $cashdeposit = $explodepaymode[0];
+                            $fromshop = $explodepaymode[1];
+                            $calshop = $explodepaymode[2];
+                        @endphp
+
                         <div class="form-group mb-0 row">
                             <label class="col-md-4">Buying Option : </label>
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <div class="form-check form-check-inline">
-                                        <input type="radio" class="form-check-input" id="cods"
-                                            name="paymodes" value="cod" tabindex="10"
-                                            {{ $ProductDetails->paying_mode === 'cod' ? 'checked' : '' }}>
+                                        <input class="form-control" type="checkbox" id="cashdepositss"
+                                            name="cashdepositss" value="1"
+                                            {{ $cashdeposit == 1 ? 'checked' : '' }} style="width: 27%;">
+
+                                        {{-- <input type="radio" class="form-check-input" id="codsx"
+                                            name="paymodesx" value="cod" tabindex="10"
+                                            {{ $ProductDetails->paying_mode === 'cod' ? 'checked' : '' }}> --}}
                                         <label class="form-check-label" for="cod">COD</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input type="radio" class="form-check-input" id="fromshops"
-                                            name="paymodes" value="shop" tabindex="11"
-                                            {{ $ProductDetails->paying_mode === 'shop' ? 'checked' : '' }}>
+                                        <input class="form-control" type="checkbox" id="fromshopss" name="fromshopss"
+                                            value="1" {{ $fromshop == 1 ? 'checked' : '' }} style="width: 11%;">
+
+                                        {{-- <input type="radio" class="form-check-input" id="fromshopsx"
+                                            name="paymodesx" value="shop" tabindex="11"
+                                            {{ $ProductDetails->paying_mode === 'shop' ? 'checked' : '' }}> --}}
                                         <label class="form-check-label" for="fromshop">Buy From Shop</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input type="radio" class="form-check-input" id="calshops"
-                                            name="paymodes" value="calshop" tabindex="12"
-                                            {{ $ProductDetails->paying_mode === 'calshop' ? 'checked' : '' }}>
+                                        <input class="form-control" type="checkbox" id="calshopss" name="calshopss"
+                                            value="1" {{ $calshop == 1 ? 'checked' : '' }} style="width: 16%;">
+
+                                        {{-- <input type="radio" class="form-check-input" id="calshopsx"
+                                            name="paymodesx" value="calshop" tabindex="12"
+                                            {{ $ProductDetails->paying_mode === 'calshop' ? 'checked' : '' }}> --}}
                                         <label class="form-check-label" for="calshop">Call Shop</label>
                                     </div>
                                 </div>
@@ -226,7 +244,7 @@
                         <div class="form-group">
                             <label>Stock </label>
                             <input type="number" class="form-control" id="totstocks" name="totstocks"
-                                tabindex="13" required value="{{ $ProductDetails->product_stock }}" />
+                                tabindex="13" value="{{ $ProductDetails->product_stock }}" />
                         </div>
                         <div class="form-group">
                             <div id="errorstocks-message" class="text-danger" style="display: none;">Total
@@ -466,6 +484,12 @@
 
 
     $(document).ready(function() {
+        $('#totstocksx').on('input', function() {
+            var value = $(this).val();
+            if (parseFloat(value) < 0) {
+                $(this).val(0);
+            }
+        });
         $('.repeater-defaults').repeater({
             show: function() {
                 $(this).slideDown();
