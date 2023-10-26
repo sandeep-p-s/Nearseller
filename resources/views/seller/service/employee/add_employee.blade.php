@@ -33,11 +33,11 @@
                                 <div class="form-group" {{ $shopshowhide }}>
                                     <label for="service_name">Service User <span class="text-danger">*</span></label>
                                     <select class="selectservice form-select form-control form-control-lg"
-                                        id="serviceuser_name" name="serviceuser_name" required tabindex="1">
+                                        id="serviceuser_name" name="serviceuser_name" tabindex="1">
                                         <option value="">Select Service User</option><br />
                                         @foreach ($userservicedets as $serviceuser)
                                             <option value="{{ $serviceuser->id }}"
-                                                @if ($serviceuser->id == session('user_id')) selected @endif>{{ $serviceuser->name }}
+                                                @if ($serviceuser->id == session('user_id')) selected @endif>{{ $serviceuser->shop_name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -47,7 +47,8 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Employee Name <span class="text-danger">*</span></label>
+                                    <label for="exampleFormControlInput1">Employee Name <span
+                                            class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="employee_name"
                                         placeholder="Enter Employee Name" name="employee_name"
                                         value="{{ old('employee_name') }}">
@@ -56,7 +57,8 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Employee ID <span class="text-danger">*</span></label>
+                                    <label for="exampleFormControlInput1">Employee ID <span
+                                            class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="employee_id"
                                         placeholder="Enter employee id" name="employee_id" value="{{ old('employee_id') }}">
                                     @error('employee_id')
@@ -64,7 +66,8 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Designation/Skill <span class="text-danger">*</span></label>
+                                    <label for="exampleFormControlInput1">Designation/Skill <span
+                                            class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="designation"
                                         placeholder="Enter Designation/Skill" name="designation"
                                         value="{{ old('designation') }}">
@@ -73,7 +76,8 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Joining Date <span class="text-danger">*</span></label>
+                                    <label for="exampleFormControlInput1">Joining Date <span
+                                            class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="exampleFormControlInput1"
                                         placeholder="Enter date" name="joining_date" value="{{ old('joining_date') }}">
                                     @error('joining_date')
@@ -81,7 +85,8 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Aadhar Number <span class="text-danger">*</span></label>
+                                    <label for="exampleFormControlInput1">Aadhar Number <span
+                                            class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="aadhar_no"
                                         placeholder="Enter aadhar number" name="aadhar_no" value="{{ old('aadhar_no') }}">
                                     @error('aadhar_no')
@@ -90,7 +95,8 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Permanent Address <span class="text-danger">*</span></label>
+                                    <label for="exampleFormControlInput1">Permanent Address <span
+                                            class="text-danger">*</span></label>
                                     <textarea class="form-control" id="permanent_address" name="permanent_address" cols="5" rows="5">{{ old('permanent_address') }}</textarea>
                                     @error('permanent_address')
                                         <div class="text-danger mb15">{{ $message }}</div>
@@ -123,7 +129,8 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">District <span class="text-danger">*</span></label>
+                                    <label for="exampleFormControlInput1">District <span
+                                            class="text-danger">*</span></label>
                                     <select class="form-control" aria-label="Default select example" id="district"
                                         name="district">
                                         <option value="">Select district</option>
@@ -134,9 +141,10 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Pincode/Zipcode <span class="text-danger">*</span></label>
+                                    <label for="exampleFormControlInput1">Pincode/Zipcode <span
+                                            class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="pincode"
-                                        placeholder="Enter pincode" name="pincode" value="{{ old('pincode')}}">
+                                        placeholder="Enter pincode" name="pincode" value="{{ old('pincode') }}">
                                     @error('pincode')
                                         <div class="text-danger mb-2">{{ $message }}</div>
                                     @enderror
@@ -146,7 +154,8 @@
                                     <input type="checkbox" class="custom-control-input" id="horizontalCheckbox"
                                         data-parsley-multiple="groups" data-parsley-mincheck="2"
                                         onchange="copyPresentAddress()" name="is_same_permanent_address">
-                                    <label class="custom-control-label" for="horizontalCheckbox">Permanent Address same as
+                                    <label class="custom-control-label" for="horizontalCheckbox"
+                                        @if (old('is_same_permanent_address')) checked @endif>Permanent Address same as
                                         Present Address</label>
                                 </div>
 
@@ -207,7 +216,8 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Upload Image <span class="text-danger">*</span></label>
+                                    <label for="exampleFormControlInput1">Upload Image <span
+                                            class="text-danger">*</span></label>
                                     <div class="row">
                                         <div class="col-lg-3">
                                             <div class="card">
@@ -305,54 +315,141 @@
                 }
             }
 
+            // $(document).ready(function() {
+            //     $('#country').change(function() {
+            //         $('#district').empty();
+            //         var countryId = $(this).val();
+            //         if (countryId) {
+            //             $.get("/getStates/" + countryId, function(data) {
+            //                 $('#state').empty().append('<option value="">Select State</option>');
+            //                 $.each(data, function(index, state) {
+            //                     $('#state').append('<option value="' + state.id + '">' + state
+            //                         .state_name + '</option>');
+            //                 });
+            //             });
+            //         }
+            //     });
+
+            //     $('#state').change(function() {
+            //         var stateId = $(this).val();
+            //         if (stateId) {
+            //             $.get("/getDistricts/" + stateId, function(data) {
+            //                 $('#district').empty().append('<option value="">Select District</option>');
+            //                 $.each(data, function(index, district) {
+            //                     $('#district').append('<option value="' + district.id + '">' +
+            //                         district.district_name + '</option>');
+            //                 });
+            //             });
+            //         }
+            //     });
+
+            //     $('#present_country').change(function() {
+            //         var countryId = $(this).val();
+            //         if (countryId) {
+            //             fetchPresentStateAndDistrict(countryId, null,
+            //                 null);
+            //         }
+            //     });
+
+            //     $('#present_state').change(function() {
+            //         var stateId = $(this).val();
+            //         if (stateId) {
+            //             fetchPresentDistrict(stateId, null);
+            //         }
+            //     });
+
+            //     $('.selectservice').each(function() {
+            //         var $p = $(this).parent();
+            //         $(this).select2({
+            //             dropdownParent: $p
+            //         });
+            //     });
+            // });
             $(document).ready(function() {
+                // Function to fetch states and populate the state dropdown
+                function fetchStates(countryId, selectedStateId, selectedDistrictId) {
+                    if (countryId) {
+                        $.get("/getStates/" + countryId, function(data) {
+                            var stateDropdown = $('#state');
+                            stateDropdown.empty().append('<option value="">Select State</option>');
+                            $.each(data, function(index, state) {
+                                stateDropdown.append('<option value="' + state.id + '">' + state
+                                    .state_name + '</option>');
+                            });
+
+                            if (selectedStateId) {
+                                stateDropdown.val(selectedStateId);
+                            }
+
+                            fetchDistricts($('#state').val(), selectedDistrictId);
+                        });
+                    } else {
+                        $('#state').empty();
+                    }
+                }
+
+                // Function to fetch districts and populate the district dropdown
+                function fetchDistricts(stateId, selectedDistrictId) {
+                    if (stateId) {
+                        $.get("/getDistricts/" + stateId, function(data) {
+                            var districtDropdown = $('#district');
+                            districtDropdown.empty().append('<option value="">Select District</option>');
+                            $.each(data, function(index, district) {
+                                districtDropdown.append('<option value="' + district.id + '">' +
+                                    district.district_name + '</option>');
+                            });
+
+                            if (selectedDistrictId) {
+                                districtDropdown.val(selectedDistrictId);
+                            }
+                        });
+                    } else {
+                        $('#district').empty();
+                    }
+                }
+
+                // Country change event
                 $('#country').change(function() {
                     $('#district').empty();
                     var countryId = $(this).val();
                     if (countryId) {
-                        $.get("/getStates/" + countryId, function(data) {
-                            $('#state').empty().append('<option value="">Select State</option>');
-                            $.each(data, function(index, state) {
-                                $('#state').append('<option value="' + state.id + '">' + state
-                                    .state_name + '</option>');
-                            });
-                        });
+                        fetchStates(countryId, '{{ old('state') }}', '{{ old('district') }}');
                     }
                 });
 
+                // State change event
                 $('#state').change(function() {
-                    var stateId = $(this).val();
-                    if (stateId) {
-                        $.get("/getDistricts/" + stateId, function(data) {
-                            $('#district').empty().append('<option value="">Select District</option>');
-                            $.each(data, function(index, district) {
-                                $('#district').append('<option value="' + district.id + '">' +
-                                    district.district_name + '</option>');
-                            });
-                        });
-                    }
+                    fetchDistricts($(this).val(), '{{ old('district') }}');
                 });
 
-                $('#present_country').change(function() {
-                    var countryId = $(this).val();
-                    if (countryId) {
-                        fetchPresentStateAndDistrict(countryId, null,
-                            null);
-                    }
-                });
-
-                $('#present_state').change(function() {
-                    var stateId = $(this).val();
-                    if (stateId) {
-                        fetchPresentDistrict(stateId, null);
-                    }
-                });
-
+                // Select2 initialization for 'selectservice' elements
                 $('.selectservice').each(function() {
                     var $p = $(this).parent();
                     $(this).select2({
                         dropdownParent: $p
                     });
+                });
+
+                // Fetch the state and district based on the 'present_country' and 'present_state' on page load
+                var presentCountry = '{{ old('present_country') }}';
+                var presentState = '{{ old('present_state') }}';
+                var presentDistrict = '{{ old('present_district') }}';
+
+                if (presentCountry) {
+                    $('#present_state').empty();
+                    fetchStates(presentCountry, presentState, presentDistrict);
+                }
+
+                $('#present_country').change(function() {
+                    $('#present_district').empty();
+                    var presentCountryId = $(this).val();
+                    if (presentCountryId) {
+                        fetchStates(presentCountryId, null, null);
+                    }
+                });
+
+                $('#present_state').change(function() {
+                    fetchDistricts($(this).val(), null);
                 });
             });
         </script>

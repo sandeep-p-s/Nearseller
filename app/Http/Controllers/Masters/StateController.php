@@ -23,6 +23,7 @@ class StateController extends Controller
         ->select('st.state_name','st.id','st.status as st_status','ct.country_name as country_name','ct.status as ct_status')
         ->join('country as ct', 'ct.id', 'st.country_id')
         ->where('ct.status','Y')
+        ->orderBy('st.state_name', 'asc')
         ->get();
         $total_states = DB::table('state')->count();
         $inactive_states = DB::table('state as s')->where('s.status','N')->count();

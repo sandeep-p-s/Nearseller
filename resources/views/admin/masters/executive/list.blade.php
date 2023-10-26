@@ -12,13 +12,15 @@
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-                                <h4 class="page-title">Service Category</h4>
+                                <h4 class="page-title">Executive Name</h4>
 
                             </div>
                             <div class="col-auto align-self-center">
-                                <a href="{{ route('add.servicecategory') }}"><button type="button" class="btn add_btn ">Add
-                                    Service Category </button></a>
+                                <a href="{{ route('add.executive') }}"><button type="button" class="btn add_btn ">Add
+                                        Executive </button></a>
                             </div><!--end col-->
+
+
                         </div><!--end row-->
                     </div><!--end page-title-box-->
                     @if (session('success'))
@@ -47,10 +49,10 @@
                         <div class="card-body">
                             {{-- <div class="text-center">
                                 <span class="badge badge-soft-info p-2">
-                                    Total Service Categories : {{ $total_servicecategories }}
+                                    Total Sales Executives : {{ $total_salesexecutives }}
                                 </span>
                                 <span class="badge badge-soft-danger p-2">
-                                    Inactive Service Categories : {{ $inactive_servicecategories }}
+                                    Total Service Executives : {{ $total_serviceexecutives }}
                                 </span>
                             </div> --}}
                             <table id="datatable" class="table table-bordered dt-responsive nowrap"
@@ -58,19 +60,28 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Service Category</th>
-                                        <th>Business Type</th>
+                                        <th>Executive Name</th>
+                                        <th>Executive Type</th>
+                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($servicecategory as $sc)
+                                    @foreach ($executive as $ex)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $sc->service_category_name }}</td>
+                                            <td>{{ $ex->executive_name }}</td>
                                             <td>
-                                                <span class="badge p-2 {{ $sc->business_name === 'Sales' ? 'badge-success' : 'badge-danger' }}">
-                                                    {{ $sc->business_name }}
+                                                @if ($ex->executive_type == 1)
+                                                    <span class="badge badge-success p-2">Sales</span>
+                                                @elseif ($ex->executive_type == 2)
+                                                    <span class="badge badge-success p-2">Service</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <span
+                                                    class="badge p-2 {{ $ex->status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
+                                                    {{ $ex->status === 'Y' ? 'Active' : 'Inactive' }}
                                                 </span>
                                             </td>
                                             <td>
@@ -81,9 +92,9 @@
                                                             class="mdi mdi-chevron-down"></i></button>
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item view_btn1"
-                                                            href="{{ route('edit.servicecategory', $sc->id) }}">Edit</a>
+                                                            href="{{ route('edit.executive', $ex->id) }}">Edit</a>
                                                         <a class="dropdown-item delete_btn"
-                                                            href="{{ route('delete.servicecategory', $sc->id) }}"
+                                                            href="{{ route('delete.executive', $ex->id) }}"
                                                             onclick="return confirm('Are you sure you want to delete?')">Delete</a>
                                                     </div>
                                                 </div>

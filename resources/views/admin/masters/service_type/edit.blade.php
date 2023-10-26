@@ -66,7 +66,7 @@
             <!-- end page title end breadcrumb -->
 
         </div><!-- container -->
-        <script>
+        {{-- <script>
             function existservicecategory(category) {
                 $('#loading-overlay').fadeIn();
                 $('#loading-image').fadeIn();
@@ -106,6 +106,6 @@
                 });
 
             }
-        </script>
+        </script> --}}
 
     @endsection

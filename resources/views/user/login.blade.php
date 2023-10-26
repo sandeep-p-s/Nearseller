@@ -194,17 +194,17 @@
 
                         <div id="userreg">
                             <form id="userRegForm">
-                                <div class="form-outline">
+                                <div class="form-outline mb-2">
                                     <input tabindex="1" type="text" id="u_name" name="u_name"
                                         class="form-control form-control-lg" maxlength="50" placeholder="Enter Name"
                                         required />
-                                    <label for="u_name" class="error  "></label>
+                                    <div for="u_name" class="error"></div>
                                 </div>
-                                <div class="form-outline">
+                                <div class="form-outline mb-2">
                                     <input tabindex="2" type="email" id="u_emid" name="u_emid"
                                         class="form-control form-control-lg" maxlength="50" placeholder="Enter Email"
                                         required onchange="exstemilid(this.value,'1')" />
-                                    <label for="u_emid" class="error " id="uemil-message" ></label>
+                                    <div for="u_emid" class="error " id="uemil-message" ></div>
                                     {{-- <div  class="text-center" style="display: none;"></div> --}}
                                 </div>
 
@@ -212,7 +212,7 @@
                                     <input tabindex="3" type="text" id="u_mobno" name="u_mobno"
                                         class="form-control form-control-lg" maxlength="10"
                                         placeholder="Enter Mobile No." required onchange="exstmobno(this.value,'1')" />
-                                    <label for="u_mobno" class="error" id="umob-message"></label>
+                                    <div for="u_mobno" class="error" id="umob-message"></div>
                                     {{-- <div id="umob-message" class="text-center" style="display: none;"></div> --}}
                                 </div>
 
@@ -220,13 +220,13 @@
                                     <input tabindex="4" type="password" id="u_paswd" name="u_paswd"
                                         class="form-control form-control-lg" maxlength="20"
                                         placeholder="Enter Password" required />
-                                    <label for="u_paswd" class="error"></label>
+                                    <div for="u_paswd" class="error"></div>
                                 </div>
                                 <div class="form-outline  mb-2">
                                     <input tabindex="5" type="password" id="u_rpaswd" name="u_rpaswd"
                                         class="form-control form-control-lg" maxlength="20"
                                         placeholder="Re-enter Password" required />
-                                    <label for="u_rpaswd" class="error"></label>
+                                    <div for="u_rpaswd" class="error"></div>
                                 </div>
                                 <div class="form-outline">
                                     <input type="hidden" id="regval" name="regval"
@@ -256,21 +256,21 @@
                                         <input type="text" id="s_name" name="s_name"
                                             class="form-control form-control-lg" maxlength="50"
                                             placeholder="Shop Name" required tabindex="1"  onchange="exstshopname(this.value,'1')" />
-                                        <label for="s_name" class="error"></label>
+                                        <div for="s_name" class="error"></div>
                                         <div id="existshopname-message" class="text-center" style="display: none;"></div>
                                     </div>
                                     <div class="form-outline mb-3">
                                         <input type="text" id="s_ownername" name="s_ownername"
                                             class="form-control form-control-lg" maxlength="50"
                                             placeholder="Owner Name" required tabindex="2" />
-                                        <label for="s_ownername" class="error"></label>
+                                        <div for="s_ownername" class="error"></div>
                                     </div>
                                     <div class="form-outline mb-3">
                                         <input type="text" id="s_mobno" name="s_mobno"
                                             class="form-control form-control-lg" maxlength="10"
                                             placeholder="Enter Mobile No" required tabindex="3"
                                             onchange="exstmobno(this.value,'2')" />
-                                        <label for="s_mobno" class="error"></label>
+                                        <div for="s_mobno" class="error"></div>
                                         <div id="smob-message" class="text-center" style="display: none;"></div>
                                     </div>
                                     <div class="form-outline mb-3">
@@ -278,35 +278,34 @@
                                             class="form-control form-control-lg" maxlength="35"
                                             placeholder="Enter Email" tabindex="4"
                                             onchange="exstemilid(this.value,'2')" />
-                                        <label for="s_email" class="error"></label>
+                                        <div for="s_email" class="error"></div>
                                         <div id="semil-message" class="text-center" style="display: none;"></div>
                                     </div>
-                                    <div class="form-outline mb-3" style="height:64px;">
+                                    <div class="form-outline mb-3">
                                         <input type="text" id="s_refralid" name="s_refralid"
                                             class="form-control form-control-lg" maxlength="50"
                                             placeholder="Referral ID" tabindex="5"
                                             onchange="checkrefrelno(this.value,'1')" />
                                         {{-- <label for="s_refralid" class="error"></label> --}}
-                                        <div id="s_refralid-message" class="text-center" style="display: none;">
-                                        </div>
+                                        {{-- <div id="s_refralid-message" class="text-center" style="display: none;"></div> --}}
                                     </div>
                                     <div class="form-outline mb-3">
                                         <select class="form-select form-control form-control-lg" id="s_busnestype"
                                             name="s_busnestype" required tabindex="6">
-                                            <option value="">Business Type</option><br />
+                                            <option value="">Business Type</option>
                                             @foreach ($business as $busnes)
                                                 <option value="{{ $busnes->id }}">{{ $busnes->business_name }}
                                                 </option>
                                             @endforeach
                                         </select>
-                                        <label for="s_busnestype" class="error"></label>
+                                        <div for="s_busnestype" class="error"></div>
                                     </div>
                                     <div class="form-outline mb-3">
                                         <select class="form-select form-control form-control-lg" id="s_shopservice"
                                             name="s_shopservice" required tabindex="7">
-                                            <option value="">Shop/Service Category</option><br />
+                                            <option value="">Shop/Service Category</option>
                                         </select>
-                                        <label for="s_shopservice" class="error"></label>
+                                        <div for="s_shopservice" class="error"></div>
                                     </div>
 
                                     {{-- <div class="form-outline mb-3">
@@ -321,18 +320,18 @@
                                     <div class="form-outline mb-3">
                                         <select class="form-select form-control form-control-lg"
                                             id="s_shopservicetype" name="s_shopservicetype" required tabindex="8">
-
+                                            <option value="" disabled>Select Shop Type</option>
                                         </select>
-                                        <label for="s_shopservicetype" class="error"></label>
+                                        <div for="s_shopservicetype" class="error"></div>
                                     </div>
 
 
                                     <div class="form-outline mb-3">
                                         <select class="form-select form-control form-control-lg" id="s_shopexectename"
                                             name="s_shopexectename" required tabindex="8">
-
+                                            <option value="" disabled>Select Executive Name</option>
                                         </select>
-                                        <label for="s_shopexectename" class="error"></label>
+                                        <div for="s_shopexectename" class="error"></div>
                                     </div>
                                     <p class="small mb-3 pb-lg-2 float-end" id="login_form_shopfirst">Already have an
                                         account?<a href="#" style="color:#432791;">Sign in</a></p>

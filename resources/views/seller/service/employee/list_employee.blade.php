@@ -54,6 +54,7 @@
                                         <th>No</th>
                                         <th>Name</th>
                                         <th>Designation/Skill</th>
+                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -63,6 +64,11 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $se->employee_name }}</td>
                                             <td> {{ $se->designation }}</td>
+                                            <td>
+                                                <span class="badge p-2  {{ $se->status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
+                                                    {{ $se->status === 'Y' ? 'Active' : 'Inactive' }}
+                                                </span>
+                                            </td>
                                             <td>
                                                 <div class="btn-group mb-2 mb-md-0">
                                                     <button type="button" class="btn view_btn dropdown-toggle"

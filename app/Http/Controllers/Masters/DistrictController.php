@@ -25,6 +25,8 @@ class DistrictController extends Controller
             ->join('country as ct','st.country_id','ct.id')
             ->where('st.status','Y')
             ->where('ct.status','Y')
+            ->orderBy('st.state_name', 'asc')
+            ->orderBy('d.district_name', 'asc')
             ->get();
         $total_districts = DB::table('district')->count();
         $inactive_districts = DB::table('district as d')->where('d.status','N')->count();

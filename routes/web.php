@@ -10,19 +10,19 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ShopTypeController;
 use App\Http\Controllers\AffiliateController;
-use App\Http\Controllers\ExecutiveController;
 use App\Http\Controllers\ShopOfferController;
 use App\Http\Controllers\UserLoggedController;
-use App\Http\Controllers\ServiceTypeController;
 
-use App\Http\Controllers\BusinessTypeController;
 use App\Http\Controllers\ServiceOfferController;
 use App\Http\Controllers\ServiceEmployeeController;
 
 use App\Http\Controllers\CategoryProductListController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ServiceNewController;
-
+use App\Http\Controllers\Masters\BusinessTypeController as BusinessTypeController;
+use App\Http\Controllers\Masters\ServiceCategoryController as ServiceCategoryController;
+use App\Http\Controllers\Masters\ServiceTypeController as ServiceTypeController;
+use App\Http\Controllers\Masters\ExecutiveController as ExecutiveController;
 use App\Http\Controllers\Masters\BankController as BankController;
 use App\Http\Controllers\Masters\StateController as StateController;
 use App\Http\Controllers\Admin\CategoryController as CategoryController;
@@ -32,7 +32,7 @@ use App\Http\Controllers\Masters\ReligionController as ReligionController;
 
 use App\Http\Controllers\Masters\AttributeController as AttributeController;
 use App\Http\Controllers\Masters\ProfessionsController as ProfessionsController;
-use App\Http\Controllers\ServiceCategoryController;
+
 
 /*
 |--------------------------------------------------------------------------
