@@ -79,6 +79,7 @@ Route::controller(HomeController::class)->group(function () {
     Route::post('existExecutivename', 'ExistExecutivenameCheck')->name('existExecutivename');
     Route::post('existcategoryname', 'ExistCategoryName')->name('existcategoryName');
     Route::post('existServicetypeName', 'ExistServiceTypeName')->name('existServicetypeName');
+    Route::post('existnewusercreate', 'ExistnewusercreateCheck')->name('existnewusercreate');
 
 
 });

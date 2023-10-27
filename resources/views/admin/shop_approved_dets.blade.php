@@ -118,9 +118,9 @@
 
                     <hr class="new_hr">
                     <div class="form-group row">
-                        <label class="col-xl-6">Executive Name</label>
+                        <label class="col-xl-6">{{ $shoporservice }} Executive Name</label>
                         <div class="col-xl-6 align-self-center">
-                            {{ $sellerDetails->executive_name }}
+                            {{ $executives->name }}
                         </div>
                     </div>
                     <hr class="new_hr">

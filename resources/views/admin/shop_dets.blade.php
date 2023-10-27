@@ -3,10 +3,12 @@
         <thead>
             <tr>
                 @if (session('roleid') == '1')
-                <th width="5px">Active All <input type='checkbox' name='checkbox1' id='checkbox1' onclick='check();' />
-                </th>
+                    <th width="5px">Approved All <input type='checkbox' name='checkbox1' id='checkbox1'
+                            onclick='check();' />
+                    </th>
 
-                <th>SINO</th>@endif
+                    <th>SINO</th>
+                @endif
                 <th>Reg. ID</th>
                 <th>{{ $shoporservice }} Name</th>
                 <th>Owner Name</th>
@@ -20,12 +22,13 @@
         </thead>
         <tbody>
             @foreach ($sellerDetails as $index => $sellerDetail)
-                <tr>@if (session('roleid') == '1')
-                    <td><input name="shopid[]" type="checkbox" id="shopid{{ $index + 1 }}"
-                            value="{{ $sellerDetail->id . '*' . $sellerDetail->user_id }}"
-                            {{ $sellerDetail->user_status === 'Y' ? 'checked' : '' }} />
-                    </td>
-                    <td>{{ $index + 1 }}</td>
+                <tr>
+                    @if (session('roleid') == '1')
+                        <td><input name="shopid[]" type="checkbox" id="shopid{{ $index + 1 }}"
+                                value="{{ $sellerDetail->id . '*' . $sellerDetail->user_id }}"
+                                {{ $sellerDetail->seller_approved === 'Y' ? 'checked' : '' }} />
+                        </td>
+                        <td>{{ $index + 1 }}</td>
                     @endif
                     <td>{{ $typeid == 1 ? 'SHOP' : ($typeid == 2 ? 'SER' : '') }}{{ str_pad($sellerDetail->shop_reg_id, 9, '0', STR_PAD_LEFT) }}
                     </td>
@@ -84,10 +87,10 @@
 
 @if ($sellerCount > 0)
     @if (session('roleid') == '1')
-    <div class="col text-center">
-        <button class="btn btn-primary" style="cursor:pointer" onclick="seller_service_approvedall();">Active
-            All</button>
-    </div>
+        <div class="col text-center">
+            <button class="btn btn-primary" style="cursor:pointer" onclick="seller_service_approvedall();">Approved
+                All</button>
+        </div>
     @endif
 @endif
 
@@ -102,9 +105,6 @@
                 <h5 class="modal-title text-center" id="addNewModalLabel">Add New {{ $shoporservice }} </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                     title="Close">x</button>
-                    {{-- <button type="button" class="close " data-dismiss="modal" aria-label="Close" title="Close">
-                        <span aria-hidden="true"><i class="la la-times"></i></span>
-                    </button> --}}
             </div>
             <div class="modal-body">
 
@@ -120,7 +120,7 @@
                                         class="form-control form-control-lg" maxlength="50"
                                         placeholder="{{ $shoporservice }} Name" required tabindex="1"
                                         onchange="exstshopname(this.value,'1')" />
-                                    <div for="s_name" class="error"></div>
+                                    <label for="s_name" class="error"></label>
                                     <div id="existshopname-message" class="text-center" style="display: none;"></div>
                                 </div>
 
@@ -129,22 +129,23 @@
                                     <input type="text" id="s_ownername" name="s_ownername"
                                         class="form-control form-control-lg" maxlength="50" placeholder="Owner Name"
                                         required tabindex="2" />
-                                    <div for="s_ownername" class="error"></div>
+                                    <label for="s_ownername" class="error"></label>
                                 </div>
 
                                 <div class="form-outline mb-3"><label>Mobile Number<span
                                             class="text-danger">*</span></label>
                                     <input type="text" id="s_mobno" name="s_mobno"
                                         class="form-control form-control-lg" maxlength="10" placeholder="Mobile No"
-                                        required tabindex="3" onchange="exstmobno(this.value,'2')"  oninput="numberOnlyAllowed(this)"/>
-                                    <div for="s_mobno" class="error"></div>
+                                        required tabindex="3" onchange="exstmobno(this.value,'2')"
+                                        oninput="numberOnlyAllowed(this)" />
+                                    <label for="s_mobno" class="error"></label>
                                     <div id="smob-message" class="text-center" style="display: none;"></div>
                                 </div>
                                 <div class="form-outline mb-3"><label>Email ID</label>
                                     <input type="email" id="s_email" name="s_email"
                                         class="form-control form-control-lg" maxlength="35" placeholder="Email ID"
                                         tabindex="4" onchange="exstemilid(this.value,'2')" />
-                                    <div for="s_email" class="error"></div>
+                                    <label for="s_email" class="error"></label>
                                     <div id="semil-message" class="text-center" style="display: none;"></div>
                                 </div>
                                 <div class="form-outline mb-3"><label>Referral ID</label>
@@ -162,7 +163,7 @@
                                                 {{ $busnes->business_name }}</option>
                                         @endforeach
                                     </select>
-                                    <div for="s_busnestype" class="error"></div>
+                                    <label for="s_busnestype" class="error"></label>
                                 </div>
                                 <div class="form-outline mb-3"><label>{{ $shoporservice }} Category<span
                                             class="text-danger">*</span></label>
@@ -174,7 +175,7 @@
                                             </option>
                                         @endforeach
                                     </select>
-                                    <div for="s_shopservice" class="error"></div>
+                                    <label for="s_shopservice" class="error"></label>
                                 </div>
 
 
@@ -199,7 +200,7 @@
                                             <option value="{{ $shtypes->id }}">{{ $shtypes->service_name }}</option>
                                         @endforeach
                                     </select>
-                                    <div for="s_shopservicetype" class="error"></div>
+                                    <label for="s_shopservicetype" class="error"></label>
                                 </div>
 
 
@@ -208,10 +209,10 @@
                                         name="s_shopexectename" tabindex="8">
                                         <option value="">{{ $shoporservice }} Executive Name</option><br />
                                         @foreach ($executives as $exec)
-                                            <option value="{{ $exec->id }}">{{ $exec->executive_name }}</option>
+                                            <option value="{{ $exec->id }}">{{ $exec->name }}</option>
                                         @endforeach
                                     </select>
-                                    <div for="s_shopexectename" class="error"></div>
+                                    <label for="s_shopexectename" class="error"></label>
                                 </div>
 
                                 <div class="form-outline mb-3"><label>Social Media</label>
@@ -251,21 +252,21 @@
                                     <input type="text" id="s_buldingorhouseno" name="s_buldingorhouseno"
                                         maxlength="100" class="form-control form-control-lg"
                                         placeholder="Building/House Name & Number" required tabindex="11" />
-                                    <div for="s_buldingorhouseno" class="error"></div>
+                                    <label for="s_buldingorhouseno" class="error"></label>
                                 </div>
                                 <div class="form-outline mb-3"><label>Locality<span
                                             class="text-danger">*</span></label>
                                     <input type="text" id="s_locality" name="s_locality" maxlength="100"
                                         class="form-control form-control-lg"placeholder="Locality" required
                                         tabindex="12" />
-                                    <div for="s_locality" class="error"></div>
+                                    <label for="s_locality" class="error"></label>
                                 </div>
                                 <div class="form-outline mb-3"><label>Village/Town/Municipality<span
                                             class="text-danger">*</span></label>
                                     <input type="text" id="s_villagetown" name="s_villagetown" maxlength="100"
                                         class="form-control form-control-lg" placeholder="Village/Town/Municipality"
                                         required tabindex="13" />
-                                    <div for="s_villagetown" class="error"></div>
+                                    <label for="s_villagetown" class="error"></label>
                                 </div>
                                 <div class="form-outline mb-3"><label>Country<span
                                             class="text-danger">*</span></label>
@@ -276,14 +277,14 @@
                                             <option value="{{ $country->id }}">{{ $country->country_name }}</option>
                                         @endforeach
                                     </select>
-                                    <div for="country" class="error"></div>
+                                    <label for="country" class="error"></label>
                                 </div>
                                 <div class="form-outline mb-3"><label>State<span class="text-danger">*</span></label>
                                     <select class="form-select form-control form-control-lg" name="state"
                                         aria-label="Default select example" id="state" required tabindex="15">
 
                                     </select>
-                                    <div for="state" class="error"></div>
+                                    <label for="state" class="error"></label>
                                 </div>
                                 <div class="form-outline mb-3"><label>District<span
                                             class="text-danger">*</span></label>
@@ -292,13 +293,13 @@
                                         tabindex="16">
 
                                     </select>
-                                    <div for="district" class="error"></div>
+                                    <label for="district" class="error"></label>
                                 </div>
                                 <div class="form-outline mb-3"><label>Pincode<span
                                             class="text-danger">*</span></label>
                                     <input type="text" id="s_pincode" name="s_pincode" maxlength="6"
                                         class="form-control form-control-lg" placeholder="Pin Code" required
-                                        tabindex="17"  oninput="numberOnlyAllowed(this)"/>
+                                        tabindex="17" oninput="numberOnlyAllowed(this)" />
                                     <label for="s_pincode" class="error"></label>
                                 </div>
 
@@ -308,7 +309,7 @@
                                     <input type="text" id="s_googlelatitude" name="s_googlelatitude"
                                         class="form-control form-control-lg"
                                         placeholder="Latitude (Google map location)" required tabindex="18" />
-                                    <div for="s_googlelatitude" class="error"></div>
+                                    <label for="s_googlelatitude" class="error"></label>
                                 </div>
 
 
@@ -328,7 +329,7 @@
                                     <input type="file" id="s_photo" multiple="" name="s_photo[]"
                                         class="form-control form-control-lg" placeholder="Shop Photo" required
                                         tabindex="19" accept="image/jpeg, image/png" />
-                                    <div for="s_photo" class="error"></div>
+                                    <label for="s_photo" class="error"></label>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group" align="left">
@@ -340,18 +341,19 @@
                                     <input type="file" id="s_logo" name="s_logo[]"
                                         class="form-control form-control-lg" placeholder="Shop Logo" tabindex="19"
                                         accept="image/jpeg, image/png" />
-                                    <div for="s_logo" class="error"></div>
+                                    <label for="s_logo" class="error"></label>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group" align="left">
                                         <div id="image-preview-logo" class="row"></div>
                                     </div>
                                 </div>
-                                <div class="form-outline mb-3" style="display: none;"><label>{{ $shoporservice }} Background Color</label>
+                                <div class="form-outline mb-3" style="display: none;"><label>{{ $shoporservice }}
+                                        Background Color</label>
                                     <input type="color" id="s_bgcolor" name="s_bgcolor" id class="form-control"
                                         placeholder="{{ $shoporservice }} Background Color" required
                                         tabindex="18" />
-                                    <div for="s_bgcolor" class="error"></div>
+                                    <label for="s_bgcolor" class="error"></label>
                                 </div>
 
                             </div>
@@ -359,33 +361,35 @@
 
                                 <div class="form-outline mb-3"><label>{{ $shoporservice }} License Number</label>
                                     <input type="text" id="s_lisence" name="s_lisence"
-                                        class="form-control form-control-lg" maxlength="25"
-                                        placeholder="License Number" tabindex="10" />
-                                    <div for="s_lisence" class="error"></div>
+                                        class="form-control form-control-lg" maxlength="8"
+                                        placeholder="{{ $shoporservice }} License Number" tabindex="10" />
+                                    <label for="s_lisence" class="error"></label>
                                 </div>
 
                                 <div class="form-outline mb-3"><label>GST Number</label>
                                     <input type="text" id="s_gstno" name="s_gstno" maxlength="15"
                                         class="form-control form-control-lg" placeholder="GST Number"
                                         tabindex="20" />
-                                    <div for="s_gstno" class="error"></div>
+                                    <label for="s_gstno" class="error"></label>
                                     <div id="gst-error-message" style="color: red;"></div>
                                 </div>
                                 <div class="form-outline mb-3"><label>PAN Number</label>
                                     <input type="text" id="s_panno" name="s_panno" maxlength="10"
                                         class="form-control form-control-lg" placeholder="PAN Number"
                                         tabindex="21" />
-                                    <div for="s_panno" class="error"></div>
+                                    <label for="s_panno" class="error"></label>
                                     <div id="pan-error-message" style="color: red;"></div>
                                 </div>
 
 
-                                <div class="form-outline mb-3"><label> Establishment Date @if($typeid==1)<span
-                                           class="text-danger">*</span> @endif</label>
+                                <div class="form-outline mb-3"><label> Establishment Date @if ($typeid == 1)
+                                            <span class="text-danger">*</span>
+                                        @endif
+                                    </label>
                                     <input type="date" id="s_establishdate" name="s_establishdate" maxlength="10"
                                         class="form-control form-control-lg" placeholder="Establishment Date"
                                         tabindex="22" max="{{ date('Y-m-d') }}" />
-                                    <div for="s_establishdate" class="error"></div>
+                                    <label for="s_establishdate" class="error"></label>
                                 </div>
 
 
@@ -520,19 +524,19 @@
                                 <div class="form-outline mb-3"><label>Direct Affiliate</label>
                                     <input type="text" class="form-control form-control-lg" id="directafflte"
                                         name="directafflte">
-                                    <div for="directafflte" class="error"></div>
+                                    <label for="directafflte" class="error"></label>
                                 </div>
 
                                 <div class="form-outline mb-3"><label>Second Affiliate</label>
                                     <input type="text" class="form-control form-control-lg" id="secondafflte"
                                         name="secondafflte">
-                                    <div for="secondafflte" class="error"></div>
+                                    <label for="secondafflte" class="error"></label>
                                 </div>
 
                                 <div class="form-outline mb-3"><label>Co-Ordinator</label>
                                     <input type="text" class="form-control form-control-lg" id="coordinater"
                                         name="coordinater">
-                                    <div for="coordinater" class="error"></div>
+                                    <label for="coordinater" class="error"></label>
                                 </div>
 
                                 <div class="form-check-inline">
@@ -542,6 +546,7 @@
                                             class="text-danger">*</span>
                                     </label>
                                 </div>
+
                             </div>
 
 
@@ -692,25 +697,25 @@
 
     $(document).ready(function() {
 
-        $('#s_locality').on('input', function () {
-                var inputText = $(this).val();
-                var pattern = /^[a-zA-Z0-9\s]+$/;
-                if (!pattern.test(inputText)) {
-                    $(this).next('.error').text('Must include at least one alphabetic character.');
-                } else {
-                    $(this).next('.error').text('');
-                }
-            });
+        // $('#s_locality').on('input', function () {
+        //         var inputText = $(this).val();
+        //         var pattern = /^[a-zA-Z0-9\s]+$/;
+        //         if (!pattern.test(inputText)) {
+        //             $(this).next('.error').text('Must include at least one alphabetic character.');
+        //         } else {
+        //             $(this).next('.error').text('');
+        //         }
+        //     });
 
-            $('#s_villagetown').on('input', function () {
-                var inputText = $(this).val();
-                var pattern = /^[a-zA-Z0-9\s]+$/;
-                if (!pattern.test(inputText)) {
-                    $(this).next('.error').text('Must include at least one alphabetic character.');
-                } else {
-                    $(this).next('.error').text('');
-                }
-            });
+        //     $('#s_villagetown').on('input', function () {
+        //         var inputText = $(this).val();
+        //         var pattern = /^[a-zA-Z0-9\s]+$/;
+        //         if (!pattern.test(inputText)) {
+        //             $(this).next('.error').text('Must include at least one alphabetic character.');
+        //         } else {
+        //             $(this).next('.error').text('');
+        //         }
+        //     });
 
 
 
@@ -981,7 +986,7 @@
     var fileArrs = [];
     var totalFiless = 0;
     var maxSize = 10485760; // 10MB in bytes
-    var minSize = 512000;  // 500KB in bytes
+    var minSize = 512000; // 500KB in bytes
 
     $("#s_photo").change(function(event) {
         //$('#image-preview').html('');
@@ -1221,6 +1226,16 @@
         return this.optional(element) || licenceRegex.test(value);
     }, "Invalid license number format. It should be 3 uppercase letters followed by 5 digits.");
 
+    jQuery.validator.addMethod("validlocality", function(value, element) {
+        var localityRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/;
+        return this.optional(element) || localityRegex.test(value);
+    }, "Must include at least one alphabetic character and allow only alphanumeric characters.");
+
+    jQuery.validator.addMethod("validvillagetown", function(value, element) {
+        var villagetownRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/;
+        return this.optional(element) || villagetownRegex.test(value);
+    }, "Must include at least one alphabetic character and allow only alphanumeric characters.");
+
 
     $("#SellerRegForm").validate({
 
@@ -1271,10 +1286,13 @@
             },
 
             s_locality: {
+                validlocality: true,
                 required: true,
+
             },
 
             s_villagetown: {
+                validvillagetown: true,
                 required: true,
             },
 
@@ -1314,7 +1332,7 @@
 
             s_establishdate: {
                 required: function(element) {
-                return $("#typeidhid").val() === "1";
+                    return $("#typeidhid").val() === "1";
                 }
             },
             s_termcondtn: {
@@ -1392,11 +1410,13 @@
             },
             s_locality: {
                 required: "Please enter the locality.",
-                maxlength: "Locality must not exceed 100 characters."
+                maxlength: "Locality must not exceed 100 characters.",
+                validlocality: "Must include at least one alphabetic character and allow only alphanumeric characters."
             },
             s_villagetown: {
                 required: "Please enter village/town/municipality.",
-                maxlength: "Village/town/municipality must not exceed 100 characters."
+                maxlength: "Village/town/municipality must not exceed 100 characters.",
+                validvillagetown: "Must include at least one alphabetic character and allow only alphanumeric characters."
             },
             country: {
                 required: "Please select a country."

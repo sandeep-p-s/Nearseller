@@ -1003,7 +1003,8 @@ class AdminController extends Controller
         // $shop_service_type      = $sellerDetails->first()->shop_service_type;
         // $shopservicesubcategory = DB::table('service_sub_categories')->where('service_category_id',$shop_service_type)->get();
         $shopservice            = DB::table('service_types')->where('business_type_id',$typeid)->get();
-        $executives             = DB::table('executives')->where(['executive_type' => $typeid])->get();
+        //$executives             = DB::table('executives')->where(['executive_type' => $typeid])->get();
+        $executives             = DB::table('user_account')->where(['role_id' => 10])->where(['user_status' => 'Y'])->get();
         return view('admin.shop_dets', compact('sellerDetails', 'sellerCount', 'countries', 'business', 'shoporservice', 'typeid','shopservicecategory','shopservice','executives'));
     }
 
@@ -1294,9 +1295,11 @@ class AdminController extends Controller
         $shopservice = DB::table('service_types')
             ->where('business_type_id', $typeid)
             ->get();
-        $executives = DB::table('executives')
-            ->where(['executive_type' => $typeid])
-            ->get();
+        // $executives = DB::table('executives')
+        //     ->where(['executive_type' => $typeid])
+        //     ->get();
+
+        $executives  = DB::table('user_account')->where(['role_id' => 10])->where(['user_status' => 'Y'])->get();
         $userstus = DB::table('user_account')
             ->where('id', $sellerDetails->user_id)
             ->get();
@@ -1603,9 +1606,10 @@ class AdminController extends Controller
         $shopservice = DB::table('service_types')
             ->where('business_type_id', $typeid)
             ->get();
-        $executives = DB::table('executives')
-            ->where(['executive_type' => $typeid])
-            ->get();
+        // $executives = DB::table('executives')
+        //     ->where(['executive_type' => $typeid])
+        //     ->get();
+        $executives  = DB::table('user_account')->where(['role_id' => 10])->where(['id' => $sellerDetails->shop_executive])->first();
         $userstus = DB::table('user_account')
             ->where('id', $sellerDetails->user_id)
             ->get();
@@ -1713,13 +1717,13 @@ class AdminController extends Controller
         }
         else if (($userstatus!='Y') && ($request->approvedstatus=='Y')) {
             //echo "2=".$request->approvedstatus.'='.$userstatus;exit;
-            $user->approved = 'N';
+            $user->approved = 'Y';
             $user->approved_by = $userId;
             $user->approved_at = $time;
             $submt = $user->save();
 
             $SellerDetails = SellerDetails::find($shopselrid);
-            $SellerDetails->seller_approved = 'N';
+            $SellerDetails->seller_approved = 'Y';
             $submtapp = $SellerDetails->save();
 
             if($SellerDetails->busnes_type=='1')
@@ -1741,7 +1745,7 @@ class AdminController extends Controller
             $LogDetails->log_time = $time;
             $LogDetails->status = $msg;
             $LogDetails->save();
-            return response()->json(['result' => 2, 'mesge' => 'Inactive '.$shoporservice.', So cant be approved']);
+            return response()->json(['result' => 2, 'mesge' => 'Inactive '.$shoporservice]);
         }
         else if (($userstatus!='Y') && ($request->approvedstatus!='Y')) {
             //echo "3=".$request->approvedstatus.'='.$userstatus;exit;
@@ -1841,7 +1845,7 @@ class AdminController extends Controller
                 if($user->approved == 'R' || $SellerDetails->seller_approved == 'R' || $SellerDetails->term_condition=='' || $SellerDetails->term_condition=='0') {
                 }
                 else{
-                    $user->user_status = 'Y';
+                    //$user->user_status = 'Y';
                     $user->approved = 'Y';
                     $user->approved_by = $userId;
                     $user->approved_at = $time;

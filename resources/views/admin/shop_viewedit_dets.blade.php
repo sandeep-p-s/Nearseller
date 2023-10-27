@@ -150,7 +150,7 @@
                         <option value="">{{ $shoporservice }} Executive Name</option><br />
                         @foreach ($executives as $exec)
                             <option value="{{ $exec->id }}" @if ($exec->id == $sellerDetails->shop_executive) selected @endif>
-                                {{ $exec->executive_name }}</option>
+                                {{ $exec->name }}</option>
                         @endforeach
                     </select>
                     <label for="es_shopexectename" class="error"></label>
@@ -1232,6 +1232,18 @@
         return this.optional(element) || licenceRegex.test(value);
     }, "Invalid license number format. It should be 3 uppercase letters followed by 5 digits.");
 
+
+    jQuery.validator.addMethod("validlocality", function(value, element) {
+        var localityRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/;
+        return this.optional(element) || localityRegex.test(value);
+    }, "Must include at least one alphabetic character and allow only alphanumeric characters.");
+
+    jQuery.validator.addMethod("validvillagetown", function(value, element) {
+        var villagetownRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/;
+        return this.optional(element) || villagetownRegex.test(value);
+    }, "Must include at least one alphabetic character and allow only alphanumeric characters.");
+
+
     $("#SellerRegFormEdit").validate({
 
         rules: {
@@ -1281,10 +1293,13 @@
             },
 
             es_locality: {
+                validlocality: true,
                 required: true,
+
             },
 
             es_villagetown: {
+                validvillagetown: true,
                 required: true,
             },
 
@@ -1382,11 +1397,13 @@
             },
             es_locality: {
                 required: "Please enter the locality.",
-                maxlength: "Locality must not exceed 100 characters."
+                maxlength: "Locality must not exceed 100 characters.",
+                validlocality: "Must include at least one alphabetic character and allow only alphanumeric characters."
             },
             es_villagetown: {
                 required: "Please enter village/town/municipality.",
-                maxlength: "Village/town/municipality must not exceed 100 characters."
+                maxlength: "Village/town/municipality must not exceed 100 characters.",
+                validvillagetown: "Must include at least one alphabetic character and allow only alphanumeric characters."
             },
             ecountry: {
                 required: "Please select a country."

@@ -638,6 +638,7 @@
         if ($("input[name='customRadio']:checked").val() === "Y") {
             var totalStock = parseInt($('#totstock').val()) || 0;
             var totalAttributeStock = calculateTotalAttributeStock();
+
             if (totalAttributeStock !== totalStock) {
                 $('#errorstock-message').show();
                 return false;
