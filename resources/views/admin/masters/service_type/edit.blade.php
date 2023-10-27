@@ -29,7 +29,7 @@
                                 <div class="form-group">
                                     <label for="exampleFormControlSelect1">Business Type</label>
                                     <select class="form-control" id="exampleFormControlSelect1" name="business_name">
-                                        <option value="0">Select Business Type</option>
+                                        {{-- <option value="0">Select Business Type</option> --}}
                                         @foreach ($businesstype as $bt)
                                         <option {{ $bt->id == $servicetype->business_type_id? 'selected' : '' }} value="{{$bt->id}}">{{$bt->business_name}}</option>
                                         @endforeach
@@ -47,7 +47,6 @@
                                     <div class="form-group">
                                         <label for="exampleFormControlSelect1">Status</label>
                                         <select class="form-control" id="exampleFormControlSelect1" name="status">
-                                            <option value="select">Select</option>
                                             <option value="Active" @if($servicetype->status === 'Y') selected @endif>Active</option>
                                             <option value="Inactive" @if($servicetype->status === 'N') selected @endif>Inactive</option>
                                         </select>

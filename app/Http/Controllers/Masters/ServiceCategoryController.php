@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Masters;
 
 use DB;
-use App\Models\ServiceCategory;
 use App\Models\MenuMaster;
-use App\Models\ServiceSubCategory;
 use App\Models\UserAccount;
 use Illuminate\Http\Request;
+use App\Models\ServiceCategory;
+use Illuminate\Validation\Rule;
+use App\Models\ServiceSubCategory;
 use App\Http\Controllers\Controller;
 
 class ServiceCategoryController extends Controller
@@ -91,7 +92,16 @@ class ServiceCategoryController extends Controller
         }
 
         $request->validate([
-            'service_category_name' => 'required|string|max:255',
+            'service_category_name' => ['required','regex:/^[A-Za-z\s]+$/','min:5','max:50',Rule::unique('service_categories')->ignore($id)],
+            'business_name' => 'required|not_in:0',
+        ],
+        [
+            'service_category_name.required' => 'The service category name field is required.',
+            'service_category_name.min' => 'The service category name must be at least 5 characters.',
+            'service_category_name.max' => 'The service category name cannot exceed 50 characters.',
+            'service_category_name.unique' => 'This service category name is already in use.',
+            'business_name.not_in' => 'Please select a Business Type in the list.',
+
         ]);
 
         $servicecategory->service_category_name = ucfirst($request->service_category_name);

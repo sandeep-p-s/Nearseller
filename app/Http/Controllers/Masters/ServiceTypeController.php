@@ -7,6 +7,7 @@ use App\Models\MenuMaster;
 use App\Models\ServiceType;
 use App\Models\UserAccount;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 
 class ServiceTypeController extends Controller
@@ -43,14 +44,14 @@ class ServiceTypeController extends Controller
     {
         $request->validate(
         [
-            'service_name' => 'required|regex:/^[A-Za-z\s]+$/|min:5|max:255|unique:service_types',
+            'service_name' => 'required|regex:/^[A-Za-z\s]+$/|min:5|max:60|unique:service_types',
             'business_name' => 'required|not_in:0',
         ],
         [
             'service_name.required' => 'The service name field is required.',
             'service_name.regex' => 'The service name must contain only letters and spaces.',
             'service_name.min' => 'The service name must be at least 5 characters.',
-            'service_name.max' => 'The service name cannot exceed 255 characters.',
+            'service_name.max' => 'The service name cannot exceed 60 characters.',
             'service_name.unique' => 'This service name is already in use.',
             'business_name.not_in' => 'Please select a Business Type in the list.',
 
@@ -92,20 +93,21 @@ class ServiceTypeController extends Controller
 
         $request->validate(
             [
-                'service_name' => 'required|regex:/^[A-Za-z\s]+$/|min:5|max:255||unique:service_types',
+                'service_name' => ['required','regex:/^[A-Za-z\s]+$/','min:5','max:60',Rule::unique('service_types')->ignore($id)],
                 'business_name' => 'required|not_in:0',
             ],
             [
                 'service_name.required' => 'The service name field is required.',
                 'service_name.regex' => 'The service name must contain only letters and spaces.',
                 'service_name.min' => 'The service name must be at least 5 characters.',
-                'service_name.max' => 'The service name cannot exceed 255 characters.',
+                'service_name.max' => 'The service name cannot exceed 60 characters.',
                 'business_name.not_in' => 'Please select a Business Type in the list.',
                 'service_name.unique' => 'This service name is already in use.',
 
             ]);
 
         $servicetype->service_name = ucfirst($request->service_name);
+        $servicetype->business_type_id = $request->business_name;
         if ($request->status === 'Active')
         {
             $servicetype->status = 'Y';
