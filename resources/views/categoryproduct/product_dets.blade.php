@@ -18,6 +18,7 @@
                     <div class="col text-center">
                         <a href="#" class="btn btn-danger" style="margin-top: 15px" onclick="productviewdet({{ $category->id }})">View
                            </a>
+
                     </div>
                 </div>
             @endforeach

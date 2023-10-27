@@ -147,6 +147,7 @@ else {
 .new_image_response{
     background-size: cover;
     height: 140px;
+
     width: 95%;
     /* height: auto; */
     border-radius: 15px;
