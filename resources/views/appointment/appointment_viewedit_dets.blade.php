@@ -368,7 +368,7 @@
                                         {{ $servicepointa == 1 ? 'checked' : '' }} style="width: 18%;">
                                     <label class="form-check-label" for="servicepointa">At
                                         Home</label>
-                                </div>s
+                                </div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-control" type="checkbox" id="servicepointb"
                                         name="servicepointb" value="1"

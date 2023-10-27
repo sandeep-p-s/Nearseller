@@ -107,7 +107,7 @@ class AdminController extends Controller
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser = UserAccount::sessionValuereturn($userRole);
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $userdetails = DB::table('user_account')
             ->where('id', $userId)
             ->get();
@@ -901,7 +901,7 @@ class AdminController extends Controller
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser = UserAccount::sessionValuereturn($userRole);
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $userdetails = DB::table('user_account')
             ->where('id', $userId)
             ->get();
@@ -975,9 +975,12 @@ class AdminController extends Controller
         } else {
             $query->where('seller_details.user_id', $userId);
         }
+        $roleIdsArray = explode(',', $roleid);
         if ($typeid == 1) {
             $query->where('seller_details.busnes_type', $typeid);
         }
+
+
         if ($typeid == 2) {
             $query->where('seller_details.busnes_type', $typeid);
         }
@@ -1004,8 +1007,22 @@ class AdminController extends Controller
         // $shopservicesubcategory = DB::table('service_sub_categories')->where('service_category_id',$shop_service_type)->get();
         $shopservice            = DB::table('service_types')->where('business_type_id',$typeid)->get();
         //$executives             = DB::table('executives')->where(['executive_type' => $typeid])->get();
+        $executives  ='';
+        $shopavailable='';
+        if ($roleid == 1) {
         $executives             = DB::table('user_account')->where(['role_id' => 10])->where(['user_status' => 'Y'])->get();
-        return view('admin.shop_dets', compact('sellerDetails', 'sellerCount', 'countries', 'business', 'shoporservice', 'typeid','shopservicecategory','shopservice','executives'));
+        $shopavailable='';
+        }
+        else{
+            foreach ($sellerDetails as $sellr)
+            {
+            $executives  = DB::table('user_account')->where(['role_id' => 10])->where(['id' => $sellr->shop_executive])->first();
+            $shopavailable = DB::table('open_close_day_times')
+            ->where('seller_id', $sellr->id)
+            ->get();
+            }
+        }
+        return view('admin.shop_dets', compact('sellerDetails', 'sellerCount', 'countries', 'business', 'shoporservice', 'typeid','shopservicecategory','shopservice','executives','shopavailable'));
     }
 
     function AdmsellerRegisterationPage(Request $request)
@@ -1910,7 +1927,7 @@ class AdminController extends Controller
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser = UserAccount::sessionValuereturn($userRole);
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $userdetails = DB::table('user_account')
             ->where('id', $userId)
             ->get();

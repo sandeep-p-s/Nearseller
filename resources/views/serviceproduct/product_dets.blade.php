@@ -39,7 +39,7 @@
                             <div class="dropdown-menu">
                                 <a class="dropdown-item view_btn1" href="#"
                                     onclick="productvieweditdet({{ $prodDetails->id }})">View/Edit</a>
-                                @if (session('roleid') == '1')
+                                    @if (session('roleid') == '1' || session('roleid') == '11')
                                     <a class="dropdown-item approve_btn" href="#"
                                         onclick="productapprovedet({{ $prodDetails->id }})">Approved</a>
                                     <a class="dropdown-item delete_btn" href="#"
@@ -92,7 +92,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     @php
-                                        $shopshowhide = session('roleid') == 1 || session('roleid') == 3 ? 'style=display:block;' : 'style=display:none;';
+                                        $shopshowhide = session('roleid') == 1 || session('roleid') == 11 || session('roleid') == 3 ? 'style=display:block;' : 'style=display:none;';
                                     @endphp
 
 

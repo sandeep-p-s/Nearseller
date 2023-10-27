@@ -17,7 +17,9 @@ class ServiceOfferController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $roleid = session('roleid');
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
+
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $service_offer = DB::table('offers')->where('type',2)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
@@ -28,7 +30,8 @@ class ServiceOfferController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $roleid = session('roleid');
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $userservicedets = DB::table('user_account')
@@ -99,7 +102,8 @@ class ServiceOfferController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $roleid = session('roleid');
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $productid = $request->input('productid');

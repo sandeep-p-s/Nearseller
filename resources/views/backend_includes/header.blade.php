@@ -155,7 +155,12 @@ else {
     object-fit: cover;
     border: 3px solid #928e8612;
 }
-
+.thumb-xl {
+    height: 120px;
+    width: 120px;
+    font-size: 22px;
+    font-weight: 700
+}
 
 
 

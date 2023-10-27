@@ -39,7 +39,7 @@
                             <div class="dropdown-menu">
                                 <a class="dropdown-item view_btn1" href="#"
                                     onclick="productvieweditdet({{ $prodDetails->id }})">View/Edit</a>
-                                @if (session('roleid') == '1')
+                                    @if (session('roleid') == '1' || session('roleid') == '11')
                                     <a class="dropdown-item approve_btn" href="#"
                                         onclick="productapprovedet({{ $prodDetails->id }})">Approved</a>
                                     <a class="dropdown-item delete_btn" href="#"
@@ -92,7 +92,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     @php
-                                        $shopshowhide = session('roleid') == 1 || session('roleid') == 3 ? 'style=display:block;' : 'style=display:none;';
+                                        $shopshowhide = session('roleid') == 1 || session('roleid') == 11 || session('roleid') == 3 ? 'style=display:block;' : 'style=display:none;';
                                     @endphp
 
 
@@ -238,12 +238,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" style="display: none;">
                                         <label>Stock </label>
                                         <input type="number" class="form-control" id="totstock" name="totstock"
                                             tabindex="13" value="0">
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" style="display: none;">
                                         <div id="errorstock-message" class="text-danger" style="display: none;">Total
                                             stock and attribute stock must be equal.</div>
 
@@ -269,7 +269,7 @@
                                                     <input type="radio" id="yesCheck" name="customRadio"
                                                         class="custom-control-input"
                                                         onclick="javascript:yesnoCheck();" tabindex="14"
-                                                        value="Y">
+                                                        value="Y" checked>
                                                     <label class="custom-control-label" for="yesCheck">Yes</label>
                                                 </div>
                                             </div>
@@ -286,7 +286,8 @@
                                         </div>
                                     </div>
                                     <hr>
-                                    <div id="ifYes" style="display:none">
+                                    <div id="ifYes">
+                                        {{-- style="display:none" --}}
                                         <fieldset>
                                             <div class="repeater-default">
                                                 <div data-repeater-list="attributedata">
@@ -336,7 +337,7 @@
                                                                     placeholder="MRP" class="form-control"
                                                                     oninput="numberOnlyAllowedDot(this)">
                                                             </div>
-                                                            <div class="col">
+                                                            <div class="col" style="display: none;">
                                                                 <input type="text" id="attr_stock1"
                                                                     name="attr_stock1" placeholder="Attribute Stock"
                                                                     class="form-control attr-stock"
@@ -401,7 +402,7 @@
 <!-- Modal Add new Close -->
 
 
-<div class="modal fade" id="ExistProductModal" tabindex="-1" aria-labelledby="ExistProductModalLabel"
+<div class="modal fade p-5" id="ExistProductModal" tabindex="-1" aria-labelledby="ExistProductModalLabel"
     aria-hidden="true" style="overflow-y: scroll;">
     <div class="modal-dialog custom-modal-dialog">
         <div class="modal-content">
@@ -460,12 +461,12 @@
             $('#ProductAddForm input[type="file"]').val('');
             $('#ProductAddForm .selectpicker').selectpicker('val', '');
         });
-        $('#totstock').on('input', function() {
-            var value = $(this).val();
-            if (parseFloat(value) < 0) {
-                $(this).val(0);
-            }
-        });
+        // $('#totstock').on('input', function() {
+        //     var value = $(this).val();
+        //     if (parseFloat(value) < 0) {
+        //         $(this).val(0);
+        //     }
+        // });
     });
 
 
@@ -520,24 +521,24 @@
                 $(this).attr('id', newId);
             });
         }
-        $(document).on('keyup', '.attr-stock', function() {
-            if ($("input[name='customRadio']:checked").val() === "Y") {
-                var totalAttributeStock = 0;
-                $('.attr-stock').each(function() {
-                    var value = parseInt($(this).val()) || 0;
-                    totalAttributeStock += value;
-                });
-                var totalStock = parseInt($('#totstock').val()) || 0;
-                //console.log('Total Attribute Stock:', totalAttributeStock);
-                //console.log('Total Stock:', totalStock);
-                if (totalAttributeStock !== totalStock) {
-                    $('#errorstock-message').show();
-                } else {
-                    $('#errorstock-message').hide();
-                }
-            }
+        // $(document).on('keyup', '.attr-stock', function() {
+        //     if ($("input[name='customRadio']:checked").val() === "Y") {
+        //         var totalAttributeStock = 0;
+        //         $('.attr-stock').each(function() {
+        //             var value = parseInt($(this).val()) || 0;
+        //             totalAttributeStock += value;
+        //         });
+        //         var totalStock = parseInt($('#totstock').val()) || 0;
+        //         //console.log('Total Attribute Stock:', totalAttributeStock);
+        //         //console.log('Total Stock:', totalStock);
+        //         if (totalAttributeStock !== totalStock) {
+        //             $('#errorstock-message').show();
+        //         } else {
+        //             $('#errorstock-message').hide();
+        //         }
+        //     }
 
-        });
+        // });
         //Remove video
         $("#removeButton").click(function() {
             $("#preview")[0].src = "";
@@ -634,20 +635,18 @@
         return totalAttributeStock;
     }
 
-    function handleSubmit() {
-        if ($("input[name='customRadio']:checked").val() === "Y") {
-            var totalStock = parseInt($('#totstock').val()) || 0;
-            var totalAttributeStock = calculateTotalAttributeStock();
+    // function handleSubmit() {
+    //     if ($("input[name='customRadio']:checked").val() === "Y") {
+    //         var totalStock = parseInt($('#totstock').val()) || 0;
+    //         var totalAttributeStock = calculateTotalAttributeStock();
 
-            if (totalAttributeStock !== totalStock) {
-                $('#errorstock-message').show();
-                return false;
-            }
-            // else {
-            //     $('#ProductAddForm').submit();
-            // }
-        }
-    }
+    //         if (totalAttributeStock !== totalStock) {
+    //             $('#errorstock-message').show();
+    //             return false;
+    //         }
+
+    //     }
+    // }
 
 
 
@@ -825,10 +824,10 @@
             prod_description: {
                 required: true,
             },
-            totstock: {
+            //totstock: {
                 //required: true,
-                digits: true,
-            },
+                //digits: true,
+            //},
             // paymode: {
             //     required: true,
             // },
@@ -851,9 +850,9 @@
                 required: "Please enter product description.",
                 maxlength: "Locality must not exceed 700 characters."
             },
-            totstock: {
-                digits: "Please enter a number.",
-            },
+            // totstock: {
+            //     digits: "Please enter a number.",
+            // },
             // paymode: {
             //     required: "Please select Buying Option",
             // },
@@ -880,7 +879,7 @@
 
     $('#ProductAddForm').submit(function(e) {
         e.preventDefault();
-        handleSubmit();
+        //handleSubmit();
         if ($(this).valid()) {
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
             $('#loading-overlay').fadeIn();
