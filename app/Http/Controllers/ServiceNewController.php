@@ -28,10 +28,11 @@ class ServiceNewController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
+        $roleid = session('roleid');
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser = UserAccount::sessionValuereturn($userRole);
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $userdetails = DB::table('user_account')
             ->where('id', $userId)
             ->get();

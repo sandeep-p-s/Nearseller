@@ -13,7 +13,8 @@ class ShopTypeController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $roleid = session('roleid');
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $shoptype = DB::table('shop_type')->get();
         $total_shoptypes = DB::table('shop_type')->count();
@@ -26,7 +27,8 @@ class ShopTypeController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $roleid = session('roleid');
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         return view('admin.shop_type.add',compact('loggeduser','userdetails','structuredMenu'));
@@ -49,7 +51,8 @@ class ShopTypeController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $roleid = session('roleid');
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $shoptype = ShopType::find($id);

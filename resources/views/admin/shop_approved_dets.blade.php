@@ -72,6 +72,7 @@
                             {{ $sellerDetails->shop_mobno }}
                         </div>
                     </div>
+                    @if($sellerDetails->shop_email!='')
                     <hr class="new_hr">
                     <div class="form-group row">
                         <label class="col-xl-6">Email ID</label>
@@ -79,6 +80,7 @@
                             {{ $sellerDetails->shop_email }}
                         </div>
                     </div>
+                    @endif
                     <hr class="new_hr">
                     <div class="form-group row">
                         <label class="col-xl-6">Referral ID</label>

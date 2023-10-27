@@ -16,7 +16,8 @@ class ShopOfferController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $roleid = session('roleid');
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $shop_offer = DB::table('offers')->where('type', 1)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
@@ -27,7 +28,8 @@ class ShopOfferController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $roleid = session('roleid');
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $usershopdets = DB::table('user_account')
@@ -98,7 +100,8 @@ class ShopOfferController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $roleid = session('roleid');
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $usershopdets = DB::table('user_account')

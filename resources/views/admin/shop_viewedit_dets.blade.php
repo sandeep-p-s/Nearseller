@@ -594,7 +594,7 @@
                                             </div>
                                             <div class="col">
                                                 <span data-repeater-delete="" class="btn btn-danger btn-sm">
-                                                    <span class="far fa-trash-alt mr-1"></span> Delete
+                                                    <span class="far fa-trash-alt mr-1"></span>
                                                 </span>
                                             </div>
                                         </div>

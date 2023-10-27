@@ -22,10 +22,11 @@ class CategoryController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
+        $roleid = session('roleid');
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $loggeduser     = UserAccount::sessionValuereturn_s($roleid);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $categories = Category::tree();
         $total_categories = DB::table('categories')->count();
@@ -37,10 +38,11 @@ class CategoryController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
+        $roleid = session('roleid');
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $loggeduser     = UserAccount::sessionValuereturn_s($roleid);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $categories = Category::treeWithStatusY();
         $filteredCategories = $categories->filter(function ($category) {
@@ -160,10 +162,11 @@ class CategoryController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
+        $roleid = session('roleid');
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $loggeduser     = UserAccount::sessionValuereturn_s($roleid);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $current_category = Category::where('category_slug', $category_slug)->first();
         $categories = Category::treeWithStatusYandTypeSort($current_category->category_type);
@@ -311,10 +314,11 @@ class CategoryController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
+        $roleid = session('roleid');
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $loggeduser     = UserAccount::sessionValuereturn_s($roleid);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $current_category = Category::where('category_slug', $category_slug)->first();
         $categories = Category::treeWithStatusY();

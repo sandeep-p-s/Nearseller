@@ -2,228 +2,235 @@
     @if ($flag == 1)
         <div class="row">
             @foreach ($categories as $category)
-                <div class="col-md-2">
-                    <div class="category-item">
-                        <h5>{{ $category->category_name }}</h5>
-                        <hr>
-                        <a href="#" onclick="showproductcategory1({{ $category->id }})">
-                            {{-- <img src="{{ asset($category->category_image) }}"
-                                alt="{{ $category->category_name }}" class="img-fluid new_image_response"> --}}
-
-                                <img src="{{ asset($category->category_image) }}"
-                                alt="{{ $category->category_name }}" class="img-fluid new_image_response">
-
-                        </a>
-                    </div>
-                    <div class="col text-center">
-                        <a href="#" class="btn btn-danger" style="margin-top: 15px" onclick="productviewdet({{ $category->id }})">View
-                           </a>
-
+                <div class="col-lg-2">
+                    <div class="card client-card">
+                        <div class="card-body text-center">
+                            <a href="#" onclick="showproductcategory1({{ $category->id }})">
+                                <img src="{{ asset($category->category_image) }}" alt="{{ $category->category_name }}"
+                                    class="thumb-xl">
+                                <h5 class="client-name">{{ $category->category_name }}</h5>
+                            </a>
+                            <button type="button" class="btn btn-sm btn-soft-primary"
+                                onclick="productviewdet({{ $category->id }})">View</button>
+                        </div>
                     </div>
                 </div>
             @endforeach
         </div>
     @elseif ($flag == 2)
-        <hr>
+        <hr style="border-top: 1px solid #949597;">
         <div class="row">
             @foreach ($categories as $category)
-                <div class="col-md-3">
-                    <div class="category-item">
-                        @if (!empty($parentNames))
-                            <h5>
-                                @foreach ($parentNames as $parentName)
-                                    {{ $parentName . ' ➤ ' }}
-                                @endforeach
-                                {{ $category->category_name }}
-                            </h5>
-                        @else
-                            <h5>{{ $category->category_name }}</h5>
-                        @endif
-                        <hr>
-                        <a href="#" onclick="showproductcategory2({{ $category->id }})">
-                            <img src="{{ asset($category->category_image) }}"
-                                alt="{{ $category->category_name }}" class="img-fluid new_image_response">
-                        </a>
+                <div class="col-md-2">
+                    <div class="card client-card">
+                        <div class="card-body text-center">
 
+                            <a href="#" onclick="showproductcategory2({{ $category->id }})">
+                                <img src="{{ asset($category->category_image) }}" alt="{{ $category->category_name }}"
+                                    class="thumb-xl">
+                                @if (!empty($parentNames))
+                                    <h6 class="client-name">
+                                        @foreach ($parentNames as $parentName)
+                                            {{ $parentName . ' ➤ ' }}
+                                        @endforeach
+                                        {{ $category->category_name }}
+                                    </h6>
+                                @else
+                                    <h6 class="client-name">{{ $category->category_name }}</h6>
+                                @endif
+                            </a>
 
-                    </div>
-                    <div class="col text-center">
-                        <a href="#" class="btn btn-danger" onclick="productviewdet({{ $category->id }})">View
-                            Product</a>
+                            <button type="button" class="btn btn-sm btn-soft-primary"
+                                onclick="productviewdet({{ $category->id }})">View</button>
+
+                        </div>
                     </div>
                 </div>
             @endforeach
         </div>
     @elseif ($flag == 3)
-        <hr>
+        <hr style="border-top: 1px solid #949597;">
         <div class="row">
             @foreach ($categories as $category)
-                <div class="col-md-3">
-                    <div class="category-item">
-                        @if (!empty($parentNames))
-                            <h5>
-                                @foreach ($parentNames as $parentName)
-                                    {{ $parentName . ' ➤ ' }}
-                                @endforeach
-                                {{ $category->category_name }}
-                            </h5>
-                        @else
-                            <h5>{{ $category->category_name }}</h5>
-                        @endif
-                        <hr>
-                        <a href="#" onclick="showproductcategory3({{ $category->id }})">
-                            <img src="{{ asset($category->category_image) }}"
-                                alt="{{ $category->category_name }}" class="img-fluid new_image_response">
-                        </a>
-                    </div>
-                    <div class="col text-center">
-                        <a href="#" class="btn btn-danger" onclick="productviewdet({{ $category->id }})">View
-                            Product</a>
+                <div class="col-md-2">
+                    <div class="card client-card">
+                        <div class="card-body text-center">
+
+                            <a href="#" onclick="showproductcategory3({{ $category->id }})">
+                                <img src="{{ asset($category->category_image) }}" alt="{{ $category->category_name }}"
+                                    class="thumb-xl">
+                                @if (!empty($parentNames))
+                                    <h6 class="client-name">
+                                        @foreach ($parentNames as $parentName)
+                                            {{ $parentName . ' ➤ ' }}
+                                        @endforeach
+                                        {{ $category->category_name }}
+                                    </h6>
+                                @else
+                                    <h6 class="client-name">{{ $category->category_name }}</h6>
+                                @endif
+                            </a>
+
+                            <button type="button" class="btn btn-sm btn-soft-primary"
+                                onclick="productviewdet({{ $category->id }})">View</button>
+
+                        </div>
                     </div>
                 </div>
             @endforeach
         </div>
     @elseif ($flag == 4)
-        <hr>
+        <hr style="border-top: 1px solid #949597;">
         <div class="row">
             @foreach ($categories as $category)
-                <div class="col-md-3">
-                    <div class="category-item">
-                        @if (!empty($parentNames))
-                            <h5>
-                                @foreach ($parentNames as $parentName)
-                                    {{ $parentName . ' ➤ ' }}
-                                @endforeach
-                                {{ $category->category_name }}
-                            </h5>
-                        @else
-                            <h5>{{ $category->category_name }}</h5>
-                        @endif
-                        <hr>
-                        <a href="#" onclick="showproductcategory2({{ $category->id }})">
-                            <img src="{{ asset($category->category_image) }}"
-                                alt="{{ $category->category_name }}" class="img-fluid new_image_response">
-                        </a>
-                    </div>
-                    <div class="col text-center">
-                        <a href="#" class="btn btn-danger" onclick="productviewdet({{ $category->id }})">View
-                            Product</a>
+                <div class="col-md-2">
+                    <div class="card client-card">
+                        <div class="card-body text-center">
+
+                            <a href="#" onclick="showproductcategory4({{ $category->id }})">
+                                <img src="{{ asset($category->category_image) }}" alt="{{ $category->category_name }}"
+                                    class="thumb-xl">
+                                @if (!empty($parentNames))
+                                    <h6 class="client-name">
+                                        @foreach ($parentNames as $parentName)
+                                            {{ $parentName . ' ➤ ' }}
+                                        @endforeach
+                                        {{ $category->category_name }}
+                                    </h6>
+                                @else
+                                    <h6 class="client-name">{{ $category->category_name }}</h6>
+                                @endif
+                            </a>
+
+                            <button type="button" class="btn btn-sm btn-soft-primary"
+                                onclick="productviewdet({{ $category->id }})">View</button>
+
+                        </div>
                     </div>
                 </div>
             @endforeach
         </div>
     @elseif ($flag == 5)
-        <hr>
+        <hr style="border-top: 1px solid #949597;">
         <div class="row">
             @foreach ($categories as $category)
-                <div class="col-md-3">
-                    <div class="category-item">
-                        @if (!empty($parentNames))
-                            <h5>
-                                @foreach ($parentNames as $parentName)
-                                    {{ $parentName . ' ➤ ' }}
-                                @endforeach
-                                {{ $category->category_name }}
-                            </h5>
-                        @else
-                            <h5>{{ $category->category_name }}</h5>
-                        @endif
-                        <hr>
-                        <a href="#" onclick="showproductcategory4({{ $category->id }})">
-                            <img src="{{ asset($category->category_image) }}"
-                                alt="{{ $category->category_name }}" class="img-fluid new_image_response">
-                        </a>
-                    </div>
-                    <div class="col text-center">
-                        <a href="#" class="btn btn-danger" onclick="productviewdet({{ $category->id }})">View
-                            Product</a>
+                <div class="col-md-2">
+                    <div class="card client-card">
+                        <div class="card-body text-center">
+
+                            <a href="#" onclick="showproductcategory5({{ $category->id }})">
+                                <img src="{{ asset($category->category_image) }}" alt="{{ $category->category_name }}"
+                                    class="thumb-xl">
+                                @if (!empty($parentNames))
+                                    <h6 class="client-name">
+                                        @foreach ($parentNames as $parentName)
+                                            {{ $parentName . ' ➤ ' }}
+                                        @endforeach
+                                        {{ $category->category_name }}
+                                    </h6>
+                                @else
+                                    <h6 class="client-name">{{ $category->category_name }}</h6>
+                                @endif
+                            </a>
+
+                            <button type="button" class="btn btn-sm btn-soft-primary"
+                                onclick="productviewdet({{ $category->id }})">View</button>
+
+                        </div>
                     </div>
                 </div>
             @endforeach
         </div>
     @elseif ($flag == 6)
-        <hr>
+        <hr style="border-top: 1px solid #949597;">
         <div class="row">
             @foreach ($categories as $category)
-                <div class="col-md-3">
-                    <div class="category-item">
-                        @if (!empty($parentNames))
-                            <h5>
-                                @foreach ($parentNames as $parentName)
-                                    {{ $parentName . ' ➤ ' }}
-                                @endforeach
-                                {{ $category->category_name }}
-                            </h5>
-                        @else
-                            <h5>{{ $category->category_name }}</h5>
-                        @endif
-                        <hr>
-                        <a href="#" onclick="showproductcategory5({{ $category->id }})">
-                            <img src="{{ asset($category->category_image) }}"
-                                alt="{{ $category->category_name }}" class="img-fluid new_image_response">
-                        </a>
-                    </div>
-                    <div class="col text-center">
-                        <a href="#" class="btn btn-danger" onclick="productviewdet({{ $category->id }})">View
-                            Product</a>
+                <div class="col-md-2">
+                    <div class="card client-card">
+                        <div class="card-body text-center">
+
+                            <a href="#" onclick="showproductcategory6({{ $category->id }})">
+                                <img src="{{ asset($category->category_image) }}" alt="{{ $category->category_name }}"
+                                    class="thumb-xl">
+                                @if (!empty($parentNames))
+                                    <h6 class="client-name">
+                                        @foreach ($parentNames as $parentName)
+                                            {{ $parentName . ' ➤ ' }}
+                                        @endforeach
+                                        {{ $category->category_name }}
+                                    </h6>
+                                @else
+                                    <h6 class="client-name">{{ $category->category_name }}</h6>
+                                @endif
+                            </a>
+
+                            <button type="button" class="btn btn-sm btn-soft-primary"
+                                onclick="productviewdet({{ $category->id }})">View</button>
+
+                        </div>
                     </div>
                 </div>
             @endforeach
         </div>
     @elseif ($flag == 7)
-        <hr>
+        <hr style="border-top: 1px solid #949597;">
         <div class="row">
             @foreach ($categories as $category)
-                <div class="col-md-3">
-                    <div class="category-item">
-                        @if (!empty($parentNames))
-                            <h5>
-                                @foreach ($parentNames as $parentName)
-                                    {{ $parentName . ' ➤ ' }}
-                                @endforeach
-                                {{ $category->category_name }}
-                            </h5>
-                        @else
-                            <h5>{{ $category->category_name }}</h5>
-                        @endif
-                        <hr>
-                        <a href="#" onclick="showproductcategory6({{ $category->id }})">
-                            <img src="{{ asset($category->category_image) }}"
-                                alt="{{ $category->category_name }}" class="img-fluid new_image_response">
-                        </a>
-                    </div>
-                    <div class="col text-center">
-                        <a href="#" class="btn btn-danger" onclick="productviewdet({{ $category->id }})">View
-                            Product</a>
+                <div class="col-md-2">
+                    <div class="card client-card">
+                        <div class="card-body text-center">
+
+                            <a href="#" onclick="showproductcategory7({{ $category->id }})">
+                                <img src="{{ asset($category->category_image) }}" alt="{{ $category->category_name }}"
+                                    class="thumb-xl">
+                                @if (!empty($parentNames))
+                                    <h6 class="client-name">
+                                        @foreach ($parentNames as $parentName)
+                                            {{ $parentName . ' ➤ ' }}
+                                        @endforeach
+                                        {{ $category->category_name }}
+                                    </h6>
+                                @else
+                                    <h6 class="client-name">{{ $category->category_name }}</h6>
+                                @endif
+                            </a>
+
+                            <button type="button" class="btn btn-sm btn-soft-primary"
+                                onclick="productviewdet({{ $category->id }})">View</button>
+
+                        </div>
                     </div>
                 </div>
             @endforeach
         </div>
     @elseif ($flag == 8)
-        <hr>
+        <br>
+        <hr style="border-top: 1px solid #949597;">
         <div class="row">
             @foreach ($categories as $category)
-                <div class="col-md-3">
-                    <div class="category-item">
-                        @if (!empty($parentNames))
-                            <h5>
-                                @foreach ($parentNames as $parentName)
-                                    {{ $parentName . ' ➤ ' }}
-                                @endforeach
-                                {{ $category->category_name }}
-                            </h5>
-                        @else
-                            <h5>{{ $category->category_name }}</h5>
-                        @endif
-                        <hr>
-                        <a href="#" onclick="showproductcategory7({{ $category->id }})">
-                            <img src="{{ asset($category->category_image) }}"
-                                alt="{{ $category->category_name }}" class="img-fluid new_image_response">
-                        </a>
-                    </div>
-                    <div class="col text-center">
-                        <a href="#" class="btn btn-danger" onclick="productviewdet({{ $category->id }})">View
-                            Product</a>
+                <div class="col-md-2">
+                    <div class="card client-card">
+                        <div class="card-body text-center">
+
+                            <a href="#" onclick="showproductcategory8({{ $category->id }})">
+                                <img src="{{ asset($category->category_image) }}"
+                                    alt="{{ $category->category_name }}" class="thumb-xl">
+                                @if (!empty($parentNames))
+                                    <h6 class="client-name">
+                                        @foreach ($parentNames as $parentName)
+                                            {{ $parentName . ' ➤ ' }}
+                                        @endforeach
+                                        {{ $category->category_name }}
+                                    </h6>
+                                @else
+                                    <h6 class="client-name">{{ $category->category_name }}</h6>
+                                @endif
+                            </a>
+
+                            <button type="button" class="btn btn-sm btn-soft-primary"
+                                onclick="productviewdet({{ $category->id }})">View</button>
+
+                        </div>
                     </div>
                 </div>
             @endforeach
@@ -242,14 +249,14 @@
                         $totimg = 0;
                     }
                 @endphp
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="category-item">
-                        <a href="#" onclick="showproductcategory({{ $category->categoryid }})">
+                        <a href="#" onclick="showproductcategory9({{ $category->categoryid }})">
                             @for ($m = 0; $m < 1; $m++)
                                 <img src="{{ asset($gallery[$m]) }}" alt="{{ $category->category_name }}"
                                     class="img-fluid new_image_response">
-                                <h5>{{ $category->parent_id . ' ➤ ' . $category->category_id . ' ➤ ' . $category->category_name . ' ➤ ' . $category->product_name }}
-                                </h5>
+                                <h6>{{ $category->parent_id . ' ➤ ' . $category->category_id . ' ➤ ' . $category->category_name . ' ➤ ' . $category->product_name }}
+                                </h6>
                             @endfor
                         </a>
                         <div class="row">
@@ -286,7 +293,7 @@
         <tr>
             <td colspan="13" align="center">
                 <img src="{{ asset('backend/assets/images/notfoundimg.png') }}" alt="notfound"
-                    class="rounded-circle" style="width: 30%;" />
+                    class="rounded-circle" style="width: 20%;" />
             </td>
         </tr>
     </table>

@@ -42,7 +42,7 @@
                             <div class="dropdown-menu">
                                 <a class="dropdown-item view_btn1" href="#"
                                     onclick="Appointmentvieweditdet({{ $service->id }})">View/Edit</a>
-                                @if (session('roleid') == '1')
+                                    @if (session('roleid') == '1' || session('roleid') == '11')
                                     {{-- <a class="dropdown-item approve_btn" href="#"
                                         onclick="productapprovedet({{ $service->id }})">Approved</a> --}}
                                     <a class="dropdown-item delete_btn" href="#"
@@ -229,7 +229,7 @@
                                                             class="btn btn-secondary btn-sm">
                                                             <span class="fas fa-plus"></span> Add New Time
                                                         </span>
-                                                        @if (session('roleid') == 1)
+                                                        @if (session('roleid') == '1' || session('roleid') == '11')
                                                             <button type="button" id="addSameTiming"
                                                                 class="btn btn-primary btn-sm">
                                                                 Add Same Timing for All Days

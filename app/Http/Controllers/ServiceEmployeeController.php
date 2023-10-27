@@ -17,7 +17,8 @@ class ServiceEmployeeController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $roleid = session('roleid');
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $service_emp = DB::table('service_employees')->get();
@@ -27,7 +28,8 @@ class ServiceEmployeeController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $roleid = session('roleid');
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $countries = DB::table('country as ct')
@@ -145,7 +147,8 @@ class ServiceEmployeeController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $roleid = session('roleid');
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $userservicedets = DB::table('user_account')
         ->select('id', 'name')
