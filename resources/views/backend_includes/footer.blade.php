@@ -25,7 +25,7 @@
 <script src="{{ asset('backend/assets/js/moment.js') }}"></script>
 <script src="{{ asset('backend/assets/js/metismenu.min.js') }}"></script>
 <script src="{{ asset('backend/assets/js/waves.js') }}"></script>
-<script src="{{ asset('backend/assets/js/feather.min.js') }}"></script>
+{{-- <script src="{{ asset('backend/assets/js/feather.min.js') }}"></script> --}}
 <script src="{{ asset('backend/assets/js/simplebar.min.js') }}"></script>
 {{-- <script src="{{ asset('backend/plugins/daterangepicker/daterangepicker.js') }}"></script> --}}
 <script src="{{ asset('backend/assets/js/bootstrap-datetimepicker.min.js') }}"></script>

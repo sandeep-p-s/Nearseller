@@ -521,7 +521,7 @@
 
             }
 
-             function check() {
+            function check() {
 
                 if (document.getElementById('checkbox1').checked == true) {
                     for (i = 1; i <= document.getElementById('totalshopcnt').value; i++) {
@@ -541,11 +541,12 @@
                 var shopid = '';
                 var totalshopcnt = document.getElementById('totalshopcnt').value;
                 for (var i = 1; i <= totalshopcnt; i++) {
-                    if (document.getElementById('shopid' + i).checked) {
-                        shopid = shopid + '#' + document.getElementById('shopid' + i).value;
+                    var checkbox = document.getElementById('shopid' + i);
+                    if (checkbox && checkbox.checked) {
+                        shopid = shopid + '#' + checkbox.value;
                     }
                 }
-                if (shopid == '') {
+                if (shopid === '') {
                     alert('No Shops Selected');
                     return false;
                 }
@@ -588,9 +589,6 @@
                         }
                     }
                 });
-
             }
-
-
         </script>
     @endsection
