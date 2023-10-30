@@ -756,7 +756,7 @@
 
                     imgDiv.append(img);
                     imgDiv.append($('<div>').addClass('middle').append(removeBtn));
-
+                        if(fileArrs.length > 0)
                     $('#image-preview').append(imgDiv);
                 };
             })(file);

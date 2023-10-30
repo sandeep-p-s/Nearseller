@@ -30,8 +30,17 @@
                 $qrsocialmedia = $qrsocialmediaarray->mediadets;
                 $qrsocialmediaval = json_decode(json_encode($qrsocialmedia), true);
 
-            @endphp
+                $sel_approved = $sellerDetailh->seller_approved;
+                $userstatus = $sellerDetailh->user_status;
 
+
+            @endphp
+            @if ($sellerDetailh->seller_approved != 'Y')
+                <div class="col text-right">
+                    <a class="btn add_btn" href="#"
+                        onclick="shopvieweditdet({{ $sellerDetailh->id }},{{ $typeid }})">Edit Details</a>
+                </div>
+            @endif
 
             <div class="row">
                 <div class="col-12">
@@ -65,7 +74,8 @@
                                             @endif
 
                                             <li class="mt-2"> <b> Address </b> :
-                                                {{ $sellerDetailh->house_name_no . ',' . $sellerDetailh->locality. ',' . $sellerDetailh->village. ',' . $sellerDetailh->pincode. ',' . $sellerDetailh->district_name. ',' . $sellerDetailh->state_name. ',' . $sellerDetailh->country_name }}</li>
+                                                {{ $sellerDetailh->house_name_no . ',' . $sellerDetailh->locality . ',' . $sellerDetailh->village . ',' . $sellerDetailh->pincode . ',' . $sellerDetailh->district_name . ',' . $sellerDetailh->state_name . ',' . $sellerDetailh->country_name }}
+                                            </li>
                                         </ul>
 
                                     </div><!--end col-->
@@ -154,7 +164,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-xl-3 col-lg-3 ">{{ $shoporservice }}  category Type </label>
+                                <label class="col-xl-3 col-lg-3 ">{{ $shoporservice }} category Type </label>
                                 <div class="col-lg-9 col-xl-8">
                                     <p>{{ $sellerDetailh->service_category_name }}</p>
                                 </div>
@@ -173,47 +183,41 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-xl-3 col-lg-3 ">{{ $shoporservice }} Open and Close Time</label>
-                                <div class="col-lg-9 col-xl-8">
-                                    <p> @if ($shopavailable->count() > 0)
-                                        <table class="table table-striped table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>Days</th>
-                                                    <th>Open Time</th>
-                                                    <th>Close Time</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($shopavailable as $openclosetime)
+                                {{-- <label class="col-xl-3 col-lg-3 ">{{ $shoporservice }} Open and Close Time</label> --}}
+                                <div class="col-lg-12 col-xl-12">
+                                    <p>
+                                        @if ($shopavailable->count() > 0)
+                                            <table class="table table-striped table-bordered">
+                                                <thead>
                                                     <tr>
-                                                        <td>{{ $openclosetime->open_close_days }}</td>
-                                                        <td>{{ $openclosetime->from_time }}</td>
-                                                        <td>{{ $openclosetime->to_time }}</td>
+                                                        <th>Days</th>
+                                                        <th>Open Time</th>
+                                                        <th>Close Time</th>
                                                     </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    @else
-                                        <table>
-                                            <tr>
-                                                <td colspan="3" align="center">Not Found Open and Close Time</td>
-                                            </tr>
-                                        </table>
-                                    @endif</p>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($shopavailable as $openclosetime)
+                                                        <tr>
+                                                            <td>{{ $openclosetime->open_close_days }}</td>
+                                                            <td>{{ $openclosetime->from_time }}</td>
+                                                            <td>{{ $openclosetime->to_time }}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        @else
+                                            <table>
+                                                <tr>
+                                                    <td colspan="3" align="center">Not Found Open and Close Time</td>
+                                                </tr>
+                                            </table>
+                                        @endif
+                                    </p>
                                 </div>
                             </div>
 
 
-                            <div class="form-group row">
-                                <label class="col-xl-3 col-lg-3 ">User Status</label>
-                                <div class="col-lg-9 col-xl-8">
-                                    <p> <span
-                                        class="badge  p-2 {{ $sellerDetailh->user_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
-                                        {{ $sellerDetailh->user_status === 'Y' ? 'Active' : 'Inactive' }}
-                                    </span></p>
-                                </div>
-                            </div>
+
 
 
                         </div>
@@ -221,13 +225,13 @@
                 </div>
                 <div class="col-lg-6 col-xl-6">
                     <div class="card">
-                        <div class="card-header">
+                        {{-- <div class="card-header">
                             <div class="row align-items-center">
                                 <div class="col">
                                     <h4 class="card-title">{{ $shoporservice }} Information</h4>
                                 </div><!--end col-->
                             </div> <!--end row-->
-                        </div><!--end card-header-->
+                        </div><!--end card-header--> --}}
                         <div class="card-body">
                             <div class="form-group row">
                                 <label class="col-xl-3 col-lg-3 ">{{ $shoporservice }} License Number</label>
@@ -250,31 +254,40 @@
                             <div class="form-group row">
                                 <label class="col-xl-3 col-lg-3 ">Establishment Date</label>
                                 <div class="col-lg-9 col-xl-8">
-                                    <p>{{ date("d-m-Y", strtotime($sellerDetailh->establish_date)) }}</p>
+                                    <p>{{ date('d-m-Y', strtotime($sellerDetailh->establish_date)) }}</p>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-xl-3 col-lg-3 ">Registration Date</label>
                                 <div class="col-lg-9 col-xl-8">
-                                    <p>{{ date("d-m-Y H:i:s", strtotime($sellerDetailh->created_at)) }}</p>
+                                    <p>{{ date('d-m-Y H:i:s', strtotime($sellerDetailh->created_at)) }}</p>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-xl-3 col-lg-3 ">Accept Terms & Conditions</label>
                                 <div class="col-lg-9 col-xl-8">
                                     <p><span
-                                        class="badge  p-2 {{ $sellerDetailh->term_condition == '1' ? 'badge badge-success' : 'badge badge-danger' }}">
-                                        {{ $sellerDetailh->term_condition == '1' ? 'Accepted' : 'No' }}
-                                    </span></p>
+                                            class="badge  p-2 {{ $sellerDetailh->term_condition == '1' ? 'badge badge-success' : 'badge badge-danger' }}">
+                                            {{ $sellerDetailh->term_condition == '1' ? 'Accepted' : 'No' }}
+                                        </span></p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-xl-3 col-lg-3 ">User Status</label>
+                                <div class="col-lg-9 col-xl-8">
+                                    <p> <span
+                                            class="badge  p-2 {{ $sellerDetailh->user_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
+                                            {{ $sellerDetailh->user_status === 'Y' ? 'Active' : 'Inactive' }}
+                                        </span></p>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-xl-3 col-lg-3 ">Approved Status</label>
                                 <div class="col-lg-9 col-xl-8">
                                     <p><span
-                                        class="badge  p-2 {{ $sellerDetailh->approved === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
-                                        {{ $sellerDetailh->approved === 'Y' ? 'Approved' : 'Not Approved' }}
-                                    </span></p>
+                                            class="badge  p-2 {{ $sellerDetailh->seller_approved === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
+                                            {{ $sellerDetailh->seller_approved === 'Y' ? 'Approved' : 'Not Approved' }}
+                                        </span></p>
                                 </div>
                             </div>
 
@@ -282,6 +295,65 @@
                         </div>
                     </div>
                 </div> <!--end col-->
+
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h4 class="card-title">{{ $shoporservice }} Images</h4>
+                                </div><!--end col-->
+                            </div> <!--end row-->
+                        </div><!--end card-header-->
+                        <div class="card-body">
+
+                            <div class="col-md-12">
+                                <div class="form-group" align="center">
+                                    <div class="row">
+                                        @for ($m = 0; $m < $totimg; $m++)
+                                            <div class="col-md-3">
+                                                <a href="#" data-toggle="modal"
+                                                    data-target="#myModalm{{ $m }}">
+                                                    <img id="img-bufferm" class="img-responsive image" style="padding: 2px;  width: 277px; margin: 1px;"
+                                                        src="{{ asset($qrgallery[$m]) }}" width="450"
+                                                        height="250">
+                                                    @php
+                                                        $valenm = $qrgallery[$m] . '#' . $sellerDetailh->id;
+                                                        $deleencdem = base64_encode($valenm);
+                                                    @endphp
+                                                </a>
+                                                <br>
+                                                {{-- @if (!($sel_approved == 'Y' && ($roleid == 3 || $roleid == 2))) --}}
+                                                {{-- @if (!($sel_approved == 'Y'))
+                                                    <button id="remv" type="button" name="remv"
+                                                        class="btn btn-danger"
+                                                        onClick="DeltImagGalry('{{ $deleencdems }}');">Remove</button>
+                                                @endif --}}
+                                            </div>
+
+                                            <div class="modal fade" id="myModalm{{ $m }}" tabindex="-1"
+                                                role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+                                                style="width: 80%;">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close"
+                                                                data-dismiss="modal"
+                                                                aria-hidden="true">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <img src="{{ asset($qrgallery[$m]) }}" class="img-fluid">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endfor
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
             </div>
@@ -686,7 +758,7 @@
                                             class="form-control form-control-lg" placeholder="PAN Number"
                                             tabindex="21" />
                                         <label for="s_panno" class="error"></label>
-                                        <div id="pan-error-message" style="color: red;"></div>
+                                        {{-- <div id="pan-error-message" style="color: red;"></div> --}}
                                     </div>
 
 
@@ -976,18 +1048,18 @@
 
 
 
-    document.getElementById('s_panno').addEventListener('input', function() {
-        var panInput = this.value;
-        var panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
+    // document.getElementById('s_panno').addEventListener('input', function() {
+    //     var panInput = this.value;
+    //     var panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
 
-        if (panRegex.test(panInput)) {
-            // PAN format is valid
-            document.getElementById('pan-error-message').textContent = "";
-        } else {
-            // PAN format is invalid
-            //document.getElementById('pan-error-message').textContent = "Invalid PAN format. It should be in the format AEDFR2568H";
-        }
-    });
+    //     if (panRegex.test(panInput)) {
+    //         // PAN format is valid
+    //         document.getElementById('pan-error-message').textContent = "";
+    //     } else {
+    //         // PAN format is invalid
+    //         //document.getElementById('pan-error-message').textContent = "Invalid PAN format. It should be in the format AEDFR2568H";
+    //     }
+    // });
 
     // document.getElementById('s_gstno').addEventListener('input', function() {
     //     var gstInput = this.value;
@@ -1327,7 +1399,7 @@
             fileArrs.push(file);
             totalFiless++;
             if (totalFiless > 5) {
-                alert('Maximum 5 images allowed 2222222');
+                alert('Maximum 5 images allowed');
                 $(this).val('');
                 $('#image-preview').html('');
 
@@ -1349,8 +1421,8 @@
 
                     imgDiv.append(img);
                     imgDiv.append($('<div>').addClass('middle').append(removeBtn));
-                        if(fileArrs.length > 0)
-                    $('#image-preview').append(imgDiv);
+                    if (fileArrs.length > 0)
+                        $('#image-preview').append(imgDiv);
                 };
             })(file);
 
@@ -1477,8 +1549,8 @@
 
                     imgDiv.append(img);
                     imgDiv.append($('<div>').addClass('middle').append(removeBtn));
-                        if(fileArr.length > 0)
-                    $('#image-preview-logo').append(imgDiv);
+                    if (fileArr.length > 0)
+                        $('#image-preview-logo').append(imgDiv);
                 };
             })(file);
 

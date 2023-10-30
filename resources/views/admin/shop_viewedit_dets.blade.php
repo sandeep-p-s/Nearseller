@@ -35,8 +35,8 @@
     @if ($sel_approved == 'Y')
         <div class="col-md-12">
             <h3 style="text-align: center; color:#ff002b;"><span class="badge badge-soft-danger p-2">
-                {{ $shoporservice }} Approved
-            </span></h3>
+                    {{ $shoporservice }} Approved
+                </span></h3>
 
         </div>
         <hr>
@@ -58,7 +58,7 @@
                 </div>
 
 
-                <div class="form-outline mb-3"><label>Owner Name<span class="text-danger">*</span></label>
+                <div class="form-outline mb-3"><label>{{ $shoporservice }} Owner Name<span class="text-danger">*</span></label>
                     <input type="text" id="es_ownername" name="es_ownername" value="{{ $sellerDetails->owner_name }}"
                         class="form-control form-control-lg" maxlength="50" placeholder="Owner Name" required
                         tabindex="2" />
@@ -680,8 +680,8 @@
                 <div style="float:right">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     {{-- @if (!($sel_approved == 'Y' && ($roleid == 3 || $roleid == 2))) --}}
-                    @if ($sel_approved!='Y')
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    @if ($sel_approved != 'Y')
+                        <button type="submit" class="btn btn-primary">Save</button>
                     @endif
                     {{-- @endif --}}
                 </div>
@@ -1038,8 +1038,8 @@
 
                     imgDiv.append(img);
                     imgDiv.append($('<div>').addClass('middle').append(removeBtn));
-
-                    $('#eimage-preview').append(imgDiv);
+                    if (fileArrs.length > 0)
+                        $('#eimage-preview').append(imgDiv);
                 };
             })(file);
 
@@ -1166,8 +1166,8 @@
 
                     imgDiv.append(img);
                     imgDiv.append($('<div>').addClass('middle').append(removeBtn));
-
-                    $('#eimage-preview-logo').append(imgDiv);
+                    if (fileArr.length > 0)
+                        $('#eimage-preview-logo').append(imgDiv);
                 };
             })(file);
 
@@ -1285,9 +1285,9 @@
             //     required: true,
 
             // },
-             es_lisence: {
-                 validLicence: true,
-             },
+            es_lisence: {
+                validLicence: true,
+            },
             es_buldingorhouseno: {
                 required: true,
             },
@@ -1388,9 +1388,9 @@
             // es_logo: {
             //     extension: "Only JPG and PNG files are allowed.",
             // },
-             es_lisence: {
+            es_lisence: {
                 validLicence: "Invalid license number format. It should be 3 uppercase letters followed by 5 digits."
-             },
+            },
             es_buldingorhouseno: {
                 required: "Please enter building/house name and number.",
                 maxlength: "Building/house name and number must not exceed 100 characters."

@@ -30,9 +30,9 @@ class HomeController extends Controller
          $countries      = DB::table('country')->get();
          $business       = DB::table('business_type')->where('status','Y')->get();
         //  $servicecategory = DB::table('service_categories')->where('status','Y')->get();
-        //  $executives     = DB::table('executives')->where(['executive_type' => 1, 'status' => 'Y'])->get();
+         $executives     = DB::table('user_account')->where(['role_id' => 10])->where(['user_status' => 'Y'])->get();
 
-        return view('user.login',compact('countries','business'));
+        return view('user.login',compact('countries','business','executives'));
     }
     public function BusinessCategory($catgry)
     {

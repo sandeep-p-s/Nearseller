@@ -20,6 +20,7 @@
     $qrsocialmediaarray = json_decode($socialmedia);
     $qrsocialmedia = $qrsocialmediaarray->mediadets;
     $qrsocialmediaval = json_decode(json_encode($qrsocialmedia), true);
+    $tcondition = $sellerDetails->term_condition;
 
 @endphp
 
@@ -30,79 +31,92 @@
     @endphp
 @endforeach
 
-
-<form id="SellerRegFormApproved" enctype="multipart/form-data" method="POST">
-    <input type="hidden" id="shopidhidapp" name="shopidhidapp" value="{{ $sellerDetails->user_id }}"
-        class="form-control form-control-lg" maxlength="50" placeholder="Shop User id" required tabindex="1" />
-
-    <input type="hidden" id="shopidhidselapp" name="shopidhidselapp" value="{{ $sellerDetails->id }}"
-        class="form-control form-control-lg" maxlength="50" placeholder="Shop Seller id" required tabindex="1" />
-
-
-
+@if ($tcondition != '1')
     <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-12">
             <div class="card">
-                {{-- <div class="card-header " id="headingOne" style="background-color: #6374ff;">
+                <div class="card-body">
+                    <div class="row">
+                        <label class="col-xl-12 text-center error">{{ $shoporservice }}  - Registration not completed</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@else
+    <form id="SellerRegFormApproved" enctype="multipart/form-data" method="POST">
+        <input type="hidden" id="shopidhidapp" name="shopidhidapp" value="{{ $sellerDetails->user_id }}"
+            class="form-control form-control-lg" maxlength="50" placeholder="Shop User id" required tabindex="1" />
+
+        <input type="hidden" id="shopidhidselapp" name="shopidhidselapp" value="{{ $sellerDetails->id }}"
+            class="form-control form-control-lg" maxlength="50" placeholder="Shop Seller id" required tabindex="1" />
+
+
+
+
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card">
+                    {{-- <div class="card-header " id="headingOne" style="background-color: #6374ff;">
                                     <a href="" class="text-light d-flex justify-content-between" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                         <span class="align-self-center">Personal Details </span> </a>
                                 </div> --}}
-                <div class="card-body">
-                    <div class="row">
-                        <label class="col-xl-6">{{ $shoporservice }} Name</label>
-                        <div class="col-xl-6 align-self-center">
-                            {{ $sellerDetails->shop_name }}
+                    <div class="card-body">
+                        <div class="row">
+                            <label class="col-xl-6">{{ $shoporservice }} Name</label>
+                            <div class="col-xl-6 align-self-center">
+                                {{ $sellerDetails->shop_name }}
+                            </div>
                         </div>
-                    </div>
 
 
-                    <hr class="new_hr">
-                    <div class="row">
-                        <label class="col-xl-6">Owner Name</label>
-                        <div class="col-xl-6 align-self-center">
-                            {{ $sellerDetails->owner_name }}
+                        <hr class="new_hr">
+                        <div class="row">
+                            <label class="col-xl-6">{{ $shoporservice }} Owner Name</label>
+                            <div class="col-xl-6 align-self-center">
+                                {{ $sellerDetails->owner_name }}
+                            </div>
                         </div>
-                    </div>
 
 
-                    <hr class="new_hr">
-                    <div class="form-group row">
-                        <label class="col-xl-6">Mobile No</label>
-                        <div class="col-xl-6 align-self-center">
-                            {{ $sellerDetails->shop_mobno }}
+                        <hr class="new_hr">
+                        <div class="form-group row">
+                            <label class="col-xl-6">Mobile No</label>
+                            <div class="col-xl-6 align-self-center">
+                                {{ $sellerDetails->shop_mobno }}
+                            </div>
                         </div>
-                    </div>
-                    @if($sellerDetails->shop_email!='')
-                    <hr class="new_hr">
-                    <div class="form-group row">
-                        <label class="col-xl-6">Email ID</label>
-                        <div class="col-xl-6 align-self-center">
-                            {{ $sellerDetails->shop_email }}
+                        @if ($sellerDetails->shop_email != '')
+                            <hr class="new_hr">
+                            <div class="form-group row">
+                                <label class="col-xl-6">Email ID</label>
+                                <div class="col-xl-6 align-self-center">
+                                    {{ $sellerDetails->shop_email }}
+                                </div>
+                            </div>
+                        @endif
+                        <hr class="new_hr">
+                        <div class="form-group row">
+                            <label class="col-xl-6">Referral ID</label>
+                            <div class="col-xl-6 align-self-center">
+                                {{ $sellerDetails->referal_id }}
+                            </div>
                         </div>
-                    </div>
-                    @endif
-                    <hr class="new_hr">
-                    <div class="form-group row">
-                        <label class="col-xl-6">Referral ID</label>
-                        <div class="col-xl-6 align-self-center">
-                            {{ $sellerDetails->referal_id }}
+                        <hr class="new_hr">
+                        <div class="form-group row">
+                            <label class="col-xl-6">Business Type</label>
+                            <div class="col-xl-6 align-self-center">
+                                {{ $sellerDetails->business_name }}
+                            </div>
                         </div>
-                    </div>
-                    <hr class="new_hr">
-                    <div class="form-group row">
-                        <label class="col-xl-6">Business Type</label>
-                        <div class="col-xl-6 align-self-center">
-                            {{ $sellerDetails->business_name }}
+                        <hr class="new_hr">
+                        <div class="form-group row">
+                            <label class="col-xl-6">{{ $shoporservice }} category Type</label>
+                            <div class="col-xl-6 align-self-center">
+                                {{ $sellerDetails->service_category_name }}
+                            </div>
                         </div>
-                    </div>
-                    <hr class="new_hr">
-                    <div class="form-group row">
-                        <label class="col-xl-6">{{ $shoporservice }}  category Type</label>
-                        <div class="col-xl-6 align-self-center">
-                            {{ $sellerDetails->service_category_name }}
-                        </div>
-                    </div>
-                    {{-- <hr class="new_hr">
+                        {{-- <hr class="new_hr">
                     <div class="form-group row">
                         <label class="col-xl-6">{{ $shoporservice }} Sub Category Type</label>
                         <div class="col-xl-6 align-self-center">
@@ -110,273 +124,273 @@
                         </div>
                     </div> --}}
 
-                    <hr class="new_hr">
-                    <div class="form-group row">
-                        <label class="col-xl-6">{{ $shoporservice }} Type</label>
-                        <div class="col-xl-6 align-self-center">
-                            {{ $sellerDetails->service_name }}
+                        <hr class="new_hr">
+                        <div class="form-group row">
+                            <label class="col-xl-6">{{ $shoporservice }} Type</label>
+                            <div class="col-xl-6 align-self-center">
+                                {{ $sellerDetails->service_name }}
+                            </div>
                         </div>
-                    </div>
 
-                    <hr class="new_hr">
-                    <div class="form-group row">
-                        <label class="col-xl-6">{{ $shoporservice }} Executive Name</label>
-                        <div class="col-xl-6 align-self-center">
-                            {{ $executives->name }}
+                        <hr class="new_hr">
+                        <div class="form-group row">
+                            <label class="col-xl-6">{{ $shoporservice }} Executive Name</label>
+                            <div class="col-xl-6 align-self-center">
+                                {{ $executives->name }}
+                            </div>
                         </div>
-                    </div>
-                    <hr class="new_hr">
-                    <div class="form-group row">
-                        <label class="col-xl-6">Social Media</label>
+                        <hr class="new_hr">
+                        <div class="form-group row">
+                            <label class="col-xl-6">Social Media</label>
 
-                        <div class="col-xl-6 align-self-center">
-                            @php
-                                $qrsocialmediaval = json_decode(json_encode($qrsocialmedia), true);
-                                $mediaUrlcnt = count($qrsocialmedia);
-                            @endphp
+                            <div class="col-xl-6 align-self-center">
+                                @php
+                                    $qrsocialmediaval = json_decode(json_encode($qrsocialmedia), true);
+                                    $mediaUrlcnt = count($qrsocialmedia);
+                                @endphp
 
-                            @if ($mediaUrlcnt > 0)
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="icons">
-                                            @foreach ($qrsocialmediaval as $mediaItem)
-                                                @php
-                                                    $titurl = '';
-                                                    $media = '';
-                                                    switch ($mediaItem['mediatype']) {
-                                                        case 1:
-                                                            $titurl = 'facebook';
-                                                            $media = '<i class="fa-brands fa-facebook" style="font-size: 25px;"></i>';
-                                                            break;
-                                                        case 2:
-                                                            $titurl = 'instagram';
-                                                            $media = '<i class="fa-brands fa-instagram" style="font-size: 25px;"></i>';
-                                                            break;
-                                                        case 3:
-                                                            $titurl = 'linkedin';
-                                                            $media = '<i class="fa-brands fa-linkedin" style="font-size: 25px;"></i>';
-                                                            break;
-                                                        case 4:
-                                                            $titurl = 'website';
-                                                            $media = '<i class="fa fa-globe" style="font-size: 25px;"></i>';
-                                                            break;
-                                                        case 5:
-                                                            $titurl = 'youtube';
-                                                            $media = '<i class="fa-brands fa-youtube" style="font-size: 25px;"></i>';
-                                                            break;
-                                                    }
-                                                @endphp
+                                @if ($mediaUrlcnt > 0)
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="icons">
+                                                @foreach ($qrsocialmediaval as $mediaItem)
+                                                    @php
+                                                        $titurl = '';
+                                                        $media = '';
+                                                        switch ($mediaItem['mediatype']) {
+                                                            case 1:
+                                                                $titurl = 'facebook';
+                                                                $media = '<i class="fa-brands fa-facebook" style="font-size: 25px;"></i>';
+                                                                break;
+                                                            case 2:
+                                                                $titurl = 'instagram';
+                                                                $media = '<i class="fa-brands fa-instagram" style="font-size: 25px;"></i>';
+                                                                break;
+                                                            case 3:
+                                                                $titurl = 'linkedin';
+                                                                $media = '<i class="fa-brands fa-linkedin" style="font-size: 25px;"></i>';
+                                                                break;
+                                                            case 4:
+                                                                $titurl = 'website';
+                                                                $media = '<i class="fa fa-globe" style="font-size: 25px;"></i>';
+                                                                break;
+                                                            case 5:
+                                                                $titurl = 'youtube';
+                                                                $media = '<i class="fa-brands fa-youtube" style="font-size: 25px;"></i>';
+                                                                break;
+                                                        }
+                                                    @endphp
 
-                                                @if (!empty($mediaItem['mediaurl']))
-                                                    <a href="{{ $mediaItem['mediaurl'] }}" class="btn btn-primary"
-                                                        target="_blank" title="{{ $titurl }}">
-                                                        {!! $media !!}
-                                                    </a>
-                                                @endif
-                                            @endforeach
+                                                    @if (!empty($mediaItem['mediaurl']))
+                                                        <a href="{{ $mediaItem['mediaurl'] }}" class="btn btn-primary"
+                                                            target="_blank" title="{{ $titurl }}">
+                                                            {!! $media !!}
+                                                        </a>
+                                                    @endif
+                                                @endforeach
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endif
+                                @endif
+                            </div>
                         </div>
+
+
+
+
+                        <hr>
                     </div>
-
-
-
-
-                    <hr>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="card">
-                {{-- <div class="card-header " id="headingOne" style="background-color: #6374ff;">
+            <div class="col-lg-4">
+                <div class="card">
+                    {{-- <div class="card-header " id="headingOne" style="background-color: #6374ff;">
                                     <a href="" class="text-light d-flex justify-content-between" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                         <span class="align-self-center">Address</span> </a>
                                 </div> --}}
-                <div class="card-body">
-                    <div class="row">
-                        <label class="col-xl-6">Building/House Name & Number</label>
-                        <div class="col-xl-6 align-self-center">
-                            {{ $sellerDetails->house_name_no }}
+                    <div class="card-body">
+                        <div class="row">
+                            <label class="col-xl-6">Building/House Name & Number</label>
+                            <div class="col-xl-6 align-self-center">
+                                {{ $sellerDetails->house_name_no }}
+                            </div>
                         </div>
-                    </div>
-                    <hr class="new_hr">
-                    <div class="row">
-                        <label class="col-xl-6">Locality</label>
-                        <div class="col-xl-6 align-self-center">
-                            {{ $sellerDetails->locality }}
+                        <hr class="new_hr">
+                        <div class="row">
+                            <label class="col-xl-6">Locality</label>
+                            <div class="col-xl-6 align-self-center">
+                                {{ $sellerDetails->locality }}
+                            </div>
                         </div>
-                    </div>
-                    <hr class="new_hr">
-                    <div class="form-group row">
-                        <label class="col-xl-6">Village/Town/Municipality</label>
-                        <div class="col-xl-6 align-self-center">
-                            {{ $sellerDetails->village }}
+                        <hr class="new_hr">
+                        <div class="form-group row">
+                            <label class="col-xl-6">Village/Town/Municipality</label>
+                            <div class="col-xl-6 align-self-center">
+                                {{ $sellerDetails->village }}
+                            </div>
                         </div>
-                    </div>
-                    <hr class="new_hr">
-                    <div class="form-group row">
-                        <label class="col-xl-6">Pincode</label>
-                        <div class="col-xl-6 align-self-center">
-                            {{ $sellerDetails->pincode }}
+                        <hr class="new_hr">
+                        <div class="form-group row">
+                            <label class="col-xl-6">Pincode</label>
+                            <div class="col-xl-6 align-self-center">
+                                {{ $sellerDetails->pincode }}
+                            </div>
                         </div>
-                    </div>
 
-                    <hr class="new_hr">
-                    <div class="form-group row">
-                        <label class="col-xl-6">District</label>
-                        <div class="col-xl-6 align-self-center">
-                            {{ $sellerDetails->district_name }}
+                        <hr class="new_hr">
+                        <div class="form-group row">
+                            <label class="col-xl-6">District</label>
+                            <div class="col-xl-6 align-self-center">
+                                {{ $sellerDetails->district_name }}
+                            </div>
                         </div>
-                    </div>
-                    <hr class="new_hr">
-                    <div class="form-group row">
-                        <label class="col-xl-6">State</label>
-                        <div class="col-xl-6 align-self-center">
-                            {{ $sellerDetails->state_name }}
+                        <hr class="new_hr">
+                        <div class="form-group row">
+                            <label class="col-xl-6">State</label>
+                            <div class="col-xl-6 align-self-center">
+                                {{ $sellerDetails->state_name }}
+                            </div>
                         </div>
-                    </div>
-                    <hr class="new_hr">
-                    <div class="form-group row">
-                        <label class="col-xl-6">Country</label>
-                        <div class="col-xl-6 align-self-center">
-                            {{ $sellerDetails->country_name }}
+                        <hr class="new_hr">
+                        <div class="form-group row">
+                            <label class="col-xl-6">Country</label>
+                            <div class="col-xl-6 align-self-center">
+                                {{ $sellerDetails->country_name }}
+                            </div>
                         </div>
-                    </div>
 
 
-                    <hr class="new_hr">
-                    <div class="form-group row">
-                        <label class="col-xl-6">Latitude (Google map location)</label>
-                        <div class="col-xl-6 align-self-center">{{ $sellerDetails->latitude }}
-                            {{-- <a href="{{ $sellerDetails->latitude }}" target="_blank"
+                        <hr class="new_hr">
+                        <div class="form-group row">
+                            <label class="col-xl-6">Latitude (Google map location)</label>
+                            <div class="col-xl-6 align-self-center">{{ $sellerDetails->latitude }}
+                                {{-- <a href="{{ $sellerDetails->latitude }}" target="_blank"
                                 title="Google map link location" class="success-message">Click Here</a> --}}
+                            </div>
                         </div>
-                    </div>
 
 
-                    <hr class="new_hr">
-                    <div class="form-group row">
-                        <label class="col-xl-6">longitude (Google map location)</label>
-                        <div class="col-xl-6 align-self-center">{{ $sellerDetails->longitude }}
-                            {{-- <a href="{{ $sellerDetails->googlemap }}" target="_blank"
+                        <hr class="new_hr">
+                        <div class="form-group row">
+                            <label class="col-xl-6">longitude (Google map location)</label>
+                            <div class="col-xl-6 align-self-center">{{ $sellerDetails->longitude }}
+                                {{-- <a href="{{ $sellerDetails->googlemap }}" target="_blank"
                                 title="Google map link location" class="success-message">Click Here</a> --}}
+                            </div>
                         </div>
-                    </div>
 
 
 
 
 
 
-                    <hr class="new_hr">
-                    <div class="form-group row">
-                        <label class="col-xl-6">Direct Affiliate</label>
-                        <div class="col-xl-6 align-self-center">
-                            {{ $sellerDetails->direct_affiliate }}
+                        <hr class="new_hr">
+                        <div class="form-group row">
+                            <label class="col-xl-6">Direct Affiliate</label>
+                            <div class="col-xl-6 align-self-center">
+                                {{ $sellerDetails->direct_affiliate }}
+                            </div>
                         </div>
-                    </div>
 
-                    <hr class="new_hr">
-                    <div class="form-group row">
-                        <label class="col-xl-6">Second Affiliate</label>
-                        <div class="col-xl-6 align-self-center">
-                            {{ $sellerDetails->second_affiliate }}
+                        <hr class="new_hr">
+                        <div class="form-group row">
+                            <label class="col-xl-6">Second Affiliate</label>
+                            <div class="col-xl-6 align-self-center">
+                                {{ $sellerDetails->second_affiliate }}
+                            </div>
                         </div>
-                    </div>
 
-                    <hr class="new_hr">
-                    <div class="form-group row">
-                        <label class="col-xl-6">{{ $shoporservice }} Co-Ordinator</label>
-                        <div class="col-xl-6 align-self-center">
-                            {{ $sellerDetails->shop_coordinator }}
+                        <hr class="new_hr">
+                        <div class="form-group row">
+                            <label class="col-xl-6">{{ $shoporservice }} Co-Ordinator</label>
+                            <div class="col-xl-6 align-self-center">
+                                {{ $sellerDetails->shop_coordinator }}
+                            </div>
                         </div>
+
+
+
+
+                        <hr>
                     </div>
-
-
-
-
-                    <hr>
                 </div>
             </div>
-        </div>
 
 
-        <div class="col-lg-4">
-            <div class="card">
-                {{-- <div class="card-header " id="headingOne" style="background-color: #6374ff;">
+            <div class="col-lg-4">
+                <div class="card">
+                    {{-- <div class="card-header " id="headingOne" style="background-color: #6374ff;">
                                     <a href="" class="text-light d-flex justify-content-between" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                         <span class="align-self-center">header</span> </a>
                                 </div> --}}
-                <div class="card-body">
-                    <div class="row">
-                        <label class="col-xl-6">{{ $shoporservice }} License Number</label>
-                        <div class="col-xl-6 align-self-center">
-                            {{ $sellerDetails->shop_licence }}
+                    <div class="card-body">
+                        <div class="row">
+                            <label class="col-xl-6">{{ $shoporservice }} License Number</label>
+                            <div class="col-xl-6 align-self-center">
+                                {{ $sellerDetails->shop_licence }}
+                            </div>
                         </div>
-                    </div>
-                    <hr class="new_hr">
-                    <div class="row">
-                        <label class="col-xl-6">GST Number</label>
-                        <div class="col-xl-6 align-self-center">
-                            {{ $sellerDetails->shop_gstno }}
+                        <hr class="new_hr">
+                        <div class="row">
+                            <label class="col-xl-6">GST Number</label>
+                            <div class="col-xl-6 align-self-center">
+                                {{ $sellerDetails->shop_gstno }}
+                            </div>
                         </div>
-                    </div>
-                    <hr class="new_hr">
-                    <div class="form-group row">
-                        <label class="col-xl-6">PAN Number</label>
-                        <div class="col-xl-6 align-self-center">
-                            {{ $sellerDetails->shop_panno }}
+                        <hr class="new_hr">
+                        <div class="form-group row">
+                            <label class="col-xl-6">PAN Number</label>
+                            <div class="col-xl-6 align-self-center">
+                                {{ $sellerDetails->shop_panno }}
+                            </div>
                         </div>
-                    </div>
-                    <hr class="new_hr">
-                    <div class="form-group row">
-                        <label class="col-xl-6">Establishment Date</label>
-                        <div class="col-xl-6 align-self-center">
-                            {{ date("d-m-Y", strtotime($sellerDetails->establish_date)) }}
+                        <hr class="new_hr">
+                        <div class="form-group row">
+                            <label class="col-xl-6">Establishment Date</label>
+                            <div class="col-xl-6 align-self-center">
+                                {{ date('d-m-Y', strtotime($sellerDetails->establish_date)) }}
+                            </div>
                         </div>
-                    </div>
-                    <hr class="new_hr">
-                    <div class="form-group row">
-                        <div class="col-xl-12 align-self-center"><label >Open and Close Time</label><br>
-                            @if ($shopavailable->count() > 0)
-                                <table class="table table-striped table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Days</th>
-                                            <th>Open Time</th>
-                                            <th>Close Time</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($shopavailable as $openclosetime)
+                        <hr class="new_hr">
+                        <div class="form-group row">
+                            <div class="col-xl-12 align-self-center"><label>Open and Close Time</label><br>
+                                @if ($shopavailable->count() > 0)
+                                    <table class="table table-striped table-bordered">
+                                        <thead>
                                             <tr>
-                                                <td>{{ $openclosetime->open_close_days }}</td>
-                                                <td>{{ $openclosetime->from_time }}</td>
-                                                <td>{{ $openclosetime->to_time }}</td>
+                                                <th>Days</th>
+                                                <th>Open Time</th>
+                                                <th>Close Time</th>
                                             </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            @else
-                                <table>
-                                    <tr>
-                                        <td colspan="3" align="center">Not Found Open and Close Time</td>
-                                    </tr>
-                                </table>
-                            @endif
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($shopavailable as $openclosetime)
+                                                <tr>
+                                                    <td>{{ $openclosetime->open_close_days }}</td>
+                                                    <td>{{ $openclosetime->from_time }}</td>
+                                                    <td>{{ $openclosetime->to_time }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                @else
+                                    <table>
+                                        <tr>
+                                            <td colspan="3" align="center">Not Found Open and Close Time</td>
+                                        </tr>
+                                    </table>
+                                @endif
+                            </div>
                         </div>
-                    </div>
 
-                    <hr class="new_hr">
-                    <div class="form-group row">
-                        <label class="col-xl-6">Registration Date</label>
-                        <div class="col-xl-6 align-self-center">
-                            {{ date("d-m-Y H:i:s", strtotime($sellerDetails->created_at)) }}
+                        <hr class="new_hr">
+                        <div class="form-group row">
+                            <label class="col-xl-6">Registration Date</label>
+                            <div class="col-xl-6 align-self-center">
+                                {{ date('d-m-Y H:i:s', strtotime($sellerDetails->created_at)) }}
+                            </div>
                         </div>
-                    </div>
-                    {{-- <hr class="new_hr">
+                        {{-- <hr class="new_hr">
                     <div class="form-group row">
                         <label class="col-xl-6">Manufacturing Details</label>
                         <div class="content-container">
@@ -388,119 +402,120 @@
 
 
 
-                    <hr class="new_hr">
-                    <div class="form-group row">
-                        <label class="col-xl-6">Accept Terms & Conditions</label>
-                        <div class="col-xl-6 align-self-center">
-                            <span
-                                class="badge  p-2 {{ $sellerDetails->term_condition == '1' ? 'badge badge-success' : 'badge badge-danger' }}">
-                                {{ $sellerDetails->term_condition == '1' ? 'Accepted' : 'No' }}
-                            </span>
+                        <hr class="new_hr">
+                        <div class="form-group row">
+                            <label class="col-xl-6">Accept Terms & Conditions</label>
+                            <div class="col-xl-6 align-self-center">
+                                <span
+                                    class="badge  p-2 {{ $sellerDetails->term_condition == '1' ? 'badge badge-success' : 'badge badge-danger' }}">
+                                    {{ $sellerDetails->term_condition == '1' ? 'Accepted' : 'No' }}
+                                </span>
+                            </div>
                         </div>
-                    </div>
 
-                    <hr class="new_hr">
-                    <div class="form-group row">
-                        <label class="col-xl-6">User Status</label>
-                        <div class="col-xl-6 align-self-center">
-                            <span
-                                class="badge  p-2 {{ $userstus === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
-                                {{ $userstus === 'Y' ? 'Active' : 'Inactive' }}
-                            </span>
+                        <hr class="new_hr">
+                        <div class="form-group row">
+                            <label class="col-xl-6">User Status</label>
+                            <div class="col-xl-6 align-self-center">
+                                <span
+                                    class="badge  p-2 {{ $userstus === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
+                                    {{ $userstus === 'Y' ? 'Active' : 'Inactive' }}
+                                </span>
+                            </div>
                         </div>
-                    </div>
 
 
-                    <hr class="new_hr">
-                    <div class="form-group row">
-                        <label class="col-xl-6">Approved</label>
-                        <div class="form-outline mb-3">
-                            <select class="form-select form-control form-control-lg" name="approvedstatus"
-                                id="approvedstatus" required tabindex="1">
-                                <option value="">Select</option>
-                                <option value="Y" @if ($sellerapproved == 'Y') selected @endif>Approved
-                                </option>
-                                <option value="N" @if ($sellerapproved == 'N') selected @endif>Not Approved
-                                </option>
+                        <hr class="new_hr">
+                        <div class="form-group row">
+                            <label class="col-xl-6">Approved</label>
+                            <div class="form-outline mb-3">
+                                <select class="form-select form-control form-control-lg" name="approvedstatus"
+                                    id="approvedstatus" required tabindex="1">
+                                    <option value="">Select</option>
+                                    <option value="Y" @if ($sellerapproved == 'Y') selected @endif>Approved
+                                    </option>
+                                    <option value="N" @if ($sellerapproved == 'N') selected @endif>Not
+                                        Approved
+                                    </option>
 
-                            </select>
-                            <label for="approvedstatus" class="error"></label>
+                                </select>
+                                <label for="approvedstatus" class="error"></label>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-4"></div>
-        <div class="col-lg-4">
-            @if ($totimg > 0)
-                <div class="card">
-                    {{-- <div class="card-header " id="headingOne" style="background-color: #6374ff;">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+                @if ($totimg > 0)
+                    <div class="card">
+                        {{-- <div class="card-header " id="headingOne" style="background-color: #6374ff;">
                                     <a href="" class="text-light d-flex justify-content-between" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                         <span class="align-self-center">header</span> </a>
                                 </div> --}}
 
-                    <div class="card-body">
-                        <div class="col-md-12">
-                            <div class="form-group" align="center">
-                                <div class="row">
-                                    @for ($m = 0; $m < $totimg; $m++)
-                                        <div class="col-md-3">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div id="carouselIndicators{{ $m }}"
-                                                class="carousel slide mySlides" data-ride="carousel">
-                                                <div class="carousel-inner">
-                                                    @for ($i = 0; $i < $totimg; $i++)
-                                                        <div
-                                                            class="carousel-item @if ($i === 0) active @endif">
-                                                            <img src="{{ asset($qrgallery[$i]) }}"
-                                                                class="d-block w-100"
-                                                                alt="Image {{ $i }}">
-                                                        </div>
-                                                    @endfor
-                                                </div>
-                                                <a class="carousel-control-prev"
-                                                    href="#carouselIndicators{{ $m }}" role="button"
-                                                    data-slide="prev">
-                                                    <span class="carousel-control-prev-icon"
-                                                        aria-hidden="true"></span>
-                                                    <span class="sr-only">Previous</span>
-                                                </a>
-                                                <a class="carousel-control-next"
-                                                    href="#carouselIndicators{{ $m }}" role="button"
-                                                    data-slide="next">
-                                                    <span class="carousel-control-next-icon"
-                                                        aria-hidden="true"></span>
-                                                    <span class="sr-only">Next</span>
-                                                </a>
+                        <div class="card-body">
+                            <div class="col-md-12">
+                                <div class="form-group" align="center">
+                                    <div class="row">
+                                        @for ($m = 0; $m < $totimg; $m++)
+                                            <div class="col-md-3">
                                             </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                        </div>
-                                    @endfor
+                                            <div class="col-md-6">
+                                                <div id="carouselIndicators{{ $m }}"
+                                                    class="carousel slide mySlides" data-ride="carousel">
+                                                    <div class="carousel-inner">
+                                                        @for ($i = 0; $i < $totimg; $i++)
+                                                            <div
+                                                                class="carousel-item @if ($i === 0) active @endif">
+                                                                <img src="{{ asset($qrgallery[$i]) }}"
+                                                                    class="d-block w-100"
+                                                                    alt="Image {{ $i }}">
+                                                            </div>
+                                                        @endfor
+                                                    </div>
+                                                    <a class="carousel-control-prev"
+                                                        href="#carouselIndicators{{ $m }}" role="button"
+                                                        data-slide="prev">
+                                                        <span class="carousel-control-prev-icon"
+                                                            aria-hidden="true"></span>
+                                                        <span class="sr-only">Previous</span>
+                                                    </a>
+                                                    <a class="carousel-control-next"
+                                                        href="#carouselIndicators{{ $m }}" role="button"
+                                                        data-slide="next">
+                                                        <span class="carousel-control-next-icon"
+                                                            aria-hidden="true"></span>
+                                                        <span class="sr-only">Next</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                            </div>
+                                        @endfor
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
+                @endif
+            </div>
+            <div class="col-lg-4"></div>
 
-                </div>
-            @endif
         </div>
-        <div class="col-lg-4"></div>
 
-    </div>
-
-    <div class="col-md-12">
-        <div style="float:right">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Save</button>
+        <div class="col-md-12">
+            <div style="float:right">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
         </div>
-    </div>
 
 
 
-</form>
-
+    </form>
+@endif
 <!-- Modal Add new Close -->
 
 
