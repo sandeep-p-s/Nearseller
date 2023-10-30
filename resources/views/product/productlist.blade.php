@@ -183,8 +183,9 @@
                 var productid = '';
                 var totalproductcnt = document.getElementById('totalproductcnt').value;
                 for (var i = 1; i <= totalproductcnt; i++) {
-                    if (document.getElementById('productid' + i).checked) {
-                        productid = productid + '#' + document.getElementById('productid' + i).value;
+                    var checkbox = document.getElementById('productid' + i);
+                    if (checkbox && checkbox.checked) {
+                        productid = productid + '#' + checkbox.value;
                     }
                 }
                 if (productid == '') {
