@@ -3,7 +3,7 @@
         <thead>
             <tr>
                 @if (session('roleid') == '1')
-                <th width="5px">Active All <input type='checkbox' name='checkbox1' id='checkbox1' onclick='check();' />
+                <th width="5px" data-sortable="false">Active All <input type='checkbox' name='checkbox1' id='checkbox1' onclick='check();' />
                 </th>
 
                 <th>SINO</th>@endif
@@ -15,7 +15,7 @@
                 {{-- <th>Business Type</th> --}}
                 <th>User Status</th>
                 <th>Approved Status</th>
-                <th>Action</th>
+                <th data-sortable="false">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -685,7 +685,6 @@
     //         //document.getElementById('pan-error-message').textContent = "Invalid PAN format. It should be in the format AEDFR2568H";
     //     }
     // });
-
 
 
 

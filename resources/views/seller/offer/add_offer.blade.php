@@ -36,7 +36,7 @@
                                         <div class="form-group" {{ $shopshowhide }}>
                                             <label for="service_name">Shop User <span class="text-danger">*</span></label>
                                             <select class="selectshop form-select form-control form-control-lg"
-                                                id="serviceuser_name" name="shopeuser_name" required tabindex="1">
+                                                id="serviceuser_name" name="shopeuser_name" tabindex="1">
                                                 <option value="">Select Shop User</option><br />
                                                 @foreach ($usershopdets as $shopeuser)
                                                     <option value="{{ $shopeuser->id }}">{{ $shopeuser->name }}</option>
