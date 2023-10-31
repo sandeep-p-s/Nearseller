@@ -37,7 +37,7 @@
                                         <input type="email" id="s_email" name="s_email"
                                             class="form-control form-control-lg" maxlength="35" placeholder="Email ID"
                                             required tabindex="1" readonly value="{{ $userd->email }}" />
-                                        <label for="s_email" class="error"></label>
+                                        <div for="s_email" class="error"></div>
                                         <div id="semil-message" class="text-center" style="display: none;"></div>
                                     </div>
                                 @endforeach
@@ -46,13 +46,13 @@
                                     <input tabindex="4" type="password" id="u_paswd" name="u_paswd"
                                         class="form-control form-control-lg" maxlength="20" placeholder="Enter new password"
                                         required />
-                                    <label for="u_paswd" class="error"></label>
+                                    <div for="u_paswd" class="error"></div>
                                 </div>
                                 <div class="form-outline mb-3"><label>Re-enter password</label>
                                     <input tabindex="5" type="password" id="u_rpaswd" name="u_rpaswd"
                                         class="form-control form-control-lg" maxlength="20" placeholder="Re-enter password"
                                         required />
-                                    <label for="u_rpaswd" class="error"></label>
+                                    <div for="u_rpaswd" class="error"></div>
                                 </div>
 
                                 <div class="text-center"> <button class="btn btn-primary px-5 font-weight-bold" tabindex="6"
@@ -60,10 +60,8 @@
                                 </div>
 
                             </div>
-                            <div class="col-md-12">
-                            </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div id="changepass-message" class="text-center" style="display: none;"></div>
                         </div>
                     </form>
