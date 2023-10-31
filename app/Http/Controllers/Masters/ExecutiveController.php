@@ -19,7 +19,12 @@ class ExecutiveController extends Controller
         $roleid = session('roleid');
         $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        // $executive = DB::table('executives as ex')
+        // ->orderBy('ex.executive_name', 'asc')
+        // ->get();
         $executive = DB::table('executives as ex')
+        ->join('business_type as bt', 'ex.business_type_id', '=', 'bt.id')
+        ->select('ex.*', 'bt.business_name')
         ->orderBy('ex.executive_name', 'asc')
         ->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
@@ -50,7 +55,7 @@ class ExecutiveController extends Controller
                     'min:3',
                     'max:60',
                     Rule::unique('executives')->where(function ($query) use ($request) {
-                        return $query->where('executive_type', $request->executive_type);
+                        return $query->where('business_type_id', $request->executive_type);
                     }),
                 ],
                 'executive_type' => 'required|in:1,2',
@@ -63,7 +68,7 @@ class ExecutiveController extends Controller
             ]
         );
         $executive = new Executive();
-        $executive->executive_type = $request->executive_type;
+        $executive->business_type_id = $request->executive_type;
         $executive->executive_name = ucfirst($request->executive_name);
         $executive->save();
 
@@ -102,7 +107,7 @@ class ExecutiveController extends Controller
         ]);
 
         $executive->executive_name = ucfirst($request->executive_name);
-        $executive->executive_type = $request->executive_type;
+        $executive->business_type_id = $request->executive_type;
         if ($request->status === 'Active')
         {
             $executive->status = 'Y';

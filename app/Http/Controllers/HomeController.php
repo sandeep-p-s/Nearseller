@@ -52,7 +52,7 @@ class HomeController extends Controller
 
     public function executivename($executive)
     {
-        $executive = DB::table('executives')->where('executive_type', $executive)->get();
+        $executive = DB::table('executives')->where('business_type_id', $executive)->get();
         return response()->json($executive);
     }
 

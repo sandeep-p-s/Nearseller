@@ -72,11 +72,9 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $ex->executive_name }}</td>
                                             <td>
-                                                @if ($ex->executive_type == 1)
-                                                    <span class="badge badge-success p-2">Sales</span>
-                                                @elseif ($ex->executive_type == 2)
-                                                    <span class="badge badge-success p-2">Service</span>
-                                                @endif
+                                                <span class="badge p-2 badge-success">
+                                                    {{ $ex->business_name }}
+                                                </span>
                                             </td>
                                             <td>
                                                 <span

@@ -46,13 +46,13 @@ class ServiceTypeController extends Controller
     {
         $request->validate(
         [
-            'service_name' => 'required|regex:/^[A-Za-z\s]+$/|min:5|max:60|unique:service_types',
+            'service_name' => 'required|regex:/^[A-Za-z\s]+$/|min:3|max:60|unique:service_types',
             'business_name' => 'required|not_in:0',
         ],
         [
             'service_name.required' => 'The service name field is required.',
             'service_name.regex' => 'The service name must contain only letters and spaces.',
-            'service_name.min' => 'The service name must be at least 5 characters.',
+            'service_name.min' => 'The service name must be at least 3 characters.',
             'service_name.max' => 'The service name cannot exceed 60 characters.',
             'service_name.unique' => 'This service name is already in use.',
             'business_name.not_in' => 'Please select a Business Type in the list.',
@@ -96,13 +96,13 @@ class ServiceTypeController extends Controller
 
         $request->validate(
             [
-                'service_name' => ['required','regex:/^[A-Za-z\s]+$/','min:5','max:60',Rule::unique('service_types')->ignore($id)],
+                'service_name' => ['required','regex:/^[A-Za-z\s]+$/','min:3','max:60',Rule::unique('service_types')->ignore($id)],
                 'business_name' => 'required|not_in:0',
             ],
             [
                 'service_name.required' => 'The service name field is required.',
                 'service_name.regex' => 'The service name must contain only letters and spaces.',
-                'service_name.min' => 'The service name must be at least 5 characters.',
+                'service_name.min' => 'The service name must be at least 3 characters.',
                 'service_name.max' => 'The service name cannot exceed 60 characters.',
                 'business_name.not_in' => 'Please select a Business Type in the list.',
                 'service_name.unique' => 'This service name is already in use.',

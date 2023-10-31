@@ -63,16 +63,16 @@ class ServiceEmployeeController extends Controller
         }
         return view('seller.service.employee.add_employee', compact('loggeduser', 'userdetails', 'countries','structuredMenu','userservicedets','selrdetails'));
     }
-    public function getStates($country)
-    {
-        $states = DB::table('state')->where('country_id', $country)->get();
-        return response()->json($states);
-    }
-    public function getDistricts($state)
-    {
-        $districts = DB::table('district')->where('state_id', $state)->get();
-        return response()->json($districts);
-    }
+    // public function getStates($country)
+    // {
+    //     $states = DB::table('state')->where('country_id', $country)->get();
+    //     return response()->json($states);
+    // }
+    // public function getDistricts($state)
+    // {
+    //     $districts = DB::table('district')->where('state_id', $state)->get();
+    //     return response()->json($districts);
+    // }
     public function store_service_employee(Request $request)
     {
 

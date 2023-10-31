@@ -39,7 +39,8 @@
                                         <label for="exampleFormControlSelect1">Executive Type <span class="text-danger">*</span></label>
                                         <select class="form-control" id="exampleFormControlSelect1" name="executive_type">
                                             @foreach ($businesstype as $bt)
-                                                <option value="{{ $bt->id }}" {{ old('business_name') == $bt->id ? 'selected' : '' }}>{{ $bt->business_name }}</option>
+                                            <option {{ $bt->id == $executive->business_type_id? 'selected' : '' }} value="{{$bt->id}}">{{$bt->business_name}}</option>
+                                                {{-- <option value="{{ $bt->id }}" {{ old('business_name') == $bt->id ? 'selected' : '' }}>{{ $bt->business_name }}</option> --}}
                                             @endforeach
                                         </select>
                                     </div>
