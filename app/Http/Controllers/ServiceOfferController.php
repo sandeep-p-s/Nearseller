@@ -19,7 +19,6 @@ class ServiceOfferController extends Controller
         $userId = session('user_id');
         $roleid = session('roleid');
         $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $service_offer = DB::table('offers')->where('type',2)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
@@ -53,14 +52,17 @@ class ServiceOfferController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'offer_to_display' => 'required|string',
+                'offer_to_display' => 'required|string|unique:offers',
                 // 'conditions' => 'required|string|max:255',
                 'from_date_time' => 'required|date',
                 'to_date_time' => 'required|date',
-                'offer_image' => 'required|mimes:jpeg,png,jpg,gif|max:2048',
+                'offer_image' => 'required|mimes:jpeg,png,jpg|max:2048',
+                'serviceuser_name' => 'required'
             ],
             [
                 'offer_to_display.required' => 'The Display offer field is required',
+                'serviceuser_name.required' => 'Please select Service user in the list',
+                'offer_to_display.unique' => 'This Offer name is already in use.',
                 // 'conditions.required' => 'The conditions field is required.',
                 // 'conditions.string' => 'The conditions field must be a string.',
                 // 'conditions.max' => 'The conditions field may not be greater than :max characters.',

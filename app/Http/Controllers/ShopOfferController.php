@@ -51,14 +51,17 @@ class ShopOfferController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'offer_to_display' => 'required|string',
+                'offer_to_display' => 'required|string|unique:offers',
                 // 'conditions' => 'required|string|max:255',
                 'from_date_time' => 'required|date',
                 'to_date_time' => 'required|date',
-                'offer_image' => 'required|mimes:jpeg,png,jpg,gif|max:2048',
+                'offer_image' => 'required|mimes:jpeg,png,jpg|max:2048',
+                // 'serviceuser_name' => 'required'
             ],
             [
                 'offer_to_display.required' => 'The Display offer field is required',
+                // 'serviceuser_name.required' => 'Please select Service user in the list',
+                'offer_to_display.unique' => 'This Offer name is already in use.',
                 // 'conditions.required' => 'The conditions field is required.',
                 // 'conditions.string' => 'The conditions field must be a string.',
                 // 'conditions.max' => 'The conditions field may not be greater than :max characters.',
@@ -68,6 +71,7 @@ class ShopOfferController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
+
         $shop_offer = new Offer;
         $shop_offer->user_id = $request->shopeuser_name;
         $shop_offer->type = 1;
@@ -87,12 +91,12 @@ class ShopOfferController extends Controller
         $shop_offer->save();
         $shop_offerid = $shop_offer->id;
         $msg = 'New Service Successfully added. Service ID is: ' . $shop_offerid;
-            $LogDetails = new LogDetails();
-            $LogDetails->user_id = $userId;
-            $LogDetails->ip_address = $loggedUserIp;
-            $LogDetails->log_time = $time;
-            $LogDetails->status = $msg;
-            $LogDetails->save();
+        $LogDetails = new LogDetails();
+        $LogDetails->user_id = $userId;
+        $LogDetails->ip_address = $loggedUserIp;
+        $LogDetails->log_time = $time;
+        $LogDetails->status = $msg;
+        $LogDetails->save();
         return redirect()->route('list.shop_offer')->with('success', 'Shop Offer saved successfully');
     }
 
@@ -114,7 +118,7 @@ class ShopOfferController extends Controller
             return redirect()->route('list.shop_offer')->with('error', 'Shop offer not found.');
         }
 
-        return view('seller.offer.edit_offer', compact('shopoffer', 'loggeduser', 'userdetails', 'structuredMenu','usershopdets'));
+        return view('seller.offer.edit_offer', compact('shopoffer', 'loggeduser', 'userdetails', 'structuredMenu', 'usershopdets'));
     }
 
     public function update_shop_offer(Request $request, $id)
@@ -137,7 +141,7 @@ class ShopOfferController extends Controller
                 'conditions' => 'required|string|max:255',
                 'from_date_time' => 'required|date',
                 'to_date_time' => 'required|date',
-                'offer_image' => 'requires|mimes:jpeg,png,jpg,gif|max:2048',
+                'offer_image' => 'required|mimes:jpeg,png,jpg|max:2048',
             ],
             [
                 'offer_to_display.required' => 'The Display offer field is required',
@@ -147,9 +151,9 @@ class ShopOfferController extends Controller
 
             ]
         );
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
+        // if ($validator->fails()) {
+        //     return redirect()->back()->withErrors($validator)->withInput();
+        // }
         $shopoffer->user_id = $request->shopeuser_name;
         $shopoffer->offer_to_display = $request->offer_to_display;
         $shopoffer->conditions = json_encode($request->car);

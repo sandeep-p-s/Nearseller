@@ -17,7 +17,7 @@
                             </div>
                             <div class="col-auto align-self-center">
                                 <a href="{{ route('add.district') }}"><button type="button" class="btn add_btn ">Add
-                                        New district </button></a>
+                                        District </button></a>
                             </div><!--end col-->
                         </div><!--end row-->
                     </div><!--end page-title-box-->

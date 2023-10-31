@@ -38,8 +38,9 @@
                                     <div class="form-group">
                                         <label for="exampleFormControlSelect1">Executive Type <span class="text-danger">*</span></label>
                                         <select class="form-control" id="exampleFormControlSelect1" name="executive_type">
-                                            <option value="1" @if($executive->executive_type === 1) selected @endif>Sales</option>
-                                            <option value="2" @if($executive->executive_type === 2) selected @endif>Service</option>
+                                            @foreach ($businesstype as $bt)
+                                                <option value="{{ $bt->id }}" {{ old('business_name') == $bt->id ? 'selected' : '' }}>{{ $bt->business_name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     @error('executive_type')

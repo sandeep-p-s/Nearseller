@@ -186,12 +186,12 @@
 
         @if (in_array('2', $roleIdsArray))
         <div class="container-fluid">
-            {{-- <div class="row">
+            <div class="row">
                 <div class="col-sm-12">
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-                                <h4 class="page-title">Sellers Panel</h4>
+                                {{-- <h4 class="page-title">Sellers Panel</h4> --}}
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="javascript:void(0);">Nearsellers</a></li>
                                     <li class="breadcrumb-item active">Dashboard</li>
@@ -203,7 +203,7 @@
                         </div>
                     </div>
                 </div>
-            </div> --}}
+            </div>
 
 
             <div class="row">
