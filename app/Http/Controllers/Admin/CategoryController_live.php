@@ -74,7 +74,7 @@ class CategoryController extends Controller
         $request->validate(
             [
                 'select_type' => 'required|in:1,2',
-                'category_name' => 'required|unique:categories,category_name|string|max:255|min:4',
+                'category_name' => 'required|unique:categories,category_name|string|max:40|min:3',
                 'slug_name' => 'required|unique:categories,category_slug',
                 'category_level' => ['required', new CategoryLevelRule],
                 'category_image' => 'nullable|max:4096',
@@ -85,8 +85,8 @@ class CategoryController extends Controller
                 'category_name.required' => 'The category name field is missing.',
                 'category_name.string' => 'The category name must be a string.',
                 'category_name.unique' => 'The category name must be unique.',
-                'category_name.min' => 'The category name must be at least 4 characters.',
-                'category_name.max' => 'The category name cannot exceed 255 characters.',
+                'category_name.min' => 'The category name must be at least 3 characters.',
+                'category_name.max' => 'The category name cannot exceed 40 characters.',
                 'slug_name.required' => 'Slug name is missing.',
                 'slug_name.unique' => 'Slug name should unique.',
                 'category_level.required' => 'Category level required.',
@@ -174,7 +174,7 @@ class CategoryController extends Controller
 
         $request->validate(
             [
-                'category_name' => ['required', Rule::unique('categories')->ignore($id), 'string', 'max:255', 'min:4'],
+                'category_name' => ['required', Rule::unique('categories')->ignore($id), 'string', 'max:40', 'min:3'],
                 'category_slug' => ['required', Rule::unique('categories')->ignore($id)],
                 'category_level' => ['required', new CategoryLevelRule],
                 'category_image' => 'nullable|max:4096',
@@ -184,8 +184,8 @@ class CategoryController extends Controller
                 'category_name.required' => 'The category name field is missing.',
                 'category_name.string' => 'The category name must be a string.',
                 'category_name.unique' => 'The category name must be unique.',
-                'category_name.min' => 'The category name must be at least 4 characters.',
-                'category_name.max' => 'The category name cannot exceed 255 characters.',
+                'category_name.min' => 'The category name must be at least 3 characters.',
+                'category_name.max' => 'The category name cannot exceed 40 characters.',
                 'category_slug.required' => 'Slug name is missing.',
                 'category_slug.unique' => 'Slug name should unique.',
                 'category_level.required' => 'Category level required.',

@@ -15,10 +15,6 @@
                                 <h4 class="page-title">User Role Menu Mapping</h4>
                             </div>
                         </div>
-
-
-
-
                     </div>
                 </div>
             </div>
@@ -30,10 +26,8 @@
             <div class="row">
                 <div class="col-12">
                     <form name="frm" method="post" action="#">
-
                         <div class="row">
-
-                            <div class="col-md-12 justify-content-center"><label >Users</label>
+                            <div class="col-md-6 justify-content-center"><label >Users</label>
                                 <select class="form-select form-control form-control-lg" name="userid"  aria-label="Default select example" id="userid" onChange="showRoleitems(this.value);" required  tabindex="2" >
                                      {{--<option value="">Select User</option>
                                         @foreach ($alluserdetails as $userdets)
@@ -41,28 +35,24 @@
                                                 <option value="{{ $userdets->id }}">{{ $userdets->name.' ( '.$userdets->role_name.' )' }}</option>
 
                                         @endforeach --}}
-
                                         <option value="">Select User</option>
                                         @foreach ($alluserdetails as $user)
                                             <option value="{{ $user->id }}">
                                                 {{ $user->name }} ({{ $user->roles }})
                                             </option>
                                         @endforeach
-
-
                                 </select>
                                 <label for="userid" class="error"></label>
                             </div>
-
                             <div class="col-md-12 justify-content-center"><label >Roles</label>
-
-                                <ul class="metismenu left-sidenav-menu">
+                                <div class="card col-md-6">
+                                <ul class="metismenu left-sidenav-menu font-weight-bolder">
                                     @php
                                         $i = 0;
                                     @endphp
                                     @foreach($rolesm as $row)
                                     <li>
-                                        <input type="checkbox" name="roles" id="roles"  value="{{ $row->id }}">{{ $row->role_name }}
+                                        <input type="checkbox" name="roles" id="roles"  value="{{ $row->id }}"> <span class="pl-2">{{ $row->role_name }}</span>
                                     </li>
                                     {{-- onclick="checkrolee(this.value)" <hr class="hr hr-menu"> --}}
 
@@ -71,12 +61,13 @@
                                     @endphp
                                     @endforeach
                                 </ul>
+                            </div>
                                 <input type="hidden" id="rolehidid" value="{{ $i }}">
                                 <label for="roles" class="error"></label>
                             </div>
 
-                            <div class="col-md-12 col-lg-12 d-flex justify-content-center" style="margin-top: 20px;">
-                                <input type="button" id="btnsearch" name="btnsearch" class="btn btn-primary" value="Save" onClick="saveuserrolemenumap(userid.value)" />
+                            <div class="col-md-6 d-flex justify-content-center" >
+                                <input type="button" id="btnsearch" name="btnsearch" class="btn btn-primary px-5 font-weight-bold" value="SAVE" onClick="saveuserrolemenumap(userid.value)" />
 
                             </div>
 

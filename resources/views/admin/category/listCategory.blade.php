@@ -13,8 +13,7 @@
                                 <h4 class="page-title">Category List</h4>
                             </div>
                             <div class="col-auto align-self-center">
-                                <a href="{{ route('add.category') }}"><button type="button" class="btn add_btn ">Add New
-                                        Category </button></a>
+                                <a href="{{ route('add.category') }}"><button type="button" class="btn add_btn ">Add New Category </button></a>
                             </div>
                         </div>
                     </div>
@@ -53,13 +52,12 @@
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr>
-                                        <th>Select all&nbsp;&nbsp;<input type='checkbox' name='checkbox1' id='checkbox1'
-                                                onclick='check();' /></th>
-                                        <th>No</th>
+                                        <th data-sortable="false" >Select all&nbsp;&nbsp;<input  type='checkbox' name='checkbox1' id='checkbox1' onclick='check();' /></th>
+                                        <th >No</th>
                                         <th>Category Name</th>
                                         <th>Status</th>
                                         <th>Approved</th>
-                                        <th>Action</th>
+                                        <th data-sortable="false">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -67,7 +65,7 @@
                                         <tr>
                                             <td width="5%"><input name="categoryid[]" type="checkbox"
                                                     id="categoryid{{ $index + 1 }}" value="{{ $c->id }}"
-                                                    {{ $c->approval_status === 'Y' ? 'checked' : '' }} />
+                                                    />
                                             </td>
 
                                             <td width="5%">{{ $loop->iteration }}</td>
@@ -75,7 +73,7 @@
                                                 @foreach (explode(' ➤ ', $c->category_name) as $key => $path)
                                                     @if ($loop->last)
                                                         <span
-                                                            class="badge {{ $c->category_type === 1 ? 'badge-soft-orange' : 'badge-soft-primary' }}  p-2"
+                                                            class="badge badge-soft-orange p-2"
                                                             style="font-size: 15px !important;">{{ $path }}</span>
                                                     @else
                                                         @if ($key === count(explode(' ➤ ', $c->category_name)) - 1)
@@ -99,7 +97,7 @@
                                                     {{ $c->approval_status === 'Y' ? 'Approved' : 'Not Approved' }}
                                                 </span>
                                             </td>
-                                            <td width="10%" class="text-center">
+                                            <td width="10%" class="text-center" >
                                                 {{-- {{ $c->id }} --}}
                                                 <div class="btn-group mb-2 mb-md-0">
                                                     <button type="button" class="btn view_btn dropdown-toggle"
@@ -125,7 +123,8 @@
                                 </tbody>
                             </table>
                             <input type="hidden" value="{{ $index + 1 }}" id="totalservicecnt">
-
+                            <div class="text-center"><button class="btn btn-primary px-5">Approve All</button>
+                            </div>
                         </div>
                     </div>
                 </div> <!-- end col -->

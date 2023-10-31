@@ -1,58 +1,61 @@
 @if ($allusercount > 0)
-    <table id="datatable" class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>SINO</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Mobile</th>
-                <th>Role</th>
-                <th>User Status</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($alluserdetails as $index => $userDets)
+    <div class="card">
+        <div class="card-body">
+            <table id="datatable" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>SINO</th>
+                        <th data-sorting="false">Name</th>
+                        <th data-sorting="false">Email</th>
+                        <th data-sorting="false">Mobile</th>
+                        <th >Role</th>
+                        <th>User Status</th>
+                        <th data-sorting="false">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($alluserdetails as $index => $userDets)
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $userDets->name }}</td>
+                            <td>{{ $userDets->email }}</td>
+                            <td>{{ $userDets->mobno }}</td>
+                            <td>{{ $userDets->role_name }}</td>
+                            <td><span
+                                    class="badge p-2 {{ $userDets->user_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
+                                    {{ $userDets->user_status === 'Y' ? 'Active' : 'Inactive' }}
+                                </span></td>
+                            <td>
+                                <div class="btn-group mb-2 mb-md-0">
+                                    <button type="button" class="btn view_btn dropdown-toggle" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">Action
+                                        <i class="mdi mdi-chevron-down"></i></button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item view_btn1" href="#"
+                                            onclick="uservieweditdet({{ $userDets->id }})">View/Edit</a>
+                                        @if ($userDets->role_id != '1')
+                                            <a class="dropdown-item delete_btn" href="#"
+                                                onclick="userdeletedet({{ $userDets->id }})">Delete</a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @else
+            <table>
                 <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $userDets->name }}</td>
-                    <td>{{ $userDets->email }}</td>
-                    <td>{{ $userDets->mobno }}</td>
-                    <td>{{ $userDets->role_name }}</td>
-                    <td><span
-                        class="badge p-2 {{ $userDets->user_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
-                        {{ $userDets->user_status === 'Y' ? 'Active' : 'Inactive' }}
-                    </span></td>
-                    <td>
-                        <div class="btn-group mb-2 mb-md-0">
-                            <button type="button" class="btn view_btn dropdown-toggle" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">Action
-                                <i class="mdi mdi-chevron-down"></i></button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item view_btn1" href="#"
-                                    onclick="uservieweditdet({{ $userDets->id }})">View/Edit</a>
-                                @if ($userDets->role_id != '1')
-                                    <a class="dropdown-item delete_btn" href="#"
-                                        onclick="userdeletedet({{ $userDets->id }})">Delete</a>
-                                @endif
-                            </div>
-                        </div>
+                    <td colspan="13" align="center">
+                        <img src="{{ asset('backend/assets/images/notfoundimg.png') }}" alt="notfound"
+                            class="rounded-circle" style="width: 30%;" />
                     </td>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
-@else
-    <table>
-        <tr>
-            <td colspan="13" align="center">
-                <img src="{{ asset('backend/assets/images/notfoundimg.png') }}" alt="notfound" class="rounded-circle"
-                    style="width: 30%;" />
-            </td>
-        </tr>
-    </table>
+            </table>
 @endif
-
+</div>
+</div>
 
 
 <!-- Modal Add New -->
@@ -115,7 +118,7 @@
                                 <div style="float:right">
                                     <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-danger" id="resetButton">Reset</button>
+                                    <button type="button" class="btn btn-danger" id="resetButton">Reset</button>
                                     <button type="submit" class="btn btn-primary">Save</button>
                                 </div>
                             </div>
@@ -147,13 +150,13 @@
 
 
 <script>
-
     $(document).ready(function() {
         $('#resetButton').click(function() {
             $('#UserRegForm input, #UserRegForm select').val('');
             $('#UserRegForm .error').text('');
         });
     });
+
     function numberOnlyAllowed(inputElement) {
         let value = inputElement.value.replace(/\D/g, '');
         if (value.length > 10) {

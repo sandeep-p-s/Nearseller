@@ -86,7 +86,7 @@ class Category extends Model
         return $sortedCategories;
     }
 
-    private static function formatTree($categories, $allCategories, $prefix, &$formattedCategories, $category_level)
+    private static function formatTree($categories, $allCategories, $prefix, $formattedCategories, $category_level)
     {
         foreach ($categories as $category) {
             $categoryPath = $prefix . $category->category_name;
@@ -99,7 +99,7 @@ class Category extends Model
                 'parent_id' => $category->parent_id,
                 'category_level' => $category_level,
                 'approval_status' => $category->approval_status,
-                'category_type' => $category->category_type
+                // 'category_type' => $category->category_type
             ]);
             $category->children = $allCategories->where('parent_id', $category->id)->values();
             if ($category->children->isNotEmpty() && $category->status == 'Y' && $category->approval_status == 'Y') {

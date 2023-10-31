@@ -12930,5 +12930,7 @@ a.text-blue:focus {
 .text-dark-alt {
     color: #2c426c !important
 }
-
+.modal-padding{
+    padding: 2% 5%;
+}
 /*# sourceMappingURL=bootstrap.min.css.map */

@@ -1,51 +1,3 @@
-
-@if ($sellerCount > 0)
-    <table id="datatable" class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                @if (session('roleid') == '1')
-                <th width="5px" data-sortable="false">Active All <input type='checkbox' name='checkbox1' id='checkbox1' onclick='check();' />
-                </th>
-
-                <th>SINO</th>@endif
-                <th>Reg. ID</th>
-                <th>{{ $shoporservice }} Name</th>
-                <th>Owner Name</th>
-                {{-- <th>Email</th> --}}
-                <th>Mobile</th>
-                {{-- <th>Business Type</th> --}}
-                <th>User Status</th>
-                <th>Approved Status</th>
-                <th data-sortable="false">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($sellerDetails as $index => $sellerDetail)
-                <tr>@if (session('roleid') == '1')
-                    <td><input name="shopid[]" type="checkbox" id="shopid{{ $index + 1 }}"
-                            value="{{ $sellerDetail->id . '*' . $sellerDetail->user_id }}"
-                            {{ $sellerDetail->user_status === 'Y' ? 'checked' : '' }} />
-                    </td>
-                    <td>{{ $index + 1 }}</td>
-                    @endif
-                    <td>{{ $typeid == 1 ? 'SHOP' : ($typeid == 2 ? 'SER' : '') }}{{ str_pad($sellerDetail->shop_reg_id, 9, '0', STR_PAD_LEFT) }}
-                    </td>
-                    <td>{{ $sellerDetail->shop_name }}</td>
-                    <td>{{ $sellerDetail->owner_name }}</td>
-                    {{-- <td>{{ $sellerDetail->shop_email }}</td> --}}
-                    <td>{{ $sellerDetail->shop_mobno }}</td>
-                    {{-- <td class="text-success">{{ $sellerDetail->business_name }}</td> --}}
-                    <td><span
-                            class="badge p-2 {{ $sellerDetail->user_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
-                            {{ $sellerDetail->user_status === 'Y' ? 'Active' : 'Inactive' }}
-                        </span>
-                    </td>
-                    <td><span
-                            class="badge p-2 {{ $sellerDetail->seller_approved === 'Y' ? 'badge badge-info' : 'badge badge-danger' }}">
-                            {{ $sellerDetail->seller_approved === 'Y' ? 'Approved' : 'Not Approved' }}
-                        </span>
-                    </td>
-
 @php
     $roleid = session('roleid');
     $roleIdsArray = explode(',', $roleid);
@@ -1121,6 +1073,7 @@
     //         //document.getElementById('pan-error-message').textContent = "Invalid PAN format. It should be in the format AEDFR2568H";
     //     }
     // });
+
 
 
 

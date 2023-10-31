@@ -57,8 +57,8 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Role Title</th>
-                                        <th>Permissions</th>
-                                        <th>Action</th>
+                                        <th data-sorting="false">Permissions</th>
+                                        <th data-sorting="false">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
