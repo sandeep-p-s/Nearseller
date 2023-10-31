@@ -5,7 +5,6 @@
                 @if (session('roleid') == '1')
                 <th width="5px">Active All <input type='checkbox' name='checkbox1' id='checkbox1' onclick='check();' />
                 </th>
-
                 <th>SINO</th>@endif
                 <th>Reg. ID</th>
                 <th>{{ $shoporservice }} Name</th>
@@ -25,8 +24,8 @@
                             value="{{ $sellerDetail->id . '*' . $sellerDetail->user_id }}"
                             {{ $sellerDetail->user_status === 'Y' ? 'checked' : '' }} />
                     </td>
-                    <td>{{ $index + 1 }}</td>
                     @endif
+                    <td>{{ $index + 1 }}</td>
                     <td>{{ $typeid == 1 ? 'SHOP' : ($typeid == 2 ? 'SER' : '') }}{{ str_pad($sellerDetail->shop_reg_id, 9, '0', STR_PAD_LEFT) }}
                     </td>
                     <td>{{ $sellerDetail->shop_name }}</td>
@@ -94,7 +93,7 @@
 
 
 <!-- Modal Add New -->
-<div class="modal fade p-5" id="addNewModal" tabindex="-1" aria-labelledby="addNewModalLabel" aria-hidden="true"
+<div class="modal fade modal-padding" id="addNewModal" tabindex="-1" aria-labelledby="addNewModalLabel" aria-hidden="true"
     style="overflow-y: scroll;">
     <div class="modal-dialog custom-modal-dialog">
         <div class="modal-content">

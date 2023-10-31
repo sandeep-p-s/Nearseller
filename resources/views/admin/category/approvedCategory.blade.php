@@ -70,7 +70,7 @@
 
                                     <label>Category Image</label>
                                     <input type="file" id="category_image" name="category_image[]"
-                                        class="form-control form-control-lg" placeholder="Category Images"                                             tabindex="19" accept="image/jpeg, image/png" disabled/>
+                                        class="form-control form-control-lg" placeholder="Category Images" tabindex="19" />
                                     <label for="category_image" class="error"></label>
 
                                 <div class="col-md-12">
@@ -111,7 +111,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>

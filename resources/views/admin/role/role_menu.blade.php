@@ -36,7 +36,7 @@
 
                     <div class="row">
 
-                        <div class="col-md-12 justify-content-center"><label >Roles</label>
+                        <div class="col-md-6 justify-content-center"><label >Roles</label>
                             <select class="form-select form-control form-control-lg" name="roleid"  aria-label="Default select example" id="roleid" onChange="showRoleMenuitems(this.value);" required  tabindex="2" >
                                 <option value="">Select Role</option>
                                     @foreach ($roles as $userdets)

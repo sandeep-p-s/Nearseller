@@ -30,11 +30,11 @@
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="categorySelector">Select Type<span class="text-danger">*</span></label>
+                                    {{-- <label for="categorySelector">Select Type<span class="text-danger">*</span></label>
                                     <select class="form-control mb15" id="typeSelector" name="select_type">
                                         <option value="1" {{ $current_category->category_type == '1' ? 'selected' : '' }}>Shop</option>
                                         <option value="2" {{ $current_category->category_type == '2' ? 'selected' : '' }}>Service</option>
-                                    </select>
+                                    </select> --}}
                                     <label for="categorySelector">Select Parent Category</label>
                                     <select class="form-control mb15" id="categorySelector" name="parent_category"
                                         onchange="updateLevel()">
@@ -50,7 +50,8 @@
                                             @endforeach
                                         @endif
                                     </select>
-                                    <label for="exampleFormControlInput1">Edit Category Name<span class="text-danger">*</span></label>
+                                    <label for="exampleFormControlInput1">Edit Category Name<span
+                                            class="text-danger">*</span></label>
                                     <input type="text" class="form-control mb15" id="exampleFormControlInput1"
                                         name="category_name" placeholder="Enter Category Name"
                                         value="{{ $current_category->category_name }}">
@@ -128,16 +129,19 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                    <label for="categoryStatus">Status</label>
-                                    <select class="form-control" id="categoryStatus" name="status">
-                                        <option value="Y" {{ $current_category->status == 'Y' ? 'selected' : '' }}>
-                                            Active
-                                        </option>
-                                        <option value="N" {{ $current_category->status == 'N' ? 'selected' : '' }}>
-                                            Inactive
-                                        </option>
-                                    </select>
+                                    @if (session('roleid') == 1)
+                                        <label for="categoryStatus">Status</label>
+                                        <select class="form-control" id="categoryStatus" name="status">
+                                            <option value="Y"
+                                                {{ $current_category->status == 'Y' ? 'selected' : '' }}>
+                                                Active
+                                            </option>
+                                            <option value="N"
+                                                {{ $current_category->status == 'N' ? 'selected' : '' }}>
+                                                Inactive
+                                            </option>
+                                        </select>
+                                    @endif
                                     <br>
                                     @error('category_name')
                                         <div class="text-danger mb15">{{ $message }}</div>
@@ -285,7 +289,8 @@
                                 '<option value="0">Select Parent Category (optional)</option>');
                             $.each(data, function(index, filteredCategories) {
                                 $('#categorySelector').append('<option value="' +
-                                    filteredCategories.id + '" data-level="' + filteredCategories.category_level + '">' +
+                                    filteredCategories.id + '" data-level="' +
+                                    filteredCategories.category_level + '">' +
                                     filteredCategories
                                     .category_name + '</option>');
                             });

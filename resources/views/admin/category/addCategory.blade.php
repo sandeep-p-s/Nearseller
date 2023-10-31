@@ -32,19 +32,18 @@
                             <form method="POST" action="{{ route('store.category') }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="categorySelector">Select Type<span class="text-danger">*</span></label>
+                                    {{-- <label for="categorySelector">Select Type<span class="text-danger">*</span></label>
                                     <select class="form-control mb15" id="typeSelector" name="select_type">
                                         <option value="0">Select Type</option>
                                         <option value="1">Shop</option>
                                         <option value="2">Service</option>
-                                    </select>
+                                    </select> --}}
                                     <label for="categorySelector">Select Parent Category</label>
                                     <select class="form-control mb15" id="categorySelector" name="parent_category" onchange="updateLevel()">
                                         <option value="0">Select Parent Category</option>
                                         @foreach ($filteredCategories as $key => $category)
                                             <option value="{{ $category->id }}" data-level="{{ $category->category_level }}">
                                                 @for ($i = 0; $i < $category->category_level; $i++)
-                                                     {{-- You can add any other content here for indentation if needed --}}
                                                 @endfor
                                                 <span class="{{ $key === count($filteredCategories) - 1 ? 'last-child' : '' }}">{{ $category->category_name }}</span>
                                             </option>
@@ -69,8 +68,8 @@
 
                                    <label>Category Image</label>
                                         <input type="file" id="category_image" name="category_image[]"
-                                            class="form-control form-control-lg" placeholder="Shop Photo" required
-                                            tabindex="19" accept="image/jpeg, image/png" />
+                                            class="form-control form-control-lg" placeholder="Shop Photo"
+                                            tabindex="19"  />
                                         <label for="category_image" class="error"></label>
 
                                     <div class="col-md-12">
@@ -84,9 +83,9 @@
                                     @error('category_name')
                                         <div class="text-danger mb15">{{ $message }}</div>
                                     @enderror
-                                    @error('slug_name')
+                                    {{-- @error('slug_name')
                                         <div class="text-danger mb15">{{ $message }}</div>
-                                    @enderror
+                                    @enderror --}}
                                     @error('category_level')
                                         <div class="text-danger mb15">{{ $message }}</div>
                                     @enderror
@@ -139,7 +138,7 @@
 
 
             var fileArrs = [];
-    var totalFiless = 0;
+            var totalFiless = 0;
 
     $("#category_image").change(function(event) {
         var totalFileCount = $(this)[0].files.length;
