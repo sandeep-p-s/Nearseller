@@ -38,7 +38,7 @@
                                             <label for="service_name">Service User <span
                                                     class="text-danger">*</span></label>
                                             <select class="selectservice form-select form-control form-control-lg"
-                                                id="serviceuser_name" name="serviceuser_name" required tabindex="1">
+                                                id="serviceuser_name" name="serviceuser_name" tabindex="1">
                                                 <option value="">Select Service User</option><br />
                                                 @foreach ($userservicedets as $serviceuser)
                                                     <option value="{{ $serviceuser->id }}">{{ $serviceuser->name }}</option>

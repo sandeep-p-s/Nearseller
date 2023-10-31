@@ -31,7 +31,7 @@
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Executive Name <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control mb-3" id="executive_name"
-                                        placeholder="Enter executive name" name="executive_name"  onchange="exstexcutename(this.value)">
+                                        placeholder="Enter executive name" name="executive_name"  onchange="exstexcutename(this.value)" value="{{old('executive_name')}}">
                                         <div id="exisececutename-message" class="text-center" style="display: none;"></div>
                                     @error('executive_name')
                                         <div class="text-danger mb15">{{ $message }}</div>
@@ -39,9 +39,10 @@
                                     <div class="form-group">
                                         <label for="exampleFormControlSelect1">Executive Type <span class="text-danger">*</span></label>
                                         <select class="form-control" id="exampleFormControlSelect1" name="executive_type">
-                                            <option value="" selected disabled>Select</option>
-                                            <option value="1">Sales</option>
-                                            <option value="2">Service</option>
+                                                <option value="">Select option</option>
+                                            @foreach ($businesstype as $bt)
+                                                <option value="{{ $bt->id }}" {{ old('business_name') == $bt->id ? 'selected' : '' }}>{{ $bt->business_name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     @error('executive_type')
@@ -62,44 +63,44 @@
 
     </div><!-- container -->
 <script>
-    function exstexcutename(executename) {
-        $('#loading-overlay').fadeIn();
-        $('#loading-image').fadeIn();
-        var csrfToken = $('meta[name="csrf-token"]').attr('content');
-        $.ajax({
-            url: '{{ route('existExecutivename') }}',
-            type: 'POST',
-            data: {
-                executename: executename
-            },
-            headers: {
-                'X-CSRF-TOKEN': csrfToken
-            },
-            success: function(data) {
-                if (data.result == 1) {
-                    $('#exisececutename-message').text('Executive Name Already Exists.').fadeIn();
-                    $('#exisececutename-message').addClass('error');
-                    setTimeout(function() {
-                        $('#exisececutename-message').fadeOut();
-                    }, 5000);
-                    $('#executive_name').val('');
-                    $('#loading-image').fadeOut();
-                    $('#loading-overlay').fadeOut();
-                } else if (data.result == 3) {
-                    $('#exisececutename-message').text('Error in Data').fadeIn();
-                    $('#exisececutename-message').addClass('error');
-                    setTimeout(function() {
-                        $('#existshopname-message').fadeOut();
-                    }, 5000);
-                    $('#loading-image').fadeOut();
-                    $('#loading-overlay').fadeOut();
-                } else {
-                    $('#loading-image').fadeOut();
-                    $('#loading-overlay').fadeOut();
-                }
-            }
-        });
+    // function exstexcutename(executename) {
+    //     $('#loading-overlay').fadeIn();
+    //     $('#loading-image').fadeIn();
+    //     var csrfToken = $('meta[name="csrf-token"]').attr('content');
+    //     $.ajax({
+    //         url: '{{ route('existExecutivename') }}',
+    //         type: 'POST',
+    //         data: {
+    //             executename: executename
+    //         },
+    //         headers: {
+    //             'X-CSRF-TOKEN': csrfToken
+    //         },
+    //         success: function(data) {
+    //             if (data.result == 1) {
+    //                 $('#exisececutename-message').text('Executive Name Already Exists.').fadeIn();
+    //                 $('#exisececutename-message').addClass('error');
+    //                 setTimeout(function() {
+    //                     $('#exisececutename-message').fadeOut();
+    //                 }, 5000);
+    //                 $('#executive_name').val('');
+    //                 $('#loading-image').fadeOut();
+    //                 $('#loading-overlay').fadeOut();
+    //             } else if (data.result == 3) {
+    //                 $('#exisececutename-message').text('Error in Data').fadeIn();
+    //                 $('#exisececutename-message').addClass('error');
+    //                 setTimeout(function() {
+    //                     $('#existshopname-message').fadeOut();
+    //                 }, 5000);
+    //                 $('#loading-image').fadeOut();
+    //                 $('#loading-overlay').fadeOut();
+    //             } else {
+    //                 $('#loading-image').fadeOut();
+    //                 $('#loading-overlay').fadeOut();
+    //             }
+    //         }
+    //     });
 
-    }
+    // }
 </script>
 @endsection

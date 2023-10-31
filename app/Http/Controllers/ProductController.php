@@ -27,10 +27,11 @@ class ProductController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
+        $roleid = session('roleid');
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser = UserAccount::sessionValuereturn($userRole);
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $userdetails = DB::table('user_account')
             ->where('id', $userId)
             ->get();
@@ -190,13 +191,14 @@ class ProductController extends Controller
         $time = date('Y-m-d H:i:s');
 
 
-        $validatedData = Validator::make($request->all(), [
+        // $validatedData = Validator::make($request->all(), [
+            $validatedData = $request->validate([
             'shop_name' => 'required',
             'prod_name' => 'required|regex:/^[A-Za-z\s\.]+$/',
             'prod_specification' => 'nullable|max:250',
             'parent_category' => 'required',
             'prod_description' => 'required|max:7000',
-            'totstock' => 'numeric',
+            //'totstock' => 'numeric',
             'customRadio' => 'required|in:Y,N',
             // 'paymode' => 'required|in:cod,shop,calshop',
             'prod_manufacture' => 'nullable|max:250',
@@ -206,22 +208,22 @@ class ProductController extends Controller
             //'s_photo' => 'nullable|image|mimes:jpeg,png|max:2048', // Max 2MB per image
         ]);
 
-        if ($validatedData->fails()) {
-            return response()->json(['result' => 3, 'mesge' => $validatedData->errors()]);
-        }
-
-        if ($request->input('customRadio') === 'Y') {
-            $totalStock = (int) $request->input('totstock', 0);
-            $attributeStock = 0;
-            if ($request->has('attributedata')) {
-                foreach ($request->input('attributedata') as $attributeData) {
-                    $attributeStock += (int) ($attributeData['attr_stock1'] ?? 0);
-                }
-            }
-            if ($totalStock !== $attributeStock) {
-                return response()->json(['result' => 3, 'mesge' => 'Total stock and attribute stock must be equal.']);
-            }
-        }
+        //echo "<pre>";print_r($validatedData);
+        // if ($validatedData->fails()) {
+        //     return response()->json(['result' => 3, 'mesge' => $validatedData->errors()]);
+        // }
+        // if ($request->input('customRadio') === 'Y') {
+        //     $totalStock = (int) $request->input('totstock', 0);
+        //     $attributeStock = 0;
+        //     if ($request->has('attributedata')) {
+        //         foreach ($request->input('attributedata') as $attributeData) {
+        //             $attributeStock += (int) ($attributeData['attr_stock1'] ?? 0);
+        //         }
+        //     }
+        //     if ($totalStock !== $attributeStock) {
+        //         return response()->json(['result' => 3, 'mesge' => 'Total stock and attribute stock must be equal.']);
+        //     }
+        // }
         $ProductDetails = new ProductDetails();
         $ProductDetails->fill($validatedData);
         $cashdeposit=$request->has('cashdeposit') ? 1 : 0;
@@ -236,7 +238,7 @@ class ProductController extends Controller
         $ProductDetails->manufacture_details = $request->input('prod_manufacture');
         $ProductDetails->brand_name = $request->input('brand_name');
         $ProductDetails->paying_mode = $paymodes;
-        $ProductDetails->product_stock = $request->input('totstock');
+        $ProductDetails->product_stock = 0;//$request->input('totstock');
         $ProductDetails->created_by = $userId;
         $ProductDetails->created_time = $time;
         $ProductDetails->product_status = 'Y';
@@ -297,7 +299,7 @@ class ProductController extends Controller
             //echo "<pre>";print_r($attributes);exit;
             try {
                 foreach ($attributes as $attribute) {
-                    if ($attribute['attatibute1'] == '' && $attribute['attatibute2'] == '' && $attribute['attatibute3'] == '' && $attribute['attatibute4'] == '' && $attribute['offerprice1'] == '' && $attribute['mrprice1'] == '' && $attribute['attr_stock1'] == '') {
+                    if ($attribute['attatibute1'] == '' && $attribute['attatibute2'] == '' && $attribute['attatibute3'] == '' && $attribute['attatibute4'] == '' && $attribute['offerprice1'] == '' && $attribute['mrprice1'] == '') {
                     } else {
                         $productAttribute = new AddProductAttribute();
                         $productAttribute->product_id = $product_id;
@@ -307,7 +309,7 @@ class ProductController extends Controller
                         $productAttribute->attribute_4 = $attribute['attatibute4'];
                         $productAttribute->offer_price = $attribute['offerprice1'];
                         $productAttribute->mrp_price = $attribute['mrprice1'];
-                        $productAttribute->attribute_stock = $attribute['attr_stock1'];
+                        $productAttribute->attribute_stock = 0;//$attribute['attr_stock1'];
                         $stockStatus = isset($attribute['stockstatus1']) ? 1 : 0;
                         $productAttribute->stock_status = $stockStatus;
                         $newattribute = $productAttribute->save();
@@ -348,7 +350,7 @@ class ProductController extends Controller
             'prod_specificationsx' => 'nullable|max:250',
             'parent_categorysx' => 'required',
             'prod_descriptionsx' => 'required|max:7000',
-            'totstocksx' => 'numeric',
+            //'totstocksx' => 'numeric',
             'customRadiosx' => 'required|in:Y,N',
             // 'paymodesx' => 'required|in:cod,shop,calshop',
             'prod_manufacturesx' => 'nullable|max:250',
@@ -358,18 +360,18 @@ class ProductController extends Controller
             //'s_photo'             => 'nullable|image|mimes:jpeg,png|max:2048', // Max 2MB per image
         ]);
 
-        if ($request->input('customRadiosx') === 'Y') {
-            $totalStock = (int) $request->input('totstocksx', 0);
-            $attributeStock = 0;
-            if ($request->has('attributedatasx')) {
-                foreach ($request->input('attributedatasx') as $attributeData) {
-                    $attributeStock += (int) ($attributeData['attr_stocksx1'] ?? 0);
-                }
-            }
-            if ($totalStock !== $attributeStock) {
-                return response()->json(['result' => 3, 'mesge' => 'Total stock and attribute stock must be equal.']);
-            }
-        }
+        // if ($request->input('customRadiosx') === 'Y') {
+        //     $totalStock = (int) $request->input('totstocksx', 0);
+        //     $attributeStock = 0;
+        //     if ($request->has('attributedatasx')) {
+        //         foreach ($request->input('attributedatasx') as $attributeData) {
+        //             $attributeStock += (int) ($attributeData['attr_stocksx1'] ?? 0);
+        //         }
+        //     }
+        //     if ($totalStock !== $attributeStock) {
+        //         return response()->json(['result' => 3, 'mesge' => 'Total stock and attribute stock must be equal.']);
+        //     }
+        // }
         $ProductDetails = new ProductDetails();
         $ProductDetails->fill($validatedData);
         $cashdeposit=$request->has('cashdeposits') ? 1 : 0;
@@ -384,7 +386,7 @@ class ProductController extends Controller
         $ProductDetails->manufacture_details = $request->input('prod_manufacturesx');
         $ProductDetails->brand_name = $request->input('brand_namesx');
         $ProductDetails->paying_mode = $paymodes;
-        $ProductDetails->product_stock = $request->input('totstocksx');
+        $ProductDetails->product_stock = 0;//$request->input('totstocksx');
         $ProductDetails->created_by = $userId;
         $ProductDetails->created_time = $time;
         $ProductDetails->product_status = 'Y';
@@ -445,7 +447,7 @@ class ProductController extends Controller
             //echo "<pre>";print_r($attributes);exit;
             try {
                 foreach ($attributes as $attribute) {
-                    if ($attribute['attatibutesx1'] == '' && $attribute['attatibutesx2'] == '' && $attribute['attatibutesx3'] == '' && $attribute['attatibutesx4'] == '' && $attribute['offerpricesx1'] == '' && $attribute['mrpricesx1'] == '' && $attribute['attr_stocksx1'] == '') {
+                    if ($attribute['attatibutesx1'] == '' && $attribute['attatibutesx2'] == '' && $attribute['attatibutesx3'] == '' && $attribute['attatibutesx4'] == '' && $attribute['offerpricesx1'] == '' && $attribute['mrpricesx1'] == '') {
                     } else {
                         $productAttribute = new AddProductAttribute();
                         $productAttribute->product_id = $product_id;
@@ -455,7 +457,7 @@ class ProductController extends Controller
                         $productAttribute->attribute_4 = $attribute['attatibutesx4'];
                         $productAttribute->offer_price = $attribute['offerpricesx1'];
                         $productAttribute->mrp_price = $attribute['mrpricesx1'];
-                        $productAttribute->attribute_stock = $attribute['attr_stocksx1'];
+                        $productAttribute->attribute_stock = 0;//$attribute['attr_stocksx1'];
                         $stockStatus = isset($attribute['stockstatussx1']) ? 1 : 0;
                         $productAttribute->stock_status = $stockStatus;
                         $newattribute = $productAttribute->save();
@@ -577,7 +579,7 @@ class ProductController extends Controller
             'prod_specifications' => 'nullable|max:250',
             'parent_categorys' => 'required',
             'prod_descriptions' => 'required|max:7000',
-            'totstocks' => 'numeric',
+            //'totstocks' => 'numeric',
             'customRadios' => 'required|in:Y,N',
             // 'paymodes' => 'required|in:cod,shop,calshop',
             'prod_manufactures' => 'nullable|max:250',
@@ -588,18 +590,18 @@ class ProductController extends Controller
             //'s_photo'             => 'nullable|image|mimes:jpeg,png|max:2048', // Max 2MB per image
         ]);
 
-        if ($request->input('customRadio') === 'Y') {
-            $totalStock = (int) $request->input('totstock', 0);
-            $attributeStock = 0;
-            if ($request->has('attributedata')) {
-                foreach ($request->input('attributedata') as $attributeData) {
-                    $attributeStock += (int) ($attributeData['attr_stock1'] ?? 0);
-                }
-            }
-            if ($totalStock !== $attributeStock) {
-                return response()->json(['result' => 3, 'mesge' => 'Total stock and attribute stock must be equal.']);
-            }
-        }
+        // if ($request->input('customRadio') === 'Y') {
+        //     $totalStock = (int) $request->input('totstock', 0);
+        //     $attributeStock = 0;
+        //     if ($request->has('attributedata')) {
+        //         foreach ($request->input('attributedata') as $attributeData) {
+        //             $attributeStock += (int) ($attributeData['attr_stock1'] ?? 0);
+        //         }
+        //     }
+        //     if ($totalStock !== $attributeStock) {
+        //         return response()->json(['result' => 3, 'mesge' => 'Total stock and attribute stock must be equal.']);
+        //     }
+        // }
         $product_id = $request->prod_id;
         $ProductDetails = ProductDetails::find($product_id);
         $ProductDetails->fill($validatedData);
@@ -615,7 +617,7 @@ class ProductController extends Controller
         $ProductDetails->manufacture_details = $request->input('prod_manufactures');
         $ProductDetails->brand_name = $request->input('brand_names');
         $ProductDetails->paying_mode = $paymodes;
-        $ProductDetails->product_stock = $request->input('totstocks');
+        $ProductDetails->product_stock = 0;//$request->input('totstocks');
         $ProductDetails->product_status = $request->input('productstatus');
         // if($roleid==1)
         // {
@@ -697,7 +699,7 @@ class ProductController extends Controller
             //echo "<pre>";print_r($attributes);exit;
             try {
                 foreach ($attributes as $attribute) {
-                    if ($attribute['attatibutes1'] == '' && $attribute['attatibutes2'] == '' && $attribute['attatibutes3'] == '' && $attribute['attatibutes4'] == '' && $attribute['offerprices1'] == '' && $attribute['mrprices1'] == '' && $attribute['attr_stocks1'] == '') {
+                    if ($attribute['attatibutes1'] == '' && $attribute['attatibutes2'] == '' && $attribute['attatibutes3'] == '' && $attribute['attatibutes4'] == '' && $attribute['offerprices1'] == '' && $attribute['mrprices1'] == '') {
                     } else {
                         $productAttribute = new AddProductAttribute();
                         $productAttribute->product_id = $product_id;
@@ -707,7 +709,7 @@ class ProductController extends Controller
                         $productAttribute->attribute_4 = $attribute['attatibutes4'];
                         $productAttribute->offer_price = $attribute['offerprices1'];
                         $productAttribute->mrp_price = $attribute['mrprices1'];
-                        $productAttribute->attribute_stock = $attribute['attr_stocks1'];
+                        $productAttribute->attribute_stock = 0;//$attribute['attr_stocks1'];
                         $stockStatus = isset($attribute['stockstatuss1']) ? 1 : 0;
                         $productAttribute->stock_status = $stockStatus;
                         $newproductreg = $productAttribute->save();

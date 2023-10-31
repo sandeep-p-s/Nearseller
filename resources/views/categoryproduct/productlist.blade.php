@@ -28,14 +28,11 @@
             <img id="loading-image" src="{{ asset('img/loading.gif') }}" style="display: none; width:100px;">
             {{-- @if (session('roleid') == '1') --}}
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col-md-12">
 
-                        <div class="row">
-                            <div class="col-md-2">
 
-                            </div>
 
-                            <div class="col-md-8">
+
                                 <select class="selectcategoryauto form-control" id="categorySelector" name="parent_category"
                                     tabindex="3" required onchange="shwdets();">
                                     <option value="0">Select Category</option>
@@ -48,22 +45,12 @@
                                         </option>
                                     @endforeach
                                 </select>
-                            </div>
 
 
 
-                            <div class="col-md-2">
-
-                            </div>
 
 
-                            {{-- <div class="col-md-12 col-lg-12 d-flex justify-content-center" style="margin-top: 20px;">
-                                <input type="button" id="btnsearch" name="btnsearch" class="btn btn-primary" value="Search"
-                                    onClick="shwdets()" />
 
-                            </div> --}}
-
-                        </div>
 
                     </div>
                 </div>

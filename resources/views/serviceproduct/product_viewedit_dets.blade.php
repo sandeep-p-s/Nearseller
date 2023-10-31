@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-body">
                     @php
-                        $shopshowhide = session('roleid') == 1 || session('roleid') == 3 ? 'style=display:block;' : 'style=display:none;';
+                        $shopshowhide = session('roleid') == 1 || session('roleid') == 11 || session('roleid') == 3 ? 'style=display:block;' : 'style=display:none;';
                     @endphp
 
 
@@ -479,7 +479,7 @@
 
                     imgDiv.append(img);
                     imgDiv.append($('<div>').addClass('middle').append(removeBtn));
-
+                        if(fileArrs.length > 0)
                     $('#image-previews').append(imgDiv);
                 };
             })(file);

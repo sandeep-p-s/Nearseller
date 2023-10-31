@@ -7,15 +7,20 @@ use App\Models\MenuMaster;
 use App\Models\UserAccount;
 use App\Models\BusinessType;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 
 class BusinessTypeController extends Controller
 {
     public function list_business_type()
     {
-        $userRole = session('user_role');
+        //
+        //$userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $userRole = session('roleid');
+        $roleid = session('roleid');
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
+        //$loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $businesstype = DB::table('business_type')->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
@@ -26,7 +31,8 @@ class BusinessTypeController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $roleid = session('roleid');
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         return view('admin.masters.business_type.add', compact('loggeduser', 'userdetails','structuredMenu'));
@@ -36,13 +42,13 @@ class BusinessTypeController extends Controller
     {
         $request->validate(
             [
-                'business_name' => 'required|regex:/^[A-Za-z\s]+$/|min:5|max:255|unique:business_type',
+                'business_name' => 'required|regex:/^[A-Za-z\s]+$/|min:5|max:50|unique:business_type',
             ],
                 [
                     'business_name.required' => 'The business name field is required.',
                     'business_name.regex' => 'The business name must contain only letters and spaces.',
                     'business_name.min' => 'The business name must be at least 5 characters.',
-                    'business_name.max' => 'The business name cannot exceed 255 characters.',
+                    'business_name.max' => 'The business name cannot exceed 50 characters.',
                     'business_name.unique' => 'This business name is already in use.',
 
                 ]
@@ -60,7 +66,8 @@ class BusinessTypeController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $roleid = session('roleid');
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $businesstype = BusinessType::find($id);
@@ -79,10 +86,19 @@ class BusinessTypeController extends Controller
             return redirect()->route('list.businesstype')->with('error', 'Business Type not found.');
         }
 
-        $request->validate([
-            'business_name' => 'required|string|max:255',
-            'status' => 'required|in:Active,Inactive',
-        ]);
+        $request->validate(
+            [
+                'business_name' => ['required','regex:/^[A-Za-z\s]+$/','min:5','max:50',Rule::unique('business_type')->ignore($id)],
+            ],
+                [
+                    'business_name.required' => 'The business name field is required.',
+                    'business_name.regex' => 'The business name must contain only letters and spaces.',
+                    'business_name.min' => 'The business name must be at least 5 characters.',
+                    'business_name.max' => 'The business name cannot exceed 50 characters.',
+                    'business_name.unique' => 'This business name is already in use.',
+
+                ]
+        );
 
         $businesstype->business_name = ucfirst($request->business_name);
         if ($request->status === 'Active')

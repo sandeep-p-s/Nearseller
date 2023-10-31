@@ -11,8 +11,7 @@
     <link rel='stylesheet' type='text/css' media='screen' href='{{ asset('css/bootstrap.css') }}'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-        crossorigin="anonymous"
-        referrerpolicy="no-referrer" />
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;700;800;900&display=swap"
@@ -121,7 +120,8 @@
                                 </div>
                                 <div class="form-outline mb-4">
                                     <input type="password" id="passwd" name="passwd"
-                                        class="form-control form-control-lg" placeholder="password" required maxlength="20" />
+                                        class="form-control form-control-lg" placeholder="password" required
+                                        maxlength="20" />
                                 </div>
                                 <p class="small mb-5 pb-lg-2 float-end" id="forget"><a class="" href="#"
                                         style="color:#432791;">Forgot password?</a></p>
@@ -157,8 +157,8 @@
                         <div>
                             <p class="text-center" id="signup">Don't have an account? <a href="#"
                                     class="" style="color: #452896;">Sign Up</a>
-                                    &nbsp;&nbsp;<a href="{{ route('Home') }}"
-                                    class="" style="color: #e7071d;" title="Home"><i class="fas fa-home"></i></a></p>
+                                &nbsp;&nbsp;<a href="{{ route('Home') }}" class="" style="color: #e7071d;"
+                                    title="Home"><i class="fas fa-home"></i></a></p>
                         </div>
 
                     </div>
@@ -179,7 +179,7 @@
                                 <div>
                                     <input type="radio" class="radio" name="h" value="b"
                                         id="sellerreg_r" />
-                                    <label for="b">Vendor/Service</label>
+                                    <label for="b">Seller/Service</label>
                                 </div>
 
                                 <div style="display: none;">
@@ -204,14 +204,15 @@
                                     <input tabindex="2" type="email" id="u_emid" name="u_emid"
                                         class="form-control form-control-lg" maxlength="50" placeholder="Enter Email"
                                         required onchange="exstemilid(this.value,'1')" />
-                                    <div for="u_emid" class="error " id="uemil-message" ></div>
+                                    <div for="u_emid" class="error " id="uemil-message"></div>
                                     {{-- <div  class="text-center" style="display: none;"></div> --}}
                                 </div>
 
                                 <div class="form-outline  mb-2">
                                     <input tabindex="3" type="text" id="u_mobno" name="u_mobno"
                                         class="form-control form-control-lg" maxlength="10"
-                                        placeholder="Enter Mobile No." required onchange="exstmobno(this.value,'1')" />
+                                        placeholder="Enter Mobile No." required
+                                        onchange="exstmobno(this.value,'1')" />
                                     <div for="u_mobno" class="error" id="umob-message"></div>
                                     {{-- <div id="umob-message" class="text-center" style="display: none;"></div> --}}
                                 </div>
@@ -255,9 +256,11 @@
                                     <div class="form-outline mb-3">
                                         <input type="text" id="s_name" name="s_name"
                                             class="form-control form-control-lg" maxlength="50"
-                                            placeholder="Shop Name" required tabindex="1"  onchange="exstshopname(this.value,'1')" />
+                                            placeholder="Shop Name" required tabindex="1"
+                                            onchange="exstshopname(this.value,'1')" />
                                         <div for="s_name" class="error"></div>
-                                        <div id="existshopname-message" class="text-center" style="display: none;"></div>
+                                        <div id="existshopname-message" class="text-center" style="display: none;">
+                                        </div>
                                     </div>
                                     <div class="form-outline mb-3">
                                         <input type="text" id="s_ownername" name="s_ownername"
@@ -320,7 +323,7 @@
                                     <div class="form-outline mb-3">
                                         <select class="form-select form-control form-control-lg"
                                             id="s_shopservicetype" name="s_shopservicetype" required tabindex="8">
-                                            <option value="" disabled>Select Shop Type</option>
+                                            <option value="">Select Shop Type</option>
                                         </select>
                                         <div for="s_shopservicetype" class="error"></div>
                                     </div>
@@ -329,7 +332,10 @@
                                     <div class="form-outline mb-3">
                                         <select class="form-select form-control form-control-lg" id="s_shopexectename"
                                             name="s_shopexectename" required tabindex="8">
-                                            <option value="" disabled>Select Executive Name</option>
+                                            <option value="">Select Executive Name</option>
+                                            @foreach ($executives as $exec)
+                                                <option value="{{ $exec->id }}">{{ $exec->name }}</option>
+                                            @endforeach
                                         </select>
                                         <div for="s_shopexectename" class="error"></div>
                                     </div>
@@ -650,7 +656,8 @@
                             </form>
                         </div>
                     </div>
-                    <div class="Reset_password align-items-center h-custom-2 login_credentails" style="display: none;" id="password_reset">
+                    <div class="Reset_password align-items-center h-custom-2 login_credentails" style="display: none;"
+                        id="password_reset">
                         <h5 class="mb-3 pb-3 mt-5 text-center">Reset Password</h5>
                         <form id="ResetPasswd">
                             <div class="form-outline mb-4">
@@ -676,7 +683,8 @@
                     </div>
 
 
-                    <div class="Resetnew_password align-items-center h-custom-2 login_credentails" style="display: none;" id="passwordnew_reset">
+                    <div class="Resetnew_password align-items-center h-custom-2 login_credentails"
+                        style="display: none;" id="passwordnew_reset">
                         <h5 class="mb-3 pb-3 mt-5 text-center">Reset Password</h5>
                         <form id="ResetNewPasswd">
                             <div class="form-outline mb-4">
@@ -1102,24 +1110,24 @@
                     });
                 }
 
-                var busnescate = $(this).val();
-                if (busnescate) {
-                    var subshopexe = '';
-                    if (busnescate == 1) {
-                        subshopexe = 'Shop';
-                    } else if (busnescate == 2) {
-                        subshopexe = 'Service';
-                    }
-                    $.get("/executivename/" + busnescate, function(data) {
-                        $('#s_shopexectename').empty().append(
-                            '<option value="">Select ' + subshopexe + ' Executive Name</option>'
-                        );
-                        $.each(data, function(index, executive) {
-                            $('#s_shopexectename').append('<option value="' + executive.id +
-                                '">' + executive.executive_name + '</option>');
-                        });
-                    });
-                }
+                // var busnescate = $(this).val();
+                // if (busnescate) {
+                //     var subshopexe = '';
+                //     if (busnescate == 1) {
+                //         subshopexe = 'Shop';
+                //     } else if (busnescate == 2) {
+                //         subshopexe = 'Service';
+                //     }
+                //     $.get("/executivename/" + busnescate, function(data) {
+                //         $('#s_shopexectename').empty().append(
+                //             '<option value="">Select ' + subshopexe + ' Executive Name</option>'
+                //         );
+                //         $.each(data, function(index, executive) {
+                //             $('#s_shopexectename').append('<option value="' + executive.id +
+                //                 '">' + executive.executive_name + '</option>');
+                //         });
+                //     });
+                // }
 
             });
 
@@ -1556,7 +1564,6 @@
 
 
             jQuery.validator.addMethod("validPAN", function(value, element) {
-                // Define the PAN format regular expression
                 var panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
                 return this.optional(element) || panRegex.test(value);
             }, "Invalid PAN format. It should be in the format AEDFR2568H");
@@ -1565,6 +1572,21 @@
                 var gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9]{1}[A-Z]{1}[0-9]{1}$/;
                 return this.optional(element) || gstRegex.test(value);
             }, "Invalid GST format. It should be in the format 29ABCDE1234F1Z5");
+
+            jQuery.validator.addMethod("validLicence", function(value, element) {
+                var licenceRegex = /^[A-Z]{3}\d{5}$/;
+                return this.optional(element) || licenceRegex.test(value);
+            }, "Invalid license number format. It should be 3 uppercase letters followed by 5 digits.");
+
+            jQuery.validator.addMethod("validlocality", function(value, element) {
+                var localityRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/;
+                return this.optional(element) || localityRegex.test(value);
+            }, "Must include at least one alphabetic character and allow only alphanumeric characters.");
+
+            jQuery.validator.addMethod("validvillagetown", function(value, element) {
+                var villagetownRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/;
+                return this.optional(element) || villagetownRegex.test(value);
+            }, "Must include at least one alphabetic character and allow only alphanumeric characters.");
 
             $("#SellerRegForm").validate({
                 rules: {
@@ -1609,17 +1631,19 @@
 
                     },
                     s_lisence: {
-                        // required: true,
+                        validLicence: true,
                     },
                     s_buldingorhouseno: {
                         required: true,
                     },
 
                     s_locality: {
+                        validlocality: true,
                         required: true,
                     },
 
                     s_villagetown: {
+                        validvillagetown: true,
                         required: true,
                     },
 
@@ -1657,6 +1681,9 @@
 
                     s_establishdate: {
                         // required: true,
+                        // required: function(element) {
+                        //     return $("#typeidhid").val() === "1";
+                        // }
                     },
                     s_termcondtn: {
                         required: true,
@@ -1694,7 +1721,7 @@
                     },
                     s_lisence: {
                         //required: "Please enter the license number.",
-                        maxlength: "License number must not exceed 25 characters."
+                        validLicence: "Invalid license number format. It should be 3 uppercase letters followed by 5 digits."
                     },
                     s_buldingorhouseno: {
                         required: "Please enter building/house name and number.",
@@ -1702,11 +1729,13 @@
                     },
                     s_locality: {
                         required: "Please enter the locality.",
-                        maxlength: "Locality must not exceed 100 characters."
+                        maxlength: "Locality must not exceed 100 characters.",
+                        validlocality: "Must include at least one alphabetic character and allow only alphanumeric characters."
                     },
                     s_villagetown: {
                         required: "Please enter village/town/municipality.",
-                        maxlength: "Village/town/municipality must not exceed 100 characters."
+                        maxlength: "Village/town/municipality must not exceed 100 characters.",
+                        validvillagetown: "Must include at least one alphabetic character and allow only alphanumeric characters."
                     },
                     country: {
                         required: "Please select a country."
@@ -2018,29 +2047,47 @@
 
             var fileArrs = [];
             var totalFiless = 0;
+            var maxSize = 10485760; // 10MB in bytes
+            var minSize = 512000; // 500KB in bytes
 
             $("#s_photo").change(function(event) {
+                //$('#image-preview').html('');
                 var totalFileCount = $(this)[0].files.length;
-
-                if (totalFiless + totalFileCount > 5) {
-                    alert('Maximum 5 images allowed');
-                    $(this).val('');
-                    $('#image-preview').html('');
-                    return;
-                }
-
                 for (var i = 0; i < totalFileCount; i++) {
                     var file = $(this)[0].files[i];
-
                     if (file.size > 3145728) {
                         alert('File size exceeds the limit of 3MB');
                         $(this).val('');
                         $('#image-preview').html('');
                         return;
                     }
+                    // var fileSize = file.size;
+                    // if (fileSize > maxSize) {
+                    //     alert('File size exceeds the limit of 10MB');
+                    //     $(this).val('');
+                    //     $('#image-preview').html('');
+                    //     return;
+                    // }
+                    // if (fileSize < minSize) {
+                    //     alert('File size is less than 500KB');
+                    //     $(this).val('');
+                    //     $('#image-preview').html('');
+                    //     return;
+                    // }
 
                     fileArrs.push(file);
                     totalFiless++;
+                    if (totalFiless > 5) {
+                        alert('Maximum 5 images allowed');
+                        $(this).val('');
+                        $('#image-preview').html('');
+
+                        totalFiless = 0;
+                        fileArrs = [];
+                        file = "";
+                        return false;
+                    }
+
 
                     var reader = new FileReader();
                     reader.onload = (function(file) {
@@ -2049,19 +2096,23 @@
                             var img = $('<img>').attr('src', event.target.result).addClass(
                                 'img-responsive image new_thumpnail').attr('width', '100');
                             var removeBtn = $('<button>').addClass('btn btn-danger remove-btns')
-                                .attr('title', 'Remove Image').append('Remove').attr('role',
-                                    file
+                                .attr(
+                                    'title', 'Remove Image').append('Remove').attr('role', file
                                     .name);
 
                             imgDiv.append(img);
                             imgDiv.append($('<div>').addClass('middle').append(removeBtn));
-
-                            $('#image-preview').append(imgDiv);
+                            if (fileArrs.length > 0)
+                                $('#image-preview').append(imgDiv);
                         };
                     })(file);
 
                     reader.readAsDataURL(file);
                 }
+                document.getElementById('s_photo').files = new FileListItem([]);
+                document.getElementById('s_photo').files = new FileListItem(fileArrs);
+
+
             });
 
             $(document).on('click', '.remove-btns', function() {
@@ -2871,46 +2922,44 @@
 
 
         function exstshopname(u_shop, checkval) {
-                $('#loading-overlay').fadeIn();
-                $('#loading-image').fadeIn();
-                var csrfToken = $('meta[name="csrf-token"]').attr('content');
-                $.ajax({
-                    url: '{{ route('existshopname') }}',
-                    type: 'POST',
-                    data: {
-                        u_shop: u_shop
-                    },
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken
-                    },
-                    success: function(data) {
-                        if (data.result == 1 && checkval == 1) {
-                            $('#existshopname-message').text('Shop Name Already Exists.').fadeIn();
-                            $('#existshopname-message').addClass('error');
-                            setTimeout(function() {
-                                $('#existshopname-message').fadeOut();
-                            }, 5000);
-                            $('#s_name').val('');
-                            $('#loading-image').fadeOut();
-                            $('#loading-overlay').fadeOut();
-                        } else if (data.result == 3 && checkval == 1) {
-                            $('#existshopname-message').text('Error in Data').fadeIn();
-                            $('#existshopname-message').addClass('error');
-                            setTimeout(function() {
-                                $('#existshopname-message').fadeOut();
-                            }, 5000);
-                            $('#loading-image').fadeOut();
-                            $('#loading-overlay').fadeOut();
-                        } else {
-                            $('#loading-image').fadeOut();
-                            $('#loading-overlay').fadeOut();
-                        }
+            $('#loading-overlay').fadeIn();
+            $('#loading-image').fadeIn();
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                url: '{{ route('existshopname') }}',
+                type: 'POST',
+                data: {
+                    u_shop: u_shop
+                },
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function(data) {
+                    if (data.result == 1 && checkval == 1) {
+                        $('#existshopname-message').text('Shop Name Already Exists.').fadeIn();
+                        $('#existshopname-message').addClass('error');
+                        setTimeout(function() {
+                            $('#existshopname-message').fadeOut();
+                        }, 5000);
+                        $('#s_name').val('');
+                        $('#loading-image').fadeOut();
+                        $('#loading-overlay').fadeOut();
+                    } else if (data.result == 3 && checkval == 1) {
+                        $('#existshopname-message').text('Error in Data').fadeIn();
+                        $('#existshopname-message').addClass('error');
+                        setTimeout(function() {
+                            $('#existshopname-message').fadeOut();
+                        }, 5000);
+                        $('#loading-image').fadeOut();
+                        $('#loading-overlay').fadeOut();
+                    } else {
+                        $('#loading-image').fadeOut();
+                        $('#loading-overlay').fadeOut();
                     }
-                });
+                }
+            });
 
-            }
-
-
+        }
     </script>
 </body>
 

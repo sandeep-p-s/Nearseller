@@ -35,8 +35,8 @@
     @if ($sel_approved == 'Y')
         <div class="col-md-12">
             <h3 style="text-align: center; color:#ff002b;"><span class="badge badge-soft-danger p-2">
-                {{ $shoporservice }} Approved
-            </span></h3>
+                    {{ $shoporservice }} Approved
+                </span></h3>
 
         </div>
         <hr>
@@ -58,7 +58,7 @@
                 </div>
 
 
-                <div class="form-outline mb-3"><label>Owner Name<span class="text-danger">*</span></label>
+                <div class="form-outline mb-3"><label>{{ $shoporservice }} Owner Name<span class="text-danger">*</span></label>
                     <input type="text" id="es_ownername" name="es_ownername" value="{{ $sellerDetails->owner_name }}"
                         class="form-control form-control-lg" maxlength="50" placeholder="Owner Name" required
                         tabindex="2" />
@@ -150,7 +150,7 @@
                         <option value="">{{ $shoporservice }} Executive Name</option><br />
                         @foreach ($executives as $exec)
                             <option value="{{ $exec->id }}" @if ($exec->id == $sellerDetails->shop_executive) selected @endif>
-                                {{ $exec->executive_name }}</option>
+                                {{ $exec->name }}</option>
                         @endforeach
                     </select>
                     <label for="es_shopexectename" class="error"></label>
@@ -594,7 +594,7 @@
                                             </div>
                                             <div class="col">
                                                 <span data-repeater-delete="" class="btn btn-danger btn-sm">
-                                                    <span class="far fa-trash-alt mr-1"></span> Delete
+                                                    <span class="far fa-trash-alt mr-1"></span>
                                                 </span>
                                             </div>
                                         </div>
@@ -680,8 +680,8 @@
                 <div style="float:right">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     {{-- @if (!($sel_approved == 'Y' && ($roleid == 3 || $roleid == 2))) --}}
-                    @if ($sel_approved!='Y')
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    @if ($sel_approved != 'Y')
+                        <button type="submit" class="btn btn-primary">Save</button>
                     @endif
                     {{-- @endif --}}
                 </div>
@@ -1038,8 +1038,8 @@
 
                     imgDiv.append(img);
                     imgDiv.append($('<div>').addClass('middle').append(removeBtn));
-
-                    $('#eimage-preview').append(imgDiv);
+                    if (fileArrs.length > 0)
+                        $('#eimage-preview').append(imgDiv);
                 };
             })(file);
 
@@ -1166,8 +1166,8 @@
 
                     imgDiv.append(img);
                     imgDiv.append($('<div>').addClass('middle').append(removeBtn));
-
-                    $('#eimage-preview-logo').append(imgDiv);
+                    if (fileArr.length > 0)
+                        $('#eimage-preview-logo').append(imgDiv);
                 };
             })(file);
 
@@ -1232,6 +1232,18 @@
         return this.optional(element) || licenceRegex.test(value);
     }, "Invalid license number format. It should be 3 uppercase letters followed by 5 digits.");
 
+
+    jQuery.validator.addMethod("validlocality", function(value, element) {
+        var localityRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/;
+        return this.optional(element) || localityRegex.test(value);
+    }, "Must include at least one alphabetic character and allow only alphanumeric characters.");
+
+    jQuery.validator.addMethod("validvillagetown", function(value, element) {
+        var villagetownRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/;
+        return this.optional(element) || villagetownRegex.test(value);
+    }, "Must include at least one alphabetic character and allow only alphanumeric characters.");
+
+
     $("#SellerRegFormEdit").validate({
 
         rules: {
@@ -1273,18 +1285,21 @@
             //     required: true,
 
             // },
-             es_lisence: {
-                 validLicence: true,
-             },
+            es_lisence: {
+                validLicence: true,
+            },
             es_buldingorhouseno: {
                 required: true,
             },
 
             es_locality: {
+                validlocality: true,
                 required: true,
+
             },
 
             es_villagetown: {
+                validvillagetown: true,
                 required: true,
             },
 
@@ -1373,20 +1388,22 @@
             // es_logo: {
             //     extension: "Only JPG and PNG files are allowed.",
             // },
-             es_lisence: {
+            es_lisence: {
                 validLicence: "Invalid license number format. It should be 3 uppercase letters followed by 5 digits."
-             },
+            },
             es_buldingorhouseno: {
                 required: "Please enter building/house name and number.",
                 maxlength: "Building/house name and number must not exceed 100 characters."
             },
             es_locality: {
                 required: "Please enter the locality.",
-                maxlength: "Locality must not exceed 100 characters."
+                maxlength: "Locality must not exceed 100 characters.",
+                validlocality: "Must include at least one alphabetic character and allow only alphanumeric characters."
             },
             es_villagetown: {
                 required: "Please enter village/town/municipality.",
-                maxlength: "Village/town/municipality must not exceed 100 characters."
+                maxlength: "Village/town/municipality must not exceed 100 characters.",
+                validvillagetown: "Must include at least one alphabetic character and allow only alphanumeric characters."
             },
             ecountry: {
                 required: "Please select a country."

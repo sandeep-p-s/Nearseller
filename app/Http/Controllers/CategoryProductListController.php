@@ -88,6 +88,7 @@ class CategoryProductListController extends Controller
         } else {
             $categories->where('c1.parent_id', 0);
         }
+        $categories->where('c1.approval_status', 'Y');
         if ($roleid != 1) {
             $categories->where('user_account.id', $userId);
         }
@@ -139,12 +140,13 @@ class CategoryProductListController extends Controller
             ->where('product_id', $product->id)
             ->get();
             $product->attributes = $productAttibutes;
+            $usershopdets = DB::table('user_account')
+            ->select('name')
+            ->where('id', $product->shop_id)
+            ->first();
         }
         //echo $lastRegId = $ProductDetails->toSql();exit;
-        $usershopdets = DB::table('user_account')
-            ->select('name')
-            ->where('id', $userId)
-            ->first();
+
         //echo $lastRegId = $usershopdets->toSql();exit;
         return view('categoryproduct.product_viewedit_dets', compact('ProductDetails', 'productAttibutes', 'usershopdets'));
     }

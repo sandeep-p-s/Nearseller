@@ -146,12 +146,21 @@ else {
         }
 .new_image_response{
     background-size: cover;
-    height: 300px;
-    width: 100%;
-    object-fit: cover;
-    border: 3px solid #ec9e0a;
-}
+    height: 140px;
 
+    width: 95%;
+    /* height: auto; */
+    border-radius: 15px;
+    box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
+    object-fit: cover;
+    border: 3px solid #928e8612;
+}
+.thumb-xl {
+    height: 120px;
+    width: 120px;
+    font-size: 22px;
+    font-weight: 700
+}
 
 
 

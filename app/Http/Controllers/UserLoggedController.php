@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use App\Models\UserAccount;
+use DB;
+use Exception;
 use App\Models\LogDetails;
 use App\Models\OTPGenerate;
+use App\Models\UserAccount;
+use Illuminate\Http\Request;
 use App\Mail\EmailVerification;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Exception;
-use DB;
+use Illuminate\Support\Facades\Session;
+
 class UserLoggedController extends Controller
 {
     function LoggedUserPage(Request $request, $sentoval)
@@ -92,8 +94,8 @@ class UserLoggedController extends Controller
 
     public function logout()
     {
-        Auth::logout();
-
+        //Auth::logout();
+        Session::flush();
         return redirect('/login');
     }
 

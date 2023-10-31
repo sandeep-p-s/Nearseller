@@ -91,8 +91,9 @@
                                             (Shop/Service/Customer/Others)</font></label>
                                     <input type="text" id="s_name" name="s_name"
                                         class="form-control form-control-lg" maxlength="50" placeholder="Name" required
-                                        tabindex="2" />
+                                        tabindex="2"  onchange="exstshopname(this.value,'1');" />
                                     <label for="s_name" class="error"></label>
+                                    <div id="existshopname-message" class="text-center" style="display: none;"></div>
                                 </div>
                                 <div class="form-outline mb-3"><label>Mobile Number</label>
                                     <input type="text" id="s_mobno" name="s_mobno"
@@ -163,6 +164,8 @@
         }
         inputElement.value = value;
     }
+
+
 
     jQuery.validator.addMethod("validEmail", function(value, element) {
         var emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
