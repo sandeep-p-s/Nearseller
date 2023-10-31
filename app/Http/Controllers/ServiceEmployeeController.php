@@ -22,7 +22,17 @@ class ServiceEmployeeController extends Controller
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $service_emp = DB::table('service_employees')->get();
-        return view('seller.service.employee.list_employee', compact('service_emp', 'loggeduser', 'userdetails','structuredMenu'));
+        $roleIdsArray = explode(',', $roleid);
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+        {
+            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+            ->where('user_id', $userId)
+            ->first();
+        }
+        else{
+            $selrdetails='';
+        }
+        return view('seller.service.employee.list_employee', compact('service_emp', 'loggeduser', 'userdetails','structuredMenu','selrdetails'));
     }
     public function add_service_employee()
     {
@@ -41,7 +51,17 @@ class ServiceEmployeeController extends Controller
         ->where('busnes_type', 2)
         ->where('seller_approved','Y')
         ->get();
-        return view('seller.service.employee.add_employee', compact('loggeduser', 'userdetails', 'countries','structuredMenu','userservicedets'));
+        $roleIdsArray = explode(',', $roleid);
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+        {
+            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+            ->where('user_id', $userId)
+            ->first();
+        }
+        else{
+            $selrdetails='';
+        }
+        return view('seller.service.employee.add_employee', compact('loggeduser', 'userdetails', 'countries','structuredMenu','userservicedets','selrdetails'));
     }
     public function getStates($country)
     {
@@ -163,8 +183,18 @@ class ServiceEmployeeController extends Controller
         if (!$service_emp) {
             return redirect()->route('list.shop_offer')->with('error', 'Shop offer not found.');
         }
+        $roleIdsArray = explode(',', $roleid);
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+        {
+            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+            ->where('user_id', $userId)
+            ->first();
+        }
+        else{
+            $selrdetails='';
+        }
 
-        return view('seller.service.employee.edit_employee', compact('service_emp', 'loggeduser', 'userdetails', 'countries','states','districts','structuredMenu','userservicedets'));
+        return view('seller.service.employee.edit_employee', compact('service_emp', 'loggeduser', 'userdetails', 'countries','states','districts','structuredMenu','userservicedets','selrdetails'));
     }
 
     public function update_service_employee(Request $request, $id)

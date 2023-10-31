@@ -8,7 +8,8 @@
                 <div class="card-body">
 
 
-                    <div class="form-group"><label>Set Availability Dates</label>
+                    <div class="form-group"><label>Set Availability Dates<span
+                        class="text-danger">*</span></label>
                         <select class="form-select form-control form-control-lg" id="setavailbledates"
                             name="setavailbledates" required tabindex="1">
                             <option value="">Select</option><br />
@@ -310,7 +311,8 @@
 
 
 
-                    <div class="form-group"><label>Service Required?</label>
+                    <div class="form-group"><label>Service Required?<span
+                        class="text-danger">*</span></label>
                         <select class="selectservicetype form-select form-control form-control-lg"
                             id="service_type_ids" name="service_type_ids" required tabindex="1">
                             <option value="">Select Services</option><br />
@@ -326,9 +328,9 @@
 
 
 
-                    <div class="form-group"><label>Preffered Employee</label>
+                    <div class="form-group d-none"><label>Preffered Employee</label>
                         <select class="selectserviceemploye form-select form-control form-control-lg"
-                            id="service_employe_ids" name="service_employe_ids" required tabindex="1">
+                            id="service_employe_ids" name="service_employe_ids" tabindex="1">
                             <option value="">Select Employee</option><br />
                             @foreach ($serviceemployees as $emplye)
                                 <option value="{{ $emplye->id }}"

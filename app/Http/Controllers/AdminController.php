@@ -30,7 +30,6 @@ class AdminController extends Controller
         if ($userId == '') {
             return redirect()->route('logout');
         }
-
         //$loggeduser = UserAccount::sessionValuereturn($userRole);
         $loggeduser = UserAccount::sessionValuereturn_s($roleid);
 
@@ -83,14 +82,13 @@ class AdminController extends Controller
         }
         if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
         {
-            $selrdetails = DB::table('seller_details')->select('busnes_type')
+            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
             ->where('user_id', $userId)
             ->first();
         }
         else{
             $selrdetails='';
         }
-
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         //$allsectdetails = MenuMaster::AllSecrtorDetails($userId,$roleid);
 
@@ -915,7 +913,7 @@ class AdminController extends Controller
         $roleIdsArray = explode(',', $roleid);
         if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
         {
-            $selrdetails = DB::table('seller_details')->select('busnes_type')
+            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
             ->where('user_id', $userId)
             ->first();
         }
@@ -976,13 +974,18 @@ class AdminController extends Controller
             $query->where('seller_details.user_id', $userId);
         }
         $roleIdsArray = explode(',', $roleid);
+        $checkcountusers=count($roleIdsArray);
+        if($checkcountusers==1)
+        {
         if ($typeid == 1) {
             $query->where('seller_details.busnes_type', $typeid);
         }
-
-
         if ($typeid == 2) {
             $query->where('seller_details.busnes_type', $typeid);
+        }
+        }
+        else{
+
         }
         //$perPage = 5; // Number of records per page
         //$sellerDetails = $query->paginate($perPage);
@@ -992,7 +995,7 @@ class AdminController extends Controller
 
         $sellerCount = $sellerDetails->count();
         if ($typeid == 1) {
-            $shoporservice = 'Shops';
+            $shoporservice = 'Seller';
         } elseif ($typeid == 2) {
             $shoporservice = 'Services';
         }
@@ -1014,9 +1017,17 @@ class AdminController extends Controller
         $shopavailable='';
         }
         else{
+
             foreach ($sellerDetails as $sellr)
             {
-            $executives  = DB::table('user_account')->where(['role_id' => 10])->where(['id' => $sellr->shop_executive])->first();
+                if($sellr->shop_executive!='')
+                {
+                    $executives  = DB::table('user_account')->where(['role_id' => 10])->where(['id' => $sellr->shop_executive])->first();
+                }
+                else{
+                    $executives=0;
+                }
+            //$executives  = DB::table('user_account')->where(['role_id' => 10])->where(['id' => $sellr->shop_executive])->first();
             $shopavailable = DB::table('open_close_day_times')
             ->where('seller_id', $sellr->id)
             ->get();
@@ -1600,6 +1611,7 @@ class AdminController extends Controller
             ->leftJoin('state', 'state.id', 'seller_details.state')
             ->leftJoin('district', 'district.id', 'seller_details.district')
             ->leftJoin('user_account', 'user_account.id', 'seller_details.user_id')
+
             ->where('seller_details.id', $id)
             ->where('seller_details.busnes_type', $typeid)
             ->first();
@@ -1626,7 +1638,14 @@ class AdminController extends Controller
         // $executives = DB::table('executives')
         //     ->where(['executive_type' => $typeid])
         //     ->get();
-        $executives  = DB::table('user_account')->where(['role_id' => 10])->where(['id' => $sellerDetails->shop_executive])->first();
+        if($sellerDetails->shop_executive!='')
+        {
+            $executives  = DB::table('user_account')->where(['role_id' => 10])->where(['id' => $sellerDetails->shop_executive])->first();
+        }
+        else{
+            $executives=0;
+        }
+
         $userstus = DB::table('user_account')
             ->where('id', $sellerDetails->user_id)
             ->get();
@@ -1667,7 +1686,7 @@ class AdminController extends Controller
         $Sellercheck = SellerDetails::find($shopselrid);
         if($Sellercheck->busnes_type=='1')
             {
-                $shoporservice='Shop';
+                $shoporservice='Seller';
             }
             else if($Sellercheck->busnes_type=='2')
             {
@@ -1695,7 +1714,7 @@ class AdminController extends Controller
 
             if($SellerDetails->busnes_type=='1')
             {
-                $shoporservice='Shop';
+                $shoporservice='Seller';
             }
             else if($SellerDetails->busnes_type=='2')
             {
@@ -1745,7 +1764,7 @@ class AdminController extends Controller
 
             if($SellerDetails->busnes_type=='1')
             {
-                $shoporservice='Shop';
+                $shoporservice='Seller';
             }
             else if($SellerDetails->busnes_type=='2')
             {
@@ -1940,7 +1959,17 @@ class AdminController extends Controller
         }
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $allsectdetails = MenuMaster::AllSecrtorDetails($userId, $roleid);
-        return view('admin.shop_inactive', compact('userdetails', 'userRole', 'loggeduser', 'shoporservice', 'typeid', 'structuredMenu', 'allsectdetails'));
+        $roleIdsArray = explode(',', $roleid);
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+        {
+            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+            ->where('user_id', $userId)
+            ->first();
+        }
+        else{
+            $selrdetails='';
+        }
+        return view('admin.shop_inactive', compact('userdetails', 'userRole', 'loggeduser', 'shoporservice', 'typeid', 'structuredMenu', 'allsectdetails','selrdetails'));
     }
 
     function AllShopsInactiveList(Request $request)

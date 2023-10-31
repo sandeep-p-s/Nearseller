@@ -33,10 +33,20 @@
                             </div>
                             <div class="col-md-12">
                                 @foreach ($userdetails as $userd)
-                                    <div class="form-outline mb-3"><label>Email ID</label>
+                                @php
+                                if($userd->email!='')
+                                    {
+                                        $useridavail=$userd->email;
+                                    }
+                                else {
+                                        $useridavail=$userd->mobno;
+                                }
+                                @endphp
+                                <input type="hidden" name="uid" id="uid" value="{{ $userd->id }}" />
+                                    <div class="form-outline mb-3"><label>Email ID/Mobile Number</label>
                                         <input type="email" id="s_email" name="s_email"
                                             class="form-control form-control-lg" maxlength="35" placeholder="Email ID"
-                                            required tabindex="1" readonly value="{{ $userd->email }}" />
+                                            required tabindex="1" readonly value="{{ $useridavail }}" />
                                         <div for="s_email" class="error"></div>
                                         <div id="semil-message" class="text-center" style="display: none;"></div>
                                     </div>

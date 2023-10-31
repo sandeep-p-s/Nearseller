@@ -161,11 +161,11 @@
     $(document).ready(function() {
         $('#PasswordChangeForm').validate({
             rules: {
-                s_email: {
-                    required: true,
-                    maxlength: 75,
-                    email: true
-                },
+                // s_email: {
+                //     required: true,
+                //     maxlength: 75,
+                //     email: true
+                // },
                 u_paswd: {
                     required: true,
                     minlength: 6,
@@ -176,11 +176,11 @@
                     equalTo: "#u_paswd"
                 }
             },
-            messages: {
-                s_email: {
-                    email: "Please enter a valid email address.",
-                },
-            },
+            // messages: {
+            //     s_email: {
+            //         email: "Please enter a valid email address.",
+            //     },
+            // },
 
         });
         $.validator.addMethod("strongPassword", function(value, element) {

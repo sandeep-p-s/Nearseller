@@ -347,6 +347,7 @@ Route::middleware(['role'])->group(function () {
         Route::get('deletecategory/{id}', 'delete_category')->name('delete.category');
         Route::get('approvedcategory/{id}', 'approved_category')->name('approved.category');
         Route::post('approvedstatuscategory/{id}', 'approvedstatus_category')->name('approvedstatus.category');
+        Route::post('categoryapprovedall', 'AdmCategoryApprovedAll')->name('CategoryApprovedAll');
     });
     Route::controller(CategoryController::class)->group(function () {
         Route::get('listcategory', 'list_category')->name('list.category');
@@ -420,8 +421,8 @@ Route::middleware(['role'])->group(function () {
         Route::get('editserviceemp/{id}', 'edit_service_employee')->name('edit.service_employee');
         Route::post('updateserviceemp/{id}', 'update_service_employee')->name('update.service_employee');
         Route::get('deleteserviceemp/{id}', 'delete_service_employee')->name('delete.service_employee');
-        Route::get('/getDistricts/{state}', 'getDistricts')->name('getDistricts');;
-        Route::get('/getStates/{country}', 'getStates')->name('getStates');
+        // Route::get('/getDistricts/{state}', 'getDistricts')->name('getDistricts');;
+        // Route::get('/getStates/{country}', 'getStates')->name('getStates');
     });
 
     Route::controller(ServiceOfferController::class)->group(function () {

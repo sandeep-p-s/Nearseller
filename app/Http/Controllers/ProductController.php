@@ -40,7 +40,17 @@ class ProductController extends Controller
             ->select('id', 'name')
             ->where('role_id', 2)
             ->get();
-        return view('product.productlist', compact('userdetails', 'userRole', 'loggeduser', 'structuredMenu'));
+            $roleIdsArray = explode(',', $roleid);
+            if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+            {
+                $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+                ->where('user_id', $userId)
+                ->first();
+            }
+            else{
+                $selrdetails='';
+            }
+        return view('product.productlist', compact('userdetails', 'userRole', 'loggeduser', 'structuredMenu','selrdetails'));
     }
 
     function AdmShopNameSearch(Request $request)

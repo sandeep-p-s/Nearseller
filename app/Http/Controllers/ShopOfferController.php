@@ -21,7 +21,17 @@ class ShopOfferController extends Controller
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $shop_offer = DB::table('offers')->where('type', 1)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('seller.offer.list_offer', compact('shop_offer', 'loggeduser', 'userdetails', 'structuredMenu'));
+        $roleIdsArray = explode(',', $roleid);
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+        {
+            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+            ->where('user_id', $userId)
+            ->first();
+        }
+        else{
+            $selrdetails='';
+        }
+        return view('seller.offer.list_offer', compact('shop_offer', 'loggeduser', 'userdetails', 'structuredMenu','selrdetails'));
     }
 
     public function add_shop_offer()
@@ -36,7 +46,17 @@ class ShopOfferController extends Controller
             ->select('id', 'name')
             ->where('role_id', 2)
             ->get();
-        return view('seller.offer.add_offer', compact('loggeduser', 'userdetails', 'structuredMenu', 'usershopdets'));
+            $roleIdsArray = explode(',', $roleid);
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+        {
+            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+            ->where('user_id', $userId)
+            ->first();
+        }
+        else{
+            $selrdetails='';
+        }
+        return view('seller.offer.add_offer', compact('loggeduser', 'userdetails', 'structuredMenu', 'usershopdets','selrdetails'));
     }
 
     public function store_shop_offer(Request $request)
@@ -117,8 +137,18 @@ class ShopOfferController extends Controller
         if (!$shopoffer) {
             return redirect()->route('list.shop_offer')->with('error', 'Shop offer not found.');
         }
+        $roleIdsArray = explode(',', $roleid);
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+        {
+            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+            ->where('user_id', $userId)
+            ->first();
+        }
+        else{
+            $selrdetails='';
+        }
 
-        return view('seller.offer.edit_offer', compact('shopoffer', 'loggeduser', 'userdetails', 'structuredMenu', 'usershopdets'));
+        return view('seller.offer.edit_offer', compact('shopoffer', 'loggeduser', 'userdetails', 'structuredMenu', 'usershopdets','selrdetails'));
     }
 
     public function update_shop_offer(Request $request, $id)

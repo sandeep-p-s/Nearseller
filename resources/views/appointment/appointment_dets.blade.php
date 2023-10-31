@@ -266,7 +266,7 @@
 
                                                             <div class="col">
                                                                 <textarea id="setquestion" name="setquestion" placeholder="Set Question" class="form-control" maxlength="250"
-                                                                    tabindex="6" rows="5" cols="5"></textarea>
+                                                                    tabindex="6" rows="2" cols="5"></textarea>
                                                                 <label for="setquestion"></label>
                                                             </div>
 
@@ -303,10 +303,10 @@
                                         <label for="service_type_id" class="error"></label>
                                     </div>
 
-                                    <div class="form-group"><label>Preffered Employee<span
+                                    <div class="form-group d-none"><label>Preffered Employee<span
                                                 class="text-danger">*</span></label>
                                         <select class="selectserviceemploye form-select form-control form-control-lg"
-                                            id="service_employe_id" name="service_employe_id" required
+                                            id="service_employe_id" name="service_employe_id"
                                             tabindex="1">
                                             <option value="">Select Employee</option><br />
                                             @foreach ($serviceemployees as $emplye)
@@ -544,7 +544,7 @@
     // });
 
 
-    var maxQuestions = 6;
+    var maxQuestions = 7;
     $('.repeater-default-question').repeater({
         show: function() {
             var $list = $('[data-repeater-list="setquestion_data"]');
@@ -555,7 +555,7 @@
 
                 currentCount = $list.children('[data-repeater-item]').length;
             } else {
-                alert("You can add a maximum of " + maxQuestions + " questions.");
+                alert("You can add a maximum of 6 questions.");
             }
 
             updateFieldIds($(this));
@@ -615,7 +615,7 @@
                 date: true
             },
             setquestion: "required",
-            service_type_id: "required"
+            //service_type_id: "required"
         },
         messages: {
             setavailbledate: "Availability date is mandatory.",
@@ -632,7 +632,7 @@
                 date: "Please enter a valid date."
             },
             setquestion: "Question for the customer is mandatory.",
-            service_type_id: "Service Required is mandatory."
+            //service_type_id: "Service Required is mandatory."
         },
         errorPlacement: function(error, element) {
             if (element.attr("name") === "notavailabledate_data[][setavailblesingledate]") {

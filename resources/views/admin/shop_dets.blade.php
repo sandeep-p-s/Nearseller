@@ -52,8 +52,10 @@
                                     <div class="col-lg-4 align-self-center mb-3 mb-lg-0">
                                         <div class="dastyle-profile-main">
                                             <div class="dastyle-profile-main-pic">
+                                                @if($totimg>0)
                                                 <img src="{{ asset($qrgallery[0]) }}" alt="" height="110"
                                                     class="rounded-circle">
+                                                @endif
 
                                             </div>
                                             <div class="dastyle-profile_user-detail">
@@ -158,30 +160,36 @@
                         </div><!--end card-header-->
                         <div class="card-body">
                             <div class="form-group row">
-                                <label class="col-xl-3 col-lg-3 ">Business Type</label>
-                                <div class="col-lg-9 col-xl-8">
+                                <label class="col-xl-6 col-lg-6 ">Business Type</label>
+                                <div class="col-lg-6 col-xl-6">
                                     <p>{{ $sellerDetailh->business_name }} </p>
                                 </div>
                             </div>
+                            @if($sellerDetailh->service_category_name!='')
                             <div class="form-group row">
-                                <label class="col-xl-3 col-lg-3 ">{{ $shoporservice }} category Type </label>
-                                <div class="col-lg-9 col-xl-8">
+                                <label class="col-xl-6 col-lg-6 ">{{ $shoporservice }} category Type </label>
+                                <div class="col-lg-6 col-xl-6">
                                     <p>{{ $sellerDetailh->service_category_name }}</p>
                                 </div>
                             </div>
+                            @endif
+                            @if($sellerDetailh->service_name!='')
                             <div class="form-group row">
-                                <label class="col-xl-3 col-lg-3 ">{{ $shoporservice }} Type</label>
-                                <div class="col-lg-9 col-xl-8">
+                                <label class="col-xl-6 col-lg-6 ">{{ $shoporservice }} Type</label>
+                                <div class="col-lg-6 col-xl-6">
                                     <p>{{ $sellerDetailh->service_name }}</p>
                                 </div>
                             </div>
+                            @endif
+                            @if($executives==0)
+                            @else
                             <div class="form-group row">
-                                <label class="col-xl-3 col-lg-3 ">{{ $shoporservice }} Executive Name</label>
-                                <div class="col-lg-9 col-xl-8">
+                                <label class="col-xl-6 col-lg-6 ">{{ $shoporservice }} Executive Name</label>
+                                <div class="col-lg-6 col-xl-6">
                                     <p> {{ $executives->name }}</p>
                                 </div>
                             </div>
-
+                            @endif
                             <div class="form-group row">
                                 {{-- <label class="col-xl-3 col-lg-3 ">{{ $shoporservice }} Open and Close Time</label> --}}
                                 <div class="col-lg-12 col-xl-12">
@@ -208,7 +216,7 @@
                                         @else
                                             <table>
                                                 <tr>
-                                                    <td colspan="3" align="center">Not Found Open and Close Time</td>
+                                                    <td colspan="3" align="center"><b class="error">Not Found Open and Close Time</b></td>
                                                 </tr>
                                             </table>
                                         @endif
@@ -225,47 +233,55 @@
                 </div>
                 <div class="col-lg-6 col-xl-6">
                     <div class="card">
-                        {{-- <div class="card-header">
+                        <div class="card-header">
                             <div class="row align-items-center">
                                 <div class="col">
                                     <h4 class="card-title">{{ $shoporservice }} Information</h4>
                                 </div><!--end col-->
                             </div> <!--end row-->
-                        </div><!--end card-header--> --}}
+                        </div><!--end card-header-->
                         <div class="card-body">
+                            @if($sellerDetailh->shop_licence!='')
                             <div class="form-group row">
-                                <label class="col-xl-3 col-lg-3 ">{{ $shoporservice }} License Number</label>
-                                <div class="col-lg-9 col-xl-8">
+                                <label class="col-xl-6 col-lg-6 ">{{ $shoporservice }} License Number</label>
+                                <div class="col-lg-6 col-xl-6">
                                     <p>{{ $sellerDetailh->shop_licence }}</p>
                                 </div>
                             </div>
+                            @endif
+                            @if($sellerDetailh->shop_gstno!='')
                             <div class="form-group row">
-                                <label class="col-xl-3 col-lg-3 ">GST Number</label>
-                                <div class="col-lg-9 col-xl-8">
+                                <label class="col-xl-6 col-lg-6 ">GST Number</label>
+                                <div class="col-lg-6 col-xl-6">
                                     <p>{{ $sellerDetailh->shop_gstno }}</p>
                                 </div>
                             </div>
+                            @endif
+                            @if($sellerDetailh->shop_panno!='')
                             <div class="form-group row">
-                                <label class="col-xl-3 col-lg-3 ">PAN Number</label>
-                                <div class="col-lg-9 col-xl-8">
+                                <label class="col-xl-6 col-lg-6 ">PAN Number</label>
+                                <div class="col-lg-6 col-xl-6">
                                     <p> {{ $sellerDetailh->shop_panno }}</p>
                                 </div>
                             </div>
+                            @endif
+                            @if($sellerDetailh->establish_date!='')
                             <div class="form-group row">
-                                <label class="col-xl-3 col-lg-3 ">Establishment Date</label>
-                                <div class="col-lg-9 col-xl-8">
+                                <label class="col-xl-6 col-lg-6 ">Establishment Date</label>
+                                <div class="col-lg-6 col-xl-6">
                                     <p>{{ date('d-m-Y', strtotime($sellerDetailh->establish_date)) }}</p>
                                 </div>
                             </div>
+                            @endif
                             <div class="form-group row">
-                                <label class="col-xl-3 col-lg-3 ">Registration Date</label>
-                                <div class="col-lg-9 col-xl-8">
+                                <label class="col-xl-6 col-lg-6 ">Registration Date</label>
+                                <div class="col-lg-6 col-xl-6">
                                     <p>{{ date('d-m-Y H:i:s', strtotime($sellerDetailh->created_at)) }}</p>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-xl-3 col-lg-3 ">Accept Terms & Conditions</label>
-                                <div class="col-lg-9 col-xl-8">
+                                <label class="col-xl-6 col-lg-6 ">Accept Terms & Conditions</label>
+                                <div class="col-lg-6 col-xl-6">
                                     <p><span
                                             class="badge  p-2 {{ $sellerDetailh->term_condition == '1' ? 'badge badge-success' : 'badge badge-danger' }}">
                                             {{ $sellerDetailh->term_condition == '1' ? 'Accepted' : 'No' }}
@@ -273,8 +289,8 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-xl-3 col-lg-3 ">User Status</label>
-                                <div class="col-lg-9 col-xl-8">
+                                <label class="col-xl-6 col-lg-6 ">User Status</label>
+                                <div class="col-lg-6 col-xl-6">
                                     <p> <span
                                             class="badge  p-2 {{ $sellerDetailh->user_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
                                             {{ $sellerDetailh->user_status === 'Y' ? 'Active' : 'Inactive' }}
@@ -282,8 +298,8 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-xl-3 col-lg-3 ">Approved Status</label>
-                                <div class="col-lg-9 col-xl-8">
+                                <label class="col-xl-6 col-lg-6 ">Approved Status</label>
+                                <div class="col-lg-6 col-xl-6">
                                     <p><span
                                             class="badge  p-2 {{ $sellerDetailh->seller_approved === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
                                             {{ $sellerDetailh->seller_approved === 'Y' ? 'Approved' : 'Not Approved' }}
@@ -372,7 +388,7 @@
             <thead>
                 <tr>
                     @if (session('roleid') == '1' || session('roleid') == '11')
-                        <th width="5px">Approved All <input type='checkbox' name='checkbox1' id='checkbox1'
+                        <th width="5px"><input type='checkbox' name='checkbox1' id='checkbox1'
                                 onclick='check();' />
                         </th>
 

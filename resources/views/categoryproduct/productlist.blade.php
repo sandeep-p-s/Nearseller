@@ -35,7 +35,7 @@
 
                                 <select class="selectcategoryauto form-control" id="categorySelector" name="parent_category"
                                     tabindex="3" required onchange="shwdets();">
-                                    <option value="0">Select Category</option>
+                                    <option value="0">Parent Category</option>
                                     @foreach ($filteredCategories as $key => $category)
                                         <option value="{{ $category->id }}" data-level="{{ $category->category_level }}">
                                             @for ($i = 0; $i < $category->category_level; $i++)
