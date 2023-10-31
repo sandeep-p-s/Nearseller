@@ -12,7 +12,7 @@
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-                                <h4 class="page-title">Executive Name</h4>
+                                <h4 class="page-title">Executives</h4>
 
                             </div>
                             <div class="col-auto align-self-center">

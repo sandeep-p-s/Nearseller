@@ -16,7 +16,7 @@
                             </div>
                             <div class="col-auto align-self-center">
                                 <a href="{{ route('add.country') }}"><button type="button" class="btn add_btn ">Add
-                                        New Country </button></a>
+                                        Country </button></a>
                             </div><!--end col-->
                         </div><!--end row-->
                     </div><!--end page-title-box-->

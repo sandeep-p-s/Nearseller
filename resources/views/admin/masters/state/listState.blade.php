@@ -17,7 +17,7 @@
                             </div>
                             <div class="col-auto align-self-center">
                                 <a href="{{ route('add.state') }}"><button type="button" class="btn add_btn ">Add
-                                        New State </button></a>
+                                        State </button></a>
                             </div><!--end col-->
                         </div><!--end row-->
                     </div><!--end page-title-box-->
