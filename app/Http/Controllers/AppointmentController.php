@@ -43,7 +43,17 @@ class AppointmentController extends Controller
             $query->where('service_details.service_id', $userId);
         }
         $ServiceDetails = $query->get();
-        return view('appointment.appointmentlist', compact('userdetails', 'userRole', 'loggeduser', 'structuredMenu', 'ServiceDetails'));
+        $roleIdsArray = explode(',', $roleid);
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+        {
+            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+            ->where('user_id', $userId)
+            ->first();
+        }
+        else{
+            $selrdetails='';
+        }
+        return view('appointment.appointmentlist', compact('userdetails', 'userRole', 'loggeduser', 'structuredMenu', 'ServiceDetails','selrdetails'));
     }
 
     function AppointmentListView(Request $request)
@@ -125,7 +135,7 @@ class AppointmentController extends Controller
             //     'date',
             // ],
             'service_type_id' => 'required',
-            'servicepoint' => 'required',
+            //'servicepoint' => 'required',
         ]);
 
         $appointmentDetail = new ServiceAppointment();
@@ -139,7 +149,7 @@ class AppointmentController extends Controller
         $appointmentDetail->available_to_date = $request->input('setavailbletodate');
         $appointmentDetail->is_not_available = $request->has('isnotavailable') ? 1 : 0;
         $appointmentDetail->service_id = $request->input('service_type_id');
-        $appointmentDetail->employee_id = $request->input('service_employe_id');
+        //$appointmentDetail->employee_id = $request->input('service_employe_id');
         $appointmentDetail->suggestion = $request->input('sugection');
         $appointmentDetail->service_point = $servicepoint;
         $newappointmentreg = $appointmentDetail->save();
@@ -282,7 +292,7 @@ class AppointmentController extends Controller
         $appointmentDetail->available_to_date = $request->input('setavailbletodates');
         $appointmentDetail->is_not_available = $request->has('isnotavailables') ? 1 : 0;
         $appointmentDetail->service_id = $request->input('service_type_ids');
-        $appointmentDetail->employee_id = $request->input('service_employe_ids');
+        //$appointmentDetail->employee_id = $request->input('service_employe_ids');
         $appointmentDetail->suggestion = $request->input('sugections');
         $appointmentDetail->service_point = $servicepoint;
         $newappointmentreg = $appointmentDetail->save();

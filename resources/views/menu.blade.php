@@ -14,13 +14,19 @@
             $roleCount = count($roleIdsArray);
         @endphp
         @foreach ($userdetails as $userdts)
-            @if (in_array('2', $roleIdsArray) && $userdts->approved != 'Y' && $selrdetails->busnes_type == 1)
+            @if (in_array('2', $roleIdsArray) &&
+                    $userdts->approved != 'Y' &&
+                    $selrdetails->busnes_type == 1 &&
+                    $selrdetails->term_condition == '')
                 <li><a href="{{ route('admin.shopapprovalsadd', 1) }}"><i data-feather="hhh"
                             class="align-self-center menu-icon"></i><span>Shop Details</span></a></li>
                 <li><a href="{{ route('user.changepassword') }}"><i data-feather="hhh"
                             class="align-self-center menu-icon"></i><span>Change Password</span></a></li>
             @endif
-            @if (in_array('9', $roleIdsArray) && $userdts->approved != 'Y' && $selrdetails->busnes_type == 2)
+            @if (in_array('9', $roleIdsArray) &&
+                    $userdts->approved != 'Y' &&
+                    $selrdetails->busnes_type == 2 &&
+                    $selrdetails->term_condition == '')
                 <li><a href="{{ route('admin.shopapprovalsadd', 2) }}"><i data-feather="hhh"
                             class="align-self-center menu-icon"></i><span>Service Details</span></a></li>
                 <li><a href="{{ route('user.changepassword') }}"><i data-feather="hhh"
@@ -39,46 +45,51 @@
                 <li><a href="{{ route('user.changepassword') }}"><i data-feather="hhh"
                             class="align-self-center menu-icon"></i><span>Change Password</span></a></li>
             @endif
-        @endforeach
 
-        @foreach ($structuredMenu as $layer1 => $layer1Data)
-            <li class="">
 
-                <a href="{{ $layer1Data[0][1] ?? '#' }}" href="javascript:void(0);" aria-expanded="false">
-                    @if (is_array($layer1Data[0]))
-                        <span>
-                            @foreach ($layer1Data[0] as $item)
-                                @if (isset($item[0]))
-                                    {{ is_array($item) ? $item[0] ?? '' : $item }}
+
+
+
+
+            @if ($userdts->approved == 'Y')
+                @foreach ($structuredMenu as $layer1 => $layer1Data)
+                    <li class="">
+
+                        <a href="{{ $layer1Data[0][1] ?? '#' }}" href="javascript:void(0);" aria-expanded="false">
+                            @if (is_array($layer1Data[0]))
+                                <span>
+                                    @foreach ($layer1Data[0] as $item)
+                                        @if (isset($item[0]))
+                                            {{ is_array($item) ? $item[0] ?? '' : $item }}
+                                        @endif
+                                    @endforeach
+                                </span>
+                            @else
+                                <span>{{ $layer1Data[0] ?? '' }}</span>
+                            @endif
+                            <span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span>
+                        </a>
+                        <ul class="nav-second-level mm-collapse" aria-expanded="false">
+                            @foreach ($layer1Data as $layer2 => $layer2Data)
+                                @if ($layer2 > 0)
+                                    @if (isset($layer2Data[0]) &&
+                                            is_array($layer2Data[0]) &&
+                                            isset($layer2Data[0][0]) &&
+                                            is_string($layer2Data[0][0]) &&
+                                            $layer2Data[0][0] != '')
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ url($layer2Data[0][1] ?? '#') }}"><i
+                                                    class="ti-control-record"></i>{{ $layer2Data[0][0] ?? '' }}</a>
+                                        </li>
+                                    @endif
                                 @endif
                             @endforeach
-                        </span>
-                    @else
-                        <span>{{ $layer1Data[0] ?? '' }}</span>
-                    @endif
-                    <span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span>
-                </a>
-                <ul class="nav-second-level mm-collapse" aria-expanded="false">
-                    @foreach ($layer1Data as $layer2 => $layer2Data)
-                        @if ($layer2 > 0)
-                            @if (isset($layer2Data[0]) &&
-                                    is_array($layer2Data[0]) &&
-                                    isset($layer2Data[0][0]) &&
-                                    is_string($layer2Data[0][0]) &&
-                                    $layer2Data[0][0] != '')
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ url($layer2Data[0][1] ?? '#') }}"><i
-                                            class="ti-control-record"></i>{{ $layer2Data[0][0] ?? '' }}</a>
-                                </li>
-                            @endif
-                        @endif
-                    @endforeach
-                </ul>
+                        </ul>
 
-            </li>
+                    </li>
+                @endforeach
+            @endif
         @endforeach
-
-
 
 
 

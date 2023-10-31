@@ -48,7 +48,18 @@ class CategoryProductListController extends Controller
             return $category->category_level != 5;
         });
 
-        return view('categoryproduct.productlist', compact('userdetails', 'userRole', 'loggeduser', 'structuredMenu', 'filteredCategories'));
+        $roleIdsArray = explode(',', $roleid);
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+        {
+            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+            ->where('user_id', $userId)
+            ->first();
+        }
+        else{
+            $selrdetails='';
+        }
+
+        return view('categoryproduct.productlist', compact('userdetails', 'userRole', 'loggeduser', 'structuredMenu', 'filteredCategories','selrdetails'));
     }
 
 
@@ -192,8 +203,18 @@ class CategoryProductListController extends Controller
         $filteredCategories = $categories->filter(function ($category) {
             return $category->category_level != 5;
         });
+        $roleIdsArray = explode(',', $roleid);
+            if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+            {
+                $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+                ->where('user_id', $userId)
+                ->first();
+            }
+            else{
+                $selrdetails='';
+            }
 
-        return view('categoryproduct_test.productlist', compact('userdetails', 'userRole', 'loggeduser', 'structuredMenu', 'filteredCategories'));
+        return view('categoryproduct_test.productlist', compact('userdetails', 'userRole', 'loggeduser', 'structuredMenu', 'filteredCategories','selrdetails'));
     }
 
     private function getAllSubcategoryIds($parentCategory, &$categoryIds)

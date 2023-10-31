@@ -577,7 +577,7 @@
                             $('#shop_approved-message').text(data.mesge).fadeIn();
                             $('#shop_approved-message').addClass('error');
                             setTimeout(function() {
-                                $('#product_approved-message').fadeOut();
+                                $('#shop_approved-message').fadeOut();
                             }, 5000);
                             $('#loading-image').fadeOut();
                             $('#loading-overlay').fadeOut();

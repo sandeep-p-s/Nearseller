@@ -20,7 +20,17 @@ class ShopTypeController extends Controller
         $total_shoptypes = DB::table('shop_type')->count();
         $inactive_shoptypes = DB::table('shop_type as st')->where('st.status','N')->count();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.shop_type.list', compact('shoptype','loggeduser','userdetails','total_shoptypes','inactive_shoptypes','structuredMenu'));
+        $roleIdsArray = explode(',', $roleid);
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+        {
+            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+            ->where('user_id', $userId)
+            ->first();
+        }
+        else{
+            $selrdetails='';
+        }
+        return view('admin.shop_type.list', compact('shoptype','loggeduser','userdetails','total_shoptypes','inactive_shoptypes','structuredMenu','selrdetails'));
     }
 
     public function add_shop_type()
@@ -31,7 +41,17 @@ class ShopTypeController extends Controller
         $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.shop_type.add',compact('loggeduser','userdetails','structuredMenu'));
+        $roleIdsArray = explode(',', $roleid);
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+        {
+            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+            ->where('user_id', $userId)
+            ->first();
+        }
+        else{
+            $selrdetails='';
+        }
+        return view('admin.shop_type.add',compact('loggeduser','userdetails','structuredMenu','selrdetails'));
     }
 
     public function store_shop_type(Request $request)
@@ -60,8 +80,18 @@ class ShopTypeController extends Controller
         if (!$shoptype) {
             return redirect()->route('list.shoptype')->with('error', 'Shop Type not found.');
         }
+        $roleIdsArray = explode(',', $roleid);
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+        {
+            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+            ->where('user_id', $userId)
+            ->first();
+        }
+        else{
+            $selrdetails='';
+        }
 
-        return view('admin.shop_type.edit', compact('shoptype','loggeduser','userdetails','structuredMenu'));
+        return view('admin.shop_type.edit', compact('shoptype','loggeduser','userdetails','structuredMenu','selrdetails'));
     }
 
     public function update_shop_type(Request $request, $id)

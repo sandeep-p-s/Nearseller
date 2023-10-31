@@ -31,8 +31,18 @@ class CategoryController extends Controller
         $categories = Category::tree();
         $total_categories = DB::table('categories')->count();
         $inactive_categories = DB::table('categories as c')->where('c.status', 'N')->count();
+        $roleIdsArray = explode(',', $roleid);
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+        {
+            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+            ->where('user_id', $userId)
+            ->first();
+        }
+        else{
+            $selrdetails='';
+        }
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.category.listCategory', compact('loggeduser', 'userdetails', 'categories', 'total_categories', 'inactive_categories', 'structuredMenu'));
+        return view('admin.category.listCategory', compact('loggeduser', 'userdetails', 'categories', 'total_categories', 'inactive_categories', 'structuredMenu','selrdetails'));
     }
     public function add_category()
     {
@@ -48,8 +58,18 @@ class CategoryController extends Controller
         $filteredCategories = $categories->filter(function ($category) {
             return $category->category_level != 5;
         });
+        $roleIdsArray = explode(',', $roleid);
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+        {
+            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+            ->where('user_id', $userId)
+            ->first();
+        }
+        else{
+            $selrdetails='';
+        }
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.category.addCategory', compact('loggeduser', 'userdetails', 'filteredCategories', 'structuredMenu'));
+        return view('admin.category.addCategory', compact('loggeduser', 'userdetails', 'filteredCategories', 'structuredMenu','selrdetails'));
     }
 
     public function parent_category($typeValue)
@@ -178,8 +198,20 @@ class CategoryController extends Controller
         if (!$current_category) {
             return redirect()->route('list.category')->with('error', 'Category not found.');
         }
+
+        $roleIdsArray = explode(',', $roleid);
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+        {
+            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+            ->where('user_id', $userId)
+            ->first();
+        }
+        else{
+            $selrdetails='';
+        }
+
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.category.editCategory', compact('userdetails', 'loggeduser','current_category','filteredCategories','structuredMenu'));
+        return view('admin.category.editCategory', compact('userdetails', 'loggeduser','current_category','filteredCategories','structuredMenu','selrdetails'));
     }
 
     public function update_category(Request $request,$id)
@@ -320,8 +352,18 @@ class CategoryController extends Controller
         if (!$current_category) {
             return redirect()->route('list.category')->with('error', 'Category not found.');
         }
+        $roleIdsArray = explode(',', $roleid);
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+        {
+            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+            ->where('user_id', $userId)
+            ->first();
+        }
+        else{
+            $selrdetails='';
+        }
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.category.approvedCategory', compact('userdetails', 'loggeduser','current_category','filteredCategories','structuredMenu'));
+        return view('admin.category.approvedCategory', compact('userdetails', 'loggeduser','current_category','filteredCategories','structuredMenu','selrdetails'));
     }
 
     public function approvedstatus_category(Request $request,$id)
@@ -362,70 +404,77 @@ class CategoryController extends Controller
                 'categoryapproved.in' => 'Invalid approved status value.',
             ]
         );
-
-            $current_category->category_name = ucfirst(strtolower($request->category_name));
-            $current_category->parent_id = $request->parent_category;
-            $current_category->category_slug = trim($request->category_slug);
-            $current_category->category_level = $request->category_level;
-
-
-            if ($request->hasFile('category_image')) {
-                $upload_imgpath = 'uploads/categoryimages/';
-                if (!is_dir($upload_imgpath)) {
-                    mkdir($upload_imgpath, 0777, true);
-                }
-                foreach ($request->file('category_image') as $fimg) {
-                    if ($fimg->isValid()) {
-                        $imgfile_name = time() . '_' . $fimg->getClientOriginalName();
-                        $fimg->move($upload_imgpath, $imgfile_name);
-                        $imgfilename = $upload_imgpath . $imgfile_name;
-                        $current_category->category_image = $imgfilename;
-                    }
-                }
-            }
-
-
-            // if (!empty($request->category_image)) {
-
-            //     if ($current_category->category_image != null) {
-            //         if (Storage::disk('public')->exists(config('imageupload.categorydir') . "/" . config('imageupload.category.image') .$current_category->category_image)) {
-            //             Storage::disk('public')->delete(config('imageupload.categorydir') . "/" . config('imageupload.category.image') . $current_category->category_image);
-            //         }
-            //         if (Storage::disk('public')->exists(config('imageupload.categorydir') . "/" . config('imageupload.category.imagethumb') .$current_category->category_image)) {
-            //             Storage::disk('public')->delete(config('imageupload.categorydir') . "/" . config('imageupload.category.imagethumb') . $current_category->category_image);
-            //         }
-            //     }
-
-            //     $fileName = time() . '_' . Str::random(8) . '.' . $request->category_image->extension();
-
-            //     $img = Image::make($request->category_image->path());
-            //     $img->fit(config('imageupload.category.thumb_width'), config('imageupload.category.thumb_height'), function ($constraint) {
-            //         //$constraint->upsize();
-            //     });
-            //     $img->save(Storage::disk('public')->path(config('imageupload.categorydir') . "/" . config('imageupload.category.imagethumb') . $fileName), 100);
-
-            //     Storage::disk('public')->put(config('imageupload.categorydir') . "/" . config('imageupload.category.image') . $fileName, File::get($request->category_image));
-
-            //     $current_category->category_image = $fileName;
-            // }
-
-            $current_category->status = $request->status;
             $current_category->approval_status = $request->categoryapproved;
             $current_category->approved_by = $userId;
             $current_category->approved_time = $time;
-
             $current_category->save();
+
+            if($request->categoryapproved=='Y')
+            {
+                $appstatus='Category Successfully Approved';
+            }
+            else
+            {
+                $appstatus='Category Not Approved';
+            }
+
 
             $loggedUserIp = $_SERVER['REMOTE_ADDR'];
             $time = date('Y-m-d H:i:s');
-            $msg = 'Category Successfully Deleted. Approved Category id is ' . $id;
+            $msg = 'Category Successfully Approved. Approved Category id is ' . $id;
             $LogDetails = new LogDetails();
             $LogDetails->user_id = $request->es_email;
             $LogDetails->ip_address = $loggedUserIp;
             $LogDetails->log_time = $time;
             $LogDetails->status = $msg;
             $LogDetails->save();
-            return redirect()->route('list.category')->with('success', 'Category successfully Approved');
+            return redirect()->route('list.category')->with('success', $appstatus);
+    }
+
+    public function AdmCategoryApprovedAll(Request $request)
+    {
+        $userRole = session('user_role');
+        $roleid = session('roleid');
+        $userId = session('user_id');
+        if ($userId == '') {
+            return redirect()->route('logout');
+        }
+        $loggedUserIp = $_SERVER['REMOTE_ADDR'];
+        $time = date('Y-m-d H:i:s');
+        $categoryid = $request->input('categoryid');
+        $categoryid_id = explode('#', $categoryid);
+        //echo "<pre>";print_r($categoryid_id);exit;
+        $toregIDCount = count($categoryid_id);
+        $flg = 0;
+        for ($i = 1; $i < $toregIDCount; $i++) {
+                $categoryidexplode = $categoryid_id[$i];
+                $categoryuser=explode('*',$categoryidexplode);
+                $categoryuserid=$categoryuser[0];
+                $Category = Category::find($categoryuserid);
+                if($Category->approval_status == 'R') {
+                }
+                else{
+                    $Category->approval_status = 'Y';
+                    $Category->approved_by = $userId;
+                    $Category->approved_time = $time;
+                    $Category->save();
+                    $flg = 1;
+                }
+            }
+
+        $msg = 'Category Successfully Approved';
+        $LogDetails = new LogDetails();
+        $LogDetails->user_id = $userId;
+        $LogDetails->ip_address = $loggedUserIp;
+        $LogDetails->log_time = $time;
+        $LogDetails->status = $msg;
+        $LogDetails->save();
+
+        if ($flg == 1) {
+            return response()->json(['result' => 1, 'mesge' => 'Category Successfully Approved']);
+        } else {
+            return response()->json(['result' => 2, 'mesge' => 'Not Approved']);
+        }
     }
 
 }

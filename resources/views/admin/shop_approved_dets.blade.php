@@ -95,6 +95,7 @@
                                 </div>
                             </div>
                         @endif
+                        @if($sellerDetails->referal_id!='')
                         <hr class="new_hr">
                         <div class="form-group row">
                             <label class="col-xl-6">Referral ID</label>
@@ -102,6 +103,7 @@
                                 {{ $sellerDetails->referal_id }}
                             </div>
                         </div>
+                        @endif
                         <hr class="new_hr">
                         <div class="form-group row">
                             <label class="col-xl-6">Business Type</label>
@@ -136,7 +138,12 @@
                         <div class="form-group row">
                             <label class="col-xl-6">{{ $shoporservice }} Executive Name</label>
                             <div class="col-xl-6 align-self-center">
-                                {{ $executives->name }}
+
+                                @if($executives== '0')
+                                    {{ 'Executies not Assigned' }}
+                                @else
+                                    {{ $executives->name }}
+                                @endif
                             </div>
                         </div>
                         <hr class="new_hr">
@@ -283,7 +290,7 @@
 
 
 
-
+                        @if($sellerDetails->direct_affiliate!='')
                         <hr class="new_hr">
                         <div class="form-group row">
                             <label class="col-xl-6">Direct Affiliate</label>
@@ -291,7 +298,8 @@
                                 {{ $sellerDetails->direct_affiliate }}
                             </div>
                         </div>
-
+                        @endif
+                        @if($sellerDetails->second_affiliate!='')
                         <hr class="new_hr">
                         <div class="form-group row">
                             <label class="col-xl-6">Second Affiliate</label>
@@ -299,7 +307,8 @@
                                 {{ $sellerDetails->second_affiliate }}
                             </div>
                         </div>
-
+                        @endif
+                        @if($sellerDetails->shop_coordinator!='')
                         <hr class="new_hr">
                         <div class="form-group row">
                             <label class="col-xl-6">{{ $shoporservice }} Co-Ordinator</label>
@@ -307,7 +316,7 @@
                                 {{ $sellerDetails->shop_coordinator }}
                             </div>
                         </div>
-
+                        @endif
 
 
 

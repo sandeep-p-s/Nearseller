@@ -55,7 +55,7 @@
                                         Edit Category Name</label>
                                     <input type="text" class="form-control mb15" id="exampleFormControlInput1"
                                         name="category_name" placeholder="Enter Category Name"
-                                        value="{{ $current_category->category_name }}" disabled>
+                                        value="{{ $current_category->category_name }}" readonly>
                                     <input type="hidden" class="form-control mb15" id="category_slug" placeholder=""
                                         name="category_slug" value="{{ $current_category->category_slug }}">
                                     <input type="hidden" class="form-control mb15" id="category_level" placeholder=""
@@ -150,7 +150,7 @@
                                         <div class="text-danger mb15">{{ $message }}</div>
                                     @enderror
                                     <br>
-                                    <button type="submit" class="btn view_btn">Update</button>
+                                    <button type="submit" class="btn view_btn">Submit</button>
                                 </div>
                             </form>
                         </div><!--end card-body-->

@@ -67,7 +67,17 @@ class RoleController extends Controller
             }
         }
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.role.list', compact('userdetails', 'loggeduser', 'rolesList', 'structuredMenu'));
+        $roleIdsArray = explode(',', $roleid);
+            if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+            {
+                $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+                ->where('user_id', $userId)
+                ->first();
+            }
+            else{
+                $selrdetails='';
+            }
+        return view('admin.role.list', compact('userdetails', 'loggeduser', 'rolesList', 'structuredMenu','selrdetails'));
     }
     function add_role()
     {
@@ -93,7 +103,17 @@ class RoleController extends Controller
                 ->get();
         }
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.role.add', compact('userdetails', 'loggeduser', 'site_module', 'roles', 'structuredMenu'));
+        $roleIdsArray = explode(',', $roleid);
+            if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+            {
+                $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+                ->where('user_id', $userId)
+                ->first();
+            }
+            else{
+                $selrdetails='';
+            }
+        return view('admin.role.add', compact('userdetails', 'loggeduser', 'site_module', 'roles', 'structuredMenu','selrdetails'));
     }
 
     function store_role(Request $request)
@@ -171,7 +191,17 @@ class RoleController extends Controller
 
         $role = Role::find($id);
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.role.edit', compact('role', 'loggeduser', 'userdetails', 'roles', 'site_module', 'rs', 'selectedRolePermissions', 'structuredMenu'));
+        $roleIdsArray = explode(',', $roleid);
+            if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+            {
+                $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+                ->where('user_id', $userId)
+                ->first();
+            }
+            else{
+                $selrdetails='';
+            }
+        return view('admin.role.edit', compact('role', 'loggeduser', 'userdetails', 'roles', 'site_module', 'rs', 'selectedRolePermissions', 'structuredMenu','selrdetails'));
     }
 
     function update_role(Request $request, $id)
@@ -242,7 +272,17 @@ class RoleController extends Controller
             ->where('roles.is_active', '1')
             ->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.role.create_user', compact('userdetails', 'userRole', 'loggeduser', 'alluserdetails', 'structuredMenu'));
+        $roleIdsArray = explode(',', $roleid);
+            if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+            {
+                $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+                ->where('user_id', $userId)
+                ->first();
+            }
+            else{
+                $selrdetails='';
+            }
+        return view('admin.role.create_user', compact('userdetails', 'userRole', 'loggeduser', 'alluserdetails', 'structuredMenu','selrdetails'));
     }
 
     function AllUsersList(Request $request)
@@ -344,7 +384,7 @@ class RoleController extends Controller
                 }
                 $sellerDetail->shop_reg_id = $nextId;
 
-                $input_datas = [];
+                $input_datas = [];//'uploads/shopimages/shopimage.png'
                 $input_vals = ['fileval' => $input_datas];
                 $jsonimages = json_encode($input_vals);
                 $sellerDetail->shop_photo = $jsonimages;
@@ -591,7 +631,17 @@ class RoleController extends Controller
             $userdet->roles = $roles;
         }
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.role.user_menu', compact('userdetails', 'userRole', 'loggeduser', 'alluserdetails', 'structuredMenu'));
+        $roleIdsArray = explode(',', $roleid);
+            if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+            {
+                $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+                ->where('user_id', $userId)
+                ->first();
+            }
+            else{
+                $selrdetails='';
+            }
+        return view('admin.role.user_menu', compact('userdetails', 'userRole', 'loggeduser', 'alluserdetails', 'structuredMenu','selrdetails'));
     }
     function AdmUserMenuViewPage(Request $request)
     {
@@ -718,7 +768,17 @@ class RoleController extends Controller
             ->get();
         $roles = DB::table('roles')->where('roles.is_active', '1')->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.role.role_menu', compact('userdetails', 'userRole', 'loggeduser', 'roles', 'structuredMenu'));
+        $roleIdsArray = explode(',', $roleid);
+            if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+            {
+                $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+                ->where('user_id', $userId)
+                ->first();
+            }
+            else{
+                $selrdetails='';
+            }
+        return view('admin.role.role_menu', compact('userdetails', 'userRole', 'loggeduser', 'roles', 'structuredMenu','selrdetails'));
     }
     function AdmRoleMenuViewPage(Request $request)
     {
@@ -903,7 +963,17 @@ class RoleController extends Controller
             $userdet->roles = $roles;
         }
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.role.userrole_menu', compact('userdetails', 'userRole', 'loggeduser', 'rolesm', 'alluserdetails', 'structuredMenu'));
+        $roleIdsArray = explode(',', $roleid);
+            if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+            {
+                $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+                ->where('user_id', $userId)
+                ->first();
+            }
+            else{
+                $selrdetails='';
+            }
+        return view('admin.role.userrole_menu', compact('userdetails', 'userRole', 'loggeduser', 'rolesm', 'alluserdetails', 'structuredMenu','selrdetails'));
     }
 
     function AdmgetUserRoleMenu(Request $request)
@@ -982,7 +1052,7 @@ class RoleController extends Controller
         $roleIdsArray = explode(',', $roleid);
         if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
         {
-            $selrdetails = DB::table('seller_details')->select('busnes_type')
+            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
             ->where('user_id', $userId)
             ->first();
         }
@@ -990,6 +1060,7 @@ class RoleController extends Controller
             $selrdetails='';
         }
         $structuredMenu = MenuMaster::UserPageMenu($userId);
+
         return view('admin.role.changepassword', compact('userdetails', 'userRole', 'loggeduser', 'structuredMenu','selrdetails'));
     }
 
@@ -1006,13 +1077,13 @@ class RoleController extends Controller
             'u_paswd' => 'required|min:6',
             'u_rpaswd' => 'required|same:u_paswd',
         ]);
-        $emal_mob = $request->input('s_email');
+        $uid = $request->input('uid');
         $loggedUserIp = $_SERVER['REMOTE_ADDR'];
         $time = date('Y-m-d H:i:s');
         $UserAccount = new UserAccount();
         $LogDetails = new LogDetails();
-        $email = $emal_mob;
-        $userAccuntData = UserAccount::where('email', $email)->get();
+        //$email = $emal_mob;
+        $userAccuntData = UserAccount::where('id', $uid)->get();
         $cnt = count($userAccuntData);
         if ($cnt > 0) {
             foreach ($userAccuntData as $row) {
@@ -1055,7 +1126,17 @@ class RoleController extends Controller
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $roles = DB::table('roles')->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.role.Role_Creation.list', compact('roles', 'loggeduser', 'userdetails','structuredMenu'));
+        $roleIdsArray = explode(',', $roleid);
+            if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+            {
+                $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+                ->where('user_id', $userId)
+                ->first();
+            }
+            else{
+                $selrdetails='';
+            }
+        return view('admin.role.Role_Creation.list', compact('roles', 'loggeduser', 'userdetails','structuredMenu','selrdetails'));
     }
 
     public function add_roles()
@@ -1066,7 +1147,18 @@ class RoleController extends Controller
         $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.role.Role_Creation.add', compact('loggeduser', 'userdetails','structuredMenu'));
+        $roleIdsArray = explode(',', $roleid);
+            if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+            {
+                $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+                ->where('user_id', $userId)
+                ->first();
+            }
+            else{
+                $selrdetails='';
+            }
+
+        return view('admin.role.Role_Creation.add', compact('loggeduser', 'userdetails','structuredMenu','selrdetails'));
     }
 
     public function store_roles(Request $request)
@@ -1101,13 +1193,23 @@ class RoleController extends Controller
         $roleid = session('roleid');
         $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $structuredMenu = MenuMaster::UserPageMenu($userId);
+        $roleIdsArray = explode(',', $roleid);
+            if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+            {
+                $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+                ->where('user_id', $userId)
+                ->first();
+            }
+            else{
+                $selrdetails='';
+            }
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $role = Role::find($id);
         if (!$role) {
             return redirect()->route('list.roles')->with('error', 'Role not found.');
         }
 
-        return view('admin.role.Role_Creation.edit', compact('role', 'loggeduser', 'userdetails','structuredMenu'));
+        return view('admin.role.Role_Creation.edit', compact('role', 'loggeduser', 'userdetails','structuredMenu','selrdetails'));
     }
 
     public function update_roles(Request $request, $id)

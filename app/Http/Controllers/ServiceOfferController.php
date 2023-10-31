@@ -22,7 +22,17 @@ class ServiceOfferController extends Controller
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $service_offer = DB::table('offers')->where('type',2)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('seller.service.offer.list_offer', compact('service_offer', 'loggeduser', 'userdetails','structuredMenu'));
+        $roleIdsArray = explode(',', $roleid);
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+        {
+            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+            ->where('user_id', $userId)
+            ->first();
+        }
+        else{
+            $selrdetails='';
+        }
+        return view('seller.service.offer.list_offer', compact('service_offer', 'loggeduser', 'userdetails','structuredMenu','selrdetails'));
     }
 
     public function add_service_offer()
@@ -37,7 +47,17 @@ class ServiceOfferController extends Controller
             ->select('id', 'name')
             ->where('role_id', 9)
             ->get();
-        return view('seller.service.offer.add_offer', compact('loggeduser', 'userdetails','structuredMenu','userservicedets'));
+        $roleIdsArray = explode(',', $roleid);
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+        {
+            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+            ->where('user_id', $userId)
+            ->first();
+        }
+        else{
+            $selrdetails='';
+        }
+        return view('seller.service.offer.add_offer', compact('loggeduser', 'userdetails','structuredMenu','userservicedets','selrdetails'));
     }
 
     public function store_service_offer(Request $request)
@@ -121,8 +141,18 @@ class ServiceOfferController extends Controller
         if (!$serviceoffer) {
             return redirect()->route('list.Service_offer')->with('error', 'Service offer not found.');
         }
+        $roleIdsArray = explode(',', $roleid);
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+        {
+            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+            ->where('user_id', $userId)
+            ->first();
+        }
+        else{
+            $selrdetails='';
+        }
 
-        return view('seller.service.offer.edit_offer', compact('serviceoffer', 'loggeduser', 'userdetails','structuredMenu','userservicedets','ServiceDetails'));
+        return view('seller.service.offer.edit_offer', compact('serviceoffer', 'loggeduser', 'userdetails','structuredMenu','userservicedets','ServiceDetails','selrdetails'));
     }
 
     public function update_service_offer(Request $request, $id)

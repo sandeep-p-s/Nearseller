@@ -363,7 +363,7 @@
                     </div>
                 </div>
 
-                @if (session('roleid') == '1')
+                {{-- @if (session('roleid') == '1') --}}
                     <div class="form-outline mb-3"><label>{{ $shoporservice }} Logo</label>
                         <input type="file" id="es_logo" name="es_logo[]" class="form-control form-control-lg"
                             placeholder="Shop Logo" tabindex="19" accept="image/jpeg, image/png" />
@@ -424,7 +424,7 @@
                             value="{{ $sellerDetails->colorpicks }}" />
                         <label for="es_bgcolor" class="error"></label>
                     </div>
-                @endif
+                {{-- @endif --}}
 
 
 
