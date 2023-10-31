@@ -200,28 +200,47 @@
 
             var fileArrs = [];
             var totalFiless = 0;
+            var maxSize = 10485760; // 10MB in bytes
+            var minSize = 512000; // 500KB in bytes
 
             $("#category_image").change(function(event) {
+                //$('#image-preview').html('');
                 var totalFileCount = $(this)[0].files.length;
-                if (totalFiless + totalFileCount > 5) {
-                    alert('Maximum 5 images allowed');
-                    $(this).val('');
-                    $('#image-preview').html('');
-                    return;
-                }
-
                 for (var i = 0; i < totalFileCount; i++) {
                     var file = $(this)[0].files[i];
-
                     if (file.size > 3145728) {
                         alert('File size exceeds the limit of 3MB');
                         $(this).val('');
                         $('#image-preview').html('');
                         return;
                     }
+                    // var fileSize = file.size;
+                    // if (fileSize > maxSize) {
+                    //     alert('File size exceeds the limit of 10MB');
+                    //     $(this).val('');
+                    //     $('#image-preview').html('');
+                    //     return;
+                    // }
+                    // if (fileSize < minSize) {
+                    //     alert('File size is less than 500KB');
+                    //     $(this).val('');
+                    //     $('#image-preview').html('');
+                    //     return;
+                    // }
 
                     fileArrs.push(file);
                     totalFiless++;
+                    if (totalFiless > 1) {
+                        alert('Maximum 1 images allowed');
+                        $(this).val(''); -
+                        $('#image-preview').html('');
+
+                        totalFiless = 0;
+                        fileArrs = [];
+                        file = "";
+                        return false;
+                    }
+
 
                     var reader = new FileReader();
                     reader.onload = (function(file) {
@@ -234,13 +253,17 @@
 
                             imgDiv.append(img);
                             imgDiv.append($('<div>').addClass('middle').append(removeBtn));
-
-                            $('#image-preview').append(imgDiv);
+                            if (fileArrs.length > 0)
+                                $('#image-preview').append(imgDiv);
                         };
                     })(file);
 
                     reader.readAsDataURL(file);
                 }
+                document.getElementById('category_image').files = new FileListItem([]);
+                document.getElementById('v').files = new FileListItem(fileArrs);
+
+
             });
 
             $(document).on('click', '.remove-btns', function() {
