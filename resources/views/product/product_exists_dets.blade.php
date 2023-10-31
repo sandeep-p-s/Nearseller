@@ -243,12 +243,12 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" style="display: none">
                             <label>Stock </label>
                             <input type="number" class="form-control" id="totstocksx" name="totstocksx"
                                 tabindex="13" value="{{ $ProductDetails->product_stock }}" />
                         </div>
-                        <div class="form-group">
+                        <div class="form-group"  style="display: none">
                             <div id="errorstocksx-message" class="text-danger" style="display: none;">Total
                                 stock and attribute stock must be equal.</div>
 
@@ -345,7 +345,7 @@
                                                             oninput="numberOnlyAllowedDot(this)"
                                                             value="{{ $attribte->mrp_price }}">
                                                     </div>
-                                                    <div class="col">
+                                                    <div class="col"  style="display: none;">
                                                         <input type="text" id="attr_stocksx1" name="attr_stocksx1"
                                                             placeholder="Attribute Stock"
                                                             class="form-control attr-stocksx"
@@ -392,7 +392,7 @@
                                                         placeholder="MRP" class="form-control"
                                                         oninput="numberOnlyAllowedDot(this)" />
                                                 </div>
-                                                <div class="col">
+                                                <div class="col"  style="display: none;">
                                                     <input type="text" id="attr_stocksx1" name="attr_stocksx1"
                                                         placeholder="Attribute Stock"
                                                         class="form-control attr-stocksx"
@@ -491,12 +491,12 @@
 
 
     $(document).ready(function() {
-        $('#totstocksx').on('input', function() {
-            var value = $(this).val();
-            if (parseFloat(value) < 0) {
-                $(this).val(0);
-            }
-        });
+        // $('#totstocksx').on('input', function() {
+        //     var value = $(this).val();
+        //     if (parseFloat(value) < 0) {
+        //         $(this).val(0);
+        //     }
+        // });
 
         $('#ExistProductModal .selectshopse').each(function() {
             var $p = $(this).parent();
@@ -534,24 +534,23 @@
                 $(this).attr('id', newId);
             });
         }
-        $(document).on('keyup', '.attr-stocksx', function() {
-            if ($("input[name='customRadiosx']:checked").val() === "Y") {
-                var totalAttributeStock = 0;
-                $('.attr-stocksx').each(function() {
-                    var value = parseInt($(this).val()) || 0;
-                    totalAttributeStock += value;
-                });
-                var totalStock = parseInt($('#totstocksx').val()) || 0;
-                //console.log('Total Attribute Stock:', totalAttributeStock);
-                //console.log('Total Stock:', totalStock);
-                if (totalAttributeStock !== totalStock) {
-                    $('#errorstocksx-message').show();
-                } else {
-                    $('#errorstocksx-message').hide();
-                }
-            }
+        // $(document).on('keyup', '.attr-stocksx', function() {
+        //     if ($("input[name='customRadiosx']:checked").val() === "Y") {
+        //         var totalAttributeStock = 0;
+        //         $('.attr-stocksx').each(function() {
+        //             var value = parseInt($(this).val()) || 0;
+        //             totalAttributeStock += value;
+        //         });
+        //         var totalStock = parseInt($('#totstocksx').val()) || 0;
 
-        });
+        //         if (totalAttributeStock !== totalStock) {
+        //             $('#errorstocksx-message').show();
+        //         } else {
+        //             $('#errorstocksx-message').hide();
+        //         }
+        //     }
+
+        // });
         //Remove video
         $("#removeButtonsx").click(function() {
             $("#previewsx")[0].src = "";
@@ -630,18 +629,18 @@
         return totalAttributeStock;
     }
 
-    function handleSubmit() {
-        if ($("input[name='customRadiosx']:checked").val() === "Y") {
-            var totalStock = parseInt($('#totstocksx').val()) || 0;
-            var totalAttributeStock = calculateTotalAttributeStock();
-            if (totalAttributeStock !== totalStock) {
-                $('#errorstocksx-message').show();
-            }
-            // else {
-            //     $('#ProductAddForm').submit();
-            // }
-        }
-    }
+    // function handleSubmit() {
+    //     if ($("input[name='customRadiosx']:checked").val() === "Y") {
+    //         var totalStock = parseInt($('#totstocksx').val()) || 0;
+    //         var totalAttributeStock = calculateTotalAttributeStock();
+    //         if (totalAttributeStock !== totalStock) {
+    //             $('#errorstocksx-message').show();
+    //         }
+    //         // else {
+    //         //     $('#ProductAddForm').submit();
+    //         // }
+    //     }
+    // }
 
 
 
@@ -749,7 +748,7 @@
 
                     imgDiv.append(img);
                     imgDiv.append($('<div>').addClass('middle').append(removeBtn));
-
+                        if(fileArrs.length > 0)
                     $('#image-previewsx').append(imgDiv);
                 };
             })(file);
@@ -819,10 +818,10 @@
             prod_descriptionsx: {
                 required: true,
             },
-            totstocksx: {
-                // required: true,
-                digits: true,
-            },
+            // totstocksx: {
+            //     // required: true,
+            //     digits: true,
+            // },
             paymodesx: {
                 required: true,
             },
@@ -848,9 +847,9 @@
                 required: "Please enter product description.",
                 maxlength: "Locality must not exceed 700 characters."
             },
-            totstocksx: {
-                digits: "Please enter a number.",
-            },
+            // totstocksx: {
+            //     digits: "Please enter a number.",
+            // },
             paymodesx: {
                 required: "Please select Buying Option",
             },
@@ -879,7 +878,7 @@
 
     $('#ProductRegExistAddNew').submit(function(e) {
         e.preventDefault();
-        handleSubmit();
+        //handleSubmit();
         if ($(this).valid()) {
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
             $('#loading-overlay').fadeIn();

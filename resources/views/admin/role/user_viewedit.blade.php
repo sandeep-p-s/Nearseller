@@ -6,7 +6,7 @@
                     <div class="col-md-12">
                         <div class="form-outline mb-3"><label >User Role</label>
                             <select class="form-select form-control form-control-lg" name="eroleid"  aria-label="Default select example" id="eroleid" required  tabindex="2" >
-                                <option value="">Select Role</option>
+                                {{-- <option value="">Select Role</option> --}}
                                     @foreach ($roles as $role)
                                         <option value="{{ $role->id }}"  @if ($role->id == $alluserdetails->role_id) selected @endif>{{ $role->role_name }}</option>
                                     @endforeach

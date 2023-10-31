@@ -18,7 +18,7 @@
             <div class="card">
                 <div class="card-body">
                     @php
-                        $shopshowhide = session('roleid') == 1 || session('roleid') == 3 ? 'style=display:block;' : 'style=display:none;';
+                        $shopshowhide = session('roleid') == 1 || session('roleid') == 11 || session('roleid') == 3 ? 'style=display:block;' : 'style=display:none;';
                     @endphp
                     <div class="form-group"  {{ $shopshowhide }}><label>Shop Name</label>
                         <select class="selectshopss form-select form-control form-control-lg" id="shop_names" name="shop_names" required tabindex="1">
@@ -241,12 +241,12 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group"  style="display: none">
                             <label>Stock </label>
                             <input type="number" class="form-control" id="totstocks" name="totstocks"
                                 tabindex="13" value="{{ $ProductDetails->product_stock }}" />
                         </div>
-                        <div class="form-group">
+                        <div class="form-group"  style="display: none">
                             <div id="errorstocks-message" class="text-danger" style="display: none;">Total
                                 stock and attribute stock must be equal.</div>
 
@@ -341,7 +341,7 @@
                                                             placeholder="MRP" class="form-control" oninput="numberOnlyAllowedDot(this)"
                                                             value="{{ $attribte->mrp_price }}">
                                                     </div>
-                                                    <div class="col">
+                                                    <div class="col"  style="display: none;">
                                                         <input type="text" id="attr_stocks1" name="attr_stocks1"
                                                             placeholder="Attribute Stock"
                                                             class="form-control attr-stocks" oninput="numberOnlyAllowed(this)"
@@ -385,7 +385,7 @@
                                                     <input type="text" id="mrprices1" name="mrprices1"
                                                         placeholder="MRP" class="form-control" oninput="numberOnlyAllowedDot(this)"/>
                                                 </div>
-                                                <div class="col">
+                                                <div class="col"  style="display: none;">
                                                     <input type="text" id="attr_stocks1" name="attr_stocks1"
                                                         placeholder="Attribute Stock"
                                                         class="form-control attr-stocks" oninput="numberOnlyAllowed(this)"/>
@@ -484,12 +484,12 @@
 
 
     $(document).ready(function() {
-        $('#totstocksx').on('input', function() {
-            var value = $(this).val();
-            if (parseFloat(value) < 0) {
-                $(this).val(0);
-            }
-        });
+        // $('#totstocksx').on('input', function() {
+        //     var value = $(this).val();
+        //     if (parseFloat(value) < 0) {
+        //         $(this).val(0);
+        //     }
+        // });
         $('.repeater-defaults').repeater({
             show: function() {
                 $(this).slideDown();
@@ -510,24 +510,24 @@
                 $(this).attr('id', newId);
             });
         }
-        $(document).on('keyup', '.attr-stocks', function() {
-            if ($("input[name='customRadios']:checked").val() === "Y") {
-                var totalAttributeStock = 0;
-                $('.attr-stocks').each(function() {
-                    var value = parseInt($(this).val()) || 0;
-                    totalAttributeStock += value;
-                });
-                var totalStock = parseInt($('#totstocks').val()) || 0;
-                //console.log('Total Attribute Stock:', totalAttributeStock);
-                //console.log('Total Stock:', totalStock);
-                if (totalAttributeStock !== totalStock) {
-                    $('#errorstocks-message').show();
-                } else {
-                    $('#errorstocks-message').hide();
-                }
-            }
+        // $(document).on('keyup', '.attr-stocks', function() {
+        //     if ($("input[name='customRadios']:checked").val() === "Y") {
+        //         var totalAttributeStock = 0;
+        //         $('.attr-stocks').each(function() {
+        //             var value = parseInt($(this).val()) || 0;
+        //             totalAttributeStock += value;
+        //         });
+        //         var totalStock = parseInt($('#totstocks').val()) || 0;
+        //         //console.log('Total Attribute Stock:', totalAttributeStock);
+        //         //console.log('Total Stock:', totalStock);
+        //         if (totalAttributeStock !== totalStock) {
+        //             $('#errorstocks-message').show();
+        //         } else {
+        //             $('#errorstocks-message').hide();
+        //         }
+        //     }
 
-        });
+        // });
         //Remove video
         $("#removeButtons").click(function() {
             $("#previews")[0].src = "";
@@ -613,18 +613,18 @@
         return totalAttributeStock;
     }
 
-    function handleSubmit() {
-        if ($("input[name='customRadios']:checked").val() === "Y") {
-            var totalStock = parseInt($('#totstocks').val()) || 0;
-            var totalAttributeStock = calculateTotalAttributeStock();
-            if (totalAttributeStock !== totalStock) {
-                $('#errorstocks-message').show();
-            }
-            // else {
-            //     $('#ProductAddForm').submit();
-            // }
-        }
-    }
+    // function handleSubmit() {
+    //     if ($("input[name='customRadios']:checked").val() === "Y") {
+    //         var totalStock = parseInt($('#totstocks').val()) || 0;
+    //         var totalAttributeStock = calculateTotalAttributeStock();
+    //         if (totalAttributeStock !== totalStock) {
+    //             $('#errorstocks-message').show();
+    //         }
+    //         // else {
+    //         //     $('#ProductAddForm').submit();
+    //         // }
+    //     }
+    // }
 
 
 
@@ -733,7 +733,7 @@
 
                     imgDiv.append(img);
                     imgDiv.append($('<div>').addClass('middle').append(removeBtn));
-
+                    if(fileArrs.length > 0)
                     $('#image-previews').append(imgDiv);
                 };
             })(file);
@@ -802,10 +802,10 @@
             prod_descriptions: {
                 required: true,
             },
-            totstocks: {
-                required: true,
-                digits: true,
-            },
+            // totstocks: {
+            //     required: true,
+            //     digits: true,
+            // },
             paymodes: {
                 required: true,
             },
@@ -831,9 +831,9 @@
                 required: "Please enter product description.",
                 maxlength: "Locality must not exceed 700 characters."
             },
-            totstocks: {
-                digits: "Please enter a number.",
-            },
+            // totstocks: {
+            //     digits: "Please enter a number.",
+            // },
             paymodes: {
                 required: "Please select Buying Option",
             },
@@ -862,7 +862,7 @@
 
     $('#ProductRegFormEdit').submit(function(e) {
         e.preventDefault();
-        handleSubmit();
+        //handleSubmit();
         if ($(this).valid()) {
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
             $('#loading-overlay').fadeIn();

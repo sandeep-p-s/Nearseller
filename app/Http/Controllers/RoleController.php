@@ -30,7 +30,8 @@ class RoleController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser = UserAccount::sessionValuereturn($userRole);
+        $roleid = session('roleid');
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $userdetails = DB::table('user_account')
             ->where('id', $userId)
             ->get();
@@ -72,7 +73,8 @@ class RoleController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser = UserAccount::sessionValuereturn($userRole);
+        $roleid = session('roleid');
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $userdetails = DB::table('user_account')
             ->where('id', $userId)
             ->select('name')
@@ -134,7 +136,9 @@ class RoleController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser = UserAccount::sessionValuereturn($userRole);
+        $roleid = session('roleid');
+
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $userdetails = DB::table('user_account')
             ->where('id', $userId)
             ->select('name')
@@ -224,10 +228,11 @@ class RoleController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
+        $roleid = session('roleid');
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser = UserAccount::sessionValuereturn($userRole);
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $userdetails = DB::table('user_account')
             ->where('id', $userId)
             ->get();
@@ -257,10 +262,11 @@ class RoleController extends Controller
         if ($uname) {
             $query->where('user_account.name', 'LIKE', '%' . $uname . '%');
         }
+        $query ->orderBy('user_account.name', 'asc');
         $alluserdetails = $query->get();
         //echo $lastRegId = $query->toSql();exit;
         $allusercount = $alluserdetails->count();
-        $roles = DB::table('roles')->where('roles.is_active', '1')->get();
+        $roles = DB::table('roles')->where('roles.is_active', '1')->where('id', '!=', 1) ->orderBy('role_name', 'asc')->get();
         return view('admin.role.user_dets', compact('alluserdetails', 'allusercount', 'roles'));
     }
 
@@ -507,7 +513,8 @@ class RoleController extends Controller
         foreach ($UsrroleID as $rolid) {
             $roles = $rolid->role_id;
         }
-        if ($roles == 2 || $roles == 9) {
+        $roleIdsArray = explode(',', $roles);
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray))) {
             $sellerID = DB::table('seller_details')
                 ->select('id')
                 ->where('user_id', $userid)
@@ -519,7 +526,7 @@ class RoleController extends Controller
             $user = UserAccount::find($userid);
             $delteUserDetail = $sellerDetail->delete();
             $delteuser = $user->delete();
-        } elseif ($roles == 3) {
+        } else if ((in_array('3', $roleIdsArray))) {
             $affiliateID = DB::table('affiliate')
                 ->select('id')
                 ->where('user_id', $userid)
@@ -533,6 +540,12 @@ class RoleController extends Controller
             $user = UserAccount::find($userid);
             $delteUserDetail = $Affiliate->delete();
             $delteuser = $user->delete();
+        }
+        else{
+            $user = UserAccount::find($userid);
+            $delteuser = $user->delete();
+            // $sellerDetail = SellerDetails::find($selerid);
+             $delteUserDetail = 1;
         }
         $msg = 'User Deleted =  ' . $user->email . ' shop updated id : ' . $userid;
         $LogDetails = new LogDetails();
@@ -552,10 +565,11 @@ class RoleController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
+        $roleid = session('roleid');
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser = UserAccount::sessionValuereturn($userRole);
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $userdetails = DB::table('user_account')
             ->where('id', $userId)
             ->get();
@@ -694,10 +708,11 @@ class RoleController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
+        $roleid = session('roleid');
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser = UserAccount::sessionValuereturn($userRole);
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $userdetails = DB::table('user_account')
             ->where('id', $userId)
             ->get();
@@ -862,10 +877,11 @@ class RoleController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
+        $roleid = session('roleid');
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser = UserAccount::sessionValuereturn($userRole);
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $userdetails = DB::table('user_account')
             ->where('id', $userId)
             ->get();
@@ -959,7 +975,7 @@ class RoleController extends Controller
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser = UserAccount::sessionValuereturn($userRole);
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $userdetails = DB::table('user_account')
             ->where('id', $userId)
             ->get();
@@ -1034,7 +1050,8 @@ class RoleController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $roleid = session('roleid');
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $roles = DB::table('roles')->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
@@ -1045,7 +1062,8 @@ class RoleController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $roleid = session('roleid');
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         return view('admin.role.Role_Creation.add', compact('loggeduser', 'userdetails','structuredMenu'));
@@ -1080,7 +1098,8 @@ class RoleController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $roleid = session('roleid');
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $role = Role::find($id);

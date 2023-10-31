@@ -1,3 +1,4 @@
+
 @if ($sellerCount > 0)
     <table id="datatable" class="table table-striped table-bordered">
         <thead>
@@ -45,142 +46,565 @@
                         </span>
                     </td>
 
+@php
+    $roleid = session('roleid');
+    $roleIdsArray = explode(',', $roleid);
+@endphp
+@if (in_array('2', $roleIdsArray) || in_array('9', $roleIdsArray))
 
-                    <td>
-                        <div class="btn-group mb-2 mb-md-0">
-                            <button type="button" class="btn view_btn dropdown-toggle" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">Action
-                                <i class="mdi mdi-chevron-down"></i></button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item view_btn1" href="#"
-                                    onclick="shopvieweditdet({{ $sellerDetail->id }},{{ $typeid }})">View/Edit</a>
-                                @if (session('roleid') == '1')
-                                    <a class="dropdown-item approve_btn" href="#"
-                                        onclick="shopapprovedet({{ $sellerDetail->id }},{{ $typeid }})">Approved</a>
-                                    <a class="dropdown-item delete_btn" href="#"
-                                        onclick="shopdeletedet({{ $sellerDetail->id }})">Delete</a>
-                                @endif
+    @if ($sellerCount > 0)
+
+        @foreach ($sellerDetails as $indexh => $sellerDetailh)
+            @php
+                //$open_close_time = $sellerDetails->open_close_time;
+                $open_close_time = $sellerDetailh->open_close_time;
+                if ($open_close_time == '' || $open_close_time == 'NULL') {
+                    $opentime = '';
+                    $closetime = '';
+                } else {
+                    $expldopenclose = explode('-', $open_close_time);
+                    $opentime = $expldopenclose[0];
+                    $closetime = $expldopenclose[1];
+                }
+
+                $gallery_dets = $sellerDetailh->shop_photo;
+                $qrgallerydetsarray = json_decode($gallery_dets);
+                $qrgallery = $qrgallerydetsarray->fileval;
+                $qrqrgalleryval = json_decode(json_encode($qrgallery), true);
+                $totimg = count($qrqrgalleryval);
+
+                $socialmedia = $sellerDetailh->socialmedia;
+                $qrsocialmediaarray = json_decode($socialmedia);
+                $qrsocialmedia = $qrsocialmediaarray->mediadets;
+                $qrsocialmediaval = json_decode(json_encode($qrsocialmedia), true);
+
+                $sel_approved = $sellerDetailh->seller_approved;
+                $userstatus = $sellerDetailh->user_status;
+
+
+            @endphp
+            @if ($sellerDetailh->seller_approved != 'Y')
+                <div class="col text-right">
+                    <a class="btn add_btn" href="#"
+                        onclick="shopvieweditdet({{ $sellerDetailh->id }},{{ $typeid }})">Edit Details</a>
+                </div>
+            @endif
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+
+                        <div class="card-body">
+                            <div class="dastyle-profile">
+                                <div class="row">
+                                    <div class="col-lg-4 align-self-center mb-3 mb-lg-0">
+                                        <div class="dastyle-profile-main">
+                                            <div class="dastyle-profile-main-pic">
+                                                <img src="{{ asset($qrgallery[0]) }}" alt="" height="110"
+                                                    class="rounded-circle">
+
+                                            </div>
+                                            <div class="dastyle-profile_user-detail">
+                                                <h5 class="dastyle-user-name">{{ $shoporservice }} :
+                                                    {{ $sellerDetailh->shop_name }}</h5>
+                                                <p class="mb-0 dastyle-user-name-post">{{ $shoporservice }} Owner :
+                                                    {{ $sellerDetailh->owner_name }}</p>
+                                            </div>
+                                        </div>
+                                    </div><!--end col-->
+
+                                    <div class="col-lg-4 ml-auto align-self-center">
+                                        <ul class="list-unstyled personal-detail mb-0">
+                                            <li class=""><b> Phone </b> : {{ $sellerDetailh->shop_mobno }}</li>
+                                            @if ($sellerDetailh->shop_email != '')
+                                                <li class="mt-2"> <b> Email </b> : {{ $sellerDetailh->shop_email }}
+                                                </li>
+                                            @endif
+
+                                            <li class="mt-2"> <b> Address </b> :
+                                                {{ $sellerDetailh->house_name_no . ',' . $sellerDetailh->locality . ',' . $sellerDetailh->village . ',' . $sellerDetailh->pincode . ',' . $sellerDetailh->district_name . ',' . $sellerDetailh->state_name . ',' . $sellerDetailh->country_name }}
+                                            </li>
+                                        </ul>
+
+                                    </div><!--end col-->
+                                    <div class="col-lg-4 align-self-center">
+
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <div class="row align-items-center">
+                                                    <div class="col">
+                                                        <h4 class="card-title">Social Profile</h4>
+                                                    </div><!--end col-->
+                                                </div> <!--end row-->
+                                            </div><!--end card-header-->
+                                            @php
+                                                $qrsocialmediaval = json_decode(json_encode($qrsocialmedia), true);
+                                                $mediaUrlcnt = count($qrsocialmedia);
+                                            @endphp
+
+                                            @if ($mediaUrlcnt > 0)
+                                                <div class="card-body">
+                                                    <div class="button-list btn-social-icon">
+                                                        @foreach ($qrsocialmediaval as $mediaItem)
+                                                            @php
+                                                                $titurl = '';
+                                                                $media = '';
+                                                                switch ($mediaItem['mediatype']) {
+                                                                    case 1:
+                                                                        $titurl = 'facebook';
+                                                                        $media = '<i class="fab fa-facebook-f" style="font-size: 25px;"></i>';
+                                                                        break;
+                                                                    case 2:
+                                                                        $titurl = 'instagram';
+                                                                        $media = '<i class="fab fa-instagram" style="font-size: 25px;"></i>';
+                                                                        break;
+                                                                    case 3:
+                                                                        $titurl = 'linkedin';
+                                                                        $media = '<i class="fa-brands fa-linkedin" style="font-size: 25px;"></i>';
+                                                                        break;
+                                                                    case 4:
+                                                                        $titurl = 'website';
+                                                                        $media = '<i class="fa fa-globe" style="font-size: 25px;"></i>';
+                                                                        break;
+                                                                    case 5:
+                                                                        $titurl = 'youtube';
+                                                                        $media = '<i class="fa-brands fa-youtube" style="font-size: 25px;"></i>';
+                                                                        break;
+                                                                }
+                                                            @endphp
+
+                                                            @if (!empty($mediaItem['mediaurl']))
+                                                                <a href="{{ $mediaItem['mediaurl'] }}"
+                                                                    class="btn btn-primary" target="_blank"
+                                                                    title="{{ $titurl }}">
+                                                                    {!! $media !!}
+                                                                </a>
+                                                            @endif
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        </div>
+
+                                    </div><!--end col-->
+                                </div><!--end row-->
+                            </div><!--end f_profile-->
+                        </div><!--end card-body-->
+                    </div> <!--end card-->
+                </div><!--end col-->
+            </div><!--end row-->
+
+            <div class="row">
+                <div class="col-lg-6 col-xl-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h4 class="card-title">{{ $shoporservice }} Information</h4>
+                                </div><!--end col-->
+                            </div> <!--end row-->
+                        </div><!--end card-header-->
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <label class="col-xl-3 col-lg-3 ">Business Type</label>
+                                <div class="col-lg-9 col-xl-8">
+                                    <p>{{ $sellerDetailh->business_name }} </p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-xl-3 col-lg-3 ">{{ $shoporservice }} category Type </label>
+                                <div class="col-lg-9 col-xl-8">
+                                    <p>{{ $sellerDetailh->service_category_name }}</p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-xl-3 col-lg-3 ">{{ $shoporservice }} Type</label>
+                                <div class="col-lg-9 col-xl-8">
+                                    <p>{{ $sellerDetailh->service_name }}</p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-xl-3 col-lg-3 ">{{ $shoporservice }} Executive Name</label>
+                                <div class="col-lg-9 col-xl-8">
+                                    <p> {{ $executives->name }}</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                {{-- <label class="col-xl-3 col-lg-3 ">{{ $shoporservice }} Open and Close Time</label> --}}
+                                <div class="col-lg-12 col-xl-12">
+                                    <p>
+                                        @if ($shopavailable->count() > 0)
+                                            <table class="table table-striped table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Days</th>
+                                                        <th>Open Time</th>
+                                                        <th>Close Time</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($shopavailable as $openclosetime)
+                                                        <tr>
+                                                            <td>{{ $openclosetime->open_close_days }}</td>
+                                                            <td>{{ $openclosetime->from_time }}</td>
+                                                            <td>{{ $openclosetime->to_time }}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        @else
+                                            <table>
+                                                <tr>
+                                                    <td colspan="3" align="center">Not Found Open and Close Time</td>
+                                                </tr>
+                                            </table>
+                                        @endif
+                                    </p>
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-xl-6">
+                    <div class="card">
+                        {{-- <div class="card-header">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h4 class="card-title">{{ $shoporservice }} Information</h4>
+                                </div><!--end col-->
+                            </div> <!--end row-->
+                        </div><!--end card-header--> --}}
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <label class="col-xl-3 col-lg-3 ">{{ $shoporservice }} License Number</label>
+                                <div class="col-lg-9 col-xl-8">
+                                    <p>{{ $sellerDetailh->shop_licence }}</p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-xl-3 col-lg-3 ">GST Number</label>
+                                <div class="col-lg-9 col-xl-8">
+                                    <p>{{ $sellerDetailh->shop_gstno }}</p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-xl-3 col-lg-3 ">PAN Number</label>
+                                <div class="col-lg-9 col-xl-8">
+                                    <p> {{ $sellerDetailh->shop_panno }}</p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-xl-3 col-lg-3 ">Establishment Date</label>
+                                <div class="col-lg-9 col-xl-8">
+                                    <p>{{ date('d-m-Y', strtotime($sellerDetailh->establish_date)) }}</p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-xl-3 col-lg-3 ">Registration Date</label>
+                                <div class="col-lg-9 col-xl-8">
+                                    <p>{{ date('d-m-Y H:i:s', strtotime($sellerDetailh->created_at)) }}</p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-xl-3 col-lg-3 ">Accept Terms & Conditions</label>
+                                <div class="col-lg-9 col-xl-8">
+                                    <p><span
+                                            class="badge  p-2 {{ $sellerDetailh->term_condition == '1' ? 'badge badge-success' : 'badge badge-danger' }}">
+                                            {{ $sellerDetailh->term_condition == '1' ? 'Accepted' : 'No' }}
+                                        </span></p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-xl-3 col-lg-3 ">User Status</label>
+                                <div class="col-lg-9 col-xl-8">
+                                    <p> <span
+                                            class="badge  p-2 {{ $sellerDetailh->user_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
+                                            {{ $sellerDetailh->user_status === 'Y' ? 'Active' : 'Inactive' }}
+                                        </span></p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-xl-3 col-lg-3 ">Approved Status</label>
+                                <div class="col-lg-9 col-xl-8">
+                                    <p><span
+                                            class="badge  p-2 {{ $sellerDetailh->seller_approved === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
+                                            {{ $sellerDetailh->seller_approved === 'Y' ? 'Approved' : 'Not Approved' }}
+                                        </span></p>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div> <!--end col-->
+
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h4 class="card-title">{{ $shoporservice }} Images</h4>
+                                </div><!--end col-->
+                            </div> <!--end row-->
+                        </div><!--end card-header-->
+                        <div class="card-body">
+
+                            <div class="col-md-12">
+                                <div class="form-group" align="center">
+                                    <div class="row">
+                                        @for ($m = 0; $m < $totimg; $m++)
+                                            <div class="col-md-3">
+                                                <a href="#" data-toggle="modal"
+                                                    data-target="#myModalm{{ $m }}">
+                                                    <img id="img-bufferm" class="img-responsive image" style="padding: 2px;  width: 277px; margin: 1px;"
+                                                        src="{{ asset($qrgallery[$m]) }}" width="450"
+                                                        height="250">
+                                                    @php
+                                                        $valenm = $qrgallery[$m] . '#' . $sellerDetailh->id;
+                                                        $deleencdem = base64_encode($valenm);
+                                                    @endphp
+                                                </a>
+                                                <br>
+                                                {{-- @if (!($sel_approved == 'Y' && ($roleid == 3 || $roleid == 2))) --}}
+                                                {{-- @if (!($sel_approved == 'Y'))
+                                                    <button id="remv" type="button" name="remv"
+                                                        class="btn btn-danger"
+                                                        onClick="DeltImagGalry('{{ $deleencdems }}');">Remove</button>
+                                                @endif --}}
+                                            </div>
+
+                                            <div class="modal fade" id="myModalm{{ $m }}" tabindex="-1"
+                                                role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+                                                style="width: 80%;">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close"
+                                                                data-dismiss="modal"
+                                                                aria-hidden="true">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <img src="{{ asset($qrgallery[$m]) }}" class="img-fluid">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endfor
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </td>
+                    </div>
+                </div>
+
+
+            </div>
+        @endforeach
+
+    @endif
+
+@endif
+
+
+
+@if (in_array('1', $roleIdsArray) || in_array('11', $roleIdsArray))
+
+    @if ($sellerCount > 0)
+        <table id="datatable" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    @if (session('roleid') == '1' || session('roleid') == '11')
+                        <th width="5px">Approved All <input type='checkbox' name='checkbox1' id='checkbox1'
+                                onclick='check();' />
+                        </th>
+
+                        <th>SINO</th>
+                    @endif
+                    <th>Reg. ID</th>
+                    <th>{{ $shoporservice }} Name</th>
+                    <th>Owner Name</th>
+                    {{-- <th>Email</th> --}}
+                    <th>Mobile</th>
+                    {{-- <th>Business Type</th> --}}
+                    <th>User Status</th>
+                    <th>Approved Status</th>
+                    <th>Action</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
-    <input type="hidden" value="{{ $index + 1 }}" id="totalshopcnt">
-    {{-- <div class="pagination">
+            </thead>
+            <tbody>
+                @foreach ($sellerDetails as $index => $sellerDetail)
+                    <tr>
+                        @if (session('roleid') == '1' || session('roleid') == '11')
+                            <td><input name="shopid[]" type="checkbox" id="shopid{{ $index + 1 }}"
+                                    value="{{ $sellerDetail->id . '*' . $sellerDetail->user_id }}"
+                                    {{ $sellerDetail->seller_approved === 'Y' ? 'checked' : '' }} />
+                            </td>
+                            <td>{{ $index + 1 }}</td>
+                        @endif
+                        <td>{{ $typeid == 1 ? 'SHOP' : ($typeid == 2 ? 'SER' : '') }}{{ str_pad($sellerDetail->shop_reg_id, 9, '0', STR_PAD_LEFT) }}
+                        </td>
+                        <td>{{ $sellerDetail->shop_name }}</td>
+                        <td>{{ $sellerDetail->owner_name }}</td>
+                        {{-- <td>{{ $sellerDetail->shop_email }}</td> --}}
+                        <td>{{ $sellerDetail->shop_mobno }}</td>
+                        {{-- <td class="text-success">{{ $sellerDetail->business_name }}</td> --}}
+                        <td><span
+                                class="badge p-2 {{ $sellerDetail->user_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
+                                {{ $sellerDetail->user_status === 'Y' ? 'Active' : 'Inactive' }}
+                            </span>
+                        </td>
+                        <td><span
+                                class="badge p-2 {{ $sellerDetail->seller_approved === 'Y' ? 'badge badge-info' : 'badge badge-danger' }}">
+                                {{ $sellerDetail->seller_approved === 'Y' ? 'Approved' : 'Not Approved' }}
+                            </span>
+                        </td>
+
+
+                        <td>
+                            <div class="btn-group mb-2 mb-md-0">
+                                <button type="button" class="btn view_btn dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">Action
+                                    <i class="mdi mdi-chevron-down"></i></button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item view_btn1" href="#"
+                                        onclick="shopvieweditdet({{ $sellerDetail->id }},{{ $typeid }})">View/Edit</a>
+                                    @if (session('roleid') == '1' || session('roleid') == '11')
+                                        <a class="dropdown-item approve_btn" href="#"
+                                            onclick="shopapprovedet({{ $sellerDetail->id }},{{ $typeid }})">Approved</a>
+                                        <a class="dropdown-item delete_btn" href="#"
+                                            onclick="shopdeletedet({{ $sellerDetail->id }})">Delete</a>
+                                    @endif
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <input type="hidden" value="{{ $index + 1 }}" id="totalshopcnt">
+        {{-- <div class="pagination">
         {{ $sellerDetails->links() }}
     </div> --}}
-@else
-    <table>
-        <tr>
-            <td colspan="13" align="center">
-                <img src="{{ asset('backend/assets/images/notfoundimg.png') }}" alt="notfound" class="rounded-circle"
-                    style="width: 30%;" />
-            </td>
-        </tr>
-    </table>
-@endif
-
-@if ($sellerCount > 0)
-    @if (session('roleid') == '1')
-    <div class="col text-center">
-        <button class="btn btn-primary" style="cursor:pointer" onclick="seller_service_approvedall();">Active
-            All</button>
-    </div>
+    @else
+        <table>
+            <tr>
+                <td colspan="13" align="center">
+                    <img src="{{ asset('backend/assets/images/notfoundimg.png') }}" alt="notfound"
+                        class="rounded-circle" style="width: 30%;" />
+                </td>
+            </tr>
+        </table>
     @endif
-@endif
 
-
-
-<!-- Modal Add New -->
-<div class="modal fade p-5" id="addNewModal" tabindex="-1" aria-labelledby="addNewModalLabel" aria-hidden="true"
-    style="overflow-y: scroll;">
-    <div class="modal-dialog custom-modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-center" id="addNewModalLabel">Add New {{ $shoporservice }} </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                    title="Close">x</button>
-                    {{-- <button type="button" class="close " data-dismiss="modal" aria-label="Close" title="Close">
-                        <span aria-hidden="true"><i class="la la-times"></i></span>
-                    </button> --}}
+    @if ($sellerCount > 0)
+        @if (session('roleid') == '1' || session('roleid') == '11')
+            <div class="col text-center">
+                <button class="btn btn-primary" style="cursor:pointer"
+                    onclick="seller_service_approvedall();">Approved
+                    All</button>
             </div>
-            <div class="modal-body">
-
-
-                <form id="SellerRegForm" enctype="multipart/form-data" method="POST">
-                    <input type="hidden" id="typeidhid" name="typeidhid" value="{{ $typeid }}" />
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-outline mb-3"><label>{{ $shoporservice }} Name<span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" id="s_name" name="s_name"
-                                        class="form-control form-control-lg" maxlength="50"
-                                        placeholder="{{ $shoporservice }} Name" required tabindex="1"
-                                        onchange="exstshopname(this.value,'1')" />
-                                    <div for="s_name" class="error"></div>
-                                    <div id="existshopname-message" class="text-center" style="display: none;"></div>
-                                </div>
-
-                                <div class="form-outline mb-3"><label>Owner Name<span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" id="s_ownername" name="s_ownername"
-                                        class="form-control form-control-lg" maxlength="50" placeholder="Owner Name"
-                                        required tabindex="2" />
-                                    <div for="s_ownername" class="error"></div>
-                                </div>
-
-                                <div class="form-outline mb-3"><label>Mobile Number<span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" id="s_mobno" name="s_mobno"
-                                        class="form-control form-control-lg" maxlength="10" placeholder="Mobile No"
-                                        required tabindex="3" onchange="exstmobno(this.value,'2')"  oninput="numberOnlyAllowed(this)"/>
-                                    <div for="s_mobno" class="error"></div>
-                                    <div id="smob-message" class="text-center" style="display: none;"></div>
-                                </div>
-                                <div class="form-outline mb-3"><label>Email ID</label>
-                                    <input type="email" id="s_email" name="s_email"
-                                        class="form-control form-control-lg" maxlength="35" placeholder="Email ID"
-                                        tabindex="4" onchange="exstemilid(this.value,'2')" />
-                                    <div for="s_email" class="error"></div>
-                                    <div id="semil-message" class="text-center" style="display: none;"></div>
-                                </div>
-                                <div class="form-outline mb-3"><label>Referral ID</label>
-                                    <input type="text" id="s_refralid" name="s_refralid"
-                                        class="form-control form-control-lg" maxlength="50" placeholder="Referral ID"
-                                        tabindex="5" onchange="checkrefrelno(this.value,'1')" />
-                                    <div id="s_refralid-message" class="text-center" style="display: none;"></div>
-                                </div>
-                                <div class="form-outline mb-3" style="display: none;"><label>Business Type<span
-                                            class="text-danger">*</span></label>
-                                    <select class="form-select form-control form-control-lg" id="s_busnestype"
-                                        name="s_busnestype" required tabindex="6">
-                                        @foreach ($business as $busnes)
-                                            <option value="{{ $busnes->id }}">
-                                                {{ $busnes->business_name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <div for="s_busnestype" class="error"></div>
-                                </div>
-                                <div class="form-outline mb-3"><label>{{ $shoporservice }} Category<span
-                                            class="text-danger">*</span></label>
-                                    <select class="form-select form-control form-control-lg" id="s_shopservice"
-                                        name="s_shopservice" required tabindex="7">
-                                        <option value="">{{ $shoporservice }} Category</option><br />
-                                        @foreach ($shopservicecategory as $shopser)
-                                            <option value="{{ $shopser->id }}">{{ $shopser->service_category_name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <div for="s_shopservice" class="error"></div>
-                                </div>
+        @endif
+    @endif
 
 
 
+    <!-- Modal Add New -->
+    <div class="modal fade p-5" id="addNewModal" tabindex="-1" aria-labelledby="addNewModalLabel"
+        aria-hidden="true" style="overflow-y: scroll;">
+        <div class="modal-dialog custom-modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center" id="addNewModalLabel">Add New {{ $shoporservice }} </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        title="Close">x</button>
+                </div>
+                <div class="modal-body">
 
-                                {{-- <div class="form-outline mb-3"><label>{{ $shoporservice }} Sub Category</label>
+
+                    <form id="SellerRegForm" enctype="multipart/form-data" method="POST">
+                        <input type="hidden" id="typeidhid" name="typeidhid" value="{{ $typeid }}" />
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-outline mb-3"><label>{{ $shoporservice }} Name<span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" id="s_name" name="s_name"
+                                            class="form-control form-control-lg" maxlength="50"
+                                            placeholder="{{ $shoporservice }} Name" required tabindex="1"
+                                            onchange="exstshopname(this.value,'1')" />
+                                        <label for="s_name" class="error"></label>
+                                        <div id="existshopname-message" class="text-center" style="display: none;">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-outline mb-3"><label>Owner Name<span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" id="s_ownername" name="s_ownername"
+                                            class="form-control form-control-lg" maxlength="50"
+                                            placeholder="Owner Name" required tabindex="2" />
+                                        <label for="s_ownername" class="error"></label>
+                                    </div>
+
+                                    <div class="form-outline mb-3"><label>Mobile Number<span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" id="s_mobno" name="s_mobno"
+                                            class="form-control form-control-lg" maxlength="10"
+                                            placeholder="Mobile No" required tabindex="3"
+                                            onchange="exstmobno(this.value,'2')" oninput="numberOnlyAllowed(this)" />
+                                        <label for="s_mobno" class="error"></label>
+                                        <div id="smob-message" class="text-center" style="display: none;"></div>
+                                    </div>
+                                    <div class="form-outline mb-3"><label>Email ID</label>
+                                        <input type="email" id="s_email" name="s_email"
+                                            class="form-control form-control-lg" maxlength="35"
+                                            placeholder="Email ID" tabindex="4"
+                                            onchange="exstemilid(this.value,'2')" />
+                                        <label for="s_email" class="error"></label>
+                                        <div id="semil-message" class="text-center" style="display: none;"></div>
+                                    </div>
+                                    <div class="form-outline mb-3"><label>Referral ID</label>
+                                        <input type="text" id="s_refralid" name="s_refralid"
+                                            class="form-control form-control-lg" maxlength="50"
+                                            placeholder="Referral ID" tabindex="5"
+                                            onchange="checkrefrelno(this.value,'1')" />
+                                        <div id="s_refralid-message" class="text-center" style="display: none;">
+                                        </div>
+                                    </div>
+                                    <div class="form-outline mb-3" style="display: none;"><label>Business Type<span
+                                                class="text-danger">*</span></label>
+                                        <select class="form-select form-control form-control-lg" id="s_busnestype"
+                                            name="s_busnestype" required tabindex="6">
+                                            @foreach ($business as $busnes)
+                                                <option value="{{ $busnes->id }}">
+                                                    {{ $busnes->business_name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <label for="s_busnestype" class="error"></label>
+                                    </div>
+                                    <div class="form-outline mb-3"><label>{{ $shoporservice }} Category<span
+                                                class="text-danger">*</span></label>
+                                        <select class="form-select form-control form-control-lg" id="s_shopservice"
+                                            name="s_shopservice" required tabindex="7">
+                                            <option value="">{{ $shoporservice }} Category</option><br />
+                                            @foreach ($shopservicecategory as $shopser)
+                                                <option value="{{ $shopser->id }}">
+                                                    {{ $shopser->service_category_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <label for="s_shopservice" class="error"></label>
+                                    </div>
+
+
+
+
+                                    {{-- <div class="form-outline mb-3"><label>{{ $shoporservice }} Sub Category</label>
                                     <select class="form-select form-control form-control-lg" id="s_subshopservice"
                                         name="s_subshopservice" required tabindex="7">
                                         <option value="">{{ $shoporservice }} Sub Category</option><br />
@@ -190,209 +614,218 @@
                                 </div> --}}
 
 
-                                <div class="form-outline mb-3"><label>{{ $shoporservice }} Type<span
-                                            class="text-danger">*</span></label>
-                                    <select class="form-select form-control form-control-lg" id="s_shopservicetype"
-                                        name="s_shopservicetype" required tabindex="7">
-                                        <option value="">{{ $shoporservice }} Type</option><br />
-                                        @foreach ($shopservice as $shtypes)
-                                            <option value="{{ $shtypes->id }}">{{ $shtypes->service_name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <div for="s_shopservicetype" class="error"></div>
-                                </div>
+                                    <div class="form-outline mb-3"><label>{{ $shoporservice }} Type<span
+                                                class="text-danger">*</span></label>
+                                        <select class="form-select form-control form-control-lg"
+                                            id="s_shopservicetype" name="s_shopservicetype" required tabindex="7">
+                                            <option value="">{{ $shoporservice }} Type</option><br />
+                                            @foreach ($shopservice as $shtypes)
+                                                <option value="{{ $shtypes->id }}">{{ $shtypes->service_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <label for="s_shopservicetype" class="error"></label>
+                                    </div>
 
 
-                                <div class="form-outline mb-3"><label>{{ $shoporservice }} Executive Name</label>
-                                    <select class="form-select form-control form-control-lg" id="s_shopexectename"
-                                        name="s_shopexectename" tabindex="8">
-                                        <option value="">{{ $shoporservice }} Executive Name</option><br />
-                                        @foreach ($executives as $exec)
-                                            <option value="{{ $exec->id }}">{{ $exec->executive_name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <div for="s_shopexectename" class="error"></div>
-                                </div>
+                                    <div class="form-outline mb-3"><label>{{ $shoporservice }} Executive Name</label>
+                                        <select class="form-select form-control form-control-lg" id="s_shopexectename"
+                                            name="s_shopexectename" tabindex="8">
+                                            <option value="">{{ $shoporservice }} Executive Name</option><br />
+                                            @foreach ($executives as $exec)
+                                                <option value="{{ $exec->id }}">{{ $exec->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <label for="s_shopexectename" class="error"></label>
+                                    </div>
 
-                                <div class="form-outline mb-3"><label>Social Media</label>
-                                    <div class="row mb-5">
-                                        <div class="col-md-3 fv-row fv-plugins-icon-container">
-                                            <select class="form-select form-control form-control-lg" id="mediatype"
-                                                name="mediatype[1]" tabindex="21">
-                                                <option value="">Choose...</option>
-                                                <option value="1">Facebook</option>
-                                                <option value="2">Instagram</option>
-                                                <option value="3">Linked In</option>
-                                                <option value="4">Web site URL</option>
-                                                <option value="5">Youtub Video URL</option>
-                                            </select>
-                                        </div>
+                                    <div class="form-outline mb-3"><label>Social Media</label>
+                                        <div class="row mb-5">
+                                            <div class="col-md-3 fv-row fv-plugins-icon-container">
+                                                <select class="form-select form-control form-control-lg"
+                                                    id="mediatype" name="mediatype[1]" tabindex="21">
+                                                    <option value="">Choose...</option>
+                                                    <option value="1">Facebook</option>
+                                                    <option value="2">Instagram</option>
+                                                    <option value="3">Linked In</option>
+                                                    <option value="4">Web site URL</option>
+                                                    <option value="5">Youtub Video URL</option>
+                                                </select>
+                                            </div>
 
-                                        <div class="col-md-9 fv-row fv-plugins-icon-container">
-                                            <div class="input-group">
-                                                <input type="url" id="mediaurl" name="mediaurl[1]"
-                                                    class="form-control form-control-lg" placeholder="https://"
-                                                    value="" tabindex="22" maxlength="60" />
-                                                <div align="right">
-                                                    <a href="#" id="addMoreurls" name="add_fieldurl"
-                                                        class="btn icon btn-success">+</a>
+                                            <div class="col-md-9 fv-row fv-plugins-icon-container">
+                                                <div class="input-group">
+                                                    <input type="url" id="mediaurl" name="mediaurl[1]"
+                                                        class="form-control form-control-lg" placeholder="https://"
+                                                        value="" tabindex="22" maxlength="60" />
+                                                    <div align="right">
+                                                        <a href="#" id="addMoreurls" name="add_fieldurl"
+                                                            class="btn icon btn-success">+</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div id="addedUrls"></div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
-
-                                <div class="form-outline mb-3"><label>Building/House Name & Number<span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" id="s_buldingorhouseno" name="s_buldingorhouseno"
-                                        maxlength="100" class="form-control form-control-lg"
-                                        placeholder="Building/House Name & Number" required tabindex="11" />
-                                    <div for="s_buldingorhouseno" class="error"></div>
-                                </div>
-                                <div class="form-outline mb-3"><label>Locality<span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" id="s_locality" name="s_locality" maxlength="100"
-                                        class="form-control form-control-lg"placeholder="Locality" required
-                                        tabindex="12" />
-                                    <div for="s_locality" class="error"></div>
-                                </div>
-                                <div class="form-outline mb-3"><label>Village/Town/Municipality<span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" id="s_villagetown" name="s_villagetown" maxlength="100"
-                                        class="form-control form-control-lg" placeholder="Village/Town/Municipality"
-                                        required tabindex="13" />
-                                    <div for="s_villagetown" class="error"></div>
-                                </div>
-                                <div class="form-outline mb-3"><label>Country<span
-                                            class="text-danger">*</span></label>
-                                    <select class="form-select form-control form-control-lg" name="country"
-                                        aria-label="Default select example" id="country" required tabindex="14">
-                                        <option value="">Select country</option>
-                                        @foreach ($countries as $country)
-                                            <option value="{{ $country->id }}">{{ $country->country_name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <div for="country" class="error"></div>
-                                </div>
-                                <div class="form-outline mb-3"><label>State<span class="text-danger">*</span></label>
-                                    <select class="form-select form-control form-control-lg" name="state"
-                                        aria-label="Default select example" id="state" required tabindex="15">
-
-                                    </select>
-                                    <div for="state" class="error"></div>
-                                </div>
-                                <div class="form-outline mb-3"><label>District<span
-                                            class="text-danger">*</span></label>
-                                    <select class="form-select form-control form-control-lg"
-                                        aria-label="Default select example" id="district" name="district" required
-                                        tabindex="16">
-
-                                    </select>
-                                    <div for="district" class="error"></div>
-                                </div>
-                                <div class="form-outline mb-3"><label>Pincode<span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" id="s_pincode" name="s_pincode" maxlength="6"
-                                        class="form-control form-control-lg" placeholder="Pin Code" required
-                                        tabindex="17"  oninput="numberOnlyAllowed(this)"/>
-                                    <label for="s_pincode" class="error"></label>
-                                </div>
-
-
-                                <div class="form-outline mb-3"><label>Latitude (Google map location)<span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" id="s_googlelatitude" name="s_googlelatitude"
-                                        class="form-control form-control-lg"
-                                        placeholder="Latitude (Google map location)" required tabindex="18" />
-                                    <div for="s_googlelatitude" class="error"></div>
-                                </div>
-
-
-
-                                <div class="form-outline mb-3"><label>Longitude (Google map location)<span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" id="s_googlelongitude" name="s_googlelongitude"
-                                        class="form-control form-control-lg"
-                                        placeholder="Longitude (Google map location)" required tabindex="18" />
-                                    <label for="s_googlelongitude" class="error"></label>
-                                </div>
-
-
-
-                                <div class="form-outline mb-3"><label>{{ $shoporservice }} Photo's<span
-                                            class="text-danger">*</span></label>
-                                    <input type="file" id="s_photo" multiple="" name="s_photo[]"
-                                        class="form-control form-control-lg" placeholder="Shop Photo" required
-                                        tabindex="19" accept="image/jpeg, image/png" />
-                                    <div for="s_photo" class="error"></div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group" align="left">
-                                        <div id="image-preview" class="row"></div>
+                                        <div id="addedUrls"></div>
                                     </div>
                                 </div>
 
-                                <div class="form-outline mb-3"><label>{{ $shoporservice }} Logo</label>
-                                    <input type="file" id="s_logo" name="s_logo[]"
-                                        class="form-control form-control-lg" placeholder="Shop Logo" tabindex="19"
-                                        accept="image/jpeg, image/png" />
-                                    <div for="s_logo" class="error"></div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group" align="left">
-                                        <div id="image-preview-logo" class="row"></div>
+                                <div class="col-md-4">
+
+                                    <div class="form-outline mb-3"><label>Building/House Name & Number<span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" id="s_buldingorhouseno" name="s_buldingorhouseno"
+                                            maxlength="100" class="form-control form-control-lg"
+                                            placeholder="Building/House Name & Number" required tabindex="11" />
+                                        <label for="s_buldingorhouseno" class="error"></label>
                                     </div>
+                                    <div class="form-outline mb-3"><label>Locality<span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" id="s_locality" name="s_locality" maxlength="100"
+                                            class="form-control form-control-lg"placeholder="Locality" required
+                                            tabindex="12" />
+                                        <label for="s_locality" class="error"></label>
+                                    </div>
+                                    <div class="form-outline mb-3"><label>Village/Town/Municipality<span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" id="s_villagetown" name="s_villagetown"
+                                            maxlength="100" class="form-control form-control-lg"
+                                            placeholder="Village/Town/Municipality" required tabindex="13" />
+                                        <label for="s_villagetown" class="error"></label>
+                                    </div>
+                                    <div class="form-outline mb-3"><label>Country<span
+                                                class="text-danger">*</span></label>
+                                        <select class="form-select form-control form-control-lg" name="country"
+                                            aria-label="Default select example" id="country" required
+                                            tabindex="14">
+                                            <option value="">Select country</option>
+                                            @foreach ($countries as $country)
+                                                <option value="{{ $country->id }}">{{ $country->country_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <label for="country" class="error"></label>
+                                    </div>
+                                    <div class="form-outline mb-3"><label>State<span
+                                                class="text-danger">*</span></label>
+                                        <select class="form-select form-control form-control-lg" name="state"
+                                            aria-label="Default select example" id="state" required
+                                            tabindex="15">
+
+                                        </select>
+                                        <label for="state" class="error"></label>
+                                    </div>
+                                    <div class="form-outline mb-3"><label>District<span
+                                                class="text-danger">*</span></label>
+                                        <select class="form-select form-control form-control-lg"
+                                            aria-label="Default select example" id="district" name="district"
+                                            required tabindex="16">
+
+                                        </select>
+                                        <label for="district" class="error"></label>
+                                    </div>
+                                    <div class="form-outline mb-3"><label>Pincode<span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" id="s_pincode" name="s_pincode" maxlength="6"
+                                            class="form-control form-control-lg" placeholder="Pin Code" required
+                                            tabindex="17" oninput="numberOnlyAllowed(this)" />
+                                        <label for="s_pincode" class="error"></label>
+                                    </div>
+
+
+                                    <div class="form-outline mb-3"><label>Latitude (Google map location)<span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" id="s_googlelatitude" name="s_googlelatitude"
+                                            class="form-control form-control-lg"
+                                            placeholder="Latitude (Google map location)" required tabindex="18" />
+                                        <label for="s_googlelatitude" class="error"></label>
+                                    </div>
+
+
+
+                                    <div class="form-outline mb-3"><label>Longitude (Google map location)<span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" id="s_googlelongitude" name="s_googlelongitude"
+                                            class="form-control form-control-lg"
+                                            placeholder="Longitude (Google map location)" required tabindex="18" />
+                                        <label for="s_googlelongitude" class="error"></label>
+                                    </div>
+
+
+
+                                    <div class="form-outline mb-3"><label>{{ $shoporservice }} Photo's<span
+                                                class="text-danger">*</span></label>
+                                        <input type="file" id="s_photo" multiple="" name="s_photo[]"
+                                            class="form-control form-control-lg" placeholder="Shop Photo" required
+                                            tabindex="19" accept="image/jpeg, image/png" />
+                                        <label for="s_photo" class="error"></label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group" align="left">
+                                            <div id="image-preview" class="row"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-outline mb-3"><label>{{ $shoporservice }} Logo</label>
+                                        <input type="file" id="s_logo" name="s_logo[]"
+                                            class="form-control form-control-lg" placeholder="Shop Logo"
+                                            tabindex="19" accept="image/jpeg, image/png" />
+                                        <label for="s_logo" class="error"></label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group" align="left">
+                                            <div id="image-preview-logo" class="row"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-outline mb-3" style="display: none;"><label>{{ $shoporservice }}
+                                            Background Color</label>
+                                        <input type="color" id="s_bgcolor" name="s_bgcolor" id
+                                            class="form-control" placeholder="{{ $shoporservice }} Background Color"
+                                            required tabindex="18" />
+                                        <label for="s_bgcolor" class="error"></label>
+                                    </div>
+
                                 </div>
-                                <div class="form-outline mb-3" style="display: none;"><label>{{ $shoporservice }} Background Color</label>
-                                    <input type="color" id="s_bgcolor" name="s_bgcolor" id class="form-control"
-                                        placeholder="{{ $shoporservice }} Background Color" required
-                                        tabindex="18" />
-                                    <div for="s_bgcolor" class="error"></div>
-                                </div>
+                                <div class="col-md-4">
 
-                            </div>
-                            <div class="col-md-4">
+                                    <div class="form-outline mb-3"><label>{{ $shoporservice }} License Number</label>
+                                        <input type="text" id="s_lisence" name="s_lisence"
+                                            class="form-control form-control-lg" maxlength="8"
+                                            placeholder="{{ $shoporservice }} License Number" tabindex="10" />
+                                        <label for="s_lisence" class="error"></label>
+                                    </div>
 
-                                <div class="form-outline mb-3"><label>{{ $shoporservice }} License Number</label>
-                                    <input type="text" id="s_lisence" name="s_lisence"
-                                        class="form-control form-control-lg" maxlength="25"
-                                        placeholder="License Number" tabindex="10" />
-                                    <div for="s_lisence" class="error"></div>
-                                </div>
-
-                                <div class="form-outline mb-3"><label>GST Number</label>
-                                    <input type="text" id="s_gstno" name="s_gstno" maxlength="15"
-                                        class="form-control form-control-lg" placeholder="GST Number"
-                                        tabindex="20" />
-                                    <div for="s_gstno" class="error"></div>
-                                    <div id="gst-error-message" style="color: red;"></div>
-                                </div>
-                                <div class="form-outline mb-3"><label>PAN Number</label>
-                                    <input type="text" id="s_panno" name="s_panno" maxlength="10"
-                                        class="form-control form-control-lg" placeholder="PAN Number"
-                                        tabindex="21" />
-                                    <div for="s_panno" class="error"></div>
-                                    <div id="pan-error-message" style="color: red;"></div>
-                                </div>
+                                    <div class="form-outline mb-3"><label>GST Number</label>
+                                        <input type="text" id="s_gstno" name="s_gstno" maxlength="15"
+                                            class="form-control form-control-lg" placeholder="GST Number"
+                                            tabindex="20" />
+                                        <label for="s_gstno" class="error"></label>
+                                        <div id="gst-error-message" style="color: red;"></div>
+                                    </div>
+                                    <div class="form-outline mb-3"><label>PAN Number</label>
+                                        <input type="text" id="s_panno" name="s_panno" maxlength="10"
+                                            class="form-control form-control-lg" placeholder="PAN Number"
+                                            tabindex="21" />
+                                        <label for="s_panno" class="error"></label>
+                                        {{-- <div id="pan-error-message" style="color: red;"></div> --}}
+                                    </div>
 
 
-                                <div class="form-outline mb-3"><label> Establishment Date @if($typeid==1)<span
-                                           class="text-danger">*</span> @endif</label>
-                                    <input type="date" id="s_establishdate" name="s_establishdate" maxlength="10"
-                                        class="form-control form-control-lg" placeholder="Establishment Date"
-                                        tabindex="22" max="{{ date('Y-m-d') }}" />
-                                    <div for="s_establishdate" class="error"></div>
-                                </div>
+                                    <div class="form-outline mb-3"><label> Establishment Date @if ($typeid == 1)
+                                                <span class="text-danger">*</span>
+                                            @endif
+                                        </label>
+                                        <input type="date" id="s_establishdate" name="s_establishdate"
+                                            maxlength="10" class="form-control form-control-lg"
+                                            placeholder="Establishment Date" tabindex="22"
+                                            max="{{ date('Y-m-d') }}" />
+                                        <label for="s_establishdate" class="error"></label>
+                                    </div>
 
 
 
 
 
-                                {{-- <div class="form-outline mb-3">
+                                    {{-- <div class="form-outline mb-3">
                                     <label>Open Time</label>
                                     <div class="input-group date" id="from-time-picker" data-target-input="nearest">
                                         <input type="text" class="form-control datetimepicker-input"
@@ -423,80 +856,82 @@
 
 
 
-                                <div class="form-group">
-                                    <fieldset>
-                                        <div class="repeater-default-timem">
-                                            <div data-repeater-list="availabletime_datam">
-                                                <!-- Heading Row -->
-                                                <div class="form-group row">
-                                                    <div class="col-md-2">
-                                                        <label class="control-label"> Status </label>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label class="control-label"> Day </label>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label class="control-label"> From Time </label>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label class="control-label"> To Time </label>
-                                                    </div>
-                                                </div>
-                                                <!-- Dynamic Rows -->
-                                                <div data-repeater-item="">
-                                                    <div class="form-group row ">
+                                    <div class="form-group">
+                                        <fieldset>
+                                            <div class="repeater-default-timem">
+                                                <div data-repeater-list="availabletime_datam">
+                                                    <!-- Heading Row -->
+                                                    <div class="form-group row">
                                                         <div class="col-md-2">
-                                                            <input class="form-control" type="checkbox"
-                                                                id="settimestatusm" name="settimestatusm"
-                                                                value="1" style="width: 20%;">
+                                                            <label class="control-label"> Status </label>
                                                         </div>
                                                         <div class="col-md-3">
-                                                            <select id="setdaysm" name="setdaysm"
-                                                                class="day-select form-control">
-                                                                <option value="Sunday">Sunday</option>
-                                                                <option value="Monday">Monday</option>
-                                                                <option value="Tuesday">Tuesday</option>
-                                                                <option value="Wednesday">Wednesday</option>
-                                                                <option value="Thursday">Thursday</option>
-                                                                <option value="Friday">Friday</option>
-                                                                <option value="Saturday">Saturday</option>
-                                                            </select>
+                                                            <label class="control-label"> Day </label>
                                                         </div>
                                                         <div class="col-md-3">
-                                                            <input type="text" id="setfrom_timem"
-                                                                name="setfrom_timem"
-                                                                class="form-control timepicker-input">
+                                                            <label class="control-label"> From Time </label>
                                                         </div>
                                                         <div class="col-md-3">
-                                                            <input type="text" id="setto_timem" name="setto_timem"
-                                                                class="form-control timepicker-input">
+                                                            <label class="control-label"> To Time </label>
                                                         </div>
-                                                        <div class="col-md-1">
-                                                            <span data-repeater-delete=""
-                                                                class="btn btn-danger btn-sm">
-                                                                <span class="far fa-trash-alt mr-1"></span>
-                                                            </span>
+                                                    </div>
+                                                    <!-- Dynamic Rows -->
+                                                    <div data-repeater-item="">
+                                                        <div class="form-group row ">
+                                                            <div class="col-md-2">
+                                                                <input class="form-control" type="checkbox"
+                                                                    id="settimestatusm" name="settimestatusm"
+                                                                    value="1" style="width: 20%;">
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <select id="setdaysm" name="setdaysm"
+                                                                    class="day-select form-control">
+                                                                    <option value="Sunday">Sunday</option>
+                                                                    <option value="Monday">Monday</option>
+                                                                    <option value="Tuesday">Tuesday</option>
+                                                                    <option value="Wednesday">Wednesday</option>
+                                                                    <option value="Thursday">Thursday</option>
+                                                                    <option value="Friday">Friday</option>
+                                                                    <option value="Saturday">Saturday</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <input type="text" id="setfrom_timem"
+                                                                    name="setfrom_timem"
+                                                                    class="form-control timepicker-input">
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <input type="text" id="setto_timem"
+                                                                    name="setto_timem"
+                                                                    class="form-control timepicker-input">
+                                                            </div>
+                                                            <div class="col-md-1">
+                                                                <span data-repeater-delete=""
+                                                                    class="btn btn-danger btn-sm">
+                                                                    <span class="far fa-trash-alt mr-1"></span>
+                                                                </span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group mb-0 row">
-                                                <div class="col-sm-12 text-right">
-                                                    <span data-repeater-create="" class="btn btn-secondary btn-sm">
-                                                        <span class="fas fa-plus"></span> Add New Time
-                                                    </span>
-                                                    @if (session('roleid') == 1)
-                                                        <button type="button" id="addSameTiming"
-                                                            class="btn btn-primary btn-sm">
-                                                            Add Same Timing for All Days
-                                                        </button>
-                                                    @endif
+                                                <div class="form-group mb-0 row">
+                                                    <div class="col-sm-12 text-right">
+                                                        <span data-repeater-create=""
+                                                            class="btn btn-secondary btn-sm">
+                                                            <span class="fas fa-plus"></span> Add New Time
+                                                        </span>
+                                                        @if (session('roleid') == 1)
+                                                            <button type="button" id="addSameTiming"
+                                                                class="btn btn-primary btn-sm">
+                                                                Add Same Timing for All Days
+                                                            </button>
+                                                        @endif
 
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </fieldset>
-                                </div>
+                                        </fieldset>
+                                    </div>
 
 
 
@@ -504,78 +939,79 @@
 
 
 
-                                {{-- <div class="form-outline mb-3"><label> Registration Date</label>
+                                    {{-- <div class="form-outline mb-3"><label> Registration Date</label>
                                     <input type="date" id="s_registerdate" name="s_registerdate" maxlength="10"
                                         class="form-control form-control-lg" placeholder="Registration Date"
                                         tabindex="24" maxlength="10" />
                                     <label for="s_registerdate" class="error"></label>
                                 </div> --}}
 
-                                {{-- <div class="form-outline mb-3"><label>Manufactoring Details</label>
+                                    {{-- <div class="form-outline mb-3"><label>Manufactoring Details</label>
                                     <textarea id="manufactringdets" name="manufactringdets" placeholder="Manufactoring Details"
                                         class="form-control form-control-lg" tabindex="25" required></textarea>
                                     <label for="manufactringdets" class="error"></label>
                                 </div> --}}
 
-                                <div class="form-outline mb-3"><label>Direct Affiliate</label>
-                                    <input type="text" class="form-control form-control-lg" id="directafflte"
-                                        name="directafflte">
-                                    <div for="directafflte" class="error"></div>
+                                    <div class="form-outline mb-3"><label>Direct Affiliate</label>
+                                        <input type="text" class="form-control form-control-lg" id="directafflte"
+                                            name="directafflte">
+                                        <label for="directafflte" class="error"></label>
+                                    </div>
+
+                                    <div class="form-outline mb-3"><label>Second Affiliate</label>
+                                        <input type="text" class="form-control form-control-lg" id="secondafflte"
+                                            name="secondafflte">
+                                        <label for="secondafflte" class="error"></label>
+                                    </div>
+
+                                    <div class="form-outline mb-3"><label>Co-Ordinator</label>
+                                        <input type="text" class="form-control form-control-lg" id="coordinater"
+                                            name="coordinater">
+                                        <label for="coordinater" class="error"></label>
+                                    </div>
+
+                                    <div class="form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="s_termcondtn"
+                                            name="s_termcondtn" value="1" required tabindex="26">
+                                        <label class="inlineCheckbox1" for="s_termcondtn"> Accept Terms &
+                                            Conditions<span class="text-danger">*</span>
+                                        </label>
+                                    </div>
+
                                 </div>
 
-                                <div class="form-outline mb-3"><label>Second Affiliate</label>
-                                    <input type="text" class="form-control form-control-lg" id="secondafflte"
-                                        name="secondafflte">
-                                    <div for="secondafflte" class="error"></div>
+
+                                <div class="col-md-12">
+                                    <div style="float:right">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-danger" id="resetButton">Reset</button>
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
                                 </div>
 
-                                <div class="form-outline mb-3"><label>Co-Ordinator</label>
-                                    <input type="text" class="form-control form-control-lg" id="coordinater"
-                                        name="coordinater">
-                                    <div for="coordinater" class="error"></div>
+
+                                <div class="col-md-12">
+                                    <div id="shopreg-message" class="text-center" style="display: none;"></div>
                                 </div>
 
-                                <div class="form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="s_termcondtn"
-                                        name="s_termcondtn" value="1" required tabindex="26">
-                                    <label class="inlineCheckbox1" for="s_termcondtn"> Accept Terms & Conditions<span
-                                            class="text-danger">*</span>
-                                    </label>
-                                </div>
+
                             </div>
-
-
-                            <div class="col-md-12">
-                                <div style="float:right">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-danger" id="resetButton">Reset</button>
-                                    <button type="submit" class="btn btn-primary">Save</button>
-                                </div>
-                            </div>
-
-
-                            <div class="col-md-12">
-                                <div id="shopreg-message" class="text-center" style="display: none;"></div>
-                            </div>
-
-
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
+
+
+
+
     </div>
 
-
-
-
-</div>
-
-</div>
-</div>
-</div>
-<!-- Modal Add new Close -->
+    </div>
+    </div>
+    </div>
+    <!-- Modal Add new Close -->
 
 
 
@@ -583,61 +1019,61 @@
 
 
 
-<!-- Modal Add New -->
-<div class="modal fade" id="UploadShopModal" tabindex="-1" aria-labelledby="UploadShopModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-center" id="UploadShopModalLabel">Upload Shops Details </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                    title="Close">x</button>
-            </div>
-            <div class="modal-body">
-                <form id="UploadSellerRegForm" enctype="multipart/form-data" method="POST">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-outline mb-3"><label>Upload File</label>
-                                    <input type="file" id="shopupload" name="shopupload"
-                                        class="form-control form-control-lg" placeholder="Upload File" accept=".csv"
-                                        required tabindex="1" />
-                                    <label for="shopupload" class="error"></label>
+    <!-- Modal Add New -->
+    <div class="modal fade" id="UploadShopModal" tabindex="-1" aria-labelledby="UploadShopModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center" id="UploadShopModalLabel">Upload Shops Details </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        title="Close">x</button>
+                </div>
+                <div class="modal-body">
+                    <form id="UploadSellerRegForm" enctype="multipart/form-data" method="POST">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-outline mb-3"><label>Upload File</label>
+                                        <input type="file" id="shopupload" name="shopupload"
+                                            class="form-control form-control-lg" placeholder="Upload File"
+                                            accept=".csv" required tabindex="1" />
+                                        <label for="shopupload" class="error"></label>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-12">
+                                    <div style="float:right">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
                                 </div>
 
-                            </div>
-                            <div class="col-md-12">
-                                <div style="float:right">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Save</button>
+
+                                <div class="col-md-12">
+                                    <div id="shopupload-message" class="text-center" style="display: none;"></div>
                                 </div>
+
+
                             </div>
-
-
-                            <div class="col-md-12">
-                                <div id="shopupload-message" class="text-center" style="display: none;"></div>
-                            </div>
-
-
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
+
+
+
+
     </div>
 
+    </div>
+    </div>
+    </div>
+    <!-- Modal Add new Close -->
 
-
-
-</div>
-
-</div>
-</div>
-</div>
-<!-- Modal Add new Close -->
-
-
+@endif
 
 
 <script>
@@ -660,18 +1096,18 @@
 
 
 
-    document.getElementById('s_panno').addEventListener('input', function() {
-        var panInput = this.value;
-        var panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
+    // document.getElementById('s_panno').addEventListener('input', function() {
+    //     var panInput = this.value;
+    //     var panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
 
-        if (panRegex.test(panInput)) {
-            // PAN format is valid
-            document.getElementById('pan-error-message').textContent = "";
-        } else {
-            // PAN format is invalid
-            //document.getElementById('pan-error-message').textContent = "Invalid PAN format. It should be in the format AEDFR2568H";
-        }
-    });
+    //     if (panRegex.test(panInput)) {
+    //         // PAN format is valid
+    //         document.getElementById('pan-error-message').textContent = "";
+    //     } else {
+    //         // PAN format is invalid
+    //         //document.getElementById('pan-error-message').textContent = "Invalid PAN format. It should be in the format AEDFR2568H";
+    //     }
+    // });
 
     // document.getElementById('s_gstno').addEventListener('input', function() {
     //     var gstInput = this.value;
@@ -691,25 +1127,25 @@
 
     $(document).ready(function() {
 
-        $('#s_locality').on('input', function () {
-                var inputText = $(this).val();
-                var pattern = /^[a-zA-Z0-9\s]+$/;
-                if (!pattern.test(inputText)) {
-                    $(this).next('.error').text('Must include at least one alphabetic character.');
-                } else {
-                    $(this).next('.error').text('');
-                }
-            });
+        // $('#s_locality').on('input', function () {
+        //         var inputText = $(this).val();
+        //         var pattern = /^[a-zA-Z0-9\s]+$/;
+        //         if (!pattern.test(inputText)) {
+        //             $(this).next('.error').text('Must include at least one alphabetic character.');
+        //         } else {
+        //             $(this).next('.error').text('');
+        //         }
+        //     });
 
-            $('#s_villagetown').on('input', function () {
-                var inputText = $(this).val();
-                var pattern = /^[a-zA-Z0-9\s]+$/;
-                if (!pattern.test(inputText)) {
-                    $(this).next('.error').text('Must include at least one alphabetic character.');
-                } else {
-                    $(this).next('.error').text('');
-                }
-            });
+        //     $('#s_villagetown').on('input', function () {
+        //         var inputText = $(this).val();
+        //         var pattern = /^[a-zA-Z0-9\s]+$/;
+        //         if (!pattern.test(inputText)) {
+        //             $(this).next('.error').text('Must include at least one alphabetic character.');
+        //         } else {
+        //             $(this).next('.error').text('');
+        //         }
+        //     });
 
 
 
@@ -980,7 +1416,7 @@
     var fileArrs = [];
     var totalFiless = 0;
     var maxSize = 10485760; // 10MB in bytes
-    var minSize = 512000;  // 500KB in bytes
+    var minSize = 512000; // 500KB in bytes
 
     $("#s_photo").change(function(event) {
         //$('#image-preview').html('');
@@ -1013,9 +1449,11 @@
                 alert('Maximum 5 images allowed');
                 $(this).val('');
                 $('#image-preview').html('');
+
                 totalFiless = 0;
                 fileArrs = [];
-                return;
+                file = "";
+                return false;
             }
 
 
@@ -1030,8 +1468,8 @@
 
                     imgDiv.append(img);
                     imgDiv.append($('<div>').addClass('middle').append(removeBtn));
-
-                    $('#image-preview').append(imgDiv);
+                    if (fileArrs.length > 0)
+                        $('#image-preview').append(imgDiv);
                 };
             })(file);
 
@@ -1039,6 +1477,7 @@
         }
         document.getElementById('s_photo').files = new FileListItem([]);
         document.getElementById('s_photo').files = new FileListItem(fileArrs);
+
 
     });
 
@@ -1157,8 +1596,8 @@
 
                     imgDiv.append(img);
                     imgDiv.append($('<div>').addClass('middle').append(removeBtn));
-
-                    $('#image-preview-logo').append(imgDiv);
+                    if (fileArr.length > 0)
+                        $('#image-preview-logo').append(imgDiv);
                 };
             })(file);
 
@@ -1220,6 +1659,16 @@
         return this.optional(element) || licenceRegex.test(value);
     }, "Invalid license number format. It should be 3 uppercase letters followed by 5 digits.");
 
+    jQuery.validator.addMethod("validlocality", function(value, element) {
+        var localityRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/;
+        return this.optional(element) || localityRegex.test(value);
+    }, "Must include at least one alphabetic character and allow only alphanumeric characters.");
+
+    jQuery.validator.addMethod("validvillagetown", function(value, element) {
+        var villagetownRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/;
+        return this.optional(element) || villagetownRegex.test(value);
+    }, "Must include at least one alphabetic character and allow only alphanumeric characters.");
+
 
     $("#SellerRegForm").validate({
 
@@ -1270,10 +1719,13 @@
             },
 
             s_locality: {
+                validlocality: true,
                 required: true,
+
             },
 
             s_villagetown: {
+                validvillagetown: true,
                 required: true,
             },
 
@@ -1313,7 +1765,7 @@
 
             s_establishdate: {
                 required: function(element) {
-                return $("#typeidhid").val() === "1";
+                    return $("#typeidhid").val() === "1";
                 }
             },
             s_termcondtn: {
@@ -1391,11 +1843,13 @@
             },
             s_locality: {
                 required: "Please enter the locality.",
-                maxlength: "Locality must not exceed 100 characters."
+                maxlength: "Locality must not exceed 100 characters.",
+                validlocality: "Must include at least one alphabetic character and allow only alphanumeric characters."
             },
             s_villagetown: {
                 required: "Please enter village/town/municipality.",
-                maxlength: "Village/town/municipality must not exceed 100 characters."
+                maxlength: "Village/town/municipality must not exceed 100 characters.",
+                validvillagetown: "Must include at least one alphabetic character and allow only alphanumeric characters."
             },
             country: {
                 required: "Please select a country."

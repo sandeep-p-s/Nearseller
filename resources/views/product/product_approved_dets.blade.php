@@ -249,12 +249,12 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group"  style="display: none">
                             <label>Stock </label>
                             <input type="number" class="form-control" id="totstocks" name="totstocks"
                                 tabindex="13" required value="{{ $ProductDetails->product_stock }}" />
                         </div>
-                        <div class="form-group">
+                        <div class="form-group"  style="display: none">
                             <div id="errorstocks-message" class="text-danger" style="display: none;">Total
                                 stock and attribute stock must be equal.</div>
 
@@ -349,7 +349,7 @@
                                                             placeholder="MRP" class="form-control"
                                                             value="{{ $attribte->mrp_price }}">
                                                     </div>
-                                                    <div class="col">
+                                                    <div class="col"  style="display: none;">
                                                         <input type="text" id="attr_stocks1" name="attr_stocks1"
                                                             placeholder="Attribute Stock"
                                                             class="form-control attr-stocks"
@@ -393,7 +393,7 @@
                                                     <input type="text" id="mrprices1" name="mrprices1"
                                                         placeholder="MRP" class="form-control" />
                                                 </div>
-                                                <div class="col">
+                                                <div class="col"  style="display: none;">
                                                     <input type="text" id="attr_stocks1" name="attr_stocks1"
                                                         placeholder="Attribute Stock"
                                                         class="form-control attr-stocks" />
@@ -493,24 +493,24 @@
                 $(this).attr('id', newId);
             });
         }
-        $(document).on('keyup', '.attr-stocks', function() {
-            if ($("input[name='customRadios']:checked").val() === "Y") {
-                var totalAttributeStock = 0;
-                $('.attr-stocks').each(function() {
-                    var value = parseInt($(this).val()) || 0;
-                    totalAttributeStock += value;
-                });
-                var totalStock = parseInt($('#totstocks').val()) || 0;
-                //console.log('Total Attribute Stock:', totalAttributeStock);
-                //console.log('Total Stock:', totalStock);
-                if (totalAttributeStock !== totalStock) {
-                    $('#errorstocks-message').show();
-                } else {
-                    $('#errorstocks-message').hide();
-                }
-            }
+        // $(document).on('keyup', '.attr-stocks', function() {
+        //     if ($("input[name='customRadios']:checked").val() === "Y") {
+        //         var totalAttributeStock = 0;
+        //         $('.attr-stocks').each(function() {
+        //             var value = parseInt($(this).val()) || 0;
+        //             totalAttributeStock += value;
+        //         });
+        //         var totalStock = parseInt($('#totstocks').val()) || 0;
+        //         //console.log('Total Attribute Stock:', totalAttributeStock);
+        //         //console.log('Total Stock:', totalStock);
+        //         if (totalAttributeStock !== totalStock) {
+        //             $('#errorstocks-message').show();
+        //         } else {
+        //             $('#errorstocks-message').hide();
+        //         }
+        //     }
 
-        });
+        // });
         //Remove video
         $("#removeButtons").click(function() {
             $("#previews")[0].src = "";
@@ -596,18 +596,18 @@
         return totalAttributeStock;
     }
 
-    function handleSubmit() {
-        if ($("input[name='customRadios']:checked").val() === "Y") {
-            var totalStock = parseInt($('#totstocks').val()) || 0;
-            var totalAttributeStock = calculateTotalAttributeStock();
-            if (totalAttributeStock !== totalStock) {
-                $('#errorstocks-message').show();
-            }
-            // else {
-            //     $('#ProductAddForm').submit();
-            // }
-        }
-    }
+    // function handleSubmit() {
+    //     if ($("input[name='customRadios']:checked").val() === "Y") {
+    //         var totalStock = parseInt($('#totstocks').val()) || 0;
+    //         var totalAttributeStock = calculateTotalAttributeStock();
+    //         if (totalAttributeStock !== totalStock) {
+    //             $('#errorstocks-message').show();
+    //         }
+    //         // else {
+    //         //     $('#ProductAddForm').submit();
+    //         // }
+    //     }
+    // }
 
 
 
@@ -729,7 +729,7 @@
 
     $('#ProductRegFormApproved').submit(function(e) {
         e.preventDefault();
-        handleSubmit();
+        //handleSubmit();
         if ($(this).valid()) {
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
             $('#loading-overlay').fadeIn();
