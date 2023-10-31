@@ -2008,7 +2008,7 @@ class AdminController extends Controller
         // $shop_service_type      = $sellerDetails->first()->shop_service_type;
         // $shopservicesubcategory = DB::table('service_sub_categories')->where('service_category_id',$shop_service_type)->get();
         $shopservice            = DB::table('service_types')->where('business_type_id',$typeid)->get();
-        $executives             = DB::table('executives')->where(['executive_type' => $typeid])->get();
+        $executives             = DB::table('executives')->where(['business_type_id' => $typeid])->get();
         return view('admin.shop_dets', compact('sellerDetails', 'sellerCount', 'countries', 'business', 'shoporservice', 'typeid','shopservicecategory','shopservice','executives'));
 
     }

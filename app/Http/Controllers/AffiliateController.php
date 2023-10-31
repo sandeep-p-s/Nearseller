@@ -171,7 +171,7 @@ class AffiliateController extends Controller
         $countries      = DB::table('country')->get();
         $business       = DB::table('business_type')->where('status','Y')->get();
         $shopservice    = DB::table('service_types')->where('status','active')->get();
-        $executives     = DB::table('executives')->where(['executive_type' => 1, 'status' => 'Y'])->get();
+        $executives     = DB::table('executives')->where(['business_type_id' => 1, 'status' => 'Y'])->get();
         $shoptypes      = DB::table('shop_type')->where('status','Y')->get();
         $loggeduser     = UserAccount::sessionValuereturn($userRole);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
