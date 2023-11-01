@@ -32,7 +32,7 @@ use App\Http\Controllers\Masters\ReligionController as ReligionController;
 
 use App\Http\Controllers\Masters\AttributeController as AttributeController;
 use App\Http\Controllers\Masters\ProfessionsController as ProfessionsController;
-
+use App\Http\Controllers\CustomerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -442,6 +442,16 @@ Route::middleware(['role'])->group(function () {
         Route::get('affliateshops/{id}', 'ViewAffiliatesShopList')->name('affiliate.affliateshops');
         Route::get('allaffilateshopsview', 'AllAffiliatesShopList')->name('affiliate.allaffilateshopsview');
     });
+
+    Route::controller(CustomerController::class)->group(function () {
+        Route::get('customerapproval/{id}', 'CustomerApproval')->name('cust.custaproval');
+        Route::get('allcustomer', 'AllCustomerList')->name('cust.allcustomersview');
+        Route::post('editcustomer', 'AdmCustomerViewEdit')->name('CustomerViewEdit');
+        Route::post('customerupdate', 'AdmUpdateCustomerDetails')->name('AdmCustomerEditDetails');
+        Route::post('customerdelete', 'AdmCustomerDeletePage')->name('customerDelete');
+        Route::post('customerapproveall', 'AdmCustomersApprovedAll')->name('CustomersApprovedAll');
+    });
+
 });
 
 Route::controller(UserController::class)->group(function () {
