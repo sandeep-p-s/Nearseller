@@ -90,7 +90,7 @@ class ServiceNewController extends Controller
         $query = ServiceDetails::select('service_details.*', 'user_account.name as shopname')
         ->leftJoin('user_account', 'user_account.id', 'service_details.service_id');
 
-        if ($roleid == 1) {
+        if ($roleid == 1  || $roleid == 11) {
         } else {
             $query->where('user_account.id', $userId);
         }
@@ -132,7 +132,7 @@ class ServiceNewController extends Controller
         $ServiceDetails->created_by = $userId;
         $ServiceDetails->created_time = $time;
         $ServiceDetails->service_status = 'Y';
-        if ($roleid == 1) {
+        if ($roleid == 1  || $roleid == 11) {
             $ServiceDetails->is_approved = 'Y';
             $ServiceDetails->approved_by = $userId;
             $ServiceDetails->approved_time = $time;
