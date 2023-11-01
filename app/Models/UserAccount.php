@@ -51,6 +51,11 @@ class UserAccount extends Model
         '7' => 'HR',
         '8' => 'Shop Co-ordinator',
         '9' => 'Services',
+        '10' => 'Executives',
+        '11' => 'Admin',
+
+
+
     ];
     $roles = [];
     foreach ($roleIds as $roleId) {
