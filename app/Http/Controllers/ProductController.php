@@ -125,7 +125,7 @@ class ProductController extends Controller
             $query->where('product_details.shop_id', $shopval);
         }
 
-        if ($roleid == 1) {
+        if ($roleid == 1  || $roleid == 11) {
         } else {
             $query->where('user_account.id', $userId);
         }
@@ -252,7 +252,7 @@ class ProductController extends Controller
         $ProductDetails->created_by = $userId;
         $ProductDetails->created_time = $time;
         $ProductDetails->product_status = 'Y';
-        if ($roleid == 1) {
+        if ($roleid == 1  || $roleid == 11) {
             $ProductDetails->is_approved = 'Y';
             $ProductDetails->approved_by = $userId;
             $ProductDetails->approved_time = $time;
@@ -400,7 +400,7 @@ class ProductController extends Controller
         $ProductDetails->created_by = $userId;
         $ProductDetails->created_time = $time;
         $ProductDetails->product_status = 'Y';
-        if ($roleid == 1) {
+        if ($roleid == 1  || $roleid == 11) {
             $ProductDetails->is_approved = 'Y';
             $ProductDetails->approved_by = $userId;
             $ProductDetails->approved_time = $time;

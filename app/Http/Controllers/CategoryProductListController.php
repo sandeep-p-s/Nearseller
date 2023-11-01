@@ -100,7 +100,7 @@ class CategoryProductListController extends Controller
             $categories->where('c1.parent_id', 0);
         }
         $categories->where('c1.approval_status', 'Y');
-        if ($roleid != 1) {
+        if ($roleid != 1 || $roleid != 11) {
             $categories->where('user_account.id', $userId);
         }
         $categories->groupBy('c1.id','c1.category_image', 'c1.category_name', 'c1.parent_id', 'c2.category_name');
@@ -260,7 +260,7 @@ class CategoryProductListController extends Controller
             $query->where('categories.parent_id', '0');
         }
 
-        if ($roleid != 1) {
+        if ($roleid != 1  || $roleid != 11) {
             $query->where('user_account.id', $userId);
         }
         $query->distinct();
@@ -345,7 +345,7 @@ class CategoryProductListController extends Controller
         } else {
             $query->where('categories.parent_id', '0');
         }
-        if ($roleid != 1) {
+        if ($roleid != 1  || $roleid != 11) {
             $query->where('user_account.id', $userId);
         }
 
@@ -400,7 +400,7 @@ class CategoryProductListController extends Controller
         $getSubcategories(Category::find($categoryid));
         $query->whereIn('product_details.category_id', $categoryIds);
 
-        if ($roleid != 1) {
+        if ($roleid != 1  || $roleid != 11) {
             $query->where('user_account.id', $userId);
         }
         $query->distinct();

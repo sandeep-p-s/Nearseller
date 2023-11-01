@@ -145,7 +145,7 @@ class AdminController extends Controller
         if ($referalid) {
             $query->where('affiliate.referal_id', $referalid);
         }
-        if ($roleid == 1) {
+        if ($roleid == 1  || $roleid == 11) {
         } else {
             $query->where('affiliate.user_id', $userId);
         }
@@ -742,7 +742,7 @@ class AdminController extends Controller
             $user->mobno = $request->ea_mobno;
         }
         $user->name = $request->ea_name;
-        if ($roleid == 1) {
+        if ($roleid == 1  || $roleid == 11) {
             $user->user_status = $request->userstatus;
         }
         $user->ip = $loggedUserIp;
@@ -969,7 +969,7 @@ class AdminController extends Controller
         // if (in_array('9', $roleIdsArray)) {
 
         // }
-        if ($roleid == 1) {
+        if ($roleid == 1  || $roleid == 11) {
         } else {
             $query->where('seller_details.user_id', $userId);
         }
@@ -1012,7 +1012,7 @@ class AdminController extends Controller
         //$executives             = DB::table('executives')->where(['executive_type' => $typeid])->get();
         $executives  ='';
         $shopavailable='';
-        if ($roleid == 1) {
+        if ($roleid == 1 || $roleid == 11) {
         $executives             = DB::table('user_account')->where(['role_id' => 10])->where(['user_status' => 'Y'])->get();
         $shopavailable='';
         }
@@ -1576,7 +1576,7 @@ class AdminController extends Controller
             $user->mobno = $request->es_mobno;
         }
         $user->name = $request->es_name;
-        if ($roleid == 1) {
+        if ($roleid == 1 || $roleid == 11) {
             $user->user_status = $request->userstatus;
         }
         $user->referal_id = $request->input('es_refralid');
@@ -2005,7 +2005,7 @@ class AdminController extends Controller
         // if (in_array('9', $roleIdsArray)) {
 
         // }
-        if ($roleid == 1) {
+        if ($roleid == 1  || $roleid == 11) {
         } else {
             $query->where('seller_details.user_id', $userId);
         }

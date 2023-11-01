@@ -347,6 +347,13 @@ class RoleController extends Controller
         $user->role_id = $request->roleid;
         $user->forgot_pass = $pass_chars;
         $user->user_status = 'Y';
+        if($request->roleid==11)
+        {
+            $user->approved = 'Y';
+        }
+        else{
+            $user->approved = 'N';
+        }
         $user->ip = $loggedUserIp;
         $user->parent_id = $userId;
         $submt = $user->save();

@@ -38,7 +38,7 @@ class AppointmentController extends Controller
             ->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $query = ServiceDetails::select('service_details.id', 'service_details.service_name');
-        if ($roleid == 1) {
+        if ($roleid == 1  || $roleid == 11) {
         } else {
             $query->where('service_details.service_id', $userId);
         }
@@ -76,14 +76,14 @@ class AppointmentController extends Controller
         if ($service_point) {
             $query->where('service_appointments.service_point', $service_point);
         }
-        if ($roleid == 1) {
+        if ($roleid == 1  || $roleid == 11) {
         } else {
             $query->where('service_details.service_id', $userId);
         }
         $ServiceAppointment = $query->get();
         //echo $lastRegId = $query->toSql();exit;
         $serviceCount = $ServiceAppointment->count();
-        if ($roleid == 1) {
+        if ($roleid == 1  || $roleid == 11) {
             //$servicedetails = DB::table('service_details')->get();
             $servicedetails = DB::table('service_details')
                 ->whereNotExists(function ($query) {
@@ -233,7 +233,7 @@ class AppointmentController extends Controller
         $ServiceAppointmentQuery = ServiceAppointment::select('service_appointments.*')
             ->leftJoin('service_details', 'service_details.id', 'service_appointments.service_id')
             ->where('service_appointments.id', $appointmentid);
-        if ($roleid == 1) {
+        if ($roleid == 1  || $roleid == 11) {
             $servicedetails = DB::table('service_details')->get();
             $serviceemployees = DB::table('service_employees')->get();
         } else {

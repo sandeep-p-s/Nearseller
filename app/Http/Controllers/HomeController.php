@@ -1168,6 +1168,11 @@ class HomeController extends Controller
                 // if (($role_id != 4 && $role_id != 1) && $approved !== 'Y') {
                 //     return response()->json(['result' => 5,'mesge'=>'Not Approved.Please contact adminstrator','sendto'=>$emailid]);
                 // }
+                $roleIdsArray = explode(',', $role_id);
+                if ((in_array('1', $roleIdsArray) || in_array('4', $roleIdsArray) || in_array('10', $roleIdsArray) || in_array('11', $roleIdsArray)) && ($approved !== 'Y'))
+                {
+                    return response()->json(['result' => 5,'mesge'=>'Not Approved.Please contact adminstrator','sendto'=>$emailid]);
+                }
 
                 return response()->json(['result' => 3,'mesge' => 'Successfully Logged In.','sendto' => $emailid]);
             } else {
