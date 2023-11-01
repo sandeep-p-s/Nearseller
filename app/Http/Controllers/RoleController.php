@@ -347,7 +347,7 @@ class RoleController extends Controller
         $user->role_id = $request->roleid;
         $user->forgot_pass = $pass_chars;
         $user->user_status = 'Y';
-        if($request->roleid==11)
+        if($request->roleid==11 || $request->roleid==4)
         {
             $user->approved = 'Y';
         }

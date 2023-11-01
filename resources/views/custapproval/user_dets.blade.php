@@ -4,27 +4,35 @@
             <table id="datatable" class="table table-striped table-bordered">
                 <thead>
                     <tr>
+                        <th width="5px"><input type='checkbox' name='checkbox1' id='checkbox1'
+                            onclick='check();' />
+                    </th>
                         <th>SINO</th>
-                        <th data-sorting="false">Name</th>
-                        <th data-sorting="false">Email</th>
-                        <th data-sorting="false">Mobile</th>
-                        <th >Role</th>
-                        <th>User Status</th>
-                        <th data-sorting="false">Action</th>
+                        <th>Customer ID</th>
+                        <th>Customer Name</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>Active Status</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($alluserdetails as $index => $userDets)
                         <tr>
+                            <td><input name="customerid[]" type="checkbox" id="customerid{{ $index + 1 }}"
+                                value="{{ $userDets->id }}"
+                                {{ $userDets->approved === 'Y' ? 'checked' : '' }} />
+                        </td>
                             <td>{{ $index + 1 }}</td>
+                            <td>{{ 'CUST' }}{{ str_pad($userDets->id, 9, '0', STR_PAD_LEFT) }}</td>
                             <td>{{ $userDets->name }}</td>
                             <td>{{ $userDets->email }}</td>
                             <td>{{ $userDets->mobno }}</td>
-                            <td>{{ $userDets->role_name }}</td>
                             <td><span
                                     class="badge p-2 {{ $userDets->user_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
-                                    {{ $userDets->user_status === 'Y' ? 'Active' : 'Inactive' }}
+                                    {{ $userDets->user_status === 'Y' ? 'Active' : 'Suspend User' }}
                                 </span></td>
+
                             <td>
                                 <div class="btn-group mb-2 mb-md-0">
                                     <button type="button" class="btn view_btn dropdown-toggle" data-toggle="dropdown"
@@ -32,7 +40,7 @@
                                         <i class="mdi mdi-chevron-down"></i></button>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item view_btn1" href="#"
-                                            onclick="uservieweditdet({{ $userDets->id }})">View/Edit</a>
+                                            onclick="uservieweditdet({{ $userDets->id }})">Edit</a>
                                         @if ($userDets->role_id != '1' || $userDets->role_id != '11')
                                             <a class="dropdown-item delete_btn" href="#"
                                                 onclick="userdeletedet({{ $userDets->id }})">Delete</a>
@@ -44,16 +52,27 @@
                     @endforeach
                 </tbody>
             </table>
+            <input type="hidden" value="{{ $index + 1 }}" id="totalshopcnt">
         @else
             <table>
                 <tr>
                     <td colspan="13" align="center">
                         <img src="{{ asset('backend/assets/images/notfoundimg.png') }}" alt="notfound"
-                            class="rounded-circle" style="width: 30%;" />
+                            class="rounded-circle" style="width: 25%;" />
                     </td>
                 </tr>
             </table>
 @endif
+
+@if ($allusercount > 0)
+        @if (session('roleid') == '1' || session('roleid') == '11')
+            <div class="col text-center">
+                <button class="btn btn-primary" style="cursor:pointer"
+                    onclick="customer_approvedall();">Active
+                    All</button>
+            </div>
+        @endif
+    @endif
 </div>
 </div>
 

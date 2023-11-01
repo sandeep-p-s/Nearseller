@@ -118,7 +118,8 @@ class HomeController extends Controller
             $user->password = Hash::make($request->u_paswd);
             $user->role_id=4;
             $user->forgot_pass=$request->u_paswd;
-            $user->user_status='N';
+            $user->user_status='Y';
+            $user->approved='Y';
             $submt=$user->save();
             $lastRegId = $user->toSql();
             $last_id = $user->id;
@@ -950,8 +951,14 @@ class HomeController extends Controller
                 }
 
 
-                if (($role_id != 4 && $role_id != 1) && $approved !== 'Y') {
-                    return response()->json(['result' => 5,'mesge'=>'Not Approved.Please contact adminstrator','sendto'=>$email]);
+                // if (($role_id != 4 && $role_id != 1) && $approved !== 'Y') {
+                //     return response()->json(['result' => 5,'mesge'=>'Not Approved.Please contact adminstrator','sendto'=>$email]);
+                // }
+
+                $roleIdsArray = explode(',', $role_id);
+                if ((in_array('1', $roleIdsArray) || in_array('4', $roleIdsArray) || in_array('10', $roleIdsArray) || in_array('11', $roleIdsArray)) && ($approved !== 'Y'))
+                {
+                    return response()->json(['result' => 5,'mesge'=>'Not Approved.Please contact adminstrator','sendto'=>$emailid]);
                 }
 
                 $request->session()->put('mobno', $email);
@@ -1051,9 +1058,16 @@ class HomeController extends Controller
                 }
 
 
-                if (($role_id != 4 && $role_id != 1) && $approved !== 'Y') {
-                    return response()->json(['result' => 5,'mesge'=>'Not Approved.Please contact adminstrator','sendto'=>$mobno]);
+                // if (($role_id != 4 && $role_id != 1) && $approved !== 'Y') {
+                //     return response()->json(['result' => 5,'mesge'=>'Not Approved.Please contact adminstrator','sendto'=>$mobno]);
+                // }
+                $roleIdsArray = explode(',', $role_id);
+                if ((in_array('1', $roleIdsArray) || in_array('4', $roleIdsArray) || in_array('10', $roleIdsArray) || in_array('11', $roleIdsArray)) && ($approved !== 'Y'))
+                {
+                    return response()->json(['result' => 5,'mesge'=>'Not Approved.Please contact adminstrator','sendto'=>$emailid]);
                 }
+
+
                 $request->session()->put('mobno', $mobno);
                 $msg="Your One Time Password is ";
                     $characters = array(
