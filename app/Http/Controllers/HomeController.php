@@ -1453,6 +1453,88 @@ class HomeController extends Controller
         }
 
 
+    public function MailSendOTPRegistration(Request $request)
+        {
+            $fname = $request->input('u_name');
+            $u_emid = $request->input('u_emid');
+            $loggedUserIp = $_SERVER['REMOTE_ADDR'];
+            $time=date('Y-m-d H:i:s');
+            $UserAccount = new UserAccount();
+            $LogDetails = new LogDetails();
+            $OTPGenModel = new OTPGenerate();
+            $random_chars = '';
+            $emailid = $u_emid;
+
+            $msg="Your One Time Password is ";
+                $characters = array(
+                "1","2","3","4","5","6","7","8","9"
+            );
+            $keys = array();
+            while (count($keys) < 6) {
+                $x = mt_rand(0, count($characters) - 1);
+                if (!in_array($x, $keys)) {
+                    $keys[] = $x;
+                }
+            }
+            foreach ($keys as $key) {
+                $random_chars.= $characters[$key];
+            }
+            $message='The OTP has been send to your enter email id , '.$msg.' : '.$random_chars;
+            $otpMobData = $OTPGenModel->where(['otpmsgtype' => $emailid])->get();
+            if(count($otpMobData)>0)
+            {
+                foreach($otpMobData as $row)
+                {
+                    $otpid=$row->id;
+                    $data = [
+                        'otp' 			=> $random_chars,
+                        'updated_by' 	=> $emailid,
+                        'updated_at' 	=> $time
+                    ];
+                    $OTPGenModel->where('id', $otpid)->update($data);
+                }
+                    //Mail::to($email)->send($emailid);
+                    $msg = "Email ID : " . $emailid . " OTP is " . $message;
+                    $logdata = [
+                        'user_id'       => $emailid,
+                        'ip_address'    => $loggedUserIp,
+                        'log_time'      => $time,
+                        'status'        => $msg
+                    ];
+                    $LogDetails->insert($logdata);
+            }
+            else{
+                    $data = [
+                        'user_id' 	    => $emailid,
+                        'otpmsgtype' 	=> $emailid,
+                        'otp' 			=> $random_chars,
+                        'created_time' 	=> $time
+                    ];
+                    $OTPGenModel->insert($data);
+                    //Mail::to($email)->send($emailid);
+                    $msg = "Email ID : " . $emailid ." OTP is " . $message;
+                    $logdata = [
+                        'user_id'       => $emailid,
+                        'ip_address'    => $loggedUserIp,
+                        'log_time'      => $time,
+                        'status'        => $msg
+                    ];
+                    $LogDetails->insert($logdata);
+                }
+                $id=1;
+                $valencodemm = $id . '-' . $emailid;
+                $valsmm = base64_encode($valencodemm);
+                $refer_chars='';
+                $verificationToken = base64_encode($id . '-' . $emailid . '-' . $random_chars . '-' . $refer_chars);
+                $checkval = '2';
+                $message = '';
+                $emailsend = new EmailVerification($verificationToken, $fname, $emailid, $checkval, $random_chars);
+                Mail::to($emailid)->send($emailsend);
+                return response()->json(['result' => 3,'mesge'=>$message,'sendto'=>$emailid]);
+
+        }
+
+
 
 
 

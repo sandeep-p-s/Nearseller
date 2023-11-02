@@ -190,7 +190,8 @@ class CategoryController extends Controller
         $loggeduser     = UserAccount::sessionValuereturn_s($roleid);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $current_category = Category::where('category_slug', $category_slug)->first();
-        $categories = Category::treeWithStatusYandTypeSort($current_category->category_type);
+        // $categories = Category::treeWithStatusYandTypeSort($current_category->category_type);
+        $categories = Category::treeWithStatusY($current_category->category_type);
         $filteredCategories = $categories->filter(function ($category) use ($category_slug , $current_category) {
             return $category->category_level < $current_category->category_level && $category->category_slug != $category_slug;
         });

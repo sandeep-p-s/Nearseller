@@ -5,7 +5,11 @@
     <footer class="footer text-center text-sm-left">
 
     &copy;<a href="https://hyzventures.com/" target="_blank"> Hyz Ventures
-        Intl Pvt Ltd</a></footer><!--end footer-->
+        Intl Pvt Ltd</a>
+        <div class="col text-right">version 2.1
+        </div>
+
+    </footer><!--end footer-->
 </div>
 <!-- end page content -->
 </div>
@@ -19,6 +23,7 @@
 
 <!-- jQuery  -->
 {{-- <script src="{{ asset('backend/assets/js/jquery.min.js') }}"></script> --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/js/bootstrap-timepicker.min.js"></script>
 <script src="{{ asset('backend/assets/js/bootstrap.bundle.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ asset('backend/assets/js/jquery-ui.min.js') }}"></script>

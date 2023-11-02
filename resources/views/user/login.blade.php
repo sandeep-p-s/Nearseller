@@ -208,6 +208,27 @@
                                     {{-- <div  class="text-center" style="display: none;"></div> --}}
                                 </div>
 
+                                <div class="input-group regmailsendotp" style="display: none;">
+
+                                    <button class="btn btn-success regEmlsendotp" style="height: 5%;" type="button"
+                                        onclick="RegEmailsendOTP('1');" style="display: none;">Send OTP</button>
+
+                                    <button class="btn btn-danger regEmlrendsendotp" style="height: 5%;"
+                                        type="button" onclick="RegEmailsendOTP('1');" style="display: none;">Resend
+                                        OTP</button>
+
+                                    <div id="showemailotp" style="display: none;">
+                                        <input type="text" id="regemailotp" name="regemailotp"
+                                            class="form-control" style="width: 43%;margin-left: 9%;" maxlength="6"
+                                            placeholder="Enter OTP" required />
+                                        <button class="btn btn-success" style="margin-left: 58%;margin-top: -39%;"
+                                            type="button" onclick="verifyemailotp();">Verify</button>
+                                    </div>
+
+                                </div>
+
+
+
                                 <div class="form-outline  mb-2">
                                     <input tabindex="3" type="text" id="u_mobno" name="u_mobno"
                                         class="form-control form-control-lg" maxlength="10"
@@ -216,6 +237,8 @@
                                     <div for="u_mobno" class="error" id="umob-message"></div>
                                     {{-- <div id="umob-message" class="text-center" style="display: none;"></div> --}}
                                 </div>
+
+
 
                                 <div class="form-outline  mb-2">
                                     <input tabindex="4" type="password" id="u_paswd" name="u_paswd"
@@ -2563,11 +2586,57 @@
                     } else {
                         $('#loading-image').fadeOut();
                         $('#loading-overlay').fadeOut();
+                        if (checkval == 1) {
+                            $('.regmailsendotp').show();
+                            $('.regEmlsendotp').show();
+                            $('.regEmlrendsendotp').hide();
+                            $('#showemailotp').hide();
+                        }
                     }
                 }
             });
 
         }
+
+
+        function RegEmailsendOTP(checkval) {
+            var u_name = $('#u_name').val();
+            if(u_name=='' || u_name=='0'){alert('Please enter the name');return false}
+            var u_emid = $('#u_emid').val();
+            if(u_emid=='' || u_emid=='0'){alert('Please enter the email id');return false}
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            $('#loading-overlay').fadeIn();
+            $('#loading-image').fadeIn();
+            $.ajax({
+                url: '{{ route('MailSendOTPRegistration') }}',
+                type: 'POST',
+                data: {
+                    u_name: u_name,u_emid: u_emid,
+                },
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function(data) {
+
+                        $('#loading-image').fadeOut();
+                        $('#loading-overlay').fadeOut();
+                        if (data.result == 3 && checkval == 1) {
+                            $('.regmailsendotp').show();
+                            $('.regEmlsendotp').hide();
+                            $('.regEmlrendsendotp').show();
+                            $('#showemailotp').show();
+                        }
+
+                }
+            });
+
+        }
+
+
+
+
+
+
 
         function exstmobno(u_mobno, checkval) {
             $('#loading-overlay').fadeIn();

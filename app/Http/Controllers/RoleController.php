@@ -376,7 +376,7 @@ class RoleController extends Controller
             if ($request->roleid == 2 || $request->roleid == 9) {
                 $sellerDetail = new SellerDetails();
                 $sellerDetail->fill($validatedData);
-                $sellerDetail->shop_name = $request->input('s_name');
+                $sellerDetail->shop_name = ucfirst($request->input('s_name'));
                 $sellerDetail->shop_email = $request->input('s_email');
                 $sellerDetail->shop_mobno = $request->input('s_mobno');
                 $sellerDetail->busnes_type = $shopservice;
@@ -409,7 +409,7 @@ class RoleController extends Controller
             } elseif ($request->roleid == 3) {
                 $affliteDetail = new Affiliate();
                 $affliteDetail->fill($validatedData);
-                $affliteDetail->name = $request->input('s_name');
+                $affliteDetail->name = ucfirst($request->input('s_name'));
                 $affliteDetail->email = $request->input('s_email');
                 $affliteDetail->mob_no = $request->input('s_mobno');
                 $input_datas = [];
@@ -658,7 +658,7 @@ class RoleController extends Controller
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $query = DB::table('menu_masters')
+        $query = DB::table('menu_masters')->where('status',1)
             ->orderBy('menu_level_1')
             ->orderBy('menu_level_2')
             ->orderBy('menu_level_3')
@@ -795,13 +795,13 @@ class RoleController extends Controller
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $query = DB::table('menu_masters')
+        $query = DB::table('menu_masters')->where('status',1)
             ->orderBy('menu_level_1')
             ->orderBy('menu_level_2')
             ->orderBy('menu_level_3')
             ->get();
         $allmenus = $query;
-        //echo $lastRegId = $query->toSql();exit;
+        echo $lastRegId = $query->toSql();exit;
         return view('admin.role.role_menu_view', compact('allmenus'));
     }
     function AdmAddRolePageMenu(Request $request)

@@ -30,12 +30,12 @@
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="categorySelector">Select Type<span class="text-danger">*</span></label>
+                                    {{-- <label for="categorySelector">Select Type<span class="text-danger">*</span></label>
                                     <select class="form-control mb15" id="typeSelector" name="select_type" disabled>
                                         <option value="0">Select Type</option>
                                         <option value="1" {{ $current_category->category_type == '1' ? 'selected' : '' }}>Shop</option>
                                         <option value="2" {{ $current_category->category_type == '2' ? 'selected' : '' }}>Service</option>
-                                    </select>
+                                    </select> --}}
                                     <label for="categorySelector">Select Parent Category</label>
                                     <select class="form-control mb15" id="categorySelector" name="parent_category"
                                         onchange="updateLevel()" disabled>
@@ -256,14 +256,16 @@
         file = [].slice.call(Array.isArray(file) ? file : arguments);
         var b = file.length;
         var d = true;
-        for (var c; b-- && d;) {
+        for (var c; b-- && d;)
+ {
             d = file[b] instanceof File;
         }
         if (!d) {
             throw new TypeError('Expected argument to FileList is File or array of File objects');
         }
         var clipboardData = new ClipboardEvent('').clipboardData || new DataTransfer();
-        for (b = d = file.length; b--;) {
+        for (b = d = file.length; b--;)
+ {
             clipboardData.items.add(file[b]);
         }
         return clipboardData.files;

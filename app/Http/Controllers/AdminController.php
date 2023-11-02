@@ -904,7 +904,7 @@ class AdminController extends Controller
             ->where('id', $userId)
             ->get();
         if ($typeid == 1) {
-            $shoporservice = 'Shops';
+            $shoporservice = 'Seller';
         } elseif ($typeid == 2) {
             $shoporservice = 'Services';
         } else {
@@ -995,7 +995,7 @@ class AdminController extends Controller
 
         $sellerCount = $sellerDetails->count();
         if ($typeid == 1) {
-            $shoporservice = 'Seller';
+            $shoporservice = 'Shops';
         } elseif ($typeid == 2) {
             $shoporservice = 'Services';
         }
@@ -1085,7 +1085,7 @@ class AdminController extends Controller
             $emailivalue = $request->s_email;
         }
         $user = new UserAccount();
-        $user->name = $request->s_name;
+        $user->name = ucfirst($request->s_name);
         $user->email = $request->s_email;
         $user->mobno = $request->s_mobno;
         $pass_characters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'M', 'N', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', '@', '#', "$", '%', '&', '!', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'm', 'n', 'r', 's', 't', 'u', 'v', 'w', 'x', 'z', '2', '3', '4', '5', '6', '7', '8', '9'];
@@ -1141,8 +1141,8 @@ class AdminController extends Controller
         if ($submt > 0) {
             $sellerDetail = new SellerDetails();
             $sellerDetail->fill($validatedData);
-            $sellerDetail->shop_name = $request->input('s_name');
-            $sellerDetail->owner_name = $request->input('s_ownername');
+            $sellerDetail->shop_name = ucfirst($request->input('s_name'));
+            $sellerDetail->owner_name = ucfirst($request->input('s_ownername'));
             $sellerDetail->shop_email = $request->input('s_email');
             $sellerDetail->shop_mobno = $request->input('s_mobno');
             $sellerDetail->referal_id = $request->input('s_refralid');
@@ -1440,9 +1440,9 @@ class AdminController extends Controller
         //$user   = UserAccount::find($shopid);
         $sellerDetail = SellerDetails::find($shopid);
         $sellerDetail->fill($validatedData);
-        $sellerDetail->shop_name = $request->input('es_name');
+        $sellerDetail->shop_name = ucfirst($request->input('es_name'));
         //if($request->input('es_shopservice')==1){
-        $sellerDetail->owner_name = $request->input('es_ownername'); //}
+        $sellerDetail->owner_name = ucfirst($request->input('es_ownername')); //}
         $sellerDetail->shop_email = $request->input('es_email');
         $sellerDetail->shop_mobno = $request->input('es_mobno');
         $sellerDetail->busnes_type = $request->input('es_busnestype');
@@ -1972,7 +1972,7 @@ class AdminController extends Controller
         return view('admin.shop_inactive', compact('userdetails', 'userRole', 'loggeduser', 'shoporservice', 'typeid', 'structuredMenu', 'allsectdetails','selrdetails'));
     }
 
-    function AllShopsInactiveList(Request $request)
+    function AllShopsInactiveList_(Request $request)
     {
         $userRole = session('user_role');
         $roleid = session('roleid');
@@ -1998,13 +1998,7 @@ class AdminController extends Controller
             ->leftJoin('state', 'state.id', 'seller_details.state')
             ->leftJoin('district', 'district.id', 'seller_details.district');
 
-        // $roleIdsArray = explode(',', $roleid);
-        // if (in_array('2', $roleIdsArray)) {
 
-        // }
-        // if (in_array('9', $roleIdsArray)) {
-
-        // }
         if ($roleid == 1  || $roleid == 11) {
         } else {
             $query->where('seller_details.user_id', $userId);
@@ -2040,5 +2034,117 @@ class AdminController extends Controller
         $executives             = DB::table('executives')->where(['business_type_id' => $typeid])->get();
         return view('admin.shop_dets', compact('sellerDetails', 'sellerCount', 'countries', 'business', 'shoporservice', 'typeid','shopservicecategory','shopservice','executives'));
 
+    }
+
+    function AllShopsInactiveList(Request $request)
+    {
+        $userRole = session('user_role');
+        $roleid = session('roleid');
+
+        $userId = session('user_id');
+        if ($userId == '') {
+            return redirect()->route('logout');
+        }
+        $emal_mob = $request->input('emal_mob');
+        $shopname = $request->input('shopname');
+        $ownername = $request->input('ownername');
+        $referalid = $request->input('referalid');
+        $typeid = $request->input('typeid');
+
+        $query = SellerDetails::select('seller_details.*', 'user_account.user_status', 'business_type.business_name', 'service_categories.service_category_name', 'service_sub_categories.sub_category_name', 'service_types.service_name', 'executives.executive_name', 'country.country_name', 'state.state_name', 'district.district_name')
+            ->leftJoin('user_account', 'user_account.id', 'seller_details.user_id')
+            ->leftJoin('business_type', 'business_type.id', 'seller_details.busnes_type')
+            ->leftJoin('service_categories', 'service_categories.id', 'seller_details.shop_service_type')
+            ->leftJoin('service_sub_categories', 'service_sub_categories.id', 'seller_details.service_subcategory_id')
+            ->leftJoin('service_types', 'service_types.id', 'seller_details.shop_type')
+            ->leftJoin('executives', 'executives.id', 'seller_details.shop_executive')
+            ->leftJoin('country', 'country.id', 'seller_details.country')
+            ->leftJoin('state', 'state.id', 'seller_details.state')
+            ->leftJoin('district', 'district.id', 'seller_details.district');
+        if ($emal_mob) {
+            $query->where('shop_email', 'LIKE', '%' . $emal_mob . '%')->orWhere('shop_mobno', 'LIKE', '%' . $emal_mob . '%');
+        }
+        if ($shopname) {
+            $query->where('seller_details.shop_name', 'LIKE', '%' . $shopname . '%');
+        }
+        if ($ownername) {
+            $query->where('seller_details.owner_name', 'LIKE', '%' . $ownername . '%');
+        }
+        if ($referalid) {
+            $query->where('seller_details.referal_id', $referalid);
+        }
+        // $roleIdsArray = explode(',', $roleid);
+        // if (in_array('2', $roleIdsArray)) {
+
+        // }
+        // if (in_array('9', $roleIdsArray)) {
+
+        // }
+        $query->where('user_account.user_status','N');
+        if ($roleid == 1  || $roleid == 11) {
+        } else {
+            $query->where('seller_details.user_id', $userId);
+        }
+        $roleIdsArray = explode(',', $roleid);
+        $checkcountusers=count($roleIdsArray);
+        if($checkcountusers==1)
+        {
+        if ($typeid == 1) {
+            $query->where('seller_details.busnes_type', $typeid);
+        }
+        if ($typeid == 2) {
+            $query->where('seller_details.busnes_type', $typeid);
+        }
+        }
+        else{
+
+        }
+        //$perPage = 5; // Number of records per page
+        //$sellerDetails = $query->paginate($perPage);
+
+        $sellerDetails = $query->get();
+        //echo $lastRegId = $query->toSql();
+
+        $sellerCount = $sellerDetails->count();
+        if ($typeid == 1) {
+            $shoporservice = 'Shops';
+        } elseif ($typeid == 2) {
+            $shoporservice = 'Services';
+        }
+        $countries = DB::table('country')->get();
+        $business = DB::table('business_type')
+            ->where('status', 'Y')
+            ->where('id', $typeid)
+            ->get();
+        $shopservicecategory    = DB::table('service_categories')->where(['business_type_id' => $typeid])->get();
+        //echo $lastRegId = $shopservicecategory->toSql();
+        // $shop_service_type      = $sellerDetails->first()->shop_service_type;
+        // $shopservicesubcategory = DB::table('service_sub_categories')->where('service_category_id',$shop_service_type)->get();
+        $shopservice            = DB::table('service_types')->where('business_type_id',$typeid)->get();
+        //$executives             = DB::table('executives')->where(['executive_type' => $typeid])->get();
+        $executives  ='';
+        $shopavailable='';
+        if ($roleid == 1 || $roleid == 11) {
+        $executives             = DB::table('user_account')->where(['role_id' => 10])->where(['user_status' => 'Y'])->get();
+        $shopavailable='';
+        }
+        else{
+
+            foreach ($sellerDetails as $sellr)
+            {
+                if($sellr->shop_executive!='')
+                {
+                    $executives  = DB::table('user_account')->where(['role_id' => 10])->where(['id' => $sellr->shop_executive])->first();
+                }
+                else{
+                    $executives=0;
+                }
+            //$executives  = DB::table('user_account')->where(['role_id' => 10])->where(['id' => $sellr->shop_executive])->first();
+            $shopavailable = DB::table('open_close_day_times')
+            ->where('seller_id', $sellr->id)
+            ->get();
+            }
+        }
+        return view('admin.shop_dets', compact('sellerDetails', 'sellerCount', 'countries', 'business', 'shoporservice', 'typeid','shopservicecategory','shopservice','executives','shopavailable'));
     }
 }
