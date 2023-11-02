@@ -81,6 +81,10 @@ Route::controller(HomeController::class)->group(function () {
     Route::post('existServicetypeName', 'ExistServiceTypeName')->name('existServicetypeName');
     Route::post('existnewusercreate', 'ExistnewusercreateCheck')->name('existnewusercreate');
 
+    Route::post('regmailotp', 'MailSendOTPRegistration')->name('MailSendOTPRegistration');
+
+
+
 });
 
 Route::controller(UserLoggedController::class)->group(function () {
