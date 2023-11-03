@@ -100,7 +100,10 @@ class CategoryProductListController extends Controller
             $categories->where('c1.parent_id', 0);
         }
         $categories->where('c1.approval_status', 'Y');
-        if ($roleid != 1 || $roleid != 11) {
+        if ($roleid == 1 || $roleid == 11) {
+
+        }
+        else{
             $categories->where('user_account.id', $userId);
         }
         $categories->groupBy('c1.id','c1.category_image', 'c1.category_name', 'c1.parent_id', 'c2.category_name');

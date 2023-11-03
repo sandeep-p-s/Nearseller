@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Carbon;
 use App\Models\UserAccount;
 use App\Models\LogDetails;
 use App\Models\OTPGenerate;
@@ -1464,11 +1465,18 @@ class HomeController extends Controller
             $OTPGenModel = new OTPGenerate();
             $random_chars = '';
             $emailid = $u_emid;
+            $otpCount = DB::table('otp_generate')
+            ->where('otpmsgtype', $emailid)
+            ->max('otp_count');
+            if ($otpCount === null || $otpCount === 0) {
+                $otpCount = 1;
+            } else {
+                $otpCount++;
+            }
 
             $msg="Your One Time Password is ";
-                $characters = array(
-                "1","2","3","4","5","6","7","8","9"
-            );
+            $characters = array(
+            "1","2","3","4","5","6","7","8","9");
             $keys = array();
             while (count($keys) < 6) {
                 $x = mt_rand(0, count($characters) - 1);
@@ -1479,6 +1487,38 @@ class HomeController extends Controller
             foreach ($keys as $key) {
                 $random_chars.= $characters[$key];
             }
+
+            if($otpCount>3)
+            {
+                $otpMobData = $OTPGenModel->where(['otpmsgtype' => $emailid])->get();
+                foreach($otpMobData as $row)
+                    {
+                        $otpid=$row->id;
+                        $updatedAt = $row->updated_at;
+                        $currentDateTime = Carbon::now();
+                        if ($currentDateTime->diffInMinutes($updatedAt) > 1) {
+
+                            $data = [
+                                'otp' 			=> $random_chars,
+                                'otp_count' 	=> '1',
+                                'updated_by' 	=> $emailid,
+                                'updated_at' 	=> $time
+                            ];
+                            $OTPGenModel->where('id', $otpid)->update($data);
+                        }
+                    }
+                    $msg = "Email ID : " . $emailid . " more than 3 time resend otp message ";
+                    $logdata = [
+                        'user_id'       => $emailid,
+                        'ip_address'    => $loggedUserIp,
+                        'log_time'      => $time,
+                        'status'        => $msg
+                    ];
+                    $LogDetails->insert($logdata);
+                    return response()->json(['result' => 4]);
+            }
+
+
             $message='The OTP has been send to your enter email id , '.$msg.' : '.$random_chars;
             $otpMobData = $OTPGenModel->where(['otpmsgtype' => $emailid])->get();
             if(count($otpMobData)>0)
@@ -1488,6 +1528,7 @@ class HomeController extends Controller
                     $otpid=$row->id;
                     $data = [
                         'otp' 			=> $random_chars,
+                        'otp_count' 	=> $otpCount,
                         'updated_by' 	=> $emailid,
                         'updated_at' 	=> $time
                     ];
@@ -1508,6 +1549,7 @@ class HomeController extends Controller
                         'user_id' 	    => $emailid,
                         'otpmsgtype' 	=> $emailid,
                         'otp' 			=> $random_chars,
+                        'otp_count' 	=> $otpCount,
                         'created_time' 	=> $time
                     ];
                     $OTPGenModel->insert($data);
@@ -1531,6 +1573,40 @@ class HomeController extends Controller
                 $emailsend = new EmailVerification($verificationToken, $fname, $emailid, $checkval, $random_chars);
                 Mail::to($emailid)->send($emailsend);
                 return response()->json(['result' => 3,'mesge'=>$message,'sendto'=>$emailid]);
+
+        }
+
+        public function verifyEmailOTPCheck(Request $request)
+        {
+            $email = $request->input('sentoval');
+            $otpval = $request->input('otpval');
+            $loggedUserIp = $_SERVER['REMOTE_ADDR'];
+            $time=date('Y-m-d H:i:s');
+            $UserAccount = new UserAccount();
+            $LogDetails = new LogDetails();
+            $OTPGenModel = new OTPGenerate();
+            $random_chars = '';
+            $OTPGenerate = OTPGenerate::where('otpmsgtype', $email)->where('otp', $otpval)->get();
+            $cntmail = count($OTPGenerate);
+                if($cntmail>0)
+                {
+                    $msg = "Email ID : " . $email . " Verify OTP is " . $otpval;
+                    $logdata = [
+                        'user_id'       => $email,
+                        'ip_address'    => $loggedUserIp,
+                        'log_time'      => $time,
+                        'status'        => $msg
+                    ];
+                    $LogDetails->insert($logdata);
+                    return response()->json(['result' => 3,'mesge'=>'Y']);
+                }
+                else{
+                    return response()->json(['result' => 2,'mesge'=>'N']);
+                }
+
+
+
+
 
         }
 

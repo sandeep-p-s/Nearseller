@@ -18,6 +18,7 @@
         rel="stylesheet">
     <link rel='stylesheet' type='text/css' media='screen' href='{{ asset('css/main.css') }}'>
     <link rel='stylesheet' type='text/css' media='screen' href='{{ asset('css/responsive.css') }}'>
+    <link rel='stylesheet' type='text/css' media='screen' href='{{ asset('backend/assets/css/icons.min.css') }}'>
 </head>
 
 <body>
@@ -204,12 +205,14 @@
                                     <input tabindex="2" type="email" id="u_emid" name="u_emid"
                                         class="form-control form-control-lg" maxlength="50" placeholder="Enter Email"
                                         required onchange="exstemilid(this.value,'1')" />
+                                        <i id="verifiedemailotp" style="display: none;" class="dripicons-checkmark" style="color: green; font-size: 29px;"></i>
+                                        <i id="nverifiedemailotp" style="display: none;" class="ti-close" style="color: red; font-size: 22px; font-weight: 900;"></i>
                                     <div for="u_emid" class="error " id="uemil-message"></div>
                                     {{-- <div  class="text-center" style="display: none;"></div> --}}
                                 </div>
 
                                 <div class="input-group regmailsendotp" style="display: none;">
-
+                                    <input type="hidden" id="emailverifystatus" name="emailverifystatus" />
                                     <button class="btn btn-success regEmlsendotp" style="height: 5%;" type="button"
                                         onclick="RegEmailsendOTP('1');" style="display: none;">Send OTP</button>
 
@@ -219,11 +222,12 @@
 
                                     <div id="showemailotp" style="display: none;">
                                         <input type="text" id="regemailotp" name="regemailotp"
-                                            class="form-control" style="width: 43%;margin-left: 9%;" maxlength="6"
+                                            class="form-control" style="width: 48%;margin-left: 9%;" maxlength="6"
                                             placeholder="Enter OTP" required />
-                                        <button class="btn btn-success" style="margin-left: 58%;margin-top: -39%;"
-                                            type="button" onclick="verifyemailotp();">Verify</button>
+                                        <button class="btn btn-success" style="margin-left: 63%;margin-top: -39%;"
+                                            type="button" onclick="verifyemailotp('1');">Verify</button>
                                     </div>
+
 
                                 </div>
 
@@ -2601,9 +2605,15 @@
 
         function RegEmailsendOTP(checkval) {
             var u_name = $('#u_name').val();
-            if(u_name=='' || u_name=='0'){alert('Please enter the name');return false}
+            if (u_name == '' || u_name == '0') {
+                alert('Please enter the name');
+                return false
+            }
             var u_emid = $('#u_emid').val();
-            if(u_emid=='' || u_emid=='0'){alert('Please enter the email id');return false}
+            if (u_emid == '' || u_emid == '0') {
+                alert('Please enter the email id');
+                return false
+            }
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
             $('#loading-overlay').fadeIn();
             $('#loading-image').fadeIn();
@@ -2611,21 +2621,83 @@
                 url: '{{ route('MailSendOTPRegistration') }}',
                 type: 'POST',
                 data: {
-                    u_name: u_name,u_emid: u_emid,
+                    u_name: u_name,
+                    u_emid: u_emid,
                 },
                 headers: {
                     'X-CSRF-TOKEN': csrfToken
                 },
                 success: function(data) {
 
+                    $('#loading-image').fadeOut();
+                    $('#loading-overlay').fadeOut();
+                    if (data.result == 3 && checkval == 1) {
+                        $('.regmailsendotp').show();
+                        $('.regEmlsendotp').hide();
+                        $('.regEmlrendsendotp').show();
+                        $('#showemailotp').show();
+                        $('#verifiedemailotp').hide();
+                        $('#nverifiedemailotp').hide();
+                    }
+                    if (data.result == 4 && checkval == 1) {
+                        alert('Please try after some times');
+                        $('#u_emid').val('');
+                        $('.regmailsendotp').hide();
+                        $('.regEmlsendotp').hide();
+                        $('.regEmlrendsendotp').hide();
+                        $('#showemailotp').hide();
+                        $('#verifiedemailotp').hide();
+                        $('#nverifiedemailotp').hide();
+                    }
+
+                }
+            });
+
+        }
+
+
+        function verifyemailotp(checkval) {
+
+            $('#loading-overlay').fadeIn();
+            $('#loading-image').fadeIn();
+            var sentoval = $('#u_emid').val();
+            var regemailotp = $('#regemailotp').val();
+            var otpval = regemailotp;
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                url: '{{ route('verifyEmailOTP') }}',
+                type: 'POST',
+                data: {
+                    sentoval: sentoval,
+                    otpval: otpval
+                },
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function(response) {
+                    var mobemailmesge = response.mesge;
+                    $('#emailverifystatus').val(mobemailmesge);
+                     if (response.result == 3 && checkval==1) {
                         $('#loading-image').fadeOut();
                         $('#loading-overlay').fadeOut();
-                        if (data.result == 3 && checkval == 1) {
-                            $('.regmailsendotp').show();
-                            $('.regEmlsendotp').hide();
-                            $('.regEmlrendsendotp').show();
-                            $('#showemailotp').show();
-                        }
+                        $('.regmailsendotp').hide();
+                        $('.regEmlsendotp').hide();
+                        $('.regEmlrendsendotp').hide();
+                        $('#showemailotp').hide();
+                        $('#verifiedemailotp').show();
+                        $('#nverifiedemailotp').hide();
+
+                    }
+                    else if (response.result == 2 && checkval==1) {
+                        $('#loading-image').fadeOut();
+                        $('#loading-overlay').fadeOut();
+                        $('.regmailsendotp').hide();
+                        $('.regEmlsendotp').hide();
+                        $('.regEmlrendsendotp').hide();
+                        $('#showemailotp').hide();
+                        $('#nverifiedemailotp').show();
+                        $('#verifiedemailotp').hide();
+                    }
 
                 }
             });

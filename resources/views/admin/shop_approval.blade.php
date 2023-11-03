@@ -74,9 +74,18 @@
             <div class="col-md-12">
                 <div id="shop_del-message" class="text-center" style="display: none;"></div>
             </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
 
-            <div id="catcontent">
+                            <div id="catcontent">
 
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="col-md-12">
