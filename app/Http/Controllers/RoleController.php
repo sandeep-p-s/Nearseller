@@ -801,7 +801,7 @@ class RoleController extends Controller
             ->orderBy('menu_level_3')
             ->get();
         $allmenus = $query;
-        echo $lastRegId = $query->toSql();exit;
+        //echo $lastRegId = $query->toSql();exit;
         return view('admin.role.role_menu_view', compact('allmenus'));
     }
     function AdmAddRolePageMenu(Request $request)

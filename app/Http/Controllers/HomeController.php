@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Carbon;
 use App\Models\UserAccount;
 use App\Models\LogDetails;
 use App\Models\OTPGenerate;
@@ -106,6 +107,13 @@ class HomeController extends Controller
             'u_rpaswd' => 'required|same:u_paswd',
         ]);
 
+        $emailverifystatus= $request->emailverifystatus;
+        $mobnoverifystatus= $request->mobverifystatus;
+        if($emailverifystatus!='Y' && $mobnoverifystatus!='Y')
+        {
+            return response()->json(['message' => 'Email ID / Mobile Number not verified'], 200);
+        }
+
         $user = new UserAccount();
         $regval=$request->regval;
         $loggedUserIp=$_SERVER['REMOTE_ADDR'];
@@ -119,6 +127,7 @@ class HomeController extends Controller
             $user->role_id=4;
             $user->forgot_pass=$request->u_paswd;
             $user->user_status='Y';
+            $user->mobile_verify='Y';
             $user->approved='Y';
             $submt=$user->save();
             $lastRegId = $user->toSql();
@@ -131,19 +140,17 @@ class HomeController extends Controller
                     $LogDetails->log_time = $time;
                     $LogDetails->status = $msg;
                     $LogDetails->save();
-                    $valencodemm=$lastRegId."-".$request->u_emid;
-                    $valsmm=base64_encode($valencodemm);
-                    $verificationToken = base64_encode($last_id . '-' . $request->u_emid.'-,-');
-                    $checkval="1";
-                    $message='';
-                    $email = new EmailVerification($verificationToken, $request->u_name, $request->u_emid, $checkval, $message);
-                    try {
-                        Mail::to($request->u_emid)->send($email);
-                        //echo $email->mailContent;
-
-                    } catch (Exception $e) {
-                        return response()->json(['message' => 'Registration Failed'], 200);
-                    }
+                    // $valencodemm=$lastRegId."-".$request->u_emid;
+                    // $valsmm=base64_encode($valencodemm);
+                    // $verificationToken = base64_encode($last_id . '-' . $request->u_emid.'-,-');
+                    // $checkval="1";
+                    // $message='';
+                    // $email = new EmailVerification($verificationToken, $request->u_name, $request->u_emid, $checkval, $message);
+                    // try {
+                    //     Mail::to($request->u_emid)->send($email);
+                    // } catch (Exception $e) {
+                    //     return response()->json(['message' => 'Registration Failed'], 200);
+                    // }
 
 
                 //return redirect()->route('login')->with('success', 'Registration Success. Please login!');
@@ -1228,6 +1235,21 @@ class HomeController extends Controller
                 's_rpaswd' => 'required|same:s_paswd',
                 's_termcondtn' => 'accepted',
             ]);
+
+            $emailverifystatus= $request->s_emailverifystatus;
+            $mobnoverifystatus= $request->s_mobverifystatus;
+            if($mobnoverifystatus!='Y')
+            {
+                return response()->json(['message' => 'Mobile number not verified']);
+            }
+            if($request->s_email!='')
+            {
+                if($emailverifystatus!='Y')
+                {
+                    return response()->json(['message' => 'Email ID not verified']);
+                }
+
+            }
             $user = new UserAccount();
             $user->name = $request->s_name;
             $user->email = $request->s_email;
@@ -1238,14 +1260,13 @@ class HomeController extends Controller
             else if($request->s_busnestype==2)
             {$user->role_id=9;}
             $user->forgot_pass=$request->s_paswd;
-            if (!empty($request->s_email)) {
-                $user->user_status='N';
-            } else {
-                $user->user_status='Y';
-            }
-
-
-
+            // if (!empty($request->s_email)) {
+            //     $user->user_status='N';
+            // } else {
+            //     $user->user_status='Y';
+            // }
+            $user->user_status='Y';
+            $user->mobile_verify='Y';
             $user->ip=$loggedUserIp;
             $submt=$user->save();
             $lastRegId = $user->toSql();
@@ -1331,15 +1352,15 @@ class HomeController extends Controller
                 $sellerDetail->socialmedia = $jsonmedia;
                 $shopreg=$sellerDetail->save();
 
-                if (!empty($request->s_email)) {
-                    $valencodemm=$lastRegId."-".$request->s_email;
-                    $valsmm=base64_encode($valencodemm);
-                    $verificationToken = base64_encode($last_id . '-' . $request->s_email.'-,-');
-                    $checkval="1";
-                    $message='';
-                    $email = new EmailVerification($verificationToken, $request->s_name, $request->s_email, $checkval, $message);
-                    Mail::to($request->s_email)->send($email);
-                }
+                // if (!empty($request->s_email)) {
+                //     $valencodemm=$lastRegId."-".$request->s_email;
+                //     $valsmm=base64_encode($valencodemm);
+                //     $verificationToken = base64_encode($last_id . '-' . $request->s_email.'-,-');
+                //     $checkval="1";
+                //     $message='';
+                //     $email = new EmailVerification($verificationToken, $request->s_name, $request->s_email, $checkval, $message);
+                //     Mail::to($request->s_email)->send($email);
+                // }
 
 
             } else {
@@ -1453,7 +1474,7 @@ class HomeController extends Controller
         }
 
 
-    public function MailSendOTPRegistration(Request $request)
+        public function MailSendOTPRegistration(Request $request)
         {
             $fname = $request->input('u_name');
             $u_emid = $request->input('u_emid');
@@ -1464,11 +1485,18 @@ class HomeController extends Controller
             $OTPGenModel = new OTPGenerate();
             $random_chars = '';
             $emailid = $u_emid;
+            $otpCount = DB::table('otp_generate')
+            ->where('otpmsgtype', $emailid)
+            ->max('otp_count');
+            if ($otpCount === null || $otpCount === 0) {
+                $otpCount = 1;
+            } else {
+                $otpCount++;
+            }
 
             $msg="Your One Time Password is ";
-                $characters = array(
-                "1","2","3","4","5","6","7","8","9"
-            );
+            $characters = array(
+            "1","2","3","4","5","6","7","8","9");
             $keys = array();
             while (count($keys) < 6) {
                 $x = mt_rand(0, count($characters) - 1);
@@ -1479,6 +1507,38 @@ class HomeController extends Controller
             foreach ($keys as $key) {
                 $random_chars.= $characters[$key];
             }
+
+            if($otpCount>3)
+            {
+                $otpMobData = $OTPGenModel->where(['otpmsgtype' => $emailid])->get();
+                foreach($otpMobData as $row)
+                    {
+                        $otpid=$row->id;
+                        $updatedAt = $row->updated_at;
+                        $currentDateTime = Carbon::now();
+                        if ($currentDateTime->diffInMinutes($updatedAt) > 1) {
+
+                            $data = [
+                                'otp' 			=> $random_chars,
+                                'otp_count' 	=> '1',
+                                'updated_by' 	=> $emailid,
+                                'updated_at' 	=> $time
+                            ];
+                            $OTPGenModel->where('id', $otpid)->update($data);
+                        }
+                    }
+                    $msg = "Email ID : " . $emailid . " more than 3 time resend otp message ";
+                    $logdata = [
+                        'user_id'       => $emailid,
+                        'ip_address'    => $loggedUserIp,
+                        'log_time'      => $time,
+                        'status'        => $msg
+                    ];
+                    $LogDetails->insert($logdata);
+                    return response()->json(['result' => 4]);
+            }
+
+
             $message='The OTP has been send to your enter email id , '.$msg.' : '.$random_chars;
             $otpMobData = $OTPGenModel->where(['otpmsgtype' => $emailid])->get();
             if(count($otpMobData)>0)
@@ -1488,6 +1548,7 @@ class HomeController extends Controller
                     $otpid=$row->id;
                     $data = [
                         'otp' 			=> $random_chars,
+                        'otp_count' 	=> $otpCount,
                         'updated_by' 	=> $emailid,
                         'updated_at' 	=> $time
                     ];
@@ -1508,6 +1569,7 @@ class HomeController extends Controller
                         'user_id' 	    => $emailid,
                         'otpmsgtype' 	=> $emailid,
                         'otp' 			=> $random_chars,
+                        'otp_count' 	=> $otpCount,
                         'created_time' 	=> $time
                     ];
                     $OTPGenModel->insert($data);
@@ -1531,6 +1593,217 @@ class HomeController extends Controller
                 $emailsend = new EmailVerification($verificationToken, $fname, $emailid, $checkval, $random_chars);
                 Mail::to($emailid)->send($emailsend);
                 return response()->json(['result' => 3,'mesge'=>$message,'sendto'=>$emailid]);
+
+        }
+
+        public function verifyEmailOTPCheck(Request $request)
+        {
+            $email = $request->input('sentoval');
+            $otpval = $request->input('otpval');
+            $loggedUserIp = $_SERVER['REMOTE_ADDR'];
+            $time=date('Y-m-d H:i:s');
+            $UserAccount = new UserAccount();
+            $LogDetails = new LogDetails();
+            $OTPGenModel = new OTPGenerate();
+            $random_chars = '';
+            $OTPGenerate = OTPGenerate::where('otpmsgtype', $email)->where('otp', $otpval)->get();
+            $cntmail = count($OTPGenerate);
+                if($cntmail>0)
+                {
+                    $otpEmailData = $OTPGenModel->where(['otpmsgtype' => $email])->get();
+                    foreach($otpEmailData as $row)
+                        {
+                            $otpid=$row->id;
+                            $updatedAt = $row->updated_at;
+                            $currentDateTime = Carbon::now();
+                            $data = [
+                                'otp_count' 	=> '1',
+                                'updated_by' 	=> $email,
+                                'updated_at' 	=> $time
+                            ];
+                            $OTPGenModel->where('id', $otpid)->update($data);
+
+                        }
+                    $msg = "Email ID : " . $email . " Verify OTP is " . $otpval;
+                    $logdata = [
+                        'user_id'       => $email,
+                        'ip_address'    => $loggedUserIp,
+                        'log_time'      => $time,
+                        'status'        => $msg
+                    ];
+                    $LogDetails->insert($logdata);
+                    return response()->json(['result' => 3,'mesge'=>'Y']);
+                }
+                else{
+                    return response()->json(['result' => 2,'mesge'=>'N']);
+                }
+
+
+
+
+
+        }
+
+
+        public function MobnoSendOTPRegistration(Request $request)
+        {
+            $u_mobno = $request->input('u_mobno');
+            $loggedUserIp = $_SERVER['REMOTE_ADDR'];
+            $time=date('Y-m-d H:i:s');
+            $UserAccount = new UserAccount();
+            $LogDetails = new LogDetails();
+            $OTPGenModel = new OTPGenerate();
+            $random_chars = '';
+            $umobno = $u_mobno;
+            $otpCount = DB::table('otp_generate')
+            ->where('otpmsgtype', $umobno)
+            ->max('otp_count');
+            if ($otpCount === null || $otpCount === 0) {
+                $otpCount = 1;
+            } else {
+                $otpCount++;
+            }
+
+            $msg="Your One Time Password is ";
+            $characters = array(
+            "1","2","3","4","5","6","7","8","9");
+            $keys = array();
+            while (count($keys) < 6) {
+                $x = mt_rand(0, count($characters) - 1);
+                if (!in_array($x, $keys)) {
+                    $keys[] = $x;
+                }
+            }
+            foreach ($keys as $key) {
+                $random_chars.= $characters[$key];
+            }
+
+            if($otpCount>3)
+            {
+                $otpMobData = $OTPGenModel->where(['otpmsgtype' => $umobno])->get();
+                foreach($otpMobData as $row)
+                    {
+                        $otpid=$row->id;
+                        $updatedAt = $row->updated_at;
+                        $currentDateTime = Carbon::now();
+                        if ($currentDateTime->diffInMinutes($updatedAt) > 1) {
+
+                            $data = [
+                                'otp' 			=> $random_chars,
+                                'otp_count' 	=> '1',
+                                'updated_by' 	=> $umobno,
+                                'updated_at' 	=> $time
+                            ];
+                            $OTPGenModel->where('id', $otpid)->update($data);
+                        }
+                    }
+                    $msg = "Mobile No : " . $umobno . " more than 3 time resend otp message ";
+                    $logdata = [
+                        'user_id'       => $umobno,
+                        'ip_address'    => $loggedUserIp,
+                        'log_time'      => $time,
+                        'status'        => $msg
+                    ];
+                    $LogDetails->insert($logdata);
+                    return response()->json(['result' => 4]);
+            }
+
+
+            $message='The OTP has been send to your enter mobile no  , '.$msg.' : '.$random_chars;
+            $otpMobData = $OTPGenModel->where(['otpmsgtype' => $umobno])->get();
+            if(count($otpMobData)>0)
+            {
+                foreach($otpMobData as $row)
+                {
+                    $otpid=$row->id;
+                    $data = [
+                        'otp' 			=> $random_chars,
+                        'otp_count' 	=> $otpCount,
+                        'updated_by' 	=> $umobno,
+                        'updated_at' 	=> $time
+                    ];
+                    $OTPGenModel->where('id', $otpid)->update($data);
+                }
+                    $msg = "Mobile No : " . $umobno . " OTP is " . $message;
+                    $logdata = [
+                        'user_id'       => $umobno,
+                        'ip_address'    => $loggedUserIp,
+                        'log_time'      => $time,
+                        'status'        => $msg
+                    ];
+                    $LogDetails->insert($logdata);
+            }
+            else{
+                    $data = [
+                        'user_id' 	    => $umobno,
+                        'otpmsgtype' 	=> $umobno,
+                        'otp' 			=> $random_chars,
+                        'otp_count' 	=> $otpCount,
+                        'created_time' 	=> $time
+                    ];
+                    $OTPGenModel->insert($data);
+                    //Mail::to($email)->send($emailid);
+                    $msg = "Mobile No : " . $umobno ." OTP is " . $message;
+                    $logdata = [
+                        'user_id'       => $umobno,
+                        'ip_address'    => $loggedUserIp,
+                        'log_time'      => $time,
+                        'status'        => $msg
+                    ];
+                    $LogDetails->insert($logdata);
+                }
+                $mobotpmsg=base64_encode($random_chars);
+                return response()->json(['result' => 3,'mesge'=>$mobotpmsg,'sendto'=>$umobno]);
+
+        }
+
+        public function verifyMobileNoOTPCheck(Request $request)
+        {
+            $mobno = $request->input('sentoval');
+            $otpval = $request->input('otpval');
+            $loggedUserIp = $_SERVER['REMOTE_ADDR'];
+            $time=date('Y-m-d H:i:s');
+            $UserAccount = new UserAccount();
+            $LogDetails = new LogDetails();
+            $OTPGenModel = new OTPGenerate();
+            $random_chars = '';
+            $OTPGenerate = OTPGenerate::where('otpmsgtype', $mobno)->where('otp', $otpval)->get();
+            $cntmail = count($OTPGenerate);
+                if($cntmail>0)
+                {
+                    $otpMobData = $OTPGenModel->where(['otpmsgtype' => $mobno])->get();
+                    foreach($otpMobData as $row)
+                        {
+                            $otpid=$row->id;
+                            $updatedAt = $row->updated_at;
+                            $currentDateTime = Carbon::now();
+                            $data = [
+                                'otp_count' 	=> '1',
+                                'updated_by' 	=> $mobno,
+                                'updated_at' 	=> $time
+                            ];
+                            $OTPGenModel->where('id', $otpid)->update($data);
+
+                        }
+
+
+                    $msg = "Mobile No : " . $mobno . " Verify OTP is " . $otpval;
+                    $logdata = [
+                        'user_id'       => $mobno,
+                        'ip_address'    => $loggedUserIp,
+                        'log_time'      => $time,
+                        'status'        => $msg
+                    ];
+                    $LogDetails->insert($logdata);
+                    return response()->json(['result' => 3,'mesge'=>'Y']);
+                }
+                else{
+                    return response()->json(['result' => 2,'mesge'=>'N']);
+                }
+
+
+
+
 
         }
 

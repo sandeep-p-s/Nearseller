@@ -12,12 +12,12 @@
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-                                <h4 class="page-title">Service Category</h4>
+                                <h4 class="page-title">Business Category</h4>
 
                             </div>
                             <div class="col-auto align-self-center">
                                 <a href="{{ route('add.servicecategory') }}"><button type="button" class="btn add_btn ">Add
-                                    Service Category </button></a>
+                                    Business Category </button></a>
                             </div><!--end col-->
                         </div><!--end row-->
                     </div><!--end page-title-box-->
@@ -58,7 +58,7 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Service Category</th>
+                                        <th>Business Category</th>
                                         <th>Business Type</th>
                                         <th>Status</th>
                                         <th>Action</th>

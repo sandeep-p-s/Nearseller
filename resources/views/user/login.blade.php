@@ -18,6 +18,7 @@
         rel="stylesheet">
     <link rel='stylesheet' type='text/css' media='screen' href='{{ asset('css/main.css') }}'>
     <link rel='stylesheet' type='text/css' media='screen' href='{{ asset('css/responsive.css') }}'>
+    <link rel='stylesheet' type='text/css' media='screen' href='{{ asset('backend/assets/css/icons.min.css') }}'>
 </head>
 
 <body>
@@ -200,42 +201,90 @@
                                         required />
                                     <div for="u_name" class="error"></div>
                                 </div>
-                                <div class="form-outline mb-2">
+                                <div class="form-outline mb-2" style="display: flex;">
                                     <input tabindex="2" type="email" id="u_emid" name="u_emid"
                                         class="form-control form-control-lg" maxlength="50" placeholder="Enter Email"
                                         required onchange="exstemilid(this.value,'1')" />
+                                    <i id="verifiedemailotp" style="display: none;color: green; font-size: 29px;"
+                                        class="dripicons-checkmark" title="verified"></i>
+                                    <i id="nverifiedemailotp" style="display: none;" class="ti-close"
+                                        style="color: red; font-size: 22px; font-weight: 900;"></i><br>
                                     <div for="u_emid" class="error " id="uemil-message"></div>
                                     {{-- <div  class="text-center" style="display: none;"></div> --}}
                                 </div>
 
                                 <div class="input-group regmailsendotp" style="display: none;">
+                                    <input type="hidden" id="emailverifystatus" name="emailverifystatus" />
+                                    <button class="btn btn-success regEmlsendotp" type="button"
+                                        onclick="RegEmailsendOTP('1');"
+                                        style="display: none;padding: 5px 12px;
+                                        font-size: 12px;
+                                        border-radius: 4px;
+                                        margin-bottom: 8px;">Send
+                                        OTP</button>
 
-                                    <button class="btn btn-success regEmlsendotp" style="height: 5%;" type="button"
-                                        onclick="RegEmailsendOTP('1');" style="display: none;">Send OTP</button>
-
-                                    <button class="btn btn-danger regEmlrendsendotp" style="height: 5%;"
-                                        type="button" onclick="RegEmailsendOTP('1');" style="display: none;">Resend
+                                    <button class="btn btn-danger regEmlrendsendotp" type="button"
+                                        onclick="RegEmailsendOTP('1');"
+                                        style="display: none;padding: 2px 12px;
+                                        font-size: 12px;
+                                        border-radius: 4px;
+                                        margin-bottom: 56px;">Resend
                                         OTP</button>
 
                                     <div id="showemailotp" style="display: none;">
                                         <input type="text" id="regemailotp" name="regemailotp"
-                                            class="form-control" style="width: 43%;margin-left: 9%;" maxlength="6"
-                                            placeholder="Enter OTP" required />
-                                        <button class="btn btn-success" style="margin-left: 58%;margin-top: -39%;"
-                                            type="button" onclick="verifyemailotp();">Verify</button>
-                                    </div>
+                                            style="width: 48%;margin-left: 9%;padding:2px 12px; font-size:12px;border-radius: 4px;"
+                                            maxlength="6" placeholder="Enter OTP" required />
 
+                                        <button class="btn btn-success"
+                                            style="margin-left: 63%;margin-top: -21%;padding:2px 12px; font-size:12px;border-radius: 4px;"
+                                            type="button" onclick="verifyemailotp('1');">Verify</button>
+                                    </div>
                                 </div>
 
 
 
-                                <div class="form-outline  mb-2">
+                                <div class="form-outline  mb-2" style="display: flex;">
                                     <input tabindex="3" type="text" id="u_mobno" name="u_mobno"
                                         class="form-control form-control-lg" maxlength="10"
                                         placeholder="Enter Mobile No." required
                                         onchange="exstmobno(this.value,'1')" />
+                                    <i id="verifiedmobotp"
+                                        style="display: none;color: green; font-size: 29px;margin-top: 3%;"
+                                        class="dripicons-checkmark" title="verified"></i>
+                                    <i id="nverifiedmobotp"
+                                        style="display: none;color: red; font-size: 22px; font-weight: 900;margin-top: 3%;"
+                                        class="ti-close"></i><br>
                                     <div for="u_mobno" class="error" id="umob-message"></div>
                                     {{-- <div id="umob-message" class="text-center" style="display: none;"></div> --}}
+                                </div>
+
+                                <div class="input-group regmobnosendotp" style="display: none;">
+                                    <input type="hidden" id="mobverifystatus" name="mobverifystatus" />
+                                    <button class="btn btn-success regMobilesendotp" type="button"
+                                        onclick="RegMobsendOTP('1');"
+                                        style="display: none;padding: 5px 12px;
+                                        font-size: 12px;
+                                        border-radius: 4px;
+                                        margin-bottom: 8px;">Send
+                                        OTP</button>
+
+                                    <button class="btn btn-danger regMobilerendsendotp" type="button"
+                                        onclick="RegMobsendOTP('1');"
+                                        style="display: none;padding: 2px 12px;
+                                        font-size: 12px;
+                                        border-radius: 4px;
+                                        margin-bottom: 56px;">Resend
+                                        OTP</button>
+
+                                    <div id="showmobnootp" style="display: none;">
+                                        <input type="text" id="regmobotp" name="regmobotp"
+                                            style="width: 48%;margin-left: 9%;padding:2px 12px; font-size:12px;border-radius: 4px;"
+                                            maxlength="6" placeholder="Enter OTP" required />
+                                        <button class="btn btn-success"
+                                            style="margin-left: 63%;margin-top: -21%;padding:2px 12px; font-size:12px;border-radius: 4px;"
+                                            type="button" onclick="verifymobotp('1');">Verify</button>
+                                    </div>
                                 </div>
 
 
@@ -291,22 +340,104 @@
                                             placeholder="Owner Name" required tabindex="2" />
                                         <div for="s_ownername" class="error"></div>
                                     </div>
-                                    <div class="form-outline mb-3">
+                                    <div class="form-outline mb-3" style="display: flex;">
                                         <input type="text" id="s_mobno" name="s_mobno"
                                             class="form-control form-control-lg" maxlength="10"
                                             placeholder="Enter Mobile No" required tabindex="3"
                                             onchange="exstmobno(this.value,'2')" />
+
+                                        <i id="s_verifiedmobotp"
+                                            style="display:none;color: green; font-size: 29px;margin-top: 3%;"
+                                            class="dripicons-checkmark" title="verified"></i>
+
+                                        <i id="s_nverifiedmobotp"
+                                            style="display:none;color: red; font-size: 15px;margin-top: 3%;"
+                                            class="ti-close" title="Not verified"></i>
+
                                         <div for="s_mobno" class="error"></div>
                                         <div id="smob-message" class="text-center" style="display: none;"></div>
                                     </div>
-                                    <div class="form-outline mb-3">
+
+                                    <div class="input-group s_regmobnosendotp" style="display: none;">
+                                        <input type="hidden" id="s_mobverifystatus" name="s_mobverifystatus" />
+                                        <button class="btn btn-success s_regMobilesendotp" type="button"
+                                            onclick="s_RegMobsendOTP('1');"
+                                            style="display: none;padding: 5px 12px;
+                                            font-size: 12px;
+                                            border-radius: 4px;
+                                            margin-bottom: 8px;">Send
+                                            OTP</button>
+
+                                        <button class="btn btn-danger s_regMobilerendsendotp" type="button"
+                                            onclick="s_RegMobsendOTP('1');"
+                                            style="display: none;padding: 2px 12px;
+                                            font-size: 12px;
+                                            border-radius: 4px;
+                                            margin-bottom: 56px;">Resend
+                                            OTP</button>
+
+                                        <div id="s_showmobnootp" style="display: none;">
+                                            <input type="text" id="s_regmobotp" name="s_regmobotp"
+                                                style="width: 48%;margin-left: 9%;padding:2px 12px; font-size:12px;border-radius: 4px;"
+                                                maxlength="6" placeholder="Enter OTP" required />
+                                            <button class="btn btn-success"
+                                                style="margin-left: 63%;margin-top: -21%;padding:2px 12px; font-size:12px;border-radius: 4px;"
+                                                type="button" onclick="s_verifymobotp('1');">Verify</button>
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <div class="form-outline mb-3" style="display: flex;">
                                         <input type="email" id="s_email" name="s_email"
                                             class="form-control form-control-lg" maxlength="35"
                                             placeholder="Enter Email" tabindex="4"
                                             onchange="exstemilid(this.value,'2')" />
+                                        <i id="s_verifiedemailotp"
+                                            style="display:none;color: green; font-size: 29px;margin-top: 3%;"
+                                            class="dripicons-checkmark" title="verified"></i>
+
+                                        <i id="s_nverifiedemailotp"
+                                            style="display:none;color: red; font-size: 15px;margin-top: 3%;"
+                                            class="ti-close" title="Not verified"></i>
                                         <div for="s_email" class="error"></div>
                                         <div id="semil-message" class="text-center" style="display: none;"></div>
                                     </div>
+
+                                    <div class="input-group s_regmailsendotp" style="display: none;">
+                                        <input type="hidden" id="s_emailverifystatus" name="s_emailverifystatus" />
+                                        <button class="btn btn-success s_regEmlsendotp" type="button"
+                                            onclick="s_RegEmailsendOTP('1');"
+                                            style="display: none;padding: 5px 12px;
+                                            font-size: 12px;
+                                            border-radius: 4px;
+                                            margin-bottom: 8px;">Send
+                                            OTP</button>
+
+                                        <button class="btn btn-danger s_regEmlrendsendotp" type="button"
+                                            onclick="s_RegEmailsendOTP('1');"
+                                            style="display: none;padding: 2px 12px;
+                                            font-size: 12px;
+                                            border-radius: 4px;
+                                            margin-bottom: 56px;">Resend
+                                            OTP</button>
+
+                                        <div id="s_showemailotp" style="display: none;">
+                                            <input type="text" id="s_regemailotp" name="s_regemailotp"
+                                                style="width: 48%;margin-left: 9%;padding:2px 12px; font-size:12px;border-radius: 4px;"
+                                                maxlength="6" placeholder="Enter OTP" required />
+
+                                            <button class="btn btn-success"
+                                                style="margin-left: 63%;margin-top: -21%;padding:2px 12px; font-size:12px;border-radius: 4px;"
+                                                type="button" onclick="s_verifyemailotp('1');">Verify</button>
+                                        </div>
+                                    </div>
+
+
+
+
+
                                     <div class="form-outline mb-3">
                                         <input type="text" id="s_refralid" name="s_refralid"
                                             class="form-control form-control-lg" maxlength="50"
@@ -813,8 +944,8 @@
                             class="form-control otp-inputs" required />
                         <input type="text" id="m_thirdbox" name="m_thirdbox" tabindex="3" maxlength="1"
                             class="form-control otp-inputs" required />
-                        <input type="text" id="m_fourthbox" name="m_fourthbox" tabindex="4" maxlength="1"
-                            class="form-control otp-inputs" required />
+                        <input type="text" id="m_fourthbox" name="m_fourthbox" tabindex="4"
+                            maxlength="1" class="form-control otp-inputs" required />
                         <input type="text" id="m_fifthbox" name="m_fifthbox" tabindex="5" maxlength="1"
                             class="form-control otp-inputs" required />
                         <input type="text" id="m_sixtbox" name="m_sixtbox" tabindex="6" maxlength="1"
@@ -822,8 +953,8 @@
                     </div>
                     <p class="text-center mt-3 text-secondary" id="timer">Enter OTP within <span
                             id="m_countdown">00:59</span></p>
-                    <p class="text-center">If you didn't receive the code <a href="#" style="color: #452896;"
-                            id="m_resendBtnMob">Resend OTP</a></p>
+                    <p class="text-center">If you didn't receive the code <a href="#"
+                            style="color: #452896;" id="m_resendBtnMob">Resend OTP</a></p>
                     <a href="#"><button class="btn btn-primary" data-bs-dismiss="modal"
                             id="m_VerifyBtn">Verify</button></a>
                 </div>
@@ -1229,6 +1360,16 @@
                 if ($(this).valid()) {
                     var formData = $(this).serialize();
                     var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                    var emailstatus = $('#emailverifystatus').val();
+                    var mobilestatus = $('#mobverifystatus').val();
+                    if (emailstatus != 'Y') {
+                        alert('Email id not verified.');
+                        return false;
+                    }
+                    if (mobilestatus != 'Y') {
+                        alert('Mobile number not verified.');
+                        return false;
+                    }
                     $('#loading-overlay').fadeIn();
                     $('#loading-image').fadeIn();
                     //$('#userRegForm').hide();
@@ -1242,7 +1383,8 @@
                         success: function(response) {
                             console.log(response);
                             $('#ureg-message').text(
-                                    'Registration successful. Please verify email and login!')
+                                    'User Registered Successfully. Please validate your account from the link sent to your registered mobile.'
+                                )
                                 .fadeIn();
                             $('#ureg-message').addClass('success-message');
                             setTimeout(function() {
@@ -1253,6 +1395,10 @@
                             $("#u_mobno").val('');
                             $("#u_paswd").val('');
                             $("#u_rpaswd").val('');
+                            $('#verifiedemailotp').hide();
+                            $('#verifiedmobotp').hide();
+                            $('#nverifiedemailotp').hide();
+                            $('#nverifiedmobotp').hide();
                             $('#loading-image').fadeOut();
                             $('#loading-overlay').fadeOut();
                             //$('#userRegForm').show();
@@ -1260,7 +1406,7 @@
                         },
                         error: function(xhr) {
                             console.log(xhr.responseText);
-                            $('#ureg-message').text('Registration failed.').fadeIn();
+                            $('#ureg-message').text(response.message).fadeIn();
                             $('#ureg-message').addClass('error');
                             setTimeout(function() {
                                 $('#ureg-message').fadeOut();
@@ -1810,12 +1956,32 @@
                 $("#sellerfirst").show();
             });
 
+            $('#s_name, #s_ownername').on('input', function() {
+                var value = $(this).val();
+                value = value.replace(/[^A-Za-z\s.#&/'-]+/, '');
+                $(this).val(value);
+            });
+
 
             $('#SellerRegForm').submit(function(e) {
                 e.preventDefault();
                 if ($(this).valid()) {
                     //var formData = $(this).serialize();
                     var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                    var mobilestatus = $('#s_mobverifystatus').val();
+                    var s_email = $('#s_email').val();
+                    var emailstatus = $('#s_emailverifystatus').val();
+                    if (mobilestatus != 'Y') {
+                        alert('Mobile number not verified.');
+                        return false;
+                    }
+                    if (s_email != '') {
+                        if (emailstatus != 'Y') {
+                            alert('Email id not verified.');
+                            return false;
+                        }
+                    }
+
                     $('#loading-overlay').fadeIn();
                     $('#loading-image').fadeIn();
                     //$('#userRegForm').hide();
@@ -1833,7 +1999,8 @@
 
                             console.log(response);
                             $('#shopreg-message').text(
-                                    'Registration successful. Please verify email and login!')
+                                    'User Registered Successfully. Please validate your account from the link sent to your registered mobile.'
+                                )
                                 .fadeIn();
                             $('#shopreg-message').addClass('success-message');
                             $('#image-preview').empty();
@@ -1845,6 +2012,10 @@
                             $('#loading-overlay').fadeOut();
                             $('#sellerfirst').show();
                             $('#sellersecond').hide();
+                            $('#s_verifiedemailotp').hide();
+                            $('#s_verifiedmobotp').hide();
+                            $('#s_nverifiedemailotp').hide();
+                            $('#s_nverifiedmobotp').hide();
 
 
 
@@ -2592,6 +2763,12 @@
                             $('.regEmlrendsendotp').hide();
                             $('#showemailotp').hide();
                         }
+                        if (checkval == 2) {
+                            $('.s_regmailsendotp').show();
+                            $('.s_regEmlsendotp').show();
+                            $('.s_regEmlrendsendotp').hide();
+                            $('#s_showemailotp').hide();
+                        }
                     }
                 }
             });
@@ -2601,9 +2778,15 @@
 
         function RegEmailsendOTP(checkval) {
             var u_name = $('#u_name').val();
-            if(u_name=='' || u_name=='0'){alert('Please enter the name');return false}
+            if (u_name == '' || u_name == '0') {
+                alert('Please enter the name');
+                return false
+            }
             var u_emid = $('#u_emid').val();
-            if(u_emid=='' || u_emid=='0'){alert('Please enter the email id');return false}
+            if (u_emid == '' || u_emid == '0') {
+                alert('Please enter the email id');
+                return false
+            }
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
             $('#loading-overlay').fadeIn();
             $('#loading-image').fadeIn();
@@ -2611,21 +2794,92 @@
                 url: '{{ route('MailSendOTPRegistration') }}',
                 type: 'POST',
                 data: {
-                    u_name: u_name,u_emid: u_emid,
+                    u_name: u_name,
+                    u_emid: u_emid,
                 },
                 headers: {
                     'X-CSRF-TOKEN': csrfToken
                 },
                 success: function(data) {
 
+                    $('#loading-image').fadeOut();
+                    $('#loading-overlay').fadeOut();
+                    if (data.result == 3 && checkval == 1) {
+                        $('.regmailsendotp').show();
+                        $('.regEmlsendotp').hide();
+                        $('.regEmlrendsendotp').show();
+                        $('#showemailotp').show();
+                        $('#verifiedemailotp').hide();
+                        $('#nverifiedemailotp').hide();
+                    }
+
+                    if (data.result == 4 && checkval == 1) {
+                        alert('Please try after some times');
+                        $('#u_emid').val('');
+                        $('.regmailsendotp').hide();
+                        $('.regEmlsendotp').hide();
+                        $('.regEmlrendsendotp').hide();
+                        $('#showemailotp').hide();
+                        $('#verifiedemailotp').hide();
+                        $('#nverifiedemailotp').hide();
+                    }
+
+                }
+            });
+
+        }
+
+
+        function verifyemailotp(checkval) {
+            var sentoval = $('#u_emid').val();
+            var regemailotp = $('#regemailotp').val();
+            if (sentoval == '' || sentoval == '0') {
+                alert('Please enter the email id');
+                return false
+            }
+            if (regemailotp == '' || regemailotp == '0') {
+                alert('Please enter OTP');
+                return false
+            }
+            $('#loading-overlay').fadeIn();
+            $('#loading-image').fadeIn();
+            var otpval = regemailotp;
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                url: '{{ route('verifyEmailOTP') }}',
+                type: 'POST',
+                data: {
+                    sentoval: sentoval,
+                    otpval: otpval
+                },
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function(response) {
+                    var mobemailmesge = response.mesge;
+                    $('#emailverifystatus').val(mobemailmesge);
+                    if (response.result == 3 && checkval == 1) {
                         $('#loading-image').fadeOut();
                         $('#loading-overlay').fadeOut();
-                        if (data.result == 3 && checkval == 1) {
-                            $('.regmailsendotp').show();
-                            $('.regEmlsendotp').hide();
-                            $('.regEmlrendsendotp').show();
-                            $('#showemailotp').show();
-                        }
+                        $('.regmailsendotp').hide();
+                        $('.regEmlsendotp').hide();
+                        $('.regEmlrendsendotp').hide();
+                        $('#showemailotp').hide();
+                        $('#verifiedemailotp').show();
+                        $('#nverifiedemailotp').hide();
+
+                    } else if (response.result == 2 && checkval == 1) {
+                        alert('Please enter correct OTP');
+                        //$('#u_emid').val('');
+                        $('#loading-image').fadeOut();
+                        $('#loading-overlay').fadeOut();
+                        $('.regmailsendotp').show();
+                        $('.regEmlsendotp').hide();
+                        $('.regEmlrendsendotp').show();
+                        $('#showemailotp').show();
+                        $('#nverifiedemailotp').hide();
+                        $('#verifiedemailotp').hide();
+                    }
 
                 }
             });
@@ -2634,6 +2888,115 @@
 
 
 
+        function s_RegEmailsendOTP(checkval) {
+            var u_name = $('#s_ownername').val();
+            if (u_name == '' || u_name == '0') {
+                alert('Please enter the owner name');
+                return false
+            }
+            var u_emid = $('#s_email').val();
+            if (u_emid == '' || u_emid == '0') {
+                alert('Please enter the email id');
+                return false
+            }
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            $('#loading-overlay').fadeIn();
+            $('#loading-image').fadeIn();
+            $.ajax({
+                url: '{{ route('MailSendOTPRegistration') }}',
+                type: 'POST',
+                data: {
+                    u_name: u_name,
+                    u_emid: u_emid,
+                },
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function(data) {
+
+                    $('#loading-image').fadeOut();
+                    $('#loading-overlay').fadeOut();
+                    if (data.result == 3 && checkval == 1) {
+                        $('.s_regmailsendotp').show();
+                        $('.s_regEmlsendotp').hide();
+                        $('.s_regEmlrendsendotp').show();
+                        $('#s_showemailotp').show();
+                        $('#s_verifiedemailotp').hide();
+                        $('#s_nverifiedemailotp').hide();
+                    }
+
+                    if (data.result == 4 && checkval == 1) {
+                        alert('Please try after some times');
+                        $('#s_email').val('');
+                        $('.s_regmailsendotp').hide();
+                        $('.s_regEmlsendotp').hide();
+                        $('.s_regEmlrendsendotp').hide();
+                        $('#s_showemailotp').hide();
+                        $('#s_verifiedemailotp').hide();
+                        $('#s_nverifiedemailotp').hide();
+                    }
+
+                }
+            });
+
+        }
+
+
+        function s_verifyemailotp(checkval) {
+            var sentoval = $('#s_email').val();
+            var regemailotp = $('#s_regemailotp').val();
+            if (sentoval == '' || sentoval == '0') {
+                alert('Please enter the email id');
+                return false
+            }
+            if (regemailotp == '' || regemailotp == '0') {
+                alert('Please enter OTP');
+                return false
+            }
+            $('#loading-overlay').fadeIn();
+            $('#loading-image').fadeIn();
+            var otpval = regemailotp;
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                url: '{{ route('verifyEmailOTP') }}',
+                type: 'POST',
+                data: {
+                    sentoval: sentoval,
+                    otpval: otpval
+                },
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function(response) {
+                    var mobemailmesge = response.mesge;
+                    $('#s_emailverifystatus').val(mobemailmesge);
+                    if (response.result == 3 && checkval == 1) {
+                        $('#loading-image').fadeOut();
+                        $('#loading-overlay').fadeOut();
+                        $('.s_regmailsendotp').hide();
+                        $('.s_regEmlsendotp').hide();
+                        $('.s_regEmlrendsendotp').hide();
+                        $('#s_showemailotp').hide();
+                        $('#s_verifiedemailotp').show();
+                        $('#s_nverifiedemailotp').hide();
+
+                    } else if (response.result == 2 && checkval == 1) {
+                        alert('Please enter correct OTP');
+                        //$('#u_emid').val('');
+                        $('#loading-image').fadeOut();
+                        $('#loading-overlay').fadeOut();
+                        $('.s_regmailsendotp').show();
+                        $('.s_regEmlsendotp').hide();
+                        $('.s_regEmlrendsendotp').show();
+                        $('#s_showemailotp').show();
+                        $('#s_nverifiedemailotp').hide();
+                        $('#s_verifiedemailotp').hide();
+                    }
+
+                }
+            });
+
+        }
 
 
 
@@ -2706,11 +3069,270 @@
                     } else {
                         $('#loading-image').fadeOut();
                         $('#loading-overlay').fadeOut();
+
+                        if (checkval == 1) {
+                            $('.regmobnosendotp').show();
+                            $('.regMobilesendotp').show();
+                            $('.regMobilerendsendotp').hide();
+                            $('#showmobnootp').hide();
+                        }
+                        if (checkval == 2) {
+                            $('.s_regmobnosendotp').show();
+                            $('.s_regMobilesendotp').show();
+                            $('.s_regMobilerendsendotp').hide();
+                            $('#s_showmobnootp').hide();
+                        }
+
+
                     }
                 }
             });
 
         }
+
+        function RegMobsendOTP(checkval) {
+            var u_name = $('#u_name').val();
+            if (u_name == '' || u_name == '0') {
+                alert('Please enter the name');
+                return false
+            }
+            var u_mobno = $('#u_mobno').val();
+            if (u_mobno == '' || u_mobno == '0') {
+                alert('Please enter the mobile number');
+                return false
+            }
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            $('#loading-overlay').fadeIn();
+            $('#loading-image').fadeIn();
+            $.ajax({
+                url: '{{ route('MobnoSendOTPRegistration') }}',
+                type: 'POST',
+                data: {
+                    u_name: u_name,
+                    u_mobno: u_mobno,
+                },
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function(data) {
+
+                    $('#loading-image').fadeOut();
+                    $('#loading-overlay').fadeOut();
+                    if (data.result == 3 && checkval == 1) {
+                        $('.regmobnosendotp').show();
+                        $('.regMobilesendotp').hide();
+                        $('.regMobilerendsendotp').show();
+                        $('#showmobnootp').show();
+                        $('#verifiedmobotp').hide();
+                        $('#nverifiedmobotp').hide();
+
+                        var base64Message = data.mesge;
+                        var decodedOTPmsg = atob(base64Message);
+                        $('#regmobotp').val(decodedOTPmsg);
+
+
+                    }
+                    if (data.result == 4 && checkval == 1) {
+                        alert('Please try after some times');
+                        $('#u_mobno').val('');
+                        $('.regmobnosendotp').hide();
+                        $('.regMobilesendotp').hide();
+                        $('.regMobilerendsendotp').hide();
+                        $('#showmobnootp').hide();
+                        $('#verifiedmobotp').hide();
+                        $('#nverifiedmobotp').hide();
+                        $('#regmobotp').val('');
+                    }
+
+                }
+            });
+
+        }
+
+
+        function verifymobotp(checkval) {
+            var sentoval = $('#u_mobno').val();
+            var regmobotp = $('#regmobotp').val();
+            if (sentoval == '' || sentoval == '0') {
+                alert('Please enter the mobile no');
+                return false
+            }
+            if (regmobotp == '' || regmobotp == '0') {
+                alert('Please enter OTP');
+                return false
+            }
+            $('#loading-overlay').fadeIn();
+            $('#loading-image').fadeIn();
+            var otpval = regmobotp;
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                url: '{{ route('verifyMobileNoOTP') }}',
+                type: 'POST',
+                data: {
+                    sentoval: sentoval,
+                    otpval: otpval
+                },
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function(response) {
+                    var mobnostusmesge = response.mesge;
+                    $('#mobverifystatus').val(mobnostusmesge);
+                    if (response.result == 3 && checkval == 1) {
+                        $('#loading-image').fadeOut();
+                        $('#loading-overlay').fadeOut();
+                        $('.regmobnosendotp').hide();
+                        $('.regMobilesendotp').hide();
+                        $('.regMobilerendsendotp').hide();
+                        $('#showmobnootp').hide();
+                        $('#verifiedmobotp').show();
+                        $('#nverifiedmobotp').hide();
+
+                    } else if (response.result == 2 && checkval == 1) {
+                        alert('Please enter correct OTP');
+                        //$('#u_mobno').val('');
+                        $('#loading-image').fadeOut();
+                        $('#loading-overlay').fadeOut();
+                        $('.regmobnosendotp').show();
+                        $('.regMobilesendotp').hide();
+                        $('.regMobilerendsendotp').show();
+                        $('#showmobnootp').show();
+                        $('#nverifiedmobotp').hide();
+                        $('#verifiedmobotp').hide();
+                    }
+
+                }
+            });
+
+        }
+
+
+
+
+
+
+
+
+
+
+        function s_RegMobsendOTP(checkval) {
+            var u_name = $('#s_ownername').val();
+            if (u_name == '' || u_name == '0') {
+                alert('Please enter the owner name');
+                return false
+            }
+            var u_mobno = $('#s_mobno').val();
+            if (u_mobno == '' || u_mobno == '0') {
+                alert('Please enter the mobile number');
+                return false
+            }
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            $('#loading-overlay').fadeIn();
+            $('#loading-image').fadeIn();
+            $.ajax({
+                url: '{{ route('MobnoSendOTPRegistration') }}',
+                type: 'POST',
+                data: {
+                    u_name: u_name,
+                    u_mobno: u_mobno,
+                },
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function(data) {
+
+                    $('#loading-image').fadeOut();
+                    $('#loading-overlay').fadeOut();
+                    if (data.result == 3 && checkval == 1) {
+                        $('.s_regmobnosendotp').show();
+                        $('.s_regMobilesendotp').hide();
+                        $('.s_regMobilerendsendotp').show();
+                        $('#s_showmobnootp').show();
+                        $('#s_verifiedmobotp').hide();
+                        $('#s_nverifiedmobotp').hide();
+
+                        var base64Message = data.mesge;
+                        var decodedOTPmsg = atob(base64Message);
+                        $('#s_regmobotp').val(decodedOTPmsg);
+
+
+                    }
+                    if (data.result == 4 && checkval == 1) {
+                        alert('Please try after some times');
+                        $('#s_mobno').val('');
+                        $('.s_regmobnosendotp').hide();
+                        $('.s_regMobilesendotp').hide();
+                        $('.s_regMobilerendsendotp').hide();
+                        $('#s_showmobnootp').hide();
+                        $('#s_verifiedmobotp').hide();
+                        $('#s_nverifiedmobotp').hide();
+                        $('#s_regmobotp').val('');
+                    }
+
+                }
+            });
+
+        }
+
+
+        function s_verifymobotp(checkval) {
+            var sentoval = $('#s_mobno').val();
+            var regmobotp = $('#s_regmobotp').val();
+            if (sentoval == '' || sentoval == '0') {
+                alert('Please enter the mobile no');
+                return false
+            }
+            if (regmobotp == '' || regmobotp == '0') {
+                alert('Please enter OTP');
+                return false
+            }
+            $('#loading-overlay').fadeIn();
+            $('#loading-image').fadeIn();
+            var otpval = regmobotp;
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                url: '{{ route('verifyMobileNoOTP') }}',
+                type: 'POST',
+                data: {
+                    sentoval: sentoval,
+                    otpval: otpval
+                },
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function(response) {
+                    var mobnostusmesge = response.mesge;
+                    $('#s_mobverifystatus').val(mobnostusmesge);
+                    if (response.result == 3 && checkval == 1) {
+                        $('#loading-image').fadeOut();
+                        $('#loading-overlay').fadeOut();
+                        $('.s_regmobnosendotp').hide();
+                        $('.s_regMobilesendotp').hide();
+                        $('.s_regMobilerendsendotp').hide();
+                        $('#s_showmobnootp').hide();
+                        $('#s_verifiedmobotp').show();
+                        $('#s_nverifiedmobotp').hide();
+
+                    } else if (response.result == 2 && checkval == 1) {
+                        alert('Please enter correct OTP');
+                        //$('#u_mobno').val('');
+                        $('#loading-image').fadeOut();
+                        $('#loading-overlay').fadeOut();
+                        $('.s_regmobnosendotp').show();
+                        $('.s_regMobilesendotp').hide();
+                        $('.s_regMobilerendsendotp').show();
+                        $('#s_showmobnootp').show();
+                        $('#s_nverifiedmobotp').hide();
+                        $('#s_verifiedmobotp').hide();
+                    }
+
+                }
+            });
+
+        }
+
+
+
 
         function checkemilmob(emailmob, numr) {
             $('#loading-overlay').fadeIn();

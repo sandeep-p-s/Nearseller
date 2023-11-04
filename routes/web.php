@@ -82,6 +82,10 @@ Route::controller(HomeController::class)->group(function () {
     Route::post('existnewusercreate', 'ExistnewusercreateCheck')->name('existnewusercreate');
 
     Route::post('regmailotp', 'MailSendOTPRegistration')->name('MailSendOTPRegistration');
+    Route::post('verifyEmailOTP', 'verifyEmailOTPCheck')->name('verifyEmailOTP');
+
+    Route::post('regmobnootp', 'MobnoSendOTPRegistration')->name('MobnoSendOTPRegistration');
+    Route::post('verifyMobileOTP', 'verifyMobileNoOTPCheck')->name('verifyMobileNoOTP');
 
 
 
@@ -200,7 +204,7 @@ Route::middleware(['role'])->group(function () {
 
 
 
-        Route::get('parentcategory', 'ParentProductListView');
+        Route::get('parentcategorys', 'ParentProductListView');
         Route::post('listparentcategory', 'ListParentCategory')->name('productlist.parentcategories');
         Route::post('productview', 'AdmProductView')->name('productlist.productView');
     });
@@ -353,18 +357,18 @@ Route::middleware(['role'])->group(function () {
         Route::post('approvedstatuscategory/{id}', 'approvedstatus_category')->name('approvedstatus.category');
         Route::post('categoryapprovedall', 'AdmCategoryApprovedAll')->name('CategoryApprovedAll');
     });
-    Route::controller(CategoryController::class)->group(function () {
-        Route::get('listcategory', 'list_category')->name('list.category');
-        Route::get('addlistcategory', 'list_category')->name('list.category');
-        Route::get('addcategory', 'add_category')->name('add.category');
-        Route::get('parentcategory/{value}', 'parent_category')->name('parent.category');
-        Route::post('savecategory', 'store_category')->name('store.category');
-        Route::get('editcategory/{id}', 'edit_category')->name('edit.category');
-        Route::post('updatecategory/{id}', 'update_category')->name('update.category');
-        Route::get('deletecategory/{id}', 'delete_category')->name('delete.category');
-        Route::get('approvedcategory/{id}', 'approved_category')->name('approved.category');
-        Route::post('approvedstatuscategory/{id}', 'approvedstatus_category')->name('approvedstatus.category');
-    });
+    // Route::controller(CategoryController::class)->group(function () {
+    //     Route::get('listcategory', 'list_category')->name('list.category');
+    //     Route::get('addlistcategory', 'list_category')->name('list.category');
+    //     Route::get('addcategory', 'add_category')->name('add.category');
+    //     Route::get('parentcategory/{value}', 'parent_category')->name('parent.category');
+    //     Route::post('savecategory', 'store_category')->name('store.category');
+    //     Route::get('editcategory/{id}', 'edit_category')->name('edit.category');
+    //     Route::post('updatecategory/{id}', 'update_category')->name('update.category');
+    //     Route::get('deletecategory/{id}', 'delete_category')->name('delete.category');
+    //     Route::get('approvedcategory/{id}', 'approved_category')->name('approved.category');
+    //     Route::post('approvedstatuscategory/{id}', 'approvedstatus_category')->name('approvedstatus.category');
+    // });
 
     Route::controller(ExecutiveController::class)->group(function () {
         Route::get('listexecutive', 'list_executive')->name('list.executive');

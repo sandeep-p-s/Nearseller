@@ -1017,12 +1017,12 @@ class AdminController extends Controller
         $shopavailable='';
         }
         else{
-
             foreach ($sellerDetails as $sellr)
             {
                 if($sellr->shop_executive!='')
                 {
-                    $executives  = DB::table('user_account')->where(['role_id' => 10])->where(['id' => $sellr->shop_executive])->first();
+                    $executives  = DB::table('user_account')->where(['role_id' => '10'])->where(['id' => $sellr->shop_executive])->first();
+                    //echo $lastRegId = $executives->toSql();exit;
                 }
                 else{
                     $executives=0;

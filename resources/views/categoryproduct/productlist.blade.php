@@ -75,9 +75,22 @@
                 </div>
             </div>
 
-            <div id="catcontent" style="display: none;">
 
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <div id="catcontent" style="display: none;">
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
+
+
 
 
             <div id="categorycatcontent1"  style="display: none;">

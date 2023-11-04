@@ -1461,11 +1461,11 @@
     });
 
 
-    // $('#es_name, #es_ownername').on('input', function() {
-    //     var value = $(this).val();
-    //     value = value.replace(/[^A-Za-z\s\.]+/, '');
-    //     $(this).val(value);
-    // });
+    $('#es_name, #es_ownername').on('input', function() {
+        var value = $(this).val();
+        value = value.replace(/[^A-Za-z\s.#&/'-]+/, '');
+        $(this).val(value);
+    });
 
     $.validator.addMethod('maxSize', function(value, element, param) {
         return this.optional(element) || (element.files[0].size <= param);
