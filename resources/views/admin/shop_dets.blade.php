@@ -32,7 +32,7 @@
 
                 $sel_approved = $sellerDetailh->seller_approved;
                 $userstatus = $sellerDetailh->user_status;
-
+                $executivesm = $sellerDetailh->shop_executive;
             @endphp
             @if ($sellerDetailh->seller_approved != 'Y')
                 <div class="col text-right">
@@ -180,7 +180,7 @@
                                     </div>
                                 </div>
                             @endif
-                            @if ($executives == 0)
+                            @if ($executivesm == '0' || $executivesm=='')
                             @else
                                 <div class="form-group row">
                                     <label class="col-xl-6 col-lg-6 ">{{ $shoporservice }} Executive Name</label>
@@ -924,12 +924,12 @@
                                                             class="btn btn-secondary btn-sm">
                                                             <span class="fas fa-plus"></span> Add New Time
                                                         </span>
-                                                        @if (session('roleid') == 1)
+                                                        {{-- @if (session('roleid') == 1) --}}
                                                             <button type="button" id="addSameTiming"
                                                                 class="btn btn-primary btn-sm">
                                                                 Add Same Timing for All Days
                                                             </button>
-                                                        @endif
+                                                        {{-- @endif --}}
 
                                                     </div>
                                                 </div>

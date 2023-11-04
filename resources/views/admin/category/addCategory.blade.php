@@ -54,7 +54,7 @@
                                     </select>
                                     <label for="addShopType">Category Name</label>
                                     <input type="text" class="form-control mb15" id="category_name"
-                                        placeholder="Enter Category Name" name="category_name">
+                                        placeholder="Enter Category Name" name="category_name" required>
                                     <input type="hidden" class="form-control mb15" id="slug_name" placeholder=""
                                         name="slug_name">
                                     <input type="hidden" class="form-control mb15" id="category_level" placeholder=""
@@ -71,7 +71,7 @@
 
                                     <label>Category Image</label>
                                     <input type="file" id="category_image" name="category_image[]"
-                                        class="form-control form-control-lg" placeholder="Shop Photo" tabindex="19" accept="image/jpeg, image/png" />
+                                        class="form-control form-control-lg" placeholder="Shop Photo" tabindex="19" accept="image/jpeg, image/png" required />
                                     <label for="category_image" class="error"></label>
 
                                     <div class="col-md-12">
@@ -203,7 +203,7 @@
                     reader.readAsDataURL(file);
                 }
                 document.getElementById('category_image').files = new FileListItem([]);
-                document.getElementById('v').files = new FileListItem(fileArrs);
+                document.getElementById('category_image').files = new FileListItem(fileArrs);
 
 
             });

@@ -102,12 +102,14 @@ class CategoryController extends Controller
             return redirect()->route('logout');
         }
 
+
+
         $request->validate(
             [
                 'category_name' => 'required|unique:categories,category_name|string|max:40|min:3',
                 'slug_name' => 'required|unique:categories,category_slug',
                 'category_level' => ['required', new CategoryLevelRule],
-                'category_image' => 'required|max:4096|mimes:jpeg,png,jpg',
+                //'category_image' => 'required|max:4096|mimes:jpeg,png,jpg',
             ],
             [
                 'category_name.required' => 'The category name field is missing.',
@@ -117,11 +119,11 @@ class CategoryController extends Controller
                 'category_name.max' => 'The category name cannot exceed 40 characters.',
                 'slug_name.required' => 'Slug name is missing.',
                 'slug_name.unique' => 'Slug name should unique.',
-                'category_image.required' => 'Category image required.',
-                'category_level.required' => 'Category level required.',
-                'category_image.mimes' => 'Image must be in the format jpeg,png,jpg.',
-                'category_image.max' => 'File not larger than 4mb.',
-            ]
+                // 'category_image.required' => 'Category image required.',
+                // 'category_level.required' => 'Category level required.',
+                // 'category_image.mimes' => 'Image must be in the format jpeg,png,jpg.',
+                // 'category_image.max' => 'File not larger than 4mb.',
+             ]
         );
 
             $newcategory = new Category;
@@ -161,7 +163,7 @@ class CategoryController extends Controller
             //     Storage::disk('public')->put(config('imageupload.categorydir') . "/" . config('imageupload.category.image') . $fileName, File::get($request->category_image));
             //     $newcategory->category_image = $fileName;
             // }
-            $newcategory->category_type = $request->select_type;
+            //$newcategory->category_type = $request->select_type;
             $newcategory->created_by = $userId;
             $newcategory->save();
             $loggedUserIp = $_SERVER['REMOTE_ADDR'];
@@ -191,11 +193,10 @@ class CategoryController extends Controller
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $current_category = Category::where('category_slug', $category_slug)->first();
         // $categories = Category::treeWithStatusYandTypeSort($current_category->category_type);
-        $categories = Category::treeWithStatusY($current_category->category_type);
+        $categories = Category::treeWithStatusY();
         $filteredCategories = $categories->filter(function ($category) use ($category_slug , $current_category) {
             return $category->category_level < $current_category->category_level && $category->category_slug != $category_slug;
         });
-
         if (!$current_category) {
             return redirect()->route('list.category')->with('error', 'Category not found.');
         }
@@ -232,7 +233,7 @@ class CategoryController extends Controller
                 'category_name' => ['required',Rule::unique('categories')->ignore($id),'string','max:40','min:3'],
                 'category_slug' => ['required',Rule::unique('categories')->ignore($id)],
                 'category_level' => ['required', new CategoryLevelRule],
-                'category_image' => 'required|max:4096|mimes:jpeg,png,jpg',
+                //'category_image' => 'required|max:4096|mimes:jpeg,png,jpg',
                 'status' => 'in:Y,N',
             ],
             [
@@ -244,9 +245,9 @@ class CategoryController extends Controller
                 'category_slug.required' => 'Slug name is missing.',
                 'category_slug.unique' => 'Slug name should unique.',
                 'category_level.required' => 'Category level required.',
-                'category_image.required' => 'Category image required.',
-                'category_image.mimes' => 'Image must be in the format jpeg,png,jpg.',
-                'category_image.max' => 'File not larger than 4mb.',
+                // 'category_image.required' => 'Category image required.',
+                // 'category_image.mimes' => 'Image must be in the format jpeg,png,jpg.',
+                // 'category_image.max' => 'File not larger than 4mb.',
                 'status.in' => 'Invalid status value.',
             ]
         );
@@ -292,7 +293,7 @@ class CategoryController extends Controller
             }
 
             $current_category->status = $request->status;
-            $current_category->category_type = $request->select_type;
+            //$current_category->category_type = $request->select_type;
             $current_category->save();
             $loggedUserIp = $_SERVER['REMOTE_ADDR'];
             $time = date('Y-m-d H:i:s');

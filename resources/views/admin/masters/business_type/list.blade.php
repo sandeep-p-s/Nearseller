@@ -15,10 +15,10 @@
                                 <h4 class="page-title">Business Type</h4>
 
                             </div>
-                            <div class="col-auto align-self-center">
+                            {{-- <div class="col-auto align-self-center">
                                 <a href="{{ route('add.businesstype') }}"><button type="button" class="btn add_btn ">Add
                                         Business Type </button></a>
-                            </div><!--end col-->
+                            </div> --}}
 
 
                         </div><!--end row-->
@@ -76,9 +76,9 @@
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item view_btn1"
                                                             href="{{ route('edit.businesstype', $bt->id) }}">Edit</a>
-                                                        <a class="dropdown-item delete_btn"
+                                                        {{-- <a class="dropdown-item delete_btn"
                                                             href="{{ route('delete.businesstype', $bt->id) }}"
-                                                            onclick="return confirm('Are you sure you want to delete?')">Delete</a>
+                                                            onclick="return confirm('Are you sure you want to delete?')">Delete</a> --}}
                                                     </div>
                                                 </div>
                                             </td>

@@ -12,7 +12,7 @@
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-                                <h4 class="page-title">Add Service Category</h4>
+                                <h4 class="page-title">Add Business Category</h4>
 
                             </div>
 
@@ -38,7 +38,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="addShopType">Service Category Name</label>
+                                    <label for="addShopType">Business Category Name</label>
                                     <input type="text" class="form-control mb-3" id="shop_id"
                                         placeholder="Enter service category name" name="service_category_name" onchange="existservicecategory(this.value)">
                                         <div id="existcategory-message" class="text-center" style="display: none;"></div>

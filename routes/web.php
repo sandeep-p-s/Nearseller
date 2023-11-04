@@ -84,6 +84,9 @@ Route::controller(HomeController::class)->group(function () {
     Route::post('regmailotp', 'MailSendOTPRegistration')->name('MailSendOTPRegistration');
     Route::post('verifyEmailOTP', 'verifyEmailOTPCheck')->name('verifyEmailOTP');
 
+    Route::post('regmobnootp', 'MobnoSendOTPRegistration')->name('MobnoSendOTPRegistration');
+    Route::post('verifyMobileOTP', 'verifyMobileNoOTPCheck')->name('verifyMobileNoOTP');
+
 
 
 });

@@ -54,7 +54,7 @@
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control mb15" id="exampleFormControlInput1"
                                         name="category_name" placeholder="Enter Category Name"
-                                        value="{{ $current_category->category_name }}">
+                                        value="{{ $current_category->category_name }}" required>
                                     <input type="hidden" class="form-control mb15" id="category_slug" placeholder=""
                                         name="category_slug" value="{{ $current_category->category_slug }}">
                                     <input type="hidden" class="form-control mb15" id="category_level" placeholder=""
@@ -261,7 +261,7 @@
                     reader.readAsDataURL(file);
                 }
                 document.getElementById('category_image').files = new FileListItem([]);
-                document.getElementById('v').files = new FileListItem(fileArrs);
+                document.getElementById('category_image').files = new FileListItem(fileArrs);
 
 
             });
