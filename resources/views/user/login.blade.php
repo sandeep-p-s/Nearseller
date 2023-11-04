@@ -1383,7 +1383,7 @@
                         success: function(response) {
                             console.log(response);
                             $('#ureg-message').text(
-                                    'User Registered Successfully. Please validate your account from the link sent to your registered mobile.'
+                                    'User Registered Successfully.'
                                 )
                                 .fadeIn();
                             $('#ureg-message').addClass('success-message');
@@ -1395,6 +1395,8 @@
                             $("#u_mobno").val('');
                             $("#u_paswd").val('');
                             $("#u_rpaswd").val('');
+                            $('#regmobotp').val('');
+                            $('#regemailotp').val('');
                             $('#verifiedemailotp').hide();
                             $('#verifiedmobotp').hide();
                             $('#nverifiedemailotp').hide();
@@ -1999,7 +2001,7 @@
 
                             console.log(response);
                             $('#shopreg-message').text(
-                                    'User Registered Successfully. Please validate your account from the link sent to your registered mobile.'
+                                    'User Registered Successfully.'
                                 )
                                 .fadeIn();
                             $('#shopreg-message').addClass('success-message');
@@ -2010,6 +2012,8 @@
                             $('#SellerRegForm')[0].reset();
                             $('#loading-image').fadeOut();
                             $('#loading-overlay').fadeOut();
+                            $('#s_regmobotp').val('');
+                            $('#s_regemailotp').val('');
                             $('#sellerfirst').show();
                             $('#sellersecond').hide();
                             $('#s_verifiedemailotp').hide();

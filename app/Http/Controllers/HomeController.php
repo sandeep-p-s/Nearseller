@@ -127,6 +127,7 @@ class HomeController extends Controller
             $user->role_id=4;
             $user->forgot_pass=$request->u_paswd;
             $user->user_status='Y';
+            $user->email_verify='Y';
             $user->mobile_verify='Y';
             $user->approved='Y';
             $submt=$user->save();
@@ -1265,6 +1266,11 @@ class HomeController extends Controller
             // } else {
             //     $user->user_status='Y';
             // }
+            if (!empty($request->s_email)) {
+                $user->email_verify='N';
+            } else {
+                $user->email_verify='Y';
+            }
             $user->user_status='Y';
             $user->mobile_verify='Y';
             $user->ip=$loggedUserIp;
