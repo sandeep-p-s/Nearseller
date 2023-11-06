@@ -19,6 +19,7 @@
 
 <!-- jQuery  -->
 {{-- <script src="{{ asset('backend/assets/js/jquery.min.js') }}"></script> --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/js/bootstrap-timepicker.min.js"></script>
 <script src="{{ asset('backend/assets/js/bootstrap.bundle.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ asset('backend/assets/js/jquery-ui.min.js') }}"></script>

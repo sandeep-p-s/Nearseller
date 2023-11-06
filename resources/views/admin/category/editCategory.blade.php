@@ -77,7 +77,7 @@
                                     <label>Category Image</label>
                                     <input type="file" id="category_image" name="category_image[]"
                                         class="form-control form-control-lg" placeholder="Category Images" tabindex="19"
-                                        accept="image/jpeg, image/png" />
+                                         value="{{ $current_category->category_image}}" />
                                     <label for="category_image" class="error"></label>
 
                                     <div class="col-md-12">
@@ -198,105 +198,105 @@
 
 
 
-            var fileArrs = [];
-            var totalFiless = 0;
-            var maxSize = 10485760; // 10MB in bytes
-            var minSize = 512000; // 500KB in bytes
+            // var fileArrs = [];
+            // var totalFiless = 0;
+            // var maxSize = 10485760; // 10MB in bytes
+            // var minSize = 512000; // 500KB in bytes
 
-            $("#category_image").change(function(event) {
-                //$('#image-preview').html('');
-                var totalFileCount = $(this)[0].files.length;
-                for (var i = 0; i < totalFileCount; i++) {
-                    var file = $(this)[0].files[i];
-                    if (file.size > 3145728) {
-                        alert('File size exceeds the limit of 3MB');
-                        $(this).val('');
-                        $('#image-preview').html('');
-                        return;
-                    }
-                    // var fileSize = file.size;
-                    // if (fileSize > maxSize) {
-                    //     alert('File size exceeds the limit of 10MB');
-                    //     $(this).val('');
-                    //     $('#image-preview').html('');
-                    //     return;
-                    // }
-                    // if (fileSize < minSize) {
-                    //     alert('File size is less than 500KB');
-                    //     $(this).val('');
-                    //     $('#image-preview').html('');
-                    //     return;
-                    // }
+            // $("#category_image").change(function(event) {
+            //     //$('#image-preview').html('');
+            //     var totalFileCount = $(this)[0].files.length;
+            //     for (var i = 0; i < totalFileCount; i++) {
+            //         var file = $(this)[0].files[i];
+            //         if (file.size > 3145728) {
+            //             alert('File size exceeds the limit of 3MB');
+            //             $(this).val('');
+            //             $('#image-preview').html('');
+            //             return;
+            //         }
+            //         // var fileSize = file.size;
+            //         // if (fileSize > maxSize) {
+            //         //     alert('File size exceeds the limit of 10MB');
+            //         //     $(this).val('');
+            //         //     $('#image-preview').html('');
+            //         //     return;
+            //         // }
+            //         // if (fileSize < minSize) {
+            //         //     alert('File size is less than 500KB');
+            //         //     $(this).val('');
+            //         //     $('#image-preview').html('');
+            //         //     return;
+            //         // }
 
-                    fileArrs.push(file);
-                    totalFiless++;
-                    if (totalFiless > 1) {
-                        alert('Maximum 1 images allowed');
-                        $(this).val(''); -
-                        $('#image-preview').html('');
+            //         fileArrs.push(file);
+            //         totalFiless++;
+            //         if (totalFiless > 1) {
+            //             alert('Maximum 1 images allowed');
+            //             $(this).val(''); -
+            //             $('#image-preview').html('');
 
-                        totalFiless = 0;
-                        fileArrs = [];
-                        file = "";
-                        return false;
-                    }
-
-
-                    var reader = new FileReader();
-                    reader.onload = (function(file) {
-                        return function(event) {
-                            var imgDiv = $('<div>').addClass('img-div col-md-3 img-container');
-                            var img = $('<img>').attr('src', event.target.result).addClass(
-                                'img-responsive image new_thumpnail').attr('width', '100');
-                            var removeBtn = $('<button>').addClass('btn btn-danger remove-btns').attr(
-                                'title', 'Remove Image').append('Remove').attr('role', file.name);
-
-                            imgDiv.append(img);
-                            imgDiv.append($('<div>').addClass('middle').append(removeBtn));
-                            if (fileArrs.length > 0)
-                                $('#image-preview').append(imgDiv);
-                        };
-                    })(file);
-
-                    reader.readAsDataURL(file);
-                }
-                document.getElementById('category_image').files = new FileListItem([]);
-                document.getElementById('v').files = new FileListItem(fileArrs);
+            //             totalFiless = 0;
+            //             fileArrs = [];
+            //             file = "";
+            //             return false;
+            //         }
 
 
-            });
+            //         var reader = new FileReader();
+            //         reader.onload = (function(file) {
+            //             return function(event) {
+            //                 var imgDiv = $('<div>').addClass('img-div col-md-3 img-container');
+            //                 var img = $('<img>').attr('src', event.target.result).addClass(
+            //                     'img-responsive image new_thumpnail').attr('width', '100');
+            //                 var removeBtn = $('<button>').addClass('btn btn-danger remove-btns').attr(
+            //                     'title', 'Remove Image').append('Remove').attr('role', file.name);
 
-            $(document).on('click', '.remove-btns', function() {
-                var fileName = $(this).attr('role');
+            //                 imgDiv.append(img);
+            //                 imgDiv.append($('<div>').addClass('middle').append(removeBtn));
+            //                 if (fileArrs.length > 0)
+            //                     $('#image-preview').append(imgDiv);
+            //             };
+            //         })(file);
 
-                for (var i = 0; i < fileArrs.length; i++) {
-                    if (fileArrs[i].name === fileName) {
-                        fileArrs.splice(i, 1);
-                        totalFiless--;
-                        break;
-                    }
-                }
+            //         reader.readAsDataURL(file);
+            //     }
+            //     document.getElementById('category_image').files = new FileListItem([]);
+            //     document.getElementById('v').files = new FileListItem(fileArrs);
 
-                document.getElementById('category_image').files = new FileListItem(fileArrs);
-                $(this).closest('.img-div').remove();
-            });
 
-            function FileListItem(file) {
-                file = [].slice.call(Array.isArray(file) ? file : arguments);
-                var b = file.length;
-                var d = true;
-                for (var c; b-- && d;) {
-                    d = file[b] instanceof File;
-                }
-                if (!d) {
-                    throw new TypeError('Expected argument to FileList is File or array of File objects');
-                }
-                var clipboardData = new ClipboardEvent('').clipboardData || new DataTransfer();
-                for (b = d = file.length; b--;) {
-                    clipboardData.items.add(file[b]);
-                }
-                return clipboardData.files;
-            }
+            // });
+
+            // $(document).on('click', '.remove-btns', function() {
+            //     var fileName = $(this).attr('role');
+
+            //     for (var i = 0; i < fileArrs.length; i++) {
+            //         if (fileArrs[i].name === fileName) {
+            //             fileArrs.splice(i, 1);
+            //             totalFiless--;
+            //             break;
+            //         }
+            //     }
+
+            //     document.getElementById('category_image').files = new FileListItem(fileArrs);
+            //     $(this).closest('.img-div').remove();
+            // });
+
+            // function FileListItem(file) {
+            //     file = [].slice.call(Array.isArray(file) ? file : arguments);
+            //     var b = file.length;
+            //     var d = true;
+            //     for (var c; b-- && d;) {
+            //         d = file[b] instanceof File;
+            //     }
+            //     if (!d) {
+            //         throw new TypeError('Expected argument to FileList is File or array of File objects');
+            //     }
+            //     var clipboardData = new ClipboardEvent('').clipboardData || new DataTransfer();
+            //     for (b = d = file.length; b--;) {
+            //         clipboardData.items.add(file[b]);
+            //     }
+            //     return clipboardData.files;
+            // }
 
             document.addEventListener("DOMContentLoaded", function() {
                 var typeSelector = document.getElementById("typeSelector");

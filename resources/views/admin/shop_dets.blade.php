@@ -33,7 +33,6 @@
                 $sel_approved = $sellerDetailh->seller_approved;
                 $userstatus = $sellerDetailh->user_status;
 
-
             @endphp
             @if ($sellerDetailh->seller_approved != 'Y')
                 <div class="col text-right">
@@ -52,9 +51,9 @@
                                     <div class="col-lg-4 align-self-center mb-3 mb-lg-0">
                                         <div class="dastyle-profile-main">
                                             <div class="dastyle-profile-main-pic">
-                                                @if($totimg>0)
-                                                <img src="{{ asset($qrgallery[0]) }}" alt="" height="110"
-                                                    class="rounded-circle">
+                                                @if ($totimg > 0)
+                                                    <img src="{{ asset($qrgallery[0]) }}" alt="" height="110"
+                                                        class="rounded-circle">
                                                 @endif
 
                                             </div>
@@ -165,30 +164,30 @@
                                     <p>{{ $sellerDetailh->business_name }} </p>
                                 </div>
                             </div>
-                            @if($sellerDetailh->service_category_name!='')
-                            <div class="form-group row">
-                                <label class="col-xl-6 col-lg-6 ">{{ $shoporservice }} category Type </label>
-                                <div class="col-lg-6 col-xl-6">
-                                    <p>{{ $sellerDetailh->service_category_name }}</p>
+                            @if ($sellerDetailh->service_category_name != '')
+                                <div class="form-group row">
+                                    <label class="col-xl-6 col-lg-6 ">{{ $shoporservice }} category Type </label>
+                                    <div class="col-lg-6 col-xl-6">
+                                        <p>{{ $sellerDetailh->service_category_name }}</p>
+                                    </div>
                                 </div>
-                            </div>
                             @endif
-                            @if($sellerDetailh->service_name!='')
-                            <div class="form-group row">
-                                <label class="col-xl-6 col-lg-6 ">{{ $shoporservice }} Type</label>
-                                <div class="col-lg-6 col-xl-6">
-                                    <p>{{ $sellerDetailh->service_name }}</p>
+                            @if ($sellerDetailh->service_name != '')
+                                <div class="form-group row">
+                                    <label class="col-xl-6 col-lg-6 ">{{ $shoporservice }} Type</label>
+                                    <div class="col-lg-6 col-xl-6">
+                                        <p>{{ $sellerDetailh->service_name }}</p>
+                                    </div>
                                 </div>
-                            </div>
                             @endif
-                            @if($executives==0)
+                            @if ($executives == 0)
                             @else
-                            <div class="form-group row">
-                                <label class="col-xl-6 col-lg-6 ">{{ $shoporservice }} Executive Name</label>
-                                <div class="col-lg-6 col-xl-6">
-                                    <p> {{ $executives->name }}</p>
+                                <div class="form-group row">
+                                    <label class="col-xl-6 col-lg-6 ">{{ $shoporservice }} Executive Name</label>
+                                    <div class="col-lg-6 col-xl-6">
+                                        <p> {{ $executives->name }}</p>
+                                    </div>
                                 </div>
-                            </div>
                             @endif
                             <div class="form-group row">
                                 {{-- <label class="col-xl-3 col-lg-3 ">{{ $shoporservice }} Open and Close Time</label> --}}
@@ -216,7 +215,8 @@
                                         @else
                                             <table>
                                                 <tr>
-                                                    <td colspan="3" align="center"><b class="error">Not Found Open and Close Time</b></td>
+                                                    <td colspan="3" align="center"><b class="error">Not Found Open
+                                                            and Close Time</b></td>
                                                 </tr>
                                             </table>
                                         @endif
@@ -241,37 +241,37 @@
                             </div> <!--end row-->
                         </div><!--end card-header-->
                         <div class="card-body">
-                            @if($sellerDetailh->shop_licence!='')
-                            <div class="form-group row">
-                                <label class="col-xl-6 col-lg-6 ">{{ $shoporservice }} License Number</label>
-                                <div class="col-lg-6 col-xl-6">
-                                    <p>{{ $sellerDetailh->shop_licence }}</p>
+                            @if ($sellerDetailh->shop_licence != '')
+                                <div class="form-group row">
+                                    <label class="col-xl-6 col-lg-6 ">{{ $shoporservice }} License Number</label>
+                                    <div class="col-lg-6 col-xl-6">
+                                        <p>{{ $sellerDetailh->shop_licence }}</p>
+                                    </div>
                                 </div>
-                            </div>
                             @endif
-                            @if($sellerDetailh->shop_gstno!='')
-                            <div class="form-group row">
-                                <label class="col-xl-6 col-lg-6 ">GST Number</label>
-                                <div class="col-lg-6 col-xl-6">
-                                    <p>{{ $sellerDetailh->shop_gstno }}</p>
+                            @if ($sellerDetailh->shop_gstno != '')
+                                <div class="form-group row">
+                                    <label class="col-xl-6 col-lg-6 ">GST Number</label>
+                                    <div class="col-lg-6 col-xl-6">
+                                        <p>{{ $sellerDetailh->shop_gstno }}</p>
+                                    </div>
                                 </div>
-                            </div>
                             @endif
-                            @if($sellerDetailh->shop_panno!='')
-                            <div class="form-group row">
-                                <label class="col-xl-6 col-lg-6 ">PAN Number</label>
-                                <div class="col-lg-6 col-xl-6">
-                                    <p> {{ $sellerDetailh->shop_panno }}</p>
+                            @if ($sellerDetailh->shop_panno != '')
+                                <div class="form-group row">
+                                    <label class="col-xl-6 col-lg-6 ">PAN Number</label>
+                                    <div class="col-lg-6 col-xl-6">
+                                        <p> {{ $sellerDetailh->shop_panno }}</p>
+                                    </div>
                                 </div>
-                            </div>
                             @endif
-                            @if($sellerDetailh->establish_date!='')
-                            <div class="form-group row">
-                                <label class="col-xl-6 col-lg-6 ">Establishment Date</label>
-                                <div class="col-lg-6 col-xl-6">
-                                    <p>{{ date('d-m-Y', strtotime($sellerDetailh->establish_date)) }}</p>
+                            @if ($sellerDetailh->establish_date != '')
+                                <div class="form-group row">
+                                    <label class="col-xl-6 col-lg-6 ">Establishment Date</label>
+                                    <div class="col-lg-6 col-xl-6">
+                                        <p>{{ date('d-m-Y', strtotime($sellerDetailh->establish_date)) }}</p>
+                                    </div>
                                 </div>
-                            </div>
                             @endif
                             <div class="form-group row">
                                 <label class="col-xl-6 col-lg-6 ">Registration Date</label>
@@ -330,7 +330,8 @@
                                             <div class="col-md-3">
                                                 <a href="#" data-toggle="modal"
                                                     data-target="#myModalm{{ $m }}">
-                                                    <img id="img-bufferm" class="img-responsive image" style="padding: 2px;  width: 277px; margin: 1px;"
+                                                    <img id="img-bufferm" class="img-responsive image"
+                                                        style="padding: 2px;  width: 277px; margin: 1px;"
                                                         src="{{ asset($qrgallery[$m]) }}" width="450"
                                                         height="250">
                                                     @php
@@ -940,12 +941,12 @@
 
                                     <div class="form-check-inline">
                                         <input class="form-check-input" type="checkbox" id="s_termcondtn"
-                                            name="s_termcondtn" value="1" required tabindex="26">
+                                            name="s_termcondtn" value="1" tabindex="26">&nbsp;
                                         <label class="inlineCheckbox1" for="s_termcondtn"> Accept Terms &
                                             Conditions<span class="text-danger">*</span>
                                         </label>
-                                    </div>
-
+                                    </div><br>
+                                    <label for="s_termcondtn" class="error"></label>
                                 </div>
 
 
@@ -1798,6 +1799,9 @@
             },
             s_photo: {
                 extension: "Only JPG and PNG files are allowed.",
+            },
+            s_shopservice: {
+                required: "Please select Seller Category.",
             },
             // s_logo: {
             //     extension: "Only JPG and PNG files are allowed.",
