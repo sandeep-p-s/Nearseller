@@ -204,7 +204,8 @@
                                 <div class="form-outline mb-2" style="display: flex;">
                                     <input tabindex="2" type="email" id="u_emid" name="u_emid"
                                         class="form-control form-control-lg" maxlength="50" placeholder="Enter Email"
-                                        required onchange="exstemilid(this.value,'1')" />
+                                        required onchange="exstemilid(this.value,'1')"
+                                        pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
                                     <i id="verifiedemailotp" style="display: none;color: green; font-size: 29px;"
                                         class="dripicons-checkmark" title="verified"></i>
                                     <i id="nverifiedemailotp" style="display: none;" class="ti-close"
@@ -245,6 +246,10 @@
 
 
                                 <div class="form-outline  mb-2" style="display: flex;">
+                                    <select name="mobcntrycode" id="mobcntrycode" class="form-control"
+                                        style="width: 17%;" required>
+                                        <option value="+91">+91</option>
+                                    </select>
                                     <input tabindex="3" type="text" id="u_mobno" name="u_mobno"
                                         class="form-control form-control-lg" maxlength="10"
                                         placeholder="Enter Mobile No." required
@@ -341,6 +346,10 @@
                                         <div for="s_ownername" class="error"></div>
                                     </div>
                                     <div class="form-outline mb-3" style="display: flex;">
+                                        <select name="s_mobcntrycode" id="s_mobcntrycode" class="form-control"
+                                            style="width: 17%;" required>
+                                            <option value="+91">+91</option>
+                                        </select>
                                         <input type="text" id="s_mobno" name="s_mobno"
                                             class="form-control form-control-lg" maxlength="10"
                                             placeholder="Enter Mobile No" required tabindex="3"
@@ -393,7 +402,8 @@
                                         <input type="email" id="s_email" name="s_email"
                                             class="form-control form-control-lg" maxlength="35"
                                             placeholder="Enter Email" tabindex="4"
-                                            onchange="exstemilid(this.value,'2')" />
+                                            onchange="exstemilid(this.value,'2')"
+                                            pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
                                         <i id="s_verifiedemailotp"
                                             style="display:none;color: green; font-size: 29px;margin-top: 3%;"
                                             class="dripicons-checkmark" title="verified"></i>
@@ -460,7 +470,7 @@
                                     <div class="form-outline mb-3">
                                         <select class="form-select form-control form-control-lg" id="s_shopservice"
                                             name="s_shopservice" required tabindex="7">
-                                            <option value="">Shop/Service Category</option>
+                                            <option value="">Select Business Category</option>
                                         </select>
                                         <div for="s_shopservice" class="error"></div>
                                     </div>
@@ -477,7 +487,7 @@
                                     <div class="form-outline mb-3">
                                         <select class="form-select form-control form-control-lg"
                                             id="s_shopservicetype" name="s_shopservicetype" required tabindex="8">
-                                            <option value="">Select Shop Type</option>
+                                            <option value="">Select Shop/Service Provider Type</option>
                                         </select>
                                         <div for="s_shopservicetype" class="error"></div>
                                     </div>
@@ -485,7 +495,7 @@
 
                                     <div class="form-outline mb-3">
                                         <select class="form-select form-control form-control-lg" id="s_shopexectename"
-                                            name="s_shopexectename" required tabindex="8">
+                                            name="s_shopexectename" tabindex="8">
                                             <option value="">Select Executive Name</option>
                                             @foreach ($executives as $exec)
                                                 <option value="{{ $exec->id }}">{{ $exec->name }}</option>
@@ -512,8 +522,8 @@
 
                                     <div class="form-outline mb-3">
                                         <input type="text" id="s_lisence" name="s_lisence"
-                                            class="form-control form-control-lg" maxlength="25"
-                                            placeholder="License Number" tabindex="10" />
+                                            class="form-control form-control-lg" maxlength="15"
+                                            placeholder="License Number" tabindex="10"  pattern="^[A-Z0-9/&._%+-]+$" />
                                         <label for="s_lisence" class="error"></label>
                                     </div>
                                     <div class="form-outline mb-3">
@@ -926,12 +936,13 @@
     </div>
 
 
-    <div class="modal fade" id="mobileotpstatic" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="mobileOtpLabel" aria-hidden="true">
+    <div class="modal fade" id="mobileotpstatic" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="mobileOtpLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="btnh-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <input type="hidden" id="sentootpmobno" name="sentootpmobno" />
@@ -1225,6 +1236,8 @@
                 }
             });
             $('#s_busnestype').change(function() {
+                $('#s_shopservice').empty();
+                $('#s_shopservicetype').empty();
                 var busnescategory = $(this).val();
 
                 if (busnescategory) {
@@ -1234,10 +1247,10 @@
                     } else if (busnescategory == 2) {
                         categry = 'Service';
                     }
-                    $('#s_subshopservice').empty();
+
                     $.get("/BusinessCategory/" + busnescategory, function(data) {
                         $('#s_shopservice').empty().append(
-                            '<option value="">Select ' + categry + ' Category</option>');
+                            '<option value="">Select Business Category</option>');
                         $.each(data, function(index, shopservice) {
                             $('#s_shopservice').append('<option value="' + shopservice.id +
                                 '">' + shopservice.service_category_name + '</option>');
@@ -1255,7 +1268,8 @@
                     }
                     $.get("/shopservicetype/" + busnes, function(data) {
                         $('#s_shopservicetype').empty().append(
-                            '<option value="">Select ' + shopcategry + ' Type</option>');
+                            '<option value="">Select ' + shopcategry +
+                            '  Provider Type</option>');
                         $.each(data, function(index, servicetype) {
                             $('#s_shopservicetype').append('<option value="' + servicetype
                                 .id +
@@ -1318,6 +1332,7 @@
                 rules: {
                     u_name: {
                         required: true,
+                        minlength: 3,
                         maxlength: 50,
                         pattern: /^[a-zA-Z\s.]+$/
                     },
@@ -1325,6 +1340,9 @@
                         required: true,
                         maxlength: 75,
                         email: true
+                    },
+                    mobcntrycode: {
+                        required: true,
                     },
                     u_mobno: {
                         required: true,
@@ -1481,6 +1499,12 @@
                                 }, 5000);
                                 $('#loading-image').fadeOut();
                                 $('#loading-overlay').fadeOut();
+                                $('#firstbox').val('');
+                                $('#secndbox').val('');
+                                $('#thirdbox').val('');
+                                $('#fourthbox').val('');
+                                $('#fifthbox').val('');
+                                $('#sixtbox').val('');
 
                             } else if (response.result == 2) {
                                 $('#restpass-message').text('Error in Data.').fadeIn();
@@ -1492,6 +1516,12 @@
                                 $('#loading-image').fadeOut();
                                 $('#loading-overlay').fadeOut();
                                 $('#staticBackdrop').modal('hide');
+                                $('#firstbox').val('');
+                                $('#secndbox').val('');
+                                $('#thirdbox').val('');
+                                $('#fourthbox').val('');
+                                $('#fifthbox').val('');
+                                $('#sixtbox').val('');
                             }
 
                         }
@@ -1626,6 +1656,12 @@
                                 }, 10000);
                                 $('#loading-image').fadeOut();
                                 $('#loading-overlay').fadeOut();
+                                $('#m_firstbox').val('');
+                                $('#m_secndbox').val('');
+                                $('#m_thirdbox').val('');
+                                $('#m_fourthbox').val('');
+                                $('#m_fifthbox').val('');
+                                $('#m_sixtbox').val('');
 
                             } else if (response.result == 2) {
                                 $('#mobotp-message').text('Error in Data.').fadeIn();
@@ -1636,6 +1672,12 @@
                                 $('#loading-image').fadeOut();
                                 $('#loading-overlay').fadeOut();
                                 $('#mobileotpstatic').modal('hide');
+                                $('#m_firstbox').val('');
+                                $('#m_secndbox').val('');
+                                $('#m_thirdbox').val('');
+                                $('#m_fourthbox').val('');
+                                $('#m_fifthbox').val('');
+                                $('#m_sixtbox').val('');
                             }
 
                         }
@@ -1744,10 +1786,17 @@
                 return this.optional(element) || gstRegex.test(value);
             }, "Invalid GST format. It should be in the format 29ABCDE1234F1Z5");
 
+            // jQuery.validator.addMethod("validLicence", function(value, element) {
+            //     var licenceRegex = /^[A-Z]{3}\d{5}$/;
+            //     return this.optional(element) || licenceRegex.test(value);
+            // }, "Invalid license number format. It should be 3 uppercase letters followed by 5 digits.");
+
             jQuery.validator.addMethod("validLicence", function(value, element) {
-                var licenceRegex = /^[A-Z]{3}\d{5}$/;
-                return this.optional(element) || licenceRegex.test(value);
-            }, "Invalid license number format. It should be 3 uppercase letters followed by 5 digits.");
+                    var licenceRegex = /^[A-Z]{3}[\d,]{5}$/;
+                    return this.optional(element) || licenceRegex.test(value);
+                },
+                "Invalid license number format. It should be 3 uppercase letters followed by 5 digits, including ','."
+                );
 
             jQuery.validator.addMethod("validlocality", function(value, element) {
                 var localityRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/;
@@ -1768,6 +1817,9 @@
                     s_ownername: {
                         required: true,
                         // pattern: /^[A-Za-z\s\.]+$/,
+                    },
+                    s_mobcntrycode: {
+                        required: true,
                     },
                     s_mobno: {
                         required: true,
@@ -1801,9 +1853,9 @@
                         // required: true,
 
                     },
-                    s_lisence: {
-                        validLicence: true,
-                    },
+                    // s_lisence: {
+                    //     validLicence: true,
+                    // },
                     s_buldingorhouseno: {
                         required: true,
                     },
@@ -1890,10 +1942,10 @@
                     s_photo: {
                         extension: "Only JPG and PNG files are allowed.",
                     },
-                    s_lisence: {
-                        //required: "Please enter the license number.",
-                        validLicence: "Invalid license number format. It should be 3 uppercase letters followed by 5 digits."
-                    },
+                    // s_lisence: {
+                    //     //required: "Please enter the license number.",
+                    //     validLicence: "Invalid license number format. It should be 3 uppercase letters followed by 5 digits."
+                    // },
                     s_buldingorhouseno: {
                         required: "Please enter building/house name and number.",
                         maxlength: "Building/house name and number must not exceed 100 characters."
@@ -1947,6 +1999,20 @@
             });
 
             $("#sellerSecondPage").click(function() {
+                var mobilestatus = $('#s_mobverifystatus').val();
+                var s_email = $('#s_email').val();
+                var emailstatus = $('#s_emailverifystatus').val();
+                if (mobilestatus != 'Y') {
+                    alert('Mobile number not verified.');
+                    return false;
+                }
+                if (s_email != '') {
+                    if (emailstatus != 'Y') {
+                        alert('Email id not verified.');
+                        return false;
+                    }
+                }
+
                 if ($("#SellerRegForm").valid()) {
                     $("#sellerfirst").hide();
                     $("#sellersecond").show();
@@ -2562,6 +2628,12 @@
                         $('#loading-image').fadeOut();
                         $('#loading-overlay').fadeOut();
                         $('.otp-input').val('');
+                        $('#firstbox').val('');
+                        $('#secndbox').val('');
+                        $('#thirdbox').val('');
+                        $('#fourthbox').val('');
+                        $('#fifthbox').val('');
+                        $('#sixtbox').val('');
                     }
 
                 }
@@ -2680,6 +2752,12 @@
 
                         $('#loading-image').fadeOut();
                         $('#loading-overlay').fadeOut();
+                        $('#m_firstbox').val('');
+                        $('#m_secndbox').val('');
+                        $('#m_thirdbox').val('');
+                        $('#m_fourthbox').val('');
+                        $('#m_fifthbox').val('');
+                        $('#m_sixtbox').val('');
 
                     }
                 }
@@ -2716,6 +2794,10 @@
                         $('#u_emid').val('');
                         $('#loading-image').fadeOut();
                         $('#loading-overlay').fadeOut();
+                        $('.regmailsendotp').hide();
+                        $('.regEmlsendotp').hide();
+                        $('.regEmlrendsendotp').hide();
+                        $('#showemailotp').hide();
                     } else if (data.result == 3 && checkval == 1) {
                         $('#uemil-message').text('Error in Data').fadeIn();
                         $('#uemil-message').addClass('error');
@@ -2724,6 +2806,11 @@
                         }, 5000);
                         $('#loading-image').fadeOut();
                         $('#loading-overlay').fadeOut();
+                        $('.regmailsendotp').hide();
+                        $('.regEmlsendotp').hide();
+                        $('.regEmlrendsendotp').hide();
+                        $('#showemailotp').hide();
+
                     } else if (data.result == 1 && checkval == 2) {
                         $('#semil-message').text('Email ID Already Exists.').fadeIn();
                         $('#semil-message').addClass('error');
@@ -2741,6 +2828,11 @@
                         }, 5000);
                         $('#loading-image').fadeOut();
                         $('#loading-overlay').fadeOut();
+                        $('.s_regmailsendotp').hide();
+                        $('.s_regEmlsendotp').hide();
+                        $('.s_regEmlrendsendotp').hide();
+                        $('#s_showemailotp').hide();
+
                     } else if (data.result == 1 && checkval == 3) {
                         $('#aemil-message').text('Email ID Already Exists.').fadeIn();
                         $('#aemil-message').addClass('error');
@@ -3028,6 +3120,13 @@
                         $('#u_mobno').val('');
                         $('#loading-image').fadeOut();
                         $('#loading-overlay').fadeOut();
+
+                        $('.regmobnosendotp').hide();
+                        $('.regMobilesendotp').hide();
+                        $('.regMobilerendsendotp').hide();
+                        $('#showmobnootp').hide();
+
+
                     } else if (data.result == 3 && checkval == 1) {
                         $('#umob-message').text('Error in Data').fadeIn();
                         $('#umob-message').addClass('error');
@@ -3036,6 +3135,13 @@
                         }, 5000);
                         $('#loading-image').fadeOut();
                         $('#loading-overlay').fadeOut();
+
+                        $('.regmobnosendotp').hide();
+                        $('.regMobilesendotp').hide();
+                        $('.regMobilerendsendotp').hide();
+                        $('#showmobnootp').hide();
+
+
                     } else if (data.result == 1 && checkval == 2) {
                         $('#smob-message').text('Mobile Number Already Exists.').fadeIn();
                         $('#smob-message').addClass('error');
@@ -3045,6 +3151,12 @@
                         $('#s_mobno').val('');
                         $('#loading-image').fadeOut();
                         $('#loading-overlay').fadeOut();
+                        $('.s_regmobnosendotp').hide();
+                        $('.s_regMobilesendotp').hide();
+                        $('.s_regMobilerendsendotp').hide();
+                        $('#s_showmobnootp').hide();
+
+
                     } else if (data.result == 3 && checkval == 2) {
                         $('#smob-message').text('Error in Data').fadeIn();
                         $('#smob-message').addClass('error');
@@ -3053,6 +3165,11 @@
                         }, 5000);
                         $('#loading-image').fadeOut();
                         $('#loading-overlay').fadeOut();
+                        $('.s_regmobnosendotp').hide();
+                        $('.s_regMobilesendotp').hide();
+                        $('.s_regMobilerendsendotp').hide();
+                        $('#s_showmobnootp').hide();
+
                     } else if (data.result == 1 && checkval == 3) {
                         $('#amob-message').text('Mobile Number Already Exists.').fadeIn();
                         $('#amob-message').addClass('error');
@@ -3470,13 +3587,33 @@
                 }
             });
 
-            function startTimer() {
+            // function startTimers() {
+            //     interval = setInterval(function() {
+            //         countdown--;
+            //         var minutes = Math.floor(countdown / 60);
+            //         var seconds = countdown % 60;
+            //         var formattedTime = (minutes < 10 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' :
+            //             '') + seconds;
+            //         $('#countdown').text(formattedTime);
+            //         if (countdown <= 0) {
+            //             clearInterval(interval);
+            //             $('#staticBackdrop').modal('hide'); // Close the modal
+            //         }
+            //     }, 1000);
+            // }
+
+
+            function startTimers() {
                 interval = setInterval(function() {
                     countdown--;
+                    if (countdown < 0) {
+                        countdown = 120; // Reset seconds to 59 when it goes negative
+                    }
                     var minutes = Math.floor(countdown / 60);
-                    var seconds = countdown % 60;
-                    var formattedTime = (minutes < 10 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' :
-                        '') + seconds;
+                    var seconds = m_countdown % 60;
+                    var formattedTime = (minutes < 10 ? '0' : '') + minutes + ':' + (seconds < 10 ?
+                        '0' : '') + seconds;
+
                     $('#countdown').text(formattedTime);
                     if (countdown <= 0) {
                         clearInterval(interval);
@@ -3485,8 +3622,9 @@
                 }, 1000);
             }
 
+
             $('#staticBackdrop').on('shown.bs.modal', function() {
-                startTimer();
+                startTimers();
                 $('#firstbox').focus();
             });
 
@@ -3499,7 +3637,7 @@
                 clearInterval(interval);
                 countdown = 120;
                 $('#countdown').text('00:59');
-                startTimer();
+                startTimers();
             });
 
             $('#firstbox').on('paste', function(e) {
@@ -3553,16 +3691,35 @@
                 }
             });
 
+            // function startTimer() {
+            //     m_interval = setInterval(function() {
+            //         m_countdown--;
+            //         var m_minutes = Math.floor(m_countdown / 60);
+            //         var m_seconds = m_countdown % 60;
+            //         var m_formattedTime = (m_minutes < 10 ? '0' : '') + m_minutes + ':' + (m_seconds < 10 ?
+            //             '0' : '') + m_seconds;
+
+            //         $('#m_countdown').text(m_formattedTime);
+            //         if (m_countdown <= 0) {
+            //             clearInterval(m_interval);
+            //             $('#mobileotpstatic').modal('hide'); // Close the modal
+            //         }
+            //     }, 1000);
+            // }
+
+
             function startTimer() {
                 m_interval = setInterval(function() {
                     m_countdown--;
+                    if (m_countdown < 0) {
+                        m_countdown = 120; // Reset seconds to 59 when it goes negative
+                    }
                     var m_minutes = Math.floor(m_countdown / 60);
                     var m_seconds = m_countdown % 60;
                     var m_formattedTime = (m_minutes < 10 ? '0' : '') + m_minutes + ':' + (m_seconds < 10 ?
                         '0' : '') + m_seconds;
 
                     $('#m_countdown').text(m_formattedTime);
-
                     if (m_countdown <= 0) {
                         clearInterval(m_interval);
                         $('#mobileotpstatic').modal('hide'); // Close the modal

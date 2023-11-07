@@ -237,9 +237,6 @@ Route::middleware(['role'])->group(function () {
         Route::get('servicecategoryedit/{id}', 'edit_service_category')->name('edit.servicecategory');
         Route::post('servicecategoryupdate/{id}', 'update_service_category')->name('update.servicecategory');
         Route::get('servicecategorydelete/{id}', 'delete_service_category')->name('delete.servicecategory');
-    });
-
-    Route::controller(ServiceCategoryController::class)->group(function () {
         Route::get('listservicesubcategory', 'list_service_subcategory')->name('list.servicesubcategory');
         Route::get('addservicesubcategory', 'add_service_subcategory')->name('add.servicesubcategory');
         Route::post('saveservicesubcategory', 'store_service_subcategory')->name('store.servicesubcategory');
@@ -410,7 +407,7 @@ Route::middleware(['role'])->group(function () {
 
     Route::controller(ServiceNewController::class)->group(function () {
         Route::get('listallservice', 'ServiceProductListView')->name('user.serviceslist');
-        // Route::get('listserviceadd', 'ServiceProductListView')->name('user.serviceproductadd');
+        Route::get('listallserviceapp', 'ServiceProductListView')->name('user.listallserviceapp');
         Route::post('allserviceview', 'AllServiceProductList')->name('serviceproduct.allserviceproductview');
         Route::post('addnewservice', 'AdmNewServiceAdd')->name('AdmNewServiceAdd');
         Route::post('serviceviewedit', 'AdmServiceViewEdit')->name('serviceNewViewEdit');

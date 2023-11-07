@@ -12,7 +12,7 @@
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-                                <h4 class="page-title">Add Service Type</h4>
+                                <h4 class="page-title">Add Seller/Service Provider Type</h4>
 
                             </div>
 
@@ -45,7 +45,7 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="addShopType">Add Service Type<span class="text-danger">*</span></label>
+                                    <label for="addShopType">Add Seller/Service Provider Type<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control mb-3" id="service_name"
                                         placeholder="Enter service type" name="service_name" onchange="existservicecategory(this.value)" value="{{ old('service_name') }}">
                                         <div id="existcategory-message" class="text-center" style="display: none;"></div>

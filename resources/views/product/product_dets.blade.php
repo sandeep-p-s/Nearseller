@@ -1,8 +1,21 @@
 @if ($ProductCount > 0)
-    <table id="datatable" class="table table-striped table-bordered">
+    <style>
+        tfoot {
+            display: table-caption;
+        }
+
+        tfoot input {
+            width: 100%;
+            padding: 3px;
+            box-sizing: border-box;
+        }
+    </style>
+    <table id="datatable3" class="table table-striped table-bordered" style="width: 100%">
         <thead>
             <tr>
-                <th>Approved all<input type='checkbox' name='checkbox1' id='checkbox1' onclick='check();' /></th>
+                {{-- <th>Approved all<input type='checkbox' name='checkbox1' id='checkbox1' onclick='check();' /></th> --}}
+                <th width="5px" data-sorting="true"><input type='checkbox' name='checkbox1'
+                    id='checkbox1' class="selectAll" onclick='' /></th>
                 <th>SINO</th>
                 <th>Product ID</th>
                 <th>Product Name</th>
@@ -39,7 +52,7 @@
                             <div class="dropdown-menu">
                                 <a class="dropdown-item view_btn1" href="#"
                                     onclick="productvieweditdet({{ $prodDetails->id }})">View/Edit</a>
-                                    @if (session('roleid') == '1' || session('roleid') == '11')
+                                @if (session('roleid') == '1' || session('roleid') == '11')
                                     <a class="dropdown-item approve_btn" href="#"
                                         onclick="productapprovedet({{ $prodDetails->id }})">Approved</a>
                                     <a class="dropdown-item delete_btn" href="#"
@@ -50,10 +63,19 @@
                     </td>
                 </tr>
             @endforeach
-
-
-
         </tbody>
+        <tfoot>
+            <tr >
+                <th style="border: 0px solid #eaf0f7"></th>
+                <th style="border: 0px solid #eaf0f7"></th>
+                <th style="border: 0px solid #eaf0f7">Product ID</th>
+                <th style="border: 0px solid #eaf0f7">Product Name</th>
+                <th style="border: 0px solid #eaf0f7">Shop Name</th>
+                <th style="border: 0px solid #eaf0f7">Status</th>
+                <th style="border: 0px solid #eaf0f7">Is Approved?</th>
+                <th style="border: 0px solid #eaf0f7"></th>
+            </tr>
+        </tfoot>
     </table>
     <input type="hidden" value="{{ $index + 1 }}" id="totalproductcnt">
 @else
@@ -451,6 +473,46 @@
     }
 
     $(document).ready(function() {
+
+        var table = $('#datatable3').DataTable({
+            initComplete: function() {
+                this.api()
+                    .columns()
+                    .every(function() {
+                        let column = this;
+                        let title = column.footer().textContent;
+                        if (title == "")
+                            return;
+                        // Create input element
+                        let input = document.createElement('input');
+                        input.className = "form-control form-control-lg";
+                        input.type = "text";
+                        input.placeholder = title;
+                        column.footer().replaceChildren(input);
+
+                        // Event listener for user input
+                        input.addEventListener('keyup', () => {
+                            if (column.search() !== this.value) {
+                                column.search(input.value).draw();
+                            }
+                        });
+                    });
+            },
+            "columnDefs": [{
+                "targets": 0,
+                "orderable": false
+            }]
+        });
+
+
+
+        $(".selectAll").on("click", function(event) {
+            var isChecked = $(this).is(":checked");
+            $("#datatable3 tbody input[type='checkbox']").prop("checked", isChecked);
+        });
+
+
+
         $('#resetButton').click(function() {
             $('#ProductAddForm input, #ProductAddForm select, #ProductAddForm textarea').val('');
             $('#ProductAddForm .error').text('');
@@ -756,8 +818,8 @@
 
                     imgDiv.append(img);
                     imgDiv.append($('<div>').addClass('middle').append(removeBtn));
-                        if(fileArrs.length > 0)
-                    $('#image-preview').append(imgDiv);
+                    if (fileArrs.length > 0)
+                        $('#image-preview').append(imgDiv);
                 };
             })(file);
 
@@ -825,8 +887,8 @@
                 required: true,
             },
             //totstock: {
-                //required: true,
-                //digits: true,
+            //required: true,
+            //digits: true,
             //},
             // paymode: {
             //     required: true,

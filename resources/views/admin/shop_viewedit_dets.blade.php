@@ -77,7 +77,7 @@
                 <div class="form-outline mb-3"><label>Email ID</label>
                     <input type="email" id="es_email" name="es_email" value="{{ $sellerDetails->shop_email }}"
                         class="form-control form-control-lg" maxlength="35" placeholder="Email ID" tabindex="4"
-                        onchange="exstemilid(this.value,'2')" />
+                        onchange="exstemilid(this.value,'2')" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"/>
                     <label for="es_email" class="error"></label>
                     <div id="esemil-message" class="text-center" style="display: none;"></div>
                 </div>
@@ -433,7 +433,7 @@
                 <div class="form-outline mb-3"><label>{{ $shoporservice }} License Number</label>
                     <input type="text" id="es_lisence" name="es_lisence"
                         value="{{ $sellerDetails->shop_licence }}" class="form-control form-control-lg"
-                        maxlength="8" placeholder="License Number" tabindex="10" />
+                        maxlength="15" placeholder="License Number" tabindex="10"  pattern="^[A-Z0-9/&._%+-]+$" />
                     <label for="es_lisence" class="error"></label>
                 </div>
 
@@ -1227,10 +1227,10 @@
         return this.optional(element) || gstRegex.test(value);
     }, "Invalid GST format. It should be in the format 29ABCDE1234F1Z5");
 
-    jQuery.validator.addMethod("validLicence", function(value, element) {
-        var licenceRegex = /^[A-Z]{3}\d{5}$/;
-        return this.optional(element) || licenceRegex.test(value);
-    }, "Invalid license number format. It should be 3 uppercase letters followed by 5 digits.");
+    // jQuery.validator.addMethod("validLicence", function(value, element) {
+    //     var licenceRegex = /^[A-Z]{3}\d{5}$/;
+    //     return this.optional(element) || licenceRegex.test(value);
+    // }, "Invalid license number format. It should be 3 uppercase letters followed by 5 digits.");
 
 
     jQuery.validator.addMethod("validlocality", function(value, element) {
@@ -1285,9 +1285,9 @@
             //     required: true,
 
             // },
-            es_lisence: {
-                validLicence: true,
-            },
+            // es_lisence: {
+            //     validLicence: true,
+            // },
             es_buldingorhouseno: {
                 required: true,
             },
@@ -1388,9 +1388,9 @@
             // es_logo: {
             //     extension: "Only JPG and PNG files are allowed.",
             // },
-            es_lisence: {
-                validLicence: "Invalid license number format. It should be 3 uppercase letters followed by 5 digits."
-            },
+            // es_lisence: {
+            //     validLicence: "Invalid license number format. It should be 3 uppercase letters followed by 5 digits."
+            // },
             es_buldingorhouseno: {
                 required: "Please enter building/house name and number.",
                 maxlength: "Building/house name and number must not exceed 100 characters."
