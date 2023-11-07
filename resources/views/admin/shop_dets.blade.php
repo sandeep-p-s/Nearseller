@@ -407,7 +407,7 @@
                         </th>
 
 
-                        <th>SINO</th>
+                        <th>S.No.</th>
                     @endif
                     <th>Reg. ID</th>
                     <th>{{ $shoporservice }} Name</th>

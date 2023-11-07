@@ -18,7 +18,7 @@
                         {{-- <th width="5px"><input type='checkbox' name='checkbox1' id='checkbox1' onclick='check();' /></th> --}}
                         <th width="5px" data-sorting="true"><input type='checkbox' name='checkbox1'
                             id='checkbox1' class="selectAll" onclick='' /></th>
-                        <th>SINO</th>
+                        <th>S.No.</th>
                         <th>Customer ID</th>
                         <th>Customer Name</th>
                         <th>Email</th>
