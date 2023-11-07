@@ -12,7 +12,7 @@
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-                                <h4 class="page-title">Edit Service Type</h4>
+                                <h4 class="page-title">Edit Seller/Service Provider Type</h4>
                             </div>
                         </div><!--end row-->
                     </div><!--end page-title-box-->
@@ -36,7 +36,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Edit Service Type</label>
+                                    <label for="exampleFormControlInput1">Seller/Service Provider Type</label>
                                     <input type="text" class="form-control mb-3" id="service_name" name="service_name"
                                         placeholder="Enter service type" value="{{ $servicetype->service_name }}" onchange="existservicecategory(this.value)">
                                         <div id="existcategory-message" class="text-center" style="display: none;"></div>

@@ -42,7 +42,7 @@
                             <div class="dropdown-menu">
                                 <a class="dropdown-item view_btn1" href="#"
                                     onclick="Appointmentvieweditdet({{ $service->id }})">View/Edit</a>
-                                    @if (session('roleid') == '1' || session('roleid') == '11')
+                                @if (session('roleid') == '1' || session('roleid') == '11')
                                     {{-- <a class="dropdown-item approve_btn" href="#"
                                         onclick="productapprovedet({{ $service->id }})">Approved</a> --}}
                                     <a class="dropdown-item delete_btn" href="#"
@@ -90,17 +90,21 @@
                                 <div class="card-body">
 
 
-                                    <div class="form-group"><label>Set Availability Dates<span
+                                    <div class="form-group d-none" ><label>Set Availability Dates<span
                                                 class="text-danger">*</span></label>
                                         <select class="form-select form-control form-control-lg" id="setavailbledate"
                                             name="setavailbledate" required tabindex="1">
-                                            <option value="">Select</option><br />
+                                            {{-- <option value="">Select</option><br /> --}}
                                             <option value="1">Avialability Date</option><br />
                                         </select>
                                         <label for="setavailbledate" class="error"></label>
                                     </div>
+                                    <div class="form-group"><label>Set Availability Dates<span
+                                                class="text-danger">*</span></label>
 
-                                    <div class="form-group" id="dateFields" style="display: none;">
+                                    </div>
+{{-- style="display: none;" --}}
+                                    <div class="form-group" id="dateFields" >
                                         <div class="input-group">
                                             <div class="col-lg-5">
                                                 <label for="setavailblefromdate">From Date</label>
@@ -153,8 +157,7 @@
                                                     <div class="col-sm-12 text-right">
                                                         <span data-repeater-create=""
                                                             class="btn btn-secondary btn-sm">
-                                                            <span class="fas fa-plus"></span> Add recurring holidays to
-                                                            eliminate
+                                                            <span class="fas fa-plus"></span> Add not available dates
                                                         </span>
                                                     </div>
                                                 </div>
@@ -306,8 +309,7 @@
                                     <div class="form-group d-none"><label>Preffered Employee<span
                                                 class="text-danger">*</span></label>
                                         <select class="selectserviceemploye form-select form-control form-control-lg"
-                                            id="service_employe_id" name="service_employe_id"
-                                            tabindex="1">
+                                            id="service_employe_id" name="service_employe_id" tabindex="1">
                                             <option value="">Select Employee</option><br />
                                             @foreach ($serviceemployees as $emplye)
                                                 <option value="{{ $emplye->id }}">{{ $emplye->employee_name }}
@@ -331,12 +333,14 @@
 
                                                     <input class="form-control" type="checkbox" id="servicepoint1"
                                                         name="servicepoint1" value="1" style="width: 18%;">
-                                                    <label class="form-check-label" for="servicepoint1">At Home</label>
+                                                    <label class="form-check-label" for="servicepoint1">At
+                                                        Home</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-control" type="checkbox" id="servicepoint2"
                                                         name="servicepoint2" value="1" style="width: 19%;">
-                                                    <label class="form-check-label" for="servicepoint2">At Shop</label>
+                                                    <label class="form-check-label" for="servicepoint2">At
+                                                        Shop</label>
                                                 </div>
 
                                             </div>
@@ -383,13 +387,10 @@
 
 
 <script>
-
-
-
-
     $(document).ready(function() {
         $('#resetButton').click(function() {
-            $('#AppointmentAddForm input, #AppointmentAddForm select, #AppointmentAddForm textarea').val('');
+            $('#AppointmentAddForm input, #AppointmentAddForm select, #AppointmentAddForm textarea')
+                .val('');
             $('#AppointmentAddForm .error').text('');
             $('#AppointmentAddForm .selectpicker').selectpicker('val', '');
         });

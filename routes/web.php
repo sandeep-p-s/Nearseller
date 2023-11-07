@@ -32,7 +32,7 @@ use App\Http\Controllers\Masters\ReligionController as ReligionController;
 
 use App\Http\Controllers\Masters\AttributeController as AttributeController;
 use App\Http\Controllers\Masters\ProfessionsController as ProfessionsController;
-
+use App\Http\Controllers\CustomerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -80,6 +80,14 @@ Route::controller(HomeController::class)->group(function () {
     Route::post('existcategoryname', 'ExistCategoryName')->name('existcategoryName');
     Route::post('existServicetypeName', 'ExistServiceTypeName')->name('existServicetypeName');
     Route::post('existnewusercreate', 'ExistnewusercreateCheck')->name('existnewusercreate');
+
+    Route::post('regmailotp', 'MailSendOTPRegistration')->name('MailSendOTPRegistration');
+    Route::post('verifyEmailOTP', 'verifyEmailOTPCheck')->name('verifyEmailOTP');
+
+    Route::post('regmobnootp', 'MobnoSendOTPRegistration')->name('MobnoSendOTPRegistration');
+    Route::post('verifyMobileOTP', 'verifyMobileNoOTPCheck')->name('verifyMobileNoOTP');
+
+
 
 });
 
@@ -196,7 +204,7 @@ Route::middleware(['role'])->group(function () {
 
 
 
-        Route::get('parentcategory', 'ParentProductListView');
+        Route::get('parentcategorys', 'ParentProductListView');
         Route::post('listparentcategory', 'ListParentCategory')->name('productlist.parentcategories');
         Route::post('productview', 'AdmProductView')->name('productlist.productView');
     });
@@ -229,9 +237,6 @@ Route::middleware(['role'])->group(function () {
         Route::get('servicecategoryedit/{id}', 'edit_service_category')->name('edit.servicecategory');
         Route::post('servicecategoryupdate/{id}', 'update_service_category')->name('update.servicecategory');
         Route::get('servicecategorydelete/{id}', 'delete_service_category')->name('delete.servicecategory');
-    });
-
-    Route::controller(ServiceCategoryController::class)->group(function () {
         Route::get('listservicesubcategory', 'list_service_subcategory')->name('list.servicesubcategory');
         Route::get('addservicesubcategory', 'add_service_subcategory')->name('add.servicesubcategory');
         Route::post('saveservicesubcategory', 'store_service_subcategory')->name('store.servicesubcategory');
@@ -349,18 +354,18 @@ Route::middleware(['role'])->group(function () {
         Route::post('approvedstatuscategory/{id}', 'approvedstatus_category')->name('approvedstatus.category');
         Route::post('categoryapprovedall', 'AdmCategoryApprovedAll')->name('CategoryApprovedAll');
     });
-    Route::controller(CategoryController::class)->group(function () {
-        Route::get('listcategory', 'list_category')->name('list.category');
-        Route::get('addlistcategory', 'list_category')->name('list.category');
-        Route::get('addcategory', 'add_category')->name('add.category');
-        Route::get('parentcategory/{value}', 'parent_category')->name('parent.category');
-        Route::post('savecategory', 'store_category')->name('store.category');
-        Route::get('editcategory/{id}', 'edit_category')->name('edit.category');
-        Route::post('updatecategory/{id}', 'update_category')->name('update.category');
-        Route::get('deletecategory/{id}', 'delete_category')->name('delete.category');
-        Route::get('approvedcategory/{id}', 'approved_category')->name('approved.category');
-        Route::post('approvedstatuscategory/{id}', 'approvedstatus_category')->name('approvedstatus.category');
-    });
+    // Route::controller(CategoryController::class)->group(function () {
+    //     Route::get('listcategory', 'list_category')->name('list.category');
+    //     Route::get('addlistcategory', 'list_category')->name('list.category');
+    //     Route::get('addcategory', 'add_category')->name('add.category');
+    //     Route::get('parentcategory/{value}', 'parent_category')->name('parent.category');
+    //     Route::post('savecategory', 'store_category')->name('store.category');
+    //     Route::get('editcategory/{id}', 'edit_category')->name('edit.category');
+    //     Route::post('updatecategory/{id}', 'update_category')->name('update.category');
+    //     Route::get('deletecategory/{id}', 'delete_category')->name('delete.category');
+    //     Route::get('approvedcategory/{id}', 'approved_category')->name('approved.category');
+    //     Route::post('approvedstatuscategory/{id}', 'approvedstatus_category')->name('approvedstatus.category');
+    // });
 
     Route::controller(ExecutiveController::class)->group(function () {
         Route::get('listexecutive', 'list_executive')->name('list.executive');
@@ -402,7 +407,7 @@ Route::middleware(['role'])->group(function () {
 
     Route::controller(ServiceNewController::class)->group(function () {
         Route::get('listallservice', 'ServiceProductListView')->name('user.serviceslist');
-        // Route::get('listserviceadd', 'ServiceProductListView')->name('user.serviceproductadd');
+        Route::get('listallserviceapp', 'ServiceProductListView')->name('user.listallserviceapp');
         Route::post('allserviceview', 'AllServiceProductList')->name('serviceproduct.allserviceproductview');
         Route::post('addnewservice', 'AdmNewServiceAdd')->name('AdmNewServiceAdd');
         Route::post('serviceviewedit', 'AdmServiceViewEdit')->name('serviceNewViewEdit');
@@ -442,6 +447,16 @@ Route::middleware(['role'])->group(function () {
         Route::get('affliateshops/{id}', 'ViewAffiliatesShopList')->name('affiliate.affliateshops');
         Route::get('allaffilateshopsview', 'AllAffiliatesShopList')->name('affiliate.allaffilateshopsview');
     });
+
+    Route::controller(CustomerController::class)->group(function () {
+        Route::get('customerapproval/{id}', 'CustomerApproval')->name('cust.custaproval');
+        Route::get('allcustomer', 'AllCustomerList')->name('cust.allcustomersview');
+        Route::post('editcustomer', 'AdmCustomerViewEdit')->name('CustomerViewEdit');
+        Route::post('customerupdate', 'AdmUpdateCustomerDetails')->name('AdmCustomerEditDetails');
+        Route::post('customerdelete', 'AdmCustomerDeletePage')->name('customerDelete');
+        Route::post('customerapproveall', 'AdmCustomersApprovedAll')->name('CustomersApprovedAll');
+    });
+
 });
 
 Route::controller(UserController::class)->group(function () {

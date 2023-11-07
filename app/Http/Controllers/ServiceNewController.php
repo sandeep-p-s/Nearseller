@@ -98,10 +98,12 @@ class ServiceNewController extends Controller
         $ServiceDetails = $query->get();
         //echo $lastRegId = $query->toSql();exit;
         $ProductCount = $ServiceDetails->count();
-        $userservicedets = DB::table('user_account')
-            ->select('id', 'name')
-            ->where('role_id', 9)
-            ->get();
+        $userservicedets = DB::select("SELECT id,name FROM user_account WHERE FIND_IN_SET('9', role_id)");
+        // $userservicedets = DB::table('user_account')
+        //     ->select('id', 'name')
+        //     ->whereIn('role_id', ['9']);
+            //echo $lastRegId = $userservicedets->toSql();exit;
+            //->get();
         return view('serviceproduct.product_dets', compact('ServiceDetails', 'ProductCount', 'userservicedets'));
     }
 
@@ -264,10 +266,11 @@ class ServiceNewController extends Controller
         $productAttibutes = DB::table('add_service_attributes')
             ->where('service_id', $ServiceDetails->id)
             ->get();
-        $userservicede = DB::table('user_account')
-            ->select('id', 'name')
-            ->where('role_id', 9)
-            ->get();
+        // $userservicede = DB::table('user_account')
+        //     ->select('id', 'name')
+        //     ->where('role_id', 9)
+        //     ->get();
+        $userservicede = DB::select("SELECT id,name FROM user_account WHERE FIND_IN_SET('9', role_id)");
         //dd($userservicedets);
         return view('serviceproduct.product_viewedit_dets', compact('ServiceDetails', 'productAttibutes', 'userservicede'));
     }
@@ -389,10 +392,11 @@ class ServiceNewController extends Controller
         $productAttibutes = DB::table('add_service_attributes')
             ->where('service_id', $ServiceDetails->id)
             ->get();
-        $userservicede = DB::table('user_account')
-            ->select('id', 'name')
-            ->where('role_id', 9)
-            ->get();
+        // $userservicede = DB::table('user_account')
+        //     ->select('id', 'name')
+        //     ->where('role_id', 9)
+        //     ->get();
+        $userservicede = DB::select("SELECT id,name FROM user_account WHERE FIND_IN_SET('9', role_id)");
         //dd($userservicedets);
         return view('serviceproduct.product_approved_dets', compact('ServiceDetails', 'productAttibutes', 'userservicede'));
     }

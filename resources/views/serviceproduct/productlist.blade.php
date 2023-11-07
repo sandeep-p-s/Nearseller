@@ -36,8 +36,18 @@
                 <div id="product_del-message" class="text-center" style="display: none;"></div>
             </div>
 
-            <div id="catcontent">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
 
+                            <div id="catcontent">
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="modal fade p-5" id="ViewEditModal" tabindex="-1" aria-labelledby="ViewEditModalLabel"

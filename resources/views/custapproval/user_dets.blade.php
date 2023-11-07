@@ -1,30 +1,48 @@
 @if ($allusercount > 0)
+    <style>
+        tfoot {
+            display: table-caption;
+        }
+
+        tfoot input {
+            width: 100%;
+            padding: 3px;
+            box-sizing: border-box;
+        }
+    </style>
     <div class="card">
         <div class="card-body">
-            <table id="datatable" class="table table-striped table-bordered">
+            <table id="datatable3" class="table table-striped table-bordered" style="width: 100%">
                 <thead>
                     <tr>
+                        {{-- <th width="5px"><input type='checkbox' name='checkbox1' id='checkbox1' onclick='check();' /></th> --}}
+                        <th width="5px" data-sorting="true"><input type='checkbox' name='checkbox1'
+                            id='checkbox1' class="selectAll" onclick='' /></th>
                         <th>S.No.</th>
-                        <th data-sorting="false">Name</th>
-                        <th data-sorting="false">Email</th>
-                        <th data-sorting="false">Mobile</th>
-                        <th >Role</th>
-                        <th>User Status</th>
-                        <th data-sorting="false">Action</th>
+                        <th>Customer ID</th>
+                        <th>Customer Name</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>Active Status</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($alluserdetails as $index => $userDets)
                         <tr>
+                            <td><input name="customerid[]" type="checkbox" id="customerid{{ $index + 1 }}"
+                                    value="{{ $userDets->id }}" {{ $userDets->approved === 'Y' ? 'checked' : '' }} />
+                            </td>
                             <td>{{ $index + 1 }}</td>
+                            <td>{{ 'CUST' }}{{ str_pad($userDets->id, 9, '0', STR_PAD_LEFT) }}</td>
                             <td>{{ $userDets->name }}</td>
                             <td>{{ $userDets->email }}</td>
                             <td>{{ $userDets->mobno }}</td>
-                            <td>{{ $userDets->role_name }}</td>
                             <td><span
                                     class="badge p-2 {{ $userDets->user_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
-                                    {{ $userDets->user_status === 'Y' ? 'Active' : 'Inactive' }}
+                                    {{ $userDets->user_status === 'Y' ? 'Active' : 'Suspend User' }}
                                 </span></td>
+
                             <td>
                                 <div class="btn-group mb-2 mb-md-0">
                                     <button type="button" class="btn view_btn dropdown-toggle" data-toggle="dropdown"
@@ -32,7 +50,7 @@
                                         <i class="mdi mdi-chevron-down"></i></button>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item view_btn1" href="#"
-                                            onclick="uservieweditdet({{ $userDets->id }})">View/Edit</a>
+                                            onclick="uservieweditdet({{ $userDets->id }})">Edit</a>
                                         @if ($userDets->role_id != '1' || $userDets->role_id != '11')
                                             <a class="dropdown-item delete_btn" href="#"
                                                 onclick="userdeletedet({{ $userDets->id }})">Delete</a>
@@ -43,16 +61,38 @@
                         </tr>
                     @endforeach
                 </tbody>
+                <tfoot>
+                    <tr >
+                        <th style="border: 0px solid #eaf0f7"></th>
+                        <th style="border: 0px solid #eaf0f7"></th>
+                        <th style="border: 0px solid #eaf0f7">Customer ID</th>
+                        <th style="border: 0px solid #eaf0f7">Customer Name</th>
+                        <th style="border: 0px solid #eaf0f7">Email</th>
+                        <th style="border: 0px solid #eaf0f7">Mobile</th>
+                        <th style="border: 0px solid #eaf0f7">Active Status</th>
+                        <th style="border: 0px solid #eaf0f7"></th>
+                    </tr>
+                </tfoot>
             </table>
+            <input type="hidden" value="{{ $index + 1 }}" id="totalshopcnt">
         @else
             <table>
                 <tr>
                     <td colspan="13" align="center">
                         <img src="{{ asset('backend/assets/images/notfoundimg.png') }}" alt="notfound"
-                            class="rounded-circle" style="width: 30%;" />
+                            class="rounded-circle" style="width: 25%;" />
                     </td>
                 </tr>
             </table>
+@endif
+
+@if ($allusercount > 0)
+    @if (session('roleid') == '1' || session('roleid') == '11')
+        <div class="col text-center">
+            <button class="btn btn-primary" style="cursor:pointer" onclick="customer_approvedall();">Active
+                All</button>
+        </div>
+    @endif
 @endif
 </div>
 </div>
@@ -91,7 +131,7 @@
                                             (Shop/Service/Customer/Others)</font></label>
                                     <input type="text" id="s_name" name="s_name"
                                         class="form-control form-control-lg" maxlength="50" placeholder="Name" required
-                                        tabindex="2"  onchange="exstshopname(this.value,'1');" />
+                                        tabindex="2" onchange="exstshopname(this.value,'1');" />
                                     <label for="s_name" class="error"></label>
                                     <div id="existshopname-message" class="text-center" style="display: none;"></div>
                                 </div>
@@ -151,6 +191,43 @@
 
 <script>
     $(document).ready(function() {
+        var table = $('#datatable3').DataTable({
+            initComplete: function() {
+                this.api()
+                    .columns()
+                    .every(function() {
+                        let column = this;
+                        let title = column.footer().textContent;
+                        if (title == "")
+                            return;
+                        // Create input element
+                        let input = document.createElement('input');
+                        input.className = "form-control form-control-lg";
+                        input.type = "text";
+                        input.placeholder = title;
+                        column.footer().replaceChildren(input);
+
+                        // Event listener for user input
+                        input.addEventListener('keyup', () => {
+                            if (column.search() !== this.value) {
+                                column.search(input.value).draw();
+                            }
+                        });
+                    });
+            },
+            "columnDefs": [{
+                "targets": 0,
+                "orderable": false
+            }]
+        });
+
+
+
+        $(".selectAll").on("click", function(event) {
+            var isChecked = $(this).is(":checked");
+            $("#datatable3 tbody input[type='checkbox']").prop("checked", isChecked);
+        });
+
         $('#resetButton').click(function() {
             $('#UserRegForm input, #UserRegForm select').val('');
             $('#UserRegForm .error').text('');

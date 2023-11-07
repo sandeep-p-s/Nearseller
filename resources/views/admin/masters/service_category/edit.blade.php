@@ -12,7 +12,7 @@
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-                                <h4 class="page-title">Edit Shop Type</h4>
+                                <h4 class="page-title">Edit Business Category</h4>
                             </div>
                         </div><!--end row-->
                     </div><!--end page-title-box-->
@@ -35,7 +35,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Service Category Name</label>
+                                    <label for="exampleFormControlInput1">Business Category Name</label>
                                     <input type="text" class="form-control mb-3" id="exampleFormControlInput1"
                                         name="service_category_name" placeholder="Enter Service Category" value="{{ $servicecategory->service_category_name }}" onchange="existservicecategory(this.value)">
                                         <div id="existcategory-message" class="text-center" style="display: none;"></div>

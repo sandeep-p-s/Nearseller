@@ -8,19 +8,20 @@
                 <div class="card-body">
 
 
-                    <div class="form-group"><label>Set Availability Dates<span
+                    <div class="form-group d-none"><label>Set Availability Dates<span
                         class="text-danger">*</span></label>
                         <select class="form-select form-control form-control-lg" id="setavailbledates"
-                            name="setavailbledates" required tabindex="1">
-                            <option value="">Select</option><br />
+                            name="setavailbledates" required tabindex="1">                            
                             <option value="{{ $ServiceAppointment->is_setdates }}"
                                 @if ($ServiceAppointment->is_setdates == 1) selected @endif>Avialability Date</option><br />
                         </select>
                         <label for="setavailbledates" class="error"></label>
                     </div>
-
-                    <div class="form-group" id="dateFieldss"
-                        style="display: {{ $ServiceAppointment->is_setdates == 1 ? 'block' : 'none' }};">
+                    <div class="form-group"><label>Set Availability Dates<span
+                        class="text-danger">*</span></label>
+                    </div>
+                    {{-- style="display: {{ $ServiceAppointment->is_setdates == 1 ? 'block' : 'none' }};" --}}
+                    <div class="form-group" id="dateFieldss">
                         <div class="input-group">
                             <div class="col-lg-5">
                                 <label for="setavailblefromdates">From Date</label>
@@ -93,8 +94,7 @@
                                 <div class="form-group mb-0 row">
                                     <div class="col-sm-12 text-right">
                                         <span data-repeater-create="" class="btn btn-secondary btn-sm">
-                                            <span class="fas fa-plus"></span> Add recurring holidays to
-                                            eliminate
+                                            <span class="fas fa-plus"></span> Add not available dates
                                         </span>
                                     </div>
                                 </div>

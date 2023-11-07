@@ -32,7 +32,7 @@
 
                 $sel_approved = $sellerDetailh->seller_approved;
                 $userstatus = $sellerDetailh->user_status;
-
+                $executivesm = $sellerDetailh->shop_executive;
             @endphp
             @if ($sellerDetailh->seller_approved != 'Y')
                 <div class="col text-right">
@@ -180,7 +180,7 @@
                                     </div>
                                 </div>
                             @endif
-                            @if ($executives == 0)
+                            @if ($executivesm == '0' || $executivesm=='')
                             @else
                                 <div class="form-group row">
                                     <label class="col-xl-6 col-lg-6 ">{{ $shoporservice }} Executive Name</label>
@@ -385,15 +385,29 @@
 @if (in_array('1', $roleIdsArray) || in_array('11', $roleIdsArray))
 
     @if ($sellerCount > 0)
-        <table id="datatable" class="table table-striped table-bordered">
+    <style>
+        tfoot {
+    display: table-caption;
+}
+        tfoot input {
+         width: 100%;
+         padding: 3px;
+         box-sizing: border-box;
+     }
+             </style>
+        <table id="datatable3" class="table table-striped table-bordered" style="width: 100%">
             <thead>
                 <tr>
                     @if (session('roleid') == '1' || session('roleid') == '11')
-                        <th width="5px"><input type='checkbox' name='checkbox1' id='checkbox1'
-                                onclick='check();' />
+                        {{-- <th width="5px"><input type='checkbox' name='checkbox1' id='checkbox1'
+                                onclick='check();' /> --}}
+
+                        <th width="5px" data-sorting="true"><input type='checkbox' name='checkbox1'
+                                id='checkbox1' class="selectAll" onclick='' />
                         </th>
 
-                        <th>SINO</th>
+
+                        <th>S.No.</th>
                     @endif
                     <th>Reg. ID</th>
                     <th>{{ $shoporservice }} Name</th>
@@ -402,7 +416,7 @@
                     <th>Mobile</th>
                     {{-- <th>Business Type</th> --}}
                     <th>User Status</th>
-                    <th>Approved Status</th>
+                    <th>Approval Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -455,6 +469,27 @@
                     </tr>
                 @endforeach
             </tbody>
+            <tfoot>
+                <tr >
+                    @if (session('roleid') == '1' || session('roleid') == '11')
+                        {{-- <th width="5px"><input type='checkbox' name='checkbox1' id='checkbox1'
+                                onclick='check();' /> --}}
+
+                        <th style="border: 0px solid #eaf0f7"></th>
+
+                        <th style="border: 0px solid #eaf0f7"></th>
+                    @endif
+                    <th style="border: 0px solid #eaf0f7">Reg. ID</th>
+                    <th style="border: 0px solid #eaf0f7">{{ $shoporservice }} Name</th>
+                    <th style="border: 0px solid #eaf0f7">Owner Name</th>
+                    {{-- <th>Email</th> --}}
+                    <th style="border: 0px solid #eaf0f7">Mobile</th>
+                    {{-- <th>Business Type</th> --}}
+                    <th style="border: 0px solid #eaf0f7">User Status</th>
+                    <th style="border: 0px solid #eaf0f7">Approval Status</th>
+                    <th style="border: 0px solid #eaf0f7"></th>
+                </tr>
+            </tfoot>
         </table>
         <input type="hidden" value="{{ $index + 1 }}" id="totalshopcnt">
         {{-- <div class="pagination">
@@ -533,7 +568,7 @@
                                         <input type="email" id="s_email" name="s_email"
                                             class="form-control form-control-lg" maxlength="35"
                                             placeholder="Email ID" tabindex="4"
-                                            onchange="exstemilid(this.value,'2')" />
+                                            onchange="exstemilid(this.value,'2')" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"/>
                                         <label for="s_email" class="error"></label>
                                         <div id="semil-message" class="text-center" style="display: none;"></div>
                                     </div>
@@ -758,8 +793,8 @@
 
                                     <div class="form-outline mb-3"><label>{{ $shoporservice }} License Number</label>
                                         <input type="text" id="s_lisence" name="s_lisence"
-                                            class="form-control form-control-lg" maxlength="8"
-                                            placeholder="{{ $shoporservice }} License Number" tabindex="10" />
+                                            class="form-control form-control-lg" maxlength="15"
+                                            placeholder="{{ $shoporservice }} License Number" tabindex="10" pattern="^[A-Z0-9/&._%+-]+$"/>
                                         <label for="s_lisence" class="error"></label>
                                     </div>
 
@@ -889,12 +924,12 @@
                                                             class="btn btn-secondary btn-sm">
                                                             <span class="fas fa-plus"></span> Add New Time
                                                         </span>
-                                                        @if (session('roleid') == 1)
+                                                        {{-- @if (session('roleid') == 1) --}}
                                                             <button type="button" id="addSameTiming"
                                                                 class="btn btn-primary btn-sm">
                                                                 Add Same Timing for All Days
                                                             </button>
-                                                        @endif
+                                                        {{-- @endif --}}
 
                                                     </div>
                                                 </div>
@@ -941,12 +976,12 @@
 
                                     <div class="form-check-inline">
                                         <input class="form-check-input" type="checkbox" id="s_termcondtn"
-                                            name="s_termcondtn" value="1" tabindex="26">&nbsp;
+                                            name="s_termcondtn" value="1" required tabindex="26">
                                         <label class="inlineCheckbox1" for="s_termcondtn"> Accept Terms &
                                             Conditions<span class="text-danger">*</span>
                                         </label>
-                                    </div><br>
-                                    <label for="s_termcondtn" class="error"></label>
+                                    </div>
+
                                 </div>
 
 
@@ -1096,6 +1131,43 @@
 
 
     $(document).ready(function() {
+
+        var table = $('#datatable3').DataTable({
+            initComplete: function() {
+                this.api()
+                    .columns()
+                    .every(function() {
+                        let column = this;
+                        let title = column.footer().textContent;
+                        if (title == "")
+                            return;
+                        // Create input element
+                        let input = document.createElement('input');
+                        input.className ="form-control form-control-lg";
+                        input.type = "text";
+                        input.placeholder = title;
+                        column.footer().replaceChildren(input);
+
+                        // Event listener for user input
+                        input.addEventListener('keyup', () => {
+                            if (column.search() !== this.value) {
+                                column.search(input.value).draw();
+                            }
+                        });
+                    });
+            },
+            "columnDefs": [{
+                "targets": 0,
+                "orderable": false
+            }]
+        });
+
+
+
+        $(".selectAll").on("click", function(event) {
+            var isChecked = $(this).is(":checked");
+            $("#datatable3 tbody input[type='checkbox']").prop("checked", isChecked);
+        });
 
         // $('#s_locality').on('input', function () {
         //         var inputText = $(this).val();
@@ -1624,10 +1696,10 @@
         return this.optional(element) || gstRegex.test(value);
     }, "Invalid GST format. It should be in the format 29ABCDE1234F1Z5");
 
-    jQuery.validator.addMethod("validLicence", function(value, element) {
-        var licenceRegex = /^[A-Z]{3}\d{5}$/;
-        return this.optional(element) || licenceRegex.test(value);
-    }, "Invalid license number format. It should be 3 uppercase letters followed by 5 digits.");
+    // jQuery.validator.addMethod("validLicence", function(value, element) {
+    //     var licenceRegex = /^[A-Z]{3}\d{5}$/;
+    //     return this.optional(element) || licenceRegex.test(value);
+    // }, "Invalid license number format. It should be 3 uppercase letters followed by 5 digits.");
 
     jQuery.validator.addMethod("validlocality", function(value, element) {
         var localityRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/;
@@ -1681,9 +1753,9 @@
             //     required: true,
 
             // },
-            s_lisence: {
-                validLicence: true,
-            },
+            // s_lisence: {
+            //     validLicence: true,
+            // },
             s_buldingorhouseno: {
                 required: true,
             },
@@ -1800,16 +1872,13 @@
             s_photo: {
                 extension: "Only JPG and PNG files are allowed.",
             },
-            s_shopservice: {
-                required: "Please select Seller Category.",
-            },
             // s_logo: {
             //     extension: "Only JPG and PNG files are allowed.",
             // },
 
-            s_lisence: {
-                validLicence: "Invalid license number format. It should be 3 uppercase letters followed by 5 digits."
-            },
+            // s_lisence: {
+            //     validLicence: "Invalid license number format. It should be 3 uppercase letters followed by 5 digits."
+            // },
             s_buldingorhouseno: {
                 required: "Please enter building/house name and number.",
                 maxlength: "Building/house name and number must not exceed 100 characters."
@@ -1886,11 +1955,11 @@
     });
 
 
-    // $('#s_name, #s_ownername').on('input', function() {
-    //     var value = $(this).val();
-    //     value = value.replace(/[^A-Za-z\s\.]+/, '');
-    //     $(this).val(value);
-    // });
+    $('#s_name, #s_ownername').on('input', function() {
+        var value = $(this).val();
+        value = value.replace(/[^A-Za-z\s.#&/'-]+/, '');
+        $(this).val(value);
+    });
 
     // $.validator.addMethod("strongPassword", function(value, element) {
     // return this.optional(element) || /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/.test(value);

@@ -5,7 +5,11 @@
     <footer class="footer text-center text-sm-left">
 
     &copy;<a href="https://hyzventures.com/" target="_blank"> Hyz Ventures
-        Intl Pvt Ltd</a></footer><!--end footer-->
+        Intl Pvt Ltd</a>
+        <div class="col text-right">version 2.1
+        </div>
+
+    </footer><!--end footer-->
 </div>
 <!-- end page content -->
 </div>
