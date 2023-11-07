@@ -1,8 +1,21 @@
 @if ($ProductCount > 0)
-    <table id="datatable" class="table table-striped table-bordered">
+<style>
+    tfoot {
+        display: table-caption;
+    }
+
+    tfoot input {
+        width: 100%;
+        padding: 3px;
+        box-sizing: border-box;
+    }
+</style>
+<table id="datatable3" class="table table-striped table-bordered" style="width: 100%">
         <thead>
             <tr>
-                <th>Approved all<input type='checkbox' name='checkbox1' id='checkbox1' onclick='check();' /></th>
+                {{-- <th>Approved all<input type='checkbox' name='checkbox1' id='checkbox1' onclick='check();' /></th> --}}
+                <th width="5px" data-sorting="true"><input type='checkbox' name='checkbox1'
+                    id='checkbox1' class="selectAll" onclick='' /></th>
                 <th>SINO</th>
                 <th>Service ID</th>
                 <th>Service Name</th>
@@ -50,10 +63,19 @@
                     </td>
                 </tr>
             @endforeach
-
-
-
         </tbody>
+        <tfoot>
+            <tr >
+                <th style="border: 0px solid #eaf0f7"></th>
+                <th style="border: 0px solid #eaf0f7"></th>
+                <th style="border: 0px solid #eaf0f7">Service ID</th>
+                <th style="border: 0px solid #eaf0f7">Service Name</th>
+                <th style="border: 0px solid #eaf0f7">Service Provider Name</th>
+                <th style="border: 0px solid #eaf0f7">Status</th>
+                <th style="border: 0px solid #eaf0f7">Is Approved?</th>
+                <th style="border: 0px solid #eaf0f7"></th>
+            </tr>
+        </tfoot>
     </table>
     <input type="hidden" value="{{ $index + 1 }}" id="totalproductcnt">
 @else
@@ -333,6 +355,45 @@
 }
 
     $(document).ready(function() {
+
+        var table = $('#datatable3').DataTable({
+            initComplete: function() {
+                this.api()
+                    .columns()
+                    .every(function() {
+                        let column = this;
+                        let title = column.footer().textContent;
+                        if (title == "")
+                            return;
+                        // Create input element
+                        let input = document.createElement('input');
+                        input.className = "form-control form-control-lg";
+                        input.type = "text";
+                        input.placeholder = title;
+                        column.footer().replaceChildren(input);
+
+                        // Event listener for user input
+                        input.addEventListener('keyup', () => {
+                            if (column.search() !== this.value) {
+                                column.search(input.value).draw();
+                            }
+                        });
+                    });
+            },
+            "columnDefs": [{
+                "targets": 0,
+                "orderable": false
+            }]
+        });
+
+
+
+        $(".selectAll").on("click", function(event) {
+            var isChecked = $(this).is(":checked");
+            $("#datatable3 tbody input[type='checkbox']").prop("checked", isChecked);
+        });
+
+
         $('#resetButton').click(function() {
             $('#ProductAddForm input, #ProductAddForm select').val('');
             $('#ProductAddForm .error').text('');

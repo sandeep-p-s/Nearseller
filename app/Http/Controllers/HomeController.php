@@ -100,7 +100,8 @@ class HomeController extends Controller
     {
 
         $request->validate([
-            'u_name'    => 'required',
+            'u_name'    => 'required|min:3|max:50',
+            'mobcntrycode'=> 'required',
             'u_emid'    => 'required|email|unique:user_account,email',
             'u_mobno'   => 'required|numeric|digits:10|unique:user_account,mobno',
             'u_paswd'   => 'required|min:6',
@@ -120,9 +121,10 @@ class HomeController extends Controller
         $time=date('Y-m-d H:i:s');
         if($regval==1)
         {
-            $user->name = $request->u_name;
+            $user->name = ucfirst($request->u_name);
             $user->email = $request->u_emid;
             $user->mobno = $request->u_mobno;
+            $user->mob_countrycode = $request->mobcntrycode;
             $user->password = Hash::make($request->u_paswd);
             $user->role_id=4;
             $user->forgot_pass=$request->u_paswd;
@@ -1210,6 +1212,7 @@ class HomeController extends Controller
             $validatedData = $request->validate([
                 's_name' => 'required|max:50',
                 's_ownername' => 'required|max:50',
+                's_mobcntrycode' => 'required',
                 's_mobno' => 'required|max:10',
                 //'s_email' => 'required|email|max:35',
                 's_refralid' => 'max:50',
@@ -1217,7 +1220,7 @@ class HomeController extends Controller
                 's_shopservice' => 'required',
                 //'s_subshopservice' => 'required',
                 's_shopservicetype' => 'required',
-                's_shopexectename' => 'required',
+                //'s_shopexectename' => 'required',
                 's_lisence' => 'max:25',
                 's_buldingorhouseno' => 'required|max:100',
                 's_locality' => 'required|max:100',
@@ -1230,7 +1233,7 @@ class HomeController extends Controller
                 's_googlelongitude' => 'required',
                 //'s_photo' => 'required|image|mimes:jpeg,png|max:1024',
                 's_gstno' => ['sometimes', 'max:25'],
-                's_panno' => ['sometimes', 'regex:/^[A-Z]{5}[0-9]{4}[A-Z]$/', 'max:10'],
+                's_panno' => ['sometimes', 'max:10'],
                 's_establishdate' => 'required|date',
                 's_paswd' => 'required|max:20',
                 's_rpaswd' => 'required|same:s_paswd',
@@ -1252,7 +1255,8 @@ class HomeController extends Controller
 
             }
             $user = new UserAccount();
-            $user->name = $request->s_name;
+            $user->name = ucfirst($request->s_name);
+            $user->mob_countrycode = $request->s_mobcntrycode;
             $user->email = $request->s_email;
             $user->mobno = $request->s_mobno;
             $user->password = Hash::make($request->s_paswd);
@@ -1267,9 +1271,9 @@ class HomeController extends Controller
             //     $user->user_status='Y';
             // }
             if (!empty($request->s_email)) {
-                $user->email_verify='N';
-            } else {
                 $user->email_verify='Y';
+            } else {
+                $user->email_verify='N';
             }
             $user->user_status='Y';
             $user->mobile_verify='Y';
@@ -1287,9 +1291,10 @@ class HomeController extends Controller
             if($submt>0){
                 $sellerDetail = new SellerDetails();
                 $sellerDetail->fill($validatedData);
-                $sellerDetail->shop_name = $request->input('s_name');
-                $sellerDetail->owner_name = $request->input('s_ownername');
+                $sellerDetail->shop_name = ucfirst($request->input('s_name'));
+                $sellerDetail->owner_name = ucfirst($request->input('s_ownername'));
                 $sellerDetail->shop_email = $request->input('s_email');
+                $sellerDetail->mob_country_code = $request->input('s_mobcntrycode');
                 $sellerDetail->shop_mobno = $request->input('s_mobno');
                 $sellerDetail->referal_id = $request->input('s_refralid');
                 $sellerDetail->busnes_type = $request->input('s_busnestype');

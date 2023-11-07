@@ -568,7 +568,7 @@
                                         <input type="email" id="s_email" name="s_email"
                                             class="form-control form-control-lg" maxlength="35"
                                             placeholder="Email ID" tabindex="4"
-                                            onchange="exstemilid(this.value,'2')" />
+                                            onchange="exstemilid(this.value,'2')" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"/>
                                         <label for="s_email" class="error"></label>
                                         <div id="semil-message" class="text-center" style="display: none;"></div>
                                     </div>
@@ -793,8 +793,8 @@
 
                                     <div class="form-outline mb-3"><label>{{ $shoporservice }} License Number</label>
                                         <input type="text" id="s_lisence" name="s_lisence"
-                                            class="form-control form-control-lg" maxlength="8"
-                                            placeholder="{{ $shoporservice }} License Number" tabindex="10" />
+                                            class="form-control form-control-lg" maxlength="15"
+                                            placeholder="{{ $shoporservice }} License Number" tabindex="10" pattern="^[A-Z0-9/&._%+-]+$"/>
                                         <label for="s_lisence" class="error"></label>
                                     </div>
 
@@ -1696,10 +1696,10 @@
         return this.optional(element) || gstRegex.test(value);
     }, "Invalid GST format. It should be in the format 29ABCDE1234F1Z5");
 
-    jQuery.validator.addMethod("validLicence", function(value, element) {
-        var licenceRegex = /^[A-Z]{3}\d{5}$/;
-        return this.optional(element) || licenceRegex.test(value);
-    }, "Invalid license number format. It should be 3 uppercase letters followed by 5 digits.");
+    // jQuery.validator.addMethod("validLicence", function(value, element) {
+    //     var licenceRegex = /^[A-Z]{3}\d{5}$/;
+    //     return this.optional(element) || licenceRegex.test(value);
+    // }, "Invalid license number format. It should be 3 uppercase letters followed by 5 digits.");
 
     jQuery.validator.addMethod("validlocality", function(value, element) {
         var localityRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/;
@@ -1753,9 +1753,9 @@
             //     required: true,
 
             // },
-            s_lisence: {
-                validLicence: true,
-            },
+            // s_lisence: {
+            //     validLicence: true,
+            // },
             s_buldingorhouseno: {
                 required: true,
             },
@@ -1876,9 +1876,9 @@
             //     extension: "Only JPG and PNG files are allowed.",
             // },
 
-            s_lisence: {
-                validLicence: "Invalid license number format. It should be 3 uppercase letters followed by 5 digits."
-            },
+            // s_lisence: {
+            //     validLicence: "Invalid license number format. It should be 3 uppercase letters followed by 5 digits."
+            // },
             s_buldingorhouseno: {
                 required: "Please enter building/house name and number.",
                 maxlength: "Building/house name and number must not exceed 100 characters."
