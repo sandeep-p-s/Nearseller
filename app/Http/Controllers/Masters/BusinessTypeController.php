@@ -42,7 +42,7 @@ class BusinessTypeController extends Controller
     {
         $request->validate(
             [
-                'business_name' => 'required|regex:/^[A-Za-z\s]+$/|min:5|max:50|unique:business_type',
+                'business_name' => 'required|regex:/^[A-Za-z\s]+$/|min:3|max:30|unique:business_type',
             ],
                 [
                     'business_name.required' => 'The business name field is required.',
@@ -88,7 +88,7 @@ class BusinessTypeController extends Controller
 
         $request->validate(
             [
-                'business_name' => ['required','regex:/^[A-Za-z\s]+$/','min:5','max:50',Rule::unique('business_type')->ignore($id)],
+                'business_name' => ['required','regex:/^[A-Za-z\s]+$/','min:3','max:30',Rule::unique('business_type')->ignore($id)],
             ],
                 [
                     'business_name.required' => 'The business name field is required.',
