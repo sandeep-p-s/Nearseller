@@ -141,7 +141,21 @@ class ProductController extends Controller
             ->select('id', 'name')
             ->where('role_id', 2)
             ->get();
-        return view('product.product_dets', compact('ProductDetails', 'ProductCount', 'filteredCategories', 'usershopdets'));
+
+        $queryapprovedcounts = ProductDetails::select([
+
+            DB::raw('SUM(CASE WHEN product_status = "Y" THEN 1 ELSE 0 END) AS prod_status_y_count'),
+            DB::raw('SUM(CASE WHEN product_status != "Y" THEN 1 ELSE 0 END) AS prod_status_not_y_count'),
+            DB::raw('SUM(CASE WHEN is_approved = "Y" THEN 1 ELSE 0 END) AS approved_y_count'),
+            DB::raw('SUM(CASE WHEN is_approved = "N" THEN 1 ELSE 0 END) AS approved_not_y_count'),
+            DB::raw('SUM(CASE WHEN is_approved = "R" THEN 1 ELSE 0 END) AS approved_reject_y_count'),
+        ]);
+
+        if ($roleid != 1 && $roleid != 11) {
+            $queryapprovedcounts->where('shop_id', $userId);
+        }
+        $approvedproductcounts = $queryapprovedcounts->first();
+        return view('product.product_dets', compact('ProductDetails', 'ProductCount', 'filteredCategories', 'usershopdets','approvedproductcounts'));
     }
 
     public function AdmProductApprovedAll(Request $request)

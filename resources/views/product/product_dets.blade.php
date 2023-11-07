@@ -10,16 +10,40 @@
             box-sizing: border-box;
         }
     </style>
+    @if (session('roleid') == '1' || session('roleid') == '11')
+        <div class="text-center">
+            <span class="badge badge-soft-info p-2">
+                Total Available Product : {{ $approvedproductcounts->prod_status_y_count }}
+            </span>
+            <span class="badge badge-soft-danger p-2">
+                Total Not Available Product : {{ $approvedproductcounts->prod_status_not_y_count }}
+            </span>
+
+            <span class="badge badge-soft-info p-2">
+                Total Approved Product : {{ $approvedproductcounts->approved_y_count }}
+            </span>
+            <span class="badge badge-soft-danger p-2">
+                Total Not Approved Product : {{ $approvedproductcounts->approved_not_y_count }}
+            </span>
+            <span class="badge badge-soft-danger p-2">
+                Total Rejected Product : {{ $approvedproductcounts->approved_reject_y_count }}
+            </span>
+
+
+        </div>
+    @endif
     <table id="datatable3" class="table table-striped table-bordered" style="width: 100%">
         <thead>
             <tr>
                 {{-- <th>Approved all<input type='checkbox' name='checkbox1' id='checkbox1' onclick='check();' /></th> --}}
-                <th width="5px" data-sorting="true"><input type='checkbox' name='checkbox1'
-                    id='checkbox1' class="selectAll" onclick='' /></th>
+                @if (session('roleid') == '1' || session('roleid') == '11')
+                    <th width="5px" data-sorting="true"><input type='checkbox' name='checkbox1' id='checkbox1'
+                            class="selectAll" onclick='' /></th>
+                @endif
                 <th>S.No.</th>
                 <th>Product ID</th>
                 <th>Product Name</th>
-                <th>Shop Name</th>
+                <th>Seller Name</th>
                 <th>Status</th>
                 <th>Is Approved?</th>
                 <th>Action</th>
@@ -29,9 +53,12 @@
         <tbody>
             @foreach ($ProductDetails as $index => $prodDetails)
                 <tr>
-                    <td><input name="productid[]" type="checkbox" id="productid{{ $index + 1 }}"
-                            value="{{ $prodDetails->id }}" {{ $prodDetails->is_approved === 'Y' ? 'checked' : '' }} />
-                    </td>
+                    @if (session('roleid') == '1' || session('roleid') == '11')
+                        <td><input name="productid[]" type="checkbox" id="productid{{ $index + 1 }}"
+                                value="{{ $prodDetails->id }}"
+                                {{ $prodDetails->is_approved === 'Y' ? 'checked' : '' }} />
+                        </td>
+                    @endif
                     <td>{{ $index + 1 }}</td>
                     <td>PRD{{ str_pad($prodDetails->id, 9, '0', STR_PAD_LEFT) }}</td>
                     <td>{{ $prodDetails->product_name }}</td>
@@ -65,8 +92,10 @@
             @endforeach
         </tbody>
         <tfoot>
-            <tr >
-                <th style="border: 0px solid #eaf0f7"></th>
+            <tr>
+                @if (session('roleid') == '1' || session('roleid') == '11')
+                    <th style="border: 0px solid #eaf0f7"></th>
+                @endif
                 <th style="border: 0px solid #eaf0f7"></th>
                 <th style="border: 0px solid #eaf0f7">Product ID</th>
                 <th style="border: 0px solid #eaf0f7">Product Name</th>
@@ -88,11 +117,12 @@
         </tr>
     </table>
 @endif
-
-@if ($ProductCount > 0)
-    <div class="col text-center">
-        <button class="btn btn-primary" style="cursor:pointer" onclick="productapprovedall();">Approved</button>
-    </div>
+@if (session('roleid') == '1' || session('roleid') == '11')
+    @if ($ProductCount > 0)
+        <div class="col text-center">
+            <button class="btn btn-primary" style="cursor:pointer" onclick="productapprovedall();">Approved</button>
+        </div>
+    @endif
 @endif
 
 
@@ -118,11 +148,11 @@
                                     @endphp
 
 
-                                    <div class="form-group" {{ $shopshowhide }}><label>Shop Name<span
+                                    <div class="form-group" {{ $shopshowhide }}><label>Seller Name<span
                                                 class="text-danger">*</span></label>
                                         <select class="selectshops form-select form-control form-control-lg"
                                             id="shop_name" name="shop_name" required tabindex="1">
-                                            <option value="">Select Shop Name</option><br />
+                                            <option value="">Select Seller Name</option><br />
                                             @foreach ($usershopdets as $shps)
                                                 <option value="{{ $shps->id }}"
                                                     @if ($shps->id == session('user_id')) selected @endif>
@@ -136,8 +166,9 @@
                                     <div class="form-group"><label>Product Name<span
                                                 class="text-danger">*</span></label>
                                         <input type="text" id="prod_name" name="prod_name"
-                                            class="enterproduct form-control" maxlength="60" placeholder="Product Name"
-                                            required tabindex="1" onchange="showexistproduct();" />
+                                            class="enterproduct form-control" maxlength="60"
+                                            placeholder="Product Name" required tabindex="1"
+                                            onchange="showexistproduct();" />
                                         <label for="prod_name" class="error"></label>
                                     </div>
                                     <div class="form-group"><label> Product Specification<span

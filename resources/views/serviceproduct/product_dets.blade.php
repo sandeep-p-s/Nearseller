@@ -1,21 +1,45 @@
 @if ($ProductCount > 0)
-<style>
-    tfoot {
-        display: table-caption;
-    }
+    <style>
+        tfoot {
+            display: table-caption;
+        }
 
-    tfoot input {
-        width: 100%;
-        padding: 3px;
-        box-sizing: border-box;
-    }
-</style>
-<table id="datatable3" class="table table-striped table-bordered" style="width: 100%">
+        tfoot input {
+            width: 100%;
+            padding: 3px;
+            box-sizing: border-box;
+        }
+    </style>
+    @if (session('roleid') == '1' || session('roleid') == '11')
+        <div class="text-center">
+            <span class="badge badge-soft-info p-2">
+                Total Available Services : {{ $approvedproductcounts->prod_status_y_count }}
+            </span>
+            <span class="badge badge-soft-danger p-2">
+                Total Not Available Services : {{ $approvedproductcounts->prod_status_not_y_count }}
+            </span>
+
+            <span class="badge badge-soft-info p-2">
+                Total Approved Services : {{ $approvedproductcounts->approved_y_count }}
+            </span>
+            <span class="badge badge-soft-danger p-2">
+                Total Not Approved Services : {{ $approvedproductcounts->approved_not_y_count }}
+            </span>
+            <span class="badge badge-soft-danger p-2">
+                Total Rejected Services : {{ $approvedproductcounts->approved_reject_y_count }}
+            </span>
+
+
+        </div>
+    @endif
+    <table id="datatable3" class="table table-striped table-bordered" style="width: 100%">
         <thead>
             <tr>
                 {{-- <th>Approved all<input type='checkbox' name='checkbox1' id='checkbox1' onclick='check();' /></th> --}}
-                <th width="5px" data-sorting="true"><input type='checkbox' name='checkbox1'
-                    id='checkbox1' class="selectAll" onclick='' /></th>
+                @if (session('roleid') == '1' || session('roleid') == '11')
+                    <th width="5px" data-sorting="true"><input type='checkbox' name='checkbox1' id='checkbox1'
+                            class="selectAll" onclick='' /></th>
+                @endif
                 <th>S.No.</th>
                 <th>Service ID</th>
                 <th>Service Name</th>
@@ -29,9 +53,12 @@
         <tbody>
             @foreach ($ServiceDetails as $index => $prodDetails)
                 <tr>
-                    <td><input name="productid[]" type="checkbox" id="productid{{ $index + 1 }}"
-                            value="{{ $prodDetails->id }}" {{ $prodDetails->is_approved === 'Y' ? 'checked' : '' }} />
-                    </td>
+                    @if (session('roleid') == '1' || session('roleid') == '11')
+                        <td><input name="productid[]" type="checkbox" id="productid{{ $index + 1 }}"
+                                value="{{ $prodDetails->id }}"
+                                {{ $prodDetails->is_approved === 'Y' ? 'checked' : '' }} />
+                        </td>
+                    @endif
                     <td>{{ $index + 1 }}</td>
                     <td>SER{{ str_pad($prodDetails->id, 9, '0', STR_PAD_LEFT) }}</td>
                     <td>{{ $prodDetails->service_name }}</td>
@@ -52,7 +79,7 @@
                             <div class="dropdown-menu">
                                 <a class="dropdown-item view_btn1" href="#"
                                     onclick="productvieweditdet({{ $prodDetails->id }})">View/Edit</a>
-                                    @if (session('roleid') == '1' || session('roleid') == '11')
+                                @if (session('roleid') == '1' || session('roleid') == '11')
                                     <a class="dropdown-item approve_btn" href="#"
                                         onclick="productapprovedet({{ $prodDetails->id }})">Approved</a>
                                     <a class="dropdown-item delete_btn" href="#"
@@ -65,8 +92,10 @@
             @endforeach
         </tbody>
         <tfoot>
-            <tr >
-                <th style="border: 0px solid #eaf0f7"></th>
+            <tr>
+                @if (session('roleid') == '1' || session('roleid') == '11')
+                    <th style="border: 0px solid #eaf0f7"></th>
+                @endif
                 <th style="border: 0px solid #eaf0f7"></th>
                 <th style="border: 0px solid #eaf0f7">Service ID</th>
                 <th style="border: 0px solid #eaf0f7">Service Name</th>
@@ -88,11 +117,12 @@
         </tr>
     </table>
 @endif
-
-@if ($ProductCount > 0)
-    <div class="col text-center">
-        <button class="btn btn-primary" style="cursor:pointer" onclick="productapprovedall();">Approved</button>
-    </div>
+@if (session('roleid') == '1' || session('roleid') == '11')
+    @if ($ProductCount > 0)
+        <div class="col text-center">
+            <button class="btn btn-primary" style="cursor:pointer" onclick="productapprovedall();">Approved</button>
+        </div>
+    @endif
 @endif
 
 
@@ -138,8 +168,8 @@
                                     <div class="form-group"><label>Service Name<span
                                                 class="text-danger">*</span></label>
                                         <input type="text" id="prod_name" name="prod_name"
-                                            class="enterproduct form-control" maxlength="60" placeholder="Service Name"
-                                            required tabindex="1" />
+                                            class="enterproduct form-control" maxlength="60"
+                                            placeholder="Service Name" required tabindex="1" />
                                         <label for="prod_name" class="error"></label>
                                     </div>
 
@@ -166,8 +196,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <label>Service Description <span
-                                            class="text-danger">*</span></label>
+                                        <label>Service Description <span class="text-danger">*</span></label>
                                         <textarea id="prod_description" name="prod_description" placeholder="Service Description" class="form-control"
                                             maxlength="7000" tabindex="4" required rows="3"></textarea>
                                         <label for="prod_description"></label>
@@ -247,19 +276,21 @@
                                                                 </div>
                                                                 <div class="col">
                                                                     <input type="text" id="offerprice1"
-                                                                        name="offerprice1" placeholder="Offer Price" maxlength="10"
-                                                                        class="form-control"   oninput="numberOnlyAllowedDot(this)">
+                                                                        name="offerprice1" placeholder="Offer Price"
+                                                                        maxlength="10" class="form-control"
+                                                                        oninput="numberOnlyAllowedDot(this)">
                                                                 </div>
                                                                 <div class="col">
                                                                     <input type="text" id="mrprice1"
-                                                                        name="mrprice1" placeholder="MRP" maxlength="10"
-                                                                        class="form-control"  oninput="numberOnlyAllowedDot(this)">
+                                                                        name="mrprice1" placeholder="MRP"
+                                                                        maxlength="10" class="form-control"
+                                                                        oninput="numberOnlyAllowedDot(this)">
                                                                 </div>
                                                                 <div class="col">
                                                                     <input type="text" id="attr_calshop1"
-                                                                        name="attr_calshop1"
-                                                                        placeholder="Call Shop" maxlength="10"
-                                                                        class="form-control" oninput="numberOnlyAllowed(this)">
+                                                                        name="attr_calshop1" placeholder="Call Shop"
+                                                                        maxlength="10" class="form-control"
+                                                                        oninput="numberOnlyAllowed(this)">
                                                                 </div>
                                                                 <div class="col">
                                                                     <span data-repeater-delete=""
@@ -347,12 +378,12 @@
     }
 
     function numberOnlyAllowedDot(inputElement) {
-    let value = inputElement.value.replace(/[^0-9.]/g, '');
-    if (value.length > 10) {
-        value = value.slice(0, 10);
+        let value = inputElement.value.replace(/[^0-9.]/g, '');
+        if (value.length > 10) {
+            value = value.slice(0, 10);
+        }
+        inputElement.value = value;
     }
-    inputElement.value = value;
-}
 
     $(document).ready(function() {
 
@@ -480,8 +511,8 @@
 
                     imgDiv.append(img);
                     imgDiv.append($('<div>').addClass('middle').append(removeBtn));
-                        if(fileArrs.length > 0)
-                    $('#image-preview').append(imgDiv);
+                    if (fileArrs.length > 0)
+                        $('#image-preview').append(imgDiv);
                 };
             })(file);
 

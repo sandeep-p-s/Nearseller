@@ -220,6 +220,7 @@ class CategoryController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
+        $roleid = session('roleid');
         if ($userId == '') {
             return redirect()->route('logout');
         }
@@ -251,6 +252,7 @@ class CategoryController extends Controller
                 'status.in' => 'Invalid status value.',
             ]
         );
+
 
             $current_category->category_name = ucfirst(strtolower($request->category_name));
             $current_category->parent_id = $request->parent_category;
@@ -291,8 +293,8 @@ class CategoryController extends Controller
                     }
                 }
             }
-
-            $current_category->status = $request->status;
+            if($roleid==1 || $roleid==11)
+            {$current_category->status = $request->status;}
             //$current_category->category_type = $request->select_type;
             $current_category->save();
             $loggedUserIp = $_SERVER['REMOTE_ADDR'];
