@@ -16,7 +16,7 @@
                 {{-- <th>Approved all<input type='checkbox' name='checkbox1' id='checkbox1' onclick='check();' /></th> --}}
                 <th width="5px" data-sorting="true"><input type='checkbox' name='checkbox1'
                     id='checkbox1' class="selectAll" onclick='' /></th>
-                <th>SINO</th>
+                <th>S.No.</th>
                 <th>Product ID</th>
                 <th>Product Name</th>
                 <th>Shop Name</th>
