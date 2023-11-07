@@ -1172,7 +1172,7 @@ class RoleController extends Controller
     {
         $request->validate(
             [
-                'role_name' => 'required|min:5|max:255|unique:roles',
+                'role_name' => 'required|min:5|max:50|unique:roles',
             ],
                 [
                     'role_name.required' => 'The role name field is required.',

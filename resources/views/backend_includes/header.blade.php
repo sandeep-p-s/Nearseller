@@ -161,6 +161,28 @@ else {
     font-size: 22px;
     font-weight: 700
 }
+.new_logo
+{
+    margin-top: 10px;
+}
+
+@font-face {
+        font-family: 'Glyphicons Halflings';
+        src: url(https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/fonts/glyphicons-halflings-regular.eot);
+        src: url(https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/fonts/glyphicons-halflings-regular.eot?#iefix) format('embedded-opentype'), url(https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/fonts/glyphicons-halflings-regular.woff2) format('woff2'), url(https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/fonts/glyphicons-halflings-regular.woff) format('woff'), url(https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/fonts/glyphicons-halflings-regular.ttf) format('truetype'), url(https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular) format('svg')
+    }
+
+    .glyphicon {
+        position: relative;
+        top: 1px;
+        display: inline-block;
+        font-family: 'Glyphicons Halflings';
+        font-style: normal;
+        font-weight: 400;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale
+    }
 
 @font-face {
         font-family: 'Glyphicons Halflings';
@@ -190,6 +212,14 @@ else {
         content: "\e114"
     }
 
+    .glyphicon-chevron-up:before {
+        content: "\e113"
+    }
+
+    .glyphicon-chevron-down:before {
+        content: "\e114"
+    }
+
 
 </style>
 
@@ -208,7 +238,7 @@ else {
     <div class="left-sidenav">
         <!-- LOGO -->
         <div class="brand">
-                <span>
+
                     <span>
                         {{-- @php
                             $roleid = session('roleid');
@@ -230,10 +260,10 @@ else {
                             }
                         @endphp --}}
 
-                        <img src="{{ asset('backend/assets/images/logo.png') }}" alt="logo-large" class="logo-lg logo-light">
+                        <img src="{{ asset('backend/assets/images/logo.png') }}" alt="logo-large" class="logo-lg logo-light new_logo">
                     </span>
 
-                </span>
+
             </a>
         </div>
         <!--end logo-->

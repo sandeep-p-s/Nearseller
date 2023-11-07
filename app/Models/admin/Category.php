@@ -99,6 +99,7 @@ class Category extends Model
                 'parent_id' => $category->parent_id,
                 'category_level' => $category_level,
                 'approval_status' => $category->approval_status,
+                'created_by' => $category->created_by,
                 // 'category_type' => $category->category_type
             ]);
             $category->children = $allCategories->where('parent_id', $category->id)->values();

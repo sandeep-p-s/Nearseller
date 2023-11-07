@@ -4,7 +4,7 @@
             <table id="datatable" class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th>SINO</th>
+                        <th>S.No.</th>
                         <th data-sorting="false">Name</th>
                         <th data-sorting="false">Email</th>
                         <th data-sorting="false">Mobile</th>

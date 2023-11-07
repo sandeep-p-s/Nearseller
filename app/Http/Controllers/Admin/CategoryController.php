@@ -109,7 +109,7 @@ class CategoryController extends Controller
                 'category_name' => 'required|unique:categories,category_name|string|max:40|min:3',
                 'slug_name' => 'required|unique:categories,category_slug',
                 'category_level' => ['required', new CategoryLevelRule],
-                //'category_image' => 'required|max:4096|mimes:jpeg,png,jpg',
+                'category_image' => 'required|max:4096|mimes:jpeg,png,jpg',
             ],
             [
                 'category_name.required' => 'The category name field is missing.',
@@ -163,7 +163,7 @@ class CategoryController extends Controller
             //     Storage::disk('public')->put(config('imageupload.categorydir') . "/" . config('imageupload.category.image') . $fileName, File::get($request->category_image));
             //     $newcategory->category_image = $fileName;
             // }
-            //$newcategory->category_type = $request->select_type;
+            // $newcategory->category_type = $request->select_type;
             $newcategory->created_by = $userId;
             $newcategory->save();
             $loggedUserIp = $_SERVER['REMOTE_ADDR'];
