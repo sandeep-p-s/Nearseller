@@ -1,14 +1,39 @@
 @if ($allusercount > 0)
     <div class="card">
         <div class="card-body">
-            <table id="datatable" class="table table-striped table-bordered">
+
+
+            @if (session('roleid') == '1' || session('roleid') == '11')
+                <div class="text-center">
+                    <span class="badge badge-soft-info p-2">
+                        Total Active Users : {{ $activecounts->user_status_y_count }}
+                    </span>
+                    <span class="badge badge-soft-danger p-2">
+                        Total Inactive Users : {{ $activecounts->user_status_not_y_count }}
+                    </span>
+                </div>
+            @endif
+
+            <style>
+                tfoot {
+                    display: table-caption;
+                }
+
+                tfoot input {
+                    width: 100%;
+                    padding: 3px;
+                    box-sizing: border-box;
+                }
+            </style>
+
+            <table id="datatable3" class="table table-striped table-bordered" style="width: 100%">
                 <thead>
                     <tr>
                         <th>S.No.</th>
                         <th data-sorting="false">Name</th>
                         <th data-sorting="false">Email</th>
                         <th data-sorting="false">Mobile</th>
-                        <th >Role</th>
+                        <th>Role</th>
                         <th>User Status</th>
                         <th data-sorting="false">Action</th>
                     </tr>
@@ -33,7 +58,8 @@
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item view_btn1" href="#"
                                             onclick="uservieweditdet({{ $userDets->id }})">View/Edit</a>
-                                        @if ($userDets->role_id != '1' || $userDets->role_id != '11')
+                                        @if ($userDets->role_id == '1')
+                                        @else
                                             <a class="dropdown-item delete_btn" href="#"
                                                 onclick="userdeletedet({{ $userDets->id }})">Delete</a>
                                         @endif
@@ -43,6 +69,17 @@
                         </tr>
                     @endforeach
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <th style="border: 0px solid #eaf0f7"></th>
+                        <th style="border: 0px solid #eaf0f7">Name</th>
+                        <th style="border: 0px solid #eaf0f7">Email</th>
+                        <th style="border: 0px solid #eaf0f7">Mobile</th>
+                        <th style="border: 0px solid #eaf0f7">Role</th>
+                        <th style="border: 0px solid #eaf0f7">User Status</th>
+                        <th style="border: 0px solid #eaf0f7"></th>
+                    </tr>
+                </tfoot>
             </table>
         @else
             <table>
@@ -84,30 +121,37 @@
                                             <option value="{{ $role->id }}">{{ $role->role_name }}</option>
                                         @endforeach
                                     </select>
-                                    <label for="roleid" class="error"></label>
+                                    <div for="roleid" class="error"></div>
                                 </div>
 
                                 <div class="form-outline mb-3"><label>Name <font style="color: #097728;">
-                                            (Shop/Service/Customer/Others)</font></label>
+                                            (Seller/Service/Customer/Others)</font></label>
                                     <input type="text" id="s_name" name="s_name"
                                         class="form-control form-control-lg" maxlength="50" placeholder="Name" required
-                                        tabindex="2"  onchange="exstshopname(this.value,'1');" />
-                                    <label for="s_name" class="error"></label>
+                                        tabindex="2" onchange="exstshopname(this.value,'1');" />
+                                    <div for="s_name" class="error"></div>
                                     <div id="existshopname-message" class="text-center" style="display: none;"></div>
                                 </div>
-                                <div class="form-outline mb-3"><label>Mobile Number</label>
-                                    <input type="text" id="s_mobno" name="s_mobno"
-                                        class="form-control form-control-lg" oninput="numberOnlyAllowed(this)"
-                                        maxlength="10" placeholder="Mobile No" required tabindex="3"
-                                        onchange="exstmobno(this.value,'2')" />
-                                    <label for="s_mobno" class="error"></label>
-                                    <div id="smob-message" class="text-center" style="display: none;"></div>
-                                </div>
+                                <label>Mobile Number</label>
+                                    <div class="form-outline mb-3 d-flex">
+                                        <select name="mobcntrycode" id="mobcntrycode" class="form-control"
+                                            style="width: 19%;" required>
+                                            <option value="+91">+91</option>
+                                        </select>
+
+                                        <input type="text" id="s_mobno" name="s_mobno"
+                                            class="form-control form-control-lg" oninput="numberOnlyAllowed(this)"
+                                            maxlength="10" placeholder="Mobile No" required tabindex="3"
+                                            onchange="exstmobno(this.value,'2')" />
+                                        <div for="s_mobno" class="error"></div>
+                                        <div id="smob-message" class="text-center" style="display: none;"></div>
+                                    </div>
+
                                 <div class="form-outline mb-3"><label>Email ID</label>
                                     <input type="email" id="s_email" name="s_email"
                                         class="form-control form-control-lg" maxlength="35" placeholder="Email ID"
                                         tabindex="4" onchange="exstemilid(this.value,'2')" />
-                                    <label for="s_email" class="error"></label>
+                                    <div for="s_email" class="error"></div>
                                     <div id="semil-message" class="text-center" style="display: none;"></div>
                                     <span id="emailid-error" style="color: red;"></span>
                                 </div>
@@ -151,6 +195,36 @@
 
 <script>
     $(document).ready(function() {
+        var table = $('#datatable3').DataTable({
+            initComplete: function() {
+                this.api()
+                    .columns()
+                    .every(function() {
+                        let column = this;
+                        let title = column.footer().textContent;
+                        if (title == "")
+                            return;
+                        // Create input element
+                        let input = document.createElement('input');
+                        input.className = "form-control form-control-lg";
+                        input.type = "text";
+                        input.placeholder = title;
+                        column.footer().replaceChildren(input);
+
+                        // Event listener for user input
+                        input.addEventListener('keyup', () => {
+                            if (column.search() !== this.value) {
+                                column.search(input.value).draw();
+                            }
+                        });
+                    });
+            },
+            "columnDefs": [{
+                "targets": 0,
+                "orderable": false
+            }]
+        });
+
         $('#resetButton').click(function() {
             $('#UserRegForm input, #UserRegForm select').val('');
             $('#UserRegForm .error').text('');
@@ -184,6 +258,9 @@
                 required: true,
                 digits: true,
                 minlength: 10,
+            },
+            mobcntrycode: {
+                required: true,
             },
             s_email: {
                 //required: true,

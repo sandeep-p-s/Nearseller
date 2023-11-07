@@ -55,7 +55,7 @@
                             <table id="datatable" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th>No</th>
+                                        <th>S.No.</th>
                                         <th>Role Title</th>
                                         <th data-sorting="false">Permissions</th>
                                         <th data-sorting="false">Action</th>

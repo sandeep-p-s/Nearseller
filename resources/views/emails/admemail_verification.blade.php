@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Email Verification</title>
+    <title>Accept the terms and conditions</title>
 </head>
 <body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -38,7 +38,7 @@
                 <tr>
                     <td colspan="2" style="padding-left:30px;padding-right:15px;padding-bottom:10px; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 25px;">
                     <h4 style="margin:0;">Dear {{ $userName }},</h4>
-                    <p><b>Verify Your Email Address</b></p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; You have been successfully registered as a service provider at Nearsellers. Please follow the link to confirm your validation and to accept the terms & conditions</p>
                     </td>
                 </tr>
                 <tr>
@@ -70,9 +70,9 @@
                     <table border="0" cellspacing="0" cellpadding="0">
                         <tr>
                         <td align="left" style="border-radius: 3px;" bgcolor="#426899">
-                            <a href="http://nearsellerdemo/verifyMail/{{ $verificationToken }}" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif;
+                            <a href="https://nearsellerdemo/verifyMailTerms/{{ $verificationToken }}" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif;
                             color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; padding: 11px 22px;
-                            border-radius: 2px; border: 1px solid #426899; display: inline-block;">Verify</a>
+                            border-radius: 2px; border: 1px solid #426899; display: inline-block;">Accept</a>
                         </td>
                         </tr>
                     </table>

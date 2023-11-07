@@ -87,6 +87,8 @@ Route::controller(HomeController::class)->group(function () {
     Route::post('regmobnootp', 'MobnoSendOTPRegistration')->name('MobnoSendOTPRegistration');
     Route::post('verifyMobileOTP', 'verifyMobileNoOTPCheck')->name('verifyMobileNoOTP');
 
+    Route::get('verifyMailTerms/{verificationToken}', 'verifyMailTermsCOnditions')->name('verifyMailTerms');
+
 
 
 });

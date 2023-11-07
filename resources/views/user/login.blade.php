@@ -69,7 +69,7 @@
 
 
             <div class="row">
-                <div class="col-lg-5 col-md-6 col-sm-6 text-black">
+                <div class="col-lg-5 col-md-6 col-sm-6 text-black vh-100 overflow-auto">
                     <div class="px-5 pt-5 mt-5 login_logo">
                         <a href="#"><img src="{{ asset('img/header_logo.png') }}"></a>
                     </div>
@@ -101,12 +101,12 @@
                             <div class="radio_class mb-3 ms-3 d-flex justify-content-center gap-3">
                                 <div>
                                     <input type="radio" class="radio" name="x" value="y" id="email"
-                                        checked />
-                                    <label for="y">Login with password</label>
+                                        checked />Login with password
+                                    {{-- <label for="y">Login with password</label> --}}
                                 </div>
                                 <div>
-                                    <input type="radio" class="radio" name="x" value="z" id="mobile" />
-                                    <label for="z">Login with OTP</label>
+                                    <input type="radio" class="radio" name="x" value="z" id="mobile" />Login with OTP
+                                    {{-- <label for="z">Login with OTP</label> --}}
                                 </div>
                             </div>
                         </fieldset>
@@ -124,7 +124,7 @@
                                         class="form-control form-control-lg" placeholder="password" required
                                         maxlength="20" />
                                 </div>
-                                <p class="small mb-5 pb-lg-2 float-end" id="forget"><a class="" href="#"
+                                <p class="small mb-1 pb-lg-2 float-end" id="forget"><a class="" href="#"
                                         style="color:#432791;">Forgot password?</a></p>
                                 <div class="pt-1 mb-4 loginform_btn">
                                     <button class="btn btn-info btn-lg btn-block" type="submit">Login</button>
@@ -173,20 +173,20 @@
                             <div class="radio_class mb-3 ms-3 d-flex justify-content-center gap-3">
                                 <div>
                                     <input type="radio" class="radio" name="h" value="a"
-                                        id="userreg_r" checked />
-                                    <label for="a">User</label>
+                                        id="userreg_r" checked />User
+                                    {{-- <label for="a">User</label> --}}
                                 </div>
 
                                 <div>
                                     <input type="radio" class="radio" name="h" value="b"
-                                        id="sellerreg_r" />
-                                    <label for="b">Seller/Service</label>
+                                        id="sellerreg_r" />Seller/Service
+                                    {{-- <label for="b">Seller/Service</label> --}}
                                 </div>
 
                                 <div style="display: none;">
                                     <input type="radio" class="radio" name="h" value="c"
-                                        id="affiliatereg_r" />
-                                    <label for="c">Affiliate</label>
+                                        id="affiliatereg_r" />Affiliate
+                                    {{-- <label for="c">Affiliate</label> --}}
                                 </div>
 
 
@@ -210,7 +210,7 @@
                                         class="dripicons-checkmark" title="verified"></i>
                                     <i id="nverifiedemailotp" style="display: none;" class="ti-close"
                                         style="color: red; font-size: 22px; font-weight: 900;"></i><br>
-                                    <div for="u_emid" class="error " id="uemil-message"></div>
+                                    <div for="u_emid" class="error" id="uemil-message"></div>
                                     {{-- <div  class="text-center" style="display: none;"></div> --}}
                                 </div>
 
@@ -505,10 +505,15 @@
                                     </div>
                                     <p class="small mb-3 pb-lg-2 float-end" id="login_form_shopfirst">Already have an
                                         account?<a href="#" style="color:#432791;">Sign in</a></p>
-                                    <div class="pt-1 mb-4 loginform_btn">
-                                        <button class="btn btn-primary loginform_btn" type="button"
-                                            id="sellerSecondPage" tabindex="9">Continue</button>
+                                    <div class="input-group" style="margin-left: 24%;">
+                                        <div class="pt-1 mb-4">
+                                            <button class="btn btn-primary loginform_btn" type="button"
+                                                id="sellerSecondPage" tabindex="9">Continue</button>
+                                            <button class="btn btn-primary loginform_btn" type="button"
+                                                id="sellerSecondPageskip" tabindex="9">Skip</button>
+                                        </div>
                                     </div>
+
                                     <div class="form-outline  mb-2">
                                         <div id="shopreg-message" class="text-center" style="display: none;"></div>
                                     </div>
@@ -523,26 +528,27 @@
                                     <div class="form-outline mb-3">
                                         <input type="text" id="s_lisence" name="s_lisence"
                                             class="form-control form-control-lg" maxlength="15"
-                                            placeholder="License Number" tabindex="10"  pattern="^[A-Z0-9/&._%+-]+$" />
-                                        <label for="s_lisence" class="error"></label>
+                                            placeholder="License Number" tabindex="10"
+                                            pattern="^[A-Z0-9/&._%+-]+$" />
+                                        <div for="s_lisence" class="error"></div>
                                     </div>
                                     <div class="form-outline mb-3">
                                         <input type="text" id="s_buldingorhouseno" name="s_buldingorhouseno"
-                                            maxlength="100" class="form-control form-control-lg"
+                                            maxlength="50" class="form-control form-control-lg"
                                             placeholder="Building/House Name & Number" required tabindex="11" />
-                                        <label for="s_buldingorhouseno" class="error"></label>
+                                        <div for="s_buldingorhouseno" class="error"></div>
                                     </div>
                                     <div class="form-outline mb-3">
-                                        <input type="text" id="s_locality" name="s_locality" maxlength="100"
+                                        <input type="text" id="s_locality" name="s_locality" maxlength="50"
                                             class="form-control form-control-lg" placeholder="Locality" required
                                             tabindex="12" />
-                                        <label for="s_locality" class="error"></label>
+                                        <div for="s_locality" class="error"></div>
                                     </div>
                                     <div class="form-outline mb-3">
-                                        <input type="text" id="s_villagetown" name="s_villagetown"
-                                            maxlength="100" class="form-control form-control-lg"
+                                        <input type="text" id="s_villagetown" name="s_villagetown" maxlength="50"
+                                            class="form-control form-control-lg"
                                             placeholder="Village/Town/Municipality" required tabindex="13" />
-                                        <label for="s_villagetown" class="error"></label>
+                                        <div for="s_villagetown" class="error"></div>
                                     </div>
                                     <div class="form-outline mb-3">
                                         <select class="form-select form-control form-control-lg" name="country"
@@ -554,7 +560,7 @@
                                                 </option>
                                             @endforeach
                                         </select>
-                                        <label for="country" class="error"></label>
+                                        <div for="country" class="error"></div>
                                     </div>
                                     <div class="form-outline mb-3">
                                         <select class="form-select form-control form-control-lg" name="state"
@@ -562,7 +568,7 @@
                                             tabindex="15">
 
                                         </select>
-                                        <label for="state" class="error"></label>
+                                        <div for="state" class="error"></div>
                                     </div>
                                     <div class="form-outline mb-3">
                                         <select class="form-select form-control form-control-lg"
@@ -570,33 +576,31 @@
                                             required tabindex="16">
 
                                         </select>
-                                        <label for="district" class="error"></label>
+                                        <div for="district" class="error"></div>
                                     </div>
                                     <div class="form-outline mb-3">
                                         <input type="text" id="s_pincode" name="s_pincode" maxlength="6"
                                             class="form-control form-control-lg" placeholder="Pin Code" required
                                             tabindex="17" />
-                                        <label for="s_pincode" class="error"></label>
+                                        <div for="s_pincode" class="error"></div>
                                     </div>
 
 
 
-                                    <div class="form-outline mb-3"><label>Latitude (Google map location)<span
-                                                class="text-danger">*</span></label>
+                                    <div class="form-outline mb-3">
                                         <input type="text" id="s_googlelatitude" name="s_googlelatitude"
                                             class="form-control form-control-lg"
                                             placeholder="Latitude (Google map location)" required tabindex="18" />
-                                        <label for="s_googlelatitude" class="error"></label>
+                                        <div for="s_googlelatitude" class="error"></div>
                                     </div>
 
 
 
-                                    <div class="form-outline mb-3"><label>Longitude (Google map location)<span
-                                                class="text-danger">*</span></label>
+                                    <div class="form-outline mb-3">
                                         <input type="text" id="s_googlelongitude" name="s_googlelongitude"
                                             class="form-control form-control-lg"
                                             placeholder="Longitude (Google map location)" required tabindex="18" />
-                                        <label for="s_googlelongitude" class="error"></label>
+                                        <div for="s_googlelongitude" class="error"></div>
                                     </div>
 
 
@@ -614,7 +618,7 @@
                                         <input type="file" id="s_photo" multiple="" name="s_photo[]"
                                             class="form-control form-control-lg" placeholder="Shop Photo" required
                                             tabindex="19" accept="image/jpeg, image/png" />
-                                        <label for="s_photo" class="error"></label>
+                                        <div for="s_photo" class="error"></div>
                                     </div>
                                     {{-- <div class="image-preview" style="display: none;">
                                             <img id="preview" src="#" alt="Preview" style="max-width: 100px;" />
@@ -634,23 +638,23 @@
                                         <input type="text" id="s_gstno" name="s_gstno" maxlength="25"
                                             class="form-control form-control-lg" placeholder="GST Number"
                                             tabindex="20" />
-                                        <label for="s_gstno" class="error"></label>
+                                        <div for="s_gstno" class="error"></div>
                                     </div>
                                     <div class="form-outline mb-3">
                                         <input type="text" id="s_panno" name="s_panno" maxlength="12"
                                             class="form-control form-control-lg" placeholder="PAN Number"
                                             tabindex="21" />
-                                        <label for="s_panno" class="error"></label>
+                                        <div for="s_panno" class="error"></div>
                                         <div id="pan-error-message" style="color: red;"></div>
                                     </div>
 
 
-                                    <div class="form-outline mb-3">Establishment Date
+                                    <div class="form-outline mb-3">
                                         <input type="date" id="s_establishdate" name="s_establishdate"
                                             maxlength="10" class="form-control form-control-lg"
                                             placeholder="Establishment Date" tabindex="22"
                                             max="{{ date('Y-m-d') }}" />
-                                        <label for="s_establishdate" class="error"></label>
+                                        <div for="s_establishdate" class="error"></div>
                                     </div>
 
 
@@ -658,13 +662,13 @@
                                         <input tabindex="23" type="password" id="s_paswd" name="s_paswd"
                                             maxlength="10" class="form-control form-control-lg" maxlength="20"
                                             placeholder="Enter Password" required />
-                                        <label for="s_paswd" class="error"></label>
+                                        <div for="s_paswd" class="error"></div>
                                     </div>
                                     <div class="form-outline  mb-2">
                                         <input tabindex="24" type="password" id="s_rpaswd" name="s_rpaswd"
                                             maxlength="10" class="form-control form-control-lg" maxlength="20"
                                             placeholder="Re-Enter password" required />
-                                        <label for="s_rpaswd" class="error"></label>
+                                        <div for="s_rpaswd" class="error"></div>
                                     </div>
 
 
@@ -677,12 +681,14 @@
 
                                     <p class="small mb-3 pb-lg-2 float-end" id="login_form_shopsecond">Already have an
                                         account?<a href="#" style="color:#432791;">Sign in</a></p>
-
-                                    <div class="pt-1 mb-4 loginform_btn btn-group">
-                                        <button class="btn btn-info btn-lg btn-block" type="button"
-                                            id="sellerFirstPage" tabindex="26">Back</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <button class="btn btn-primary loginform_btn mb-2" type="submit"
-                                            tabindex="27">Submit</button>
+                                    <div class="input-group" style="margin-left: 24%;">
+                                        <div class="pt-1 mb-4">
+                                            <button class="btn btn-primary loginform_btn" type="button"
+                                                id="sellerFirstPage"
+                                                tabindex="26">Back</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <button class="btn btn-primary loginform_btn" type="submit"
+                                                tabindex="27">Submit</button>
+                                        </div>
                                     </div>
 
                                 </div>
@@ -808,7 +814,7 @@
 
                                 </div>
 
-                                <p class="small mb-5 pb-lg-2 float-end" id="login_form_afiliate">Already have an
+                                <p class="small mb-1 pb-lg-2 float-end" id="login_form_afiliate">Already have an
                                     account?<a href="#" style="color:#432791;">Sign in</a></p>
                                 <div class="pt-1 mb-4 loginform_btn">
                                     <button class="btn btn-primary loginform_btn mb-2" type="submit"
@@ -1182,6 +1188,7 @@
         $(document).ready(function() {
             $('#country').change(function() {
                 $('#district').empty();
+                $('#state').empty();
                 var countryId = $(this).val();
                 if (countryId) {
                     $.get("/getStates/" + countryId, function(data) {
@@ -1196,6 +1203,7 @@
 
             $('#a_country').change(function() {
                 $('#a_district').empty();
+                $('#a_state').empty();
                 var countryId = $(this).val();
                 if (countryId) {
                     $.get("/getStates/" + countryId, function(data) {
@@ -1210,6 +1218,7 @@
 
 
             $('#state').change(function() {
+                $('#district').empty();
                 var stateId = $(this).val();
                 if (stateId) {
                     $.get("/getDistricts/" + stateId, function(data) {
@@ -1223,6 +1232,7 @@
             });
 
             $('#a_state').change(function() {
+                $('#a_district').empty();
                 var stateId = $(this).val();
                 if (stateId) {
                     $.get("/getDistricts/" + stateId, function(data) {
@@ -1796,7 +1806,7 @@
                     return this.optional(element) || licenceRegex.test(value);
                 },
                 "Invalid license number format. It should be 3 uppercase letters followed by 5 digits, including ','."
-                );
+            );
 
             jQuery.validator.addMethod("validlocality", function(value, element) {
                 var localityRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/;
@@ -2019,6 +2029,29 @@
                 }
             });
 
+
+
+            $("#sellerSecondPageskip").click(function() {
+                // var mobilestatus = $('#s_mobverifystatus').val();
+                // var s_email = $('#s_email').val();
+                // var emailstatus = $('#s_emailverifystatus').val();
+                // if (mobilestatus != 'Y') {
+                //     alert('Mobile number not verified.');
+                //     return false;
+                // }
+                // if (s_email != '') {
+                //     if (emailstatus != 'Y') {
+                //         alert('Email id not verified.');
+                //         return false;
+                //     }
+                // }
+
+                //if ($("#SellerRegForm").valid()) {
+                $("#sellerfirst").hide();
+                $("#sellersecond").show();
+                //}
+            });
+
             $("#sellerFirstPage").click(function() {
                 $("#sellersecond").hide();
                 $("#sellerfirst").show();
@@ -2041,11 +2074,15 @@
                     var emailstatus = $('#s_emailverifystatus').val();
                     if (mobilestatus != 'Y') {
                         alert('Mobile number not verified.');
+                        $('#sellerfirst').show();
+                        $('#sellersecond').hide();
                         return false;
                     }
                     if (s_email != '') {
                         if (emailstatus != 'Y') {
                             alert('Email id not verified.');
+                            $('#sellerfirst').show();
+                            $('#sellersecond').hide();
                             return false;
                         }
                     }

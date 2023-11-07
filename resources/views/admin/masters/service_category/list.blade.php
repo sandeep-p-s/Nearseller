@@ -57,7 +57,7 @@
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr>
-                                        <th>No</th>
+                                        <th>S.No.</th>
                                         <th>Business Category</th>
                                         <th>Business Type</th>
                                         <th>Status</th>

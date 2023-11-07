@@ -16,20 +16,26 @@
 
 
 
-        @if($countmenu==0 && in_array('2', $roleIdsArray))
+
+        @foreach ($userdetails as $userdts)
+
+
+        {{-- @if($countmenu==0 && in_array('2', $roleIdsArray) && $userdts->approved!= 'Y')
         <li><a href="{{ route('admin.shopapprovalsadd', 1) }}"><i data-feather="hhh"
             class="align-self-center menu-icon"></i><span>Sellers Details</span></a></li>
         @endif
 
-        @if($countmenu==0 && in_array('9', $roleIdsArray))
+        @if($countmenu==0 && in_array('9', $roleIdsArray) && $userdts->approved!= 'Y')
         <li><a href="{{ route('admin.shopapprovalsadd', 2) }}"><i data-feather="hhh"
             class="align-self-center menu-icon"></i><span>Services Details</span></a></li>
-        @endif
-        @foreach ($userdetails as $userdts)
+        @endif --}}
+
+
+
             @if (in_array('2', $roleIdsArray) &&
                     $userdts->approved != 'Y' &&
                     $selrdetails->busnes_type == 1 &&
-                    $selrdetails->term_condition == '')
+                    $selrdetails->term_condition != '1')
                 <li><a href="{{ route('admin.shopapprovalsadd', 1) }}"><i data-feather="hhh"
                             class="align-self-center menu-icon"></i><span>Sellers Details</span></a></li>
                 {{-- <li><a href="{{ route('user.changepassword') }}"><i data-feather="hhh"
@@ -38,7 +44,7 @@
             @if (in_array('9', $roleIdsArray) &&
                     $userdts->approved != 'Y' &&
                     $selrdetails->busnes_type == 2 &&
-                    $selrdetails->term_condition == '')
+                    $selrdetails->term_condition != '1')
                 <li><a href="{{ route('admin.shopapprovalsadd', 2) }}"><i data-feather="hhh"
                             class="align-self-center menu-icon"></i><span>Services Details</span></a></li>
                 {{-- <li><a href="{{ route('user.changepassword') }}"><i data-feather="hhh"

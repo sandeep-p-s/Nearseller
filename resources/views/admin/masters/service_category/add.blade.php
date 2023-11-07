@@ -40,7 +40,7 @@
                                 <div class="form-group">
                                     <label for="addShopType">Business Category Name</label>
                                     <input type="text" class="form-control mb-3" id="shop_id"
-                                        placeholder="Enter service category name" name="service_category_name" onchange="existservicecategory(this.value)">
+                                        placeholder="Enter Business category name" name="service_category_name" onchange="existservicecategory(this.value)">
                                         <div id="existcategory-message" class="text-center" style="display: none;"></div>
                                         @error('service_category_name')
                                         <div class="text-danger mb15">{{ $message }}</div>

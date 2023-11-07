@@ -307,7 +307,20 @@ class RoleController extends Controller
         //echo $lastRegId = $query->toSql();exit;
         $allusercount = $alluserdetails->count();
         $roles = DB::table('roles')->where('roles.is_active', '1')->where('id', '!=', 1) ->orderBy('role_name', 'asc')->get();
-        return view('admin.role.user_dets', compact('alluserdetails', 'allusercount', 'roles'));
+
+        $queryactivecounts = UserAccount::select([
+            DB::raw('SUM(CASE WHEN user_status = "Y" THEN 1 ELSE 0 END) AS user_status_y_count'),
+            DB::raw('SUM(CASE WHEN user_status != "Y" THEN 1 ELSE 0 END) AS user_status_not_y_count'),
+            DB::raw('SUM(CASE WHEN approved = "Y" THEN 1 ELSE 0 END) AS approved_y_count'),
+            DB::raw('SUM(CASE WHEN approved != "Y" THEN 1 ELSE 0 END) AS approved_not_y_count'),
+        ]);
+
+        if ($roleid != 1 && $roleid != 11) {
+            $queryactivecounts->where('id', $userId);
+        }
+        $activecounts = $queryactivecounts->first();
+
+        return view('admin.role.user_dets', compact('alluserdetails', 'allusercount', 'roles','activecounts'));
     }
 
     function AdmUserRegistration(Request $request)
@@ -324,6 +337,7 @@ class RoleController extends Controller
         $validatedData = $request->validate([
             's_name' => 'required|max:50',
             's_mobno' => 'required|max:10',
+            'mobcntrycode' => 'required',
             // 's_email' => 'required|email|max:35',
             'roleid' => 'required',
         ]);
@@ -331,6 +345,7 @@ class RoleController extends Controller
         $user->name = ucfirst($request->s_name);
         $user->email = $request->s_email;
         $user->mobno = $request->s_mobno;
+        $user->mob_countrycode = $request->mobcntrycode;
         $pass_characters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'M', 'N', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', '@', '#', "$", '%', '&', '!', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'm', 'n', 'r', 's', 't', 'u', 'v', 'w', 'x', 'z', '2', '3', '4', '5', '6', '7', '8', '9'];
         $passkeys = [];
         while (count($passkeys) < 6) {
@@ -379,6 +394,7 @@ class RoleController extends Controller
                 $sellerDetail->shop_name = ucfirst($request->input('s_name'));
                 $sellerDetail->shop_email = $request->input('s_email');
                 $sellerDetail->shop_mobno = $request->input('s_mobno');
+                $sellerDetail->mob_country_code = $request->input('mobcntrycode');
                 $sellerDetail->busnes_type = $shopservice;
                 $sellerDetail->parent_id = $userId;
                 $sellerDetail->user_id = $last_id;
@@ -488,6 +504,7 @@ class RoleController extends Controller
         $validatedData = $request->validate([
             'es_name' => 'required|max:50',
             'es_mobno' => 'required|max:10',
+            'emobcntrycode'=> 'required',
             // 'es_email' => 'required|email|max:35',
             'eroleid' => 'required',
             'userstatus' => 'required',
@@ -506,6 +523,7 @@ class RoleController extends Controller
             $sellerDetail->shop_name = ucfirst($request->input('es_name'));
             $sellerDetail->shop_email = $request->input('es_email');
             $sellerDetail->shop_mobno = $request->input('es_mobno');
+            $sellerDetail->mob_country_code = $request->input('emobcntrycode');
             $shopreg = $sellerDetail->save();
         } elseif ($request->eroleid == 3) {
             $affiliateid = DB::table('affiliate')
@@ -531,6 +549,7 @@ class RoleController extends Controller
         }
         $user->name = ucfirst($request->es_name);
         $user->role_id = $request->eroleid;
+        $user->mob_countrycode = $request->emobcntrycode;
         $user->user_status = $request->userstatus;
         $user->ip = $loggedUserIp;
         $submt = $user->save();

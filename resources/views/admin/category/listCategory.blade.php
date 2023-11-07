@@ -45,21 +45,41 @@
                 <div id="category_approved-message" class="text-center" style="display: none;"></div>
             </div>
 
+            <style>
+                tfoot {
+                    display: table-caption;
+                }
+
+                tfoot input {
+                    width: 100%;
+                    padding: 3px;
+                    box-sizing: border-box;
+                }
+            </style>
             <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <table id="datatable" class="table table-bordered dt-responsive nowrap"
-                                style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <div class="text-center">
+                                <span class="badge badge-soft-info p-2">
+                                    Total Categories : {{ $total_categories }}
+                                </span>
+                                <span class="badge badge-soft-danger p-2">
+                                    Inactive Categories : {{ $inactive_categories }}
+                                </span>
+                            </div>
+                            <table id="datatable3" class="table table-striped table-bordered" style="width: 100%">
                                 <thead>
                                     <tr>
-                                        <th data-sortable="false"><input type='checkbox' name='checkbox1' id='checkbox1'
-                                                onclick='check();' /></th>
-                                        <th>No</th>
+                                        {{-- <th data-sortable="false"><input type='checkbox' name='checkbox1' id='checkbox1'
+                                                onclick='check();' /></th> --}}
+                                        <th width="5px" data-sorting="true"><input type='checkbox' name='checkbox1'
+                                                id='checkbox1' class="selectAll" onclick='' /></th>
+                                        <th>S.No.</th>
                                         <th>Category Name</th>
                                         <th>Status</th>
                                         <th>Approved</th>
-                                        <th data-sortable="false">Action</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -69,7 +89,8 @@
                                     @foreach ($categories as $index => $c)
                                         <tr>
                                             <td width="5%"><input name="categoryid[]" type="checkbox"
-                                                    id="categoryid{{ $loop->iteration }}" value="{{ $c->id }}" {{ $c->approval_status === 'Y' ? 'checked' : '' }} />
+                                                    id="categoryid{{ $loop->iteration }}" value="{{ $c->id }}"
+                                                    {{ $c->approval_status === 'Y' ? 'checked' : '' }} />
                                             </td>
 
                                             <td width="5%">{{ $loop->iteration }}</td>
@@ -123,6 +144,19 @@
                                         </tr>
                                     @endforeach
                                 </tbody>
+
+                                <tfoot>
+                                    <tr>
+                                        <th style="border: 0px solid #eaf0f7"></th>
+                                        <th style="border: 0px solid #eaf0f7"></th>
+                                        <th style="border: 0px solid #eaf0f7">Category Name</th>
+                                        <th style="border: 0px solid #eaf0f7">Status</th>
+                                        <th style="border: 0px solid #eaf0f7">Approved</th>
+                                        <th style="border: 0px solid #eaf0f7"></th>
+                                    </tr>
+                                </tfoot>
+
+
                             </table>
                             <input type="hidden" value="{{ $totalCategories }}" id="totalservicecnt">
                             @if ($totalCategories > 0)
@@ -145,6 +179,46 @@
         // $('#approveAll').on('click', function() {
         //     serviceapprovedall(); // Call the serviceapprovedall function
         // });
+
+        $(document).ready(function() {
+
+            var table = $('#datatable3').DataTable({
+                initComplete: function() {
+                    this.api()
+                        .columns()
+                        .every(function() {
+                            let column = this;
+                            let title = column.footer().textContent;
+                            if (title == "")
+                                return;
+                            // Create input element
+                            let input = document.createElement('input');
+                            input.className = "form-control form-control-lg";
+                            input.type = "text";
+                            input.placeholder = title;
+                            column.footer().replaceChildren(input);
+
+                            // Event listener for user input
+                            input.addEventListener('keyup', () => {
+                                if (column.search() !== this.value) {
+                                    column.search(input.value).draw();
+                                }
+                            });
+                        });
+                },
+                "columnDefs": [{
+                    "targets": 0,
+                    "orderable": false
+                }]
+            });
+
+
+
+            $(".selectAll").on("click", function(event) {
+                var isChecked = $(this).is(":checked");
+                $("#datatable3 tbody input[type='checkbox']").prop("checked", isChecked);
+            });
+        });
 
 
         function check() {

@@ -56,7 +56,7 @@
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr>
-                                        <th>No</th>
+                                        <th>S.No.</th>
                                         <th>District Name</th>
                                         <th>Status</th>
                                         <th>Action</th>

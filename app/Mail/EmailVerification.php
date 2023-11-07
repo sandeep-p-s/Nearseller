@@ -60,7 +60,7 @@ class EmailVerification extends Mailable
         }
         else if($this->checkval==4)
         {
-            $subject = 'Email ID Verification';
+            $subject = 'Accept the terms and conditions';
             return $this->from('itsuportshyzventures@gmail.com', 'NEAR SELLERS')->subject($subject)->view('emails.admemail_verification');
         }
         else if($this->checkval==5)
@@ -79,7 +79,7 @@ class EmailVerification extends Mailable
             $subject = 'Approved Registered Affiliate';
             return $this->from('itsuportshyzventures@gmail.com', 'NEAR SELLERS')->subject($subject)->view('emails.admaffilate_approved');
         }
-        
+
 
 
 
