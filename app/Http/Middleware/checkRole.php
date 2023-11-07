@@ -21,7 +21,7 @@ class checkRole
         $roleIdsArray = explode(',', $roleid);
         //dd(in_array('9', $roleIdsArray));
         if (
-            (in_array('1', $roleIdsArray)) || (in_array('2', $roleIdsArray)) || (in_array('3', $roleIdsArray)) || (in_array('9', $roleIdsArray)) || (in_array('10', $roleIdsArray)) || (in_array('11', $roleIdsArray))
+            (in_array('1', $roleIdsArray)) || (in_array('2', $roleIdsArray)) || (in_array('3', $roleIdsArray)) || (in_array('9', $roleIdsArray)) || (in_array('10', $roleIdsArray)) || (in_array('11', $roleIdsArray)) || (in_array('4', $roleIdsArray))
         ) {
             return $next($request);
         }
@@ -34,6 +34,8 @@ class checkRole
         //     return $next($request); // User is an admin, allow access
         // }
 
-        abort(403, 'Unauthorized.');
+        //abort(403, 'Unauthorized.');
+        Auth::logout();
+        return redirect('logout');
     }
 }

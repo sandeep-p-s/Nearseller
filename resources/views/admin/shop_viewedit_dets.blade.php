@@ -54,7 +54,7 @@
                     <input type="text" id="es_name" name="es_name" value="{{ $sellerDetails->shop_name }}"
                         class="form-control form-control-lg" maxlength="50" placeholder="Shop Name" required
                         tabindex="1" />
-                    <label for="es_name" class="error"></label>
+                    <div for="es_name" class="error"></div>
                 </div>
 
 
@@ -62,7 +62,7 @@
                     <input type="text" id="es_ownername" name="es_ownername" value="{{ $sellerDetails->owner_name }}"
                         class="form-control form-control-lg" maxlength="50" placeholder="Owner Name" required
                         tabindex="2" />
-                    <label for="s_ownername" class="error"></label>
+                    <div for="s_ownername" class="error"></div>
                 </div>
 
 
@@ -71,14 +71,14 @@
                     <input type="text" id="es_mobno" name="es_mobno" value="{{ $sellerDetails->shop_mobno }}"
                         class="form-control form-control-lg" maxlength="10" placeholder="Mobile No" required
                         tabindex="3" onchange="exstmobno(this.value,'2')" oninput="numberOnlyAllowed(this)" />
-                    <label for="es_mobno" class="error"></label>
+                    <div for="es_mobno" class="error"></div>
                     <div id="esmob-message" class="text-center" style="display: none;"></div>
                 </div>
                 <div class="form-outline mb-3"><label>Email ID</label>
                     <input type="email" id="es_email" name="es_email" value="{{ $sellerDetails->shop_email }}"
                         class="form-control form-control-lg" maxlength="35" placeholder="Email ID" tabindex="4"
                         onchange="exstemilid(this.value,'2')" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"/>
-                    <label for="es_email" class="error"></label>
+                    <div for="es_email" class="error"></div>
                     <div id="esemil-message" class="text-center" style="display: none;"></div>
                 </div>
                 <div class="form-outline mb-3"><label>Referral ID</label>
@@ -97,20 +97,20 @@
                                 {{ $busnes->business_name }}</option>
                         @endforeach
                     </select>
-                    <label for="es_busnestype" class="error"></label>
+                    <div for="es_busnestype" class="error"></div>
                 </div>
-                <div class="form-outline mb-3"><label>{{ $shoporservice }} Category<span
+                <div class="form-outline mb-3"><label>Business Category<span
                             class="text-danger">*</span></label>
                     <select class="form-select form-control form-control-lg" id="es_shopservice"
                         name="es_shopservice" required tabindex="7">
-                        <option value="">{{ $shoporservice }} Category</option><br />
+                        <option value="">Business Category</option><br />
                         @foreach ($shopservicecategory as $shopser)
                             <option value="{{ $shopser->id }}" @if ($shopser->id == $sellerDetails->shop_service_type) selected @endif>
                                 {{ $shopser->service_category_name }}
                             </option>
                         @endforeach
                     </select>
-                    <label for="es_shopservice" class="error"></label>
+                    <div for="es_shopservice" class="error"></div>
                 </div>
 
 
@@ -134,13 +134,13 @@
                             class="text-danger">*</span></label>
                     <select class="form-select form-control form-control-lg" id="es_shopservicetype"
                         name="es_shopservicetype" required tabindex="7">
-                        <option value="">{{ $shoporservice }} Type</option><br />
+                        <option value="">{{ $shoporservice }} Provider Type</option><br />
                         @foreach ($shopservice as $shtypes)
                             <option value="{{ $shtypes->id }}" @if ($shtypes->id == $sellerDetails->shop_type) selected @endif>
                                 {{ $shtypes->service_name }}</option>
                         @endforeach
                     </select>
-                    <label for="es_shopservicetype" class="error"></label>
+                    <div for="es_shopservicetype" class="error"></div>
                 </div>
 
 
@@ -153,7 +153,7 @@
                                 {{ $exec->name }}</option>
                         @endforeach
                     </select>
-                    <label for="es_shopexectename" class="error"></label>
+                    <div for="es_shopexectename" class="error"></div>
                 </div>
 
                 <div class="form-outline mb-3"><label>Social Media</label>
@@ -222,20 +222,20 @@
                         value="{{ $sellerDetails->house_name_no }}" maxlength="100"
                         class="form-control form-control-lg" placeholder="Building/House Name & Number" required
                         tabindex="11" />
-                    <label for="es_buldingorhouseno" class="error"></label>
+                    <div for="es_buldingorhouseno" class="error"></div>
                 </div>
                 <div class="form-outline mb-3"><label>Locality<span class="text-danger">*</span></label>
                     <input type="text" id="es_locality" name="es_locality"
                         value="{{ $sellerDetails->locality }}" maxlength="100" class="form-control form-control-lg"
                         placeholder="Locality" required tabindex="12" />
-                    <label for="es_locality" class="error"></label>
+                    <div for="es_locality" class="error"></div>
                 </div>
                 <div class="form-outline mb-3"><label>Village/Town/Municipality<span
                             class="text-danger">*</span></label>
                     <input type="text" id="es_villagetown" name="es_villagetown"
                         value="{{ $sellerDetails->village }}" maxlength="100" class="form-control form-control-lg"
                         placeholder="Village/Town/Municipality" required tabindex="13" />
-                    <label for="es_villagetown" class="error"></label>
+                    <div for="es_villagetown" class="error"></div>
                 </div>
                 <div class="form-outline mb-3"><label>Country<span class="text-danger">*</span></label>
                     <select class="form-select form-control form-control-lg" name="ecountry"
@@ -246,7 +246,7 @@
                                 {{ $country->country_name }}</option>
                         @endforeach
                     </select>
-                    <label for="ecountry" class="error"></label>
+                    <div for="ecountry" class="error"></div>
                 </div>
                 <div class="form-outline mb-3"><label>State<span class="text-danger">*</span></label>
                     <select class="form-select form-control form-control-lg" name="estate"
@@ -256,7 +256,7 @@
                                 {{ $state->state_name }}</option>
                         @endforeach
                     </select>
-                    <label for="estate" class="error"></label>
+                    <div for="estate" class="error"></div>
                 </div>
                 <div class="form-outline mb-3"><label>District<span class="text-danger">*</span></label>
                     <select class="form-select form-control form-control-lg" aria-label="Default select example"
@@ -266,14 +266,14 @@
                                 {{ $dist->district_name }}</option>
                         @endforeach
                     </select>
-                    <label for="edistrict" class="error"></label>
+                    <div for="edistrict" class="error"></div>
                 </div>
 
                 <div class="form-outline mb-3"><label>Pincode<span class="text-danger">*</span></label>
                     <input type="text" id="es_pincode" name="es_pincode" value="{{ $sellerDetails->pincode }}"
                         maxlength="6" class="form-control form-control-lg" placeholder="Pin Code" required
                         tabindex="17" oninput="numberOnlyAllowed(this)" />
-                    <label for="es_pincode" class="error"></label>
+                    <div for="es_pincode" class="error"></div>
                 </div>
 
 
@@ -292,7 +292,7 @@
                     <input type="text" id="es_googlelatitude" name="es_googlelatitude"
                         value="{{ $sellerDetails->latitude }}" class="form-control form-control-lg"
                         placeholder="Latitude (Google map location)" required tabindex="18" />
-                    <label for="es_googlelatitude" class="error"></label>
+                    <div for="es_googlelatitude" class="error"></div>
                 </div>
 
 
@@ -302,7 +302,7 @@
                     <input type="text" id="es_googlelongitude" name="es_googlelongitude"
                         value="{{ $sellerDetails->longitude }}" class="form-control form-control-lg"
                         placeholder="Longitude (Google map location)" required tabindex="18" />
-                    <label for="es_googlelongitude" class="error"></label>
+                    <div for="es_googlelongitude" class="error"></div>
                 </div>
 
 
@@ -312,7 +312,7 @@
                     <input type="file" id="es_photo" multiple="" name="es_photo[]"
                         class="form-control form-control-lg" placeholder="Shop Photo" tabindex="19"
                         accept="image/jpeg, image/png" />
-                    <label for="es_photo" class="error"></label>
+                    <div for="es_photo" class="error"></div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group" align="left">
@@ -367,7 +367,7 @@
                     <div class="form-outline mb-3"><label>{{ $shoporservice }} Logo</label>
                         <input type="file" id="es_logo" name="es_logo[]" class="form-control form-control-lg"
                             placeholder="Shop Logo" tabindex="19" accept="image/jpeg, image/png" />
-                        <label for="es_logo" class="error"></label>
+                        <div for="es_logo" class="error"></div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group" align="left">
@@ -422,7 +422,7 @@
                         <input type="color" id="es_bgcolor" name="es_bgcolor" id class="form-control"
                             placeholder="{{ $shoporservice }} Background Color" required tabindex="18"
                             value="{{ $sellerDetails->colorpicks }}" />
-                        <label for="es_bgcolor" class="error"></label>
+                        <div for="es_bgcolor" class="error"></div>
                     </div>
                 {{-- @endif --}}
 
@@ -434,20 +434,20 @@
                     <input type="text" id="es_lisence" name="es_lisence"
                         value="{{ $sellerDetails->shop_licence }}" class="form-control form-control-lg"
                         maxlength="15" placeholder="License Number" tabindex="10"  pattern="^[A-Z0-9/&._%+-]+$" />
-                    <label for="es_lisence" class="error"></label>
+                    <div for="es_lisence" class="error"></div>
                 </div>
 
                 <div class="form-outline mb-3"><label>GST Number</label>
                     <input type="text" id="es_gstno" name="es_gstno" value="{{ $sellerDetails->shop_gstno }}"
                         maxlength="25" class="form-control form-control-lg" placeholder="GST Number" maxlength="15"
                         tabindex="20" />
-                    <label for="es_gstno" class="error"></label>
+                    <div for="es_gstno" class="error"></div>
                 </div>
                 <div class="form-outline mb-3"><label>PAN Number</label>
                     <input type="text" id="es_panno" name="es_panno" value="{{ $sellerDetails->shop_panno }}"
                         maxlength="12" class="form-control form-control-lg" placeholder="PAN Number" maxlength="10"
                         tabindex="21" />
-                    <label for="es_panno" class="error"></label>
+                    <div for="es_panno" class="error"></div>
                     <div id="epan-error-message" style="color: red;"></div>
                 </div>
 
@@ -460,7 +460,7 @@
                         value="{{ $sellerDetails->establish_date }}" maxlength="10"
                         class="form-control form-control-lg" placeholder="Establishment Date" tabindex="22"
                         max="{{ date('Y-m-d') }}" />
-                    <label for="es_establishdate" class="error"></label>
+                    <div for="es_establishdate" class="error"></div>
                 </div>
 
 
@@ -637,19 +637,19 @@
                 <div class="form-outline mb-3"><label>Direct Affiliate</label>
                     <input type="text" class="form-control form-control-lg" id="sdirectafflte"
                         name="sdirectafflte" value="{{ $sellerDetails->direct_affiliate }}">
-                    <label for="directafflte" class="error"></label>
+                    <div for="directafflte" class="error"></div>
                 </div>
 
                 <div class="form-outline mb-3"><label>Second Affiliate</label>
                     <input type="text" class="form-control form-control-lg" id="ssecondafflte"
                         name="ssecondafflte" value="{{ $sellerDetails->second_affiliate }}">
-                    <label for="secondafflte" class="error"></label>
+                    <div for="secondafflte" class="error"></div>
                 </div>
 
                 <div class="form-outline mb-3"><label>{{ $shoporservice }} Co-Ordinator</label>
                     <input type="text" class="form-control form-control-lg" id="scoordinater" name="scoordinater"
                         value="{{ $sellerDetails->shop_coordinator }}">
-                    <label for="coordinater" class="error"></label>
+                    <div for="coordinater" class="error"></div>
                 </div>
                 @if (!($roleid == 9 || $roleid == 2))
                     <div class="form-outline mb-3"><label>User Status</label>
@@ -661,17 +661,32 @@
                             </option>
 
                         </select>
-                        <label for="userstatus" class="error"></label>
+                        <div for="userstatus" class="error"></div>
                     </div>
                 @endif
 
 
-                <div class="form-check-inline">
+                {{-- <div class="form-check-inline">
                     <input class="form-check-input" type="checkbox" id="es_termcondtn" name="es_termcondtn"
-                        value="1" required tabindex="25"
+                        value="1" tabindex="25"
                         {{ $sellerDetails->term_condition == 1 ? 'checked' : '' }}>
                     <label class="inlineCheckbox1" for="es_termcondtn"> Accept Terms & Conditions </label>
+                </div> --}}
+
+
+                @php
+                    $requiredval = (session('roleid') == '1' || session('roleid') == '11') ? '' : 'required';
+                @endphp
+                @if (session('roleid') == '1' ||  (session('roleid') == '11'))
+                @else
+                <div class="form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="es_termcondtn"
+                        name="es_termcondtn" value="1" tabindex="26" {{ $sellerDetails->term_condition == 1 ? 'checked' : '' }} {{ $requiredval }}>
+                    <label class="inlineCheckbox1" for="s_termcondtn"> Accept Terms & Conditions
+                        {{-- <span class="text-danger">*</span> --}}
+                    </label>
                 </div>
+                @endif
 
             </div>
 
@@ -852,6 +867,11 @@
 
     $('#es_busnestype').change(function() {
         var busnescategory = $(this).val();
+        if (busnescategory == '' || busnescategory == 0) {
+            $('#es_shopservice').empty();
+            $('#es_shopservicetype').empty();
+
+        }
 
         if (busnescategory) {
             var categry = '';
@@ -863,7 +883,7 @@
             $('#es_subshopservice').empty();
             $.get("/BusinessCategory/" + busnescategory, function(data) {
                 $('#es_shopservice').empty().append(
-                    '<option value="">Select ' + categry + ' Category</option>');
+                    '<option value="">Select Business Category</option>');
                 $.each(data, function(index, shopservice) {
                     $('#es_shopservice').append('<option value="' + shopservice.id +
                         '">' + shopservice.service_category_name + '</option>');
@@ -881,7 +901,7 @@
             }
             $.get("/shopservicetype/" + busnes, function(data) {
                 $('#es_shopservicetype').empty().append(
-                    '<option value="">Select ' + shopcategry + ' Type</option>');
+                    '<option value="">Select ' + shopcategry + ' Provider Type</option>');
                 $.each(data, function(index, servicetype) {
                     $('#es_shopservicetype').append('<option value="' + servicetype
                         .id +
@@ -1338,7 +1358,7 @@
                 }
             },
             es_termcondtn: {
-                required: true,
+                //required: true,
             },
             es_photo: {
                 // required: true,
@@ -1436,9 +1456,9 @@
             es_establishdate: {
                 required: "Please select the establishment date."
             },
-            es_termcondtn: {
-                required: "Please accept the terms and conditions."
-            },
+            // es_termcondtn: {
+            //     required: "Please accept the terms and conditions."
+            // },
             s_panno: {
                 validPAN: "Invalid PAN format. It should be in the format AEDFR2568H"
             },

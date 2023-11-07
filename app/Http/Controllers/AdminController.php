@@ -995,7 +995,7 @@ class AdminController extends Controller
 
         $sellerCount = $sellerDetails->count();
         if ($typeid == 1) {
-            $shoporservice = 'Shops';
+            $shoporservice = 'Seller';
         } elseif ($typeid == 2) {
             $shoporservice = 'Services';
         }
@@ -1017,12 +1017,12 @@ class AdminController extends Controller
         $shopavailable='';
         }
         else{
+
             foreach ($sellerDetails as $sellr)
             {
                 if($sellr->shop_executive!='')
                 {
-                    $executives  = DB::table('user_account')->where(['role_id' => '10'])->where(['id' => $sellr->shop_executive])->first();
-                    //echo $lastRegId = $executives->toSql();exit;
+                    $executives  = DB::table('user_account')->where(['role_id' => 10])->where(['id' => $sellr->shop_executive])->first();
                 }
                 else{
                     $executives=0;
@@ -1033,12 +1033,30 @@ class AdminController extends Controller
             ->get();
             }
         }
-        return view('admin.shop_dets', compact('sellerDetails', 'sellerCount', 'countries', 'business', 'shoporservice', 'typeid','shopservicecategory','shopservice','executives','shopavailable'));
+
+        $queryactivecounts = UserAccount::select([
+            DB::raw('SUM(CASE WHEN user_status = "Y" THEN 1 ELSE 0 END) AS user_status_y_count'),
+            DB::raw('SUM(CASE WHEN user_status != "Y" THEN 1 ELSE 0 END) AS user_status_not_y_count'),
+            DB::raw('SUM(CASE WHEN approved = "Y" THEN 1 ELSE 0 END) AS approved_y_count'),
+            DB::raw('SUM(CASE WHEN approved != "Y" THEN 1 ELSE 0 END) AS approved_not_y_count'),
+        ])
+        ->leftJoin('seller_details', 'user_account.id', '=', 'seller_details.user_id')
+        ->where('seller_details.busnes_type', $typeid);
+
+        if ($roleid != 1 && $roleid != 11) {
+            $queryactivecounts->where('user_account.id', $userId);
+        }
+        $activecounts = $queryactivecounts->first();
+
+        //echo $lastRegId = $queryactivecounts->toSql();
+
+        return view('admin.shop_dets', compact('sellerDetails', 'sellerCount', 'countries', 'business', 'shoporservice', 'typeid','shopservicecategory','shopservice','executives','shopavailable','activecounts'));
     }
 
     function AdmsellerRegisterationPage(Request $request)
     {
         $userRole = session('user_role');
+        $roleid = session('roleid');
         $userId = session('user_id');
         if ($userId == '') {
             return redirect()->route('logout');
@@ -1077,7 +1095,7 @@ class AdminController extends Controller
             's_establishdate' => $request->input('typeidhid') == 1 ? 'required|date' : 'nullable|date',
             // 's_paswd' => 'required|max:10',
             // 's_rpaswd' => 'required|same:s_paswd',
-            's_termcondtn' => 'accepted',
+            //'s_termcondtn' => 'accepted',
         ]);
         if ($request->s_email == '' || $request->s_email == '0') {
             $emailivalue = 'hyzvinukumar@gmail.com';
@@ -1154,8 +1172,8 @@ class AdminController extends Controller
             $sellerDetail->term_condition = $request->has('s_termcondtn') ? 1 : 0;
             $sellerDetail->shop_licence = $request->input('s_lisence');
             $sellerDetail->house_name_no = $request->input('s_buldingorhouseno');
-            $sellerDetail->locality = $request->input('s_locality');
-            $sellerDetail->village = $request->input('s_villagetown');
+            $sellerDetail->locality = ucfirst($request->input('s_locality'));
+            $sellerDetail->village = ucfirst($request->input('s_villagetown'));
             $sellerDetail->country = $request->input('country');
             $sellerDetail->state = $request->input('state');
             $sellerDetail->district = $request->input('district');
@@ -1172,9 +1190,9 @@ class AdminController extends Controller
             // $sellerDetail->open_close_time = $openclosdsetime;
             // $sellerDetail->registration_date = $request->input('s_registerdate');
             // $sellerDetail->manufactoring_details = $request->input('manufactringdets');
-            $sellerDetail->direct_affiliate = $request->input('directafflte');
-            $sellerDetail->second_affiliate = $request->input('secondafflte');
-            $sellerDetail->shop_coordinator = $request->input('coordinater');
+            $sellerDetail->direct_affiliate = ucfirst($request->input('directafflte'));
+            $sellerDetail->second_affiliate = ucfirst($request->input('secondafflte'));
+            $sellerDetail->shop_coordinator = ucfirst($request->input('coordinater'));
             $sellerDetail->colorpicks = $request->input('s_bgcolor');
             $sellerDetail->seller_approved = 'Y';
 
@@ -1268,14 +1286,20 @@ class AdminController extends Controller
             }
 
             if ($request->s_email == '' || $request->s_email == '0') {
+
+
             } else {
-                $valencodemm = $lastRegId . '-' . $request->s_email;
-                $valsmm = base64_encode($valencodemm);
-                $verificationToken = base64_encode($last_id . '-' . $request->s_email . '-' . $pass_chars . '-' . $refer_chars);
-                $checkval = '4';
-                $message = '';
-                $email = new EmailVerification($verificationToken, $request->s_name, $request->s_email, $checkval, $message);
-                Mail::to($request->s_email)->send($email);
+                    if ($roleid == 1 || $roleid == 11) {
+                    $valencodemm = $lastRegId . '-' . $request->s_email;
+                    $valsmm = base64_encode($valencodemm);
+                    $verificationToken = base64_encode($last_id . '-' . $request->s_email . '-' . $pass_chars . '-' . $refer_chars);
+                    $checkval = '4';
+                    $message = '';
+                    $email = new EmailVerification($verificationToken, $request->s_name, $request->s_email, $checkval, $message);
+                    Mail::to($request->s_email)->send($email);
+                }
+
+
             }
         } else {
         }
@@ -1335,7 +1359,7 @@ class AdminController extends Controller
             ->where('seller_id', $sellerDetails->id)
             ->get();
         if ($typeid == 1) {
-            $shoporservice = 'Shops';
+            $shoporservice = 'Seller';
         } elseif ($typeid == 2) {
             $shoporservice = 'Services';
         }
@@ -1434,7 +1458,7 @@ class AdminController extends Controller
             'es_establishdate' => $request->input('etypeidhid') == 1 ? 'required|date' : 'nullable|date',
             // 's_paswd' => 'required|max:10',
             // 's_rpaswd' => 'required|same:s_paswd',
-            'es_termcondtn' => 'accepted',
+            //'es_termcondtn' => 'accepted',
         ]);
         $shopid = $request->shopidhid;
         //$user   = UserAccount::find($shopid);
@@ -1453,8 +1477,8 @@ class AdminController extends Controller
         $sellerDetail->term_condition = $request->has('es_termcondtn') ? 1 : 0;
         $sellerDetail->shop_licence = $request->input('es_lisence');
         $sellerDetail->house_name_no = $request->input('es_buldingorhouseno');
-        $sellerDetail->locality = $request->input('es_locality');
-        $sellerDetail->village = $request->input('es_villagetown');
+        $sellerDetail->locality = ucfirst($request->input('es_locality'));
+        $sellerDetail->village = ucfirst($request->input('es_villagetown'));
         $sellerDetail->country = $request->input('ecountry');
         $sellerDetail->state = $request->input('estate');
         $sellerDetail->district = $request->input('edistrict');
@@ -1653,7 +1677,7 @@ class AdminController extends Controller
             ->where('seller_id', $sellerDetails->id)
             ->get();
         if ($typeid == 1) {
-            $shoporservice = 'Shops';
+            $shoporservice = 'Seller';
         } elseif ($typeid == 2) {
             $shoporservice = 'Services';
         }
@@ -1951,7 +1975,7 @@ class AdminController extends Controller
             ->where('id', $userId)
             ->get();
         if ($typeid == 1) {
-            $shoporservice = 'Shops';
+            $shoporservice = 'Seller';
         } elseif ($typeid == 2) {
             $shoporservice = 'Services';
         } else {
@@ -1998,7 +2022,13 @@ class AdminController extends Controller
             ->leftJoin('state', 'state.id', 'seller_details.state')
             ->leftJoin('district', 'district.id', 'seller_details.district');
 
+        // $roleIdsArray = explode(',', $roleid);
+        // if (in_array('2', $roleIdsArray)) {
 
+        // }
+        // if (in_array('9', $roleIdsArray)) {
+
+        // }
         if ($roleid == 1  || $roleid == 11) {
         } else {
             $query->where('seller_details.user_id', $userId);
@@ -2017,7 +2047,7 @@ class AdminController extends Controller
 
         $sellerCount = $sellerDetails->count();
         if ($typeid == 1) {
-            $shoporservice = 'Shops';
+            $shoporservice = 'Seller';
         } elseif ($typeid == 2) {
             $shoporservice = 'Services';
         }
@@ -2107,7 +2137,7 @@ class AdminController extends Controller
 
         $sellerCount = $sellerDetails->count();
         if ($typeid == 1) {
-            $shoporservice = 'Shops';
+            $shoporservice = 'Seller';
         } elseif ($typeid == 2) {
             $shoporservice = 'Services';
         }

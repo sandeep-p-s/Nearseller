@@ -38,7 +38,7 @@
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Seller/Service Provider Type</label>
                                     <input type="text" class="form-control mb-3" id="service_name" name="service_name"
-                                        placeholder="Enter service type" value="{{ $servicetype->service_name }}" onchange="existservicecategory(this.value)">
+                                        placeholder="Enter Seller/Service type" value="{{ $servicetype->service_name }}" onchange="existservicecategory(this.value)">
                                         <div id="existcategory-message" class="text-center" style="display: none;"></div>
 
                                         @error('service_name')

@@ -1305,8 +1305,8 @@ class HomeController extends Controller
                 $sellerDetail->term_condition = $request->has('s_termcondtn') ? 1 : 0;
                 $sellerDetail->shop_licence = $request->input('s_lisence');
                 $sellerDetail->house_name_no = $request->input('s_buldingorhouseno');
-                $sellerDetail->locality = $request->input('s_locality');
-                $sellerDetail->village = $request->input('s_villagetown');
+                $sellerDetail->locality = ucfirst($request->input('s_locality'));
+                $sellerDetail->village = ucfirst($request->input('s_villagetown'));
                 $sellerDetail->country = $request->input('country');
                 $sellerDetail->state = $request->input('state');
                 $sellerDetail->district = $request->input('district');
@@ -1816,6 +1816,65 @@ class HomeController extends Controller
 
 
 
+        }
+
+
+        public function verifyMailTermsCOnditions($typevas)
+        {
+            $typevals = urldecode($typevas);
+            $typevals = base64_decode($typevals);
+            $exlodval = explode('-', $typevals);
+            //echo "<pre>";print_r($exlodval);exit;
+            $userregid = $exlodval[0];
+            $username = $exlodval[1];
+            $loggedUserIp = $_SERVER['REMOTE_ADDR'];
+            $time=date('Y-m-d H:i:s');
+            $userAccuntModel = new UserAccount();
+            $LogDetails = new LogDetails();
+            $userAccuntData = $userAccuntModel->select('id','user_status')->where(['id' => $userregid, 'email' => $username])->get();
+            $countm = $userAccuntData->count();
+            if ($countm > 0) {
+                $userchkid = $userAccuntData[0]->id;
+                $data = [
+                    'active_date' => date('Y-m-d'),
+                    'email_verify' => 'Y',
+                    'approved' => 'Y',
+                    'approved_by' => '1',
+                    'approved_at' => $time,
+
+
+                ];
+                $userAccuntModel->where('id', $userchkid)->update($data);
+                $sellerDetail = SellerDetails::where('user_id', $userchkid)->first();
+                if ($sellerDetail) {
+                    $sellerDetail->update([
+                        'term_condition' => 1,
+                        'seller_approved' => 'Y'
+                    ]);
+                }
+                $msg = "Accept Terms and Conditions Successfully Approved. Approved Email ID : " . $username . " User Reg ID " . $userregid;
+                $logdata = [
+                    'user_id'       => $username,
+                    'ip_address'    => $loggedUserIp,
+                    'log_time'      => $time,
+                    'status'        => $msg
+                ];
+
+                $LogDetails->insert($logdata);
+                return redirect()->route('login')->with('success', 'Accept Terms and Conditions is Approved. You can now login to your account.');
+
+            } else {
+                $msg = "Accept Terms & Conditions Approved Failed. Approved Failed Email ID : " . $username . " User Reg ID " . $userregid;
+
+                $logdata = [
+                    'user_id'       => $username,
+                    'ip_address'    => $loggedUserIp,
+                    'log_time'      => $time,
+                    'status'        => $msg
+                ];
+                $LogDetails->insert($logdata);
+                return redirect()->route('login')->withErrors(['error' => 'Accept Terms and Conditions Approved Failed. Please check your Details.']);
+            }
         }
 
 

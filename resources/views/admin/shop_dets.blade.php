@@ -180,7 +180,7 @@
                                     </div>
                                 </div>
                             @endif
-                            @if ($executivesm == '0' || $executivesm=='')
+                            @if ($executivesm == '0' || $executivesm == '')
                             @else
                                 <div class="form-group row">
                                     <label class="col-xl-6 col-lg-6 ">{{ $shoporservice }} Executive Name</label>
@@ -385,16 +385,35 @@
 @if (in_array('1', $roleIdsArray) || in_array('11', $roleIdsArray))
 
     @if ($sellerCount > 0)
-    <style>
-        tfoot {
-    display: table-caption;
-}
-        tfoot input {
-         width: 100%;
-         padding: 3px;
-         box-sizing: border-box;
-     }
-             </style>
+        <style>
+            tfoot {
+                display: table-caption;
+            }
+
+            tfoot input {
+                width: 100%;
+                padding: 3px;
+                box-sizing: border-box;
+            }
+        </style>
+        @if (session('roleid') == '1' || session('roleid') == '11')
+            <div class="text-center">
+                <span class="badge badge-soft-info p-2">
+                    Total Active {{ $shoporservice }} : {{ $activecounts->user_status_y_count }}
+                </span>
+                <span class="badge badge-soft-danger p-2">
+                    Total Inactive {{ $shoporservice }} : {{ $activecounts->user_status_not_y_count }}
+                </span>
+                <span class="badge badge-soft-info p-2">
+                    Total Approved {{ $shoporservice }} : {{ $activecounts->approved_y_count }}
+                </span>
+                <span class="badge badge-soft-danger p-2">
+                    Total Not Approved {{ $shoporservice }} : {{ $activecounts->approved_not_y_count }}
+                </span>
+            </div>
+        @endif
+
+
         <table id="datatable3" class="table table-striped table-bordered" style="width: 100%">
             <thead>
                 <tr>
@@ -470,7 +489,7 @@
                 @endforeach
             </tbody>
             <tfoot>
-                <tr >
+                <tr>
                     @if (session('roleid') == '1' || session('roleid') == '11')
                         {{-- <th width="5px"><input type='checkbox' name='checkbox1' id='checkbox1'
                                 onclick='check();' /> --}}
@@ -542,7 +561,7 @@
                                             class="form-control form-control-lg" maxlength="50"
                                             placeholder="{{ $shoporservice }} Name" required tabindex="1"
                                             onchange="exstshopname(this.value,'1')" />
-                                        <label for="s_name" class="error"></label>
+                                        <div for="s_name" class="error"></div>
                                         <div id="existshopname-message" class="text-center" style="display: none;">
                                         </div>
                                     </div>
@@ -552,7 +571,7 @@
                                         <input type="text" id="s_ownername" name="s_ownername"
                                             class="form-control form-control-lg" maxlength="50"
                                             placeholder="Owner Name" required tabindex="2" />
-                                        <label for="s_ownername" class="error"></label>
+                                        <div for="s_ownername" class="error"></div>
                                     </div>
 
                                     <div class="form-outline mb-3"><label>Mobile Number<span
@@ -561,15 +580,16 @@
                                             class="form-control form-control-lg" maxlength="10"
                                             placeholder="Mobile No" required tabindex="3"
                                             onchange="exstmobno(this.value,'2')" oninput="numberOnlyAllowed(this)" />
-                                        <label for="s_mobno" class="error"></label>
+                                        <div for="s_mobno" class="error"></div>
                                         <div id="smob-message" class="text-center" style="display: none;"></div>
                                     </div>
                                     <div class="form-outline mb-3"><label>Email ID</label>
                                         <input type="email" id="s_email" name="s_email"
                                             class="form-control form-control-lg" maxlength="35"
                                             placeholder="Email ID" tabindex="4"
-                                            onchange="exstemilid(this.value,'2')" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"/>
-                                        <label for="s_email" class="error"></label>
+                                            onchange="exstemilid(this.value,'2')"
+                                            pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
+                                        <div for="s_email" class="error"></div>
                                         <div id="semil-message" class="text-center" style="display: none;"></div>
                                     </div>
                                     <div class="form-outline mb-3"><label>Referral ID</label>
@@ -589,20 +609,20 @@
                                                     {{ $busnes->business_name }}</option>
                                             @endforeach
                                         </select>
-                                        <label for="s_busnestype" class="error"></label>
+                                        <div for="s_busnestype" class="error"></div>
                                     </div>
-                                    <div class="form-outline mb-3"><label>{{ $shoporservice }} Category<span
+                                    <div class="form-outline mb-3"><label>Business Category<span
                                                 class="text-danger">*</span></label>
                                         <select class="form-select form-control form-control-lg" id="s_shopservice"
                                             name="s_shopservice" required tabindex="7">
-                                            <option value="">{{ $shoporservice }} Category</option><br />
+                                            <option value="">Business Category</option><br />
                                             @foreach ($shopservicecategory as $shopser)
                                                 <option value="{{ $shopser->id }}">
                                                     {{ $shopser->service_category_name }}
                                                 </option>
                                             @endforeach
                                         </select>
-                                        <label for="s_shopservice" class="error"></label>
+                                        <div for="s_shopservice" class="error"></div>
                                     </div>
 
 
@@ -618,17 +638,17 @@
                                 </div> --}}
 
 
-                                    <div class="form-outline mb-3"><label>{{ $shoporservice }} Type<span
+                                    <div class="form-outline mb-3"><label>{{ $shoporservice }} Provider Type<span
                                                 class="text-danger">*</span></label>
                                         <select class="form-select form-control form-control-lg"
                                             id="s_shopservicetype" name="s_shopservicetype" required tabindex="7">
-                                            <option value="">{{ $shoporservice }} Type</option><br />
+                                            <option value="">{{ $shoporservice }} Provider Type</option><br />
                                             @foreach ($shopservice as $shtypes)
                                                 <option value="{{ $shtypes->id }}">{{ $shtypes->service_name }}
                                                 </option>
                                             @endforeach
                                         </select>
-                                        <label for="s_shopservicetype" class="error"></label>
+                                        <div for="s_shopservicetype" class="error"></div>
                                     </div>
 
 
@@ -640,7 +660,7 @@
                                                 <option value="{{ $exec->id }}">{{ $exec->name }}</option>
                                             @endforeach
                                         </select>
-                                        <label for="s_shopexectename" class="error"></label>
+                                        <div for="s_shopexectename" class="error"></div>
                                     </div>
 
                                     <div class="form-outline mb-3"><label>Social Media</label>
@@ -680,21 +700,21 @@
                                         <input type="text" id="s_buldingorhouseno" name="s_buldingorhouseno"
                                             maxlength="100" class="form-control form-control-lg"
                                             placeholder="Building/House Name & Number" required tabindex="11" />
-                                        <label for="s_buldingorhouseno" class="error"></label>
+                                        <div for="s_buldingorhouseno" class="error"></div>
                                     </div>
                                     <div class="form-outline mb-3"><label>Locality<span
                                                 class="text-danger">*</span></label>
                                         <input type="text" id="s_locality" name="s_locality" maxlength="100"
                                             class="form-control form-control-lg"placeholder="Locality" required
                                             tabindex="12" />
-                                        <label for="s_locality" class="error"></label>
+                                        <div for="s_locality" class="error"></div>
                                     </div>
                                     <div class="form-outline mb-3"><label>Village/Town/Municipality<span
                                                 class="text-danger">*</span></label>
                                         <input type="text" id="s_villagetown" name="s_villagetown"
                                             maxlength="100" class="form-control form-control-lg"
                                             placeholder="Village/Town/Municipality" required tabindex="13" />
-                                        <label for="s_villagetown" class="error"></label>
+                                        <div for="s_villagetown" class="error"></div>
                                     </div>
                                     <div class="form-outline mb-3"><label>Country<span
                                                 class="text-danger">*</span></label>
@@ -707,7 +727,7 @@
                                                 </option>
                                             @endforeach
                                         </select>
-                                        <label for="country" class="error"></label>
+                                        <div for="country" class="error"></div>
                                     </div>
                                     <div class="form-outline mb-3"><label>State<span
                                                 class="text-danger">*</span></label>
@@ -716,7 +736,7 @@
                                             tabindex="15">
 
                                         </select>
-                                        <label for="state" class="error"></label>
+                                        <div for="state" class="error"></div>
                                     </div>
                                     <div class="form-outline mb-3"><label>District<span
                                                 class="text-danger">*</span></label>
@@ -725,14 +745,14 @@
                                             required tabindex="16">
 
                                         </select>
-                                        <label for="district" class="error"></label>
+                                        <div for="district" class="error"></div>
                                     </div>
                                     <div class="form-outline mb-3"><label>Pincode<span
                                                 class="text-danger">*</span></label>
                                         <input type="text" id="s_pincode" name="s_pincode" maxlength="6"
                                             class="form-control form-control-lg" placeholder="Pin Code" required
                                             tabindex="17" oninput="numberOnlyAllowed(this)" />
-                                        <label for="s_pincode" class="error"></label>
+                                        <div for="s_pincode" class="error"></div>
                                     </div>
 
 
@@ -741,7 +761,7 @@
                                         <input type="text" id="s_googlelatitude" name="s_googlelatitude"
                                             class="form-control form-control-lg"
                                             placeholder="Latitude (Google map location)" required tabindex="18" />
-                                        <label for="s_googlelatitude" class="error"></label>
+                                        <div for="s_googlelatitude" class="error"></div>
                                     </div>
 
 
@@ -751,7 +771,7 @@
                                         <input type="text" id="s_googlelongitude" name="s_googlelongitude"
                                             class="form-control form-control-lg"
                                             placeholder="Longitude (Google map location)" required tabindex="18" />
-                                        <label for="s_googlelongitude" class="error"></label>
+                                        <div for="s_googlelongitude" class="error"></div>
                                     </div>
 
 
@@ -761,7 +781,7 @@
                                         <input type="file" id="s_photo" multiple="" name="s_photo[]"
                                             class="form-control form-control-lg" placeholder="Shop Photo" required
                                             tabindex="19" accept="image/jpeg, image/png" />
-                                        <label for="s_photo" class="error"></label>
+                                        <div for="s_photo" class="error"></div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group" align="left">
@@ -773,7 +793,7 @@
                                         <input type="file" id="s_logo" name="s_logo[]"
                                             class="form-control form-control-lg" placeholder="Shop Logo"
                                             tabindex="19" accept="image/jpeg, image/png" />
-                                        <label for="s_logo" class="error"></label>
+                                        <div for="s_logo" class="error"></div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group" align="left">
@@ -785,7 +805,7 @@
                                         <input type="color" id="s_bgcolor" name="s_bgcolor" id
                                             class="form-control" placeholder="{{ $shoporservice }} Background Color"
                                             required tabindex="18" />
-                                        <label for="s_bgcolor" class="error"></label>
+                                        <div for="s_bgcolor" class="error"></div>
                                     </div>
 
                                 </div>
@@ -794,22 +814,23 @@
                                     <div class="form-outline mb-3"><label>{{ $shoporservice }} License Number</label>
                                         <input type="text" id="s_lisence" name="s_lisence"
                                             class="form-control form-control-lg" maxlength="15"
-                                            placeholder="{{ $shoporservice }} License Number" tabindex="10" pattern="^[A-Z0-9/&._%+-]+$"/>
-                                        <label for="s_lisence" class="error"></label>
+                                            placeholder="{{ $shoporservice }} License Number" tabindex="10"
+                                            pattern="^[A-Z0-9/&._%+-]+$" />
+                                        <div for="s_lisence" class="error"></div>
                                     </div>
 
                                     <div class="form-outline mb-3"><label>GST Number</label>
                                         <input type="text" id="s_gstno" name="s_gstno" maxlength="15"
                                             class="form-control form-control-lg" placeholder="GST Number"
                                             tabindex="20" />
-                                        <label for="s_gstno" class="error"></label>
+                                        <div for="s_gstno" class="error"></div>
                                         <div id="gst-error-message" style="color: red;"></div>
                                     </div>
                                     <div class="form-outline mb-3"><label>PAN Number</label>
                                         <input type="text" id="s_panno" name="s_panno" maxlength="10"
                                             class="form-control form-control-lg" placeholder="PAN Number"
                                             tabindex="21" />
-                                        <label for="s_panno" class="error"></label>
+                                        <div for="s_panno" class="error"></div>
                                         {{-- <div id="pan-error-message" style="color: red;"></div> --}}
                                     </div>
 
@@ -822,7 +843,7 @@
                                             maxlength="10" class="form-control form-control-lg"
                                             placeholder="Establishment Date" tabindex="22"
                                             max="{{ date('Y-m-d') }}" />
-                                        <label for="s_establishdate" class="error"></label>
+                                        <div for="s_establishdate" class="error"></div>
                                     </div>
 
 
@@ -925,10 +946,10 @@
                                                             <span class="fas fa-plus"></span> Add New Time
                                                         </span>
                                                         {{-- @if (session('roleid') == 1) --}}
-                                                            <button type="button" id="addSameTiming"
-                                                                class="btn btn-primary btn-sm">
-                                                                Add Same Timing for All Days
-                                                            </button>
+                                                        <button type="button" id="addSameTiming"
+                                                            class="btn btn-primary btn-sm">
+                                                            Add Same Timing for All Days
+                                                        </button>
                                                         {{-- @endif --}}
 
                                                     </div>
@@ -959,28 +980,36 @@
                                     <div class="form-outline mb-3"><label>Direct Affiliate</label>
                                         <input type="text" class="form-control form-control-lg" id="directafflte"
                                             name="directafflte">
-                                        <label for="directafflte" class="error"></label>
+                                        <div for="directafflte" class="error"></div>
                                     </div>
 
                                     <div class="form-outline mb-3"><label>Second Affiliate</label>
                                         <input type="text" class="form-control form-control-lg" id="secondafflte"
                                             name="secondafflte">
-                                        <label for="secondafflte" class="error"></label>
+                                        <div for="secondafflte" class="error"></div>
                                     </div>
 
                                     <div class="form-outline mb-3"><label>Co-Ordinator</label>
                                         <input type="text" class="form-control form-control-lg" id="coordinater"
                                             name="coordinater">
-                                        <label for="coordinater" class="error"></label>
+                                        <div for="coordinater" class="error"></div>
                                     </div>
 
-                                    <div class="form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="s_termcondtn"
-                                            name="s_termcondtn" value="1" required tabindex="26">
-                                        <label class="inlineCheckbox1" for="s_termcondtn"> Accept Terms &
-                                            Conditions<span class="text-danger">*</span>
-                                        </label>
-                                    </div>
+                                    @php
+                                        $requiredval = session('roleid') == '1' || session('roleid') == '11' ? '' : 'required';
+                                    @endphp
+                                    @if (session('roleid') == '1' || session('roleid') == '11')
+                                    @else
+                                        <div class="form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="s_termcondtn"
+                                                name="s_termcondtn" value="1" tabindex="26"
+                                                {{ $requiredval }}>
+                                            <label class="inlineCheckbox1" for="s_termcondtn"> Accept Terms &
+                                                Conditions
+                                                {{-- <span class="text-danger">*</span> --}}
+                                            </label>
+                                        </div>
+                                    @endif
 
                                 </div>
 
@@ -1143,7 +1172,7 @@
                             return;
                         // Create input element
                         let input = document.createElement('input');
-                        input.className ="form-control form-control-lg";
+                        input.className = "form-control form-control-lg";
                         input.type = "text";
                         input.placeholder = title;
                         column.footer().replaceChildren(input);
@@ -1367,9 +1396,8 @@
         if (busnescategory == '' || busnescategory == 0) {
             $('#s_shopservice').empty();
             $('#s_shopservicetype').empty();
-            $('#s_shopexectename').empty();
-        }
 
+        }
         if (busnescategory) {
             var categry = '';
             if (busnescategory == 1) {
@@ -1380,7 +1408,7 @@
             $('#s_subshopservice').empty();
             $.get("/BusinessCategory/" + busnescategory, function(data) {
                 $('#s_shopservice').empty().append(
-                    '<option value="">Select ' + categry + ' Category</option>');
+                    '<option value="">Select Business Category</option>');
                 $.each(data, function(index, shopservice) {
                     $('#s_shopservice').append('<option value="' + shopservice.id +
                         '">' + shopservice.service_category_name + '</option>');
@@ -1398,7 +1426,7 @@
             }
             $.get("/shopservicetype/" + busnes, function(data) {
                 $('#s_shopservicetype').empty().append(
-                    '<option value="">Select ' + shopcategry + ' Type</option>');
+                    '<option value="">Select ' + shopcategry + ' Provider Type</option>');
                 $.each(data, function(index, servicetype) {
                     $('#s_shopservicetype').append('<option value="' + servicetype
                         .id +
@@ -1811,7 +1839,7 @@
                 }
             },
             s_termcondtn: {
-                required: true,
+                //required: true,
             },
             s_photo: {
                 required: true,
@@ -1925,14 +1953,11 @@
             s_googlelongitude: {
                 required: "Please enter google map location - Longitude."
             },
-            s_termcondtn: {
-                required: "Please accept the terms and conditions."
-            },
+            // s_termcondtn: {
+            //     required: "Please accept the terms and conditions."
+            // },
             s_establishdate: {
                 required: "Please select the establishment date."
-            },
-            s_termcondtn: {
-                required: "Please accept the terms and conditions."
             },
             s_panno: {
                 validPAN: "Invalid PAN format. It should be in the format AEDFR2568H"
