@@ -201,7 +201,7 @@
                                         required />
                                     <div for="u_name" class="error"></div>
                                 </div>
-                                <div class="form-outline mb-2" style="display: flex;">
+                                <div class="form-outline mb-2">
                                     <input tabindex="2" type="email" id="u_emid" name="u_emid"
                                         class="form-control form-control-lg" maxlength="50" placeholder="Enter Email"
                                         required onchange="exstemilid(this.value,'1')"
@@ -209,8 +209,11 @@
                                     <i id="verifiedemailotp" style="display: none;color: green; font-size: 29px;"
                                         class="dripicons-checkmark" title="verified"></i>
                                     <i id="nverifiedemailotp" style="display: none;" class="ti-close"
-                                        style="color: red; font-size: 22px; font-weight: 900;"></i><br>
-                                    <div for="u_emid" class="error" id="uemil-message"></div>
+                                        style="color: red; font-size: 22px; font-weight: 900;"></i>
+                                        <div class="form-group">
+                                            <div for="u_emid" class="error" id="uemil-message"></div>
+                                        </div>
+                                    {{-- <div for="u_emid" class="error" id="uemil-message"></div> --}}
                                     {{-- <div  class="text-center" style="display: none;"></div> --}}
                                 </div>
 
