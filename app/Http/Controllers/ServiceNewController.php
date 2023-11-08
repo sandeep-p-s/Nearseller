@@ -79,6 +79,51 @@ class ServiceNewController extends Controller
         return response()->json(['result' => 3, 'mesge' => 'Total stock and attribute stock must be equal.']);
     }
 
+    // function AllServiceProductList(Request $request)
+    // {
+    //     $userRole = session('user_role');
+    //     $roleid = session('roleid');
+    //     $userId = session('user_id');
+    //     if ($userId == '') {
+    //         return redirect()->route('logout');
+    //     }
+    //     $query = ServiceDetails::select('service_details.*', 'seller_details.shop_name as shopname', 'seller_details.owner_name', 'service_categories.service_category_name')
+    //     ->leftJoin('seller_details', 'seller_details.user_id', 'service_details.service_id')
+    //     ->leftJoin('service_categories', 'service_categories.id', 'seller_details.shop_service_type');
+
+    //     if ($roleid == 1  || $roleid == 11) {
+    //     } else {
+    //         $query->where('seller_details.user_id', $userId);
+    //     }
+    //     $query->orderBy('service_details.service_name');
+    //     $ServiceDetails = $query->get();
+    //     //echo $lastRegId = $query->toSql();exit;
+    //     $ProductCount = $ServiceDetails->count();
+    //     $userservicedets = DB::select("SELECT id,name FROM user_account WHERE FIND_IN_SET('9', role_id)");
+    //     // $userservicedets = DB::table('user_account')
+    //     //     ->select('id', 'name')
+    //     //     ->whereIn('role_id', ['9']);
+    //         //echo $lastRegId = $userservicedets->toSql();exit;
+    //         //->get();
+
+    //     $queryapprovedcounts = ServiceDetails::select([
+
+    //         DB::raw('SUM(CASE WHEN service_status = "Y" THEN 1 ELSE 0 END) AS prod_status_y_count'),
+    //         DB::raw('SUM(CASE WHEN service_status != "Y" THEN 1 ELSE 0 END) AS prod_status_not_y_count'),
+    //         DB::raw('SUM(CASE WHEN is_approved = "Y" THEN 1 ELSE 0 END) AS approved_y_count'),
+    //         DB::raw('SUM(CASE WHEN is_approved = "N" THEN 1 ELSE 0 END) AS approved_not_y_count'),
+    //         DB::raw('SUM(CASE WHEN is_approved = "R" THEN 1 ELSE 0 END) AS approved_reject_y_count'),
+    //     ]);
+
+    //     if ($roleid != 1 && $roleid != 11) {
+    //         $queryapprovedcounts->where('shop_id', $userId);
+    //     }
+    //     $approvedproductcounts = $queryapprovedcounts->first();
+    //     return view('serviceproduct.product_dets', compact('ServiceDetails', 'ProductCount', 'userservicedets','approvedproductcounts'));
+    // }
+
+
+
     function AllServiceProductList(Request $request)
     {
         $userRole = session('user_role');
@@ -120,6 +165,9 @@ class ServiceNewController extends Controller
         $approvedproductcounts = $queryapprovedcounts->first();
         return view('serviceproduct.product_dets', compact('ServiceDetails', 'ProductCount', 'userservicedets','approvedproductcounts'));
     }
+
+
+
 
     function AdmNewServiceAdd(Request $request)
     {

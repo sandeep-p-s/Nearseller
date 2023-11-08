@@ -210,9 +210,10 @@
                                         class="dripicons-checkmark" title="verified"></i>
                                     <i id="nverifiedemailotp" style="display: none;" class="ti-close"
                                         style="color: red; font-size: 22px; font-weight: 900;"></i><br>
-                                    <div for="u_emid" class="error" id="uemil-message"></div>
+
                                     {{-- <div  class="text-center" style="display: none;"></div> --}}
                                 </div>
+                                <div for="u_emid" class="error" id="uemil-message"></div>
 
                                 <div class="input-group regmailsendotp" style="display: none;">
                                     <input type="hidden" id="emailverifystatus" name="emailverifystatus" />
@@ -260,9 +261,10 @@
                                     <i id="nverifiedmobotp"
                                         style="display: none;color: red; font-size: 22px; font-weight: 900;margin-top: 3%;"
                                         class="ti-close"></i><br>
-                                    <div for="u_mobno" class="error" id="umob-message"></div>
+
                                     {{-- <div id="umob-message" class="text-center" style="display: none;"></div> --}}
                                 </div>
+                                <div for="u_mobno" class="error" id="umob-message"></div>
 
                                 <div class="input-group regmobnosendotp" style="display: none;">
                                     <input type="hidden" id="mobverifystatus" name="mobverifystatus" />
@@ -617,7 +619,7 @@
                                     <div class="form-outline mb-3">
                                         <input type="file" id="s_photo" multiple="" name="s_photo[]"
                                             class="form-control form-control-lg" placeholder="Shop Photo" required
-                                            tabindex="19" accept="image/jpeg, image/png" />
+                                            tabindex="19" accept="image/jpeg, image/png" title="Please select shop photo's" />
                                         <div for="s_photo" class="error"></div>
                                     </div>
                                     {{-- <div class="image-preview" style="display: none;">
@@ -652,7 +654,7 @@
                                     <div class="form-outline mb-3">
                                         <input type="date" id="s_establishdate" name="s_establishdate"
                                             maxlength="10" class="form-control form-control-lg"
-                                            placeholder="Establishment Date" tabindex="22"
+                                            placeholder="Establishment Date" tabindex="22" title="Please select establishment date"
                                             max="{{ date('Y-m-d') }}" />
                                         <div for="s_establishdate" class="error"></div>
                                     </div>

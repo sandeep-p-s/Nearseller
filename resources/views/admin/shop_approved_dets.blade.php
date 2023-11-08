@@ -83,7 +83,7 @@
                         <div class="form-group row">
                             <label class="col-xl-6">Mobile No</label>
                             <div class="col-xl-6 align-self-center">
-                                {{ $sellerDetails->shop_mobno }}
+                                {{ $sellerDetails->mob_country_code.''.$sellerDetails->shop_mobno }}
                             </div>
                         </div>
                         @if ($sellerDetails->shop_email != '')

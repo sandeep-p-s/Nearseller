@@ -1068,6 +1068,7 @@ class AdminController extends Controller
         $validatedData = $request->validate([
             's_name' => 'required|max:50',
             's_ownername' => 'required|max:50',
+            's_mobcntrycode' => 'required',
             's_mobno' => 'required|max:10',
             //'s_email' => ['sometimes', 'email', 'max:35'],
             's_refralid' => 'max:50',
@@ -1106,6 +1107,7 @@ class AdminController extends Controller
         $user->name = ucfirst($request->s_name);
         $user->email = $request->s_email;
         $user->mobno = $request->s_mobno;
+        $user->mob_countrycode = $request->s_mobcntrycode;
         $pass_characters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'M', 'N', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', '@', '#', "$", '%', '&', '!', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'm', 'n', 'r', 's', 't', 'u', 'v', 'w', 'x', 'z', '2', '3', '4', '5', '6', '7', '8', '9'];
         $passkeys = [];
         while (count($passkeys) < 6) {
@@ -1162,6 +1164,7 @@ class AdminController extends Controller
             $sellerDetail->shop_name = ucfirst($request->input('s_name'));
             $sellerDetail->owner_name = ucfirst($request->input('s_ownername'));
             $sellerDetail->shop_email = $request->input('s_email');
+            $sellerDetail->mob_country_code = $request->input('s_mobcntrycode');
             $sellerDetail->shop_mobno = $request->input('s_mobno');
             $sellerDetail->referal_id = $request->input('s_refralid');
             $sellerDetail->busnes_type = $request->input('s_busnestype');
@@ -1431,6 +1434,7 @@ class AdminController extends Controller
         $validatedData = $request->validate([
             'es_name' => 'required|max:50',
             'es_ownername' => 'required|max:50',
+            'es_mobcntrycode' => 'required',
             'es_mobno' => 'required|max:10',
             //'es_email' => ['sometimes', 'email', 'max:35'],
             'es_refralid' => 'max:50',
@@ -1468,6 +1472,7 @@ class AdminController extends Controller
         //if($request->input('es_shopservice')==1){
         $sellerDetail->owner_name = ucfirst($request->input('es_ownername')); //}
         $sellerDetail->shop_email = $request->input('es_email');
+        $sellerDetail->mob_country_code = $request->input('es_mobcntrycode');
         $sellerDetail->shop_mobno = $request->input('es_mobno');
         $sellerDetail->busnes_type = $request->input('es_busnestype');
         $sellerDetail->shop_service_type = $request->input('es_shopservice');
@@ -1599,7 +1604,8 @@ class AdminController extends Controller
             $user->email = $request->es_email;
             $user->mobno = $request->es_mobno;
         }
-        $user->name = $request->es_name;
+        $user->name = ucfirst($request->es_name);
+        $user->mob_countrycode = $request->es_mobcntrycode;
         if ($roleid == 1 || $roleid == 11) {
             $user->user_status = $request->userstatus;
         }

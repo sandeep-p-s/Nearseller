@@ -58,7 +58,8 @@
                 </div>
 
 
-                <div class="form-outline mb-3"><label>{{ $shoporservice }} Owner Name<span class="text-danger">*</span></label>
+                <div class="form-outline mb-3"><label>{{ $shoporservice }} Owner Name<span
+                            class="text-danger">*</span></label>
                     <input type="text" id="es_ownername" name="es_ownername" value="{{ $sellerDetails->owner_name }}"
                         class="form-control form-control-lg" maxlength="50" placeholder="Owner Name" required
                         tabindex="2" />
@@ -66,8 +67,12 @@
                 </div>
 
 
-
-                <div class="form-outline mb-3"><label>Mobile Number<span class="text-danger">*</span></label>
+                <label>Mobile Number<span class="text-danger">*</span></label>
+                <div class="form-outline mb-3 d-flex">
+                    <select name="es_mobcntrycode" id="es_mobcntrycode" class="form-control" style="width: 20%;"
+                        required>
+                        <option value="+91">+91</option>
+                    </select>
                     <input type="text" id="es_mobno" name="es_mobno" value="{{ $sellerDetails->shop_mobno }}"
                         class="form-control form-control-lg" maxlength="10" placeholder="Mobile No" required
                         tabindex="3" onchange="exstmobno(this.value,'2')" oninput="numberOnlyAllowed(this)" />
@@ -77,7 +82,7 @@
                 <div class="form-outline mb-3"><label>Email ID</label>
                     <input type="email" id="es_email" name="es_email" value="{{ $sellerDetails->shop_email }}"
                         class="form-control form-control-lg" maxlength="35" placeholder="Email ID" tabindex="4"
-                        onchange="exstemilid(this.value,'2')" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"/>
+                        onchange="exstemilid(this.value,'2')" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
                     <div for="es_email" class="error"></div>
                     <div id="esemil-message" class="text-center" style="display: none;"></div>
                 </div>
@@ -99,8 +104,7 @@
                     </select>
                     <div for="es_busnestype" class="error"></div>
                 </div>
-                <div class="form-outline mb-3"><label>Business Category<span
-                            class="text-danger">*</span></label>
+                <div class="form-outline mb-3"><label>Business Category<span class="text-danger">*</span></label>
                     <select class="form-select form-control form-control-lg" id="es_shopservice"
                         name="es_shopservice" required tabindex="7">
                         <option value="">Business Category</option><br />
@@ -364,66 +368,62 @@
                 </div>
 
                 {{-- @if (session('roleid') == '1') --}}
-                    <div class="form-outline mb-3"><label>{{ $shoporservice }} Logo</label>
-                        <input type="file" id="es_logo" name="es_logo[]" class="form-control form-control-lg"
-                            placeholder="Shop Logo" tabindex="19" accept="image/jpeg, image/png" />
-                        <div for="es_logo" class="error"></div>
+                <div class="form-outline mb-3"><label>{{ $shoporservice }} Logo</label>
+                    <input type="file" id="es_logo" name="es_logo[]" class="form-control form-control-lg"
+                        placeholder="Shop Logo" tabindex="19" accept="image/jpeg, image/png" />
+                    <div for="es_logo" class="error"></div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group" align="left">
+                        <div id="eimage-preview-logo" class="row"></div>
                     </div>
-                    <div class="col-md-12">
-                        <div class="form-group" align="left">
-                            <div id="eimage-preview-logo" class="row"></div>
-                        </div>
-                    </div>
+                </div>
 
 
 
-                    <div class="col-md-12"
-                        style="{{ $sellerDetails->shoplogo ? 'display: block;' : 'display: none;' }}">
-                        <div class="form-group" align="center">
-                            <div class="row">@php
-                                $k = 1;
-                            @endphp
+                <div class="col-md-12" style="{{ $sellerDetails->shoplogo ? 'display: block;' : 'display: none;' }}">
+                    <div class="form-group" align="center">
+                        <div class="row">@php
+                            $k = 1;
+                        @endphp
 
-                                <div class="col-md-3">
-                                    <a href="#" data-toggle="modal"
-                                        data-target="#myModalmm{{ $k }}">
-                                        <img id="img-bufferms" class="img-responsive image new_thumpnail"
-                                            src="{{ asset($sellerDetails->shoplogo) }}" width="450"
-                                            height="250">
-                                        @php
+                            <div class="col-md-3">
+                                <a href="#" data-toggle="modal" data-target="#myModalmm{{ $k }}">
+                                    <img id="img-bufferms" class="img-responsive image new_thumpnail"
+                                        src="{{ asset($sellerDetails->shoplogo) }}" width="450" height="250">
+                                    @php
 
-                                            $valenl = $sellerDetails->shoplogo . '#' . $sellerDetails->id;
-                                            $deleencdel = base64_encode($valenl);
-                                        @endphp
-                                    </a>
-                                </div>
+                                        $valenl = $sellerDetails->shoplogo . '#' . $sellerDetails->id;
+                                        $deleencdel = base64_encode($valenl);
+                                    @endphp
+                                </a>
+                            </div>
 
-                                <div class="modal fade" id="myModalmm{{ $k }}" tabindex="-1"
-                                    role="dialog" aria-labelledby="myModalLabelmm" aria-hidden="true"
-                                    style="width: 80%;">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-hidden="true">&times;</button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <img src="{{ asset($sellerDetails->shoplogo) }}" class="img-fluid">
-                                            </div>
+                            <div class="modal fade" id="myModalmm{{ $k }}" tabindex="-1" role="dialog"
+                                aria-labelledby="myModalLabelmm" aria-hidden="true" style="width: 80%;">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-hidden="true">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <img src="{{ asset($sellerDetails->shoplogo) }}" class="img-fluid">
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
+
                         </div>
                     </div>
-                    <div class="form-outline mb-3" style="display: none;"><label>{{ $shoporservice }} Background
-                            Color</label>
-                        <input type="color" id="es_bgcolor" name="es_bgcolor" id class="form-control"
-                            placeholder="{{ $shoporservice }} Background Color" required tabindex="18"
-                            value="{{ $sellerDetails->colorpicks }}" />
-                        <div for="es_bgcolor" class="error"></div>
-                    </div>
+                </div>
+                <div class="form-outline mb-3" style="display: none;"><label>{{ $shoporservice }} Background
+                        Color</label>
+                    <input type="color" id="es_bgcolor" name="es_bgcolor" id class="form-control"
+                        placeholder="{{ $shoporservice }} Background Color" required tabindex="18"
+                        value="{{ $sellerDetails->colorpicks }}" />
+                    <div for="es_bgcolor" class="error"></div>
+                </div>
                 {{-- @endif --}}
 
 
@@ -433,7 +433,7 @@
                 <div class="form-outline mb-3"><label>{{ $shoporservice }} License Number</label>
                     <input type="text" id="es_lisence" name="es_lisence"
                         value="{{ $sellerDetails->shop_licence }}" class="form-control form-control-lg"
-                        maxlength="15" placeholder="License Number" tabindex="10"  pattern="^[A-Z0-9/&._%+-]+$" />
+                        maxlength="15" placeholder="License Number" tabindex="10" pattern="^[A-Z0-9/&._%+-]+$" />
                     <div for="es_lisence" class="error"></div>
                 </div>
 
@@ -675,17 +675,18 @@
 
 
                 @php
-                    $requiredval = (session('roleid') == '1' || session('roleid') == '11') ? '' : 'required';
+                    $requiredval = session('roleid') == '1' || session('roleid') == '11' ? '' : 'required';
                 @endphp
-                @if (session('roleid') == '1' ||  (session('roleid') == '11'))
+                @if (session('roleid') == '1' || session('roleid') == '11')
                 @else
-                <div class="form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="es_termcondtn"
-                        name="es_termcondtn" value="1" tabindex="26" {{ $sellerDetails->term_condition == 1 ? 'checked' : '' }} {{ $requiredval }}>
-                    <label class="inlineCheckbox1" for="s_termcondtn"> Accept Terms & Conditions
-                        {{-- <span class="text-danger">*</span> --}}
-                    </label>
-                </div>
+                    <div class="form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="es_termcondtn" name="es_termcondtn"
+                            value="1" tabindex="26" {{ $sellerDetails->term_condition == 1 ? 'checked' : '' }}
+                            {{ $requiredval }}>
+                        <label class="inlineCheckbox1" for="s_termcondtn"> Accept Terms & Conditions
+                            {{-- <span class="text-danger">*</span> --}}
+                        </label>
+                    </div>
                 @endif
 
             </div>
@@ -1275,11 +1276,15 @@
                 required: true,
                 // pattern: /^[A-Za-z\s\.]+$/,
             },
+            es_mobcntrycode: {
+                required: true,
+            },
             es_mobno: {
                 required: true,
                 digits: true,
                 minlength: 10,
             },
+
             es_email: {
                 // required: true,
                 email: true,
