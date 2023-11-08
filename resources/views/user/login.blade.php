@@ -229,7 +229,7 @@
                                         style="display: none;padding: 2px 12px;
                                         font-size: 12px;
                                         border-radius: 4px;
-                                        margin-bottom: 56px;">Resend
+                                        margin-bottom: 22px;">Resend
                                         OTP</button>
 
                                     <div id="showemailotp" style="display: none;">
@@ -279,7 +279,7 @@
                                         style="display: none;padding: 2px 12px;
                                         font-size: 12px;
                                         border-radius: 4px;
-                                        margin-bottom: 56px;">Resend
+                                        margin-bottom: 22px;">Resend
                                         OTP</button>
 
                                     <div id="showmobnootp" style="display: none;">
@@ -382,7 +382,7 @@
                                             style="display: none;padding: 2px 12px;
                                             font-size: 12px;
                                             border-radius: 4px;
-                                            margin-bottom: 56px;">Resend
+                                            margin-bottom: 22px;">Resend
                                             OTP</button>
 
                                         <div id="s_showmobnootp" style="display: none;">
@@ -430,7 +430,7 @@
                                             style="display: none;padding: 2px 12px;
                                             font-size: 12px;
                                             border-radius: 4px;
-                                            margin-bottom: 56px;">Resend
+                                            margin-bottom: 22px;">Resend
                                             OTP</button>
 
                                         <div id="s_showemailotp" style="display: none;">
