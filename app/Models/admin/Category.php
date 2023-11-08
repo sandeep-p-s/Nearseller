@@ -10,6 +10,14 @@ class Category extends Model
 {
     use HasFactory;
 
+    public static function countStatusY()
+    {
+        $allCategories = DB::table('categories as c')->where('c.status', 'Y')->count();
+
+        return $allCategories;
+    }
+
+
     public static function tree()
     {
         $allCategories = DB::table('categories')->get();  // Get all categories
@@ -99,6 +107,7 @@ class Category extends Model
                 'parent_id' => $category->parent_id,
                 'category_level' => $category_level,
                 'approval_status' => $category->approval_status,
+                'created_by' => $category->created_by,
                 // 'category_type' => $category->category_type
             ]);
             $category->children = $allCategories->where('parent_id', $category->id)->values();
