@@ -37,7 +37,8 @@
                                         <option value="">Select Service User</option><br />
                                         @foreach ($userservicedets as $serviceuser)
                                             <option value="{{ $serviceuser->id }}"
-                                                @if ($serviceuser->id == session('user_id')) selected @endif>{{ $serviceuser->shop_name }}
+                                                @if ($serviceuser->id == session('user_id')) selected @endif>
+                                                {{ $serviceuser->shop_name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -153,11 +154,11 @@
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="horizontalCheckbox"
                                         data-parsley-multiple="groups" data-parsley-mincheck="2"
-                                        onchange="copyPresentAddress()" name="is_same_permanent_address">
-                                    <label class="custom-control-label" for="horizontalCheckbox"
-                                        @if (old('is_same_permanent_address')) checked @endif>Permanent Address same as
+                                        onchange="copyPresentAddress()" name="is_same_permanent_address" @if(old('is_same_permanent_address')) checked @endif>
+                                    <label class="custom-control-label" for="horizontalCheckbox">Permanent Address same as
                                         Present Address</label>
                                 </div>
+
 
 
                             </div><!--end card-body-->
@@ -170,7 +171,7 @@
 
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Present Address</label>
-                                    <textarea class="form-control" id="present_address" name="present_address" cols="5" rows="5"></textarea>
+                                    <textarea class="form-control" id="present_address" name="present_address" cols="5" rows="5">{{ old('present_address') }}</textarea>
                                     @error('present_address')
                                         <div class="text-danger mb-2">{{ $message }}</div>
                                     @enderror
@@ -181,7 +182,7 @@
                                         aria-label="Default select example" id="present_country">
                                         <option value="">Select country</option>
                                         @foreach ($countries as $country)
-                                            <option value="{{ $country->id }}">{{ $country->country_name }}</option>
+                                            <option value="{{ $country->id }}" @if (old('country') == $country->id) selected @endif>{{ $country->country_name }}</option>
                                         @endforeach
                                     </select>
                                     @error('present_country')
@@ -315,56 +316,6 @@
                 }
             }
 
-            // $(document).ready(function() {
-            //     $('#country').change(function() {
-            //         $('#district').empty();
-            //         var countryId = $(this).val();
-            //         if (countryId) {
-            //             $.get("/getStates/" + countryId, function(data) {
-            //                 $('#state').empty().append('<option value="">Select State</option>');
-            //                 $.each(data, function(index, state) {
-            //                     $('#state').append('<option value="' + state.id + '">' + state
-            //                         .state_name + '</option>');
-            //                 });
-            //             });
-            //         }
-            //     });
-
-            //     $('#state').change(function() {
-            //         var stateId = $(this).val();
-            //         if (stateId) {
-            //             $.get("/getDistricts/" + stateId, function(data) {
-            //                 $('#district').empty().append('<option value="">Select District</option>');
-            //                 $.each(data, function(index, district) {
-            //                     $('#district').append('<option value="' + district.id + '">' +
-            //                         district.district_name + '</option>');
-            //                 });
-            //             });
-            //         }
-            //     });
-
-            //     $('#present_country').change(function() {
-            //         var countryId = $(this).val();
-            //         if (countryId) {
-            //             fetchPresentStateAndDistrict(countryId, null,
-            //                 null);
-            //         }
-            //     });
-
-            //     $('#present_state').change(function() {
-            //         var stateId = $(this).val();
-            //         if (stateId) {
-            //             fetchPresentDistrict(stateId, null);
-            //         }
-            //     });
-
-            //     $('.selectservice').each(function() {
-            //         var $p = $(this).parent();
-            //         $(this).select2({
-            //             dropdownParent: $p
-            //         });
-            //     });
-            // });
             $(document).ready(function() {
                 // Function to fetch states and populate the state dropdown
                 function fetchStates(countryId, selectedStateId, selectedDistrictId) {
@@ -451,6 +402,27 @@
                 $('#present_state').change(function() {
                     fetchDistricts($(this).val(), null);
                 });
+            });
+
+            var selectedCountry = '{{ old('country') }}';
+            var selectedState = '{{ old('state') }}';
+            var selectedDistrict = '{{ old('district') }}';
+
+            if (selectedCountry) {
+                fetchStates(selectedCountry, selectedState, selectedDistrict);
+            }
+
+            // Handle change events for 'country', 'state', and 'district' dropdowns
+            $('#country').change(function() {
+                $('#district').empty();
+                var countryId = $(this).val();
+                if (countryId) {
+                    fetchStates(countryId, '{{ old('state') }}', '{{ old('district') }}');
+                }
+            });
+
+            $('#state').change(function() {
+                fetchDistricts($(this).val(), '{{ old('district') }}');
             });
         </script>
     @endsection
