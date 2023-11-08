@@ -10,6 +10,14 @@ class Category extends Model
 {
     use HasFactory;
 
+    public static function countStatusY()
+    {
+        $allCategories = DB::table('categories as c')->where('c.status', 'Y')->count();
+
+        return $allCategories;
+    }
+
+
     public static function tree()
     {
         $allCategories = DB::table('categories')->get();  // Get all categories
