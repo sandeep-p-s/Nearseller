@@ -1234,7 +1234,7 @@ class HomeController extends Controller
                 //'s_photo' => 'required|image|mimes:jpeg,png|max:1024',
                 's_gstno' => ['sometimes', 'max:25'],
                 's_panno' => ['sometimes', 'max:10'],
-                's_establishdate' => 'required|date',
+                //'s_establishdate' => 'required|date',
                 's_paswd' => 'required|max:20',
                 's_rpaswd' => 'required|same:s_paswd',
                 's_termcondtn' => 'accepted',

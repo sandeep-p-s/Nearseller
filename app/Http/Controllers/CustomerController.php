@@ -74,7 +74,22 @@ class CustomerController extends Controller
         //echo $lastRegId = $query->toSql();exit;
         $allusercount = $alluserdetails->count();
         $roles = DB::table('roles')->where('roles.is_active', '1')->where('id', '!=', 1) ->orderBy('role_name', 'asc')->get();
-        return view('custapproval.user_dets', compact('alluserdetails', 'allusercount', 'roles'));
+
+
+        $queryactivecounts = UserAccount::select([
+            DB::raw('SUM(CASE WHEN user_status = "Y" THEN 1 ELSE 0 END) AS user_status_y_count'),
+            DB::raw('SUM(CASE WHEN user_status != "Y" THEN 1 ELSE 0 END) AS user_status_not_y_count'),
+            DB::raw('SUM(CASE WHEN approved = "Y" THEN 1 ELSE 0 END) AS approved_y_count'),
+            DB::raw('SUM(CASE WHEN approved != "Y" THEN 1 ELSE 0 END) AS approved_not_y_count'),
+        ]);
+
+        if ($roleid != 1 && $roleid != 11) {
+            $queryactivecounts->where('id', $userId);
+        }
+        $queryactivecounts->where('role_id', 4);
+        $activecounts = $queryactivecounts->first();
+
+        return view('custapproval.user_dets', compact('alluserdetails', 'allusercount', 'roles','activecounts'));
     }
 
     function AdmCustomerViewEdit(Request $request)

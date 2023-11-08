@@ -12,12 +12,24 @@
     </style>
     <div class="card">
         <div class="card-body">
+
+            @if (session('roleid') == '1' || session('roleid') == '11')
+                <div class="text-center">
+                    <span class="badge badge-soft-info p-2">
+                        Total Active customers : {{ $activecounts->user_status_y_count }}
+                    </span>
+                    <span class="badge badge-soft-danger p-2">
+                        Total Inactive customers : {{ $activecounts->user_status_not_y_count }}
+                    </span>
+                </div>
+            @endif
+
             <table id="datatable3" class="table table-striped table-bordered" style="width: 100%">
                 <thead>
                     <tr>
                         {{-- <th width="5px"><input type='checkbox' name='checkbox1' id='checkbox1' onclick='check();' /></th> --}}
-                        <th width="5px" data-sorting="true"><input type='checkbox' name='checkbox1'
-                            id='checkbox1' class="selectAll" onclick='' /></th>
+                        <th width="5px" data-sorting="true"><input type='checkbox' name='checkbox1' id='checkbox1'
+                                class="selectAll" onclick='' /></th>
                         <th>S.No.</th>
                         <th>Customer ID</th>
                         <th>Customer Name</th>
@@ -31,7 +43,7 @@
                     @foreach ($alluserdetails as $index => $userDets)
                         <tr>
                             <td><input name="customerid[]" type="checkbox" id="customerid{{ $index + 1 }}"
-                                    value="{{ $userDets->id }}" {{ $userDets->approved === 'Y' ? 'checked' : '' }} />
+                                    value="{{ $userDets->id }}" {{ $userDets->approved === 'Y' ? '' : '' }} />
                             </td>
                             <td>{{ $index + 1 }}</td>
                             <td>{{ 'CUST' }}{{ str_pad($userDets->id, 9, '0', STR_PAD_LEFT) }}</td>
@@ -62,7 +74,7 @@
                     @endforeach
                 </tbody>
                 <tfoot>
-                    <tr >
+                    <tr>
                         <th style="border: 0px solid #eaf0f7"></th>
                         <th style="border: 0px solid #eaf0f7"></th>
                         <th style="border: 0px solid #eaf0f7">Customer ID</th>

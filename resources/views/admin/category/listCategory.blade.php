@@ -90,7 +90,7 @@
                                         <tr>
                                             <td width="5%"><input name="categoryid[]" type="checkbox"
                                                     id="categoryid{{ $loop->iteration }}" value="{{ $c->id }}"
-                                                    {{ $c->approval_status === 'Y' ? 'checked' : '' }} />
+                                                    {{ $c->approval_status === 'Y' ? '' : '' }} />
                                             </td>
 
                                             <td width="5%">{{ $loop->iteration }}</td>
