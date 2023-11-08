@@ -129,7 +129,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @if (session('roleid') == 1)
+                                    @if (session('roleid') == 1 || session('roleid') == 11)
                                         <label for="categoryStatus">Status</label>
                                         <select class="form-control" id="categoryStatus" name="status">
                                             <option value="Y"

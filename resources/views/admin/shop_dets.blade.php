@@ -68,7 +68,7 @@
 
                                     <div class="col-lg-4 ml-auto align-self-center">
                                         <ul class="list-unstyled personal-detail mb-0">
-                                            <li class=""><b> Phone </b> : {{ $sellerDetailh->shop_mobno }}</li>
+                                            <li class=""><b> Phone </b> : {{ $sellerDetailh->mob_country_code. '' .$sellerDetailh->shop_mobno}}</li>
                                             @if ($sellerDetailh->shop_email != '')
                                                 <li class="mt-2"> <b> Email </b> : {{ $sellerDetailh->shop_email }}
                                                 </li>
@@ -445,7 +445,7 @@
                         @if (session('roleid') == '1' || session('roleid') == '11')
                             <td><input name="shopid[]" type="checkbox" id="shopid{{ $index + 1 }}"
                                     value="{{ $sellerDetail->id . '*' . $sellerDetail->user_id }}"
-                                    {{ $sellerDetail->seller_approved === 'Y' ? 'checked' : '' }} />
+                                    {{ $sellerDetail->seller_approved === 'Y' ? '' : '' }} />
                             </td>
                             <td>{{ $index + 1 }}</td>
                         @endif
@@ -454,7 +454,7 @@
                         <td>{{ $sellerDetail->shop_name }}</td>
                         <td>{{ $sellerDetail->owner_name }}</td>
                         {{-- <td>{{ $sellerDetail->shop_email }}</td> --}}
-                        <td>{{ $sellerDetail->shop_mobno }}</td>
+                        <td>{{ $sellerDetail->mob_country_code.''.$sellerDetail->shop_mobno }}</td>
                         {{-- <td class="text-success">{{ $sellerDetail->business_name }}</td> --}}
                         <td><span
                                 class="badge p-2 {{ $sellerDetail->user_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
@@ -573,9 +573,12 @@
                                             placeholder="Owner Name" required tabindex="2" />
                                         <div for="s_ownername" class="error"></div>
                                     </div>
-
-                                    <div class="form-outline mb-3"><label>Mobile Number<span
-                                                class="text-danger">*</span></label>
+                                    <label>Mobile Number<span class="text-danger">*</span></label>
+                                    <div class="form-outline mb-3 d-flex">
+                                        <select name="s_mobcntrycode" id="s_mobcntrycode" class="form-control"
+                                            style="width: 20%;" required>
+                                            <option value="+91">+91</option>
+                                        </select>
                                         <input type="text" id="s_mobno" name="s_mobno"
                                             class="form-control form-control-lg" maxlength="10"
                                             placeholder="Mobile No" required tabindex="3"
@@ -1756,6 +1759,10 @@
                 digits: true,
                 minlength: 10,
             },
+            s_mobcntrycode: {
+                required: true,
+            },
+
             s_email: {
                 // required: true,
                 email: true,

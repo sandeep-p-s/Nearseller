@@ -56,7 +56,7 @@
                     @if (session('roleid') == '1' || session('roleid') == '11')
                         <td><input name="productid[]" type="checkbox" id="productid{{ $index + 1 }}"
                                 value="{{ $prodDetails->id }}"
-                                {{ $prodDetails->is_approved === 'Y' ? 'checked' : '' }} />
+                                {{ $prodDetails->is_approved === 'Y' ? '' : '' }} />
                         </td>
                     @endif
                     <td>{{ $index + 1 }}</td>

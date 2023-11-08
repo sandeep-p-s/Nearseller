@@ -55,7 +55,7 @@
                                         Edit Category Name</label>
                                     <input type="text" class="form-control mb15" id="exampleFormControlInput1"
                                         name="category_name" placeholder="Enter Category Name"
-                                        value="{{ $current_category->category_name }}" readonly>
+                                        value="{{ $current_category->category_name }}" readonly required>
                                     <input type="hidden" class="form-control mb15" id="category_slug" placeholder=""
                                         name="category_slug" value="{{ $current_category->category_slug }}">
                                     <input type="hidden" class="form-control mb15" id="category_level" placeholder=""
@@ -273,7 +273,7 @@
                 document.getElementById('category_image').files = new FileListItem(fileArrs);
                 $(this).closest('.img-div').remove();
             });
-
+            
 
             function FileListItem(file) {
         file = [].slice.call(Array.isArray(file) ? file : arguments);

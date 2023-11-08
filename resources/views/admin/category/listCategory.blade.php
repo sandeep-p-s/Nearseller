@@ -60,21 +60,27 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <div class="text-center">
-                                <span class="badge badge-soft-info p-2">
-                                    Total Categories : {{ $total_categories }}
-                                </span>
-                                <span class="badge badge-soft-danger p-2">
-                                    Inactive Categories : {{ $inactive_categories }}
+                            <div class="d-flex justify-content-center align-items-center mb-2">
+                                <span class="badge badge-soft-info p-2">Total Categories :
+                                    {{ $total_categories }}</span><span class="badge badge-soft-info p-2 ml-2">Active Status
+                                    Categories :
+                                    {{ $active_categories }}</span><span class="badge badge-soft-danger p-2 ml-2">Inactive
+                                    Status Categories : {{ $inactive_categories }}</span><span
+                                    class="badge badge-soft-info p-2 ml-2">Approved Categories :
+                                    {{ $approved_categories }}</span><span class="badge badge-soft-danger p-2 ml-2">Not
+                                    Approved Categories : {{ $notapproved_categories }}
                                 </span>
                             </div>
                             <table id="datatable3" class="table table-striped table-bordered" style="width: 100%">
                                 <thead>
                                     <tr>
-                                        {{-- <th data-sortable="false"><input type='checkbox' name='checkbox1' id='checkbox1'
+                                        @if (session('roleid') == 1 || session('roleid') == 11)
+                                            {{-- <th data-sortable="false"><input type='checkbox' name='checkbox1' id='checkbox1'
                                                 onclick='check();' /></th> --}}
-                                        <th width="5px" data-sorting="true"><input type='checkbox' name='checkbox1'
-                                                id='checkbox1' class="selectAll" onclick='' /></th>
+                                            <th width="5px" data-sorting="true"><input type='checkbox' name='checkbox1'
+                                                    id='checkbox1' class="selectAll" onclick='' /></th>
+                                        @endif
+
                                         <th>S.No.</th>
                                         <th>Category Name</th>
                                         <th>Status</th>
@@ -88,10 +94,12 @@
                                     @endphp
                                     @foreach ($categories as $index => $c)
                                         <tr>
+                                            @if (session('roleid') == 1 || session('roleid') == 11)
                                             <td width="5%"><input name="categoryid[]" type="checkbox"
                                                     id="categoryid{{ $loop->iteration }}" value="{{ $c->id }}"
-                                                    {{ $c->approval_status === 'Y' ? 'checked' : '' }} />
+                                                    {{ $c->approval_status === 'Y' ? '' : '' }} />
                                             </td>
+                                            @endif
 
                                             <td width="5%">{{ $loop->iteration }}</td>
                                             <td width="65%">
@@ -129,15 +137,19 @@
                                                         aria-expanded="false">Action <i
                                                             class="mdi mdi-chevron-down"></i></button>
                                                     <div class="dropdown-menu">
-                                                        <a class="dropdown-item view_btn1"
-                                                            href="{{ route('edit.category', $c->category_slug) }}">Edit/View</a>
-                                                        @if (session('roleid') == 1)
+                                                        @if (session('roleid') == 1 || session('roleid') == 11 || session('user_id') == $c->created_by)
+                                                            <a class="dropdown-item view_btn1"
+                                                                href="{{ route('edit.category', $c->category_slug) }}">Edit/View</a>
+                                                        @endif
+                                                        @if (session('roleid') == 1 || session('roleid') == 11)
                                                             <a class="dropdown-item approve_btn"
                                                                 href="{{ route('approved.category', $c->category_slug) }}">Approved</a>
                                                         @endif
-                                                        {{-- <a class="dropdown-item delete_btn"
-                                                        href="{{ route('delete.category', $c->category_slug) }}"
-                                                        onclick="return confirm('Are you sure you want to delete?')">Delete</a> --}}
+                                                        @if (session('roleid') == 1 || session('roleid') == 11)
+                                                            <a class="dropdown-item delete_btn"
+                                                                href="{{ route('delete.category', $c->category_slug) }}"
+                                                                onclick="return confirm('Are you sure you want to delete?')">Delete</a>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </td>
@@ -147,7 +159,9 @@
 
                                 <tfoot>
                                     <tr>
+                                        @if (session('roleid') == 1 || session('roleid') == 11)
                                         <th style="border: 0px solid #eaf0f7"></th>
+                                        @endif
                                         <th style="border: 0px solid #eaf0f7"></th>
                                         <th style="border: 0px solid #eaf0f7">Category Name</th>
                                         <th style="border: 0px solid #eaf0f7">Status</th>

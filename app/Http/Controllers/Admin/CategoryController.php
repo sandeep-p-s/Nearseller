@@ -29,8 +29,15 @@ class CategoryController extends Controller
         $loggeduser     = UserAccount::sessionValuereturn_s($roleid);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $categories = Category::tree();
-        $total_categories = DB::table('categories')->count();
+        $categoriesStatusY = Category::treeWithStatusY();
+        $total_categories = $categoriesStatusY->count();
+        $active_categories = Category::countStatusY();
         $inactive_categories = DB::table('categories as c')->where('c.status', 'N')->count();
+        $approved_categories = $categoriesStatusY->where('c.approval_status', 'Y')->count();
+        $notapproved_categories = $categoriesStatusY->where('c.approval_status', 'N')->count();
+        $filteredCategories = $categoriesStatusY->filter(function ($category) {
+            return $category->category_level != 5;
+        });
         $roleIdsArray = explode(',', $roleid);
         if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
         {
@@ -42,7 +49,7 @@ class CategoryController extends Controller
             $selrdetails='';
         }
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.category.listCategory', compact('loggeduser', 'userdetails', 'categories', 'total_categories', 'inactive_categories', 'structuredMenu','selrdetails'));
+        return view('admin.category.listCategory', compact('loggeduser', 'userdetails', 'categories', 'total_categories','active_categories', 'inactive_categories','approved_categories','notapproved_categories', 'structuredMenu','selrdetails','filteredCategories'));
     }
     public function add_category()
     {
@@ -328,7 +335,7 @@ class CategoryController extends Controller
         $time = date('Y-m-d H:i:s');
         $msg = 'Category Successfully Deleted. Deleted Category slug is ' . $category_slug;
         $LogDetails = new LogDetails();
-        $LogDetails->user_id = $request->es_email;
+        $LogDetails->user_id = $userId;
         $LogDetails->ip_address = $loggedUserIp;
         $LogDetails->log_time = $time;
         $LogDetails->status = $msg;
