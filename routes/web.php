@@ -33,7 +33,7 @@ use App\Http\Controllers\Masters\ReligionController as ReligionController;
 use App\Http\Controllers\Masters\AttributeController as AttributeController;
 use App\Http\Controllers\Masters\ProfessionsController as ProfessionsController;
 use App\Http\Controllers\CustomerController;
-
+use App\Http\Controllers\RolePermissionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -177,6 +177,16 @@ Route::middleware(['role'])->group(function () {
 
         Route::get('changepassword', 'ChangePasswordPagerd')->name('user.changepassword');
         Route::post('newpassword', 'ChangeNewPasswordPage')->name('ChangeNewPassword');
+    });
+
+
+    Route::controller(RolePermissionController::class)->group(function () {
+        Route::post('newrolename', 'NewRoleNameSearch')->name('NewRoleNameSearch');
+        Route::get('rolepermenu', 'AdmRoleperMenuPage')->name('user.rolepermenucreate');
+        Route::get('rolepermenuview', 'AdmRoleperMenuViewPage')->name('user.allrolepermenuview');
+        Route::post('roleperpagemenu', 'AdmAddRoleperPageMenu')->name('user.roleperpagemenu');
+        Route::post('getrolepermenu', 'AdmgetRoleperMenu')->name('user.getRoleperMenu');
+        Route::post('getroleperPrivilage', 'AdmgetroleperPrivilage')->name('user.getroleperPrivilage');
     });
 
 
