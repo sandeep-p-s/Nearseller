@@ -31,8 +31,8 @@
                     <tr>
                         <th>S.No.</th>
                         <th data-sorting="false">Name</th>
-                        <th data-sorting="false">Email</th>
-                        <th data-sorting="false">Mobile</th>
+                        {{-- <th data-sorting="false">Email</th> --}}
+                        {{-- <th data-sorting="false">Mobile</th> --}}
                         <th>Role</th>
                         <th>User Status</th>
                         <th data-sorting="false">Action</th>
@@ -43,8 +43,8 @@
                         <tr>
                             <td>{{ $index + 1 }}</td>
                             <td>{{ $userDets->name }}</td>
-                            <td>{{ $userDets->email }}</td>
-                            <td>{{ $userDets->mobno }}</td>
+                            {{-- <td>{{ $userDets->email }}</td> --}}
+                            {{-- <td> {{$userDets->mob_countrycode}} {{ $userDets->mobno }}</td> --}}
                             <td>{{ $userDets->role_name }}</td>
                             <td><span
                                     class="badge p-2 {{ $userDets->user_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
@@ -73,8 +73,8 @@
                     <tr>
                         <th style="border: 0px solid #eaf0f7"></th>
                         <th style="border: 0px solid #eaf0f7">Name</th>
-                        <th style="border: 0px solid #eaf0f7">Email</th>
-                        <th style="border: 0px solid #eaf0f7">Mobile</th>
+                        {{-- <th style="border: 0px solid #eaf0f7">Email</th> --}}
+                        {{-- <th style="border: 0px solid #eaf0f7">Mobile</th> --}}
                         <th style="border: 0px solid #eaf0f7">Role</th>
                         <th style="border: 0px solid #eaf0f7">User Status</th>
                         <th style="border: 0px solid #eaf0f7"></th>
@@ -100,8 +100,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-center" id="addNewModalLabel">Add New Users </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                <h5 class="modal-title text-center" id="addNewModalLabel">Add New User </h5>
+                <button type="button" id="closebtn" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                     title="Close">x</button>
             </div>
             <div class="modal-body">
@@ -136,7 +136,7 @@
                                     <div class="form-outline mb-3 d-flex">
                                         <select name="mobcntrycode" id="mobcntrycode" class="form-control"
                                             style="width: 19%;" required>
-                                            <option value="+91">+91</option>
+                                            <option value="+91" selected >+91</option>
                                         </select>
 
                                         <input type="text" id="s_mobno" name="s_mobno"
@@ -160,7 +160,7 @@
 
                             <div class="col-md-12">
                                 <div style="float:right">
-                                    <button type="button" class="btn btn-secondary"
+                                    <button type="button" id="closebtn2" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Close</button>
                                     <button type="button" class="btn btn-danger" id="resetButton">Reset</button>
                                     <button type="submit" class="btn btn-primary">Save</button>
@@ -226,6 +226,15 @@
         });
 
         $('#resetButton').click(function() {
+            $('#UserRegForm input, #UserRegForm select').val('');
+            $('#UserRegForm .error').text('');
+        });
+
+        $('#closebtn').click(function() {
+            $('#UserRegForm input, #UserRegForm select').val('');
+            $('#UserRegForm .error').text('');
+        });
+        $('#closebtn2').click(function() {
             $('#UserRegForm input, #UserRegForm select').val('');
             $('#UserRegForm .error').text('');
         });

@@ -58,7 +58,7 @@ class DistrictController extends Controller
                 'state_name' => 'not_in:0',
                 'district_name' => [
                     'required',
-                    'alpha',
+                    'regex:/^[a-zA-Z &]+$/',
                     'max:60',
                     Rule::unique('district', 'district_name')->where(function ($query) use ($request) {
                         return $query->where('state_id', $request->state_name);
@@ -68,7 +68,7 @@ class DistrictController extends Controller
             [
                 'state_name.not_in' => 'Please select state.',
                 'district_name.required' => 'The district name field is missing.',
-                'district_name.alpha' => 'The district name must be alphabetic characters.',
+                'district_name.regex' => 'The district name must be alphabetic characters.',
                 'district_name.max' => 'The district name cannot exceed 60 characters.',
                 'district_name.unique' => 'The district name is already taken in the selected state.',
             ]
@@ -76,7 +76,7 @@ class DistrictController extends Controller
 
         $newdistrict = new District;
         $newdistrict->state_id = $request->state_name;
-        $newdistrict->district_name = ucfirst(strtolower($request->district_name));
+        $newdistrict->district_name = ucwords(strtolower($request->district_name));
         $newdistrict->save();
 
         return redirect()->route('list.district')->with('success', 'District added successfully.');
@@ -114,7 +114,7 @@ class DistrictController extends Controller
         $request->validate(
             [
                 'state_name' => 'not_in:0',
-                'district_name' => ['required', 'string', 'max:60', 'alpha'],
+                'district_name' => ['required', 'string', 'max:60', 'regex:/^[a-zA-Z &]+$/'],
                 'status' => 'in:Y,N',
             ],
             [
@@ -129,7 +129,7 @@ class DistrictController extends Controller
             ]
         );
         $district->state_id = $request->state_name;
-        $district->district_name = ucfirst(strtolower($request->district_name));
+        $district->district_name = ucwords(strtolower($request->district_name));
         $district->status = $request->status;
         $district->save();
 

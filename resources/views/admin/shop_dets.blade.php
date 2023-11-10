@@ -289,7 +289,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-xl-6 col-lg-6 ">User Status</label>
+                                <label class="col-xl-6 col-lg-6 ">Active Status</label>
                                 <div class="col-lg-6 col-xl-6">
                                     <p> <span
                                             class="badge  p-2 {{ $sellerDetailh->user_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
@@ -428,13 +428,14 @@
 
                         <th>S.No.</th>
                     @endif
-                    <th>Reg. ID</th>
+                    {{--  <th>Reg. ID</th>  --}}
                     <th>{{ $shoporservice }} Name</th>
+                    <th>{{ $shoporservice }} Provider Name</th>
                     <th>Owner Name</th>
-                    <th>Email</th>
-                    <th>Mobile</th>
-                    <th>{{ $shoporservice }} Provider Type</th>
-                    <th>User Status</th>
+                    <th>{{ $shoporservice }} Type</th>
+                    {{--  <th>Mobile</th>  --}}
+                    {{-- <th>Business Type</th> --}}
+                    <th>Active Status</th>
                     <th>Approval Status</th>
                     <th>Action</th>
                 </tr>
@@ -449,13 +450,14 @@
                             </td>
                             <td>{{ $index + 1 }}</td>
                         @endif
-                        <td>{{ $typeid == 1 ? 'SHOP' : ($typeid == 2 ? 'SER' : '') }}{{ str_pad($sellerDetail->shop_reg_id, 9, '0', STR_PAD_LEFT) }}
-                        </td>
+                        {{--  <td>{{ $typeid == 1 ? 'SHOP' : ($typeid == 2 ? 'SER' : '') }}{{ str_pad($sellerDetail->shop_reg_id, 9, '0', STR_PAD_LEFT) }}
+                        </td>  --}}
                         <td>{{ $sellerDetail->shop_name }}</td>
+                        <td>{{ $sellerDetail->service_name }} </td>
                         <td>{{ $sellerDetail->owner_name }}</td>
-                        <td>{{ $sellerDetail->shop_email }}</td>
-                        <td>{{ $sellerDetail->mob_country_code.''.$sellerDetail->shop_mobno }}</td>
-                        <td class="text-success">{{ $sellerDetail->business_name }}</td>
+                        <td>{{ $sellerDetail->service_name }}</td>
+                        {{--  <td>{{ $sellerDetail->mob_country_code.''.$sellerDetail->shop_mobno }}</td>  --}}
+                        {{-- <td class="text-success">{{ $sellerDetail->business_name }}</td> --}}
                         <td><span
                                 class="badge p-2 {{ $sellerDetail->user_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
                                 {{ $sellerDetail->user_status === 'Y' ? 'Active' : 'Inactive' }}
@@ -498,13 +500,14 @@
 
                         <th style="border: 0px solid #eaf0f7"></th>
                     @endif
-                    <th style="border: 0px solid #eaf0f7">Reg. ID</th>
+                    {{--  <th style="border: 0px solid #eaf0f7">Reg. ID</th>  --}}
                     <th style="border: 0px solid #eaf0f7">{{ $shoporservice }} Name</th>
+                    <th style="border: 0px solid #eaf0f7">{{ $shoporservice }} Provider Name</th>
                     <th style="border: 0px solid #eaf0f7">Owner Name</th>
-                    <th style="border: 0px solid #eaf0f7">Email</th>
-                    <th style="border: 0px solid #eaf0f7">Mobile</th>
-                    <th style="border: 0px solid #eaf0f7">{{ $shoporservice }} Provider Type</th>
-                    <th style="border: 0px solid #eaf0f7">User Status</th>
+                    {{-- <th>Email</th> --}}
+                    <th style="border: 0px solid #eaf0f7">Seller Type</th>
+                    {{-- <th>Business Type</th> --}}
+                    <th style="border: 0px solid #eaf0f7">Active Status</th>
                     <th style="border: 0px solid #eaf0f7">Approval Status</th>
                     <th style="border: 0px solid #eaf0f7"></th>
                 </tr>
@@ -529,7 +532,7 @@
         @if (session('roleid') == '1' || session('roleid') == '11')
             <div class="col text-center">
                 <button class="btn btn-primary" style="cursor:pointer"
-                    onclick="seller_service_approvedall();">Approved
+                    onclick="seller_service_approvedall();">Approve
                     All</button>
             </div>
         @endif
