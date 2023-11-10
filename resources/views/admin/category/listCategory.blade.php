@@ -96,8 +96,8 @@
 
                                         <th>S.No.</th>
                                         <th>Category Name</th>
-                                        <th>Status</th>
-                                        <th>Approved</th>
+                                        <th>Active Status</th>
+                                        <th>Approval Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -174,7 +174,7 @@
                             @if ($totalCategories > 0)
                                 <div class="col text-center">
                                     <button class="btn btn-primary" style="cursor:pointer"
-                                        onclick="category_approvedall();">Approved
+                                        onclick="category_approvedall();">Approve
                                         All</button>
                                 </div>
                             @endif

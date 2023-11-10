@@ -44,8 +44,8 @@
                 <th>Product ID</th>
                 <th>Product Name</th>
                 <th>Seller Name</th>
-                <th>Status</th>
-                <th>Is Approved?</th>
+                <th>Availability Status</th>
+                <th>Approval Status</th>
                 <th>Action</th>
 
             </tr>
