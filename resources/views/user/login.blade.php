@@ -146,12 +146,12 @@
                                 <div class="form-outline mb-4">
                                     <input type="text" id="emailid" name="emailid"
                                         class="form-control form-control-lg" placeholder="Email ID/Mobile Number"
-                                        onchange="checkemilmob(this.value,'3')" required />
+                                        onchange="checkemilmob(this.value,'3')" required onKeyUp="spacedets(this);" />
                                 </div>
                                 <div class="form-outline mb-4 password-container">
                                     <input type="password" id="passwd" name="passwd"
                                         class="form-control form-control-lg" placeholder="password" required
-                                        maxlength="20" /><i class="fa-solid fa-eye" id="eye"></i>
+                                        maxlength="20" onKeyUp="spacedets(this);" /><i class="fa-solid fa-eye" id="eye"></i>
                                 </div>
                                 <p class="small mb-1 pb-lg-2 float-end" id="forget"><a class="" href="#"
                                         style="color:#432791;">Forgot password?</a></p>
@@ -172,7 +172,7 @@
 
                                     <input type="text" id="logn_mob" name="logn_mob"
                                         class="form-control form-control-lg" placeholder="Email ID/Mobile Number"
-                                        onchange="checkemilmob(this.value,'1')" required />
+                                        onchange="checkemilmob(this.value,'1')" required onKeyUp="spacedets(this);" />
                                 </div>
                                 <div id="moblogn-message" class="text-center" style="display: none;"></div>
                                 <div class="pt-1 mb-4 loginform_btn">
@@ -234,7 +234,7 @@
                                     <input tabindex="2" type="email" id="u_emid" name="u_emid"
                                         class="form-control form-control-lg" maxlength="50" placeholder="Enter Email"
                                         required onchange="exstemilid(this.value,'1')"
-                                        pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
+                                        pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" onKeyUp="spacedets(this);" />
                                     <i id="verifiedemailotp" style="display: none;color: green; font-size: 29px;"
                                         class="dripicons-checkmark" title="verified"></i>
                                     <i id="nverifiedemailotp" style="display: none;" class="ti-close"
@@ -286,7 +286,7 @@
                                     <input tabindex="3" type="text" id="u_mobno" name="u_mobno"
                                         class="form-control form-control-lg" maxlength="10"
                                         placeholder="Enter Mobile No." required
-                                        onchange="exstmobno(this.value,'1')" />
+                                        onchange="exstmobno(this.value,'1')" onKeyUp="spacedets(this);" pattern="[0-9]*" />
                                     <i id="verifiedmobotp"
                                         style="display: none;color: green; font-size: 29px;margin-top: 3%;"
                                         class="dripicons-checkmark" title="verified"></i>
@@ -387,7 +387,7 @@
                                         <input type="text" id="s_mobno" name="s_mobno"
                                             class="form-control form-control-lg" maxlength="10"
                                             placeholder="Enter Mobile No" required tabindex="3"
-                                            onchange="exstmobno(this.value,'2')" />
+                                            onchange="exstmobno(this.value,'2')" onKeyUp="spacedets(this);" pattern="[0-9]*" />
 
                                         <i id="s_verifiedmobotp"
                                             style="display:none;color: green; font-size: 29px;margin-top: 3%;"
@@ -437,7 +437,7 @@
                                             class="form-control form-control-lg" maxlength="35"
                                             placeholder="Enter Email" tabindex="4"
                                             onchange="exstemilid(this.value,'2')"
-                                            pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
+                                            pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" onKeyUp="spacedets(this);" />
                                         <i id="s_verifiedemailotp"
                                             style="display:none;color: green; font-size: 29px;margin-top: 3%;"
                                             class="dripicons-checkmark" title="verified"></i>
@@ -746,7 +746,7 @@
                                     <input type="text" id="a_mobno" name="a_mobno"
                                         class="form-control form-control-lg" maxlength="10"
                                         placeholder="Enter Mobile No" required tabindex="2"
-                                        onchange="exstmobno(this.value,'3')" />
+                                        onchange="exstmobno(this.value,'3')" pattern="[0-9]*" />
                                     <label for="s_mobno" class="error"></label>
                                     <div id="amob-message" class="text-center" style="display: none;"></div>
                                 </div>
@@ -2844,8 +2844,26 @@
 
 
         function exstemilid(u_emid, checkval) {
+            var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (emailRegex.test(u_emid)) {
+            } else {
+                if (checkval == 1) {
+                    $('.regmailsendotp').hide();
+                    $('.regEmlsendotp').hide();
+                    $('.regEmlrendsendotp').hide();
+                    $('#showemailotp').hide();
+                }
+                if (checkval == 2) {
+                    $('.s_regmailsendotp').hide();
+                    $('.s_regEmlsendotp').hide();
+                    $('.s_regEmlrendsendotp').hide();
+                    $('#s_showemailotp').hide();
+                }
+                return false;
+            }
             $('#loading-overlay').fadeIn();
             $('#loading-image').fadeIn();
+
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
             $.ajax({
                 url: '{{ route('existemail') }}',
@@ -3170,6 +3188,21 @@
 
 
         function exstmobno(u_mobno, checkval) {
+            if (u_mobno.length !== 10 || isNaN(u_mobno)) {
+                if (checkval == 1) {
+                    $('.regmobnosendotp').hide();
+                    $('.regMobilesendotp').hide();
+                    $('.regMobilerendsendotp').hide();
+                    $('#showmobnootp').hide();
+                }
+                if (checkval == 2) {
+                    $('.s_regmobnosendotp').hide();
+                    $('.s_regMobilesendotp').hide();
+                    $('.s_regMobilerendsendotp').hide();
+                    $('#s_showmobnootp').hide();
+                }
+                return false;
+            }
             $('#loading-overlay').fadeIn();
             $('#loading-image').fadeIn();
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
@@ -3896,6 +3929,15 @@
             eye.classList.add(newClass);
             passwordInput.setAttribute("type", newType);
         })
+
+        function spacedets(t)
+			{
+
+				if(t.value.match(/\s/g)){
+				t.value=t.value.replace(/\s/g,'');
+				}
+
+			}
     </script>
 </body>
 
