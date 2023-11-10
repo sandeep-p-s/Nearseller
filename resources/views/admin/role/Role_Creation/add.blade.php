@@ -26,6 +26,10 @@
 
 
                 <div class="col-lg-6">
+                    <div class="button-items d-flex align-items-end flex-column">
+                        <a href="{{ route('list.roles') }}"><button type="button"
+                                class="btn btn-secondary">Back</button></a>
+                    </div><br>
                     <div class="card">
                         <div class="card-body">
                             <form action="{{ route('store.roles') }}" method="POST">
