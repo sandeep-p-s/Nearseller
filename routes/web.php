@@ -141,6 +141,7 @@ Route::middleware(['role'])->group(function () {
         Route::post('saveroles', 'store_roles')->name('store.roles');
         Route::get('editroles/{id}', 'edit_roles')->name('edit.roles');
         Route::post('updateroles/{id}', 'update_roles')->name('update.roles');
+        Route::get('viewrole/{id}', 'view_roles')->name('view.roles');
         Route::get('deleteroles/{id}', 'delete_roles')->name('delete.roles');
 
 
