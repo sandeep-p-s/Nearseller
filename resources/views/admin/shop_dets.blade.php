@@ -431,9 +431,9 @@
                     <th>Reg. ID</th>
                     <th>{{ $shoporservice }} Name</th>
                     <th>Owner Name</th>
-                    {{-- <th>Email</th> --}}
+                    <th>Email</th>
                     <th>Mobile</th>
-                    {{-- <th>Business Type</th> --}}
+                    <th>{{ $shoporservice }} Provider Type</th>
                     <th>User Status</th>
                     <th>Approval Status</th>
                     <th>Action</th>
@@ -453,9 +453,9 @@
                         </td>
                         <td>{{ $sellerDetail->shop_name }}</td>
                         <td>{{ $sellerDetail->owner_name }}</td>
-                        {{-- <td>{{ $sellerDetail->shop_email }}</td> --}}
+                        <td>{{ $sellerDetail->shop_email }}</td>
                         <td>{{ $sellerDetail->mob_country_code.''.$sellerDetail->shop_mobno }}</td>
-                        {{-- <td class="text-success">{{ $sellerDetail->business_name }}</td> --}}
+                        <td class="text-success">{{ $sellerDetail->business_name }}</td>
                         <td><span
                                 class="badge p-2 {{ $sellerDetail->user_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
                                 {{ $sellerDetail->user_status === 'Y' ? 'Active' : 'Inactive' }}
@@ -501,9 +501,9 @@
                     <th style="border: 0px solid #eaf0f7">Reg. ID</th>
                     <th style="border: 0px solid #eaf0f7">{{ $shoporservice }} Name</th>
                     <th style="border: 0px solid #eaf0f7">Owner Name</th>
-                    {{-- <th>Email</th> --}}
+                    <th style="border: 0px solid #eaf0f7">Email</th>
                     <th style="border: 0px solid #eaf0f7">Mobile</th>
-                    {{-- <th>Business Type</th> --}}
+                    <th style="border: 0px solid #eaf0f7">{{ $shoporservice }} Provider Type</th>
                     <th style="border: 0px solid #eaf0f7">User Status</th>
                     <th style="border: 0px solid #eaf0f7">Approval Status</th>
                     <th style="border: 0px solid #eaf0f7"></th>
