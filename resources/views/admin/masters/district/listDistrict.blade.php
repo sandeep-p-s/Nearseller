@@ -56,8 +56,10 @@
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr>
-                                        <th>S.No.</th>
+                                        <th>S.NO</th>
                                         <th>District Name</th>
+                                        <th>State Name</th>
+                                        <th>Country Name</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -66,10 +68,10 @@
                                     @foreach ($districts as $d)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td><span class="badge badge-soft-purple p-1">{{ $d->country_name }} </span> >
-                                                <span class="badge badge-soft-info p-1">{{ $d->state_name }} </span> >
-                                                {{ $d->district_name }}
+                                            <td>{{ $d->district_name }}
                                             </td>
+                                            <td><span class="badge badge-soft-info p-2">{{ $d->state_name }}</span></td>
+                                            <td><span class="badge badge-soft-purple p-2">{{ $d->country_name }}</span></td>
                                             <td><span
                                                     class="badge  p-2 {{ $d->d_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
                                                     {{ $d->d_status === 'Y' ? 'Active' : 'Inactive' }} </span></td>

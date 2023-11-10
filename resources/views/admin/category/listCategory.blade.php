@@ -50,7 +50,7 @@
                     display: table-caption;
                 }
 
-                tfoot input {
+                tfoot {
                     width: 100%;
                     padding: 3px;
                     box-sizing: border-box;
@@ -72,6 +72,19 @@
                                 </span>
                             </div>
                             <table id="datatable3" class="table table-striped table-bordered" style="width: 100%">
+                                <tfoot>
+                                    <tr>
+                                        @if (session('roleid') == 1 || session('roleid') == 11)
+                                            <th style="border: 0px solid #eaf0f7"></th>
+                                        @endif
+                                        <th style="border: 0px solid #eaf0f7"></th>
+                                        <th style="border: 0px solid #eaf0f7">Category Name</th>
+                                        <th style="border: 0px solid #eaf0f7">Status</th>
+                                        <th style="border: 0px solid #eaf0f7">Approved</th>
+                                        <th style="border: 0px solid #eaf0f7"></th>
+                                    </tr>
+                                </tfoot>
+
                                 <thead>
                                     <tr>
                                         @if (session('roleid') == 1 || session('roleid') == 11)
@@ -95,10 +108,10 @@
                                     @foreach ($categories as $index => $c)
                                         <tr>
                                             @if (session('roleid') == 1 || session('roleid') == 11)
-                                            <td width="5%"><input name="categoryid[]" type="checkbox"
-                                                    id="categoryid{{ $loop->iteration }}" value="{{ $c->id }}"
-                                                    {{ $c->approval_status === 'Y' ? '' : '' }} />
-                                            </td>
+                                                <td width="5%"><input name="categoryid[]" type="checkbox"
+                                                        id="categoryid{{ $loop->iteration }}" value="{{ $c->id }}"
+                                                        {{ $c->approval_status === 'Y' ? '' : '' }} />
+                                                </td>
                                             @endif
 
                                             <td width="5%">{{ $loop->iteration }}</td>
@@ -156,21 +169,6 @@
                                         </tr>
                                     @endforeach
                                 </tbody>
-
-                                <tfoot>
-                                    <tr>
-                                        @if (session('roleid') == 1 || session('roleid') == 11)
-                                        <th style="border: 0px solid #eaf0f7"></th>
-                                        @endif
-                                        <th style="border: 0px solid #eaf0f7"></th>
-                                        <th style="border: 0px solid #eaf0f7">Category Name</th>
-                                        <th style="border: 0px solid #eaf0f7">Status</th>
-                                        <th style="border: 0px solid #eaf0f7">Approved</th>
-                                        <th style="border: 0px solid #eaf0f7"></th>
-                                    </tr>
-                                </tfoot>
-
-
                             </table>
                             <input type="hidden" value="{{ $totalCategories }}" id="totalservicecnt">
                             @if ($totalCategories > 0)

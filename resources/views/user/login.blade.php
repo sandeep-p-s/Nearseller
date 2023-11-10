@@ -59,8 +59,36 @@
             width: 100px;
             margin: 1px;
         }
-    </style>
 
+        .password-container {
+
+            position: relative;
+        }
+
+        .password-container input[type="password"],
+        .password-container input[type="text"] {
+            width: 100%;
+            padding: 12px 36px 12px 12px;
+            box-sizing: border-box;
+        }
+
+        .fa-eye {
+            position: absolute;
+            top: 28%;
+            right: 4%;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .fa-eye-slash {
+            position: absolute;
+            top: 28%;
+            right: 4%;
+            cursor: pointer;
+            color: #666;
+
+        }
+    </style>
 
     <section class="vh-100">
         <div class="container-fluid">
@@ -105,7 +133,8 @@
                                     {{-- <label for="y">Login with password</label> --}}
                                 </div>
                                 <div>
-                                    <input type="radio" class="radio" name="x" value="z" id="mobile" />Login with OTP
+                                    <input type="radio" class="radio" name="x" value="z"
+                                        id="mobile" />Login with OTP
                                     {{-- <label for="z">Login with OTP</label> --}}
                                 </div>
                             </div>
@@ -119,10 +148,10 @@
                                         class="form-control form-control-lg" placeholder="Email ID/Mobile Number"
                                         onchange="checkemilmob(this.value,'3')" required />
                                 </div>
-                                <div class="form-outline mb-4">
+                                <div class="form-outline mb-4 password-container">
                                     <input type="password" id="passwd" name="passwd"
                                         class="form-control form-control-lg" placeholder="password" required
-                                        maxlength="20" />
+                                        maxlength="20" /><i class="fa-solid fa-eye" id="eye"></i>
                                 </div>
                                 <p class="small mb-1 pb-lg-2 float-end" id="forget"><a class="" href="#"
                                         style="color:#432791;">Forgot password?</a></p>
@@ -210,9 +239,9 @@
                                         class="dripicons-checkmark" title="verified"></i>
                                     <i id="nverifiedemailotp" style="display: none;" class="ti-close"
                                         style="color: red; font-size: 22px; font-weight: 900;"></i>
-                                        <div class="form-group">
-                                            <div for="u_emid" class="error" id="uemil-message"></div>
-                                        </div>
+                                    <div class="form-group">
+                                        <div for="u_emid" class="error" id="uemil-message"></div>
+                                    </div>
 
 
                                     {{-- <div  class="text-center" style="display: none;"></div> --}}
@@ -249,7 +278,7 @@
 
 
 
-                                <div class="form-outline  mb-2" style="display: flex;">
+                                <div class="form-outline  mb-2 d-flex">
                                     <select name="mobcntrycode" id="mobcntrycode" class="form-control"
                                         style="width: 17%;" required>
                                         <option value="+91">+91</option>
@@ -622,7 +651,8 @@
                                     <div class="form-outline mb-3">
                                         <input type="file" id="s_photo" multiple="" name="s_photo[]"
                                             class="form-control form-control-lg" placeholder="Shop Photo" required
-                                            tabindex="19" accept="image/jpeg, image/png" title="Please select shop photo's" />
+                                            tabindex="19" accept="image/jpeg, image/png"
+                                            title="Please select shop photo's" />
                                         <div for="s_photo" class="error"></div>
                                     </div>
                                     {{-- <div class="image-preview" style="display: none;">
@@ -657,8 +687,8 @@
                                     <div class="form-outline mb-3">
                                         <input type="date" id="s_establishdate" name="s_establishdate"
                                             maxlength="10" class="form-control form-control-lg"
-                                            placeholder="Establishment Date" tabindex="22" title="Please select establishment date"
-                                            max="{{ date('Y-m-d') }}" />
+                                            placeholder="Establishment Date" tabindex="22"
+                                            title="Please select establishment date" max="{{ date('Y-m-d') }}" />
                                         <div for="s_establishdate" class="error"></div>
                                     </div>
 
@@ -3854,6 +3884,18 @@
             });
 
         }
+
+        const passwordInput = document.querySelector("#passwd")
+        const eye = document.querySelector("#eye")
+
+        eye.addEventListener("click", function() {
+            const eyeClass = eye.classList.contains("fa-eye-slash");
+            const newClass = eyeClass ? "fa-eye" : "fa-eye-slash";
+            const newType = eyeClass ? "password" : "text";
+            eye.classList.remove(eyeClass ? "fa-eye-slash" : "fa-eye");
+            eye.classList.add(newClass);
+            passwordInput.setAttribute("type", newType);
+        })
     </script>
 </body>
 

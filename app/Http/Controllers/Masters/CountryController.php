@@ -58,17 +58,7 @@ class CountryController extends Controller
         );
 
         $newcountry = new Country;
-
-        // Explode the string into an array of words
-        $words = explode(" ", $request->country_name);
-
-        // Capitalize the first letter of each word
-        $capitalizedWords = array_map('ucfirst', $words);
-
-        // Implode the array back into a string
-        $capitalizedName = implode(" ", $capitalizedWords);
-
-        $newcountry->country_name = $capitalizedName;
+        $newcountry->country_name = ucwords(strtolower($request->country_name));
         $newcountry->save();
 
         return redirect()->route('list.country')->with('success', 'Country added successfully.');

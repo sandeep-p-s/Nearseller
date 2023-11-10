@@ -51,21 +51,21 @@ class StateController extends Controller
             'country_name' => 'not_in:0',
             'state_name' => [
                 'required',
-                'alpha',
+                'regex:/^[a-zA-Z &]+$/',
                 'max:60',
                 'unique:state,state_name,NULL,id,country_id,' . $request->country_name,
             ],
         ], [
             'country_name.not_in' => 'Please select a country.',
             'state_name.required' => 'The state name field is missing.',
-            'state_name.alpha' => 'The state name must be alphabetic characters.',
+            'state_name.regex' => 'Invalid format used.',
             'state_name.max' => 'The state name cannot exceed 60 characters.',
             'state_name.unique' => 'The state name is already taken in the selected country.',
         ]);
 
         $newstate = new State;
         $newstate->country_id = $request->country_name;
-        $newstate->state_name = ucfirst(strtolower($request->state_name));
+        $newstate->state_name = ucwords(strtolower($request->state_name));
         $newstate->save();
 
         return redirect()->route('list.state')->with('success', 'State added successfully.');
@@ -114,7 +114,7 @@ class StateController extends Controller
                 'status.in' => 'Invalid status value.',
             ]
         );
-        $state->state_name = ucfirst(strtolower($request->state_name));
+        $state->state_name = ucwords(strtolower($request->state_name));
         $state->status = $request->status;
         $state->save();
 

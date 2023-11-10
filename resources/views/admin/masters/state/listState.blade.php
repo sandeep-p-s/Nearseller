@@ -40,6 +40,18 @@
                 </div><!--end col-->
             </div><!--end row-->
             <!-- end page title end breadcrumb -->
+            <style>
+                tfoot {
+                    display: table-caption;
+                }
+
+                tfoot {
+                    width: 100%;
+                    padding: 3px;
+                    box-sizing: border-box;
+                }
+            </style>
+
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -52,12 +64,16 @@
                                     Inactive States : {{ $inactive_states }}
                                 </span>
                             </div> --}}
-                            <table id="datatable" class="table table-bordered dt-responsive nowrap "
+
+                            <table id="datatable3" class="table table-bordered dt-responsive nowrap "
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+
+
                                 <thead>
                                     <tr>
                                         <th>S.No.</th>
                                         <th>State Name</th>
+                                        <th>Country Name</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -66,8 +82,9 @@
                                     @foreach ($states as $st)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td><span class="badge badge-soft-purple p-1">{{ $st->country_name }} </span> >
-                                                {{ $st->state_name }}</td>
+                                            <td>{{ $st->state_name }}</td>
+                                            <td><span class="badge badge-soft-purple p-2">{{ $st->country_name }} </span>
+                                            </td>
                                             <td>
                                                 <span
                                                     class="badge  p-2 {{ $st->st_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
@@ -93,6 +110,15 @@
                                         </tr>
                                     @endforeach
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th style="border: 0px solid #eaf0f7"></th>
+                                        <th style="border: 0px solid #eaf0f7">State Name</th>
+                                        <th style="border: 0px solid #eaf0f7">Country Name</th>
+                                        <th style="border: 0px solid #eaf0f7">Status</th>
+                                        <th style="border: 0px solid #eaf0f7"></th>
+                                    </tr>
+                                </tfoot>
                             </table>
 
                         </div>
@@ -101,4 +127,39 @@
             </div> <!-- end row -->
 
         </div><!-- container -->
+
+        <script>
+            $(document).ready(function() {
+
+                var table = $('#datatable3').DataTable({
+                    initComplete: function() {
+                        this.api()
+                            .columns()
+                            .every(function() {
+                                let column = this;
+                                let title = column.footer().textContent;
+                                if (title == "")
+                                    return;
+                                // Create input element
+                                let input = document.createElement('input');
+                                input.className = "form-control form-control-lg";
+                                input.type = "text";
+                                input.placeholder = title;
+                                column.footer().replaceChildren(input);
+
+                                // Event listener for user input
+                                input.addEventListener('keyup', () => {
+                                    if (column.search() !== this.value) {
+                                        column.search(input.value).draw();
+                                    }
+                                });
+                            });
+                    },
+                    "columnDefs": [{
+                        "targets": 0,
+                        "orderable": false
+                    }]
+                });
+            });
+        </script>
     @endsection
