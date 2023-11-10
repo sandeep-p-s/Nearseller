@@ -57,7 +57,7 @@ class CountryController extends Controller
         ]);
 
         $newcountry = new Country;
-        $newcountry->country_name = ucfirst(strtolower($request->country_name));
+        $newcountry->country_name = ucwords(strtolower($request->country_name));
         $newcountry->save();
 
         return redirect()->route('list.country')->with('success', 'Country added successfully.');
@@ -97,7 +97,7 @@ class CountryController extends Controller
             'country_name.max' => 'The country name cannot exceed 255 characters.',
             'status.in' => 'Invalid status value.',
         ]);
-        $country->country_name = ucfirst(strtolower($request->country_name));
+        $country->country_name = ucwords(strtolower($request->country_name));
         $country->status = $request->status;
         $country->save();
 
