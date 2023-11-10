@@ -26,9 +26,9 @@
                                 @csrf
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Edit Role</label>
-                                    <input type="text" class="form-control mb-3" id="exampleFormControlInput1"
+                                    <input type="text" class="form-control mb-3" required id="exampleFormControlInput1"
                                         name="role_name" placeholder="Enter role"
-                                        value="{{ $role->role_name }}" maxlength="50" >
+                                        value="{{ $role->role_name }}" maxlength="50" pattern="^[a-zA-Z\s]+$" >
                                         @error('role_name')
                                         <div class="text-danger mb15">{{ $message }}</div>
                                     @enderror
