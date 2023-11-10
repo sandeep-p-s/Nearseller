@@ -430,9 +430,9 @@
                     @endif
                     {{--  <th>Reg. ID</th>  --}}
                     <th>{{ $shoporservice }} Name</th>
-                    <th>{{ $shoporservice }} Provider Name</th>
-                    <th>Owner Name</th>
                     <th>{{ $shoporservice }} Type</th>
+                    <th>Owner Name</th>
+                    {{-- <th>{{ $shoporservice }} Type</th> --}}
                     {{--  <th>Mobile</th>  --}}
                     {{-- <th>Business Type</th> --}}
                     <th>Active Status</th>
@@ -455,7 +455,7 @@
                         <td>{{ $sellerDetail->shop_name }}</td>
                         <td>{{ $sellerDetail->service_name }} </td>
                         <td>{{ $sellerDetail->owner_name }}</td>
-                        <td>{{ $sellerDetail->service_name }}</td>
+                        {{-- <td>{{ $sellerDetail->service_name }}</td> --}}
                         {{--  <td>{{ $sellerDetail->mob_country_code.''.$sellerDetail->shop_mobno }}</td>  --}}
                         {{-- <td class="text-success">{{ $sellerDetail->business_name }}</td> --}}
                         <td><span
@@ -502,10 +502,10 @@
                     @endif
                     {{--  <th style="border: 0px solid #eaf0f7">Reg. ID</th>  --}}
                     <th style="border: 0px solid #eaf0f7">{{ $shoporservice }} Name</th>
-                    <th style="border: 0px solid #eaf0f7">{{ $shoporservice }} Provider Name</th>
+                    <th style="border: 0px solid #eaf0f7">{{ $shoporservice }} Type</th>
                     <th style="border: 0px solid #eaf0f7">Owner Name</th>
                     {{-- <th>Email</th> --}}
-                    <th style="border: 0px solid #eaf0f7">Seller Type</th>
+                    {{-- <th style="border: 0px solid #eaf0f7">Seller Type</th> --}}
                     {{-- <th>Business Type</th> --}}
                     <th style="border: 0px solid #eaf0f7">Active Status</th>
                     <th style="border: 0px solid #eaf0f7">Approval Status</th>

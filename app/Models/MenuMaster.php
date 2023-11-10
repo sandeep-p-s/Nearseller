@@ -34,7 +34,7 @@ class MenuMaster extends Model
             if (!isset($structuredMenu[$m1][$m2])) {
                 $structuredMenu[$m1][$m2] = [];
             }
-            $structuredMenu[$m1][$m2][$m3] = [$row->menu_desc, $url];
+            $structuredMenu[$m1][$m2][$m3] = [$row->menu_desc, $url, $row->menu_id];
         }
         return $structuredMenu;
     }
