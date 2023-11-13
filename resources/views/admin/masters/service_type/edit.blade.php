@@ -45,10 +45,10 @@
                                         <div class="text-danger mb15">{{ $message }}</div>
                                     @enderror
                                     <div class="form-group">
-                                        <label for="exampleFormControlSelect1">Status</label>
+                                        <label for="exampleFormControlSelect1">Approval Status</label>
                                         <select class="form-control" id="exampleFormControlSelect1" name="status">
-                                            <option value="Active" @if($servicetype->status === 'Y') selected @endif>Active</option>
-                                            <option value="Inactive" @if($servicetype->status === 'N') selected @endif>Inactive</option>
+                                            <option value="Active" @if($servicetype->status === 'Y') selected @endif>Approved</option>
+                                            <option value="Inactive" @if($servicetype->status === 'N') selected @endif>Not Approved</option>
                                         </select>
                                     </div>
                                     <button type="submit" class="btn view_btn">Update</button>
