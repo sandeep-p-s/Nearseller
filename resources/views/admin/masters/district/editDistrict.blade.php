@@ -27,9 +27,8 @@
                                 <div class="form-group">
                                     <label for="exampleFormControlSelect1">Select State</label>
                                     <select class="form-control mb15" id="exampleFormControlSelect1" name="state_name">
-                                        <option value="0">Select State</option>
                                         @foreach ($states as $st)
-                                            <option {{ $st->id == $district->state_id? 'selected' : '' }} value="{{ $st->id }}" >{{ $st->country_name }} > {{$st->state_name}}</option>
+                                            <option {{ $st->id == $district->state_id? 'selected' : '' }} value="{{ $st->id }}" >{{ $st->country_name }} &nbsp;➤&nbsp; {{$st->state_name}}</option>
                                         @endforeach
                                     </select>
                                     <label for="exampleFormControlInput1">Edit District</label>

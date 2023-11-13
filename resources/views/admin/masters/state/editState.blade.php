@@ -31,7 +31,6 @@
                                 <div class="form-group">
                                     <label for="exampleFormControlSelect1">Select Country</label>
                                     <select class="form-control mb15" id="exampleFormControlSelect1" name="country_name">
-                                        <option value="0">Select Country</option>
 
                                         @foreach ($countries as $ct)
                                         <option {{ $ct->id == $state->country_id? 'selected' : '' }} value="{{$ct->id}}">{{$ct->country_name}}</option>

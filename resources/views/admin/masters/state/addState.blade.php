@@ -31,7 +31,7 @@
                                 @csrf
                                 <div class="form-group">
                                     <label for="exampleFormControlSelect1">Select Country</label>
-                                    <select class="form-control mb15" id="exampleFormControlSelect1" name="country_name">
+                                    <select class=" selectauto select2 form-control  mb15" id="exampleFormControlSelect1" name="country_name" style="width: 100%; height:36px;">
                                         <option value="0">Select Country</option>
                                         @foreach ($countries as $ct)
                                             <option value="{{ $ct->id }}" {{ old('country_name') == $ct->id ? 'selected' : '' }}>{{ $ct->country_name }}</option>
