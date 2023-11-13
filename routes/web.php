@@ -275,6 +275,12 @@ Route::middleware(['role'])->group(function () {
         Route::get('serviceedit/{id}', 'edit_service_type')->name('edit.servicetype');
         Route::post('serviceupdate/{id}', 'update_service_type')->name('update.servicetype');
         Route::get('servicedelete/{id}', 'delete_service_type')->name('delete.servicetype');
+
+        Route::get('sellerprovidertype/{id}', 'ServiceProviderApproval')->name('admin.sellerprovidertype');
+        Route::get('allsellerproviderview', 'AllSellerProviderList')->name('admin.allsellerproviderview');
+        Route::post('sellerserviceprovider', 'SellerServiceProviderApprovedAll')->name('SellerServiceApprovedAll');
+        Route::post('ProviderTypeApproved', 'AdmsellerserviceApproved')->name('serviceSeller_Approved');
+        Route::post('ProvidersellerApproved', 'AdmsellerProviderApprovedPage')->name('ServiceproviderApprovaltype');
     });
     //master
     Route::controller(AttributeController::class)->group(function () {
