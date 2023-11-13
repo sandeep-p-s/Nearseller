@@ -54,7 +54,7 @@
                                         <th>S.No.</th>
                                         <th>Seller/Service Provider Type</th>
                                         <th>Business Type</th>
-                                        <th>Status</th>
+                                        <th>Approval Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -70,7 +70,7 @@
                                             </td>
                                             <td>
                                                 <span class="badge p-2  {{ $srt->status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
-                                                    {{ $srt->status === 'Y' ? 'Active' : 'Inactive' }}
+                                                    {{ $srt->status === 'Y' ? 'Approved' : 'Not Approved' }}
                                                 </span>
                                             </td>
 
