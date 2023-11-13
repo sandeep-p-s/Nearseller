@@ -50,8 +50,8 @@
                     <div class="card">
 
                         <div class="card-body">
-                            <table id="datatable" class="table table-bordered dt-responsive nowrap"
-                                style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <table id="datatable" class="table table-striped table-bordered"
+                                style="width: 100%;">
                                 <thead>
                                     <tr>
                                         @if (session('roleid') == 1 || session('roleid') == 11)

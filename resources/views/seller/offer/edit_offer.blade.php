@@ -12,7 +12,7 @@
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-                                <h4 class="page-title">Edit Shop Offer</h4>
+                                <h4 class="page-title">Edit Seller Offer</h4>
                             </div>
                             <div class="col">
                                 <div class="button-items d-flex align-items-end flex-column">

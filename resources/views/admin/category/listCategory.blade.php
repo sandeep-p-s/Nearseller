@@ -47,7 +47,7 @@
 
             <style>
                 tfoot {
-                    display: table-caption;
+                    display: table-header-group;
                 }
 
                 tfoot {
@@ -65,22 +65,22 @@
                                     {{ $total_categories }}</span><span class="badge badge-soft-info p-2 ml-2">Active Status
                                     Categories :
                                     {{ $active_categories }}</span><span class="badge badge-soft-danger p-2 ml-2">Inactive
-                                    Status Categories : {{ $inactive_categories }}</span><span
+                                    Categories : {{ $inactive_categories }}</span><span
                                     class="badge badge-soft-info p-2 ml-2">Approved Categories :
                                     {{ $approved_categories }}</span><span class="badge badge-soft-danger p-2 ml-2">Not
                                     Approved Categories : {{ $notapproved_categories }}
                                 </span>
                             </div>
                             <table id="datatable3" class="table table-striped table-bordered" style="width: 100%">
-                                <tfoot>
+                                <tfoot class="text-center">
                                     <tr>
                                         @if (session('roleid') == 1 || session('roleid') == 11)
                                             <th style="border: 0px solid #eaf0f7"></th>
                                         @endif
-                                        <th style="border: 0px solid #eaf0f7"></th>
-                                        <th style="border: 0px solid #eaf0f7">Category Name</th>
-                                        <th style="border: 0px solid #eaf0f7">Status</th>
-                                        <th style="border: 0px solid #eaf0f7">Approved</th>
+                                        <th style="border: 0px solid #eaf0f7; "></th>
+                                        <th style="border: 0px solid #eaf0f7;">Category Name</th>
+                                        <th style="border: 0px solid #eaf0f7">Active Status</th>
+                                        <th style="border: 0px solid #eaf0f7">Approval Status</th>
                                         <th style="border: 0px solid #eaf0f7"></th>
                                     </tr>
                                 </tfoot>
@@ -115,7 +115,7 @@
                                             @endif
 
                                             <td width="5%">{{ $loop->iteration }}</td>
-                                            <td width="65%">
+                                            <td width="55%">
                                                 @foreach (explode(' ➤ ', $c->category_name) as $key => $path)
                                                     @if ($loop->last)
                                                         <span class="badge badge-soft-orange p-2"
@@ -130,13 +130,13 @@
                                                 @endforeach
                                             </td>
 
-                                            <td width="5%" class="text-center">
+                                            <td width="10%" class="text-center">
                                                 <span
                                                     class="badge p-2 {{ $c->status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
                                                     {{ $c->status === 'Y' ? 'Active' : 'Inactive' }}
                                                 </span>
                                             </td>
-                                            <td width="10%" class="text-center">
+                                            <td width="15%" class="text-center">
                                                 <span
                                                     class="badge p-2 {{ $c->approval_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
                                                     {{ $c->approval_status === 'Y' ? 'Approved' : 'Not Approved' }}
