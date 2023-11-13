@@ -127,7 +127,14 @@
 
                     </div> --}}
 
+                    <div class="form-group"><label>Product Status</label>
+                        <select class="form-select form-control form-control-lg" name="productstatus"  id="productstatus" required  tabindex="6" >
+                            <option value="">Select</option>
+                            <option value="Y"  @if ($ProductDetails->product_status=='Y') selected @endif>Available</option>
+                            <option value="N"  @if ($ProductDetails->product_status=='N') selected @endif>Not Available</option>
+                        </select>
 
+                    </div>
                     <div class="form-group"><label>Approval Status</label>
                         <select class="form-select form-control form-control-lg" name="productapproval"
                             id="productapproval" required tabindex="6">

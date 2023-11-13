@@ -67,23 +67,27 @@
                             class="badge p-2 {{ $prodDetails->product_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
                             {{ $prodDetails->product_status === 'Y' ? 'Available' : 'Not Available' }}
                         </span></td>
-                    <td><span
+                    <td>
+                        <span
                             class="badge p-2 {{ $prodDetails->is_approved === 'Y' ? 'badge badge-success' : ($prodDetails->is_approved === 'N' ? 'badge badge-info' : 'badge badge-danger') }}">
                             {{ $prodDetails->is_approved === 'Y' ? 'Yes' : ($prodDetails->is_approved === 'N' ? 'No' : 'Rejected') }}
-                        </span></td>
+                        </span>
+                    </td>
                     <td>
                         <div class="btn-group mb-2 mb-md-0">
                             <button type="button" class="btn view_btn dropdown-toggle" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">Action
                                 <i class="mdi mdi-chevron-down"></i></button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item view_btn1" href="#"
-                                    onclick="productvieweditdet({{ $prodDetails->id }})">View/Edit</a>
+
                                 @if (session('roleid') == '1' || session('roleid') == '11')
                                     <a class="dropdown-item approve_btn" href="#"
-                                        onclick="productapprovedet({{ $prodDetails->id }})">Approved</a>
+                                        onclick="productapprovedet({{ $prodDetails->id }})">Activation/Approval</a>
                                     <a class="dropdown-item delete_btn" href="#"
                                         onclick="productdeletedet({{ $prodDetails->id }})">Delete</a>
+                                @else
+                                    <a class="dropdown-item view_btn1" href="#"
+                                    onclick="productvieweditdet({{ $prodDetails->id }})">View/Edit</a>
                                 @endif
                             </div>
                         </div>

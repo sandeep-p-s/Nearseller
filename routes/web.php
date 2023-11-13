@@ -10,10 +10,9 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ShopTypeController;
 use App\Http\Controllers\AffiliateController;
-use App\Http\Controllers\ShopOfferController;
+use App\Http\Controllers\OfferController;
 use App\Http\Controllers\UserLoggedController;
 
-use App\Http\Controllers\ServiceOfferController;
 use App\Http\Controllers\ServiceEmployeeController;
 
 use App\Http\Controllers\CategoryProductListController;
@@ -398,13 +397,29 @@ Route::middleware(['role'])->group(function () {
         Route::post('uploadshops', 'UploadsellerRegisteration')->name('UploadsellerRegister');
     });
 
-    Route::controller(ShopOfferController::class)->group(function () {
+    Route::controller(OfferController::class)->group(function () {
         Route::get('listshopoffer', 'list_shop_offer')->name('list.shop_offer');
+        Route::get('addlistshopoffer', 'list_shop_offer')->name('list.shop_offer');
         Route::get('addshopoffer', 'add_shop_offer')->name('add.shop_offer');
         Route::post('storeshopoffer', 'store_shop_offer')->name('store.shop_offer');
         Route::get('editshopoffer/{id}', 'edit_shop_offer')->name('edit.shop_offer');
         Route::post('updateshopoffer/{id}', 'update_shop_offer')->name('update.shop_offer');
         Route::get('deleteshopoffer/{id}', 'delete_shop_offer')->name('delete.shop_offer');
+        Route::get('approvedshopoffer/{id}', 'approved_shopoffer')->name('approved.shopoffer');
+        Route::post('approvedstatusshopoffer/{id}', 'approvedstatus_shopoffer')->name('approvedstatus.shopoffer');
+        Route::post('shopofferapprovedall', 'AdmShopOfferApprovedAll')->name('ShopOfferApprovedAll');
+
+        Route::get('listserviceoffer', 'list_service_offer')->name('list.service_offer');
+        Route::get('addlistserviceoffer', 'list_service_offer')->name('list.service_offer');
+        Route::get('addserviceoffer', 'add_service_offer')->name('add.service_offer');
+        Route::post('storeserviceoffer', 'store_service_offer')->name('store.service_offer');
+        Route::get('editserviceoffer/{id}', 'edit_service_offer')->name('edit.service_offer');
+        Route::post('updateserviceoffer/{id}', 'update_service_offer')->name('update.service_offer');
+        Route::get('deleteserviceoffer/{id}', 'delete_service_offer')->name('delete.service_offer');
+        Route::get('approvedserviceoffer/{id}', 'approved_serviceoffer')->name('approved.serviceoffer');
+        Route::post('approvedstatusservice/{id}', 'approvedstatus_service')->name('approvedstatus.service');
+        Route::post('serviceofferapprovedall', 'AdmServiceOfferApprovedAll')->name('ServiceOfferApprovedAll');
+
     });
     Route::controller(ServiceController::class)->group(function () {
         Route::get('listservice', 'list_service')->name('list.service');
@@ -443,14 +458,6 @@ Route::middleware(['role'])->group(function () {
         // Route::get('/getStates/{country}', 'getStates')->name('getStates');
     });
 
-    Route::controller(ServiceOfferController::class)->group(function () {
-        Route::get('listserviceoffer', 'list_service_offer')->name('list.service_offer');
-        Route::get('addserviceoffer', 'add_service_offer')->name('add.service_offer');
-        Route::post('storeserviceoffer', 'store_service_offer')->name('store.service_offer');
-        Route::get('editserviceoffer/{id}', 'edit_service_offer')->name('edit.service_offer');
-        Route::post('updateserviceoffer/{id}', 'update_service_offer')->name('update.service_offer');
-        Route::get('deleteserviceoffer/{id}', 'delete_service_offer')->name('delete.service_offer');
-    });
 
     Route::controller(AffiliateController::class)->group(function () {
         Route::get('affdashboard', 'affiliatedashboard')->name('affiliate.dashboard');

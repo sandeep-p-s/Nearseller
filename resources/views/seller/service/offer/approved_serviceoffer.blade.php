@@ -12,7 +12,7 @@
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-                                <h4 class="page-title">Edit Service Offer</h4>
+                                <h4 class="page-title">Approved Service Offer</h4>
                             </div>
                             <div class="col">
                                 <div class="button-items d-flex align-items-end flex-column">
@@ -25,7 +25,7 @@
                 </div><!--end col-->
             </div> <!--end row-->
 
-            <form method="POST" action="{{ route('update.service_offer', $serviceoffer->id) }}"
+            <form action="{{ route('approvedstatus.service', $serviceoffer->id) }}" method="POST"
                 enctype="multipart/form-data">
                 @csrf
                 <div class="row">
@@ -39,11 +39,13 @@
                                         <div class="form-group" style="display: none;">
                                             <label for="service_name">Service User <span
                                                     class="text-danger">*</span></label>
-                                            <select class="form-select form-control form-control-lg"
-                                                id="serviceuser_name" name="serviceuser_name" required tabindex="1">
+                                            <select class="form-select form-control form-control-lg" id="serviceuser_name"
+                                                name="serviceuser_name" required tabindex="1">
                                                 <option value="">Select Service User</option><br />
                                                 @foreach ($userservicedets as $serviceuser)
-                                                    <option value="{{ $serviceuser->id }}" @if ($serviceuser->id == $serviceoffer->user_id) selected @endif>{{ $serviceuser->name }}</option>
+                                                    <option value="{{ $serviceuser->id }}"
+                                                        @if ($serviceuser->id == $serviceoffer->user_id) selected @endif>
+                                                        {{ $serviceuser->name }}</option>
                                                 @endforeach
                                             </select>
                                             @error('serviceuser_name')
@@ -54,7 +56,7 @@
                                             <label class="control-label">Offer to Display</label>
                                             <input type="text" class="form-control" id="offer"
                                                 name="offer_to_display" placeholder="Enter offer"
-                                                value="{{ $serviceoffer->offer_to_display }}">
+                                                value="{{ $serviceoffer->offer_to_display }}" readonly>
                                             @error('offer_to_display')
                                                 <div class="text-danger mb15">{{ $message }}</div>
                                             @enderror
@@ -75,7 +77,7 @@
                                                                         id="conditions_{{ $index }}"
                                                                         name="car[{{ $index }}][conditions]"
                                                                         placeholder="Enter conditions"
-                                                                        value="{{ $condition['conditions'] }}">
+                                                                        value="{{ $condition['conditions'] }}" readonly>
                                                                 </div>
                                                             </div>
                                                         @endforeach
@@ -85,7 +87,7 @@
                                                                 <label class="control-label">Conditions</label>
                                                                 <input type="text" class="form-control" id="conditions"
                                                                     name="car[0][conditions]" placeholder="Enter conditions"
-                                                                    value="">
+                                                                    value="" readonly>
                                                             </div>
                                                         </div>
                                                     @endif
@@ -106,7 +108,7 @@
                                                     <label class="control-label">From Date & Time</label>
                                                     <input type="datetime-local" class="form-control" id="from_time"
                                                         name="from_date_time" placeholder="Enter offer"
-                                                        value="{{ $serviceoffer->from_date_time }}">
+                                                        value="{{ $serviceoffer->from_date_time }}" readonly>
                                                     @error('from_date_time')
                                                         <div class="text-danger mb15">{{ $message }}</div>
                                                     @enderror
@@ -118,7 +120,7 @@
                                                     <label class="control-label">To Date & Time</label>
                                                     <input type="datetime-local" class="form-control" id="to_time"
                                                         name="to_date_time" placeholder="Enter offer"
-                                                        value="{{ $serviceoffer->to_date_time }}">
+                                                        value="{{ $serviceoffer->to_date_time }}" readonly>
                                                     @error('to_date_time')
                                                         <div class="text-danger mb15">{{ $message }}</div>
                                                     @enderror
@@ -126,12 +128,22 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Status</label>
-                                            <select class="form-control" id="exampleFormControlSelect1" name="status">
-                                                <option value="Active" @if($serviceoffer->status === 'Y') selected @endif>Active</option>
-                                                <option value="Inactive" @if($serviceoffer->status === 'N') selected @endif>Inactive</option>
+                                        <div class="form-group"><label>Approval Status</label>
+                                            <select class="form-control" id="serviceofferapproved"
+                                                name="serviceofferapproved">
+                                                <option value="Y"
+                                                    {{ $serviceoffer->approval_status == 'Y' ? 'selected' : '' }}>
+                                                    Approved
+                                                </option>
+                                                <option value="N"
+                                                    {{ $serviceoffer->approval_status == 'N' ? 'selected' : '' }}>
+                                                    Not Approved
+                                                </option>
+                                                {{-- <option value="R" {{ $shopoffer->approval_status  == 'R' ? 'selected' : '' }}>
+                                                    Rejected
+                                                </option> --}}
                                             </select>
+
                                         </div>
                                     </div>
 
@@ -155,7 +167,8 @@
                                                     </div>
                                                     <input type="file" id="input-file-now-custom-2" class="dropify"
                                                         data-height="300" name="offer_image"
-                                                        data-default-file="{{ asset('uploads/service_offer/' . $serviceoffer->offer_image) }}">
+                                                        data-default-file="{{ asset('uploads/service_offer/' . $serviceoffer->offer_image) }}"
+                                                        readonly>
                                                     <button type="button" class="dropify-clear">Remove</button>
                                                     <div class="dropify-preview"><span class="dropify-render"></span>
                                                         <div class="dropify-infos">
@@ -179,7 +192,7 @@
                                 </div><!--end fieldset-->
                                 <!--end form-->
                                 <div class="content_center">
-                                    <button type="submit" class="btn view_btn">Update</button>
+                                    <button type="submit" class="btn view_btn">Approve</button>
                                 </div>
                             </div><!--end card-body-->
                         </div>
@@ -193,7 +206,7 @@
         </div><!-- container -->
         <script>
             $(document).ready(function() {
-                $('.selectservice').each(function() {
+                $('.selectshop').each(function() {
                     var $p = $(this).parent();
                     $(this).select2({
                         dropdownParent: $p
@@ -205,19 +218,15 @@
                 const toTimeInput = document.getElementById("to_time");
 
                 fromTimeInput.addEventListener("change", function() {
-                    // Get the value of the "From Date & Time" input
                     const fromTimeValue = new Date(fromTimeInput.value);
 
-                    // Set the minimum value for the "To Date & Time" input
-                    toTimeInput.min = fromTimeValue.toISOString().slice(0, 16); // Format it as YYYY-MM-DDTHH:mm
+                    toTimeInput.min = fromTimeValue.toISOString().slice(0, 16);
 
-                    // Disable the selected "From Date & Time" in the "To Date & Time"
                     toTimeInput.addEventListener("change", function() {
                         const toTimeValue = new Date(toTimeInput.value);
                         if (toTimeValue <= fromTimeValue) {
                             alert("To Date & Time should be after From Date & Time");
-                            // You can clear the "To Date & Time" input or take other actions as needed.
-                            toTimeInput.value = ""; // Clear the input
+                            toTimeInput.value = "";
                         }
                     });
                 });

@@ -13,9 +13,13 @@
                         <div class="row">
                             <div class="col">
                                 <h4 class="page-title">Add Offer</h4>
-
                             </div>
-
+                            <div class="col">
+                                <div class="button-items d-flex align-items-end flex-column">
+                                    <a href="{{ route('list.service_offer') }}"><button type="button"
+                                            class="btn btn-secondary">Back</button></a>
+                                </div>
+                            </div>
                         </div><!--end row-->
                     </div><!--end page-title-box-->
                 </div><!--end col-->
