@@ -800,7 +800,7 @@ class ProductController extends Controller
         $prod_id = $request->prod_ids;
 
         $ProductDetails = ProductDetails::find($prod_id);
-
+        $ProductDetails->product_status = $request->input('productstatus');
         $ProductDetails->is_approved = $request->productapproval;
         $ProductDetails->approved_by = $userId;
         $ProductDetails->approved_time = $time;

@@ -12,10 +12,14 @@
                     <div class="page-title-box">
                         <div class="row">
                             <div class="col">
-                                <h4 class="page-title">Edit Offer</h4>
-
+                                <h4 class="page-title">Edit Shop Offer</h4>
                             </div>
-
+                            <div class="col">
+                                <div class="button-items d-flex align-items-end flex-column">
+                                    <a href="{{ route('list.shop_offer') }}"><button type="button"
+                                            class="btn btn-secondary">Back</button></a>
+                                </div>
+                            </div>
                         </div><!--end row-->
                     </div><!--end page-title-box-->
                 </div><!--end col-->
@@ -120,6 +124,13 @@
                                                     <!--end col-->
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleFormControlSelect1">Status</label>
+                                            <select class="form-control" id="exampleFormControlSelect1" name="status">
+                                                <option value="Active" @if($shopoffer->status === 'Y') selected @endif>Active</option>
+                                                <option value="Inactive" @if($shopoffer->status === 'N') selected @endif>Inactive</option>
+                                            </select>
                                         </div>
                                     </div>
 
