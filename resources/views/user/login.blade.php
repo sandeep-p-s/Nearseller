@@ -630,7 +630,7 @@
                                     <div class="form-outline mb-3">
                                         <input type="text" id="s_googlelatitude" name="s_googlelatitude"
                                             class="form-control form-control-lg"
-                                            placeholder="Latitude (Google map location)" required tabindex="18" />
+                                            placeholder="Latitude (Google map location)" required tabindex="18" pattern="^-?([1-8]?\d(\.\d{1,6})?|90(\.0{1,6})?)" />
                                         <div for="s_googlelatitude" class="error"></div>
                                     </div>
 
@@ -639,7 +639,7 @@
                                     <div class="form-outline mb-3">
                                         <input type="text" id="s_googlelongitude" name="s_googlelongitude"
                                             class="form-control form-control-lg"
-                                            placeholder="Longitude (Google map location)" required tabindex="18" />
+                                            placeholder="Longitude (Google map location)" required tabindex="18" pattern="^-?([1-8]?\d(\.\d{1,6})?|90(\.0{1,6})?)"/>
                                         <div for="s_googlelongitude" class="error"></div>
                                     </div>
 
@@ -2114,9 +2114,11 @@
                     },
                     s_googlelatitude: {
                         required: true,
+                        pattern: /^-?([1-8]?\d(\.\d{1,6})?|90(\.0{1,6})?)$/
                     },
                     s_googlelongitude: {
                         required: true,
+                        pattern: /^-?([1-8]?\d(\.\d{1,6})?|90(\.0{1,6})?)$/
                     },
 
                     s_establishdate: {
