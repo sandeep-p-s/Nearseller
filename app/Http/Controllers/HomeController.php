@@ -24,7 +24,9 @@ class HomeController extends Controller
         $product = DB::table('product_details')->select('id','product_name','product_images')->where('is_approved','Y')->get();
         $services = DB::table('service_details')->select('id','service_name','service_images')->where('is_approved','Y')->get();
         $shops = DB::table('seller_details')->select('id','shop_name','shop_photo')->where('seller_approved','Y')->get();
-        return view('user.main', compact('product','services','shops'));
+        $districts = DB::table('district')->select('id','district_name','state_id')->where('state_id','18')->get();
+        $userdetails='';
+        return view('user.main', compact('product','services','shops','districts','userdetails'));
     }
     public function Login()
     {
@@ -1876,6 +1878,32 @@ class HomeController extends Controller
                 return redirect()->route('login')->withErrors(['error' => 'Accept Terms and Conditions Approved Failed. Please check your Details.']);
             }
         }
+
+
+    function PublicServiceProvider(Request $request)
+    {
+        $loggedUserIp = $_SERVER['REMOTE_ADDR'];
+        $time = date('Y-m-d H:i:s');
+        $validatedData = $request->validate([
+            'hidserviceprovider' => 'required|max:2',
+            'serviceprovider_name' => 'required|max:50',
+        ]);
+        $servicetype = new ServiceType;
+        $servicetype->service_name = ucfirst($request->serviceprovider_name);
+        $servicetype->business_type_id = $request->hidserviceprovider;
+        $servicetype->status = 'Y';
+        $servicetype->created_at = $time;
+        $submt = $servicetype->save();
+        $lastRegId = $servicetype->toSql();
+        $last_id = $servicetype->id;
+        $msg = 'Seller/service provider successfully added! customer role  4 public.  Seller/service provider id : ' . $last_id;
+        $LogDetails = new LogDetails();
+        $LogDetails->user_id = '4';
+        $LogDetails->ip_address = $loggedUserIp;
+        $LogDetails->log_time = $time;
+        $LogDetails->status = $msg;
+        $LogDetails->save();
+    }
 
 
 
