@@ -151,7 +151,8 @@
                                 <div class="form-outline mb-4 password-container">
                                     <input type="password" id="passwd" name="passwd"
                                         class="form-control form-control-lg" placeholder="password" required
-                                        maxlength="20" onKeyUp="spacedets(this);" /><i class="fa-solid fa-eye" id="eye"></i>
+                                        maxlength="20" onKeyUp="spacedets(this);" /><i class="fa-solid fa-eye"
+                                        id="eye"></i>
                                 </div>
                                 <p class="small mb-1 pb-lg-2 float-end" id="forget"><a class="" href="#"
                                         style="color:#432791;">Forgot password?</a></p>
@@ -234,7 +235,8 @@
                                     <input tabindex="2" type="email" id="u_emid" name="u_emid"
                                         class="form-control form-control-lg" maxlength="50" placeholder="Enter Email"
                                         required onchange="exstemilid(this.value,'1')"
-                                        pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" onKeyUp="spacedets(this);" />
+                                        pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                        onKeyUp="spacedets(this);" />
                                     <i id="verifiedemailotp" style="display: none;color: green; font-size: 29px;"
                                         class="dripicons-checkmark" title="verified"></i>
                                     <i id="nverifiedemailotp" style="display: none;" class="ti-close"
@@ -285,8 +287,8 @@
                                     </select>
                                     <input tabindex="3" type="text" id="u_mobno" name="u_mobno"
                                         class="form-control form-control-lg" maxlength="10"
-                                        placeholder="Enter Mobile No." required
-                                        onchange="exstmobno(this.value,'1')" onKeyUp="spacedets(this);" pattern="[0-9]*" />
+                                        placeholder="Enter Mobile No." required onchange="exstmobno(this.value,'1')"
+                                        onKeyUp="spacedets(this);" pattern="[0-9]*" />
                                     <i id="verifiedmobotp"
                                         style="display: none;color: green; font-size: 29px;margin-top: 3%;"
                                         class="dripicons-checkmark" title="verified"></i>
@@ -387,7 +389,8 @@
                                         <input type="text" id="s_mobno" name="s_mobno"
                                             class="form-control form-control-lg" maxlength="10"
                                             placeholder="Enter Mobile No" required tabindex="3"
-                                            onchange="exstmobno(this.value,'2')" onKeyUp="spacedets(this);" pattern="[0-9]*" />
+                                            onchange="exstmobno(this.value,'2')" onKeyUp="spacedets(this);"
+                                            pattern="[0-9]*" />
 
                                         <i id="s_verifiedmobotp"
                                             style="display:none;color: green; font-size: 29px;margin-top: 3%;"
@@ -437,7 +440,8 @@
                                             class="form-control form-control-lg" maxlength="35"
                                             placeholder="Enter Email" tabindex="4"
                                             onchange="exstemilid(this.value,'2')"
-                                            pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" onKeyUp="spacedets(this);" />
+                                            pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                            onKeyUp="spacedets(this);" />
                                         <i id="s_verifiedemailotp"
                                             style="display:none;color: green; font-size: 29px;margin-top: 3%;"
                                             class="dripicons-checkmark" title="verified"></i>
@@ -518,11 +522,13 @@
                                     </div> --}}
 
 
-                                    <div class="form-outline mb-3">
+                                    <div class="form-outline mb-3" style="display: flex;">
                                         <select class="form-select form-control form-control-lg"
                                             id="s_shopservicetype" name="s_shopservicetype" required tabindex="8">
                                             <option value="">Select Shop/Service Provider Type</option>
                                         </select>
+                                        <div id="addnewprovider" style="display: none;margin-top: 10px;"><a href="#"
+                                                data-bs-toggle="modal" data-bs-target="#addNewModal">Add</a></div>
                                         <div for="s_shopservicetype" class="error"></div>
                                     </div>
 
@@ -936,6 +942,40 @@
     </section>
 
 
+
+
+    <div class="modal fade p-5" id="addNewModal" tabindex="-1" aria-labelledby="addNewModalLabel"
+        aria-hidden="true" style="overflow-y: scroll;">
+        <div class="modal-dialog custom-modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center" id="addNewModalLabel">Add New seller/service provider type
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        title="Close"></button>
+                </div>
+                <hr>
+                <div class="modal-body">
+                    <form id="SellerProviderType" method="POST">
+
+                        <input type="hidden" id="hidserviceprovider" name="hidserviceprovider" />
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="serviceprovider_name"
+                                placeholder="Enter Seller/Service provider type" name="serviceprovider_name"
+                                onchange="existservicecategory(this.value)" style="width: 100%;"
+                                pattern="[a-zA-Z./& -]*" required maxlength="50">
+                            <div id="existserviceprovider-message" class="text-center" style="display: none;"></div>
+                            <div id="serviceprovider-message" class="text-center" style="display: none;"></div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!-- Modal -->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -964,8 +1004,8 @@
                     </div>
                     <p class="text-center mt-3 text-secondary" id="timer">Enter OTP within <span
                             id="countdown">00:59</span></p>
-                    <p class="text-center">If you didn't receive the code <a href="#" style="color: #452896;"
-                            id="resendBtn">Resend OTP</a></p>
+                    <p class="text-center">If you didn't receive the code <a href="#"
+                            style="color: #452896;" id="resendBtn">Resend OTP</a></p>
                     <button class="btn btn-primary" data-bs-dismiss="modal" id="VerifyBtn"
                         type="button">Verify</button>
                 </div>
@@ -1034,6 +1074,134 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
 
     <script>
+        $(document).ready(function() {
+            $('#serviceprovider_name').on('input', function() {
+                var inputValue = $(this).val();
+                var regex = /^[a-zA-Z./& -]*$/;
+
+                if (!regex.test(inputValue)) {
+                    $(this).val(inputValue.slice(0, -
+                    1));
+                }
+            });
+        });
+
+        function existservicecategory(category) {
+            $('#loading-overlay').fadeIn();
+            $('#loading-image').fadeIn();
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                url: '{{ route('existServicetypeName') }}',
+                type: 'POST',
+                data: {
+                    category: category
+                },
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function(data) {
+                    if (data.result == 1) {
+                        $('#existserviceprovider-message').text('Seller/Service Provider Type Already Exists.')
+                            .fadeIn();
+                        $('#existserviceprovider-message').addClass('error');
+                        setTimeout(function() {
+                            $('#existserviceprovider-message').fadeOut();
+                        }, 5000);
+                        $('#serviceprovider_name').val('');
+                        $('#loading-image').fadeOut();
+                        $('#loading-overlay').fadeOut();
+                    } else if (data.result == 3) {
+                        $('#existserviceprovider-message').text('Error in Data').fadeIn();
+                        $('#existserviceprovider-message').addClass('error');
+                        setTimeout(function() {
+                            $('#existserviceprovider-message').fadeOut();
+                        }, 5000);
+                        $('#loading-image').fadeOut();
+                        $('#loading-overlay').fadeOut();
+                    } else {
+                        $('#loading-image').fadeOut();
+                        $('#loading-overlay').fadeOut();
+                    }
+                }
+            });
+
+        }
+
+
+
+        $('#SellerProviderType').submit(function(e) {
+            e.preventDefault();
+            var s_busnestype = $('#s_busnestype').val();
+            if(s_busnestype=='' || s_busnestype=='0')
+            {
+                alert('Please select business type');
+                return false;
+            }
+            if ($(this).valid()) {
+                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                $('#loading-overlay').fadeIn();
+                $('#loading-image').fadeIn();
+                $.ajax({
+                    url: '{{ route('PubServiceprovidertype') }}',
+                    type: "POST",
+                    data: new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    success: function(response) {
+
+                        console.log(response);
+                        $('#serviceprovider-message').text(
+                            'Added!').fadeIn();
+                        $('#serviceprovider-message').addClass('success-message');
+                        setTimeout(function() {
+                            $('#serviceprovider-message').fadeOut();
+                        }, 5000); // 5000 milliseconds = 5 seconds
+                        $('#SellerProviderType')[0].reset();
+                        $('#loading-image').fadeOut();
+                        $('#loading-overlay').fadeOut();
+                        $('#addNewModal').modal('hide');
+                         var busnes = $('#s_busnestype').val();
+                        if (busnes) {
+                            var shopcategry = '';
+                            if (busnes == 1) {
+                                shopcategry = 'Shop';
+                            } else if (busnes == 2) {
+                                shopcategry = 'Service';
+                            }
+                            $.get("/shopservicetype/" + busnes, function(data) {
+                                $('#s_shopservicetype').empty().append(
+                                    '<option value="">Select ' + shopcategry +
+                                    '  Provider Type</option>');
+                                $.each(data, function(index, servicetype) {
+                                    $('#s_shopservicetype').append('<option value="' + servicetype
+                                        .id +
+                                        '">' + servicetype.service_name + '</option>');
+                                });
+                            });
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                        $('#serviceprovider-message').text('Failed.').fadeIn();
+                        $('#serviceprovider-message').addClass('error');
+                        setTimeout(function() {
+                            $('#serviceprovider-message').fadeOut();
+                        }, 5000);
+                        $('#loading-image').fadeOut();
+                        $('#loading-overlay').fadeOut();
+                        $('#addNewModal').modal('show');
+
+                    }
+                });
+            }
+        });
+
+
+
         document.getElementById('s_panno').addEventListener('input', function() {
             var panInput = this.value;
             var panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
@@ -1284,7 +1452,10 @@
                 $('#s_shopservice').empty();
                 $('#s_shopservicetype').empty();
                 var busnescategory = $(this).val();
-
+                $('#hidserviceprovider').val(busnescategory);
+                if(busnescategory=='1' || busnescategory=='2')
+                {$('#addnewprovider').show();}
+                else{$('#addnewprovider').hide();}
                 if (busnescategory) {
                     var categry = '';
                     if (busnescategory == 1) {
@@ -2158,9 +2329,7 @@
                             $('#s_verifiedmobotp').hide();
                             $('#s_nverifiedemailotp').hide();
                             $('#s_nverifiedmobotp').hide();
-
-
-
+                            $('#addnewprovider').hide();
 
                         },
                         error: function(xhr) {
@@ -2845,8 +3014,7 @@
 
         function exstemilid(u_emid, checkval) {
             var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-            if (emailRegex.test(u_emid)) {
-            } else {
+            if (emailRegex.test(u_emid)) {} else {
                 if (checkval == 1) {
                     $('.regmailsendotp').hide();
                     $('.regEmlsendotp').hide();
@@ -3930,14 +4098,13 @@
             passwordInput.setAttribute("type", newType);
         })
 
-        function spacedets(t)
-			{
+        function spacedets(t) {
 
-				if(t.value.match(/\s/g)){
-				t.value=t.value.replace(/\s/g,'');
-				}
+            if (t.value.match(/\s/g)) {
+                t.value = t.value.replace(/\s/g, '');
+            }
 
-			}
+        }
     </script>
 </body>
 
