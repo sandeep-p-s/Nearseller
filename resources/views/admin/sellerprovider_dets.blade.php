@@ -8,7 +8,7 @@
     @if ($sellerCount > 0)
         <style>
             tfoot {
-                display: table-caption;
+                display: table-header-group;
             }
 
             tfoot input {
@@ -20,16 +20,27 @@
         @if (session('roleid') == '1' || session('roleid') == '11')
             <div class="text-center">
                 <span class="badge badge-soft-info p-2">
-                    Total Approved {{ $shoporservice }} Provider Type : {{ $activecounts->user_status_y_count }}
+                    Approved {{ $shoporservice }} Provider Type : {{ $activecounts->user_status_y_count }}
                 </span>
                 <span class="badge badge-soft-danger p-2">
-                    Total Not Approved {{ $shoporservice }} Provider Type : {{ $activecounts->user_status_not_y_count }}
+                    Not Approved {{ $shoporservice }} Provider Type : {{ $activecounts->user_status_not_y_count }}
                 </span>
             </div>
         @endif
 
 
         <table id="datatable3" class="table table-striped table-bordered" style="width: 100%">
+            <tfoot>
+                <tr>
+                    @if (session('roleid') == '1' || session('roleid') == '11')
+                        <th style="border: 0px solid #eaf0f7"></th>
+                        <th style="border: 0px solid #eaf0f7"></th>
+                    @endif
+                    <th style="border: 0px solid #eaf0f7">{{ $shoporservice }} Provider Type</th>
+                    <th style="border: 0px solid #eaf0f7">Approval Status</th>
+                    <th style="border: 0px solid #eaf0f7"></th>
+                </tr>
+            </tfoot>
             <thead>
                 <tr>
                     @if (session('roleid') == '1' || session('roleid') == '11')
@@ -77,17 +88,7 @@
                     </tr>
                 @endforeach
             </tbody>
-            <tfoot>
-                <tr>
-                    @if (session('roleid') == '1' || session('roleid') == '11')
-                        <th style="border: 0px solid #eaf0f7"></th>
-                        <th style="border: 0px solid #eaf0f7"></th>
-                    @endif
-                    <th style="border: 0px solid #eaf0f7">{{ $shoporservice }} Provider Type</th>
-                    <th style="border: 0px solid #eaf0f7">Approval Status</th>
-                    <th style="border: 0px solid #eaf0f7"></th>
-                </tr>
-            </tfoot>
+
         </table>
         <input type="hidden" value="{{ $index + 1 }}" id="totalshopcnt">
         {{-- <div class="pagination">
