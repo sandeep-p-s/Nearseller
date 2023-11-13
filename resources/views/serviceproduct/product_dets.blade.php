@@ -1,7 +1,7 @@
 @if ($ProductCount > 0)
     <style>
         tfoot {
-            display: table-caption;
+            display: table-header-group;
         }
 
         tfoot input {
@@ -33,6 +33,20 @@
         </div>
     @endif
     <table id="datatable3" class="table table-striped table-bordered" style="width: 100%">
+        <tfoot>
+            <tr>
+                @if (session('roleid') == '1' || session('roleid') == '11')
+                    <th style="border: 0px solid #eaf0f7"></th>
+                @endif
+                <th style="border: 0px solid #eaf0f7"></th>
+                <th style="border: 0px solid #eaf0f7">Service ID</th>
+                <th style="border: 0px solid #eaf0f7">Service Name</th>
+                <th style="border: 0px solid #eaf0f7">Service Provider Name</th>
+                <th style="border: 0px solid #eaf0f7">Active Status</th>
+                <th style="border: 0px solid #eaf0f7">Approval Status</th>
+                <th style="border: 0px solid #eaf0f7"></th>
+            </tr>
+        </tfoot>
         <thead>
             <tr>
                 {{-- <th>Approved all<input type='checkbox' name='checkbox1' id='checkbox1' onclick='check();' /></th> --}}
@@ -44,8 +58,8 @@
                 <th>Service ID</th>
                 <th>Service Name</th>
                 <th>Service Provider Name</th>
-                <th>Status</th>
-                <th>Is Approved?</th>
+                <th>Active Status</th>
+                <th>Approval Status</th>
                 <th>Action</th>
 
             </tr>
@@ -91,20 +105,6 @@
                 </tr>
             @endforeach
         </tbody>
-        <tfoot>
-            <tr>
-                @if (session('roleid') == '1' || session('roleid') == '11')
-                    <th style="border: 0px solid #eaf0f7"></th>
-                @endif
-                <th style="border: 0px solid #eaf0f7"></th>
-                <th style="border: 0px solid #eaf0f7">Service ID</th>
-                <th style="border: 0px solid #eaf0f7">Service Name</th>
-                <th style="border: 0px solid #eaf0f7">Service Provider Name</th>
-                <th style="border: 0px solid #eaf0f7">Status</th>
-                <th style="border: 0px solid #eaf0f7">Is Approved?</th>
-                <th style="border: 0px solid #eaf0f7"></th>
-            </tr>
-        </tfoot>
     </table>
     <input type="hidden" value="{{ $index + 1 }}" id="totalproductcnt">
 @else
@@ -120,7 +120,7 @@
 @if (session('roleid') == '1' || session('roleid') == '11')
     @if ($ProductCount > 0)
         <div class="col text-center">
-            <button class="btn btn-primary" style="cursor:pointer" onclick="productapprovedall();">Approved</button>
+            <button class="btn btn-primary" style="cursor:pointer" onclick="productapprovedall();">Approve All</button>
         </div>
     @endif
 @endif

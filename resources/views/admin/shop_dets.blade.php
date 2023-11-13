@@ -387,7 +387,7 @@
     @if ($sellerCount > 0)
         <style>
             tfoot {
-                display: table-caption;
+                display: table-header-group;
             }
 
             tfoot input {
@@ -415,6 +415,28 @@
 
 
         <table id="datatable3" class="table table-striped table-bordered" style="width: 100%">
+            <tfoot>
+                <tr>
+                    @if (session('roleid') == '1' || session('roleid') == '11')
+                        {{-- <th width="5px"><input type='checkbox' name='checkbox1' id='checkbox1'
+                                onclick='check();' /> --}}
+
+                        <th style="border: 0px solid #eaf0f7"></th>
+
+                        <th style="border: 0px solid #eaf0f7"></th>
+                    @endif
+                    {{--  <th style="border: 0px solid #eaf0f7">Reg. ID</th>  --}}
+                    <th style="border: 0px solid #eaf0f7">{{ $shoporservice }} Name</th>
+                    <th style="border: 0px solid #eaf0f7">{{ $shoporservice }} Type</th>
+                    <th style="border: 0px solid #eaf0f7">Owner Name</th>
+                    {{-- <th>Email</th> --}}
+                    {{-- <th style="border: 0px solid #eaf0f7">Seller Type</th> --}}
+                    {{-- <th>Business Type</th> --}}
+                    <th style="border: 0px solid #eaf0f7">Active Status</th>
+                    <th style="border: 0px solid #eaf0f7">Approval Status</th>
+                    <th style="border: 0px solid #eaf0f7"></th>
+                </tr>
+            </tfoot>
             <thead>
                 <tr>
                     @if (session('roleid') == '1' || session('roleid') == '11')
@@ -490,28 +512,7 @@
                     </tr>
                 @endforeach
             </tbody>
-            <tfoot>
-                <tr>
-                    @if (session('roleid') == '1' || session('roleid') == '11')
-                        {{-- <th width="5px"><input type='checkbox' name='checkbox1' id='checkbox1'
-                                onclick='check();' /> --}}
 
-                        <th style="border: 0px solid #eaf0f7"></th>
-
-                        <th style="border: 0px solid #eaf0f7"></th>
-                    @endif
-                    {{--  <th style="border: 0px solid #eaf0f7">Reg. ID</th>  --}}
-                    <th style="border: 0px solid #eaf0f7">{{ $shoporservice }} Name</th>
-                    <th style="border: 0px solid #eaf0f7">{{ $shoporservice }} Type</th>
-                    <th style="border: 0px solid #eaf0f7">Owner Name</th>
-                    {{-- <th>Email</th> --}}
-                    {{-- <th style="border: 0px solid #eaf0f7">Seller Type</th> --}}
-                    {{-- <th>Business Type</th> --}}
-                    <th style="border: 0px solid #eaf0f7">Active Status</th>
-                    <th style="border: 0px solid #eaf0f7">Approval Status</th>
-                    <th style="border: 0px solid #eaf0f7"></th>
-                </tr>
-            </tfoot>
         </table>
         <input type="hidden" value="{{ $index + 1 }}" id="totalshopcnt">
         {{-- <div class="pagination">

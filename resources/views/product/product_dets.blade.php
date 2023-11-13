@@ -1,7 +1,7 @@
 @if ($ProductCount > 0)
     <style>
         tfoot {
-            display: table-caption;
+            display: table-header-group;
         }
 
         tfoot input {
@@ -33,6 +33,20 @@
         </div>
     @endif
     <table id="datatable3" class="table table-striped table-bordered" style="width: 100%">
+        <tfoot>
+            <tr>
+                @if (session('roleid') == '1' || session('roleid') == '11')
+                    <th style="border: 0px solid #eaf0f7"></th>
+                @endif
+                <th style="border: 0px solid #eaf0f7"></th>
+                <th style="border: 0px solid #eaf0f7">Product ID</th>
+                <th style="border: 0px solid #eaf0f7">Product Name</th>
+                <th style="border: 0px solid #eaf0f7">Seller Name</th>
+                <th style="border: 0px solid #eaf0f7">Availability Status</th>
+                <th style="border: 0px solid #eaf0f7">Approval Status</th>
+                <th style="border: 0px solid #eaf0f7"></th>
+            </tr>
+        </tfoot>
         <thead>
             <tr>
                 {{-- <th>Approved all<input type='checkbox' name='checkbox1' id='checkbox1' onclick='check();' /></th> --}}
@@ -95,20 +109,7 @@
                 </tr>
             @endforeach
         </tbody>
-        <tfoot>
-            <tr>
-                @if (session('roleid') == '1' || session('roleid') == '11')
-                    <th style="border: 0px solid #eaf0f7"></th>
-                @endif
-                <th style="border: 0px solid #eaf0f7"></th>
-                <th style="border: 0px solid #eaf0f7">Product ID</th>
-                <th style="border: 0px solid #eaf0f7">Product Name</th>
-                <th style="border: 0px solid #eaf0f7">Shop Name</th>
-                <th style="border: 0px solid #eaf0f7">Status</th>
-                <th style="border: 0px solid #eaf0f7">Is Approved?</th>
-                <th style="border: 0px solid #eaf0f7"></th>
-            </tr>
-        </tfoot>
+
     </table>
     <input type="hidden" value="{{ $index + 1 }}" id="totalproductcnt">
 @else
@@ -124,7 +125,7 @@
 @if (session('roleid') == '1' || session('roleid') == '11')
     @if ($ProductCount > 0)
         <div class="col text-center">
-            <button class="btn btn-primary" style="cursor:pointer" onclick="productapprovedall();">Approved</button>
+            <button class="btn btn-primary" style="cursor:pointer" onclick="productapprovedall();">Approve All</button>
         </div>
     @endif
 @endif

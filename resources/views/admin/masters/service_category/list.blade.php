@@ -42,7 +42,7 @@
             <!-- end page title end breadcrumb -->
             <style>
                 tfoot {
-                    display: table-caption;
+                    display: table-header-group;
                 }
 
                 tfoot input {
@@ -67,6 +67,17 @@
                             </div> --}}
                             <table id="datatable3" class="table table-bordered table-striped nowrap"
                                 style="width: 100%;">
+                                <tfoot>
+                                    <tr>
+                                        {{-- @if (session('roleid') == 1 || session('roleid') == 11)
+                                        <th style="border: 0px solid #eaf0f7"></th>
+                                        @endif --}}
+                                        <th style="border: 0px solid #eaf0f7"></th>
+                                        <th style="border: 0px solid #eaf0f7">Business Category</th>
+                                        <th style="border: 0px solid #eaf0f7">Business Type</th>
+                                        <th style="border: 0px solid #eaf0f7"></th>
+                                    </tr>
+                                </tfoot>
                                 <thead>
                                     <tr>
                                         <th>S.No.</th>
@@ -110,19 +121,6 @@
                                         </tr>
                                     @endforeach
                                 </tbody>
-
-                                <tfoot>
-                                    <tr>
-                                        {{-- @if (session('roleid') == 1 || session('roleid') == 11)
-                                        <th style="border: 0px solid #eaf0f7"></th>
-                                        @endif --}}
-                                        <th style="border: 0px solid #eaf0f7"></th>
-                                        <th style="border: 0px solid #eaf0f7">Business Category</th>
-                                        <th style="border: 0px solid #eaf0f7">Business Type</th>
-                                        <th style="border: 0px solid #eaf0f7"></th>
-                                    </tr>
-                                </tfoot>
-
                             </table>
 
                         </div>
