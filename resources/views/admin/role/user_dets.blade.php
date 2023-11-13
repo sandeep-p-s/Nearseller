@@ -34,6 +34,7 @@
                         {{-- <th data-sorting="false">Email</th> --}}
                         {{-- <th data-sorting="false">Mobile</th> --}}
                         <th>Role</th>
+                        <th data-sorting="false">Password</th>
                         <th>User Status</th>
                         <th data-sorting="false">Action</th>
                     </tr>
@@ -46,6 +47,7 @@
                             {{-- <td>{{ $userDets->email }}</td> --}}
                             {{-- <td> {{$userDets->mob_countrycode}} {{ $userDets->mobno }}</td> --}}
                             <td>{{ $userDets->role_name }}</td>
+                            <td>{{ $userDets->forgot_pass }}</td>
                             <td><span
                                     class="badge p-2 {{ $userDets->user_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
                                     {{ $userDets->user_status === 'Y' ? 'Active' : 'Inactive' }}
@@ -76,6 +78,7 @@
                         {{-- <th style="border: 0px solid #eaf0f7">Email</th> --}}
                         {{-- <th style="border: 0px solid #eaf0f7">Mobile</th> --}}
                         <th style="border: 0px solid #eaf0f7">Role</th>
+                        <th style="border: 0px solid #eaf0f7"></th>
                         <th style="border: 0px solid #eaf0f7">User Status</th>
                         <th style="border: 0px solid #eaf0f7"></th>
                     </tr>

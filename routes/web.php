@@ -88,6 +88,8 @@ Route::controller(HomeController::class)->group(function () {
     Route::post('verifyMobileOTP', 'verifyMobileNoOTPCheck')->name('verifyMobileNoOTP');
 
     Route::get('verifyMailTerms/{verificationToken}', 'verifyMailTermsCOnditions')->name('verifyMailTerms');
+    Route::post('pubserviceprovider', 'PublicServiceProvider')->name('PubServiceprovidertype');
+
 
 
 

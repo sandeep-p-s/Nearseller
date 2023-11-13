@@ -91,8 +91,17 @@ class AdminController extends Controller
         }
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         //$allsectdetails = MenuMaster::AllSecrtorDetails($userId,$roleid);
-
+        if (in_array('4', $roleIdsArray))
+        {
+            $product = DB::table('product_details')->select('id','product_name','product_images')->where('is_approved','Y')->get();
+            $services = DB::table('service_details')->select('id','service_name','service_images')->where('is_approved','Y')->get();
+            $shops = DB::table('seller_details')->select('id','shop_name','shop_photo')->where('seller_approved','Y')->get();
+            $districts = DB::table('district')->select('id','district_name','state_id')->where('state_id','18')->get();
+            return view('user.main', compact('product','services','shops','districts','userdetails','userRole', 'loggeduser'));
+        }
+        else{
         return view('admin.dashboard', compact('userdetails', 'countUsers', 'countAffiliate', 'countShops', 'countservices', 'userRole', 'loggeduser', 'structuredMenu', 'countproductuser', 'countserviceuser','countInactiveShops','countInactiveservices','selrdetails'));
+        }
     }
 
     ////////////////////////////Affiliate//////////////////////////////
