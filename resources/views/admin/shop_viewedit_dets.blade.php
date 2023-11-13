@@ -295,7 +295,7 @@
                             class="text-danger">*</span></label>
                     <input type="text" id="es_googlelatitude" name="es_googlelatitude"
                         value="{{ $sellerDetails->latitude }}" class="form-control form-control-lg"
-                        placeholder="Latitude (Google map location)" required tabindex="18" />
+                        placeholder="Latitude (Google map location)" required tabindex="18" pattern="^-?([1-8]?\d(\.\d{1,6})?|90(\.0{1,6})?)" />
                     <div for="es_googlelatitude" class="error"></div>
                 </div>
 
@@ -305,7 +305,7 @@
                             class="text-danger">*</span></label>
                     <input type="text" id="es_googlelongitude" name="es_googlelongitude"
                         value="{{ $sellerDetails->longitude }}" class="form-control form-control-lg"
-                        placeholder="Longitude (Google map location)" required tabindex="18" />
+                        placeholder="Longitude (Google map location)" required tabindex="18" pattern="^-?([1-8]?\d(\.\d{1,6})?|90(\.0{1,6})?)" />
                     <div for="es_googlelongitude" class="error"></div>
                 </div>
 
@@ -1350,6 +1350,7 @@
             },
             es_googlelongitude: {
                 required: true,
+                pattern: /^-?([1-8]?\d(\.\d{1,6})?|90(\.0{1,6})?)$/,
             },
             es_gstno: {
                 //     required: true,
