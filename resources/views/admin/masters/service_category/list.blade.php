@@ -40,6 +40,18 @@
                 </div><!--end col-->
             </div><!--end row-->
             <!-- end page title end breadcrumb -->
+            <style>
+                tfoot {
+                    display: table-caption;
+                }
+
+                tfoot input {
+                    width: 100%;
+                    padding: 3px;
+                    box-sizing: border-box;
+                }
+            </style>
+
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -53,8 +65,8 @@
                                     Inactive Service Categories : {{ $inactive_servicecategories }}
                                 </span>
                             </div> --}}
-                            <table id="datatable" class="table table-bordered dt-responsive nowrap"
-                                style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <table id="datatable3" class="table table-bordered table-striped nowrap"
+                                style="width: 100%;">
                                 <thead>
                                     <tr>
                                         <th>S.No.</th>
@@ -98,6 +110,19 @@
                                         </tr>
                                     @endforeach
                                 </tbody>
+
+                                <tfoot>
+                                    <tr>
+                                        {{-- @if (session('roleid') == 1 || session('roleid') == 11)
+                                        <th style="border: 0px solid #eaf0f7"></th>
+                                        @endif --}}
+                                        <th style="border: 0px solid #eaf0f7"></th>
+                                        <th style="border: 0px solid #eaf0f7">Business Category</th>
+                                        <th style="border: 0px solid #eaf0f7">Business Type</th>
+                                        <th style="border: 0px solid #eaf0f7"></th>
+                                    </tr>
+                                </tfoot>
+
                             </table>
 
                         </div>
@@ -106,4 +131,41 @@
             </div> <!-- end row -->
 
         </div><!-- container -->
+
+        <script>
+            $(document).ready(function() {
+                var table = $('#datatable3').DataTable({
+                    initComplete: function() {
+                        this.api()
+                            .columns()
+                            .every(function() {
+                                let column = this;
+                                let title = column.footer().textContent;
+                                if (title == "")
+                                    return;
+                                // Create input element
+                                let input = document.createElement('input');
+                                input.className = "form-control form-control-lg";
+                                input.type = "text";
+                                input.placeholder = title;
+                                column.footer().replaceChildren(input);
+
+                                // Event listener for user input
+                                input.addEventListener('keyup', () => {
+                                    if (column.search() !== this.value) {
+                                        column.search(input.value).draw();
+                                    }
+                                });
+                            });
+                    },
+                    "columnDefs": [{
+                        "targets": 0,
+                        "orderable": false
+                    }]
+                });
+
+
+            });
+        </script>
+
     @endsection

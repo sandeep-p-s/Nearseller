@@ -51,8 +51,8 @@
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr>
-                                        <th>No</th>
-                                        <th>Roles</th>
+                                        <th>S.No</th>
+                                        <th>User Roles</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -76,6 +76,8 @@
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item view_btn1"
                                                             href="{{ route('edit.roles', $rl->id) }}">Edit</a>
+                                                            <a class="dropdown-item approve_btn"
+                                                            href="{{ route('view.roles', $rl->id) }}">View</a>
                                                         <a class="dropdown-item delete_btn"
                                                             href="{{ route('delete.roles', $rl->id) }}"
                                                             onclick="return confirm('Are you sure you want to delete?')">Delete</a>

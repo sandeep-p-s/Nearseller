@@ -46,7 +46,7 @@
                                     @error( 'state_name')
                                         <div class="text-danger mb15">{{ $message }}</div>
                                     @enderror
-                                    <button type="submit" class="btn view_btn">Add</button>
+                                    <button type="submit" class="btn view_btn">Save</button>
                                 </div>
                             </form>
                         </div><!--end card-body-->

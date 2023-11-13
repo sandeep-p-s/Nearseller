@@ -245,6 +245,34 @@ class RoleController extends Controller
             ->with('success', 'Permissions updated successfully');
     }
 
+    public function view_roles($id)
+    {
+        $userRole = session('user_role');
+        $userId = session('user_id');
+        $roleid = session('roleid');
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
+        $roleIdsArray = explode(',', $roleid);
+            if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+            {
+                $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+                ->where('user_id', $userId)
+                ->first();
+            }
+            else{
+                $selrdetails='';
+            }
+        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $role = Role::find($id);
+        if (!$role) {
+            return redirect()->route('list.roles')->with('error', 'Role not found.');
+        }
+
+        return view('admin.role.Role_Creation.view', compact('role', 'loggeduser', 'userdetails','structuredMenu','selrdetails'));
+    }
+
+
+
     public function updateActivation($id)
     {
         $role = Role::findOrFail($id);
@@ -342,7 +370,7 @@ class RoleController extends Controller
             'roleid' => 'required',
         ]);
         $user = new UserAccount();
-        $user->name = ucfirst($request->s_name);
+        $user->name = ucwords($request->s_name);
         $user->email = $request->s_email;
         $user->mobno = $request->s_mobno;
         $user->mob_countrycode = $request->mobcntrycode;
@@ -1191,7 +1219,7 @@ class RoleController extends Controller
     {
         $request->validate(
             [
-                'role_name' => 'required|min:5|max:50|unique:roles',
+                'role_name' => 'required|min:5|max:50|unique:roles|regex:/^[^\d]+$/',
             ],
                 [
                     'role_name.required' => 'The role name field is required.',
@@ -1199,6 +1227,7 @@ class RoleController extends Controller
                     'role_name.min' => 'The role name must be at least 5 characters.',
                     'role_name.max' => 'The role name cannot exceed 50 characters.',
                     'role_name.unique' => 'This role name is already in use.',
+
                     // 'role_name.unique' => 'This role name is already in use.',
                 ]
         );

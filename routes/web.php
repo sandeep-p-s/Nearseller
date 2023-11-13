@@ -33,7 +33,7 @@ use App\Http\Controllers\Masters\ReligionController as ReligionController;
 use App\Http\Controllers\Masters\AttributeController as AttributeController;
 use App\Http\Controllers\Masters\ProfessionsController as ProfessionsController;
 use App\Http\Controllers\CustomerController;
-
+use App\Http\Controllers\RolePermissionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -141,6 +141,7 @@ Route::middleware(['role'])->group(function () {
         Route::post('saveroles', 'store_roles')->name('store.roles');
         Route::get('editroles/{id}', 'edit_roles')->name('edit.roles');
         Route::post('updateroles/{id}', 'update_roles')->name('update.roles');
+        Route::get('viewrole/{id}', 'view_roles')->name('view.roles');
         Route::get('deleteroles/{id}', 'delete_roles')->name('delete.roles');
 
 
@@ -176,6 +177,16 @@ Route::middleware(['role'])->group(function () {
 
         Route::get('changepassword', 'ChangePasswordPagerd')->name('user.changepassword');
         Route::post('newpassword', 'ChangeNewPasswordPage')->name('ChangeNewPassword');
+    });
+
+
+    Route::controller(RolePermissionController::class)->group(function () {
+        Route::post('newrolename', 'NewRoleNameSearch')->name('NewRoleNameSearch');
+        Route::get('rolepermenu', 'AdmRoleperMenuPage')->name('user.rolepermenucreate');
+        Route::get('rolepermenuview', 'AdmRoleperMenuViewPage')->name('user.allrolepermenuview');
+        Route::post('roleperpagemenu', 'AdmAddRoleperPageMenu')->name('user.roleperpagemenu');
+        Route::post('getrolepermenu', 'AdmgetRoleperMenu')->name('user.getRoleperMenu');
+        Route::post('getroleperPrivilage', 'AdmgetroleperPrivilage')->name('user.getroleperPrivilage');
     });
 
 
