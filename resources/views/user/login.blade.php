@@ -328,16 +328,16 @@
 
 
 
-                                <div class="form-outline  mb-2">
+                                <div class="form-outline  mb-2 password-container">
                                     <input tabindex="4" type="password" id="u_paswd" name="u_paswd"
                                         class="form-control form-control-lg" maxlength="20"
-                                        placeholder="Enter Password" required />
+                                        placeholder="Enter Password" required /><i class="fa-solid fa-eye" id="signupUserEye"></i>
                                     <div for="u_paswd" class="error"></div>
                                 </div>
-                                <div class="form-outline  mb-2">
+                                <div class="form-outline  mb-2 password-container">
                                     <input tabindex="5" type="password" id="u_rpaswd" name="u_rpaswd"
                                         class="form-control form-control-lg" maxlength="20"
-                                        placeholder="Re-enter Password" required />
+                                        placeholder="Re-enter Password" required /><i class="fa-solid fa-eye" id="signupUserReEye"></i>
                                     <div for="u_rpaswd" class="error"></div>
                                 </div>
                                 <div class="form-outline">
@@ -693,18 +693,19 @@
                                     </div>
 
 
-                                    <div class="form-outline  mb-2">
+                                    <div class="form-outline  mb-2 password-container">
                                         <input tabindex="23" type="password" id="s_paswd" name="s_paswd"
                                             maxlength="10" class="form-control form-control-lg" maxlength="20"
-                                            placeholder="Enter Password" required />
-                                        <div for="s_paswd" class="error"></div>
+                                            placeholder="Enter Password" required /><i class="fa-solid fa-eye" id="signupSellerEye"></i>
                                     </div>
-                                    <div class="form-outline  mb-2">
+                                    <div for="s_paswd" class="error"></div>
+
+                                    <div class="form-outline  mb-2 password-container">
                                         <input tabindex="24" type="password" id="s_rpaswd" name="s_rpaswd"
                                             maxlength="10" class="form-control form-control-lg" maxlength="20"
-                                            placeholder="Re-Enter password" required />
-                                        <div for="s_rpaswd" class="error"></div>
+                                            placeholder="Re-Enter password" required /><i class="fa-solid fa-eye" id="signupSellerReEye"></i>
                                     </div>
+                                    <div for="s_rpaswd" class="error"></div>
 
 
                                     <div class="form-check-inline">
@@ -828,13 +829,13 @@
                                     </div>
                                 </div>
 
-                                <div class="form-outline  mb-2">
+                                <div class="form-outline  mb-2 password-container">
                                     <input tabindex="23" type="password" id="a_paswd" name="a_paswd"
                                         maxlength="10" class="form-control form-control-lg" maxlength="10"
                                         placeholder="Enter Password" required />
                                     <label for="a_paswd" class="error"></label>
                                 </div>
-                                <div class="form-outline  mb-2">
+                                <div class="form-outline  mb-2 password-container">
                                     <input tabindex="24" type="password" id="a_rpaswd" name="a_rpaswd"
                                         maxlength="10" class="form-control form-control-lg" maxlength="10"
                                         placeholder="Re-Enter password" required />
@@ -3896,6 +3897,55 @@
             eye.classList.add(newClass);
             passwordInput.setAttribute("type", newType);
         })
+
+        const userSignupPasswordInput = document.querySelector("#u_paswd")
+        const signupUserEye = document.querySelector("#signupUserEye")
+
+        signupUserEye.addEventListener("click", function() {
+            const userSignupEyeClass = signupUserEye.classList.contains("fa-eye-slash");
+            const newUserClass = userSignupEyeClass ? "fa-eye" : "fa-eye-slash";
+            const newUserType = userSignupEyeClass ? "password" : "text";
+            signupUserEye.classList.remove(userSignupEyeClass ? "fa-eye-slash" : "fa-eye");
+            signupUserEye.classList.add(newUserClass);
+            userSignupPasswordInput.setAttribute("type", newUserType);
+        })
+
+        const userSignupRePasswordInput = document.querySelector("#u_rpaswd")
+        const signupUserReEye = document.querySelector("#signupUserReEye")
+
+        signupUserReEye.addEventListener("click", function() {
+            const userSignupReEyeClass = signupUserReEye.classList.contains("fa-eye-slash");
+            const newUserClass = userSignupReEyeClass ? "fa-eye" : "fa-eye-slash";
+            const newUserType = userSignupReEyeClass ? "password" : "text";
+            signupUserReEye.classList.remove(userSignupReEyeClass ? "fa-eye-slash" : "fa-eye");
+            signupUserReEye.classList.add(newUserClass);
+            userSignupRePasswordInput.setAttribute("type", newUserType);
+        })
+
+        const sellerSignupPasswordInput = document.querySelector("#s_paswd")
+        const signupSellerEye = document.querySelector("#signupSellerEye")
+
+        signupSellerEye.addEventListener("click", function() {
+            const sellerSignupEyeClass = signupSellerEye.classList.contains("fa-eye-slash");
+            const newSellerClass = sellerSignupEyeClass ? "fa-eye" : "fa-eye-slash";
+            const newSellerType = sellerSignupEyeClass ? "password" : "text";
+            signupSellerEye.classList.remove(sellerSignupEyeClass ? "fa-eye-slash" : "fa-eye");
+            signupSellerEye.classList.add(newSellerClass);
+            sellerSignupPasswordInput.setAttribute("type", newSellerType);
+        })
+
+        const sellerSignupRePasswordInput = document.querySelector("#s_rpaswd")
+        const signupSellerReEye = document.querySelector("#signupSellerReEye")
+
+        signupSellerReEye.addEventListener("click", function() {
+            const sellerSignupReEyeClass = signupSellerReEye.classList.contains("fa-eye-slash");
+            const newSellerReClass = sellerSignupReEyeClass ? "fa-eye" : "fa-eye-slash";
+            const newSellerType = sellerSignupReEyeClass ? "password" : "text";
+            signupSellerReEye.classList.remove(sellerSignupReEyeClass ? "fa-eye-slash" : "fa-eye");
+            signupSellerReEye.classList.add(newSellerReClass);
+            sellerSignupRePasswordInput.setAttribute("type", newSellerType);
+        })
+
     </script>
 </body>
 

@@ -36,7 +36,7 @@
                                         @foreach ($states as $st)
                                             <option value="{{ $st->id }}"
                                                 {{ old('state_name') == $st->id ? 'selected' : '' }}>
-                                                {{ $st->country_name }} > {{ $st->state_name }}</option>
+                                                {{ $st->country_name }} ➤ {{ $st->state_name }}</option>
                                         @endforeach
                                     </select>
                                     <label for="addShopType">Add District</label>
