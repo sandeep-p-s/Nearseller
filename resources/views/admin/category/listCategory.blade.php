@@ -13,7 +13,7 @@
                                 <h4 class="page-title">Category List</h4>
                             </div>
                             <div class="col-auto align-self-center">
-                                <a href="{{ route('add.category') }}"><button type="button" class="btn add_btn ">Add New
+                                <a href="{{ route('add.category') }}"><button type="button" class="btn add_btn d-none" id="addCategoryButton">Add New
                                         Category </button></a>
                             </div>
                         </div>
@@ -172,7 +172,7 @@
                             <input type="hidden" value="{{ $totalCategories }}" id="totalservicecnt">
                             @if ($totalCategories > 0)
                                 <div class="col text-center">
-                                    <button class="btn btn-primary" style="cursor:pointer"
+                                    <button class="btn btn-primary px-5 "
                                         onclick="category_approvedall();">Approve
                                         All</button>
                                 </div>
@@ -185,7 +185,18 @@
     </div><!-- container -->
 
 
+    <script>
+        $(document).ready(function() {
+            // Get the current page URL
+            var currentPageUrl = window.location.href;
 
+            if (currentPageUrl.includes("/listcategory")) {
+                $("#addCategoryButton").addClass("d-none");
+            } else {
+                $("#addCategoryButton").removeClass("d-none");
+            }
+        });
+    </script>
     <script>
         // $('#approveAll').on('click', function() {
         //     serviceapprovedall(); // Call the serviceapprovedall function
@@ -255,7 +266,7 @@
                 }
             }
             if (categoryid === '') {
-                alert('No Shops Selected');
+                alert('Please Select Category');
                 return false;
             }
 

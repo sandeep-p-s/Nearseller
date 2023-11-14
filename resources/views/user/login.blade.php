@@ -4101,6 +4101,17 @@
             passwordInput.setAttribute("type", newType);
         })
 
+        const userSignupPasswordInput = document.querySelector("#u_paswd")
+        const signupUserEye = document.querySelector("#signupUserEye")
+
+        signupUserEye.addEventListener("click", function() {
+            const userSignupEyeClass = signupUserEye.classList.contains("fa-eye-slash");
+            const newUserClass = userSignupEyeClass ? "fa-eye" : "fa-eye-slash";
+            const newUserType = userSignupEyeClass ? "password" : "text";
+            signupUserEye.classList.remove(userSignupEyeClass ? "fa-eye-slash" : "fa-eye");
+            signupUserEye.classList.add(newUserClass);
+            userSignupPasswordInput.setAttribute("type", newUserType);
+        })
 
         const userSignupRePasswordInput = document.querySelector("#u_rpaswd")
         const signupUserReEye = document.querySelector("#signupUserReEye")
