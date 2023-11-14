@@ -38,23 +38,28 @@
                                         <option value="1">Shop</option>
                                         <option value="2">Service</option>
                                     </select> --}}
-                                    <label for="categorySelector">Select Parent Category</label>
-                                    <select class="form-control mb15" id="categorySelector" name="parent_category"
-                                        onchange="updateLevel()">
-                                        <option value="0">Select Parent Category</option>
-                                        @foreach ($filteredCategories as $key => $category)
-                                            <option value="{{ $category->id }}"
-                                                data-level="{{ $category->category_level }}">
-                                                @for ($i = 0; $i < $category->category_level; $i++)
-                                                @endfor
-                                                <span
-                                                    class="{{ $key === count($filteredCategories) - 1 ? 'last-child' : '' }}">{{ $category->category_name }}</span>
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <label for="addShopType">Category Name</label>
+                                    <div>
+                                        <label for="categorySelector">Select Parent Category</label>
+                                        <select class="form-control d-none" id="categorySelector" name="parent_category"
+                                            onchange="updateLevel()">
+                                            <option value="0">Select Parent Category</option>
+                                            @foreach ($filteredCategories as $key => $category)
+                                                <option value="{{ $category->id }}"
+                                                    data-level="{{ $category->category_level }}">
+                                                    @for ($i = 0; $i < $category->category_level; $i++)
+                                                    @endfor
+                                                    <span
+                                                        class="{{ $key === count($filteredCategories) - 1 ? 'last-child' : '' }}">{{ $category->category_name }}</span>
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <label class="mt15" for="addShopType">Category Name</label>
                                     <input type="text" class="form-control mb15" id="category_name"
-                                        placeholder="Enter Category Name" name="category_name" required>
+                                        placeholder="Enter Category Name" name="category_name">
+                                    @error('category_name')
+                                        <div class="text-danger mb15">{{ $message }}</div>
+                                    @enderror
                                     <input type="hidden" class="form-control mb15" id="slug_name" placeholder=""
                                         name="slug_name">
                                     <input type="hidden" class="form-control mb15" id="category_level" placeholder=""
@@ -66,30 +71,23 @@
                                                 data-default-file="" name="category_image" accept="image/jpeg, image/png" />
                                         </div>
                                     </div> --}}
-
                                     <label>Category Image</label>
                                     <input type="file" id="category_image" name="category_image[]"
-                                        class="form-control form-control-lg" placeholder="Shop Photo" tabindex="19" accept="image/jpeg, image/png" required />
+                                        class="form-control form-control-lg" placeholder="Shop Photo" tabindex="19"
+                                        accept="image/jpeg, image/png" required />
                                     <label for="category_image" class="error"></label>
-
                                     <div class="col-md-12">
                                         <div class="form-group" align="left">
                                             <div id="image-preview" class="row"></div>
                                         </div>
                                     </div>
-
-
-
-                                    @error('category_name')
+                                    @error('category_image')
                                         <div class="text-danger mb15">{{ $message }}</div>
                                     @enderror
                                     {{-- @error('slug_name')
                                         <div class="text-danger mb15">{{ $message }}</div>
                                     @enderror --}}
                                     @error('category_level')
-                                        <div class="text-danger mb15">{{ $message }}</div>
-                                    @enderror
-                                    @error('category_image')
                                         <div class="text-danger mb15">{{ $message }}</div>
                                     @enderror
                                     <button type="submit" class="btn view_btn">Add</button>
@@ -102,6 +100,16 @@
         </div>
 
         <script>
+            $(document).ready(function() {
+                $('#categorySelector').each(function() {
+                    var $p = $(this).parent();
+                    $(this).select2({
+                        dropdownParent: $p
+                    });
+                });
+            });
+        </script>
+        <script>
             document.addEventListener("DOMContentLoaded", function() {
                 var category_name = document.getElementById("category_name");
                 var slug = document.getElementById("slug_name");
@@ -113,11 +121,30 @@
                     slug.value = firstName + ('-' + randomNumber);
                 }
                 category_name.addEventListener("input", updateSlug);
-            });
 
-            document.addEventListener("DOMContentLoaded", function() {
                 var levelInput = document.getElementById("category_level");
                 levelInput.value = 0;
+
+                var typeSelector = document.getElementById("typeSelector");
+                var categorySelector = document.getElementById("categorySelector");
+
+                typeSelector.addEventListener("change", function() {
+                    var selectedType = parseInt(typeSelector.value, 10);
+
+                    if (selectedType !== 0 && (selectedType === 1 || selectedType === 2)) {
+                        $.get("/parentcategory/" + selectedType, function(data) {
+                            $('#categorySelector').empty().append(
+                                '<option value="0">Select Parent Category (optional)</option>');
+                            $.each(data, function(index, filteredCategories) {
+                                $('#categorySelector').append('<option value="' +
+                                    filteredCategories.id + '" data-level="' +
+                                    filteredCategories.category_level + '">' +
+                                    filteredCategories
+                                    .category_name + '</option>');
+                            });
+                        });
+                    }
+                });
             });
 
             function updateLevel() {
@@ -135,8 +162,6 @@
 
                 levelInput.value = level;
             }
-
-
 
             // var fileArrs = [];
             // var totalFiless = 0;
@@ -199,10 +224,9 @@
             //         })(file);
 
 
-                    reader.readAsDataURL(file);
-                }
-                document.getElementById('category_image').files = new FileListItem([]);
-                document.getElementById('category_image').files = new FileListItem(fileArrs);
+            reader.readAsDataURL(file);
+            document.getElementById('category_image').files = new FileListItem([]);
+            document.getElementById('category_image').files = new FileListItem(fileArrs);
 
 
             // });
@@ -238,28 +262,5 @@
             //     }
             //     return clipboardData.files;
             // }
-
-            document.addEventListener("DOMContentLoaded", function() {
-                var typeSelector = document.getElementById("typeSelector");
-                var categorySelector = document.getElementById("categorySelector");
-
-                typeSelector.addEventListener("change", function() {
-                    var selectedType = parseInt(typeSelector.value, 10);
-
-                    if (selectedType !== 0 && (selectedType === 1 || selectedType === 2)) {
-                        $.get("/parentcategory/" + selectedType, function(data) {
-                            $('#categorySelector').empty().append(
-                                '<option value="0">Select Parent Category (optional)</option>');
-                            $.each(data, function(index, filteredCategories) {
-                                $('#categorySelector').append('<option value="' +
-                                    filteredCategories.id + '" data-level="' +
-                                    filteredCategories.category_level + '">' +
-                                    filteredCategories
-                                    .category_name + '</option>');
-                            });
-                        });
-                    }
-                });
-            });
         </script>
     @endsection
