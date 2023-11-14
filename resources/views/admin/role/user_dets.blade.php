@@ -16,7 +16,7 @@
 
             <style>
                 tfoot {
-                    display: table-caption;
+                    display: table-header-group;
                 }
 
                 tfoot input {
@@ -27,6 +27,18 @@
             </style>
 
             <table id="datatable3" class="table table-striped table-bordered" style="width: 100%">
+                <tfoot>
+                    <tr>
+                        <th style="border: 0px solid #eaf0f7"></th>
+                        <th style="border: 0px solid #eaf0f7">Name</th>
+                        {{-- <th style="border: 0px solid #eaf0f7">Email</th> --}}
+                        {{-- <th style="border: 0px solid #eaf0f7">Mobile</th> --}}
+                        <th style="border: 0px solid #eaf0f7">Role</th>
+                        <th style="border: 0px solid #eaf0f7"></th>
+                        <th style="border: 0px solid #eaf0f7">User Status</th>
+                        <th style="border: 0px solid #eaf0f7"></th>
+                    </tr>
+                </tfoot>
                 <thead>
                     <tr>
                         <th>S.No.</th>
