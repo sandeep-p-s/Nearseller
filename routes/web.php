@@ -129,6 +129,12 @@ Route::middleware(['role'])->group(function () {
         Route::get('shopsinactive/{id}', 'ShopInactives')->name('admin.shopapprovalsinactive');
         Route::get('allshopsinactive', 'AllShopsInactiveList')->name('admin.allshopsinactiveview');
         Route::post('shopserviceapproved', 'AdmShopServiceApprovedAll')->name('ShopServiceApprovedAll');
+
+
+        Route::get('shopapprovalsm/{id}', 'ShopApprovalm')->name('admin.shopapprovalsm');
+        Route::get('allshopsviewm', 'AllShopsListm')->name('admin.allshopsviewm');
+
+
     });
 
 

@@ -83,18 +83,6 @@
                         </tr>
                     @endforeach
                 </tbody>
-                <tfoot>
-                    <tr>
-                        <th style="border: 0px solid #eaf0f7"></th>
-                        <th style="border: 0px solid #eaf0f7">Name</th>
-                        {{-- <th style="border: 0px solid #eaf0f7">Email</th> --}}
-                        {{-- <th style="border: 0px solid #eaf0f7">Mobile</th> --}}
-                        <th style="border: 0px solid #eaf0f7">Role</th>
-                        <th style="border: 0px solid #eaf0f7"></th>
-                        <th style="border: 0px solid #eaf0f7">User Status</th>
-                        <th style="border: 0px solid #eaf0f7"></th>
-                    </tr>
-                </tfoot>
             </table>
         @else
             <table>
