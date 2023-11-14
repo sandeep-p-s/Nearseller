@@ -37,7 +37,8 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <label class="col-xl-12 text-center error">{{ $shoporservice }}  - Registration not completed</label>
+                        <label class="col-xl-12 text-center error">{{ $shoporservice }} - Registration not
+                            completed</label>
                     </div>
                 </div>
             </div>
@@ -83,7 +84,7 @@
                         <div class="form-group row">
                             <label class="col-xl-6">Mobile No</label>
                             <div class="col-xl-6 align-self-center">
-                                {{ $sellerDetails->mob_country_code.''.$sellerDetails->shop_mobno }}
+                                {{ $sellerDetails->mob_country_code . '' . $sellerDetails->shop_mobno }}
                             </div>
                         </div>
                         @if ($sellerDetails->shop_email != '')
@@ -95,14 +96,14 @@
                                 </div>
                             </div>
                         @endif
-                        @if($sellerDetails->referal_id!='')
-                        <hr class="new_hr">
-                        <div class="form-group row">
-                            <label class="col-xl-6">Referral ID</label>
-                            <div class="col-xl-6 align-self-center">
-                                {{ $sellerDetails->referal_id }}
+                        @if ($sellerDetails->referal_id != '')
+                            <hr class="new_hr">
+                            <div class="form-group row">
+                                <label class="col-xl-6">Referral ID</label>
+                                <div class="col-xl-6 align-self-center">
+                                    {{ $sellerDetails->referal_id }}
+                                </div>
                             </div>
-                        </div>
                         @endif
                         <hr class="new_hr">
                         <div class="form-group row">
@@ -139,7 +140,7 @@
                             <label class="col-xl-6">{{ $shoporservice }} Executive Name</label>
                             <div class="col-xl-6 align-self-center">
 
-                                @if($executives== '0')
+                                @if ($executives == '0')
                                     {{ 'Executies not Assigned' }}
                                 @else
                                     {{ $executives->name }}
@@ -290,32 +291,32 @@
 
 
 
-                        @if($sellerDetails->direct_affiliate!='')
-                        <hr class="new_hr">
-                        <div class="form-group row">
-                            <label class="col-xl-6">Direct Affiliate</label>
-                            <div class="col-xl-6 align-self-center">
-                                {{ $sellerDetails->direct_affiliate }}
+                        @if ($sellerDetails->direct_affiliate != '')
+                            <hr class="new_hr">
+                            <div class="form-group row">
+                                <label class="col-xl-6">Direct Affiliate</label>
+                                <div class="col-xl-6 align-self-center">
+                                    {{ $sellerDetails->direct_affiliate }}
+                                </div>
                             </div>
-                        </div>
                         @endif
-                        @if($sellerDetails->second_affiliate!='')
-                        <hr class="new_hr">
-                        <div class="form-group row">
-                            <label class="col-xl-6">Second Affiliate</label>
-                            <div class="col-xl-6 align-self-center">
-                                {{ $sellerDetails->second_affiliate }}
+                        @if ($sellerDetails->second_affiliate != '')
+                            <hr class="new_hr">
+                            <div class="form-group row">
+                                <label class="col-xl-6">Second Affiliate</label>
+                                <div class="col-xl-6 align-self-center">
+                                    {{ $sellerDetails->second_affiliate }}
+                                </div>
                             </div>
-                        </div>
                         @endif
-                        @if($sellerDetails->shop_coordinator!='')
-                        <hr class="new_hr">
-                        <div class="form-group row">
-                            <label class="col-xl-6">{{ $shoporservice }} Co-Ordinator</label>
-                            <div class="col-xl-6 align-self-center">
-                                {{ $sellerDetails->shop_coordinator }}
+                        @if ($sellerDetails->shop_coordinator != '')
+                            <hr class="new_hr">
+                            <div class="form-group row">
+                                <label class="col-xl-6">{{ $shoporservice }} Co-Ordinator</label>
+                                <div class="col-xl-6 align-self-center">
+                                    {{ $sellerDetails->shop_coordinator }}
+                                </div>
                             </div>
-                        </div>
                         @endif
 
 
@@ -423,7 +424,7 @@
                         </div>
 
                         <hr class="new_hr">
-                        <div class="form-group row">
+                        {{-- <div class="form-group row">
                             <label class="col-xl-6">User Status</label>
                             <div class="col-xl-6 align-self-center">
                                 <span
@@ -431,7 +432,24 @@
                                     {{ $userstus === 'Y' ? 'Active' : 'Inactive' }}
                                 </span>
                             </div>
+                        </div> --}}
+                        {{-- @if (!($roleid == 9 || $roleid == 2)) --}}
+                        <div class="form-group row">
+                            <label class="col-xl-6">User Status</label>
+                            <div class="form-outline mb-3">
+                            <select class="form-select form-control form-control-lg" name="userstatus"
+                                id="userstatus" required tabindex="27">
+                                <option value="">Select</option>
+                                <option value="Y" @if ($userstus == 'Y') selected @endif>Active
+                                </option>
+                                <option value="N" @if ($userstus == 'N') selected @endif>Inactive
+                                </option>
+
+                            </select>
+                            <div for="userstatus" class="error"></div>
                         </div>
+                    </div>
+                        {{-- @endif --}}
 
 
                         <hr class="new_hr">
