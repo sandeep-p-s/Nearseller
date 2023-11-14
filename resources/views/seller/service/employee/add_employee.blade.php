@@ -424,5 +424,9 @@
             $('#state').change(function() {
                 fetchDistricts($(this).val(), '{{ old('district') }}');
             });
+            $('#employee_name').on('input', function() {
+                // Remove numeric characters as they are entered
+                $(this).val($(this).val().replace(/[0-9]/g, ''));
+            });
         </script>
     @endsection

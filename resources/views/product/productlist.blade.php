@@ -13,11 +13,12 @@
                         <div class="row">
                             <div class="col">
                                 {{-- @if (session('roleid') == '1') --}}
-                                    <h4 class="page-title">All Product List</h4>
-                                    <div class="col text-right">
-                                        <button class="btn add_btn" data-bs-toggle="modal" data-bs-target="#addNewModal">Add
-                                            New Product</button>
-                                    </div>
+                                <h4 class="page-title">All Product List</h4>
+                                <div class="col text-right">
+                                    <button class="btn add_btn d-none" data-bs-toggle="modal" data-bs-target="#addNewModal"
+                                        id="addProductButton">Add
+                                        New Product</button>
+                                </div>
                                 {{-- @endif --}}
                             </div>
                         </div>
@@ -120,7 +121,7 @@
             </div>
 
             <div class="modal fade p-5" id="deleteConfirmationModal" tabindex="-1" role="dialog"
-                aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true" >
+                aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -142,6 +143,16 @@
 
 
         <script>
+            $(document).ready(function() {
+        var currentPagePath = window.location.pathname;
+        if (currentPagePath === "/listshopproduct") {
+            //  console.log("Hiding button");
+            $("#addProductButton").addClass("d-none");
+        } else {
+            //  console.log("Showing button");
+            $("#addProductButton").removeClass("d-none");
+        }
+    });
 
 
 

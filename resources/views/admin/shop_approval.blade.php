@@ -15,7 +15,7 @@
                                 @if (session('roleid') == '1')
                                     <h4 class="page-title">{{ $shoporservice }} Approval List</h4>
                                     <div class="col text-right">
-                                        <button class="btn add_btn" data-bs-toggle="modal" data-bs-target="#addNewModal">Add
+                                        <button class="btn add_btn d-none" data-bs-toggle="modal" data-bs-target="#addNewModal" id="addSellerButton">Add
                                             New {{ $shoporservice }}</button>
                                         {{-- <button class="btn add_btn" data-bs-toggle="modal" data-bs-target="#UploadShopModal">Upload Shops</button> --}}
                                     </div>
@@ -163,9 +163,17 @@
 
 
 
-
-
         <script>
+            $(document).ready(function() {
+                var currentPageUrl = window.location.href;
+                if (currentPageUrl.includes("/shopapprovals/")) {
+                    $("#addSellerButton").addClass("d-none");
+                } else {
+                    $("#addSellerButton").removeClass("d-none");
+                }
+            });
+
+
             function shwdets() {
                 $('#loading-overlay').fadeIn();
                 $('#loading-image').fadeIn();
