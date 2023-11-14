@@ -1741,6 +1741,7 @@ class AdminController extends Controller
 
         if (($userstatus == 'Y') && ($request->approvedstatus=='Y')) {
             //echo "1=".$request->approvedstatus.'='.$userstatus;exit;
+            $user->user_status = $request->userstatus;
             $user->approved = $request->approvedstatus;
             $user->approved_by = $userId;
             $user->approved_at = $time;
@@ -1792,6 +1793,7 @@ class AdminController extends Controller
         }
         else if (($userstatus!='Y') && ($request->approvedstatus=='Y')) {
             //echo "2=".$request->approvedstatus.'='.$userstatus;exit;
+            $user->user_status = $request->userstatus;
             $user->approved = 'Y';
             $user->approved_by = $userId;
             $user->approved_at = $time;

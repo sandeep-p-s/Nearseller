@@ -1,7 +1,7 @@
 @if ($allusercount > 0)
     <style>
         tfoot {
-            display: table-caption;
+            display: table-header-group;
         }
 
         tfoot input {
@@ -25,6 +25,18 @@
             @endif
 
             <table id="datatable3" class="table table-striped table-bordered" style="width: 100%">
+                <tfoot>
+                    <tr>
+                        <th style="border: 0px solid #eaf0f7"></th>
+                        <th style="border: 0px solid #eaf0f7"></th>
+                        <th style="border: 0px solid #eaf0f7">Customer ID</th>
+                        <th style="border: 0px solid #eaf0f7">Customer Name</th>
+                        <th style="border: 0px solid #eaf0f7">Email</th>
+                        <th style="border: 0px solid #eaf0f7">Mobile</th>
+                        <th style="border: 0px solid #eaf0f7">Active Status</th>
+                        <th style="border: 0px solid #eaf0f7"></th>
+                    </tr>
+                </tfoot>
                 <thead>
                     <tr>
                         {{-- <th width="5px"><input type='checkbox' name='checkbox1' id='checkbox1' onclick='check();' /></th> --}}
@@ -73,18 +85,7 @@
                         </tr>
                     @endforeach
                 </tbody>
-                <tfoot>
-                    <tr>
-                        <th style="border: 0px solid #eaf0f7"></th>
-                        <th style="border: 0px solid #eaf0f7"></th>
-                        <th style="border: 0px solid #eaf0f7">Customer ID</th>
-                        <th style="border: 0px solid #eaf0f7">Customer Name</th>
-                        <th style="border: 0px solid #eaf0f7">Email</th>
-                        <th style="border: 0px solid #eaf0f7">Mobile</th>
-                        <th style="border: 0px solid #eaf0f7">Active Status</th>
-                        <th style="border: 0px solid #eaf0f7"></th>
-                    </tr>
-                </tfoot>
+
             </table>
             <input type="hidden" value="{{ $index + 1 }}" id="totalshopcnt">
         @else

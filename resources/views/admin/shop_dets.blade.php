@@ -498,13 +498,14 @@
                                     aria-haspopup="true" aria-expanded="false">Action
                                     <i class="mdi mdi-chevron-down"></i></button>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item view_btn1" href="#"
-                                        onclick="shopvieweditdet({{ $sellerDetail->id }},{{ $typeid }})">View/Edit</a>
                                     @if (session('roleid') == '1' || session('roleid') == '11')
                                         <a class="dropdown-item approve_btn" href="#"
-                                            onclick="shopapprovedet({{ $sellerDetail->id }},{{ $typeid }})">Approved</a>
+                                            onclick="shopapprovedet({{ $sellerDetail->id }},{{ $typeid }})">Activation/Approval</a>
                                         <a class="dropdown-item delete_btn" href="#"
                                             onclick="shopdeletedet({{ $sellerDetail->id }})">Delete</a>
+                                    @else
+                                        <a class="dropdown-item view_btn1" href="#"
+                                        onclick="shopvieweditdet({{ $sellerDetail->id }},{{ $typeid }})">View/Edit</a>
                                     @endif
                                 </div>
                             </div>
