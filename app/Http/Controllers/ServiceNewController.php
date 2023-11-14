@@ -160,7 +160,7 @@ class ServiceNewController extends Controller
         ]);
 
         if ($roleid != 1 && $roleid != 11) {
-            $queryapprovedcounts->where('shop_id', $userId);
+            $queryapprovedcounts->where('service_id', $userId);
         }
         $approvedproductcounts = $queryapprovedcounts->first();
         return view('serviceproduct.product_dets', compact('ServiceDetails', 'ProductCount', 'userservicedets','approvedproductcounts'));

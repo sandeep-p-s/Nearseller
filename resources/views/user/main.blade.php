@@ -1124,8 +1124,6 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
     </section>
     <!-- Offer best deals ends-->

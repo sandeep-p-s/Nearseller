@@ -22,10 +22,7 @@
     <link rel='stylesheet' type='text/css' media='screen' href='{{ asset('css/menu.css') }}'>
     <link rel='stylesheet' type='text/css' media='screen' href='{{ asset('css/mmenu.css') }}'>
     <link rel='stylesheet' type='text/css' media='screen' href='{{ asset('css/mobile.css') }}'>
-    <script src='{{ asset('js/jquery.min.js') }}'></script>
-    <script src='{{ asset('js/bootstrap.js') }}'></script>
-    <script src='{{ asset('js/main.js') }}'></script>
-    <script src='{{ asset('js/mmenu.js') }}'></script>
+
 
 </head>
 
@@ -104,6 +101,7 @@
                         @php
                             $roleid = session('roleid');
                             $roleIdsArray = explode(',', $roleid);
+                            $counts=count($roleIdsArray);
                             if (is_array($userdetails) || is_countable($userdetails)) {
                                 $cnts = count($userdetails);
                                 if ($cnts > 0) {
@@ -128,7 +126,7 @@
                                     position: absolute;
                                 }
                             </style>
-                            @if ($cnts > 0)
+                            @if ($counts > 0)
                                 <nav>
                                     <ul class="menu">
                                         <li class="dropdown" align="center">
@@ -136,13 +134,24 @@
                                                     style="font-size: 40px;"></i></a><br>
                                             <font color="#ff9800">{{ $username }}</font>
                                             <ul class="dropdown-menu">
+                                                <li><a href="#" data-bs-toggle="modal"
+                                                        data-bs-target="#myProfileModal">&nbsp;&nbsp;&nbsp;<i
+                                                            class="fas fa-user"></i>&nbsp;&nbsp; My Account</a></li>
                                                 <li><a href="#">&nbsp;&nbsp;&nbsp;<i
-                                                            class="fas fa-user"></i>&nbsp;&nbsp; My profile</a></li>
-                                                <li><a href="#">&nbsp;&nbsp;&nbsp;<i
-                                                            class="fas fa-shopping-bag"></i>&nbsp;&nbsp; My Cart</a>
+                                                            class="fas fa-shopping-bag"></i>&nbsp;&nbsp; My
+                                                        Bookings</a>
                                                 </li>
+                                                <li><a href="#">&nbsp;&nbsp;&nbsp;<i
+                                                            class="fas fa-shopping-bag"></i>&nbsp;&nbsp; Account
+                                                        Settings</a>
+                                                </li>
+                                                <li><a href="#">&nbsp;&nbsp;&nbsp;<i
+                                                            class="fas fa-user"></i>&nbsp;&nbsp; Contact us</a>
+                                                </li>
+
+
                                                 <li><a href="{{ route('logout') }}">&nbsp;&nbsp;&nbsp;<i
-                                                            class="fas fa-lock"></i>&nbsp;&nbsp; Sign out</a></li>
+                                                            class="fas fa-lock"></i>&nbsp;&nbsp; Logout</a></li>
                                             </ul>
                                         </li>
                                     </ul>
@@ -158,24 +167,56 @@
                     </div>
                 </div>
 
+
+
+
             </div>
         </nav>
-        <script>
-            // document.querySelectorAll('.dropdown').forEach(function(elem) {
-            //     elem.addEventListener('click', function(event) {
-            //         event.preventDefault();
-            //         var dropdownMenu = this.querySelector('.dropdown-menu');
-            //         if (dropdownMenu.style.display === 'block') {
-            //             dropdownMenu.style.display = 'none';
-            //         } else {
-            //             dropdownMenu.style.display = 'block';
-            //         }
-            //     });
-            // });
 
-            $(document).ready(function() {
-                $('.dropdown').click(function() {
-                    $(this).children('.dropdown-menu').toggle();
-                });
+
+
+
+<div class="modal fade" id="myProfileModal" tabindex="-1" aria-labelledby="myProfileModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="myProfileModalLabel">My Account</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Add your content here -->
+          <!-- Example: User profile details, settings, etc. -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <!-- Add additional buttons if needed -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+    <script>
+        // document.querySelectorAll('.dropdown').forEach(function(elem) {
+        //     elem.addEventListener('click', function(event) {
+        //         event.preventDefault();
+        //         var dropdownMenu = this.querySelector('.dropdown-menu');
+        //         if (dropdownMenu.style.display === 'block') {
+        //             dropdownMenu.style.display = 'none';
+        //         } else {
+        //             dropdownMenu.style.display = 'block';
+        //         }
+        //     });
+        // });
+
+        $(document).ready(function() {
+            $('.dropdown').click(function() {
+                $(this).children('.dropdown-menu').toggle();
             });
-        </script>
+        });
+    </script>

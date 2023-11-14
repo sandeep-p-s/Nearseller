@@ -21,11 +21,31 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $product = DB::table('product_details')->select('id','product_name','product_images')->where('is_approved','Y')->get();
-        $services = DB::table('service_details')->select('id','service_name','service_images')->where('is_approved','Y')->get();
-        $shops = DB::table('seller_details')->select('id','shop_name','shop_photo')->where('seller_approved','Y')->get();
-        $districts = DB::table('district')->select('id','district_name','state_id')->where('state_id','18')->get();
-        $userdetails='';
+        $userId = session('user_id');
+        if($userId=='')
+        {
+            $userdetails = '';
+            $product = DB::table('product_details')->select('id','product_name','product_images')->where('is_approved','Y')->get();
+            $services = DB::table('service_details')->select('id','service_name','service_images')->where('is_approved','Y')->get();
+            $shops = DB::table('seller_details')->select('id','shop_name','shop_photo')->where('seller_approved','Y')->get();
+            $districts = DB::table('district')->select('id','district_name','state_id')->where('state_id','18')->get();
+        }
+        else{
+            $roleid = session('roleid');
+            $roleIdsArray = explode(',', $roleid);
+            if ($userId == '') {
+                return redirect()->route('logout');
+            }
+            $loggeduser = UserAccount::sessionValuereturn_s($roleid);
+            $userdetails = DB::table('user_account')
+                ->where('id', $userId)
+                ->get();
+            $product = DB::table('product_details')->select('id','product_name','product_images')->where('is_approved','Y')->get();
+            $services = DB::table('service_details')->select('id','service_name','service_images')->where('is_approved','Y')->get();
+            $shops = DB::table('seller_details')->select('id','shop_name','shop_photo')->where('seller_approved','Y')->get();
+            $districts = DB::table('district')->select('id','district_name','state_id')->where('state_id','18')->get();
+        }
+
         return view('user.main', compact('product','services','shops','districts','userdetails'));
     }
     public function Login()
