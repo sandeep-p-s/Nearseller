@@ -62,8 +62,7 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-center align-items-center mb-2">
                                 <span class="badge badge-soft-info p-2">Total Categories :
-                                    {{ $total_categories }}</span><span class="badge badge-soft-info p-2 ml-2">Active Status
-                                    Categories :
+                                    {{ $total_categories }}</span><span class="badge badge-soft-info p-2 ml-2">Active Categories :
                                     {{ $active_categories }}</span><span class="badge badge-soft-danger p-2 ml-2">Inactive
                                     Categories : {{ $inactive_categories }}</span><span
                                     class="badge badge-soft-info p-2 ml-2">Approved Categories :

@@ -83,6 +83,9 @@
 
 {{-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> --}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src='{{ asset('js/bootstrap.js') }}'></script>
+    <script src='{{ asset('js/main.js') }}'></script>
+    <script src='{{ asset('js/mmenu.js') }}'></script>
 
 <script>
     new Mmenu(
