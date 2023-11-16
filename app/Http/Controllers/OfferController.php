@@ -21,6 +21,10 @@ class OfferController extends Controller
         $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $shop_offer = DB::table('offers')->get();
+        $active_offers = DB::table('offers as o')->where('o.status', 'Y')->count();
+        $inactive_offers = DB::table('offers as o')->where('o.status', 'N')->count();
+        $approved_offers = DB::table('offers as o')->where('o.status', 'Y')->count();
+        $notapproved_offers = DB::table('offers as o')->where('o.status', 'N')->count();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $roleIdsArray = explode(',', $roleid);
         if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
@@ -32,7 +36,7 @@ class OfferController extends Controller
         else{
             $selrdetails='';
         }
-        return view('seller.offer.list_offer', compact('shop_offer', 'loggeduser', 'userdetails', 'structuredMenu','selrdetails'));
+        return view('seller.offer.list_offer', compact('shop_offer', 'loggeduser', 'userdetails', 'structuredMenu','selrdetails','active_offers','inactive_offers','approved_offers','notapproved_offers'));
     }
     //Shop Offer
     public function list_shop_offer()
