@@ -72,9 +72,9 @@
                                         </div>
                                     </div> --}}
                                     <label>Category Image</label>
-                                    <input type="file" id="category_image" name="category_image[]"
+                                    <input type="file" id="category_image" name="category_image"
                                         class="form-control form-control-lg" placeholder="Shop Photo" tabindex="19"
-                                         />
+                                        accept="image/jpeg, image/png" />
                                     <label for="category_image" class="error"></label>
                                     <div class="col-md-12">
                                         <div class="form-group" align="left">

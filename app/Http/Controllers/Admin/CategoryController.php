@@ -127,7 +127,7 @@ class CategoryController extends Controller
                 'slug_name.unique' => 'Slug name should unique.',
                 // 'category_image.required' => 'Category image required.',
                 // 'category_level.required' => 'Category level required.',
-                // 'category_image.mimes' => 'Image must be in the format jpeg,png,jpg.',
+                'category_image.mimes' => ' format jpeg,png,jpg.',
                 // 'category_image.max' => 'File not larger than 4mb.',
              ]
         );
