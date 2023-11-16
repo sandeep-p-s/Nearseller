@@ -91,13 +91,17 @@
                                 aria-haspopup="true" aria-expanded="false">Action
                                 <i class="mdi mdi-chevron-down"></i></button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item view_btn1" href="#"
-                                    onclick="productvieweditdet({{ $prodDetails->id }})">View/Edit</a>
+
                                 @if (session('roleid') == '1' || session('roleid') == '11')
+                                    <a class="dropdown-item view_btn1" href="#"
+                                    onclick="productvieweditdet({{ $prodDetails->id }})">View/Edit</a>
                                     <a class="dropdown-item approve_btn" href="#"
-                                        onclick="productapprovedet({{ $prodDetails->id }})">Approved</a>
+                                        onclick="productapprovedet({{ $prodDetails->id }})">Activation/Approved</a>
                                     <a class="dropdown-item delete_btn" href="#"
                                         onclick="productdeletedet({{ $prodDetails->id }})">Delete</a>
+                                @else
+                                    <a class="dropdown-item view_btn1" href="#"
+                                    onclick="productvieweditdet({{ $prodDetails->id }})">View/Edit</a>
                                 @endif
                             </div>
                         </div>

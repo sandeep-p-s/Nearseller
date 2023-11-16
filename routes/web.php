@@ -413,7 +413,7 @@ Route::middleware(['role'])->group(function () {
 
     Route::controller(OfferController::class)->group(function () {
         Route::get('listshopoffer', 'list_shop_offer')->name('list.shop_offer');
-        Route::get('addlistshopoffer', 'list_shop_offer')->name('list.shop_offer');
+        Route::get('addlistoffer', 'list_offer')->name('list.shop_offer');
         Route::get('addshopoffer', 'add_shop_offer')->name('add.shop_offer');
         Route::post('storeshopoffer', 'store_shop_offer')->name('store.shop_offer');
         Route::get('editshopoffer/{id}', 'edit_shop_offer')->name('edit.shop_offer');

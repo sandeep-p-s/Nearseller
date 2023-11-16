@@ -12,6 +12,28 @@ use App\Models\ServiceDetails;
 
 class OfferController extends Controller
 {
+
+    public function list_offer()
+    {
+        $userRole = session('user_role');
+        $userId = session('user_id');
+        $roleid = session('roleid');
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
+        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $shop_offer = DB::table('offers')->get();
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
+        $roleIdsArray = explode(',', $roleid);
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+        {
+            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+            ->where('user_id', $userId)
+            ->first();
+        }
+        else{
+            $selrdetails='';
+        }
+        return view('seller.offer.list_offer', compact('shop_offer', 'loggeduser', 'userdetails', 'structuredMenu','selrdetails'));
+    }
     //Shop Offer
     public function list_shop_offer()
     {

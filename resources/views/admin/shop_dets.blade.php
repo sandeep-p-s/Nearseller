@@ -68,7 +68,9 @@
 
                                     <div class="col-lg-4 ml-auto align-self-center">
                                         <ul class="list-unstyled personal-detail mb-0">
-                                            <li class=""><b> Phone </b> : {{ $sellerDetailh->mob_country_code. '' .$sellerDetailh->shop_mobno}}</li>
+                                            <li class=""><b> Phone </b> :
+                                                {{ $sellerDetailh->mob_country_code . '' . $sellerDetailh->shop_mobno }}
+                                            </li>
                                             @if ($sellerDetailh->shop_email != '')
                                                 <li class="mt-2"> <b> Email </b> : {{ $sellerDetailh->shop_email }}
                                                 </li>
@@ -443,7 +445,7 @@
                         {{-- <th width="5px"><input type='checkbox' name='checkbox1' id='checkbox1'
                                 onclick='check();' /> --}}
 
-                        <th width="5px" data-sorting="true"><input type='checkbox' name='checkbox1'
+                        <th width="5px" data-sorting="true" class="checkboxcol"><input type='checkbox' name='checkbox1'
                                 id='checkbox1' class="selectAll" onclick='' />
                         </th>
 
@@ -466,7 +468,7 @@
                 @foreach ($sellerDetails as $index => $sellerDetail)
                     <tr>
                         @if (session('roleid') == '1' || session('roleid') == '11')
-                            <td><input name="shopid[]" type="checkbox" id="shopid{{ $index + 1 }}"
+                            <td class="checkboxcol"><input name="shopid[]" type="checkbox" id="shopid{{ $index + 1 }}"
                                     value="{{ $sellerDetail->id . '*' . $sellerDetail->user_id }}"
                                     {{ $sellerDetail->seller_approved === 'Y' ? '' : '' }} />
                             </td>
@@ -499,13 +501,15 @@
                                     <i class="mdi mdi-chevron-down"></i></button>
                                 <div class="dropdown-menu">
                                     @if (session('roleid') == '1' || session('roleid') == '11')
+                                        <a class="dropdown-item view_btn1 d-none" id="viewbtn" href="#"
+                                            onclick="shopvieweditdet({{ $sellerDetail->id }},{{ $typeid }})">View/Edit</a>
                                         <a class="dropdown-item approve_btn" href="#"
                                             onclick="shopapprovedet({{ $sellerDetail->id }},{{ $typeid }})">Activation/Approval</a>
                                         <a class="dropdown-item delete_btn" href="#"
                                             onclick="shopdeletedet({{ $sellerDetail->id }})">Delete</a>
                                     @else
                                         <a class="dropdown-item view_btn1" href="#"
-                                        onclick="shopvieweditdet({{ $sellerDetail->id }},{{ $typeid }})">View/Edit</a>
+                                            onclick="shopvieweditdet({{ $sellerDetail->id }},{{ $typeid }})">View/Edit</a>
                                     @endif
                                 </div>
                             </div>
@@ -534,7 +538,7 @@
         @if (session('roleid') == '1' || session('roleid') == '11')
             <div class="col text-center">
                 <button class="btn btn-primary" style="cursor:pointer"
-                    onclick="seller_service_approvedall();">Approve
+                    onclick="seller_service_approvedall();" id="approveAllBtn">Approve
                     All</button>
             </div>
         @endif
@@ -1118,6 +1122,31 @@
 
 
 <script>
+    $(document).ready(function() {
+        var currentPageUrl = window.location.href;
+
+        if (currentPageUrl.includes("/shopapprovals/")) {
+            $("#viewbtn").addClass("d-none");
+            $(".approve_btn, .delete_btn").removeClass("d-none");
+        } else if (currentPageUrl.includes("/shopapprovalsadd/")) {
+            $("#viewbtn").removeClass("d-none");
+            $(".approve_btn").addClass("d-none");
+        }
+    });
+    $(document).ready(function() {
+        var currentPageUrl = window.location.href;
+
+        // Check if the current page is the "shopapprovals/" page
+        if (currentPageUrl.includes("/shopapprovals/")) {
+            // On the "shopapprovals/" page, show checkbox columns and approve all button
+            $(".checkboxcol").removeClass("d-none");
+            $("#approveAllBtn").removeClass("d-none");
+        } else if (currentPageUrl.includes("/shopapprovalsadd/")) {
+            // On the "shopapprovalsadd/" page, hide checkbox columns and approve all button
+            $(".checkboxcol").addClass("d-none");
+            $("#approveAllBtn").addClass("d-none");
+        }
+    });
     function numberOnlyAllowed(inputElement) {
         let value = inputElement.value.replace(/\D/g, '');
         if (value.length > 10) {

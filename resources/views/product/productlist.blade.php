@@ -144,15 +144,15 @@
 
         <script>
             $(document).ready(function() {
-        var currentPagePath = window.location.pathname;
-        if (currentPagePath === "/listshopproduct") {
-            //  console.log("Hiding button");
-            $("#addProductButton").addClass("d-none");
-        } else {
-            //  console.log("Showing button");
-            $("#addProductButton").removeClass("d-none");
-        }
-    });
+                var currentPagePath = window.location.pathname;
+                if (currentPagePath === "/listshopproduct") {
+                    //  console.log("Hiding button");
+                    $("#addProductButton").addClass("d-none");
+                } else {
+                    //  console.log("Showing button");
+                    $("#addProductButton").removeClass("d-none");
+                }
+            });
 
 
 
