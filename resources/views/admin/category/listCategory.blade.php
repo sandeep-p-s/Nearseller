@@ -61,8 +61,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-center align-items-center mb-2">
-                                <span class="badge badge-soft-info p-2">Total Categories :
-                                    {{ $total_categories }}</span><span class="badge badge-soft-info p-2 ml-2">Active Categories :
+                                <span class="badge badge-soft-info p-2 ml-2">Active Categories :
                                     {{ $active_categories }}</span><span class="badge badge-soft-danger p-2 ml-2">Inactive
                                     Categories : {{ $inactive_categories }}</span><span
                                     class="badge badge-soft-info p-2 ml-2">Approved Categories :
@@ -150,12 +149,11 @@
                                                             class="mdi mdi-chevron-down"></i></button>
                                                     <div class="dropdown-menu">
                                                         @if (session('roleid') == 1 || session('roleid') == 11 || session('user_id') == $c->created_by)
-                                                            <a class="dropdown-item view_btn1"
+                                                            <a class="dropdown-item view_btn1" id="editBtn"
                                                                 href="{{ route('edit.category', $c->category_slug) }}">Edit/View</a>
                                                         @endif
                                                         @if (session('roleid') == 1 || session('roleid') == 11)
-                                                            <a class="dropdown-item approve_btn"
-                                                                href="{{ route('approved.category', $c->category_slug) }}">Approved</a>
+                                                                <a class="dropdown-item approve_btn d-none" id="approvalBtn" href="{{ route('approved.category', $c->category_slug) }}">Activation/Approval</a>
                                                         @endif
                                                         @if (session('roleid') == 1 || session('roleid') == 11)
                                                             <a class="dropdown-item delete_btn"
@@ -192,8 +190,12 @@
 
             if (currentPageUrl.includes("/listcategory")) {
                 $("#addCategoryButton").addClass("d-none");
+                $("#approvalBtn").removeClass("d-none");
+                $("#editBtn").addClass("d-none");
             } else {
                 $("#addCategoryButton").removeClass("d-none");
+                $("#approvalBtn").addClass("d-none");
+                $("#editBtn").removeClass("d-none");
             }
         });
     </script>

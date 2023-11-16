@@ -30,11 +30,10 @@ class CategoryController extends Controller
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $categories = Category::tree();
         $categoriesStatusY = Category::treeWithStatusY();
-        $total_categories = $categoriesStatusY->count();
-        $active_categories = Category::countStatusY();
-        $inactive_categories = DB::table('categories as c')->where('c.status', 'N')->count();
-        $approved_categories = $categoriesStatusY->where('c.approval_status', 'Y')->count();
-        $notapproved_categories = $categoriesStatusY->where('c.approval_status', 'N')->count();
+        $active_categories = $categories->where('status', 'Y')->count();
+        $inactive_categories = $categories->where('status', 'N')->count();
+        $approved_categories = $categories->where('approval_status', 'Y')->count();
+        $notapproved_categories = $categories->where('approval_status', 'N')->count();
         $filteredCategories = $categoriesStatusY->filter(function ($category) {
             return $category->category_level != 5;
         });
@@ -49,7 +48,7 @@ class CategoryController extends Controller
             $selrdetails='';
         }
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        return view('admin.category.listCategory', compact('loggeduser', 'userdetails', 'categories', 'total_categories','active_categories', 'inactive_categories','approved_categories','notapproved_categories', 'structuredMenu','selrdetails','filteredCategories'));
+        return view('admin.category.listCategory', compact('loggeduser', 'userdetails', 'categories', 'active_categories', 'inactive_categories','approved_categories','notapproved_categories', 'structuredMenu','selrdetails','filteredCategories'));
     }
     public function add_category()
     {
@@ -186,7 +185,7 @@ class CategoryController extends Controller
 
 
 
-            return redirect()->route('list.category')->with('success', 'Category successfully added');
+            return redirect()->route('list.addcategory')->with('success', 'Category successfully added');
     }
     public function edit_category($category_slug)
     {
@@ -314,7 +313,7 @@ class CategoryController extends Controller
             $LogDetails->status = $msg;
             $LogDetails->save();
 
-            return redirect()->route('list.category')->with('success', 'Category successfully updated');
+            return redirect()->route('list.addcategory')->with('success', 'Category successfully updated');
     }
 
     public function delete_category($category_slug)
@@ -380,6 +379,7 @@ class CategoryController extends Controller
     public function approvedstatus_category(Request $request,$id)
     {
         $userRole = session('user_role');
+        $roleid = session('roleid');
         $userId = session('user_id');
         if ($userId == '') {
             return redirect()->route('logout');
@@ -415,7 +415,10 @@ class CategoryController extends Controller
                 'categoryapproved.in' => 'Invalid approved status value.',
             ]
         );
-            $current_category->approval_status = $request->categoryapproved;
+        if($roleid==1 || $roleid==11)
+        {   $current_category->approval_status = $request->categoryapproved;
+            $current_category->status = $request->status;
+        }
             $current_category->approved_by = $userId;
             $current_category->approved_time = $time;
             $current_category->save();
