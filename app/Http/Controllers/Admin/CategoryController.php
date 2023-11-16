@@ -340,7 +340,7 @@ class CategoryController extends Controller
         $LogDetails->status = $msg;
         $LogDetails->save();
 
-        return redirect()->route('list.category')->with('success', 'Category deleted successfully.');
+        return redirect()->route('list.addcategory')->with('success', 'Category deleted successfully.');
     }
 
     public function approved_category($category_slug)

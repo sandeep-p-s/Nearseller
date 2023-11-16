@@ -156,7 +156,7 @@
                                                                 <a class="dropdown-item approve_btn d-none" id="approvalBtn" href="{{ route('approved.category', $c->category_slug) }}">Activation/Approval</a>
                                                         @endif
                                                         @if (session('roleid') == 1 || session('roleid') == 11)
-                                                            <a class="dropdown-item delete_btn"
+                                                            <a class="dropdown-item delete_btn " id="deleteBtn"
                                                                 href="{{ route('delete.category', $c->category_slug) }}"
                                                                 onclick="return confirm('Are you sure you want to delete?')">Delete</a>
                                                         @endif
@@ -192,10 +192,13 @@
                 $("#addCategoryButton").addClass("d-none");
                 $("#approvalBtn").removeClass("d-none");
                 $("#editBtn").addClass("d-none");
+                $("#deleteBtn").addClass("d-none");
+
             } else {
                 $("#addCategoryButton").removeClass("d-none");
                 $("#approvalBtn").addClass("d-none");
                 $("#editBtn").removeClass("d-none");
+                $("#deleteBtn").removeClass("d-none");
             }
         });
     </script>
