@@ -368,7 +368,7 @@ Route::middleware(['role'])->group(function () {
     //admin
     Route::controller(CategoryController::class)->group(function () {
         Route::get('listcategory', 'list_category')->name('list.category');
-        Route::get('addlistcategory', 'list_category')->name('list.category');
+        Route::get('addlistcategory', 'list_category')->name('list.addcategory');
         Route::get('addcategory', 'add_category')->name('add.category');
         Route::get('parentcategory/{value}', 'parent_category')->name('parent.category');
         Route::get('parentcategoryedit/{value}', 'parent_category_edit')->name('parent.categoryedit');

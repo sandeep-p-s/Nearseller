@@ -115,7 +115,7 @@
                                     </div>
                                 </div>
                                     <label for="categoryStatus">Status</label>
-                                    <select class="form-control mb15" id="categoryStatus" name="status" disabled>
+                                    <select class="form-control mb15" id="categoryStatus" name="status" >
                                         <option value="Y" {{ $current_category->status == 'Y' ? 'selected' : '' }}>
                                             Active
                                         </option>
@@ -156,7 +156,7 @@
                         </div><!--end card-body-->
                     </div>
                 </div>
-                <div class="col-lg-4" {{ $current_category->category_image ? '' : 'hidden' }}>
+                <div class="col-lg-4  d-none" {{ $current_category->category_image ? '' : 'hidden' }}>
                     <br>
                     <div class="card">
                         <div class="card-header">
@@ -273,7 +273,7 @@
                 document.getElementById('category_image').files = new FileListItem(fileArrs);
                 $(this).closest('.img-div').remove();
             });
-            
+
 
             function FileListItem(file) {
         file = [].slice.call(Array.isArray(file) ? file : arguments);
