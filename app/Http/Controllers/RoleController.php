@@ -1235,7 +1235,7 @@ class RoleController extends Controller
 
         $role = new Role;
         $role->is_active = 1;
-        $role->role_name = ucfirst($request->role_name);
+        $role->role_name = ucwords($request->role_name);
         $role->save();
 
         return redirect()->route('list.roles')->with('success', 'Role created successfully.');

@@ -50,6 +50,20 @@
                     <div class="card">
 
                         <div class="card-body">
+                            <div class="text-center">
+                                <span class="badge badge-soft-info p-2">
+                                    Active Offers : {{ $active_offers }}
+                                </span>
+                                <span class="badge badge-soft-danger p-2">
+                                    Inactive Offers : {{ $inactive_offers }}
+                                </span>
+                                <span class="badge badge-soft-info p-2">
+                                    Approved Offers : {{ $approved_offers }}
+                                </span>
+                                <span class="badge badge-soft-danger p-2">
+                                    Not  Approved Offers : {{ $notapproved_offers }}
+                                </span>
+                            </div>
                             <table id="datatable" class="table table-striped table-bordered"
                                 style="width: 100%;">
                                 <thead>
