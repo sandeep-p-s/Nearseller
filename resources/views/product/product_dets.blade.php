@@ -51,8 +51,8 @@
             <tr>
                 {{-- <th>Approved all<input type='checkbox' name='checkbox1' id='checkbox1' onclick='check();' /></th> --}}
                 @if (session('roleid') == '1' || session('roleid') == '11')
-                    <th width="5px" data-sorting="true"><input type='checkbox' name='checkbox1' id='checkbox1'
-                            class="selectAll" onclick='' /></th>
+                    <th width="5px" data-sorting="true" class="checkboxcol"><input type='checkbox' name='checkbox1'
+                            id='checkbox1' class="selectAll" onclick='' /></th>
                 @endif
                 <th>S.No.</th>
                 <th>Product ID</th>
@@ -68,8 +68,8 @@
             @foreach ($ProductDetails as $index => $prodDetails)
                 <tr>
                     @if (session('roleid') == '1' || session('roleid') == '11')
-                        <td><input name="productid[]" type="checkbox" id="productid{{ $index + 1 }}"
-                                value="{{ $prodDetails->id }}"
+                        <td class="checkboxcol"><input name="productid[]" type="checkbox"
+                                id="productid{{ $index + 1 }}" value="{{ $prodDetails->id }}"
                                 {{ $prodDetails->is_approved === 'Y' ? '' : '' }} />
                         </td>
                     @endif
@@ -95,13 +95,15 @@
                             <div class="dropdown-menu">
 
                                 @if (session('roleid') == '1' || session('roleid') == '11')
-                                    <a class="dropdown-item approve_btn" href="#"
+                                    <a class="dropdown-item view_btn1 d-none" id="viewbtn" href="#"
+                                        onclick="productvieweditdet({{ $prodDetails->id }})">View/Edit</a>
+                                    <a class="dropdown-item approve_btn" href="#" id="aprvbtn"
                                         onclick="productapprovedet({{ $prodDetails->id }})">Activation/Approval</a>
-                                    <a class="dropdown-item delete_btn" href="#"
+                                    <a class="dropdown-item delete_btn" href="#" id="delbtn"
                                         onclick="productdeletedet({{ $prodDetails->id }})">Delete</a>
                                 @else
                                     <a class="dropdown-item view_btn1" href="#"
-                                    onclick="productvieweditdet({{ $prodDetails->id }})">View/Edit</a>
+                                        onclick="productvieweditdet({{ $prodDetails->id }})">View/Edit</a>
                                 @endif
                             </div>
                         </div>
@@ -125,7 +127,8 @@
 @if (session('roleid') == '1' || session('roleid') == '11')
     @if ($ProductCount > 0)
         <div class="col text-center">
-            <button class="btn btn-primary" style="cursor:pointer" onclick="productapprovedall();">Approve All</button>
+            <button class="btn btn-primary" style="cursor:pointer"
+                onclick="productapprovedall();" id="approveAllBtn">Approve All</button>
         </div>
     @endif
 @endif
@@ -481,6 +484,34 @@
 
 
 <script>
+    $(document).ready(function() {
+        var currentPagePath = window.location.pathname;
+        //console.log("Current Page URL:", currentPageUrl);
+
+        // Check if the current page is the "listshopproduct" page
+        if (currentPagePath ==="/listshopproduct") {
+            $("#viewbtn").addClass("d-none");
+            $("#aprvbtn, #delbtn").removeClass("d-none");
+        } else if (currentPagePath ==="/listshopproductadd") {
+            $("#viewbtn").removeClass("d-none");
+            $("#aprvbtn").addClass("d-none");
+        }
+    });
+    $(document).ready(function() {
+        var currentPagePath = window.location.pathname;
+
+        // Check if the current page is the "shopapprovals/" page
+        if (currentPagePath ==="/listshopproduct") {
+            // On the "shopapprovals/" page, show checkbox columns and approve all button
+            $(".checkboxcol").removeClass("d-none");
+            $("#approveAllBtn").removeClass("d-none");
+        } else if (currentPagePath ==="/listshopproductadd") {
+            // On the "shopapprovalsadd/" page, hide checkbox columns and approve all button
+            $(".checkboxcol").addClass("d-none");
+            $("#approveAllBtn").addClass("d-none");
+        }
+    });
+
     function numberOnlyAllowed(inputElement) {
         let value = inputElement.value.replace(/\D/g, '');
         if (value.length > 10) {

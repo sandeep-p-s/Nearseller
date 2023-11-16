@@ -479,6 +479,7 @@ class ServiceNewController extends Controller
 
         $ServiceDetails = ServiceDetails::find($serprod_ids);
         $ServiceDetails->fill($validatedData);
+        $ServiceDetails->service_status = $request->productstatus;
         $ServiceDetails->is_approved = $request->productapproval;
         $ServiceDetails->approved_by = $userId;
         $ServiceDetails->approved_time = $time;

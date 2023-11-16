@@ -61,7 +61,8 @@
                                                     id='checkbox1' class="selectAll" onclick='' /></th>
                                         @endif
                                         <th>S.No.</th>
-                                        <th>Offer</th>
+                                        <th>Offers</th>
+                                        <th>Business Type</th>
                                         <th>Active Status</th>
                                         <th>Approval Status</th>
                                         <th>Action</th>
@@ -82,6 +83,14 @@
                                             @endif
                                                 <td width="8%">{{ $loop->iteration }}</td>
                                                 <td>{{ $so->offer_to_display }}</td>
+                                                <td>@if ($so->type == 1)
+                                                        Shop
+                                                    @elseif ($so->type == 2)
+                                                        Services
+                                                    @else
+                                                        Unknown Type
+                                                    @endif
+                                                </td>
                                                 <td width="10%">
                                                     <span
                                                         class="badge p-2 {{ $so->status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
