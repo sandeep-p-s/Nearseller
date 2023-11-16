@@ -524,15 +524,39 @@
                         <td>{{ $sellerDetail->shop_name }}</td>
                         <td>{{ $sellerDetail->service_name }} </td>
                         <td>{{ $sellerDetail->owner_name }}</td>
-                        <td><span
+                        <td>@if($sellerDetail->user_status == 'Y')
+                            @php
+                                $userstatus='Active';
+                            @endphp
+                            @else
+                            @php
+                                $userstatus='Inctive';
+                            @endphp
+                            @endif
+
+                            {{-- <span
                                 class="badge p-2 {{ $sellerDetail->user_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
                                 {{ $sellerDetail->user_status === 'Y' ? 'Active' : 'Inactive' }}
-                            </span>
+                            </span> --}}
+                            {{ $userstatus }}
                         </td>
-                        <td><span
+                        <td>@if($sellerDetail->seller_approved == 'Y')
+                            @php
+                                $approvedstatus='Approved';
+                            @endphp
+                            @else
+                            @php
+                                $approvedstatus='Not Approved';
+                            @endphp
+                            @endif
+
+
+                            {{-- <span
                                 class="badge p-2 {{ $sellerDetail->seller_approved === 'Y' ? 'badge badge-info' : 'badge badge-danger' }}">
                                 {{ $sellerDetail->seller_approved === 'Y' ? 'Approved' : 'Not Approved' }}
-                            </span>
+                            </span> --}}
+
+                            {{ $approvedstatus }}
                         </td>
 
 

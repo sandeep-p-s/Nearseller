@@ -387,17 +387,92 @@
 @if (in_array('1', $roleIdsArray) || in_array('11', $roleIdsArray))
 
     @if ($sellerCount > 0)
-        <style>
-            tfoot {
-                display: table-header-group;
-            }
+    <style>
+        tfoot {
+            display: table-header-group;
+        }
 
-            tfoot input {
-                width: 100%;
-                padding: 3px;
-                box-sizing: border-box;
-            }
-        </style>
+        tfoot input {
+            width: 100%;
+            padding: 3px;
+            box-sizing: border-box;
+        }
+
+        .cb-dropdown-wrap {
+            max-height: 80px;
+            /* At most, around 3/4 visible items. */
+            position: relative;
+            height: 19px;
+        }
+
+        .cb-dropdown,
+        .cb-dropdown li {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .cb-dropdown {
+            position: absolute;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #fff;
+            border: 1px solid #888;
+        }
+
+        /* For selected filter. */
+        .active .cb-dropdown {
+            background: pink;
+        }
+
+        .cb-dropdown-wrap:hover .cb-dropdown {
+            height: 80px;
+            overflow: auto;
+            transition: 0.2s height ease-in-out;
+        }
+
+        /* For selected items. */
+        .cb-dropdown li.active {
+            background: #ff0;
+        }
+
+        .cb-dropdown li label {
+            display: block;
+            position: relative;
+            cursor: pointer;
+            line-height: 19px;
+            /* Match height of .cb-dropdown-wrap */
+        }
+
+        .cb-dropdown li label>input {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 16px;
+        }
+
+        .cb-dropdown li label>span {
+            display: block;
+            margin-left: 3px;
+            margin-right: 20px;
+            /* At least, width of the checkbox. */
+            font-family: sans-serif;
+            font-size: 0.8em;
+            font-weight: normal;
+            text-align: left;
+        }
+
+        /* This fixes the vertical aligning of the sorting icon. */
+        table.dataTable thead .sorting,
+        table.dataTable thead .sorting_asc,
+        table.dataTable thead .sorting_desc,
+        table.dataTable thead .sorting_asc_disabled,
+        table.dataTable thead .sorting_desc_disabled {
+            background-position: 100% 10px;
+        }
+    </style>
         @if (session('roleid') == '1' || session('roleid') == '11')
             <div class="text-center">
                 <span class="badge badge-soft-info p-2">
@@ -417,36 +492,28 @@
 
 
         <table id="datatable3" class="table table-striped table-bordered" style="width: 100%">
-            <tfoot>
+            {{-- <tfoot>
                 <tr>
                     @if (session('roleid') == '1' || session('roleid') == '11')
-                        {{-- <th width="5px"><input type='checkbox' name='checkbox1' id='checkbox1'
-                                onclick='check();' /> --}}
-
                         <th style="border: 0px solid #eaf0f7"></th>
-
                         <th style="border: 0px solid #eaf0f7"></th>
                     @endif
-                    {{--  <th style="border: 0px solid #eaf0f7">Reg. ID</th>  --}}
                     <th style="border: 0px solid #eaf0f7">{{ $shoporservice }} Name</th>
                     <th style="border: 0px solid #eaf0f7">{{ $shoporservice }} Type</th>
                     <th style="border: 0px solid #eaf0f7">Owner Name</th>
-                    {{-- <th>Email</th> --}}
-                    {{-- <th style="border: 0px solid #eaf0f7">Seller Type</th> --}}
-                    {{-- <th>Business Type</th> --}}
                     <th style="border: 0px solid #eaf0f7">Active Status</th>
                     <th style="border: 0px solid #eaf0f7">Approval Status</th>
                     <th style="border: 0px solid #eaf0f7"></th>
                 </tr>
-            </tfoot>
+            </tfoot> --}}
             <thead>
                 <tr>
                     @if (session('roleid') == '1' || session('roleid') == '11')
                         {{-- <th width="5px"><input type='checkbox' name='checkbox1' id='checkbox1'
                                 onclick='check();' /> --}}
 
-                        <th width="5px" data-sorting="true" class="checkboxcol"><input type='checkbox' name='checkbox1'
-                                id='checkbox1' class="selectAll" onclick='' />
+                        <th width="5px" data-sorting="true" class="checkboxcol"><input type='checkbox'
+                                name='checkbox1' id='checkbox1' class="selectAll" onclick='' />
                         </th>
 
 
@@ -468,7 +535,8 @@
                 @foreach ($sellerDetails as $index => $sellerDetail)
                     <tr>
                         @if (session('roleid') == '1' || session('roleid') == '11')
-                            <td class="checkboxcol"><input name="shopid[]" type="checkbox" id="shopid{{ $index + 1 }}"
+                            <td class="checkboxcol"><input name="shopid[]" type="checkbox"
+                                    id="shopid{{ $index + 1 }}"
                                     value="{{ $sellerDetail->id . '*' . $sellerDetail->user_id }}"
                                     {{ $sellerDetail->seller_approved === 'Y' ? '' : '' }} />
                             </td>
@@ -482,15 +550,41 @@
                         {{-- <td>{{ $sellerDetail->service_name }}</td> --}}
                         {{--  <td>{{ $sellerDetail->mob_country_code.''.$sellerDetail->shop_mobno }}</td>  --}}
                         {{-- <td class="text-success">{{ $sellerDetail->business_name }}</td> --}}
-                        <td><span
+                        <td>
+                            @if ($sellerDetail->user_status == 'Y')
+                                @php
+                                    $userstatus = 'Active';
+                                @endphp
+                            @else
+                                @php
+                                    $userstatus = 'Inctive';
+                                @endphp
+                            @endif
+
+                            {{-- <span
                                 class="badge p-2 {{ $sellerDetail->user_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
                                 {{ $sellerDetail->user_status === 'Y' ? 'Active' : 'Inactive' }}
-                            </span>
+                            </span> --}}
+                            {{ $userstatus }}
                         </td>
-                        <td><span
+                        <td>
+                            @if ($sellerDetail->seller_approved == 'Y')
+                                @php
+                                    $approvedstatus = 'Approved';
+                                @endphp
+                            @else
+                                @php
+                                    $approvedstatus = 'Not Approved';
+                                @endphp
+                            @endif
+
+
+                            {{-- <span
                                 class="badge p-2 {{ $sellerDetail->seller_approved === 'Y' ? 'badge badge-info' : 'badge badge-danger' }}">
                                 {{ $sellerDetail->seller_approved === 'Y' ? 'Approved' : 'Not Approved' }}
-                            </span>
+                            </span> --}}
+
+                            {{ $approvedstatus }}
                         </td>
 
 
@@ -537,8 +631,8 @@
     @if ($sellerCount > 0)
         @if (session('roleid') == '1' || session('roleid') == '11')
             <div class="col text-center">
-                <button class="btn btn-primary" style="cursor:pointer"
-                    onclick="seller_service_approvedall();" id="approveAllBtn">Approve
+                <button class="btn btn-primary" style="cursor:pointer" onclick="seller_service_approvedall();"
+                    id="approveAllBtn">Approve
                     All</button>
             </div>
         @endif
@@ -772,7 +866,8 @@
                                                 class="text-danger">*</span></label>
                                         <input type="text" id="s_googlelatitude" name="s_googlelatitude"
                                             class="form-control form-control-lg"
-                                            placeholder="Latitude (Google map location)" required tabindex="18" pattern="^-?([1-8]?\d(\.\d{1,6})?|90(\.0{1,6})?)"/>
+                                            placeholder="Latitude (Google map location)" required tabindex="18"
+                                            pattern="^-?([1-8]?\d(\.\d{1,6})?|90(\.0{1,6})?)" />
                                         <div for="s_googlelatitude" class="error"></div>
                                     </div>
 
@@ -782,7 +877,8 @@
                                                 class="text-danger">*</span></label>
                                         <input type="text" id="s_googlelongitude" name="s_googlelongitude"
                                             class="form-control form-control-lg"
-                                            placeholder="Longitude (Google map location)" required tabindex="18" pattern="^-?([1-8]?\d(\.\d{1,6})?|90(\.0{1,6})?)"/>
+                                            placeholder="Longitude (Google map location)" required tabindex="18"
+                                            pattern="^-?([1-8]?\d(\.\d{1,6})?|90(\.0{1,6})?)" />
                                         <div for="s_googlelongitude" class="error"></div>
                                     </div>
 
@@ -1147,6 +1243,7 @@
             $("#approveAllBtn").addClass("d-none");
         }
     });
+
     function numberOnlyAllowed(inputElement) {
         let value = inputElement.value.replace(/\D/g, '');
         if (value.length > 10) {
@@ -1163,70 +1260,138 @@
         inputElement.value = value;
     }
 
-
-
-
-    // document.getElementById('s_panno').addEventListener('input', function() {
-    //     var panInput = this.value;
-    //     var panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
-
-    //     if (panRegex.test(panInput)) {
-    //         // PAN format is valid
-    //         document.getElementById('pan-error-message').textContent = "";
-    //     } else {
-    //         // PAN format is invalid
-    //         //document.getElementById('pan-error-message').textContent = "Invalid PAN format. It should be in the format AEDFR2568H";
-    //     }
-    // });
-
-    // document.getElementById('s_gstno').addEventListener('input', function() {
-    //     var gstInput = this.value;
-    //     var gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9]{1}[A-Z\d]{1}$/;
-
-    //     if (gstRegex.test(gstInput)) {
-    //         // PAN format is valid
-    //         document.getElementById('gst-error-message').textContent = "";
-    //     } else {
-    //         // PAN format is invalid
-    //         //document.getElementById('pan-error-message').textContent = "Invalid PAN format. It should be in the format AEDFR2568H";
-    //     }
-    // });
-
-
-
-
-
     $(document).ready(function() {
 
-        var table = $('#datatable3').DataTable({
+        function cbDropdown(column) {
+            return $('<ul>', {
+                'class': 'cb-dropdown'
+            }).appendTo($('<div>', {
+                'class': 'cb-dropdown-wrap'
+            }).appendTo(column));
+        }
+
+        $('#datatable3').DataTable({
             initComplete: function() {
-                this.api()
-                    .columns()
-                    .every(function() {
-                        let column = this;
-                        let title = column.footer().textContent;
-                        if (title == "")
-                            return;
-                        // Create input element
-                        let input = document.createElement('input');
+                this.api().columns().every(function() {
+                    var column = this;
+                    var colIndex = column[0][0];
+                    var excludeColumns = [0, 1, 7];
+                    var textColumns = [2, 4];
+
+                    if (jQuery.inArray(colIndex, excludeColumns) !== -1)
+                        return;
+
+                    if (jQuery.inArray(colIndex, textColumns) !== -1) {
+
+                        var mainDiv = $('<div>', {
+                            'class': 'cb-textBox-wrap'
+                        }).appendTo($(column.header()));
+
+                        let input = $('<input>');
                         input.className = "form-control form-control-lg";
                         input.type = "text";
-                        input.placeholder = title;
-                        column.footer().replaceChildren(input);
+                        mainDiv.append(input);
 
-                        // Event listener for user input
-                        input.addEventListener('keyup', () => {
+                        input.on('keyup', () => {
                             if (column.search() !== this.value) {
-                                column.search(input.value).draw();
+                                column.search(input.val()).draw();
                             }
                         });
+                        return;
+
+                    }
+
+                    var ddmenu = cbDropdown($(column.header()))
+                        .on('change', ':checkbox', function() {
+                            var active;
+                            var vals = $(':checked', ddmenu).map(function(index,
+                                element) {
+                                active = true;
+                                return $.fn.dataTable.util.escapeRegex($(
+                                    element).val());
+                            }).toArray().join('|');
+
+                            column
+                                .search(vals.length > 0 ? '^(' + vals + ')$' : '', true,
+                                    false)
+                                .draw();
+
+                            // Highlight the current item if selected.
+                            if (this.checked) {
+                                $(this).closest('li').addClass('active');
+                            } else {
+                                $(this).closest('li').removeClass('active');
+                            }
+
+                            // Highlight the current filter if selected.
+                            var active2 = ddmenu.parent().is('.active');
+                            if (active && !active2) {
+                                ddmenu.parent().addClass('active');
+                            } else if (!active && active2) {
+                                ddmenu.parent().removeClass('active');
+                            }
+                        });
+
+                    column.data().unique().sort().each(function(d, j) {
+                        var
+                            $label = $('<label>'),
+                            $text = $('<span>', {
+                                text: d
+                            }),
+                            $cb = $('<input>', {
+                                type: 'checkbox',
+                                value: d
+                            });
+
+                        $text.appendTo($label);
+                        $cb.appendTo($label);
+
+
+                        ddmenu.append($('<li>').append($label));
                     });
+                });
             },
             "columnDefs": [{
                 "targets": 0,
                 "orderable": false
             }]
         });
+    });
+
+
+
+
+    $(document).ready(function() {
+
+        // var table = $('#datatable3').DataTable({
+        //     initComplete: function() {
+        //         this.api()
+        //             .columns()
+        //             .every(function() {
+        //                 let column = this;
+        //                 let title = column.footer().textContent;
+        //                 if (title == "")
+        //                     return;
+        //                 // Create input element
+        //                 let input = document.createElement('input');
+        //                 input.className = "form-control form-control-lg";
+        //                 input.type = "text";
+        //                 input.placeholder = title;
+        //                 column.footer().replaceChildren(input);
+
+        //                 // Event listener for user input
+        //                 input.addEventListener('keyup', () => {
+        //                     if (column.search() !== this.value) {
+        //                         column.search(input.value).draw();
+        //                     }
+        //                 });
+        //             });
+        //     },
+        //     "columnDefs": [{
+        //         "targets": 0,
+        //         "orderable": false
+        //     }]
+        // });
 
 
 
