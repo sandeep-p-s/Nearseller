@@ -511,20 +511,6 @@
                     <th>Action</th>
                 </tr>
             </thead>
-            <tfoot>
-                <tr>
-                    @if (session('roleid') == '1' || session('roleid') == '11')
-                        <th style="border: 0px solid #eaf0f7"></th>
-                        <th style="border: 0px solid #eaf0f7"></th>
-                    @endif
-                    <th style="border: 0px solid #eaf0f7">{{ $shoporservice }} Name</th>
-                    <th style="border: 0px solid #eaf0f7">{{ $shoporservice }} Type</th>
-                    <th style="border: 0px solid #eaf0f7">Owner Name</th>
-                    <th style="border: 0px solid #eaf0f7">Active Status</th>
-                    <th style="border: 0px solid #eaf0f7">Approval Status</th>
-                    <th style="border: 0px solid #eaf0f7"></th>
-                </tr>
-            </tfoot>
             <tbody>
                 @foreach ($sellerDetails as $index => $sellerDetail)
                     <tr>
@@ -1237,6 +1223,50 @@
             initComplete: function() {
                 this.api().columns().every(function() {
                     var column = this;
+                    var colIndex = column[0][0];
+                    var excludeColumns = [0,1,7];
+                    var textColumns = [2,4];
+
+                     if(jQuery.inArray(colIndex, excludeColumns) !== -1)
+                           return;
+
+                    if(jQuery.inArray(colIndex, textColumns) !== -1)
+                    {
+
+             var mainDiv =    $('<div>', {
+                'class': 'cb-textBox-wrap'
+            }).appendTo($(column.header()));
+
+                        let input =  $('<input>');
+                        input.className = "form-control form-control-lg";
+                        input.type = "text";
+                        mainDiv.append(input);
+
+                     input.on('keyup', () => {
+                            if (column.search() !== this.value) {
+                                column.search(input.val()).draw();
+                            }
+                        });
+            return;
+                    //     let column = this;
+                    //     // Create input element
+                    //     let input = document.createElement('input');
+                    //     input.className = "form-control form-control-lg";
+                    //     input.type = "text";
+                    //     input.placeholder = title;
+                    //     column.footer().replaceChildren(input);
+
+                    //     // Event listener for user input
+                    //     input.addEventListener('keyup', () => {
+                    //         if (column.search() !== this.value) {
+                    //             column.search(input.value).draw();
+                    //         }
+                    //     });
+                    // });
+                    //     return;
+
+                    }
+
                     var ddmenu = cbDropdown($(column.header()))
                         .on('change', ':checkbox', function() {
                             var active;
@@ -1282,10 +1312,15 @@
                         $text.appendTo($label);
                         $cb.appendTo($label);
 
-                        ddmenu.append($('<li>').append($label));
+
+                       ddmenu.append($('<li>').append($label));
                     });
                 });
-            }
+            },
+                        "columnDefs": [{
+                "targets": 0,
+                "orderable": false
+            }]
         });
     });
 
