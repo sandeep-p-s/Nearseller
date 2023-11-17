@@ -387,92 +387,6 @@
 @if (in_array('1', $roleIdsArray) || in_array('11', $roleIdsArray))
 
     @if ($sellerCount > 0)
-    <style>
-        tfoot {
-            display: table-header-group;
-        }
-
-        tfoot input {
-            width: 100%;
-            padding: 3px;
-            box-sizing: border-box;
-        }
-
-        .cb-dropdown-wrap {
-            max-height: 80px;
-            /* At most, around 3/4 visible items. */
-            position: relative;
-            height: 19px;
-        }
-
-        .cb-dropdown,
-        .cb-dropdown li {
-            margin: 0;
-            padding: 0;
-            list-style: none;
-        }
-
-        .cb-dropdown {
-            position: absolute;
-            z-index: 1;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background: #fff;
-            border: 1px solid #888;
-        }
-
-        /* For selected filter. */
-        .active .cb-dropdown {
-            background: pink;
-        }
-
-        .cb-dropdown-wrap:hover .cb-dropdown {
-            height: 80px;
-            overflow: auto;
-            transition: 0.2s height ease-in-out;
-        }
-
-        /* For selected items. */
-        .cb-dropdown li.active {
-            background: #ff0;
-        }
-
-        .cb-dropdown li label {
-            display: block;
-            position: relative;
-            cursor: pointer;
-            line-height: 19px;
-            /* Match height of .cb-dropdown-wrap */
-        }
-
-        .cb-dropdown li label>input {
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: 16px;
-        }
-
-        .cb-dropdown li label>span {
-            display: block;
-            margin-left: 3px;
-            margin-right: 20px;
-            /* At least, width of the checkbox. */
-            font-family: sans-serif;
-            font-size: 0.8em;
-            font-weight: normal;
-            text-align: left;
-        }
-
-        /* This fixes the vertical aligning of the sorting icon. */
-        table.dataTable thead .sorting,
-        table.dataTable thead .sorting_asc,
-        table.dataTable thead .sorting_desc,
-        table.dataTable thead .sorting_asc_disabled,
-        table.dataTable thead .sorting_desc_disabled {
-            background-position: 100% 10px;
-        }
-    </style>
         @if (session('roleid') == '1' || session('roleid') == '11')
             <div class="text-center">
                 <span class="badge badge-soft-info p-2">
@@ -492,20 +406,7 @@
 
 
         <table id="datatable3" class="table table-striped table-bordered" style="width: 100%">
-            {{-- <tfoot>
-                <tr>
-                    @if (session('roleid') == '1' || session('roleid') == '11')
-                        <th style="border: 0px solid #eaf0f7"></th>
-                        <th style="border: 0px solid #eaf0f7"></th>
-                    @endif
-                    <th style="border: 0px solid #eaf0f7">{{ $shoporservice }} Name</th>
-                    <th style="border: 0px solid #eaf0f7">{{ $shoporservice }} Type</th>
-                    <th style="border: 0px solid #eaf0f7">Owner Name</th>
-                    <th style="border: 0px solid #eaf0f7">Active Status</th>
-                    <th style="border: 0px solid #eaf0f7">Approval Status</th>
-                    <th style="border: 0px solid #eaf0f7"></th>
-                </tr>
-            </tfoot> --}}
+
             <thead>
                 <tr>
                     @if (session('roleid') == '1' || session('roleid') == '11')
@@ -1262,9 +1163,9 @@
 
         function cbDropdown(column) {
             return $('<ul>', {
-                'class': 'cb-dropdown'
+                'class': 'cb-dropdown form-control'
             }).appendTo($('<div>', {
-                'class': 'cb-dropdown-wrap'
+                'class': 'cb-dropdown-wrap '
             }).appendTo(column));
         }
 
@@ -1285,8 +1186,8 @@
                             'class': 'cb-textBox-wrap'
                         }).appendTo($(column.header()));
 
-                        let input = $('<input placeholder="Search">');
-                        input.className = "form-control form-control-lg";
+                        let input = $('<input placeholder="Search" class="form-control">');
+                        input.className = "";
                         input.type = "text";
                         mainDiv.append(input);
 
