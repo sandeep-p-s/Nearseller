@@ -12933,4 +12933,41 @@ a.text-blue:focus {
 .modal-padding{
     padding: 2% 5%;
 }
+
+.cb-dropdown-wrap {
+    max-height: 80px;
+    position: relative;
+    height: 38px;
+}
+.cb-dropdown li {
+    list-style: none;
+    padding: 2px 1px;
+}
+.cb-dropdown {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.active .cb-dropdown {
+    background: rgb(220, 238, 255);
+}
+.cb-dropdown-wrap:hover .cb-dropdown {
+    height: auto ;
+    overflow: auto;
+    transition: 0.1s height ease-in-out;
+}
+.cb-dropdown li label {
+    display: flex;
+    justify-content: space-between ;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+}
+.cb-dropdown li label>span {
+    display: block;
+    font-family: sans-serif;
+    font-size: 0.8em;
+    font-weight: normal;
+}
+
 /*# sourceMappingURL=bootstrap.min.css.map */
