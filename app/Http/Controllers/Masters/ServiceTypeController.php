@@ -61,7 +61,7 @@ class ServiceTypeController extends Controller
         ]);
 
         $servicetype = new ServiceType;
-        $servicetype->service_name = ucfirst($request->service_name);
+        $servicetype->service_name = ucwords($request->service_name);
         $servicetype->business_type_id = $request->business_name;
         $servicetype->save();
 
