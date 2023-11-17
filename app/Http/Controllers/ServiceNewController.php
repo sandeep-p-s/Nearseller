@@ -24,7 +24,7 @@ use DB;
 
 class ServiceNewController extends Controller
 {
-    function ServiceProductListView()
+    function ServiceProductListView($serviceid)
     {
         $userRole = session('user_role');
         $userId = session('user_id');
@@ -37,22 +37,50 @@ class ServiceNewController extends Controller
             ->where('id', $userId)
             ->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        $usershopdets = DB::table('user_account')
-            ->select('id', 'name')
-            ->where('role_id', 2)
-            ->get();
         $roleIdsArray = explode(',', $roleid);
         if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
         {
             $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
             ->where('user_id', $userId)
+            ->where('id', $serviceid)
             ->first();
         }
         else{
-            $selrdetails='';
+            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+            ->where('id', $serviceid)
+            ->first();
         }
-        return view('serviceproduct.productlist', compact('userdetails', 'userRole', 'loggeduser', 'structuredMenu','selrdetails'));
+        return view('serviceproduct.productlist', compact('userdetails', 'userRole', 'loggeduser', 'structuredMenu','selrdetails','serviceid'));
     }
+
+    function ServiceProductListViewApp()
+    {
+        $userRole = session('user_role');
+        $userId = session('user_id');
+        $roleid = session('roleid');
+        if ($userId == '') {
+            return redirect()->route('logout');
+        }
+        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
+        $userdetails = DB::table('user_account')
+            ->where('id', $userId)
+            ->get();
+        $structuredMenu = MenuMaster::UserPageMenu($userId);
+        $roleIdsArray = explode(',', $roleid);
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
+        {
+            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
+            ->where('user_id', $userId)
+            ->where('id', $serviceid)
+            ->first();
+        }
+        else{
+            $selrdetails = '';
+        }
+        $serviceid='';
+        return view('serviceproduct.productlist', compact('userdetails', 'userRole', 'loggeduser', 'structuredMenu','selrdetails','serviceid'));
+    }
+
 
     function AdmShopNameSearch(Request $request)
     {
@@ -132,24 +160,23 @@ class ServiceNewController extends Controller
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $query = ServiceDetails::select('service_details.*', 'user_account.name as shopname')
-        ->leftJoin('user_account', 'user_account.id', 'service_details.service_id');
+        $servcid = $request->input('servcid');
+        $query = ServiceDetails::select('service_details.*', 'seller_details.shop_name as shopname')
+        ->leftJoin('seller_details', 'seller_details.id', 'service_details.service_id');
 
         if ($roleid == 1  || $roleid == 11) {
         } else {
-            $query->where('user_account.id', $userId);
+            $query->where('seller_details.user_id', $userId);
         }
+        if($servcid!=''){
+        $query->where('service_details.service_id', $servcid);}
         $query->orderBy('service_details.service_name');
         $ServiceDetails = $query->get();
         //echo $lastRegId = $query->toSql();exit;
         $ProductCount = $ServiceDetails->count();
-        $userservicedets = DB::select("SELECT id,name FROM user_account WHERE FIND_IN_SET('9', role_id)");
-        // $userservicedets = DB::table('user_account')
-        //     ->select('id', 'name')
-        //     ->whereIn('role_id', ['9']);
-            //echo $lastRegId = $userservicedets->toSql();exit;
-            //->get();
+        //$userservicedets = DB::select("SELECT id,name FROM user_account WHERE FIND_IN_SET('9', role_id)");
 
+        $userservicedets=$servcid;
         $queryapprovedcounts = ServiceDetails::select([
 
             DB::raw('SUM(CASE WHEN service_status = "Y" THEN 1 ELSE 0 END) AS prod_status_y_count'),
@@ -159,11 +186,12 @@ class ServiceNewController extends Controller
             DB::raw('SUM(CASE WHEN is_approved = "R" THEN 1 ELSE 0 END) AS approved_reject_y_count'),
         ]);
 
-        if ($roleid != 1 && $roleid != 11) {
-            $queryapprovedcounts->where('service_id', $userId);
-        }
+        //if ($roleid != 1 && $roleid != 11) {
+            $queryapprovedcounts->where('service_id', $servcid);
+       // }
+        $serviceemployees = DB::table('service_employees')->select('id','employee_name')->where('user_id', $servcid)->get();
         $approvedproductcounts = $queryapprovedcounts->first();
-        return view('serviceproduct.product_dets', compact('ServiceDetails', 'ProductCount', 'userservicedets','approvedproductcounts'));
+        return view('serviceproduct.product_dets', compact('ServiceDetails', 'ProductCount', 'userservicedets','approvedproductcounts','serviceemployees'));
     }
 
 

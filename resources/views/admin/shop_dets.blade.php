@@ -599,6 +599,13 @@
                                             onclick="shopvieweditdet({{ $sellerDetail->id }},{{ $typeid }})">View/Edit</a>
                                         <a class="dropdown-item approve_btn" href="#"
                                             onclick="shopapprovedet({{ $sellerDetail->id }},{{ $typeid }})">Activation/Approval</a>
+
+
+
+                                        <a class="dropdown-item view_btn1" id="viewbtn" href="{{ route('user.listallservice', $sellerDetail->id) }}"
+                                            >Add Product Details</a>
+
+
                                         <a class="dropdown-item delete_btn" href="#"
                                             onclick="shopdeletedet({{ $sellerDetail->id }})">Delete</a>
                                     @else
@@ -1287,7 +1294,7 @@
                             'class': 'cb-textBox-wrap'
                         }).appendTo($(column.header()));
 
-                        let input = $('<input>');
+                        let input = $('<input placeholder="Search">');
                         input.className = "form-control form-control-lg";
                         input.type = "text";
                         mainDiv.append(input);
