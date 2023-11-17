@@ -146,11 +146,12 @@
             $(document).ready(function() {
                 var currentPagePath = window.location.pathname;
                 if (currentPagePath === "/listshopproduct") {
-                    //  console.log("Hiding button");
                     $("#addProductButton").addClass("d-none");
+                    $(".page-title").text("Product Approval List");
                 } else {
-                    //  console.log("Showing button");
                     $("#addProductButton").removeClass("d-none");
+                    $(".page-title").text("Product List");
+
                 }
             });
 

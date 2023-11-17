@@ -13,20 +13,20 @@
     @if (session('roleid') == '1' || session('roleid') == '11')
         <div class="text-center">
             <span class="badge badge-soft-info p-2">
-                Total Available Product : {{ $approvedproductcounts->prod_status_y_count }}
+                 Available Products : {{ $approvedproductcounts->prod_status_y_count }}
             </span>
             <span class="badge badge-soft-danger p-2">
-                Total Not Available Product : {{ $approvedproductcounts->prod_status_not_y_count }}
+                 Not Available Products : {{ $approvedproductcounts->prod_status_not_y_count }}
             </span>
 
             <span class="badge badge-soft-info p-2">
-                Total Approved Product : {{ $approvedproductcounts->approved_y_count }}
+                 Approved Products : {{ $approvedproductcounts->approved_y_count }}
             </span>
             <span class="badge badge-soft-danger p-2">
-                Total Not Approved Product : {{ $approvedproductcounts->approved_not_y_count }}
+                 Not Approved Products : {{ $approvedproductcounts->approved_not_y_count }}
             </span>
             <span class="badge badge-soft-danger p-2">
-                Total Rejected Product : {{ $approvedproductcounts->approved_reject_y_count }}
+                 Rejected Products : {{ $approvedproductcounts->approved_reject_y_count }}
             </span>
 
 
@@ -490,27 +490,18 @@
 
         // Check if the current page is the "listshopproduct" page
         if (currentPagePath ==="/listshopproduct") {
-            $("#viewbtn").addClass("d-none");
-            $("#aprvbtn, #delbtn").removeClass("d-none");
-        } else if (currentPagePath ==="/listshopproductadd") {
-            $("#viewbtn").removeClass("d-none");
-            $("#aprvbtn").addClass("d-none");
-        }
-    });
-    $(document).ready(function() {
-        var currentPagePath = window.location.pathname;
-
-        // Check if the current page is the "shopapprovals/" page
-        if (currentPagePath ==="/listshopproduct") {
-            // On the "shopapprovals/" page, show checkbox columns and approve all button
+            $(".view_btn1").addClass("d-none");
+            $(".approve_btn, .delete_btn").removeClass("d-none");
             $(".checkboxcol").removeClass("d-none");
             $("#approveAllBtn").removeClass("d-none");
         } else if (currentPagePath ==="/listshopproductadd") {
-            // On the "shopapprovalsadd/" page, hide checkbox columns and approve all button
+            $(".view_btn1").removeClass("d-none");
+            $(".approve_btn").addClass("d-none");
             $(".checkboxcol").addClass("d-none");
             $("#approveAllBtn").addClass("d-none");
         }
     });
+
 
     function numberOnlyAllowed(inputElement) {
         let value = inputElement.value.replace(/\D/g, '');
