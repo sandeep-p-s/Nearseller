@@ -28,7 +28,7 @@
             <div id="loading-overlay"></div>
             <img id="loading-image" src="{{ asset('img/loading.gif') }}" style="display: none; width:100px;">
 
-
+            <input type="hidden" id="servcid" name="servcid" value="{{ $serviceid }}" />
 
             <div class="col-md-12">
                 <div id="product_approved-message" class="text-center" style="display: none;"></div>
@@ -112,7 +112,9 @@
         <script>
             $(document).ready(function() {
                 var currentPagePath = window.location.pathname;
-                if (currentPagePath === "/listallserviceapp") {
+                var urlParts = currentPagePath.split('/');
+                var serviceName = urlParts[1];
+                if (serviceName === "listallserviceapp") {
                     //  console.log("Hiding button");
                     $("#addProductButton").addClass("d-none");
                 } else {
@@ -124,11 +126,13 @@
             function shwdets() {
                 $('#loading-overlay').fadeIn();
                 $('#loading-image').fadeIn();
+                var servcid=$('#servcid').val();
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
                 $.ajax({
                     url: '{{ route('serviceproduct.allserviceproductview') }}',
                     type: 'POST',
                     data: {
+                        servcid:servcid,
                         _token: csrfToken
                     },
                     success: function(data) {
