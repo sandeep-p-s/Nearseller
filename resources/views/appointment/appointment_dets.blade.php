@@ -90,7 +90,7 @@
                                 <div class="card-body">
 
 
-                                    <div class="form-group d-none" ><label>Set Availability Dates<span
+                                    <div class="form-group d-none"><label>Set Availability Dates<span
                                                 class="text-danger">*</span></label>
                                         <select class="form-select form-control form-control-lg" id="setavailbledate"
                                             name="setavailbledate" required tabindex="1">
@@ -103,8 +103,8 @@
                                                 class="text-danger">*</span></label>
 
                                     </div>
-{{-- style="display: none;" --}}
-                                    <div class="form-group" id="dateFields" >
+                                    {{-- style="display: none;" --}}
+                                    <div class="form-group" id="dateFields">
                                         <div class="input-group">
                                             <div class="col-lg-5">
                                                 <label for="setavailblefromdate">From Date</label>

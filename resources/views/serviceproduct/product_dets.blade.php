@@ -51,8 +51,8 @@
             <tr>
                 {{-- <th>Approved all<input type='checkbox' name='checkbox1' id='checkbox1' onclick='check();' /></th> --}}
                 @if (session('roleid') == '1' || session('roleid') == '11')
-                    <th width="5px" data-sorting="true" class="checkboxcol"><input type='checkbox' name='checkbox1' id='checkbox1'
-                            class="selectAll" onclick='' /></th>
+                    <th width="5px" data-sorting="true" class="checkboxcol"><input type='checkbox' name='checkbox1'
+                            id='checkbox1' class="selectAll" onclick='' /></th>
                 @endif
                 <th>S.No.</th>
                 <th>Service ID</th>
@@ -68,8 +68,8 @@
             @foreach ($ServiceDetails as $index => $prodDetails)
                 <tr>
                     @if (session('roleid') == '1' || session('roleid') == '11')
-                        <td class="checkboxcol"><input name="productid[]" type="checkbox" id="productid{{ $index + 1 }}"
-                                value="{{ $prodDetails->id }}"
+                        <td class="checkboxcol"><input name="productid[]" type="checkbox"
+                                id="productid{{ $index + 1 }}" value="{{ $prodDetails->id }}"
                                 {{ $prodDetails->is_approved === 'Y' ? 'checked' : '' }} />
                         </td>
                     @endif
@@ -96,7 +96,8 @@
                                     <a class="dropdown-item view_btn1 d-none" id="viewbtn" href="#"
                                         onclick="productvieweditdet({{ $prodDetails->id }})">View/Edit</a>
                                     <a class="dropdown-item approve_btn" href="#"
-                                        onclick="productapprovedet({{ $prodDetails->id }})" id="aprvbtn">Activation/Approval</a>
+                                        onclick="productapprovedet({{ $prodDetails->id }})"
+                                        id="aprvbtn">Activation/Approval</a>
                                     <a class="dropdown-item delete_btn" href="#" id="delbtn"
                                         onclick="productdeletedet({{ $prodDetails->id }})">Delete</a>
                                 @else
@@ -124,7 +125,8 @@
 @if (session('roleid') == '1' || session('roleid') == '11')
     @if ($ProductCount > 0)
         <div class="col text-center">
-            <button class="btn btn-primary" style="cursor:pointer" onclick="productapprovedall();" id="approveAllBtn">Approve All</button>
+            <button class="btn btn-primary" style="cursor:pointer" onclick="productapprovedall();"
+                id="approveAllBtn">Approve All</button>
         </div>
     @endif
 @endif
@@ -152,20 +154,11 @@
                                     @endphp
 
 
-                                    <div class="form-group" {{ $shopshowhide }}><label>Service Provider Name<span
+                                    <div class="form-group d-none"><label>Service Provider Name<span
                                                 class="text-danger">*</span></label>
-                                        <select class="selectshops form-select form-control form-control-lg"
-                                            id="shop_name" name="shop_name" required tabindex="1">
-                                            <option value="">Select Service Provider</option><br />
-                                            @if (count($userservicedets) > 0)
-                                                @foreach ($userservicedets as $shps)
-                                                    <option value="{{ $shps->id }}"
-                                                        @if ($shps->id == session('user_id')) selected @endif>
-                                                        {{ $shps->name }}</option>
-                                                @endforeach
-                                            @endif
-                                        </select>
-                                        <label for="shop_name" class="error"></label>
+                                        <input type="hidden" id="shop_name" name="shop_name" required tabindex="1"
+                                            value="{{ $userservicedets }}">
+                                        <div for="shop_name" class="error"></div>
                                     </div>
 
 
@@ -174,7 +167,7 @@
                                         <input type="text" id="prod_name" name="prod_name"
                                             class="enterproduct form-control" maxlength="60"
                                             placeholder="Service Name" required tabindex="1" />
-                                        <label for="prod_name" class="error"></label>
+                                        <div for="prod_name" class="error"></div>
                                     </div>
 
                                     <div class="form-group"><label>Service Image<span
@@ -182,13 +175,88 @@
                                         <input type="file" id="s_photo" name="s_photo[]" class="form-control"
                                             placeholder="Service Photo" tabindex="5" required
                                             accept="image/jpeg, image/png" />
-                                        <label for="s_photo" class="error"></label>
+                                        <div for="s_photo" class="error"></div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group" align="left">
                                             <div id="image-preview" class="row"></div>
                                         </div>
                                     </div>
+
+                                    <div class="form-group d-none"><label>Set Availability Dates<span
+                                        class="text-danger">*</span></label>
+                                <select class="form-select form-control form-control-lg" id="setavailbledate"
+                                    name="setavailbledate" required tabindex="1">
+                                    {{-- <option value="">Select</option><br /> --}}
+                                    <option value="1">Avialability Date</option><br />
+                                </select>
+                                <div for="setavailbledate" class="error"></div>
+                            </div>
+                            <div class="form-group"><label>Set Availability Dates<span
+                                        class="text-danger">*</span></label>
+
+                            </div>
+                            {{-- style="display: none;" --}}
+                            <div class="form-group" id="dateFields">
+                                <div class="input-group">
+                                    <div class="col-lg-5">
+                                        <label for="setavailblefromdate">From Date</label>
+                                        <input type="date" class="form-control form-control-lg"
+                                            id="setavailblefromdate" name="setavailblefromdate" required
+                                            tabindex="2">
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label for="setavailbletodate">To Date</label>
+                                        <input type="date" class="form-control form-control-lg"
+                                            id="setavailbletodate" name="setavailbletodate" required
+                                            tabindex="3">
+                                    </div>
+                                    <div class="col-lg-3"><label for="isnotavailable">Not Available</label>
+                                        <input class="form-control" type="checkbox" id="isnotavailable"
+                                            name="isnotavailable" value="1" style="width: 10%;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" id="singleDateField" style="display: none;">
+                                <fieldset>
+                                    <div class="repeater-default-date">
+                                        <div data-repeater-list="notavailabledate_data">
+                                            <!-- Heading Row -->
+                                            <div class="form-group row">
+                                                <div class="col">
+                                                    <label class="control-label"> Not Available Date </label>
+                                                </div>
+                                            </div>
+                                            <!-- Dynamic Rows -->
+                                            <div data-repeater-item="">
+                                                <div class="form-group row d-flex align-items-end">
+                                                    <div class="col">
+                                                        <input type="date"
+                                                            class="form-control form-control-lg"
+                                                            name="setavailblesingledate" tabindex="4">
+                                                        <div class="dateValidationMessage"
+                                                            style="color: red;"></div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <span data-repeater-delete=""
+                                                            class="btn btn-danger btn-sm">
+                                                            <span class="far fa-trash-alt mr-1"></span> Delete
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-0 row">
+                                            <div class="col-sm-12 text-right">
+                                                <span data-repeater-create=""
+                                                    class="btn btn-secondary btn-sm">
+                                                    <span class="fas fa-plus"></span> Add not available dates
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
                                 </div>
                             </div>
 
@@ -205,9 +273,231 @@
                                             maxlength="7000" tabindex="4" required rows="3"></textarea>
                                         <label for="prod_description"></label>
                                     </div>
+                                    <div class="form-group">
+                                        <fieldset>
+                                            <div class="repeater-default-question">
+                                                <div data-repeater-list="setquestion_data">
+                                                    <!-- Heading Row -->
+                                                    <div class="form-group row">
+                                                        <div class="col">
+                                                            <label class="control-label"> Set Question for Customer
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Dynamic Rows -->
+                                                    <div data-repeater-item="">
+                                                        <div class="form-group row d-flex align-items-end">
+
+                                                            <div class="col">
+                                                                <textarea id="setquestion" name="setquestion" placeholder="Set Question" class="form-control" maxlength="250"
+                                                                    tabindex="6" rows="2" cols="5"></textarea>
+                                                                <label for="setquestion"></label>
+                                                            </div>
+
+                                                            <div class="col">
+                                                                <span data-repeater-delete=""
+                                                                    class="btn btn-danger btn-sm">
+                                                                    <span class="far fa-trash-alt mr-1"></span> Delete
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group mb-0 row">
+                                                    <div class="col-sm-12 text-right">
+                                                        <span data-repeater-create=""
+                                                            class="btn btn-secondary btn-sm">
+                                                            <span class="fas fa-plus"></span> Add New Question
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
+
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-body">
+
+
+
+
+                                    {{-- <div class="form-group"><label>Service Required?<span
+                                                class="text-danger">*</span></label>
+                                        <select class="selectservicetype form-select form-control form-control-lg"
+                                            id="service_type_id" name="service_type_id" required tabindex="1">
+                                            <option value="">Select Services</option><br />
+                                            @foreach ($servicedetails as $shps)
+                                                <option value="{{ $shps->id }}">{{ $shps->service_name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <label for="service_type_id" class="error"></label>
+                                    </div>
+
+                                    <div class="form-group d-none"><label>Preffered Employee<span
+                                                class="text-danger">*</span></label>
+                                        <select class="selectserviceemploye form-select form-control form-control-lg"
+                                            id="service_employe_id" name="service_employe_id" tabindex="1">
+                                            <option value="">Select Employee</option><br />
+                                            @foreach ($serviceemployees as $emplye)
+                                                <option value="{{ $emplye->id }}">{{ $emplye->employee_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <label for="service_employe_id" class="error"></label>
+                                    </div> --}}
+
+                                    <div class="form-group"><label>Suggestions</label>
+                                        <textarea id="sugection" name="sugection" placeholder="Suggestions" class="form-control" maxlength="500"
+                                            tabindex="6"></textarea>
+                                        <label for="sugection" class="error"></label>
+                                    </div>
+
+                                    <div class="form-group mb-0 row">
+                                        <label class="col-md-3">Service Point </label>
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <div class="form-check form-check-inline">
+
+                                                    <input class="form-control" type="checkbox" id="servicepoint1"
+                                                        name="servicepoint1" value="1" style="width: 18%;">
+                                                    <label class="form-check-label" for="servicepoint1">At
+                                                        Home</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-control" type="checkbox" id="servicepoint2"
+                                                        name="servicepoint2" value="1" style="width: 19%;">
+                                                    <label class="form-check-label" for="servicepoint2">At
+                                                        Shop</label>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+
+                                    <div class="form-group">
+                                        <fieldset>
+                                            <div class="repeater-default-time">
+                                                <div data-repeater-list="availabletime_data">
+                                                    <!-- Heading Row -->
+                                                    <div class="form-group row">
+                                                        <div class="col-md-2">
+                                                            <label class="control-label"> Set Available time </label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <label class="control-label"> Employees </label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <label class="control-label"> Day </label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <label class="control-label"> From Time </label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <label class="control-label"> To Time </label>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <label class="control-label"> Grace Time </label>
+                                                        </div>
+
+                                                    </div>
+                                                    <!-- Dynamic Rows -->
+                                                    <div data-repeater-item="">
+                                                        <div class="form-group row d-flex align-items-end">
+                                                            <div class="col-md-2">
+                                                                <input class="form-control" type="checkbox"
+                                                                    id="settimestatus" name="settimestatus"
+                                                                    value="1" style="width: 10%;">
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <select class="form-control"
+                                                                    id="service_employe_id" name="service_employe_id" tabindex="1">
+                                                                    <option value="">Select Employee</option><br />
+                                                                    @foreach ($serviceemployees as $emplye)
+                                                                        <option value="{{ $emplye->id }}">{{ $emplye->employee_name }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+
+
+                                                            <div class="col-md-2">
+                                                                <select id="setdays" name="setdays"
+                                                                    class="day-select form-control">
+
+                                                                    <option value="Sunday">Sunday</option>
+                                                                    <option value="Monday">Monday</option>
+                                                                    <option value="Tuesday">Tuesday</option>
+                                                                    <option value="Wednesday">Wednesday</option>
+                                                                    <option value="Thursday">Thursday</option>
+                                                                    <option value="Friday">Friday</option>
+                                                                    <option value="Saturday">Saturday</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <input type="text" id="setfrom_time"
+                                                                    name="setfrom_time"
+                                                                    class="form-control timepicker-input">
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <input type="text" id="setto_time"
+                                                                    name="setto_time"
+                                                                    class="form-control timepicker-input">
+                                                            </div>
+                                                            <div class="col-md-1">
+                                                                <input class="form-control" type="text"
+                                                                    id="gracetime" name="gracetime" maxlength="10">
+                                                            </div>
+                                                            <div class="col-md-1">
+                                                                <span data-repeater-delete=""
+                                                                    class="btn btn-danger btn-sm">
+                                                                    <span class="far fa-trash-alt mr-1"></span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group mb-0 row">
+                                                    <div class="col-sm-12 text-right">
+                                                        <span data-repeater-create=""
+                                                            class="btn btn-secondary btn-sm">
+                                                            <span class="fas fa-plus"></span> Add New Time
+                                                        </span>
+                                                        @if (session('roleid') == '1' || session('roleid') == '11')
+                                                            <button type="button" id="addSameTiming"
+                                                                class="btn btn-primary btn-sm">
+                                                                Add Same Timing for All Days
+                                                            </button>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
 
                         <div class="col-md-12">
                             <div class="card">
@@ -368,25 +658,16 @@
         //console.log("Current Page URL:", currentPageUrl);
 
         // Check if the current page is the "listshopproduct" page
-        if (currentPagePath === "/listallserviceapp") {
+        var urlParts = currentPagePath.split('/');
+        var serviceName = urlParts[1];
+        if (serviceName === "listallserviceapp") {
             $("#viewbtn").addClass("d-none");
             $("#aprvbtn, #delbtn").removeClass("d-none");
-        } else if (currentPagePath === "/listallservice") {
-            $("#viewbtn").removeClass("d-none");
-            $("#aprvbtn").addClass("d-none");
-        }
-    });
-
-    $(document).ready(function() {
-        var currentPagePath = window.location.pathname;
-
-        // Check if the current page is the "shopapprovals/" page
-        if (currentPagePath ==="/listallserviceapp") {
-            // On the "shopapprovals/" page, show checkbox columns and approve all button
             $(".checkboxcol").removeClass("d-none");
             $("#approveAllBtn").removeClass("d-none");
-        } else if (currentPagePath ==="/listallservice") {
-            // On the "shopapprovalsadd/" page, hide checkbox columns and approve all button
+        } else if (serviceName === "listallservice") {
+            $("#viewbtn").removeClass("d-none");
+            $("#aprvbtn").addClass("d-none");
             $(".checkboxcol").addClass("d-none");
             $("#approveAllBtn").addClass("d-none");
         }
@@ -459,10 +740,11 @@
 
 
         $('#resetButton').click(function() {
-            $('#ProductAddForm input, #ProductAddForm select').val('');
+            $('#ProductAddForm input, #ProductAddForm select, #ProductAddForm textarea').val('');
             $('#ProductAddForm .error').text('');
             $('#image-preview').html('');
             $('#ProductAddForm input[type="file"]').val('');
+            $('#ProductAddForm .selectpicker').selectpicker('val', '');
         });
     });
 
@@ -500,6 +782,9 @@
 
 
     });
+
+
+
 
 
 
@@ -694,4 +979,157 @@
             });
         }
     });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    $(document).ready(function() {
+
+        function initializeTimepicker(element) {
+            element.timepicker({
+                showMeridian: true,
+                defaultTime: '00:00 AM',
+                minuteStep: 1,
+                disableFocus: true,
+                showInputs: false,
+                format: 'hh:ii AA'
+            });
+        }
+
+        initializeTimepicker($('.timepicker-input'));
+
+        var repeater = $('.repeater-default-time');
+        repeater.repeater({
+            show: function() {
+                var row = $(this);
+                row.find('.day-select').val('Sunday');
+                row.slideDown();
+                updateFieldIdss(row);
+                initializeTimepicker(row.find('.timepicker-input'));
+            },
+            hide: function(deleteElement) {
+                if (confirm('Are you sure you want to delete this day time?')) {
+                    $(this).slideUp(deleteElement);
+                }
+            },
+        });
+
+        $('#addSameTiming').on('click', function() {
+            var firstDayTimingRow = repeater.find('[data-repeater-item]').first();
+            var timing = {
+                from: firstDayTimingRow.find('[id^="setfrom_time"]').val(),
+                to: firstDayTimingRow.find('[id^="setto_time"]').val()
+            };
+
+            repeater.find('[data-repeater-item]').not(':first').each(function() {
+                $(this).find('[id^="setfrom_time"]').val(timing.from);
+                $(this).find('[id^="setto_time"]').val(timing.to);
+            });
+        });
+
+
+
+
+        $("#setavailbledate").on("change", function() {
+            var selectedValue = $(this).val();
+            if (selectedValue === "1") {
+                $("#dateFields").show();
+            } else {
+                $("#dateFields").hide();
+            }
+        });
+        $("#isnotavailable").on("change", function() {
+            if ($(this).is(":checked")) {
+                $("#singleDateField").show();
+            } else {
+                $("#singleDateField").hide();
+            }
+        });
+
+        $(document).on("change", "input[name^='notavailabledate_data'][name$='[setavailblesingledate]']",
+            function() {
+                var fromDateValue = new Date($("#setavailblefromdate").val());
+                var toDateValue = new Date($("#setavailbletodate").val());
+                var notAvailableDateValue = new Date($(this).val());
+                var dateValidationMessage = $(this).closest('.form-group').find(".dateValidationMessage");
+
+                if (!isNaN(notAvailableDateValue) &&
+                    notAvailableDateValue >= fromDateValue &&
+                    notAvailableDateValue <= toDateValue) {
+                    dateValidationMessage.text("");
+                } else {
+                    dateValidationMessage.text(
+                        "Not Available Date must be within the range of From Date and To Date.");
+                    $(this).val("");
+                }
+            });
+
+
+    });
+
+    $('.repeater-default-date').repeater({
+        show: function() {
+            $(this).slideDown();
+            updateFieldIdss($(this));
+        },
+        hide: function(deleteElement) {
+            if (confirm('Are you sure you want to delete this not available date?')) {
+                $(this).slideUp(deleteElement);
+            }
+        },
+    });
+
+
+
+    var maxQuestions = 7;
+    $('.repeater-default-question').repeater({
+        show: function() {
+            var $list = $('[data-repeater-list="setquestion_data"]');
+            var currentCount = $list.children('[data-repeater-item]').length;
+            if (currentCount < maxQuestions) {
+                $(this).slideDown();
+                $list.find('[data-repeater-create]').trigger('click');
+
+                currentCount = $list.children('[data-repeater-item]').length;
+            } else {
+                alert("You can add a maximum of 6 questions.");
+            }
+
+            updateFieldIdss($(this));
+        },
+        hide: function(deleteElement) {
+            if (confirm('Are you sure you want to delete the question?')) {
+                $(this).slideUp(deleteElement);
+            }
+        },
+    });
+
+
+
+    function updateFieldIdss(row) {
+        var rowIndex = row.index() + 1;
+        row.find('[id]').each(function() {
+            var currentId = $(this).attr('id');
+            var newId = currentId + rowIndex;
+            $(this).attr('id', newId);
+        });
+    }
 </script>
