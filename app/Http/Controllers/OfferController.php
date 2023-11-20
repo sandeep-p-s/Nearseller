@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use DB;
 use Validator;
 use App\Models\Offer;
@@ -27,16 +28,14 @@ class OfferController extends Controller
         $notapproved_offers = DB::table('offers as o')->where('o.status', 'N')->count();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $roleIdsArray = explode(',', $roleid);
-        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
-        {
-            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
-            ->where('user_id', $userId)
-            ->first();
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray))) {
+            $selrdetails = DB::table('seller_details')->select('busnes_type', 'term_condition')
+                ->where('user_id', $userId)
+                ->first();
+        } else {
+            $selrdetails = '';
         }
-        else{
-            $selrdetails='';
-        }
-        return view('seller.offer.list_offer', compact('shop_offer', 'loggeduser', 'userdetails', 'structuredMenu','selrdetails','active_offers','inactive_offers','approved_offers','notapproved_offers'));
+        return view('seller.offer.list_offer', compact('shop_offer', 'loggeduser', 'userdetails', 'structuredMenu', 'selrdetails', 'active_offers', 'inactive_offers', 'approved_offers', 'notapproved_offers'));
     }
     //Shop Offer
     public function list_shop_offer()
@@ -47,18 +46,20 @@ class OfferController extends Controller
         $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $shop_offer = DB::table('offers')->where('type', 1)->get();
+        $active_offers = DB::table('offers as o')->where('o.status', 'Y')->where('o.type', '1')->count();
+        $inactive_offers = DB::table('offers as o')->where('o.status', 'N')->where('o.type', '1')->count();
+        $approved_offers = DB::table('offers as o')->where('o.approval_status', 'Y')->where('o.type', '1')->count();
+        $notapproved_offers = DB::table('offers as o')->where('o.approval_status', 'N')->where('o.type', '1')->count();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $roleIdsArray = explode(',', $roleid);
-        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
-        {
-            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
-            ->where('user_id', $userId)
-            ->first();
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray))) {
+            $selrdetails = DB::table('seller_details')->select('busnes_type', 'term_condition')
+                ->where('user_id', $userId)
+                ->first();
+        } else {
+            $selrdetails = '';
         }
-        else{
-            $selrdetails='';
-        }
-        return view('seller.offer.list_offer', compact('shop_offer', 'loggeduser', 'userdetails', 'structuredMenu','selrdetails'));
+        return view('seller.offer.list_offer', compact('shop_offer', 'loggeduser', 'userdetails', 'structuredMenu', 'selrdetails', 'active_offers', 'inactive_offers', 'approved_offers', 'notapproved_offers'));
     }
 
     public function add_shop_offer()
@@ -73,17 +74,15 @@ class OfferController extends Controller
             ->select('id', 'name')
             ->where('role_id', 2)
             ->get();
-            $roleIdsArray = explode(',', $roleid);
-        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
-        {
-            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
-            ->where('user_id', $userId)
-            ->first();
+        $roleIdsArray = explode(',', $roleid);
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray))) {
+            $selrdetails = DB::table('seller_details')->select('busnes_type', 'term_condition')
+                ->where('user_id', $userId)
+                ->first();
+        } else {
+            $selrdetails = '';
         }
-        else{
-            $selrdetails='';
-        }
-        return view('seller.offer.add_offer', compact('loggeduser', 'userdetails', 'structuredMenu', 'usershopdets','selrdetails'));
+        return view('seller.offer.add_offer', compact('loggeduser', 'userdetails', 'structuredMenu', 'usershopdets', 'selrdetails'));
     }
 
     public function store_shop_offer(Request $request)
@@ -165,17 +164,15 @@ class OfferController extends Controller
             return redirect()->route('list.shop_offer')->with('error', 'Shop offer not found.');
         }
         $roleIdsArray = explode(',', $roleid);
-        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
-        {
-            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
-            ->where('user_id', $userId)
-            ->first();
-        }
-        else{
-            $selrdetails='';
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray))) {
+            $selrdetails = DB::table('seller_details')->select('busnes_type', 'term_condition')
+                ->where('user_id', $userId)
+                ->first();
+        } else {
+            $selrdetails = '';
         }
 
-        return view('seller.offer.edit_offer', compact('shopoffer', 'loggeduser', 'userdetails', 'structuredMenu', 'usershopdets','selrdetails'));
+        return view('seller.offer.edit_offer', compact('shopoffer', 'loggeduser', 'userdetails', 'structuredMenu', 'usershopdets', 'selrdetails'));
     }
 
     public function update_shop_offer(Request $request, $id)
@@ -230,8 +227,7 @@ class OfferController extends Controller
                 $shopoffer->offer_image = $new_name;
             }
         }
-        if ($request->status === 'Active')
-        {
+        if ($request->status === 'Active') {
             $shopoffer->status = 'Y';
         } else {
             $shopoffer->status = 'N';
@@ -296,19 +292,17 @@ class OfferController extends Controller
             return redirect()->route('list.shop_offer')->with('error', 'Shop offer not found.');
         }
         $roleIdsArray = explode(',', $roleid);
-        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
-        {
-            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
-            ->where('user_id', $userId)
-            ->first();
-        }
-        else{
-            $selrdetails='';
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray))) {
+            $selrdetails = DB::table('seller_details')->select('busnes_type', 'term_condition')
+                ->where('user_id', $userId)
+                ->first();
+        } else {
+            $selrdetails = '';
         }
 
-        return view('seller.offer.approved_shopoffer', compact('shopoffer', 'loggeduser', 'userdetails', 'structuredMenu', 'usershopdets','selrdetails'));
+        return view('seller.offer.approved_shopoffer', compact('shopoffer', 'loggeduser', 'userdetails', 'structuredMenu', 'usershopdets', 'selrdetails'));
     }
-    public function approvedstatus_shopoffer(Request $request,$id)
+    public function approvedstatus_shopoffer(Request $request, $id)
     {
         $userRole = session('user_role');
         $userId = session('user_id');
@@ -338,31 +332,33 @@ class OfferController extends Controller
 
             ]
         );
-            $shopoffer->approval_status = $request->shopofferapproved;
-            $shopoffer->approved_by = $userId;
-            $shopoffer->approved_time = $time;
-            $shopoffer->save();
+        if ($request->status === 'Active') {
+            $shopoffer->status = 'Y';
+        } else {
+            $shopoffer->status = 'N';
+        }
+        $shopoffer->approval_status = $request->shopofferapproved;
+        $shopoffer->approved_by = $userId;
+        $shopoffer->approved_time = $time;
+        $shopoffer->save();
 
-            if($request->shopofferapproved=='Y')
-            {
-                $appstatus='Shop Offer Successfully Approved';
-            }
-            else
-            {
-                $appstatus='Shop Offer Not Approved';
-            }
+        if ($request->shopofferapproved == 'Y') {
+            $appstatus = 'Shop Offer Successfully Approved';
+        } else {
+            $appstatus = 'Shop Offer Not Approved';
+        }
 
 
-            $loggedUserIp = $_SERVER['REMOTE_ADDR'];
-            $time = date('Y-m-d H:i:s');
-            $msg = 'Shop Offer Successfully Approved. Approved Category id is ' . $id;
-            $LogDetails = new LogDetails();
-            $LogDetails->user_id = $request->es_email;
-            $LogDetails->ip_address = $loggedUserIp;
-            $LogDetails->log_time = $time;
-            $LogDetails->status = $msg;
-            $LogDetails->save();
-            return redirect()->route('list.shop_offer')->with('success', $appstatus);
+        $loggedUserIp = $_SERVER['REMOTE_ADDR'];
+        $time = date('Y-m-d H:i:s');
+        $msg = 'Shop Offer Successfully Approved. Approved Category id is ' . $id;
+        $LogDetails = new LogDetails();
+        $LogDetails->user_id = $request->es_email;
+        $LogDetails->ip_address = $loggedUserIp;
+        $LogDetails->log_time = $time;
+        $LogDetails->status = $msg;
+        $LogDetails->save();
+        return redirect()->route('list.shop_offer')->with('success', $appstatus);
     }
     public function AdmShopOfferApprovedAll(Request $request)
     {
@@ -380,20 +376,19 @@ class OfferController extends Controller
         $toregIDCount = count($shopofferid_id);
         $flg = 0;
         for ($i = 1; $i < $toregIDCount; $i++) {
-                $shopofferid = $shopofferid_id[$i];
-                // $categoryuser=explode('*',$shopofferidexplode);
-                // $shopofferid=$categoryuser[0];
-                $shopoffer = Offer::find($shopofferid);
-                if($shopoffer->approval_status == 'R') {
-                }
-                else{
-                    $shopoffer->approval_status = 'Y';
-                    $shopoffer->approved_by = $userId;
-                    $shopoffer->approved_time = $time;
-                    $shopoffer->save();
-                    $flg = 1;
-                }
+            $shopofferid = $shopofferid_id[$i];
+            // $categoryuser=explode('*',$shopofferidexplode);
+            // $shopofferid=$categoryuser[0];
+            $shopoffer = Offer::find($shopofferid);
+            if ($shopoffer->approval_status == 'R') {
+            } else {
+                $shopoffer->approval_status = 'Y';
+                $shopoffer->approved_by = $userId;
+                $shopoffer->approved_time = $time;
+                $shopoffer->save();
+                $flg = 1;
             }
+        }
 
         $msg = 'Shop Offer Successfully Approved';
         $LogDetails = new LogDetails();
@@ -419,19 +414,21 @@ class OfferController extends Controller
         $roleid = session('roleid');
         $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        $service_offer = DB::table('offers')->where('type',2)->get();
+        $service_offer = DB::table('offers')->where('type', 2)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
+        $active_offers = DB::table('offers as o')->where('o.status', 'Y')->where('o.type', '2')->count();
+        $inactive_offers = DB::table('offers as o')->where('o.status', 'N')->where('o.type', '2')->count();
+        $approved_offers = DB::table('offers as o')->where('o.approval_status', 'Y')->where('o.type', '2')->count();
+        $notapproved_offers = DB::table('offers as o')->where('o.approval_status', 'N')->where('o.type', '2')->count();
         $roleIdsArray = explode(',', $roleid);
-        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
-        {
-            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
-            ->where('user_id', $userId)
-            ->first();
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray))) {
+            $selrdetails = DB::table('seller_details')->select('busnes_type', 'term_condition')
+                ->where('user_id', $userId)
+                ->first();
+        } else {
+            $selrdetails = '';
         }
-        else{
-            $selrdetails='';
-        }
-        return view('seller.service.offer.list_offer', compact('service_offer', 'loggeduser', 'userdetails','structuredMenu','selrdetails'));
+        return view('seller.service.offer.list_offer', compact('service_offer', 'loggeduser', 'userdetails', 'structuredMenu', 'selrdetails', 'active_offers', 'inactive_offers', 'approved_offers', 'notapproved_offers'));
     }
 
     public function add_service_offer()
@@ -447,16 +444,14 @@ class OfferController extends Controller
             ->where('role_id', 9)
             ->get();
         $roleIdsArray = explode(',', $roleid);
-        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
-        {
-            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
-            ->where('user_id', $userId)
-            ->first();
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray))) {
+            $selrdetails = DB::table('seller_details')->select('busnes_type', 'term_condition')
+                ->where('user_id', $userId)
+                ->first();
+        } else {
+            $selrdetails = '';
         }
-        else{
-            $selrdetails='';
-        }
-        return view('seller.service.offer.add_offer', compact('loggeduser', 'userdetails','structuredMenu','userservicedets','selrdetails'));
+        return view('seller.service.offer.add_offer', compact('loggeduser', 'userdetails', 'structuredMenu', 'userservicedets', 'selrdetails'));
     }
 
     public function store_service_offer(Request $request)
@@ -510,12 +505,12 @@ class OfferController extends Controller
         $service_offer->save();
         $service_offerid = $service_offer->id;
         $msg = 'New Service Successfully added. Service ID is: ' . $service_offerid;
-            $LogDetails = new LogDetails();
-            $LogDetails->user_id = $userId;
-            $LogDetails->ip_address = $loggedUserIp;
-            $LogDetails->log_time = $time;
-            $LogDetails->status = $msg;
-            $LogDetails->save();
+        $LogDetails = new LogDetails();
+        $LogDetails->user_id = $userId;
+        $LogDetails->ip_address = $loggedUserIp;
+        $LogDetails->log_time = $time;
+        $LogDetails->status = $msg;
+        $LogDetails->save();
         return redirect()->route('list.service_offer')->with('success', 'Service Offer saved successfully');
     }
 
@@ -541,17 +536,15 @@ class OfferController extends Controller
             return redirect()->route('list.Service_offer')->with('error', 'Service offer not found.');
         }
         $roleIdsArray = explode(',', $roleid);
-        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
-        {
-            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
-            ->where('user_id', $userId)
-            ->first();
-        }
-        else{
-            $selrdetails='';
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray))) {
+            $selrdetails = DB::table('seller_details')->select('busnes_type', 'term_condition')
+                ->where('user_id', $userId)
+                ->first();
+        } else {
+            $selrdetails = '';
         }
 
-        return view('seller.service.offer.edit_offer', compact('serviceoffer', 'loggeduser', 'userdetails','structuredMenu','userservicedets','ServiceDetails','selrdetails'));
+        return view('seller.service.offer.edit_offer', compact('serviceoffer', 'loggeduser', 'userdetails', 'structuredMenu', 'userservicedets', 'ServiceDetails', 'selrdetails'));
     }
 
     public function update_service_offer(Request $request, $id)
@@ -596,8 +589,7 @@ class OfferController extends Controller
                 $serviceoffer->offer_image = $new_name;
             }
         }
-        if ($request->status === 'Active')
-        {
+        if ($request->status === 'Active') {
             $serviceoffer->status = 'Y';
         } else {
             $serviceoffer->status = 'N';
@@ -662,19 +654,17 @@ class OfferController extends Controller
             return redirect()->route('list.Service_offer')->with('error', 'Service offer not found.');
         }
         $roleIdsArray = explode(',', $roleid);
-        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
-        {
-            $selrdetails = DB::table('seller_details')->select('busnes_type','term_condition')
-            ->where('user_id', $userId)
-            ->first();
-        }
-        else{
-            $selrdetails='';
+        if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray))) {
+            $selrdetails = DB::table('seller_details')->select('busnes_type', 'term_condition')
+                ->where('user_id', $userId)
+                ->first();
+        } else {
+            $selrdetails = '';
         }
 
-        return view('seller.service.offer.approved_serviceoffer', compact('serviceoffer', 'loggeduser', 'userdetails', 'structuredMenu', 'userservicedets','selrdetails'));
+        return view('seller.service.offer.approved_serviceoffer', compact('serviceoffer', 'loggeduser', 'userdetails', 'structuredMenu', 'userservicedets', 'selrdetails'));
     }
-    public function approvedstatus_service(Request $request,$id)
+    public function approvedstatus_service(Request $request, $id)
     {
         $userRole = session('user_role');
         $userId = session('user_id');
@@ -705,31 +695,28 @@ class OfferController extends Controller
 
             ]
         );
-            $serviceoffer->approval_status = $request->serviceofferapproved;
-            $serviceoffer->approved_by = $userId;
-            $serviceoffer->approved_time = $time;
-            $serviceoffer->save();
+        $serviceoffer->approval_status = $request->serviceofferapproved;
+        $serviceoffer->approved_by = $userId;
+        $serviceoffer->approved_time = $time;
+        $serviceoffer->save();
 
-            if($request->serviceofferapproved=='Y')
-            {
-                $appstatus='Service Offer Successfully Approved';
-            }
-            else
-            {
-                $appstatus='Service Offer Not Approved';
-            }
+        if ($request->serviceofferapproved == 'Y') {
+            $appstatus = 'Service Offer Successfully Approved';
+        } else {
+            $appstatus = 'Service Offer Not Approved';
+        }
 
 
-            $loggedUserIp = $_SERVER['REMOTE_ADDR'];
-            $time = date('Y-m-d H:i:s');
-            $msg = 'Service Offer Successfully Approved. Approved Category id is ' . $id;
-            $LogDetails = new LogDetails();
-            $LogDetails->user_id = $request->es_email;
-            $LogDetails->ip_address = $loggedUserIp;
-            $LogDetails->log_time = $time;
-            $LogDetails->status = $msg;
-            $LogDetails->save();
-            return redirect()->route('list.service_offer')->with('success', $appstatus);
+        $loggedUserIp = $_SERVER['REMOTE_ADDR'];
+        $time = date('Y-m-d H:i:s');
+        $msg = 'Service Offer Successfully Approved. Approved Category id is ' . $id;
+        $LogDetails = new LogDetails();
+        $LogDetails->user_id = $request->es_email;
+        $LogDetails->ip_address = $loggedUserIp;
+        $LogDetails->log_time = $time;
+        $LogDetails->status = $msg;
+        $LogDetails->save();
+        return redirect()->route('list.service_offer')->with('success', $appstatus);
     }
     public function AdmServiceOfferApprovedAll(Request $request)
     {
@@ -747,20 +734,19 @@ class OfferController extends Controller
         $toregIDCount = count($serviceofferid_id);
         $flg = 0;
         for ($i = 1; $i < $toregIDCount; $i++) {
-                $serviceofferid = $serviceofferid_id[$i];
-                // $categoryuser=explode('*',$shopofferidexplode);
-                // $shopofferid=$categoryuser[0];
-                $serviceoffer = Offer::find($serviceofferid);
-                if($serviceoffer->approval_status == 'R') {
-                }
-                else{
-                    $serviceoffer->approval_status = 'Y';
-                    $serviceoffer->approved_by = $userId;
-                    $serviceoffer->approved_time = $time;
-                    $serviceoffer->save();
-                    $flg = 1;
-                }
+            $serviceofferid = $serviceofferid_id[$i];
+            // $categoryuser=explode('*',$shopofferidexplode);
+            // $shopofferid=$categoryuser[0];
+            $serviceoffer = Offer::find($serviceofferid);
+            if ($serviceoffer->approval_status == 'R') {
+            } else {
+                $serviceoffer->approval_status = 'Y';
+                $serviceoffer->approved_by = $userId;
+                $serviceoffer->approved_time = $time;
+                $serviceoffer->save();
+                $flg = 1;
             }
+        }
 
         $msg = 'Service Offer Successfully Approved';
         $LogDetails = new LogDetails();
@@ -775,6 +761,5 @@ class OfferController extends Controller
         } else {
             return response()->json(['result' => 2, 'mesge' => 'Not Approved']);
         }
-
     }
 }

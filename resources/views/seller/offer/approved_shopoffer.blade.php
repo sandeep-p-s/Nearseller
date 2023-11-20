@@ -125,6 +125,13 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <label for="exampleFormControlSelect1">Status</label>
+                                            <select class="form-control" id="exampleFormControlSelect1" name="status">
+                                                <option value="Active" @if($shopoffer->status === 'Y') selected @endif>Active</option>
+                                                <option value="Inactive" @if($shopoffer->status === 'N') selected @endif>Inactive</option>
+                                            </select>
+                                        </div>
                                         <div class="form-group"><label>Approval Status</label>
                                             <select class="form-control" id="shopofferapproved" name="shopofferapproved">
                                                 <option value="Y" {{ $shopoffer->approval_status  == 'Y' ? 'selected' : '' }}>

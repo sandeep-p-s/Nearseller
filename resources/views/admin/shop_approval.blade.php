@@ -175,7 +175,7 @@
                 }
             });
 
-        
+
 
             function shwdets() {
                 $('#loading-overlay').fadeIn();

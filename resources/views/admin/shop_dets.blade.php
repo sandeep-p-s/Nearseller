@@ -1172,7 +1172,7 @@
                     var column = this;
                     var colIndex = column[0][0];
                     var excludeColumns = [0, 1, 7];
-                    var textColumns = [2, 4];
+                    var textColumns = [2, 3, 4];
 
                     if (jQuery.inArray(colIndex, excludeColumns) !== -1)
                         return;
