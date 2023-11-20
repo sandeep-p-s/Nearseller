@@ -14,6 +14,9 @@
                             <div class="col">
                                 {{-- @if (session('roleid') == '1') --}}
                                 <h4 class="page-title">All Services List</h4>
+                                <div class="col text-left">
+                                    <a href="{{ route('admin.shopapprovalsadd', 2) }}" class="btn btn-danger">Back</a>
+                                </div>
                                 <div class="col text-right">
                                     <button class="btn add_btn d-none" data-bs-toggle="modal" data-bs-target="#addNewModal"
                                         id="addProductButton">Add

@@ -462,8 +462,8 @@ Route::middleware(['role'])->group(function () {
 
 
     Route::controller(ServiceEmployeeController::class)->group(function () {
-        Route::get('listserviceemp', 'list_service_employee')->name('list.service_employee');
-        Route::get('addserviceemp', 'add_service_employee')->name('add.service_employee');
+        Route::get('listserviceemp/{id}', 'list_service_employee')->name('list.service_employee');
+        Route::get('addserviceemp/{id}', 'add_service_employee')->name('add.service_employee');
         Route::post('storeserviceemp', 'store_service_employee')->name('store.service_employee');
         Route::get('editserviceemp/{id}', 'edit_service_employee')->name('edit.service_employee');
         Route::post('updateserviceemp/{id}', 'update_service_employee')->name('update.service_employee');

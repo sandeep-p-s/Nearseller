@@ -422,7 +422,7 @@
                                                             <div class="col-md-2">
                                                                 <input class="form-control" type="checkbox"
                                                                     id="settimestatus" name="settimestatus"
-                                                                    value="1" style="width: 10%;">
+                                                                    value="1" style="width: 7%;">
                                                             </div>
                                                             <div class="col-md-2">
                                                                 <select class="form-control"
@@ -478,12 +478,12 @@
                                                             class="btn btn-secondary btn-sm">
                                                             <span class="fas fa-plus"></span> Add New Time
                                                         </span>
-                                                        @if (session('roleid') == '1' || session('roleid') == '11')
+                                                        {{-- @if (session('roleid') == '1' || session('roleid') == '11') --}}
                                                             <button type="button" id="addSameTiming"
                                                                 class="btn btn-primary btn-sm">
                                                                 Add Same Timing for All Days
                                                             </button>
-                                                        @endif
+                                                        {{-- @endif --}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -597,7 +597,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group mb-0 row">
-                                                        <div class="col-sm-12">
+                                                        <div class="col-sm-12  text-right">
                                                             <span data-repeater-create=""
                                                                 class="btn btn-secondary btn-sm">
                                                                 <span class="fas fa-plus"></span> Add New
@@ -661,13 +661,13 @@
         var urlParts = currentPagePath.split('/');
         var serviceName = urlParts[1];
         if (serviceName === "listallserviceapp") {
-            $("#viewbtn").addClass("d-none");
-            $("#aprvbtn, #delbtn").removeClass("d-none");
+            $(".view_btn1").addClass("d-none");
+            $(".approve_btn, .delete_btn").removeClass("d-none");
             $(".checkboxcol").removeClass("d-none");
             $("#approveAllBtn").removeClass("d-none");
         } else if (serviceName === "listallservice") {
-            $("#viewbtn").removeClass("d-none");
-            $("#aprvbtn").addClass("d-none");
+            $(".view_btn1").removeClass("d-none");
+            $(".approve_btn").addClass("d-none");
             $(".checkboxcol").addClass("d-none");
             $("#approveAllBtn").addClass("d-none");
         }
@@ -895,6 +895,26 @@
             customRadio: {
                 required: true,
             },
+            setavailbledate: "required",
+            setavailblefromdate: {
+                required: function() {
+                    return $("#setavailbledate").val() !== '';
+                },
+                date: true
+            },
+            setavailbletodate: {
+                required: function() {
+                    return $("#setavailbledate").val() !== '';
+                },
+                date: true
+            },
+            "notavailabledate_data[][setavailblesingledate]": {
+                required: function() {
+                    return $("#isnotavailable").is(":checked");
+                },
+                date: true
+            },
+            setquestion: "required",
 
         },
         messages: {
@@ -910,8 +930,33 @@
             customRadio: {
                 required: "Please select attribute",
             },
+            setavailbledate: "Availability date is mandatory.",
+            setavailblefromdate: {
+                required: "From date is mandatory when Set Availability Dates is selected.",
+                date: "Please enter a valid date."
+            },
+            setavailbletodate: {
+                required: "To date is mandatory when Set Availability Dates is selected.",
+                date: "Please enter a valid date."
+            },
+            "notavailabledate_data[][setavailblesingledate]": {
+                required: "Not available date is mandatory if not available.",
+                date: "Please enter a valid date."
+            },
+            setquestion: "Question for the customer is mandatory.",
+            //service_type_id: "Service Required is mandatory."
 
         },
+        errorPlacement: function(error, element) {
+            if (element.attr("name") === "notavailabledate_data[][setavailblesingledate]") {
+                if ($("#isnotavailable").is(":checked") && $("[name^='notavailabledate_data[']").length >
+                    0) {
+                    error.insertAfter(element.closest(".form-group"));
+                }
+            } else {
+                error.insertAfter(element);
+            }
+        }
     });
 
 

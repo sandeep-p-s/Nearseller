@@ -13,6 +13,9 @@
                         <div class="row">
                             <div class="col">
                                 <h4 class="page-title">Add Employee</h4>
+                                <div class="col text-left">
+                                    <a href="{{ route('list.service_employee', $serviceid) }}" class="btn btn-danger">Back</a>
+                                </div>
                             </div>
 
                         </div><!--end row-->
@@ -23,6 +26,7 @@
             <form method="POST" action="{{ route('store.service_employee') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
+                    <input type="hidden" name="serviceproviderid" name="serviceproviderid"  value="{{ $serviceid }}" />
 
                     <div class="col-lg-6">
                         <div class="card">
@@ -30,7 +34,7 @@
                                 @php
                                     $shopshowhide = session('roleid') == 1 || session('roleid') == 3 ? 'style=display:block;' : 'style=display:none;';
                                 @endphp
-                                <div class="form-group" {{ $shopshowhide }}>
+                                {{-- <div class="form-group" {{ $shopshowhide }}>
                                     <label for="service_name">Service User <span class="text-danger">*</span></label>
                                     <select class="selectservice form-select form-control form-control-lg"
                                         id="serviceuser_name" name="serviceuser_name" tabindex="1">
@@ -45,7 +49,7 @@
                                     @error('serviceuser_name')
                                         <div class="text-danger mb-2">{{ $message }}</div>
                                     @enderror
-                                </div>
+                                </div> --}}
 
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Employee Name <span

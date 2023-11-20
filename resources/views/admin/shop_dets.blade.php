@@ -500,13 +500,10 @@
                                             onclick="shopvieweditdet({{ $sellerDetail->id }},{{ $typeid }})">View/Edit</a>
                                         <a class="dropdown-item approve_btn" href="#"
                                             onclick="shopapprovedet({{ $sellerDetail->id }},{{ $typeid }})">Activation/Approval</a>
-
-
-
+                                            <a class="dropdown-item view_btn1" id="viewbtn" href="{{ route('list.service_employee', $sellerDetail->id) }}"
+                                            >Employee</a>
                                         <a class="dropdown-item view_btn1" id="viewbtn" href="{{ route('user.listallservice', $sellerDetail->id) }}"
                                             >Add Product Details</a>
-
-
                                         <a class="dropdown-item delete_btn" href="#"
                                             onclick="shopdeletedet({{ $sellerDetail->id }})">Delete</a>
                                     @else
