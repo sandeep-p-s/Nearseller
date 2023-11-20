@@ -14,6 +14,13 @@ use App\Models\MenuMaster;
 use App\Models\ServiceCategory;
 use App\Models\ServiceSubCategory;
 use App\Models\ServiceType;
+use App\Models\ServiceDetails;
+use App\Models\ServiceAppointment;
+use App\Models\NotAvailableDate;
+use App\Models\AppointmentAvailableDayTime;
+use App\Models\SetQuestion;
+use App\Models\AddServiceAttribute;
+use App\Models\ServiceEmployee;
 use App\Models\OpenCloseDayTime;
 use App\Mail\EmailVerification;
 use Illuminate\Support\Facades\Mail;
@@ -1959,12 +1966,24 @@ class AdminController extends Controller
         $time = date('Y-m-d H:i:s');
         $shopid = $request->input('userid');
         $sellerDetail = SellerDetails::find($shopid);
-        $user = UserAccount::find($sellerDetail->user_id);
-        if ($user) {
-            $user->delete();
+        // $user = UserAccount::find($sellerDetail->user_id);
+        // if ($user) {
+        //     $user->delete();
+        // }
+        // $deltesellerDetail = $sellerDetail->delete();
+        // $delteuser = $user->delete();
+        $ProductDetails = ServiceDetails::where('service_provider_id', $shopid)->get();
+        //echo count($ProductDetails);exit;
+        if(count($ProductDetails)>0)
+        {
+        $ServiceDetails                 = ServiceDetails::where('service_provider_id', $ProductDetails->service_provider_id)->delete();
+        $ServiceEmployee                = ServiceEmployee::where('user_id', $ProductDetails->service_provider_id)->delete();
+        $delteProductAttributesDetail   = AddServiceAttribute::where('service_id', $ProductDetails->id)->delete();
+        $appointmentDetail              = ServiceAppointment::where('service_id', $ProductDetails->id)->delete();
+        $notavailabledateDetail         = NotAvailableDate::where('service_id', $ProductDetails->id)->delete();
+        $AppointmentAvailableDayTime    = AppointmentAvailableDayTime::where('service_id', $ProductDetails->id)->delete();
+        $AppointmentSetQuestion         = SetQuestion::where('service_id', $ProductDetails->id)->delete();
         }
-        $deltesellerDetail = $sellerDetail->delete();
-        $delteuser = $user->delete();
         $msg = 'Shop Deleted =  ' . $user->email . ' shop deleted id : ' . $sellerDetail->user_id;
         $LogDetails = new LogDetails();
         $LogDetails->user_id = $user->email;

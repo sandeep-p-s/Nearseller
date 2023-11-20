@@ -14,6 +14,7 @@
                         <div class="row">
                             <div class="col">
                                 <h4 class="page-title">Edit Employee</h4>
+                                <a href="{{ route('list.service_employee', $service_emp->user_id) }}" class="btn btn-danger">Back</a>
                             </div>
 
                         </div><!--end row-->
@@ -32,7 +33,7 @@
                                 @php
                                     $shopshowhide = session('roleid') == 1 || session('roleid') == 3 ? 'style=display:block;' : 'style=display:none;';
                                 @endphp
-                                <div class="form-group" {{ $shopshowhide }} style="display: none;">
+                                {{-- <div class="form-group" {{ $shopshowhide }} style="display: none;">
                                     <label for="service_name">Service User <span class="text-danger">*</span></label>
                                     <select class="selectservice form-select form-control form-control-lg"
                                         id="serviceuser_name" name="serviceuser_name" required tabindex="1">
@@ -44,12 +45,18 @@
                                     @error('serviceuser_name')
                                         <div class="text-danger mb-2">{{ $message }}</div>
                                     @enderror
-                                </div>
+                                </div> --}}
+
+                                <input type="hidden" class="form-control" id="Serviceproviderid"
+                                        placeholder="Service Provider Name" name="Serviceproviderid"
+                                        value="{{ $service_emp->user_id }}" >
+
+
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Employee Name </label>
                                     <input type="text" class="form-control" id="employee_name"
                                         placeholder="Enter Employee Name" name="employee_name"
-                                        value="{{ $service_emp->employee_name }}" readonly>
+                                        value="{{ $service_emp->employee_name }}" >
                                     @error('employee_name')
                                         <div class="text-danger mb15">{{ $message }}</div>
                                     @enderror
