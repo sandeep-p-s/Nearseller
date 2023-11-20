@@ -13,7 +13,8 @@
                                 <h4 class="page-title">Category List</h4>
                             </div>
                             <div class="col-auto align-self-center">
-                                <a href="{{ route('add.category') }}"><button type="button" class="btn add_btn d-none" id="addCategoryButton">Add New
+                                <a href="{{ route('add.category') }}"><button type="button" class="btn add_btn d-none"
+                                        id="addCategoryButton">Add New
                                         Category </button></a>
                             </div>
                         </div>
@@ -65,8 +66,9 @@
                                         @if (session('roleid') == 1 || session('roleid') == 11)
                                             {{-- <th data-sortable="false"><input type='checkbox' name='checkbox1' id='checkbox1'
                                                 onclick='check();' /></th> --}}
-                                            <th width="5px" data-sorting="true" class="checkbox_table"><input type='checkbox' name='checkbox1'
-                                                    id='checkbox1' class="selectAll" onclick='' /></th>
+                                            <th width="5px" data-sorting="true" class="checkbox_table"><input
+                                                    type='checkbox' name='checkbox1' id='checkbox1' class="selectAll"
+                                                    onclick='' /></th>
                                         @endif
 
                                         <th>S.No.</th>
@@ -83,8 +85,9 @@
                                     @foreach ($categories as $index => $c)
                                         <tr>
                                             @if (session('roleid') == 1 || session('roleid') == 11)
-                                                <td class="checkbox_table" width="5%"><input name="categoryid[]" type="checkbox"
-                                                        id="categoryid{{ $loop->iteration }}" value="{{ $c->id }}"
+                                                <td class="checkbox_table" width="5%"><input name="categoryid[]"
+                                                        type="checkbox" id="categoryid{{ $loop->iteration }}"
+                                                        value="{{ $c->id }}"
                                                         {{ $c->approval_status === 'Y' ? '' : '' }} />
                                                 </td>
                                             @endif
@@ -108,14 +111,14 @@
                                             <td width="10%" class="text-center">
 
                                                 @if ($c->status == 'Y')
-                                @php
-                                    $ustatus = 'Active';
-                                @endphp
-                            @else
-                                @php
-                                    $ustatus = 'Inctive';
-                                @endphp
-                            @endif
+                                                    @php
+                                                        $ustatus = 'Active';
+                                                    @endphp
+                                                @else
+                                                    @php
+                                                        $ustatus = 'Inctive';
+                                                    @endphp
+                                                @endif
 
 
                                                 {{-- <span
@@ -123,22 +126,22 @@
                                                     {{ $c->status === 'Y' ? 'Active' : 'Inactive' }}
                                                 </span> --}}
 
-                                                {{$ustatus}}
+                                                {{ $ustatus }}
                                             </td>
                                             <td width="15%" class="text-center">
 
                                                 @if ($c->approval_status == 'Y')
-                                @php
-                                    $uapproved = 'Approved';
-                                @endphp
-                            @else
-                                @php
-                                    $uapproved = 'Not Approved';
-                                @endphp
-                            @endif
+                                                    @php
+                                                        $uapproved = 'Approved';
+                                                    @endphp
+                                                @else
+                                                    @php
+                                                        $uapproved = 'Not Approved';
+                                                    @endphp
+                                                @endif
 
 
-                            {{$uapproved}}
+                                                {{ $uapproved }}
                                                 {{-- <span
                                                     class="badge p-2 {{ $c->approval_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
                                                     {{ $c->approval_status === 'Y' ? 'Approved' : 'Not Approved' }}
@@ -158,7 +161,8 @@
                                                                 href="{{ route('edit.category', $c->category_slug) }}">Edit/View</a>
                                                         @endif
                                                         @if (session('roleid') == 1 || session('roleid') == 11)
-                                                                <a class="dropdown-item approve_btn " id="approvalBtn" href="{{ route('approved.category', $c->category_slug) }}">Activation/Approval</a>
+                                                            <a class="dropdown-item approve_btn " id="approvalBtn"
+                                                                href="{{ route('approved.category', $c->category_slug) }}">Activation/Approval</a>
                                                         @endif
                                                         @if (session('roleid') == 1 || session('roleid') == 11)
                                                             <a class="dropdown-item delete_btn" id="deleteBtn"
@@ -191,15 +195,14 @@
     <script>
         $(document).ready(function() {
             var currentPageUrl = window.location.pathname;
-            if (currentPageUrl ==="/addlistcategory") {
+            if (currentPageUrl === "/addlistcategory") {
                 $("#addCategoryButton").removeClass("d-none");
                 $(".approve_btn").addClass("d-none");
                 $(".view_btn1").removeClass("d-none");
                 $(".approve_all_btn").addClass("d-none");
                 $(".checkbox_table").addClass("d-none");
 
-            }
-             else {
+            } else {
                 $("#addCategoryButton").addClass("d-none");
                 $(".approve_btn").removeClass("d-none");
                 $(".view_btn1").addClass("d-none");
@@ -213,101 +216,101 @@
         // });
         $(document).ready(function() {
 
-function cbDropdown(column) {
-    return $('<ul>', {
-        'class': 'cb-dropdown form-control'
-    }).appendTo($('<div>', {
-        'class': 'cb-dropdown-wrap '
-    }).appendTo(column));
-}
-
-$('#datatable3').DataTable({
-    initComplete: function() {
-        this.api().columns().every(function() {
-            var column = this;
-            var colIndex = column[0][0];
-            var excludeColumns = [0,1,5];
-            var textColumns = [2];
-
-            if (jQuery.inArray(colIndex, excludeColumns) !== -1)
-                return;
-
-            if (jQuery.inArray(colIndex, textColumns) !== -1) {
-
-                var mainDiv = $('<div>', {
-                    'class': 'cb-textBox-wrap'
-                }).appendTo($(column.header()));
-
-                let input = $('<input placeholder="Search" class="form-control">');
-                input.className = "";
-                input.type = "text";
-                mainDiv.append(input);
-
-                input.on('keyup', () => {
-                    if (column.search() !== this.value) {
-                        column.search(input.val()).draw();
-                    }
-                });
-                return;
-
+            function cbDropdown(column) {
+                return $('<ul>', {
+                    'class': 'cb-dropdown form-control'
+                }).appendTo($('<div>', {
+                    'class': 'cb-dropdown-wrap '
+                }).appendTo(column));
             }
 
-            var ddmenu = cbDropdown($(column.header()))
-                .on('change', ':checkbox', function() {
-                    var active;
-                    var vals = $(':checked', ddmenu).map(function(index,
-                        element) {
-                        active = true;
-                        return $.fn.dataTable.util.escapeRegex($(
-                            element).val());
-                    }).toArray().join('|');
+            $('#datatable3').DataTable({
+                initComplete: function() {
+                    this.api().columns().every(function() {
+                        var column = this;
+                        var colIndex = column[0][0];
+                        var excludeColumns = [0, 1, 5];
+                        var textColumns = [2];
 
-                    column
-                        .search(vals.length > 0 ? '^(' + vals + ')$' : '', true,
-                            false)
-                        .draw();
+                        if (jQuery.inArray(colIndex, excludeColumns) !== -1)
+                            return;
 
-                    // Highlight the current item if selected.
-                    if (this.checked) {
-                        $(this).closest('li').addClass('active');
-                    } else {
-                        $(this).closest('li').removeClass('active');
-                    }
+                        if (jQuery.inArray(colIndex, textColumns) !== -1) {
 
-                    // Highlight the current filter if selected.
-                    var active2 = ddmenu.parent().is('.active');
-                    if (active && !active2) {
-                        ddmenu.parent().addClass('active');
-                    } else if (!active && active2) {
-                        ddmenu.parent().removeClass('active');
-                    }
-                });
+                            var mainDiv = $('<div>', {
+                                'class': 'cb-textBox-wrap'
+                            }).appendTo($(column.header()));
 
-            column.data().unique().sort().each(function(d, j) {
-                var
-                    $label = $('<label>'),
-                    $text = $('<span>', {
-                        text: d
-                    }),
-                    $cb = $('<input>', {
-                        type: 'checkbox',
-                        value: d
+                            let input = $('<input placeholder="Search" class="form-control">');
+                            input.className = "";
+                            input.type = "text";
+                            mainDiv.append(input);
+
+                            input.on('keyup', () => {
+                                if (column.search() !== this.value) {
+                                    column.search(input.val()).draw();
+                                }
+                            });
+                            return;
+
+                        }
+
+                        var ddmenu = cbDropdown($(column.header()))
+                            .on('change', ':checkbox', function() {
+                                var active;
+                                var vals = $(':checked', ddmenu).map(function(index,
+                                    element) {
+                                    active = true;
+                                    return $.fn.dataTable.util.escapeRegex($(
+                                        element).val());
+                                }).toArray().join('|');
+
+                                column
+                                    .search(vals.length > 0 ? '^(' + vals + ')$' : '', true,
+                                        false)
+                                    .draw();
+
+                                // Highlight the current item if selected.
+                                if (this.checked) {
+                                    $(this).closest('li').addClass('active');
+                                } else {
+                                    $(this).closest('li').removeClass('active');
+                                }
+
+                                // Highlight the current filter if selected.
+                                var active2 = ddmenu.parent().is('.active');
+                                if (active && !active2) {
+                                    ddmenu.parent().addClass('active');
+                                } else if (!active && active2) {
+                                    ddmenu.parent().removeClass('active');
+                                }
+                            });
+
+                        column.data().unique().sort().each(function(d, j) {
+                            var
+                                $label = $('<label>'),
+                                $text = $('<span>', {
+                                    text: d
+                                }),
+                                $cb = $('<input>', {
+                                    type: 'checkbox',
+                                    value: d
+                                });
+
+                            $text.appendTo($label);
+                            $cb.appendTo($label);
+
+
+                            ddmenu.append($('<li>').append($label));
+                        });
                     });
-
-                $text.appendTo($label);
-                $cb.appendTo($label);
-
-
-                ddmenu.append($('<li>').append($label));
+                },
+                "columnDefs": [{
+                    "targets": 0,
+                    "orderable": true
+                }]
             });
         });
-    },
-    "columnDefs": [{
-        "targets": 0,
-        "orderable": false
-    }]
-});
-});
         $(document).ready(function() {
 
             // var table = $('#datatable3').DataTable({
