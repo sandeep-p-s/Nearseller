@@ -145,7 +145,7 @@ class OfferController extends Controller
         $LogDetails->log_time = $time;
         $LogDetails->status = $msg;
         $LogDetails->save();
-        return redirect()->route('list.shop_offer')->with('success', 'Shop Offer saved successfully');
+        return redirect()->route('addlist.shop_offer')->with('success', 'Shop Offer saved successfully');
     }
 
     public function edit_shop_offer($id)
@@ -163,7 +163,7 @@ class OfferController extends Controller
         $shopoffer = Offer::find($id);
 
         if (!$shopoffer) {
-            return redirect()->route('list.shop_offer')->with('error', 'Shop offer not found.');
+            return redirect()->route('list.shop_offer')->with('error', 'Seller offer not found.');
         }
         $roleIdsArray = explode(',', $roleid);
         if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray))) {
@@ -187,7 +187,7 @@ class OfferController extends Controller
         $time = date('Y-m-d H:i:s');
         $shopoffer = Offer::find($id);
         if (!$shopoffer) {
-            return redirect()->route('list.shopoffer')->with('error', 'Shop offer not found.');
+            return redirect()->route('list.shopoffer')->with('error', 'Seller offer not found.');
         }
 
         $validator = Validator::make(
@@ -242,7 +242,7 @@ class OfferController extends Controller
         $LogDetails->log_time = $time;
         $LogDetails->status = $msg;
         $LogDetails->save();
-        return redirect()->route('list.shop_offer')->with('success', 'Shop offer updated successfully.');
+        return redirect()->route('addlist.shop_offer')->with('success', 'Seller offer updated successfully.');
     }
 
     public function delete_shop_offer($id)
@@ -256,7 +256,7 @@ class OfferController extends Controller
         $shopoffer = Offer::find($id);
 
         if (!$shopoffer) {
-            return redirect()->route('list.shop_offer')->with('error', 'Shop offer not found.');
+            return redirect()->route('list.shop_offer')->with('error', 'Seller offer not found.');
         }
         $upload_path = 'uploads/shop_offer/';
         $file_path = $shopoffer->offer_image;
@@ -274,7 +274,7 @@ class OfferController extends Controller
         $LogDetails->log_time = $time;
         $LogDetails->status = $msg;
         $LogDetails->save();
-        return redirect()->route('list.shop_offer')->with('success', 'Shop offer deleted successfully.');
+        return redirect()->route('list.shop_offer')->with('success', 'Seller offer deleted successfully.');
     }
     public function approved_shopoffer($id)
     {
@@ -291,7 +291,7 @@ class OfferController extends Controller
         $shopoffer = Offer::find($id);
 
         if (!$shopoffer) {
-            return redirect()->route('list.shop_offer')->with('error', 'Shop offer not found.');
+            return redirect()->route('list.shop_offer')->with('error', 'Seller offer not found.');
         }
         $roleIdsArray = explode(',', $roleid);
         if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray))) {
@@ -314,7 +314,7 @@ class OfferController extends Controller
         $time = date('Y-m-d H:i:s');
         $shopoffer = Offer::find($id);
         if (!$shopoffer) {
-            return redirect()->route('list.shopoffer')->with('error', 'Shop offer not found.');
+            return redirect()->route('list.shopoffer')->with('error', 'Seller offer not found.');
         }
 
         $validator = Validator::make(
@@ -401,7 +401,7 @@ class OfferController extends Controller
         $LogDetails->save();
 
         if ($flg == 1) {
-            return response()->json(['result' => 1, 'mesge' => 'Shop Offer Successfully Approved']);
+            return response()->json(['result' => 1, 'mesge' => 'Seller Offer Successfully Approved']);
         } else {
             return response()->json(['result' => 2, 'mesge' => 'Not Approved']);
         }
@@ -515,7 +515,7 @@ class OfferController extends Controller
         $LogDetails->log_time = $time;
         $LogDetails->status = $msg;
         $LogDetails->save();
-        return redirect()->route('list.service_offer')->with('success', 'Service Offer saved successfully');
+        return redirect()->route('addlist.service_offer')->with('success', 'Service Offer saved successfully');
     }
 
     public function edit_service_offer(Request $request, $id)
@@ -606,7 +606,7 @@ class OfferController extends Controller
         $LogDetails->log_time = $time;
         $LogDetails->status = $msg;
         $LogDetails->save();
-        return redirect()->route('list.service_offer')->with('success', 'Service offer updated successfully.');
+        return redirect()->route('addlist.service_offer')->with('success', 'Service offer updated successfully.');
     }
 
     public function delete_service_offer($id)
