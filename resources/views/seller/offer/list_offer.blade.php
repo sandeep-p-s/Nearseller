@@ -49,7 +49,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-
+                        <input type="hidden" id="hidroleid" name="hidroleid" value="{{ session('roleid') }}" />
                         <div class="card-body">
                             <div class="text-center">
                                 <span class="badge badge-soft-info p-2">
@@ -221,8 +221,17 @@
                         this.api().columns().every(function() {
                             var column = this;
                             var colIndex = column[0][0];
+                            var hidroleid=$('#hidroleid').val();
+                            if(hidroleid==1 || hidroleid==11)
+                            {
                             var excludeColumns = [0, 1, 6];
                             var textColumns = [1, 2];
+                            }
+                            else{
+                                var excludeColumns = [0, 5];
+                                var textColumns = [1];
+
+                            }
 
                             if (jQuery.inArray(colIndex, excludeColumns) !== -1)
                                 return;
