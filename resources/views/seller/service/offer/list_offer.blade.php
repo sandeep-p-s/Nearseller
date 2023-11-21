@@ -211,6 +211,7 @@
                 } else if (currentPagePath === "/listserviceoffer") {
                     $(".view_btn1").removeClass("d-none");
                     $(".approve_btn").addClass("d-none");
+                    $(".checkboxcol").addClass("d-none");
                     $(".typecol").addClass("d-none");
                     $("#approveAllBtn").addClass("d-none");
                 }
