@@ -229,7 +229,7 @@
                                                 <!--end card-header-->
                                                 <div class="card-body">
                                                     <input type="file" id="input-file-now-custom-3" class="dropify"
-                                                        data-default-file="" name="image" id="image" />
+                                                        data-default-file="" name="image" id="image" accept="image/png, image/jpeg"/>
                                                 </div><!--end card-body-->
                                             </div><!--end card-->
                                         </div>

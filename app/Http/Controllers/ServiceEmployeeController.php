@@ -100,7 +100,7 @@ class ServiceEmployeeController extends Controller
             'present_state' => 'required|exists:state,id',
             'present_district' => 'required|exists:district,id',
             'present_pincode' => 'required|string|max:6',
-            'image' => 'required|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'required|mimes:jpeg,png,jpg|max:2048',
 
         ]);
 
@@ -229,7 +229,7 @@ class ServiceEmployeeController extends Controller
             'present_state' => 'required|exists:state,id',
             'present_district' => 'required|exists:district,id',
             'present_pincode' => 'required|string|max:6',
-            'image' => 'required|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'required|mimes:jpeg,png,jpg|max:2048',
         ]);
 
 
