@@ -448,8 +448,8 @@ Route::middleware(['role'])->group(function () {
     });
 
     Route::controller(ServiceNewController::class)->group(function () {
-        Route::get('listallservice', 'ServiceProductListView')->name('user.serviceslist');
-        Route::get('listallserviceapp', 'ServiceProductListView')->name('user.listallserviceapp');
+        Route::get('listallservice/{id}', 'ServiceProductListView')->name('user.listallservice');
+        Route::get('listallserviceapp', 'ServiceProductListViewApp')->name('user.listallserviceapp');
         Route::post('allserviceview', 'AllServiceProductList')->name('serviceproduct.allserviceproductview');
         Route::post('addnewservice', 'AdmNewServiceAdd')->name('AdmNewServiceAdd');
         Route::post('serviceviewedit', 'AdmServiceViewEdit')->name('serviceNewViewEdit');

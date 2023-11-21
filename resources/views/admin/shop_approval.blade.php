@@ -168,11 +168,14 @@
                 var currentPageUrl = window.location.href;
                 if (currentPageUrl.includes("/shopapprovals/")) {
                     $("#addSellerButton").addClass("d-none");
+                    $(".page-title").text("{{ $shoporservice }} Approval List");
                 } else {
                     $("#addSellerButton").removeClass("d-none");
+                    $(".page-title").text("{{ $shoporservice }} List");
                 }
             });
 
+        
 
             function shwdets() {
                 $('#loading-overlay').fadeIn();

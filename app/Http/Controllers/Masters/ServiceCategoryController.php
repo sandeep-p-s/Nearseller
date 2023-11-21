@@ -58,21 +58,14 @@ class ServiceCategoryController extends Controller
         ]);
 
         $servicecategory = new ServiceCategory;
-
-        $words = explode(" ", $request->service_category_name);
-        $words[0] = ucfirst($words[0]);
-        if (isset($words[1])) {
-            $words[1] = ucfirst($words[1]);
-        }
-        $capitalizedName = implode(" ", $words);
-
-        $servicecategory->service_category_name = $capitalizedName;
+        $servicecategory->service_category_name = ucwords($request->service_category_name);
         $servicecategory->business_type_id = $request->business_name;
         $servicecategory->save();
 
         return redirect()->route('list.servicecategory')->with('success', 'Service Category added successfully.');
     }
 
+    
 
     public function edit_service_category($id)
     {

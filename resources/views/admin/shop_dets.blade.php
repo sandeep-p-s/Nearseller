@@ -390,16 +390,16 @@
         @if (session('roleid') == '1' || session('roleid') == '11')
             <div class="text-center">
                 <span class="badge badge-soft-info p-2">
-                    Total Active {{ $shoporservice }} : {{ $activecounts->user_status_y_count }}
+                     Active {{ $shoporservice }} : {{ $activecounts->user_status_y_count }}
                 </span>
                 <span class="badge badge-soft-danger p-2">
-                    Total Inactive {{ $shoporservice }} : {{ $activecounts->user_status_not_y_count }}
+                     Inactive {{ $shoporservice }} : {{ $activecounts->user_status_not_y_count }}
                 </span>
                 <span class="badge badge-soft-info p-2">
-                    Total Approved {{ $shoporservice }} : {{ $activecounts->approved_y_count }}
+                     Approved {{ $shoporservice }} : {{ $activecounts->approved_y_count }}
                 </span>
                 <span class="badge badge-soft-danger p-2">
-                    Total Not Approved {{ $shoporservice }} : {{ $activecounts->approved_not_y_count }}
+                     Not Approved {{ $shoporservice }} : {{ $activecounts->approved_not_y_count }}
                 </span>
             </div>
         @endif
@@ -500,6 +500,13 @@
                                             onclick="shopvieweditdet({{ $sellerDetail->id }},{{ $typeid }})">View/Edit</a>
                                         <a class="dropdown-item approve_btn" href="#"
                                             onclick="shopapprovedet({{ $sellerDetail->id }},{{ $typeid }})">Activation/Approval</a>
+
+
+
+                                        <a class="dropdown-item view_btn1" id="viewbtn" href="{{ route('user.listallservice', $sellerDetail->id) }}"
+                                            >Add Product Details</a>
+
+
                                         <a class="dropdown-item delete_btn" href="#"
                                             onclick="shopdeletedet({{ $sellerDetail->id }})">Delete</a>
                                     @else
@@ -1123,27 +1130,18 @@
         var currentPageUrl = window.location.href;
 
         if (currentPageUrl.includes("/shopapprovals/")) {
-            $("#viewbtn").addClass("d-none");
+            $(".view_btn1").addClass("d-none");
             $(".approve_btn, .delete_btn").removeClass("d-none");
-        } else if (currentPageUrl.includes("/shopapprovalsadd/")) {
-            $("#viewbtn").removeClass("d-none");
-            $(".approve_btn").addClass("d-none");
-        }
-    });
-    $(document).ready(function() {
-        var currentPageUrl = window.location.href;
-
-        // Check if the current page is the "shopapprovals/" page
-        if (currentPageUrl.includes("/shopapprovals/")) {
-            // On the "shopapprovals/" page, show checkbox columns and approve all button
             $(".checkboxcol").removeClass("d-none");
             $("#approveAllBtn").removeClass("d-none");
         } else if (currentPageUrl.includes("/shopapprovalsadd/")) {
-            // On the "shopapprovalsadd/" page, hide checkbox columns and approve all button
+            $(".view_btn1").removeClass("d-none");
+            $(".approve_btn").addClass("d-none");
             $(".checkboxcol").addClass("d-none");
             $("#approveAllBtn").addClass("d-none");
         }
     });
+
 
     function numberOnlyAllowed(inputElement) {
         let value = inputElement.value.replace(/\D/g, '');
