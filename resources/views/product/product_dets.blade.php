@@ -602,6 +602,7 @@
                 this.api().columns().every(function() {
                     var column = this;
                     var colIndex = column[0][0];
+                    var hidroleid = $('#hidroleid').val();
                     if (hidroleid == 1 || hidroleid == 11) {
                             var excludeColumns = [0, 1, 7];
                             var textColumns = [2, 3, 4  ];
