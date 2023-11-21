@@ -45,7 +45,7 @@
                                                 id="serviceuser_name" name="serviceuser_name" tabindex="1">
                                                 <option value="">Select Service User</option><br />
                                                 @foreach ($userservicedets as $serviceuser)
-                                                    <option value="{{ $serviceuser->id }}">{{ $serviceuser->name }}</option>
+                                                    <option value="{{ $serviceuser->id }}" @if($serviceuser->id ==session('user_id')){{'selected'}} @endif>{{ $serviceuser->name }}</option>
                                                 @endforeach
                                             </select>
                                             @error('serviceuser_name')

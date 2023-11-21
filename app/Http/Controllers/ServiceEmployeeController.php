@@ -89,7 +89,7 @@ class ServiceEmployeeController extends Controller
             'employee_id' => 'required|string|max:50|unique:service_employees',
             'designation' => 'required|string|max:80',
             'joining_date' => 'required|date',
-            'aadhar_no' => 'required|string|max:14|regex:/^[2-9]\d{3}\s\d{4}\s\d{4}$/',
+            'aadhar_no' => 'required|string|max:12',
             'permanent_address' => 'required|string',
             'country' => 'required|exists:country,id',
             'state' => 'required|exists:state,id',
