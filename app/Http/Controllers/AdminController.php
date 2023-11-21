@@ -1966,23 +1966,26 @@ class AdminController extends Controller
         $time = date('Y-m-d H:i:s');
         $shopid = $request->input('userid');
         $sellerDetail = SellerDetails::find($shopid);
-        // $user = UserAccount::find($sellerDetail->user_id);
-        // if ($user) {
-        //     $user->delete();
-        // }
-        // $deltesellerDetail = $sellerDetail->delete();
-        // $delteuser = $user->delete();
+        $user = UserAccount::find($sellerDetail->user_id);
+        if ($user) {
+            $user->delete();
+        }
+        $deltesellerDetail = $sellerDetail->delete();
+        $delteuser = $user->delete();
         $ProductDetails = ServiceDetails::where('service_provider_id', $shopid)->get();
         //echo count($ProductDetails);exit;
         if(count($ProductDetails)>0)
         {
-        $ServiceDetails                 = ServiceDetails::where('service_provider_id', $ProductDetails->service_provider_id)->delete();
-        $ServiceEmployee                = ServiceEmployee::where('user_id', $ProductDetails->service_provider_id)->delete();
-        $delteProductAttributesDetail   = AddServiceAttribute::where('service_id', $ProductDetails->id)->delete();
-        $appointmentDetail              = ServiceAppointment::where('service_id', $ProductDetails->id)->delete();
-        $notavailabledateDetail         = NotAvailableDate::where('service_id', $ProductDetails->id)->delete();
-        $AppointmentAvailableDayTime    = AppointmentAvailableDayTime::where('service_id', $ProductDetails->id)->delete();
-        $AppointmentSetQuestion         = SetQuestion::where('service_id', $ProductDetails->id)->delete();
+            foreach($ProductDetails as $prodservice)
+            {
+                $ServiceDetails                 = ServiceDetails::where('service_provider_id', $shopid)->delete();
+                $ServiceEmployee                = ServiceEmployee::where('user_id', $shopid)->delete();
+                $delteProductAttributesDetail   = AddServiceAttribute::where('service_id', $prodservice->id)->delete();
+                $appointmentDetail              = ServiceAppointment::where('service_id', $prodservice->id)->delete();
+                $notavailabledateDetail         = NotAvailableDate::where('service_id', $prodservice->id)->delete();
+                $AppointmentAvailableDayTime    = AppointmentAvailableDayTime::where('service_id', $prodservice->id)->delete();
+                $AppointmentSetQuestion         = SetQuestion::where('service_id', $prodservice->id)->delete();
+            }
         }
         $msg = 'Shop Deleted =  ' . $user->email . ' shop deleted id : ' . $sellerDetail->user_id;
         $LogDetails = new LogDetails();
