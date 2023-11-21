@@ -14,8 +14,10 @@
                         <div class="row">
                             <div class="col">
                                 <h4 class="page-title">Edit Employee</h4>
-                                <a href="{{ route('list.service_employee', $service_emp->user_id) }}" class="btn btn-danger">Back</a>
                             </div>
+                            <div class="col-auto align-self-center">
+                                <a href="{{ route('list.service_employee', $service_emp->user_id) }}" class="btn btn-danger">Back</a>
+                            </div><!--end col-->
 
                         </div><!--end row-->
                     </div><!--end page-title-box-->

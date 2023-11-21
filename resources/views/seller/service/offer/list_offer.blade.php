@@ -48,6 +48,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
+                        <input type="hidden" id="hidroleid" name="hidroleid" value="{{ session('roleid') }}"/>
 
                         <div class="card-body">
                             <div class="text-center">
@@ -64,6 +65,10 @@
                                     Not Approved Offers : {{ $notapproved_offers }}
                                 </span>
                             </div>
+                            @php
+                            $totalservice_offer = count($service_offer);
+                        @endphp
+                        @if ($totalservice_offer>0)
                             <table id="datatable3" class="table table-striped table-bordered" style="width: 100%;">
                                 <thead>
                                     <tr>
@@ -82,9 +87,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @php
-                                        $totalservice_offer = count($service_offer);
-                                    @endphp
+
                                     @if ($service_offer)
                                         @foreach ($service_offer as $index => $se)
                                             <tr>
@@ -180,6 +183,16 @@
                                         All</button>
                                 </div>
                             @endif
+                            @else
+                            <table>
+                                <tr>
+                                    <td colspan="13" align="center">
+                                        <img src="{{ asset('backend/assets/images/notfoundimg.png') }}" alt="notfound" class="rounded-circle"
+                                            style="width: 30%;" />
+                                    </td>
+                                </tr>
+                            </table>
+                            @endif
                         </div>
                     </div>
                 </div> <!-- end col -->
@@ -217,8 +230,17 @@
                         this.api().columns().every(function() {
                             var column = this;
                             var colIndex = column[0][0];
+                            var hidroleid=$('#hidroleid').val();
+                            if(hidroleid==1 || hidroleid==11)
+                            {
                             var excludeColumns = [0, 1, 6];
                             var textColumns = [1, 2];
+                            }
+                            else{
+                                var excludeColumns = [0, 5];
+                                var textColumns = [1];
+
+                            }
 
                             if (jQuery.inArray(colIndex, excludeColumns) !== -1)
                                 return;

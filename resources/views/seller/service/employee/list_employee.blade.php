@@ -13,13 +13,14 @@
                         <div class="row">
                             <div class="col">
                                 <h4 class="page-title">Employees</h4>
-                                <div class="col text-left">
+                                {{-- <div class="col text-left">
                                     <a href="{{ route('admin.shopapprovalsadd', 2) }}" class="btn btn-danger">Back</a>
-                                </div>
+                                </div> --}}
 
                             </div>
 
                             <div class="col-auto align-self-center">
+                                <a href="{{ route('admin.shopapprovalsadd', 2) }}" class="btn btn-danger">Back</a>
                                 <a href="{{ route('add.service_employee', $serviceid) }}"><button type="button"
                                         class="btn add_btn ">Add
                                         Employee </button></a>

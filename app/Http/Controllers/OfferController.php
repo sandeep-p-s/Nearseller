@@ -70,10 +70,12 @@ class OfferController extends Controller
         $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        $usershopdets = DB::table('user_account')
-            ->select('id', 'name')
-            ->where('role_id', 2)
-            ->get();
+        // $usershopdets = DB::table('user_account')
+        //     ->select('id', 'name')
+        //     ->where('role_id', 2)
+        //     ->get();
+        $usershopdets = DB::select("SELECT id,name FROM user_account WHERE FIND_IN_SET('2', role_id)");
+
         $roleIdsArray = explode(',', $roleid);
         if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray))) {
             $selrdetails = DB::table('seller_details')->select('busnes_type', 'term_condition')
@@ -439,10 +441,12 @@ class OfferController extends Controller
         $loggeduser = UserAccount::sessionValuereturn_s($roleid);
         $userdetails    = DB::table('user_account')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        $userservicedets = DB::table('user_account')
-            ->select('id', 'name')
-            ->where('role_id', 9)
-            ->get();
+        // $userservicedets = DB::table('user_account')
+        //     ->select('id', 'name')
+        //     ->where('role_id', 9)
+        //     ->get();
+        $userservicedets = DB::select("SELECT id,name FROM user_account WHERE FIND_IN_SET('9', role_id)");
+
         $roleIdsArray = explode(',', $roleid);
         if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray))) {
             $selrdetails = DB::table('seller_details')->select('busnes_type', 'term_condition')
