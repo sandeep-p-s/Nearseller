@@ -79,7 +79,7 @@ class AdminController extends Controller
         } elseif (in_array('9', $roleIdsArray)) {
             $countproductuser = 0;
             $countserviceuser = DB::table('service_details')
-                ->where('service_id', $userId)
+                ->where('service_provider_id', $userId)
                 ->count();
 
         } else {
