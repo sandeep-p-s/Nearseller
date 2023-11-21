@@ -36,10 +36,18 @@
             @endphp
             @if ($sellerDetailh->seller_approved != 'Y')
                 <div class="col text-right">
-                    <a class="btn add_btn" href="#"
-                        onclick="shopvieweditdet({{ $sellerDetailh->id }},{{ $typeid }})">Edit Details</a>
+
                 </div>
             @endif
+            @if ($typeid== '2')
+                <div class="col text-left">
+                    <a class="btn add_btn" id="viewbtn" href="{{ route('list.service_employee', $sellerDetailh->id) }}"
+                        >Employee</a>
+                    <a class="btn add_btn" id="viewbtn" href="{{ route('user.listallservice', $sellerDetailh->id) }}"
+                        >Add Product Details</a>
+                </div>
+            @endif
+
 
             <div class="row">
                 <div class="col-12">
@@ -500,7 +508,7 @@
                                             onclick="shopvieweditdet({{ $sellerDetail->id }},{{ $typeid }})">View/Edit</a>
                                         <a class="dropdown-item approve_btn" href="#"
                                             onclick="shopapprovedet({{ $sellerDetail->id }},{{ $typeid }})">Activation/Approval</a>
-                                            <a class="dropdown-item view_btn1" id="viewbtn" href="{{ route('list.service_employee', $sellerDetail->id) }}"
+                                        <a class="dropdown-item view_btn1" id="viewbtn" href="{{ route('list.service_employee', $sellerDetail->id) }}"
                                             >Employee</a>
                                         <a class="dropdown-item view_btn1" id="viewbtn" href="{{ route('user.listallservice', $sellerDetail->id) }}"
                                             >Add Product Details</a>
