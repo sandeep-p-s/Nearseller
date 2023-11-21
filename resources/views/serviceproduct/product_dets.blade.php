@@ -10,6 +10,7 @@
             box-sizing: border-box;
         }
     </style> --}}
+    <input type="hidden" id="hidroleid" name="hidroleid" value="{{ session('roleid') }}" />
     @if (session('roleid') == '1' || session('roleid') == '11')
         <div class="text-center">
             <span class="badge badge-soft-info p-2">
@@ -771,17 +772,17 @@
                     var column = this;
                     var colIndex = column[0][0];
                     var hidroleid = $('#hidroleid').val();
-                    // if (hidroleid == 1 || hidroleid == 11) {
-                    //     var excludeColumns = [0, 1, 5];
-                    //     var textColumns = [2];
-                    // } else {
-                    //     var excludeColumns = [0, 4];
-                    //     var textColumns = [1];
-
-                    // }
-
-                    var excludeColumns = [0, 1, 7];
+                    if (hidroleid == 1 || hidroleid == 11) {
+                        var excludeColumns = [0, 1, 7];
                     var textColumns = [2, 3, 4];
+                    } else {
+                        var excludeColumns = [0, 6];
+                        var textColumns = [1,2,3];
+
+                    }
+
+                    // var excludeColumns = [0, 1, 7];
+                    // var textColumns = [2, 3, 4];
                     if (jQuery.inArray(colIndex, excludeColumns) !== -1)
                         return;
 
