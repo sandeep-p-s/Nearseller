@@ -48,6 +48,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
+                        <input type="hidden" id="hidroleid" name="hidroleid" value="{{ session('roleid') }}" />
                         <div class="card-body">
                             <div class="d-flex justify-content-center align-items-center mb-2">
                                 <span class="badge badge-soft-info p-2 ml-2">Active Categories :
@@ -229,8 +230,16 @@
                     this.api().columns().every(function() {
                         var column = this;
                         var colIndex = column[0][0];
-                        var excludeColumns = [0, 1, 5];
-                        var textColumns = [2];
+                        var hidroleid = $('#hidroleid').val();
+                        if (hidroleid == 1 || hidroleid == 11) {
+                            var excludeColumns = [0, 1, 5];
+                            var textColumns = [2];
+                        } else {
+                            var excludeColumns = [0, 4];
+                            var textColumns = [1];
+
+                        }
+
 
                         if (jQuery.inArray(colIndex, excludeColumns) !== -1)
                             return;

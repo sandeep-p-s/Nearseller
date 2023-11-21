@@ -1,5 +1,5 @@
 @if ($ProductCount > 0)
-    <style>
+    {{-- <style>
         tfoot {
             display: table-header-group;
         }
@@ -9,7 +9,7 @@
             padding: 3px;
             box-sizing: border-box;
         }
-    </style>
+    </style> --}}
     @if (session('roleid') == '1' || session('roleid') == '11')
         <div class="text-center">
             <span class="badge badge-soft-info p-2">
@@ -33,7 +33,7 @@
         </div>
     @endif
     <table id="datatable3" class="table table-striped table-bordered" style="width: 100%">
-        <tfoot>
+        {{-- <tfoot>
             <tr>
                 @if (session('roleid') == '1' || session('roleid') == '11')
                     <th style="border: 0px solid #eaf0f7"></th>
@@ -46,7 +46,7 @@
                 <th style="border: 0px solid #eaf0f7">Approval Status</th>
                 <th style="border: 0px solid #eaf0f7"></th>
             </tr>
-        </tfoot>
+        </tfoot> --}}
         <thead>
             <tr>
                 {{-- <th>Approved all<input type='checkbox' name='checkbox1' id='checkbox1' onclick='check();' /></th> --}}
@@ -77,14 +77,39 @@
                     <td>SER{{ str_pad($prodDetails->id, 9, '0', STR_PAD_LEFT) }}</td>
                     <td>{{ $prodDetails->service_name }}</td>
                     <td>{{ $prodDetails->shopname }}</td>
-                    <td><span
+                    <td>
+                        {{-- <span
                             class="badge p-2 {{ $prodDetails->service_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
                             {{ $prodDetails->service_status === 'Y' ? 'Available' : 'Not Available' }}
-                        </span></td>
-                    <td><span
+                        </span> --}}
+                        @if ($prodDetails->service_status === 'Y')
+                            @php
+                                $prtatus = 'Available';
+                            @endphp
+                        @else
+                            @php
+                                $prtatus = 'Not Available';
+                            @endphp
+                        @endif
+                        {{ $prtatus }}
+
+                    </td>
+                    <td>
+                        {{-- <span
                             class="badge p-2 {{ $prodDetails->is_approved === 'Y' ? 'badge badge-success' : ($prodDetails->is_approved === 'N' ? 'badge badge-info' : 'badge badge-danger') }}">
                             {{ $prodDetails->is_approved === 'Y' ? 'Yes' : ($prodDetails->is_approved === 'N' ? 'No' : 'Rejected') }}
-                        </span></td>
+                        </span> --}}
+                        @if ($prodDetails->is_approved === 'Y')
+                            @php
+                                $praprvtatus = 'Yes';
+                            @endphp
+                        @else
+                            @php
+                                $praprvtatus = 'No';
+                            @endphp
+                        @endif
+                        {{ $praprvtatus }}
+                    </td>
                     <td>
                         <div class="btn-group mb-2 mb-md-0">
                             <button type="button" class="btn view_btn dropdown-toggle" data-toggle="dropdown"
@@ -184,79 +209,79 @@
                                     </div>
 
                                     <div class="form-group d-none"><label>Set Availability Dates<span
-                                        class="text-danger">*</span></label>
-                                <select class="form-select form-control form-control-lg" id="setavailbledate"
-                                    name="setavailbledate" required tabindex="1">
-                                    {{-- <option value="">Select</option><br /> --}}
-                                    <option value="1">Avialability Date</option><br />
-                                </select>
-                                <div for="setavailbledate" class="error"></div>
-                            </div>
-                            <div class="form-group"><label>Set Availability Dates<span
-                                        class="text-danger">*</span></label>
+                                                class="text-danger">*</span></label>
+                                        <select class="form-select form-control form-control-lg" id="setavailbledate"
+                                            name="setavailbledate" required tabindex="1">
+                                            {{-- <option value="">Select</option><br /> --}}
+                                            <option value="1">Avialability Date</option><br />
+                                        </select>
+                                        <div for="setavailbledate" class="error"></div>
+                                    </div>
+                                    <div class="form-group"><label>Set Availability Dates<span
+                                                class="text-danger">*</span></label>
 
-                            </div>
-                            {{-- style="display: none;" --}}
-                            <div class="form-group" id="dateFields">
-                                <div class="input-group">
-                                    <div class="col-lg-5">
-                                        <label for="setavailblefromdate">From Date</label>
-                                        <input type="date" class="form-control form-control-lg"
-                                            id="setavailblefromdate" name="setavailblefromdate" required
-                                            tabindex="2">
                                     </div>
-                                    <div class="col-lg-4">
-                                        <label for="setavailbletodate">To Date</label>
-                                        <input type="date" class="form-control form-control-lg"
-                                            id="setavailbletodate" name="setavailbletodate" required
-                                            tabindex="3">
-                                    </div>
-                                    <div class="col-lg-3"><label for="isnotavailable">Not Available</label>
-                                        <input class="form-control" type="checkbox" id="isnotavailable"
-                                            name="isnotavailable" value="1" style="width: 10%;">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group" id="singleDateField" style="display: none;">
-                                <fieldset>
-                                    <div class="repeater-default-date">
-                                        <div data-repeater-list="notavailabledate_data">
-                                            <!-- Heading Row -->
-                                            <div class="form-group row">
-                                                <div class="col">
-                                                    <label class="control-label"> Not Available Date </label>
-                                                </div>
+                                    {{-- style="display: none;" --}}
+                                    <div class="form-group" id="dateFields">
+                                        <div class="input-group">
+                                            <div class="col-lg-5">
+                                                <label for="setavailblefromdate">From Date</label>
+                                                <input type="date" class="form-control form-control-lg"
+                                                    id="setavailblefromdate" name="setavailblefromdate" required
+                                                    tabindex="2">
                                             </div>
-                                            <!-- Dynamic Rows -->
-                                            <div data-repeater-item="">
-                                                <div class="form-group row d-flex align-items-end">
-                                                    <div class="col">
-                                                        <input type="date"
-                                                            class="form-control form-control-lg"
-                                                            name="setavailblesingledate" tabindex="4">
-                                                        <div class="dateValidationMessage"
-                                                            style="color: red;"></div>
+                                            <div class="col-lg-4">
+                                                <label for="setavailbletodate">To Date</label>
+                                                <input type="date" class="form-control form-control-lg"
+                                                    id="setavailbletodate" name="setavailbletodate" required
+                                                    tabindex="3">
+                                            </div>
+                                            <div class="col-lg-3"><label for="isnotavailable">Not Available</label>
+                                                <input class="form-control" type="checkbox" id="isnotavailable"
+                                                    name="isnotavailable" value="1" style="width: 10%;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="singleDateField" style="display: none;">
+                                        <fieldset>
+                                            <div class="repeater-default-date">
+                                                <div data-repeater-list="notavailabledate_data">
+                                                    <!-- Heading Row -->
+                                                    <div class="form-group row">
+                                                        <div class="col">
+                                                            <label class="control-label"> Not Available Date </label>
+                                                        </div>
                                                     </div>
-                                                    <div class="col">
-                                                        <span data-repeater-delete=""
-                                                            class="btn btn-danger btn-sm">
-                                                            <span class="far fa-trash-alt mr-1"></span> Delete
+                                                    <!-- Dynamic Rows -->
+                                                    <div data-repeater-item="">
+                                                        <div class="form-group row d-flex align-items-end">
+                                                            <div class="col">
+                                                                <input type="date"
+                                                                    class="form-control form-control-lg"
+                                                                    name="setavailblesingledate" tabindex="4">
+                                                                <div class="dateValidationMessage"
+                                                                    style="color: red;"></div>
+                                                            </div>
+                                                            <div class="col">
+                                                                <span data-repeater-delete=""
+                                                                    class="btn btn-danger btn-sm">
+                                                                    <span class="far fa-trash-alt mr-1"></span> Delete
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group mb-0 row">
+                                                    <div class="col-sm-12 text-right">
+                                                        <span data-repeater-create=""
+                                                            class="btn btn-secondary btn-sm">
+                                                            <span class="fas fa-plus"></span> Add not available dates
                                                         </span>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group mb-0 row">
-                                            <div class="col-sm-12 text-right">
-                                                <span data-repeater-create=""
-                                                    class="btn btn-secondary btn-sm">
-                                                    <span class="fas fa-plus"></span> Add not available dates
-                                                </span>
-                                            </div>
-                                        </div>
+                                        </fieldset>
                                     </div>
-                                </fieldset>
-                            </div>
                                 </div>
                             </div>
 
@@ -425,11 +450,13 @@
                                                                     value="1" style="width: 7%;">
                                                             </div>
                                                             <div class="col-md-2">
-                                                                <select class="form-control"
-                                                                    id="service_employe_id" name="service_employe_id" tabindex="1">
-                                                                    <option value="">Select Employee</option><br />
+                                                                <select class="form-control" id="service_employe_id"
+                                                                    name="service_employe_id" tabindex="1">
+                                                                    <option value="">Select Employee</option>
+                                                                    <br />
                                                                     @foreach ($serviceemployees as $emplye)
-                                                                        <option value="{{ $emplye->id }}">{{ $emplye->employee_name }}
+                                                                        <option value="{{ $emplye->id }}">
+                                                                            {{ $emplye->employee_name }}
                                                                         </option>
                                                                     @endforeach
                                                                 </select>
@@ -479,10 +506,10 @@
                                                             <span class="fas fa-plus"></span> Add New Time
                                                         </span>
                                                         {{-- @if (session('roleid') == '1' || session('roleid') == '11') --}}
-                                                            <button type="button" id="addSameTiming"
-                                                                class="btn btn-primary btn-sm">
-                                                                Add Same Timing for All Days
-                                                            </button>
+                                                        <button type="button" id="addSameTiming"
+                                                            class="btn btn-primary btn-sm">
+                                                            Add Same Timing for All Days
+                                                        </button>
                                                         {{-- @endif --}}
                                                     </div>
                                                 </div>
@@ -701,33 +728,136 @@
 
     $(document).ready(function() {
 
-        var table = $('#datatable3').DataTable({
-            initComplete: function() {
-                this.api()
-                    .columns()
-                    .every(function() {
-                        let column = this;
-                        let title = column.footer().textContent;
-                        if (title == "")
-                            return;
-                        // Create input element
-                        let input = document.createElement('input');
-                        input.className = "form-control form-control-lg";
-                        input.type = "text";
-                        input.placeholder = title;
-                        column.footer().replaceChildren(input);
+        // var table = $('#datatable3').DataTable({
+        //     initComplete: function() {
+        //         this.api()
+        //             .columns()
+        //             .every(function() {
+        //                 let column = this;
+        //                 let title = column.footer().textContent;
+        //                 if (title == "")
+        //                     return;
+        //                 // Create input element
+        //                 let input = document.createElement('input');
+        //                 input.className = "form-control form-control-lg";
+        //                 input.type = "text";
+        //                 input.placeholder = title;
+        //                 column.footer().replaceChildren(input);
 
-                        // Event listener for user input
-                        input.addEventListener('keyup', () => {
+        //                 // Event listener for user input
+        //                 input.addEventListener('keyup', () => {
+        //                     if (column.search() !== this.value) {
+        //                         column.search(input.value).draw();
+        //                     }
+        //                 });
+        //             });
+        //     },
+        //     "columnDefs": [{
+        //         "targets": 0,
+        //         "orderable": false
+        //     }]
+        // });
+        function cbDropdown(column) {
+            return $('<ul>', {
+                'class': 'cb-dropdown form-control'
+            }).appendTo($('<div>', {
+                'class': 'cb-dropdown-wrap '
+            }).appendTo(column));
+        }
+
+        $('#datatable3').DataTable({
+            initComplete: function() {
+                this.api().columns().every(function() {
+                    var column = this;
+                    var colIndex = column[0][0];
+                    var hidroleid = $('#hidroleid').val();
+                    // if (hidroleid == 1 || hidroleid == 11) {
+                    //     var excludeColumns = [0, 1, 5];
+                    //     var textColumns = [2];
+                    // } else {
+                    //     var excludeColumns = [0, 4];
+                    //     var textColumns = [1];
+
+                    // }
+
+                    var excludeColumns = [0, 1, 7];
+                    var textColumns = [2, 3, 4];
+                    if (jQuery.inArray(colIndex, excludeColumns) !== -1)
+                        return;
+
+                    if (jQuery.inArray(colIndex, textColumns) !== -1) {
+
+                        var mainDiv = $('<div>', {
+                            'class': 'cb-textBox-wrap'
+                        }).appendTo($(column.header()));
+
+                        let input = $('<input placeholder="Search" class="form-control">');
+                        input.className = "";
+                        input.type = "text";
+                        mainDiv.append(input);
+
+                        input.on('keyup', () => {
                             if (column.search() !== this.value) {
-                                column.search(input.value).draw();
+                                column.search(input.val()).draw();
                             }
                         });
+                        return;
+
+                    }
+
+                    var ddmenu = cbDropdown($(column.header()))
+                        .on('change', ':checkbox', function() {
+                            var active;
+                            var vals = $(':checked', ddmenu).map(function(index,
+                                element) {
+                                active = true;
+                                return $.fn.dataTable.util.escapeRegex($(
+                                    element).val());
+                            }).toArray().join('|');
+
+                            column
+                                .search(vals.length > 0 ? '^(' + vals + ')$' : '', true,
+                                    false)
+                                .draw();
+
+                            // Highlight the current item if selected.
+                            if (this.checked) {
+                                $(this).closest('li').addClass('active');
+                            } else {
+                                $(this).closest('li').removeClass('active');
+                            }
+
+                            // Highlight the current filter if selected.
+                            var active2 = ddmenu.parent().is('.active');
+                            if (active && !active2) {
+                                ddmenu.parent().addClass('active');
+                            } else if (!active && active2) {
+                                ddmenu.parent().removeClass('active');
+                            }
+                        });
+
+                    column.data().unique().sort().each(function(d, j) {
+                        var
+                            $label = $('<label>'),
+                            $text = $('<span>', {
+                                text: d
+                            }),
+                            $cb = $('<input>', {
+                                type: 'checkbox',
+                                value: d
+                            });
+
+                        $text.appendTo($label);
+                        $cb.appendTo($label);
+
+
+                        ddmenu.append($('<li>').append($label));
                     });
+                });
             },
             "columnDefs": [{
                 "targets": 0,
-                "orderable": false
+                "orderable": true
             }]
         });
 
