@@ -15,7 +15,7 @@ class UseraccountSeeder extends Seeder
      */
     public function run(): void
     {
-        $pass = Hash::make('123456@admin');
+        $pass = Hash::make('123456@adm');
       for($j=1; $j <= 1; $j++)
       {
           $data = [];
@@ -40,7 +40,7 @@ class UseraccountSeeder extends Seeder
                 ];
             }
           }
-          DB::table('user_account')->insert($data);
+          DB::table('users')->insert($data);
         }
     }
 }
