@@ -16,7 +16,7 @@
                             </div>
                             <div class="col">
                                 <div class="button-items d-flex align-items-end flex-column">
-                                    <a href="{{ route('list.shop_offer') }}"><button type="button"
+                                    <a href="{{ route('addlist.shop_offer') }}"><button type="button"
                                             class="btn btn-secondary">Back</button></a>
                                 </div>
                             </div>
@@ -40,8 +40,8 @@
                                     <div class="col-lg-6">
                                         <div class="form-group" {{ $shopshowhide }}>
                                             <label for="service_name">Shop User <span class="text-danger">*</span></label>
-                                            <select class="selectshop  form-control "
-                                                id="serviceuser_name" name="shopeuser_name" tabindex="1">
+                                            <select class="selectshop  form-control"
+                                                id="serviceuser_name" name="shopeuser_name" tabindex="1" required>
                                                 <option value="">Select Shop User</option><br />
                                                 @foreach ($usershopdets as $shopeuser)
                                                     <option value="{{ $shopeuser->id }}">{{ $shopeuser->name }}</option>
@@ -68,11 +68,10 @@
                                                     <div data-repeater-item="">
                                                         <div class="form-group">
 
-                                                            <label class="control-label">Conditions <span
-                                                                    class="text-danger">*</span></label>
+                                                            <label class="control-label">Conditions</label>
                                                             <input type="text" class="form-control" id="conditions"
-                                                                name="conditions" placeholder="Enter conditions"
-                                                                value="{{ old('conditions') }}">
+                                                                name="car[conditions]" placeholder="Enter conditions"
+                                                                value="{{ old('car.conditions') }}">
                                                             @error('conditions')
                                                                 <div class="text-danger mb15">{{ $message }}</div>
                                                             @enderror

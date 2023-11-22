@@ -65,136 +65,123 @@
                                     Not Approved Offers : {{ $notapproved_offers }}
                                 </span>
                             </div>
-                            @php
-                                $totalshop_offer = count($shop_offer);
-                            @endphp
-                            @if ($totalshop_offer > 0)
-                                <table id="datatable3" class="table table-striped table-bordered" style="width: 100%;">
-                                    <thead>
-                                        <tr>
-                                            @if (session('roleid') == 1 || session('roleid') == 11)
-                                                {{-- <th data-sortable="false"><input type='checkbox' name='checkbox1' id='checkbox1'
+                            <table id="datatable3" class="table table-striped table-bordered" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        @if (session('roleid') == 1 || session('roleid') == 11)
+                                            {{-- <th data-sortable="false"><input type='checkbox' name='checkbox1' id='checkbox1'
                                                 onclick='check();' /></th> --}}
-                                                <th width="5px" class="checkboxcol"><input type='checkbox'
-                                                        name='checkbox1' id='checkbox1' class="selectAll" onclick='' />
-                                                </th>
-                                            @endif
-                                            <th>S.No.</th>
-                                            <th>Offers</th>
-                                            <th class="typecol">Business Type</th>
-                                            <th>Active Status</th>
-                                            <th>Approval Status</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        @if ($shop_offer)
-                                            @foreach ($shop_offer as $index => $so)
-                                                <tr>
-                                                    @if (session('roleid') == 1 || session('roleid') == 11)
-                                                        <td width="8%" class="checkboxcol"><input name="shopofferid[]"
-                                                                type="checkbox" id="shopofferid{{ $loop->iteration }}"
-                                                                value="{{ $so->id }}"
-                                                                {{ $so->approval_status === 'Y' ? '' : '' }} />
-                                                        </td>
-                                                    @endif
-                                                    <td width="8%">{{ $loop->iteration }}</td>
-                                                    <td>{{ $so->offer_to_display }}</td>
-                                                    <td class="typecol">
-                                                        @if ($so->type == 1)
-                                                            Shop
-                                                        @elseif ($so->type == 2)
-                                                            Services
-                                                        @else
-                                                            Unknown Type
-                                                        @endif
+                                            <th width="5px" class="checkboxcol"><input type='checkbox' name='checkbox1' id='checkbox1'
+                                                    class="selectAll" onclick='' /></th>
+                                        @endif
+                                        <th>S.No.</th>
+                                        <th>Offers</th>
+                                        <th class="typecol">Business Type</th>
+                                        <th>Active Status</th>
+                                        <th>Approval Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                        $totalshop_offer = count($shop_offer);
+                                    @endphp
+                                    @if ($shop_offer)
+                                        @foreach ($shop_offer as $index => $so)
+                                            <tr>
+                                                @if (session('roleid') == 1 || session('roleid') == 11)
+                                                    <td width="8%" class="checkboxcol"><input name="shopofferid[]" type="checkbox"
+                                                            id="shopofferid{{ $loop->iteration }}"
+                                                            value="{{ $so->id }}"
+                                                            {{ $so->approval_status === 'Y' ? '' : '' }} />
                                                     </td>
-                                                    <td width="10%">
-                                                        {{-- <span
+                                                @endif
+                                                <td width="8%">{{ $loop->iteration }}</td>
+                                                <td>{{ $so->offer_to_display }}</td>
+                                                <td class="typecol">
+                                                    @if ($so->type == 1)
+                                                        Shop
+                                                    @elseif ($so->type == 2)
+                                                        Services
+                                                    @else
+                                                        Unknown Type
+                                                    @endif
+                                                </td>
+                                                <td width="10%">
+                                                    {{-- <span
                                                         class="badge p-2 {{ $so->status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
                                                         {{ $so->status === 'Y' ? 'Active' : 'Inactive' }}
                                                     </span> --}}
-                                                        @if ($so->status === 'Y')
-                                                            @php
-                                                                $offer_status = 'Active';
-                                                            @endphp
-                                                        @else
-                                                            @php
-                                                                $offer_status = 'Inctive';
-                                                            @endphp
-                                                        @endif
+                                                    @if ($so->status === 'Y')
+                                                        @php
+                                                            $offer_status = 'Active';
+                                                        @endphp
+                                                    @else
+                                                        @php
+                                                            $offer_status = 'Inctive';
+                                                        @endphp
+                                                    @endif
 
 
-                                                        {{ $offer_status }}
-                                                    </td>
-                                                    <td width="10%">
-                                                        {{-- <span
+                                                    {{ $offer_status }}
+                                                </td>
+                                                <td width="10%">
+                                                    {{-- <span
                                                         class="badge p-2 {{ $so->approval_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
                                                         {{ $so->approval_status === 'Y' ? 'Approved' : 'Not Approved' }}
                                                     </span> --}}
-                                                        @if ($so->approval_status === 'Y')
-                                                            @php
-                                                                $offer_aprv_status = 'Approved';
-                                                            @endphp
-                                                        @else
-                                                            @php
-                                                                $offer_aprv_status = 'Not Approved';
-                                                            @endphp
-                                                        @endif
+                                                    @if ($so->approval_status === 'Y')
+                                                        @php
+                                                            $offer_aprv_status = 'Approved';
+                                                        @endphp
+                                                    @else
+                                                        @php
+                                                            $offer_aprv_status = 'Not Approved';
+                                                        @endphp
+                                                    @endif
 
 
-                                                        {{ $offer_aprv_status }}
-                                                    </td>
-                                                    <td width="10%">
-                                                        <div class="btn-group mb-2 mb-md-0">
-                                                            <button type="button" class="btn view_btn dropdown-toggle"
-                                                                data-toggle="dropdown" aria-haspopup="true"
-                                                                aria-expanded="false">Action <i
-                                                                    class="mdi mdi-chevron-down"></i></button>
-                                                            <div class="dropdown-menu">
-                                                                @if (session('roleid') == '1' || session('roleid') == '11')
-                                                                    <a class="dropdown-item view_btn1 d-none"
-                                                                        href="{{ route('edit.shop_offer', $so->id) }}">View/Edit</a>
-                                                                    <a class="dropdown-item approve_btn"
-                                                                        href="{{ route('approved.shopoffer', $so->id) }}">Activation/Approved</a>
-                                                                    <a class="dropdown-item delete_btn"
-                                                                        href="{{ route('delete.shop_offer', $so->id) }}"
-                                                                        onclick="return confirm('Are you sure you want to delete?')">Delete</a>
-                                                                @else
-                                                                    <a class="dropdown-item view_btn1 d-none"
-                                                                        href="{{ route('edit.shop_offer', $so->id) }}">View/Edit</a>
-                                                                @endif
-                                                            </div>
+                                                    {{ $offer_aprv_status }}
+                                                </td>
+                                                <td width="10%">
+                                                    <div class="btn-group mb-2 mb-md-0">
+                                                        <button type="button" class="btn view_btn dropdown-toggle"
+                                                            data-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false">Action <i
+                                                                class="mdi mdi-chevron-down"></i></button>
+                                                        <div class="dropdown-menu">
+                                                            @if (session('roleid') == '1' || session('roleid') == '11')
+                                                                <a class="dropdown-item view_btn1 d-none"
+                                                                    href="{{ route('edit.shop_offer', $so->id) }}">View/Edit</a>
+                                                                <a class="dropdown-item approve_btn"
+                                                                    href="{{ route('approved.shopoffer', $so->id) }}">Activation/Approved</a>
+                                                                <a class="dropdown-item delete_btn"
+                                                                    href="{{ route('delete.shop_offer', $so->id) }}"
+                                                                    onclick="return confirm('Are you sure you want to delete?')">Delete</a>
+                                                            @else
+                                                                <a class="dropdown-item view_btn1 d-none"
+                                                                    href="{{ route('edit.shop_offer', $so->id) }}">View/Edit</a>
+                                                            @endif
                                                         </div>
-                                                    </td>
+                                                    </div>
+                                                </td>
 
-                                                </tr>
-                                            @endforeach
-                                        @else
-                                            <tr>
-                                                <td colspan='4' style="text-align: center;">No shop offers found.</td>
                                             </tr>
-                                        @endif
-                                    </tbody>
-                                </table>
-                                <input type="hidden" value="{{ $totalshop_offer }}" id="totalservicecnt">
-                                @if ($totalshop_offer > 0)
-                                    <div class="col text-center">
-                                        <button class="btn btn-primary" style="cursor:pointer"
-                                            onclick="shopoffer_approvedall();" id="approveAllBtn">Approve
-                                            All</button>
-                                    </div>
-                                @endif
-                            @else
-                                <table>
-                                    <tr>
-                                        <td colspan="13" align="center">
-                                            <img src="{{ asset('backend/assets/images/notfoundimg.png') }}" alt="notfound"
-                                                class="rounded-circle" style="width: 30%;" />
-                                        </td>
-                                    </tr>
-                                </table>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan='4' style="text-align: center;">No shop offers found.</td>
+                                        </tr>
+                                    @endif
+                                </tbody>
+                            </table>
+                            <input type="hidden" value="{{ $totalshop_offer }}" id="totalservicecnt">
+                            @if ($totalshop_offer > 0)
+                                <div class="col text-center">
+                                    <button class="btn btn-primary" style="cursor:pointer"
+                                        onclick="shopoffer_approvedall();" id="approveAllBtn">Approve
+                                        All</button>
+                                </div>
                             @endif
                         </div>
                     </div>
@@ -234,11 +221,13 @@
                         this.api().columns().every(function() {
                             var column = this;
                             var colIndex = column[0][0];
-                            var hidroleid = $('#hidroleid').val();
-                            if (hidroleid == 1 || hidroleid == 11) {
-                                var excludeColumns = [0, 1, 6];
-                                var textColumns = [1, 2];
-                            } else {
+                            var hidroleid=$('#hidroleid').val();
+                            if(hidroleid==1 || hidroleid==11)
+                            {
+                            var excludeColumns = [0, 1, 6];
+                            var textColumns = [1, 2];
+                            }
+                            else{
                                 var excludeColumns = [0, 5];
                                 var textColumns = [1];
 
@@ -337,9 +326,10 @@
 
                 $(".selectAll").on("click", function(event) {
                     var isChecked = $(this).is(":checked");
-                    $("#datatable tbody input[type='checkbox']").prop("checked", isChecked);
+                    $("#datatable3 tbody input[type='checkbox']").prop("checked", isChecked);
                 });
             });
+
 
             function check() {
                 if (document.getElementById('checkbox1').checked == true) {
