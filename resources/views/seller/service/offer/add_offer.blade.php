@@ -16,7 +16,7 @@
                             </div>
                             <div class="col">
                                 <div class="button-items d-flex align-items-end flex-column">
-                                    <a href="{{ route('list.service_offer') }}"><button type="button"
+                                    <a href="{{ route('addlist.service_offer') }}"><button type="button"
                                             class="btn btn-secondary">Back</button></a>
                                 </div>
                             </div>
@@ -69,8 +69,7 @@
                                                     <div data-repeater-item="">
                                                         <div class="form-group">
 
-                                                            <label class="control-label">Conditions<span
-                                                                    class="text-danger">*</span></label>
+                                                            <label class="control-label">Conditions</label>
                                                             <input type="text" class="form-control" id="conditions"
                                                                 name="conditions" placeholder="Enter conditions">
                                                             @error('conditions')
