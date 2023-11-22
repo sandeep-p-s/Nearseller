@@ -660,7 +660,8 @@ class ProductController extends Controller
         }
 
         if ($request->hasFile('prod_docs')) {
-            unlink($existproduct_document);
+            if($existproduct_document!=''){
+            unlink($existproduct_document);}
             $file = $request->file('prod_docs');
             $fileName = rand() . time() . '.' . $file->getClientOriginalExtension();
             $upload_doc = 'uploads/product_document/';
@@ -673,7 +674,8 @@ class ProductController extends Controller
         }
 
         if ($request->hasFile('videofiles')) {
-            unlink($existproduct_videos);
+            if($existproduct_videos!=''){
+            unlink($existproduct_videos);}
             $file = $request->file('videofiles');
             $filevideo = rand() . time() . '.' . $file->getClientOriginalExtension();
             $upload_video = 'uploads/product_video/';
@@ -750,7 +752,7 @@ class ProductController extends Controller
         $LogDetails->log_time = $time;
         $LogDetails->status = $msg;
         $LogDetails->save();
-        if ($newproductreg > 0) {
+        if ($updteproductreg > 0) {
             return response()->json(['result' => 1, 'mesge' => '( ' . $request->input('prod_names') . ') Product Successfully Updated']);
         } else {
             return response()->json(['result' => 2, 'mesge' => 'Failed']);

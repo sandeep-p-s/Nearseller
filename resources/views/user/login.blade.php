@@ -231,7 +231,7 @@
                                         required />
                                     <div for="u_name" class="error"></div>
                                 </div>
-                                <div class="form-outline mb-2">
+                                <div class="form-outline mb-2 d-flex">
                                     <input tabindex="2" type="email" id="u_emid" name="u_emid"
                                         class="form-control form-control-lg" maxlength="50" placeholder="Enter Email"
                                         required onchange="exstemilid(this.value,'1')"
