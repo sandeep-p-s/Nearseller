@@ -100,15 +100,16 @@ class OfferController extends Controller
             $request->all(),
             [
                 'offer_to_display' => 'required|string|unique:offers',
-                // 'conditions' => 'required|string|max:255',
+                // 'car.conditions' => 'required|array',
+                // 'car.conditions.*' => 'required|string|max:255',
                 'from_date_time' => 'required|date',
                 'to_date_time' => 'required|date',
                 'offer_image' => 'required|mimes:jpeg,png,jpg|max:2048',
-                // 'serviceuser_name' => 'required'
+                //'serviceuser_name' => 'required'
             ],
             [
                 'offer_to_display.required' => 'The Display offer field is required',
-                // 'serviceuser_name.required' => 'Please select Service user in the list',
+                //'serviceuser_name.required' => 'Please select Service user in the list',
                 'offer_to_display.unique' => 'This Offer name is already in use.',
                 // 'conditions.required' => 'The conditions field is required.',
                 // 'conditions.string' => 'The conditions field must be a string.',
@@ -124,7 +125,7 @@ class OfferController extends Controller
         $shop_offer->user_id = $request->shopeuser_name;
         $shop_offer->type = 1;
         $shop_offer->offer_to_display = $request->offer_to_display;
-        $shop_offer->conditions = json_encode($request->car);
+        $shop_offer->conditions = json_encode($request->input('car.conditions'));
         $shop_offer->from_date_time = $request->from_date_time;
         $shop_offer->to_date_time = $request->to_date_time;
         $upload_path = 'uploads/shop_offer/';
@@ -194,7 +195,8 @@ class OfferController extends Controller
             $request->all(),
             [
                 'offer_to_display' => 'required|string',
-                'conditions' => 'required|string|max:255',
+                'car.conditions' => 'required|array',
+                'car.conditions.*' => 'required|string|max:255',
                 'from_date_time' => 'required|date',
                 'to_date_time' => 'required|date',
                 'offer_image' => 'required|mimes:jpeg,png,jpg|max:2048',
@@ -212,7 +214,7 @@ class OfferController extends Controller
         // }
         $shopoffer->user_id = $request->shopeuser_name;
         $shopoffer->offer_to_display = $request->offer_to_display;
-        $shopoffer->conditions = json_encode($request->car);
+        $shopoffer->conditions = json_encode($request->input('car.conditions'));
         $shopoffer->from_date_time = $request->from_date_time;
         $shopoffer->to_date_time = $request->to_date_time;
         $upload_path = 'uploads/shop_offer/';
@@ -274,7 +276,7 @@ class OfferController extends Controller
         $LogDetails->log_time = $time;
         $LogDetails->status = $msg;
         $LogDetails->save();
-        return redirect()->route('list.shop_offer')->with('success', 'Seller offer deleted successfully.');
+        return redirect()->route('addlist.shop_offer')->with('success', 'Seller offer deleted successfully.');
     }
     public function approved_shopoffer($id)
     {
