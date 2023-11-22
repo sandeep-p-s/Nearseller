@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Masters;
 
 use DB;
 use App\Models\MenuMaster;
-use App\Models\UserAccount;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\masters\Bank_type;
@@ -17,9 +17,9 @@ class BankController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $loggeduser     = User::sessionValuereturn($userRole);
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $banks = DB::table('bank_types')->get();
         return view('admin.masters.bank.listBank',compact('loggeduser','userdetails','banks','structuredMenu'));
 
@@ -28,9 +28,9 @@ class BankController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $loggeduser     = User::sessionValuereturn($userRole);
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         return view('admin.masters.bank.addBank',compact('loggeduser','userdetails','structuredMenu'));
     }
     public function store_bank(Request $request)
@@ -56,9 +56,9 @@ class BankController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $loggeduser     = User::sessionValuereturn($userRole);
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $bank = Bank_type::find($id);
 
         if (!$bank) {
@@ -109,9 +109,9 @@ class BankController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $loggeduser     = User::sessionValuereturn($userRole);
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $bankbranchs = DB::table('bank_details as bd')
         ->select('bd.branch_name','bd.id','bt.bank_name as bank_name','bt.status')
         ->join('bank_types as bt', 'bt.id', 'bd.bank_code')
@@ -124,9 +124,9 @@ class BankController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $loggeduser     = User::sessionValuereturn($userRole);
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $districts = DB::table('district as d')
             ->select('d.district_name','d.id','st.state_name','ct.country_name','d.status','st.status','ct.status')
             ->join('state as st','d.state_id','st.id')
@@ -185,9 +185,9 @@ class BankController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $loggeduser     = User::sessionValuereturn($userRole);
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $branch = DB::table('bank_details as bd')
             ->select('bd.id','bd.district_code','bd.bank_code','bd.branch_name','bd.branch_address','bd.ifsc_code','d.district_name','d.id as district_id','st.state_name','ct.country_name','bt.bank_name','bt.id as bank_id','d.status','st.status','ct.status','bt.status')
             ->join('district as d','bd.district_code','d.id')

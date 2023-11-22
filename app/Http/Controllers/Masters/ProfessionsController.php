@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Masters;
 
 use DB;
 use App\Models\MenuMaster;
-use App\Models\UserAccount;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\masters\Profession;
@@ -16,8 +16,8 @@ class ProfessionsController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser     = User::sessionValuereturn($userRole);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $professions = DB::table('professions')->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         return view('admin.masters.professions.listProfession',compact('loggeduser','userdetails','professions','structuredMenu'));
@@ -27,8 +27,8 @@ class ProfessionsController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser     = User::sessionValuereturn($userRole);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         return view('admin.masters.professions.addProfession',compact('loggeduser','userdetails','structuredMenu'));
     }
@@ -55,9 +55,9 @@ class ProfessionsController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $loggeduser     = User::sessionValuereturn($userRole);
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $profession = Profession::find($id);
 
         if (!$profession) {

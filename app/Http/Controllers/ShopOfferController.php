@@ -7,7 +7,7 @@ use Validator;
 use App\Models\Offer;
 use App\Models\LogDetails;
 use App\Models\MenuMaster;
-use App\Models\UserAccount;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ShopOfferController extends Controller
@@ -17,8 +17,8 @@ class ShopOfferController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $shop_offer = DB::table('offers')->where('type', 1)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $roleIdsArray = explode(',', $roleid);
@@ -39,10 +39,10 @@ class ShopOfferController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
+        $loggeduser = User::sessionValuereturn_s($roleid);
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        $usershopdets = DB::table('user_account')
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
+        $usershopdets = DB::table('users')
             ->select('id', 'name')
             ->where('role_id', 2)
             ->get();
@@ -125,10 +125,10 @@ class ShopOfferController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
+        $loggeduser = User::sessionValuereturn_s($roleid);
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        $usershopdets = DB::table('user_account')
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
+        $usershopdets = DB::table('users')
             ->select('id', 'name')
             ->where('role_id', 2)
             ->get();

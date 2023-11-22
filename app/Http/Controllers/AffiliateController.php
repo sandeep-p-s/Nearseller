@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\UserAccount;
+use App\Models\User;
 use App\Models\LogDetails;
 use App\Models\Affiliate;
 use App\Models\SellerDetails;
@@ -22,10 +22,10 @@ class AffiliateController extends Controller
         {
             return redirect()->route('logout');
         }
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        $countAffiliate = DB::table('user_account')->where('role_id', 3)->where('parent_id', $userId)->count();
-        $countShops     = DB::table('user_account')->where('role_id', 2)->where('parent_id', $userId)->count();
+        $loggeduser     = User::sessionValuereturn($userRole);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
+        $countAffiliate = DB::table('users')->where('role_id', 3)->where('parent_id', $userId)->count();
+        $countShops     = DB::table('users')->where('role_id', 2)->where('parent_id', $userId)->count();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         return view('affiliate.dashboard',compact('userdetails','countAffiliate','countShops','userRole','loggeduser','structuredMenu'));
     }
@@ -39,8 +39,8 @@ class AffiliateController extends Controller
         if($userId==''){
             return redirect()->route('logout');
         }
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser     = User::sessionValuereturn($userRole);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         return view('affiliate.affilate_list', compact('userdetails','loggeduser','structuredMenu'));
     }
@@ -55,7 +55,7 @@ class AffiliateController extends Controller
         }
         $emal_mob   = $request->input('emal_mob');
         $afflitename   = $request->input('afflitename');
-        // $Affte_perant = DB::table('user_account')->select('id')->where('parent_id', $userId)->get();
+        // $Affte_perant = DB::table('users')->select('id')->where('parent_id', $userId)->get();
         // $parentafiltids = $Affte_perant->pluck('id')->toArray();
         // $concatenatedIds = implode(',', $parentafiltids);
         $query = Affiliate::select('affiliate.*','professions.profession_name','marital_statuses.mr_name','religions.religion_name','country.country_name','state.state_name','district.district_name','bank_types.bank_name')
@@ -103,8 +103,8 @@ class AffiliateController extends Controller
         else{
             return redirect()->route('logout');
         }
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser     = User::sessionValuereturn($userRole);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         return view('affiliate.shop_list', compact('loggeduser','userdetails','shoporservice','typeid','structuredMenu'));
     }
@@ -123,7 +123,7 @@ class AffiliateController extends Controller
         $typeid     = $request->input('typeid');
         if($roleid==3)
             {
-                $Affiliatereferal_id = DB::table('user_account')->select('referal_id')->where('id', $userId)->get();
+                $Affiliatereferal_id = DB::table('users')->select('referal_id')->where('id', $userId)->get();
                 //echo $lastRegId = $sellerDetail->toSql();exit;
                 foreach($Affiliatereferal_id as $refrlid)
                 {
@@ -173,8 +173,8 @@ class AffiliateController extends Controller
         $shopservice    = DB::table('service_types')->where('status','active')->get();
         $executives     = DB::table('executives')->where(['business_type_id' => 1, 'status' => 'Y'])->get();
         $shoptypes      = DB::table('shop_type')->where('status','Y')->get();
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser     = User::sessionValuereturn($userRole);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         return view('affiliate.shop_dets', compact('sellerDetails', 'sellerCount','countries','business','shopservice','executives','loggeduser','userdetails','referal_id','shoptypes','shoporservice','typeid'));
     }
 

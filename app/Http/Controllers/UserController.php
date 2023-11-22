@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Builder;
-use App\Models\UserAccount;
+use App\Models\User;
 use App\Models\LogDetails;
 use App\Models\SellerDetails;
 use Exception;
@@ -29,8 +29,8 @@ class UserController extends Controller
             if ($userId == '') {
                 return redirect()->route('logout');
             }
-            $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-            $userdetails = DB::table('user_account')
+            $loggeduser = User::sessionValuereturn_s($roleid);
+            $userdetails = DB::table('users')
                 ->where('id', $userId)
                 ->get();
             $category = DB::table('categories')->select('category_name')->get();
@@ -55,8 +55,8 @@ class UserController extends Controller
             if ($userId == '') {
                 return redirect()->route('logout');
             }
-            $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-            $userdetails = DB::table('user_account')
+            $loggeduser = User::sessionValuereturn_s($roleid);
+            $userdetails = DB::table('users')
                 ->where('id', $userId)
                 ->get();
 

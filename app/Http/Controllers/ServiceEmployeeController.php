@@ -6,7 +6,7 @@ use DB;
 use Validator;
 use App\Models\LogDetails;
 use App\Models\MenuMaster;
-use App\Models\UserAccount;
+use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Models\ServiceEmployee;
@@ -18,9 +18,9 @@ class ServiceEmployeeController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
+        $loggeduser = User::sessionValuereturn_s($roleid);
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $service_emp = DB::table('service_employees')->where('user_id',$serviceid)->get();
         $roleIdsArray = explode(',', $roleid);
         if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
@@ -39,9 +39,9 @@ class ServiceEmployeeController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
+        $loggeduser = User::sessionValuereturn_s($roleid);
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $countries = DB::table('country as ct')
         ->orderByRaw('ct.id = ? desc', [1])
         ->orderBy('ct.country_name', 'asc')
@@ -168,9 +168,9 @@ class ServiceEmployeeController extends Controller
         $userId = session('user_id');
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        $userservicedets = DB::table('user_account')
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
+        $userservicedets = DB::table('users')
         ->select('id', 'name')
         ->where('role_id', 9)
         ->get();

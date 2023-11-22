@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Masters;
 
 use DB;
 use App\Models\MenuMaster;
-use App\Models\UserAccount;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\ServiceCategory;
 use Illuminate\Validation\Rule;
@@ -18,8 +18,8 @@ class ServiceCategoryController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $servicecategory = DB::table('service_categories as sc')
             ->join('business_type as bt', 'sc.business_type_id', '=', 'bt.id')
             ->select('sc.*', 'bt.business_name')
@@ -36,8 +36,8 @@ class ServiceCategoryController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $businesstype = DB::table('business_type as bt')
             ->where('bt.status', 'Y')
@@ -65,15 +65,15 @@ class ServiceCategoryController extends Controller
         return redirect()->route('list.servicecategory')->with('success', 'Service Category added successfully.');
     }
 
-    
+
 
     public function edit_service_category($id)
     {
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $servicecategory = ServiceCategory::find($id);
         $businesstype = DB::table('business_type as bt')
@@ -137,8 +137,8 @@ class ServiceCategoryController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser     = User::sessionValuereturn($userRole);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $servicesubcategory = DB::table('service_sub_categories as ssc')
             ->join('service_categories as sc', 'ssc.service_category_id', '=', 'sc.id')
             ->select('ssc.*', 'sc.service_category_name')
@@ -153,8 +153,8 @@ class ServiceCategoryController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser     = User::sessionValuereturn($userRole);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $servicecategory = DB::table('service_categories as sc')
             ->where('sc.status', 'Y')
@@ -180,8 +180,8 @@ class ServiceCategoryController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser     = User::sessionValuereturn($userRole);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $servicesubcategory = ServiceSubCategory::find($id);
         $servicecategory = DB::table('service_categories as sc')
