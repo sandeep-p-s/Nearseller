@@ -235,7 +235,7 @@
                                                 <label for="setavailbletodate">To Date</label>
                                                 <input type="date" class="form-control form-control-lg"
                                                     id="setavailbletodate" name="setavailbletodate" required
-                                                    tabindex="3">
+                                                    tabindex="3" min="{{ date('Y-m-d') }}">
                                             </div>
                                             <div class="col-lg-3"><label for="isnotavailable">Not Available</label>
                                                 <input class="form-control" type="checkbox" id="isnotavailable"

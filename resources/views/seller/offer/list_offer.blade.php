@@ -326,7 +326,7 @@
 
                 $(".selectAll").on("click", function(event) {
                     var isChecked = $(this).is(":checked");
-                    $("#datatable tbody input[type='checkbox']").prop("checked", isChecked);
+                    $("#datatable3 tbody input[type='checkbox']").prop("checked", isChecked);
                 });
             });
 

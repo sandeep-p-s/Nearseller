@@ -89,17 +89,17 @@ class ServiceEmployeeController extends Controller
             'employee_id' => 'required|string|max:50|unique:service_employees',
             'designation' => 'required|string|max:80',
             'joining_date' => 'required|date',
-            'aadhar_no' => 'required|string|max:12',
+            'aadhar_no' => 'required|numeric',
             'permanent_address' => 'required|string',
             'country' => 'required|exists:country,id',
             'state' => 'required|exists:state,id',
             'district' => 'required|exists:district,id',
-            'pincode' => 'required|string|max:6',
+            'pincode' => 'required|string|min:6|max:6',
             'present_address' => 'required|string',
             'present_country' => 'required|exists:country,id',
             'present_state' => 'required|exists:state,id',
             'present_district' => 'required|exists:district,id',
-            'present_pincode' => 'required|string|max:6',
+            'present_pincode' => 'required|string|min:6|max:6',
             'image' => 'required|mimes:jpeg,png,jpg|max:2048',
 
         ]);
@@ -124,7 +124,7 @@ class ServiceEmployeeController extends Controller
         }
         $service_emp = new ServiceEmployee;
         $service_emp->user_id = $request->serviceproviderid;
-        $service_emp->employee_name = $request->employee_name;
+        $service_emp->employee_name = ucwords($request->employee_name);
         $service_emp->employee_id = $request->employee_id;
         $service_emp->designation = $request->designation;
         $service_emp->joining_date = $request->joining_date;
@@ -215,20 +215,20 @@ class ServiceEmployeeController extends Controller
         $validator = Validator::make($request->all(), [
             'Serviceproviderid' => 'required',
             'employee_name' => 'required|string|max:50',
-            'employee_id' => 'required|string|max:50',
-            'designation' => 'required|string|max:80',
+            'employee_id' => 'required|string|min:3|max:50',
+            'designation' => 'required|string|min:3|max:80',
             'joining_date' => 'required|date',
-            'aadhar_no' => 'required|string|max:12',
+            'aadhar_no' => 'required|numeric|max:12',
             'permanent_address' => 'required|string',
             'country' => 'required|exists:country,id',
             'state' => 'required|exists:state,id',
             'district' => 'required|exists:district,id',
-            'pincode' => 'required|string|max:6',
+            'pincode' => 'required|string|min:6|max:6',
             'present_address' => 'required|string',
             'present_country' => 'required|exists:country,id',
             'present_state' => 'required|exists:state,id',
             'present_district' => 'required|exists:district,id',
-            'present_pincode' => 'required|string|max:6',
+            'present_pincode' => 'required|string|min:6|max:6',
             'image' => 'required|mimes:jpeg,png,jpg|max:2048',
         ]);
 
@@ -250,7 +250,7 @@ class ServiceEmployeeController extends Controller
         //     return redirect()->back()->withErrors($validator)->withInput();
         // }
 
-        $service_emp->employee_name = $request->employee_name;
+        $service_emp->employee_name = ucwords($request->employee_name);
         $service_emp->employee_id = $request->employee_id;
         $service_emp->designation = $request->designation;
         $service_emp->joining_date = $request->joining_date;

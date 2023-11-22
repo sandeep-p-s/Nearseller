@@ -40,7 +40,7 @@ class UseraccountSeeder extends Seeder
                 ];
             }
           }
-          DB::table('user_account')->insert($data);
+          DB::table('users')->insert($data);
         }
     }
 }

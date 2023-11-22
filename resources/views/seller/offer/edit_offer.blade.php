@@ -16,7 +16,7 @@
                             </div>
                             <div class="col">
                                 <div class="button-items d-flex align-items-end flex-column">
-                                    <a href="{{ route('list.shop_offer') }}"><button type="button"
+                                    <a href="{{ route('addlist.shop_offer') }}"><button type="button"
                                             class="btn btn-secondary">Back</button></a>
                                 </div>
                             </div>

@@ -688,7 +688,7 @@
             },
             "columnDefs": [{
                 "targets": 0,
-                "orderable": true
+                "orderable": false
             }]
         });
 
