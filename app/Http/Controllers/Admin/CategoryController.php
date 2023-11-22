@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use DB;
 use File;
-use App\Models\UserAccount;
+use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 //use Image;
@@ -26,8 +26,8 @@ class CategoryController extends Controller
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser     = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser     = User::sessionValuereturn_s($roleid);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $categories = Category::tree();
         $categoriesStatusY = Category::treeWithStatusY();
         $active_categories = $categories->where('status', 'Y')->count();
@@ -58,8 +58,8 @@ class CategoryController extends Controller
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser     = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser     = User::sessionValuereturn_s($roleid);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $categories = Category::treeWithStatusY();
         $filteredCategories = $categories->filter(function ($category) {
             return $category->category_level != 5;
@@ -195,8 +195,8 @@ class CategoryController extends Controller
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser     = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser     = User::sessionValuereturn_s($roleid);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $current_category = Category::where('category_slug', $category_slug)->first();
         // $categories = Category::treeWithStatusYandTypeSort($current_category->category_type);
         $categories = Category::treeWithStatusY();
@@ -351,8 +351,8 @@ class CategoryController extends Controller
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser     = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser     = User::sessionValuereturn_s($roleid);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $current_category = Category::where('category_slug', $category_slug)->first();
         $categories = Category::treeWithStatusY();
         $filteredCategories = $categories->filter(function ($category) use ($category_slug , $current_category) {

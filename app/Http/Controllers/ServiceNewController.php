@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Builder;
 use Carbon\Carbon;
-use App\Models\UserAccount;
+use App\Models\User;
 use App\Models\LogDetails;
 use App\Models\SellerDetails;
 use App\Models\Affiliate;
@@ -36,8 +36,8 @@ class ServiceNewController extends Controller
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails = DB::table('user_account')
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails = DB::table('users')
             ->where('id', $userId)
             ->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
@@ -65,8 +65,8 @@ class ServiceNewController extends Controller
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails = DB::table('user_account')
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails = DB::table('users')
             ->where('id', $userId)
             ->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
@@ -89,17 +89,17 @@ class ServiceNewController extends Controller
     function AdmShopNameSearch(Request $request)
     {
         $shopname = $request->input('shopname');
-        // $UserAccount = ProductDetails::select('user_account.id', 'user_account.name as shopname')
-        //     ->leftJoin('user_account', 'user_account.id', 'product_details.shop_id')
-        //     ->where('user_account.name', 'LIKE', $shopname . '%')->distinct()
+        // $User = ProductDetails::select('users.id', 'users.name as shopname')
+        //     ->leftJoin('users', 'users.id', 'product_details.shop_id')
+        //     ->where('users.name', 'LIKE', $shopname . '%')->distinct()
         //     ->get();
-        $UserAccount = UserAccount::select('id', 'name as shopname')
+        $User = User::select('id', 'name as shopname')
             ->where('name', 'LIKE', $shopname . '%')
             ->distinct()
             ->get();
-        //echo $lastRegId = $UserAccount->toSql();exit;
+        //echo $lastRegId = $User->toSql();exit;
         header('Content-Type: application/json');
-        echo json_encode($UserAccount);
+        echo json_encode($User);
     }
 
 
@@ -107,7 +107,7 @@ class ServiceNewController extends Controller
     {
         $existprodid = $request->input('existprodid');
         $ProductDetails = ProductDetails::find($existprodid);
-        //echo $lastRegId = $UserAccount->toSql();exit;
+        //echo $lastRegId = $User->toSql();exit;
         return response()->json(['result' => 3, 'mesge' => 'Total stock and attribute stock must be equal.']);
     }
 
@@ -133,7 +133,7 @@ class ServiceNewController extends Controller
         $ServiceDetails = $query->get();
         //echo $lastRegId = $query->toSql();exit;
         $ProductCount = $ServiceDetails->count();
-        //$userservicedets = DB::select("SELECT id,name FROM user_account WHERE FIND_IN_SET('9', role_id)");
+        //$userservicedets = DB::select("SELECT id,name FROM users WHERE FIND_IN_SET('9', role_id)");
 
         $userservicedets=$servcid;
         $queryapprovedcounts = ServiceDetails::select([
@@ -408,7 +408,7 @@ class ServiceNewController extends Controller
         $setquestions = DB::table('set_questions')
             ->where('service_id', $ServiceDetails->id)
             ->get();
-        //$userservicede = DB::select("SELECT id,name FROM user_account WHERE FIND_IN_SET('9', role_id)");
+        //$userservicede = DB::select("SELECT id,name FROM users WHERE FIND_IN_SET('9', role_id)");
         $serviceemployees = DB::table('service_employees')->select('id','employee_name')->where('user_id', $ServiceDetails->service_provider_id)->get();
         //dd($userservicedets);
         return view('serviceproduct.product_viewedit_dets', compact('ServiceDetails', 'productAttibutes','ServiceAppointment','appointmentavailable','notavailabledates','setquestions','serviceemployees'));
@@ -633,7 +633,7 @@ class ServiceNewController extends Controller
         $setquestions = DB::table('set_questions')
             ->where('service_id', $ServiceDetails->id)
             ->get();
-        //$userservicede = DB::select("SELECT id,name FROM user_account WHERE FIND_IN_SET('9', role_id)");
+        //$userservicede = DB::select("SELECT id,name FROM users WHERE FIND_IN_SET('9', role_id)");
         $serviceemployees = DB::table('service_employees')->select('id','employee_name')->where('user_id', $ServiceDetails->service_provider_id)->get();
         //dd($userservicedets);
         return view('serviceproduct.product_approved_dets', compact('ServiceDetails', 'productAttibutes','ServiceAppointment','appointmentavailable','notavailabledates','setquestions','serviceemployees'));

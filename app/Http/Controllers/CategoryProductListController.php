@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Models\UserAccount;
+use App\Models\User;
 use App\Models\LogDetails;
 use App\Models\SellerDetails;
 use App\Models\Affiliate;
@@ -31,15 +31,15 @@ class CategoryProductListController extends Controller
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser = UserAccount::sessionValuereturn($userRole);
-        $userdetails = DB::table('user_account')
+        $loggeduser = User::sessionValuereturn($userRole);
+        $userdetails = DB::table('users')
             ->where('id', $userId)
             ->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
 
 
 
-        $usershopdets = DB::table('user_account')
+        $usershopdets = DB::table('users')
             ->select('id', 'name')
             ->whereIn('role_id', $roleIdsArray)
             ->get();
@@ -81,7 +81,7 @@ class CategoryProductListController extends Controller
             ->select('c1.id','c1.category_image', 'c1.category_name', 'c1.parent_id', 'c2.category_name as parent_name')
             ->leftJoin('categories as c2', 'c1.parent_id', '=', 'c2.id')
             ->leftJoin('product_details', 'product_details.category_id', '=', 'c1.id')
-            ->leftJoin('user_account', 'user_account.id', '=', 'product_details.shop_id');
+            ->leftJoin('users', 'users.id', '=', 'product_details.shop_id');
         if ($categoryid) {
             $category = DB::table('categories')
                 ->select('id', 'category_name', 'parent_id')
@@ -104,7 +104,7 @@ class CategoryProductListController extends Controller
 
         }
         else{
-            $categories->where('user_account.id', $userId);
+            $categories->where('users.id', $userId);
         }
         $categories->groupBy('c1.id','c1.category_image', 'c1.category_name', 'c1.parent_id', 'c2.category_name');
         //echo $lastRegId = $categories->toSql();
@@ -154,7 +154,7 @@ class CategoryProductListController extends Controller
             ->where('product_id', $product->id)
             ->get();
             $product->attributes = $productAttibutes;
-            $usershopdets = DB::table('user_account')
+            $usershopdets = DB::table('users')
             ->select('name')
             ->where('id', $product->shop_id)
             ->first();
@@ -193,12 +193,12 @@ class CategoryProductListController extends Controller
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser = UserAccount::sessionValuereturn($userRole);
-        $userdetails = DB::table('user_account')
+        $loggeduser = User::sessionValuereturn($userRole);
+        $userdetails = DB::table('users')
             ->where('id', $userId)
             ->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        $usershopdets = DB::table('user_account')
+        $usershopdets = DB::table('users')
             ->select('id', 'name')
             ->where('role_id', 2)
             ->get();
@@ -253,9 +253,9 @@ class CategoryProductListController extends Controller
 
         //echo "<pre>";print_r($categoryIds);
 
-        $query = ProductDetails::select('product_details.*', 'categories.id as categoryid', 'categories.category_name', 'categories.parent_id', 'categories.category_image', 'user_account.name as shopname')
+        $query = ProductDetails::select('product_details.*', 'categories.id as categoryid', 'categories.category_name', 'categories.parent_id', 'categories.category_image', 'users.name as shopname')
             ->leftJoin('categories', 'categories.id', 'product_details.category_id')
-            ->leftJoin('user_account', 'user_account.id', 'product_details.shop_id');
+            ->leftJoin('users', 'users.id', 'product_details.shop_id');
 
         if ($categoryid) {
             $query->whereIn('product_details.category_id', $categoryIds);
@@ -264,7 +264,7 @@ class CategoryProductListController extends Controller
         }
 
         if ($roleid != 1  || $roleid != 11) {
-            $query->where('user_account.id', $userId);
+            $query->where('users.id', $userId);
         }
         $query->distinct();
         $ProductDetails = $query->get();
@@ -303,9 +303,9 @@ class CategoryProductListController extends Controller
         }
 
         $categoryid = $request->input('categoryid');
-        $query = ProductDetails::select('product_details.*', 'categories.id as categoryid', 'categories.category_name', 'categories.parent_id', 'categories.category_image', 'user_account.name as shopname')
+        $query = ProductDetails::select('product_details.*', 'categories.id as categoryid', 'categories.category_name', 'categories.parent_id', 'categories.category_image', 'users.name as shopname')
             ->leftJoin('categories', 'categories.id', 'product_details.category_id')
-            ->leftJoin('user_account', 'user_account.id', 'product_details.shop_id');
+            ->leftJoin('users', 'users.id', 'product_details.shop_id');
 
         // $query = ProductDetails::select(
         //     'product_details.*',
@@ -324,11 +324,11 @@ class CategoryProductListController extends Controller
         //     'categories.category_name',
         //     'categories.parent_id',
         //     'categories.category_image',
-        //     'user_account.name as shopname',
+        //     'users.name as shopname',
         // )
         //     ->leftJoin('add_product_attributes', 'product_details.id', 'add_product_attributes.product_id')
         //     ->leftJoin('categories', 'categories.id', 'product_details.category_id')
-        //     ->leftJoin('user_account', 'user_account.id', 'product_details.shop_id')
+        //     ->leftJoin('users', 'users.id', 'product_details.shop_id')
         //     ->groupBy('product_details.id');
 
         if ($categoryid) {
@@ -349,7 +349,7 @@ class CategoryProductListController extends Controller
             $query->where('categories.parent_id', '0');
         }
         if ($roleid != 1  || $roleid != 11) {
-            $query->where('user_account.id', $userId);
+            $query->where('users.id', $userId);
         }
 
         $query->distinct();
@@ -385,9 +385,9 @@ class CategoryProductListController extends Controller
         }
 
         $categoryid = $request->input('categoryid');
-        $query = ProductDetails::select('product_details.*', 'categories.id as categoryid', 'categories.category_name', 'categories.parent_id', 'categories.category_image', 'user_account.name as shopname')
+        $query = ProductDetails::select('product_details.*', 'categories.id as categoryid', 'categories.category_name', 'categories.parent_id', 'categories.category_image', 'users.name as shopname')
             ->leftJoin('categories', 'categories.id', 'product_details.category_id')
-            ->leftJoin('user_account', 'user_account.id', 'product_details.shop_id');
+            ->leftJoin('users', 'users.id', 'product_details.shop_id');
 
         $categoryIds = [$categoryid];
         $getSubcategories = function ($parentCategory) use (&$getSubcategories, &$categoryIds) {
@@ -404,7 +404,7 @@ class CategoryProductListController extends Controller
         $query->whereIn('product_details.category_id', $categoryIds);
 
         if ($roleid != 1  || $roleid != 11) {
-            $query->where('user_account.id', $userId);
+            $query->where('users.id', $userId);
         }
         $query->distinct();
         $ProductDetails = $query->get();

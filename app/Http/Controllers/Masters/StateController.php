@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Masters;
 
 use DB;
 use App\Models\MenuMaster;
-use App\Models\UserAccount;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\masters\State;
 use App\Models\masters\Country;
@@ -18,8 +18,8 @@ class StateController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $states = DB::table('state as st')
             ->select('st.state_name', 'st.id', 'st.status as st_status', 'ct.country_name as country_name', 'ct.status as ct_status')
@@ -37,8 +37,8 @@ class StateController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $countries = DB::table('country as ct')
             ->where('ct.status', 'Y')
             ->get();
@@ -77,9 +77,9 @@ class StateController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
+        $loggeduser = User::sessionValuereturn_s($roleid);
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $countries = DB::table('country as ct')
             ->where('ct.status', 'Y')
             ->get();

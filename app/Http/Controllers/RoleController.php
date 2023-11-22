@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Validator;
 use App\Models\Role;
-use App\Models\UserAccount;
+use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Models\RolePermission;
@@ -31,8 +31,8 @@ class RoleController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails = DB::table('user_account')
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails = DB::table('users')
             ->where('id', $userId)
             ->get();
         $roles = DB::table('roles_permissions as rp')
@@ -84,8 +84,8 @@ class RoleController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails = DB::table('user_account')
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails = DB::table('users')
             ->where('id', $userId)
             ->select('name')
             ->get();
@@ -158,8 +158,8 @@ class RoleController extends Controller
         $userId = session('user_id');
         $roleid = session('roleid');
 
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails = DB::table('user_account')
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails = DB::table('users')
             ->where('id', $userId)
             ->select('name')
             ->get();
@@ -250,7 +250,7 @@ class RoleController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
+        $loggeduser = User::sessionValuereturn_s($roleid);
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $roleIdsArray = explode(',', $roleid);
             if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
@@ -262,7 +262,7 @@ class RoleController extends Controller
             else{
                 $selrdetails='';
             }
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $role = Role::find($id);
         if (!$role) {
             return redirect()->route('list.roles')->with('error', 'Role not found.');
@@ -290,13 +290,13 @@ class RoleController extends Controller
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails = DB::table('user_account')
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails = DB::table('users')
             ->where('id', $userId)
             ->get();
-        $alluserdetails = DB::table('user_account')
-            ->select('user_account.id', 'user_account.name', 'user_account.email', 'user_account.mobno', 'user_account.user_status', 'roles.role_name')
-            ->join('roles', 'user_account.role_id', '=', 'roles.id')
+        $alluserdetails = DB::table('users')
+            ->select('users.id', 'users.name', 'users.email', 'users.mobno', 'users.user_status', 'roles.role_name')
+            ->join('roles', 'users.role_id', '=', 'roles.id')
             ->where('roles.is_active', '1')
             ->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
@@ -323,20 +323,20 @@ class RoleController extends Controller
         }
         $emal_mob = $request->input('emal_mob');
         $uname = $request->input('uname');
-        $query = UserAccount::select('user_account.*', 'roles.role_name')->leftJoin('roles', 'user_account.role_id', 'roles.id')->where('roles.is_active', '1');
+        $query = User::select('users.*', 'roles.role_name')->leftJoin('roles', 'users.role_id', 'roles.id')->where('roles.is_active', '1');
         if ($emal_mob) {
-            $query->where('user_account.email', 'LIKE', '%' . $emal_mob . '%')->orWhere('user_account.mobno', 'LIKE', '%' . $emal_mob . '%');
+            $query->where('users.email', 'LIKE', '%' . $emal_mob . '%')->orWhere('users.mobno', 'LIKE', '%' . $emal_mob . '%');
         }
         if ($uname) {
-            $query->where('user_account.name', 'LIKE', '%' . $uname . '%');
+            $query->where('users.name', 'LIKE', '%' . $uname . '%');
         }
-        $query ->orderBy('user_account.name', 'asc');
+        $query ->orderBy('users.name', 'asc');
         $alluserdetails = $query->get();
         //echo $lastRegId = $query->toSql();exit;
         $allusercount = $alluserdetails->count();
         $roles = DB::table('roles')->where('roles.is_active', '1')->where('id', '!=', 1) ->orderBy('role_name', 'asc')->get();
 
-        $queryactivecounts = UserAccount::select([
+        $queryactivecounts = User::select([
             DB::raw('SUM(CASE WHEN user_status = "Y" THEN 1 ELSE 0 END) AS user_status_y_count'),
             DB::raw('SUM(CASE WHEN user_status != "Y" THEN 1 ELSE 0 END) AS user_status_not_y_count'),
             DB::raw('SUM(CASE WHEN approved = "Y" THEN 1 ELSE 0 END) AS approved_y_count'),
@@ -369,7 +369,7 @@ class RoleController extends Controller
             // 's_email' => 'required|email|max:35',
             'roleid' => 'required',
         ]);
-        $user = new UserAccount();
+        $user = new User();
         $user->name = ucwords($request->s_name);
         $user->email = $request->s_email;
         $user->mobno = $request->s_mobno;
@@ -508,9 +508,9 @@ class RoleController extends Controller
             return redirect()->route('logout');
         }
         $id = $request->input('userid');
-        $query = UserAccount::select('user_account.*', 'roles.role_name')
-            ->leftJoin('roles', 'user_account.role_id', 'roles.id')->where('roles.is_active', '1')
-            ->where('user_account.id', $id);
+        $query = User::select('users.*', 'roles.role_name')
+            ->leftJoin('roles', 'users.role_id', 'roles.id')->where('roles.is_active', '1')
+            ->where('users.id', $id);
         $alluserdetails = $query->first();
         //echo $lastRegId = $query->toSql();exit;
         $roles = DB::table('roles')
@@ -570,7 +570,7 @@ class RoleController extends Controller
             $affiliatereg = $Affiliate->save();
         }
 
-        $user = UserAccount::findOrFail($useridhid);
+        $user = User::findOrFail($useridhid);
         if ($user->email !== $request->input('es_email') || $user->mobno !== $request->input('es_mobno')) {
             $user->email = $request->es_email;
             $user->mobno = $request->es_mobno;
@@ -600,7 +600,7 @@ class RoleController extends Controller
         $loggedUserIp = $_SERVER['REMOTE_ADDR'];
         $time = date('Y-m-d H:i:s');
         $userid = $request->input('userid');
-        $UsrroleID = DB::table('user_account')
+        $UsrroleID = DB::table('users')
             ->select('role_id')
             ->where('id', $userid)
             ->get();
@@ -617,7 +617,7 @@ class RoleController extends Controller
                 $selerid = $selrid->id;
             }
             $sellerDetail = SellerDetails::find($selerid);
-            $user = UserAccount::find($userid);
+            $user = User::find($userid);
             $delteUserDetail = $sellerDetail->delete();
             $delteuser = $user->delete();
         } else if ((in_array('3', $roleIdsArray))) {
@@ -631,12 +631,12 @@ class RoleController extends Controller
             }
 
             $Affiliate = Affiliate::find($afltid);
-            $user = UserAccount::find($userid);
+            $user = User::find($userid);
             $delteUserDetail = $Affiliate->delete();
             $delteuser = $user->delete();
         }
         else{
-            $user = UserAccount::find($userid);
+            $user = User::find($userid);
             $delteuser = $user->delete();
             // $sellerDetail = SellerDetails::find($selerid);
              $delteUserDetail = 1;
@@ -663,16 +663,16 @@ class RoleController extends Controller
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails = DB::table('user_account')
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails = DB::table('users')
             ->where('id', $userId)
             ->get();
         //$roles          = DB::table('roles')->get();
-        // $alluserdetails = DB::table('user_account')
-        // ->select('user_account.id','user_account.name','user_account.email','user_account.mobno','user_account.user_status','roles.role_name')
-        // ->join('roles', 'user_account.role_id', '=', 'roles.id')->get();
+        // $alluserdetails = DB::table('users')
+        // ->select('users.id','users.name','users.email','users.mobno','users.user_status','roles.role_name')
+        // ->join('roles', 'users.role_id', '=', 'roles.id')->get();
 
-        $alluserdetails = DB::table('user_account')
+        $alluserdetails = DB::table('users')
             ->select('id', 'name', 'email', 'mobno', 'user_status', 'role_id')
             ->get();
 
@@ -739,7 +739,7 @@ class RoleController extends Controller
         }
         for ($i = 0; $i < $mencount; $i++) {
             if (!empty($menuval[$i])) {
-                $userroleID = DB::table('user_account')
+                $userroleID = DB::table('users')
                     ->select('role_id')
                     ->where('id', $user_id)
                     ->get();
@@ -816,8 +816,8 @@ class RoleController extends Controller
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails = DB::table('user_account')
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails = DB::table('users')
             ->where('id', $userId)
             ->get();
         $roles = DB::table('roles')->where('roles.is_active', '1')->get();
@@ -995,16 +995,16 @@ class RoleController extends Controller
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails = DB::table('user_account')
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails = DB::table('users')
             ->where('id', $userId)
             ->get();
         $rolesm = DB::table('roles')->where('roles.is_active', '1')->get();
-        // $alluserdetails = DB::table('user_account')
-        // ->select('user_account.id','user_account.name','user_account.email','user_account.mobno','user_account.user_status','roles.role_name')
-        // ->join('roles', 'user_account.role_id', '=', 'roles.id')->get();
+        // $alluserdetails = DB::table('users')
+        // ->select('users.id','users.name','users.email','users.mobno','users.user_status','roles.role_name')
+        // ->join('roles', 'users.role_id', '=', 'roles.id')->get();
 
-        $alluserdetails = DB::table('user_account')
+        $alluserdetails = DB::table('users')
             ->select('id', 'name', 'email', 'mobno', 'user_status', 'role_id')
             ->get();
 
@@ -1039,7 +1039,7 @@ class RoleController extends Controller
             return redirect()->route('logout');
         }
         $user_id = $request->input('user_id');
-        $userRoles = DB::table('user_account')
+        $userRoles = DB::table('users')
             ->select('role_id')
             ->where('id', $user_id)
             ->pluck('role_id')
@@ -1066,7 +1066,7 @@ class RoleController extends Controller
                 ->where('user_id', $user_id)
                 ->delete();
             if (!empty($rolesArray)) {
-                DB::table('user_account')
+                DB::table('users')
                     ->where('id', $user_id)
                     ->update(['role_id' => $roles]);
 
@@ -1099,8 +1099,8 @@ class RoleController extends Controller
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails = DB::table('user_account')
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails = DB::table('users')
             ->where('id', $userId)
             ->get();
         $roleIdsArray = explode(',', $roleid);
@@ -1134,10 +1134,10 @@ class RoleController extends Controller
         $uid = $request->input('uid');
         $loggedUserIp = $_SERVER['REMOTE_ADDR'];
         $time = date('Y-m-d H:i:s');
-        $UserAccount = new UserAccount();
+        $User = new User();
         $LogDetails = new LogDetails();
         //$email = $emal_mob;
-        $userAccuntData = UserAccount::where('id', $uid)->get();
+        $userAccuntData = User::where('id', $uid)->get();
         $cnt = count($userAccuntData);
         if ($cnt > 0) {
             foreach ($userAccuntData as $row) {
@@ -1152,7 +1152,7 @@ class RoleController extends Controller
                 'forgot_pass' => $request->u_paswd,
                 'password' => Hash::make($request->u_paswd),
             ];
-            UserAccount::where('id', $id)->update($data);
+            User::where('id', $id)->update($data);
             $checkval = '3';
             $verificationToken = base64_encode($id . '-' . $email . '-,-');
             $emailid = new EmailVerification($verificationToken, $fname, $email, $checkval, $request->newpaswd);
@@ -1176,8 +1176,8 @@ class RoleController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $roles = DB::table('roles')->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $roleIdsArray = explode(',', $roleid);
@@ -1198,8 +1198,8 @@ class RoleController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $roleIdsArray = explode(',', $roleid);
             if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
@@ -1246,7 +1246,7 @@ class RoleController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
+        $loggeduser = User::sessionValuereturn_s($roleid);
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $roleIdsArray = explode(',', $roleid);
             if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
@@ -1258,7 +1258,7 @@ class RoleController extends Controller
             else{
                 $selrdetails='';
             }
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $role = Role::find($id);
         if (!$role) {
             return redirect()->route('list.roles')->with('error', 'Role not found.');

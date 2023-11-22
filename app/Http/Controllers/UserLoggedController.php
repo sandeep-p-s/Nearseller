@@ -6,7 +6,7 @@ use DB;
 use Exception;
 use App\Models\LogDetails;
 use App\Models\OTPGenerate;
-use App\Models\UserAccount;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Mail\EmailVerification;
 use Illuminate\Support\Facades\Auth;
@@ -25,20 +25,20 @@ class UserLoggedController extends Controller
         $logtype = $valuexplode[1];
 
         // if ($logtype == 'mob') {
-        //     $userAccount = UserAccount::where('mobno', $emlormobno)->first();
+        //     $userAccount = User::where('mobno', $emlormobno)->first();
         // } else if ($logtype == 'eml') {
-        //     $userAccount = UserAccount::where('email', $emlormobno)->first();
+        //     $userAccount = User::where('email', $emlormobno)->first();
         // }
 
         if (strpos($emlormobno, '@') !== false) {
             $email = $emlormobno;
             $mobile = null;
-            $userAccount = UserAccount::where('email', $email)->first();
+            $userAccount = User::where('email', $email)->first();
         }
         else{
             $email = null;
             $mobile = $emlormobno;
-            $userAccount = UserAccount::where('mobno', $mobile)->first();
+            $userAccount = User::where('mobno', $mobile)->first();
         }
 
         if ($userAccount) {

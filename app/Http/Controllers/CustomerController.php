@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Validator;
 use App\Models\Role;
-use App\Models\UserAccount;
+use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Models\RolePermission;
@@ -35,13 +35,13 @@ class CustomerController extends Controller
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails = DB::table('user_account')
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails = DB::table('users')
             ->where('id', $userId)
             ->get();
-        $alluserdetails = DB::table('user_account')
-            ->select('user_account.id', 'user_account.name', 'user_account.email', 'user_account.mobno', 'user_account.user_status', 'roles.role_name')
-            ->join('roles', 'user_account.role_id', '=', 'roles.id')
+        $alluserdetails = DB::table('users')
+            ->select('users.id', 'users.name', 'users.email', 'users.mobno', 'users.user_status', 'roles.role_name')
+            ->join('roles', 'users.role_id', '=', 'roles.id')
             ->where('roles.is_active', '1')
             ->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
@@ -68,15 +68,15 @@ class CustomerController extends Controller
         }
         $emal_mob = $request->input('emal_mob');
         $uname = $request->input('uname');
-        $query = UserAccount::select('user_account.*', 'roles.role_name')->leftJoin('roles', 'user_account.role_id', 'roles.id')->where('roles.is_active', '1')->where('roles.id', '4');
-        $query ->orderBy('user_account.name', 'asc');
+        $query = User::select('users.*', 'roles.role_name')->leftJoin('roles', 'users.role_id', 'roles.id')->where('roles.is_active', '1')->where('roles.id', '4');
+        $query ->orderBy('users.name', 'asc');
         $alluserdetails = $query->get();
         //echo $lastRegId = $query->toSql();exit;
         $allusercount = $alluserdetails->count();
         $roles = DB::table('roles')->where('roles.is_active', '1')->where('id', '!=', 1) ->orderBy('role_name', 'asc')->get();
 
 
-        $queryactivecounts = UserAccount::select([
+        $queryactivecounts = User::select([
             DB::raw('SUM(CASE WHEN user_status = "Y" THEN 1 ELSE 0 END) AS user_status_y_count'),
             DB::raw('SUM(CASE WHEN user_status != "Y" THEN 1 ELSE 0 END) AS user_status_not_y_count'),
             DB::raw('SUM(CASE WHEN approved = "Y" THEN 1 ELSE 0 END) AS approved_y_count'),
@@ -100,9 +100,9 @@ class CustomerController extends Controller
             return redirect()->route('logout');
         }
         $id = $request->input('userid');
-        $query = UserAccount::select('user_account.*', 'roles.role_name')
-            ->leftJoin('roles', 'user_account.role_id', 'roles.id')->where('roles.is_active', '1')
-            ->where('user_account.id', $id);
+        $query = User::select('users.*', 'roles.role_name')
+            ->leftJoin('roles', 'users.role_id', 'roles.id')->where('roles.is_active', '1')
+            ->where('users.id', $id);
         $alluserdetails = $query->first();
         //echo $lastRegId = $query->toSql();exit;
         $roles = DB::table('roles')
@@ -125,7 +125,7 @@ class CustomerController extends Controller
             'userstatus' => 'required',
         ]);
         $useridhid = $request->useridhid;
-        $user = UserAccount::findOrFail($useridhid);
+        $user = User::findOrFail($useridhid);
         $user->user_status = $request->userstatus;
         $user->ip = $loggedUserIp;
         $submt = $user->save();
@@ -148,7 +148,7 @@ class CustomerController extends Controller
         $loggedUserIp = $_SERVER['REMOTE_ADDR'];
         $time = date('Y-m-d H:i:s');
         $userid = $request->input('userid');
-        $user = UserAccount::find($userid);
+        $user = User::find($userid);
         $delteuser = $user->delete();
         $msg = 'User Deleted customer id : ' . $userid;
         $LogDetails = new LogDetails();
@@ -184,7 +184,7 @@ class CustomerController extends Controller
                 $shopidexplode = $shopid_userid[$i];
                 $shops_user=explode('*',$shopidexplode);
                 $shopserviceid=$shops_user[0];
-                $user = UserAccount::find($shopserviceid);
+                $user = User::find($shopserviceid);
                 $user->user_status = 'Y';
                 $user->save();
                 $flg = 1;

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Masters;
 use DB;
 use App\Models\Executive;
 use App\Models\MenuMaster;
-use App\Models\UserAccount;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
@@ -17,8 +17,8 @@ class ExecutiveController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         // $executive = DB::table('executives as ex')
         // ->orderBy('ex.executive_name', 'asc')
         // ->get();
@@ -35,8 +35,8 @@ class ExecutiveController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $businesstype = DB::table('business_type as bt')
         ->where('bt.status','Y')
@@ -80,8 +80,8 @@ class ExecutiveController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $businesstype = DB::table('business_type as bt')
         ->where('bt.status','Y')
         ->get();
