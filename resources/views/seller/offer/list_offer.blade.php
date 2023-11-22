@@ -330,6 +330,7 @@
                 });
             });
 
+
             function check() {
                 if (document.getElementById('checkbox1').checked == true) {
                     for (i = 1; i <= document.getElementById('totalservicecnt').value; i++) {
