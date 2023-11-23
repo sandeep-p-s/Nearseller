@@ -23,7 +23,7 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="button-items d-flex align-items-end flex-column">
-                        <a href="{{ route('list.category') }}"><button type="button"
+                        <a href="{{ route('list.addcategory') }}"><button type="button"
                                 class="btn btn-secondary">Back</button></a>
                     </div>
                     <br>
@@ -45,18 +45,18 @@
                                             <option value="0">Select Parent Category</option>
                                             @foreach ($filteredCategories as $key => $category)
                                                 <option value="{{ $category->id }}"
-                                                    data-level="{{ $category->category_level }}">
+                                                    data-level="{{ $category->category_level }}" 
+                                                    @if(old('parent_category') == $category->id) selected @endif>
                                                     @for ($i = 0; $i < $category->category_level; $i++)
                                                     @endfor
-                                                    <span
-                                                        class="{{ $key === count($filteredCategories) - 1 ? 'last-child' : '' }}">{{ $category->category_name }}</span>
+                                                    <span class="{{ $loop->last ? 'last-child' : '' }}">{{ $category->category_name }}</span>
                                                 </option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <label class="mt15" for="addShopType">Category Name</label>
                                     <input type="text" class="form-control mb15" id="category_name"
-                                        placeholder="Enter Category Name" name="category_name">
+                                        placeholder="Enter Category Name" name="category_name" value="{{ old('category_name') }}">
                                     @error('category_name')
                                         <div class="text-danger mb15">{{ $message }}</div>
                                     @enderror

@@ -235,7 +235,7 @@
                                     <div class="form-group">
                                         <label>Product Description <span class="text-danger">*</span></label>
                                         <textarea id="prod_description" name="prod_description" placeholder="Product Description" class="form-control"
-                                            maxlength="7000" tabindex="4" required rows="3"></textarea>
+                                            maxlength="500" tabindex="4" required rows="3"></textarea>
                                         <label for="prod_description"></label>
                                     </div>
 

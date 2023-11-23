@@ -20,9 +20,9 @@
                     @php
                         $shopshowhide = session('roleid') == 1 || session('roleid') == 11 || session('roleid') == 3 ? 'style=display:block;' : 'style=display:none;';
                     @endphp
-                    <div class="form-group"  {{ $shopshowhide }}><label>Shop Name</label>
+                    <div class="form-group"  {{ $shopshowhide }}><label>Seller Name<span class="text-danger">*</span></label>
                         <select class="selectshopss form-select form-control form-control-lg" id="shop_names" name="shop_names" required tabindex="1">
-                            <option value="">Select Shop Name</option><br/>
+                            <option value="">Select Seller Name</option><br/>
                                 @foreach ($usershopdets as $shps)
                                     <option value="{{ $shps->id }}" @if ($shps->id == $ProductDetails->shop_id) selected @endif>{{ $shps->name }}</option>
                                 @endforeach
@@ -30,19 +30,19 @@
                         <label for="shop_names" class="error"></label>
                     </div>
 
-                    <div class="form-group"><label>Product Name</label>
+                    <div class="form-group"><label>Product Name<span class="text-danger">*</span></label>
                         <input type="text" id="prod_names" name="prod_names" class="form-control" maxlength="60"
                             placeholder="Product Name" required tabindex="1"
                             value="{{ $ProductDetails->product_name }}" />
                         <label for="prod_names" class="error"></label>
                     </div>
-                    <div class="form-group"><label> Product Specification</label>
+                    <div class="form-group"><label> Product Specification<span class="text-danger">*</span></label>
                         <textarea id="prod_specifications" name="prod_specifications" placeholder="Product Specification" class="form-control"
                             maxlength="250" tabindex="2" required> {{ $ProductDetails->product_specification }}</textarea>
                         <label for="prod_specifications"></label>
                     </div>
 
-                    <div class="form-group"><label>Category</label>
+                    <div class="form-group"><label>Category<span class="text-danger">*</span></label>
                         <select class="form-control" id="categorySelectors" name="parent_categorys" tabindex="3"
                             required>
                             <option value="0">Select Category</option>
@@ -62,14 +62,14 @@
 
 
                     <div class="form-group">
-                        <label>Product Description </label>
+                        <label>Product Description <span class="text-danger">*</span></label>
                         <textarea id="prod_descriptions" name="prod_descriptions" placeholder="Product Description" class="form-control"
                             maxlength="7000" tabindex="4" required rows="3">{{ $ProductDetails->product_description }}</textarea>
                         <label for="prod_descriptions"></label>
                     </div>
 
 
-                    <div class="form-group"><label>Product Images</label>
+                    <div class="form-group"><label>Product Images<span class="text-danger">*</span></label>
                         <input type="file" id="s_photos" multiple="" name="s_photos[]" class="form-control"
                             placeholder="Shop Photo" tabindex="5" accept="image/jpeg, image/png" />
                         <label for="s_photos" class="error"></label>

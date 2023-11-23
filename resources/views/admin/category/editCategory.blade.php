@@ -19,7 +19,7 @@
                 </div><!--end col-->
             </div>
             <div class="button-items d-flex align-items-end flex-column">
-                <a href="{{ route('list.category') }}"><button type="button" class="btn btn-secondary">Back</button></a>
+                <a href="{{ route('list.addcategory') }}"><button type="button" class="btn btn-secondary">Back</button></a>
             </div>
             <div class="row ">
                 <div class="col-lg-6">

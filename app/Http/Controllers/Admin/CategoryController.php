@@ -115,7 +115,7 @@ class CategoryController extends Controller
                 'category_name' => 'required|unique:categories,category_name|string|max:40|min:3',
                 'slug_name' => 'required|unique:categories,category_slug',
                 'category_level' => ['required', new CategoryLevelRule],
-                'category_image' => 'required|max:4096|mimes:jpeg,png,jpg',
+                'category_image' => 'required',
             ],
             [
                 'category_name.required' => 'The category name field is missing.',
@@ -127,7 +127,7 @@ class CategoryController extends Controller
                 'slug_name.unique' => 'Slug name should unique.',
                 // 'category_image.required' => 'Category image required.',
                 // 'category_level.required' => 'Category level required.',
-                'category_image.mimes' => ' format jpeg,png,jpg.',
+                //'category_image.mimes' => ' format jpeg,png,jpg.',
                 // 'category_image.max' => 'File not larger than 4mb.',
              ]
         );
