@@ -147,4 +147,5 @@ class DistrictController extends Controller
 
         return redirect()->route('list.district')->with('success', 'District deleted successfully.');
     }
+    //end
 }
