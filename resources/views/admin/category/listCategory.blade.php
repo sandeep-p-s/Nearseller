@@ -113,36 +113,34 @@
 
                                                 @if ($c->status == 'Y')
                                                     @php
-                                                        $ustatus = 'Active';
+                                                        $categorystatus = 'Active';
                                                     @endphp
                                                 @else
                                                     @php
-                                                        $ustatus = 'Inctive';
-                                                    @endphp
-                                                @endif
-
+                                                        $categorystatus = 'Inctive';
+                                                        @endphp
 
                                                 {{-- <span
                                                     class="badge p-2 {{ $c->status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
                                                     {{ $c->status === 'Y' ? 'Active' : 'Inactive' }}
                                                 </span> --}}
 
-                                                {{ $ustatus }}
+                                                {{ $categorystatus }}
                                             </td>
                                             <td width="15%" class="text-center">
 
                                                 @if ($c->approval_status == 'Y')
                                                     @php
-                                                        $uapproved = 'Approved';
+                                                        $categoryapproved = 'Approved';
                                                     @endphp
                                                 @else
                                                     @php
-                                                        $uapproved = 'Not Approved';
+                                                        $categoryapproved = 'Not Approved';
                                                     @endphp
                                                 @endif
 
 
-                                                {{ $uapproved }}
+                                                {{ $categoryapproved }}
                                                 {{-- <span
                                                     class="badge p-2 {{ $c->approval_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
                                                     {{ $c->approval_status === 'Y' ? 'Approved' : 'Not Approved' }}
@@ -230,6 +228,18 @@
                     this.api().columns().every(function() {
                         var column = this;
                         var colIndex = column[0][0];
+                        var excludeColumns = [0, 1, 5];
+                        var textColumns = [2];
+
+                        if (jQuery.inArray(colIndex, excludeColumns) !== -1)
+                            return;
+
+                        if (jQuery.inArray(colIndex, textColumns) !== -1) {
+
+                            var mainDiv = $('<div>', {
+                                'class': 'cb-textBox-wrap'
+                            }).appendTo($(column.header()));
+
                         var hidroleid = $('#hidroleid').val();
                         if (hidroleid == 1 || hidroleid == 11) {
                             var excludeColumns = [0, 1, 5];
@@ -316,44 +326,16 @@
                 },
                 "columnDefs": [{
                     "targets": 0,
+                    "orderable": false
+                }]
+            });
+        });
+
                     "orderable": true
                 }]
             });
         });
         $(document).ready(function() {
-
-            // var table = $('#datatable3').DataTable({
-            //     initComplete: function() {
-            //         this.api()
-            //             .columns()
-            //             .every(function() {
-            //                 let column = this;
-            //                 let title = column.footer().textContent;
-            //                 if (title == "")
-            //                     return;
-            //                 // Create input element
-            //                 let input = document.createElement('input');
-            //                 input.className = "form-control form-control-lg";
-            //                 input.type = "text";
-            //                 input.placeholder = title;
-            //                 column.footer().replaceChildren(input);
-
-            //                 // Event listener for user input
-            //                 input.addEventListener('keyup', () => {
-            //                     if (column.search() !== this.value) {
-            //                         column.search(input.value).draw();
-            //                     }
-            //                 });
-            //             });
-            //     },
-            //     "columnDefs": [{
-            //         "targets": 0,
-            //         "orderable": false
-            //     }]
-            // });
-
-
-
             $(".selectAll").on("click", function(event) {
                 var isChecked = $(this).is(":checked");
                 $("#datatable3 tbody input[type='checkbox']").prop("checked", isChecked);
