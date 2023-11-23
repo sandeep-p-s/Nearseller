@@ -191,34 +191,47 @@
                 levelInput.value = level;
             }
 
-
             var fileArrs = [];
             var totalFiless = 0;
+            var maxSize = 10485760; // 10MB in bytes
+            var minSize = 512000; // 500KB in bytes
 
             $("#category_image").change(function(event) {
                 //$('#image-preview').html('');
                 var totalFileCount = $(this)[0].files.length;
-
-
                 for (var i = 0; i < totalFileCount; i++) {
                     var file = $(this)[0].files[i];
-
                     if (file.size > 3145728) {
                         alert('File size exceeds the limit of 3MB');
                         $(this).val('');
                         $('#image-preview').html('');
                         return;
                     }
+                    // var fileSize = file.size;
+                    // if (fileSize > maxSize) {
+                    //     alert('File size exceeds the limit of 10MB');
+                    //     $(this).val('');
+                    //     $('#image-preview').html('');
+                    //     return;
+                    // }
+                    // if (fileSize < minSize) {
+                    //     alert('File size is less than 500KB');
+                    //     $(this).val('');
+                    //     $('#image-preview').html('');
+                    //     return;
+                    // }
 
                     fileArrs.push(file);
                     totalFiless++;
                     if (totalFiless > 1) {
                         alert('Maximum 1 images allowed');
-                        $(this).val('');
+                        $(this).val(''); -
                         $('#image-preview').html('');
+
                         totalFiless = 0;
                         fileArrs = [];
-                        return;
+                        file = "";
+                        return false;
                     }
 
 
@@ -243,6 +256,7 @@
                 document.getElementById('category_image').files = new FileListItem([]);
                 document.getElementById('category_image').files = new FileListItem(fileArrs);
 
+
             });
 
             $(document).on('click', '.remove-btns', function() {
@@ -261,23 +275,23 @@
             });
 
 
-
-
             function FileListItem(file) {
-                file = [].slice.call(Array.isArray(file) ? file : arguments);
-                var b = file.length;
-                var d = true;
-                for (var c; b-- && d;) {
-                    d = file[b] instanceof File;
-                }
-                if (!d) {
-                    throw new TypeError('Expected argument to FileList is File or array of File objects');
-                }
-                var clipboardData = new ClipboardEvent('').clipboardData || new DataTransfer();
-                for (b = d = file.length; b--;) {
-                    clipboardData.items.add(file[b]);
-                }
-                return clipboardData.files;
-            }
+        file = [].slice.call(Array.isArray(file) ? file : arguments);
+        var b = file.length;
+        var d = true;
+        for (var c; b-- && d;)
+ {
+            d = file[b] instanceof File;
+        }
+        if (!d) {
+            throw new TypeError('Expected argument to FileList is File or array of File objects');
+        }
+        var clipboardData = new ClipboardEvent('').clipboardData || new DataTransfer();
+        for (b = d = file.length; b--;)
+ {
+            clipboardData.items.add(file[b]);
+        }
+        return clipboardData.files;
+    }
         </script>
     @endsection

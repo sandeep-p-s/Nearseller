@@ -59,145 +59,132 @@
                                     Approved Categories : {{ $notapproved_categories }}
                                 </span>
                             </div>
-                            @php
-                                $totalCategories = count($categories);
-                            @endphp
-                            @if ($totalCategories > 0)
-                                <table id="datatable3" class="table table-striped table-bordered" style="width: 100%">
+                            <table id="datatable3" class="table table-striped table-bordered" style="width: 100%">
 
 
-                                    <thead>
+                                <thead>
+                                    <tr>
+                                        @if (session('roleid') == 1 || session('roleid') == 11)
+                                            {{-- <th data-sortable="false"><input type='checkbox' name='checkbox1' id='checkbox1'
+                                                onclick='check();' /></th> --}}
+                                            <th width="5px" data-sorting="true" class="checkbox_table"><input
+                                                    type='checkbox' name='checkbox1' id='checkbox1' class="selectAll"
+                                                    onclick='' /></th>
+                                        @endif
+
+                                        <th>S.No.</th>
+                                        <th>Category Name</th>
+                                        <th>Active Status</th>
+                                        <th>Approval Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                        $totalCategories = count($categories);
+                                    @endphp
+                                    @foreach ($categories as $index => $c)
                                         <tr>
                                             @if (session('roleid') == 1 || session('roleid') == 11)
-                                                {{-- <th data-sortable="false"><input type='checkbox' name='checkbox1' id='checkbox1'
-                                                onclick='check();' /></th> --}}
-                                                <th width="5px" data-sorting="true" class="checkbox_table"><input
-                                                        type='checkbox' name='checkbox1' id='checkbox1' class="selectAll"
-                                                        onclick='' /></th>
+                                                <td class="checkbox_table" width="5%"><input name="categoryid[]"
+                                                        type="checkbox" id="categoryid{{ $loop->iteration }}"
+                                                        value="{{ $c->id }}"
+                                                        {{ $c->approval_status === 'Y' ? '' : '' }} />
+                                                </td>
                                             @endif
 
-                                            <th>S.No.</th>
-                                            <th>Category Name</th>
-                                            <th>Active Status</th>
-                                            <th>Approval Status</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                                            <td width="5%">{{ $loop->iteration }}</td>
+                                            <td width="55%">
+                                                @foreach (explode(' ➤ ', $c->category_name) as $key => $path)
+                                                    @if ($loop->last)
+                                                        <span class="badge badge-soft-orange p-2"
+                                                            style="font-size: 15px !important;">{{ $path }}</span>
+                                                    @else
+                                                        @if ($key === count(explode(' ➤ ', $c->category_name)) - 1)
+                                                            {{ $path }}
+                                                        @else
+                                                            {{ $path }} ➤
+                                                        @endif
+                                                    @endif
+                                                @endforeach
+                                            </td>
 
-                                        @foreach ($categories as $index => $c)
-                                            <tr>
-                                                @if (session('roleid') == 1 || session('roleid') == 11)
-                                                    <td class="checkbox_table" width="5%"><input name="categoryid[]"
-                                                            type="checkbox" id="categoryid{{ $loop->iteration }}"
-                                                            value="{{ $c->id }}"
-                                                            {{ $c->approval_status === 'Y' ? '' : '' }} />
-                                                    </td>
+                                            <td width="10%" class="text-center">
+
+                                                @if ($c->status == 'Y')
+                                                    @php
+                                                        $ustatus = 'Active';
+                                                    @endphp
+                                                @else
+                                                    @php
+                                                        $ustatus = 'Inctive';
+                                                    @endphp
                                                 @endif
 
-                                                <td width="5%">{{ $loop->iteration }}</td>
-                                                <td width="55%">
-                                                    @foreach (explode(' ➤ ', $c->category_name) as $key => $path)
-                                                        @if ($loop->last)
-                                                            <span class="badge badge-soft-orange p-2"
-                                                                style="font-size: 15px !important;">{{ $path }}</span>
-                                                        @else
-                                                            @if ($key === count(explode(' ➤ ', $c->category_name)) - 1)
-                                                                {{ $path }}
-                                                            @else
-                                                                {{ $path }} ➤
-                                                            @endif
-                                                        @endif
-                                                    @endforeach
-                                                </td>
 
-                                                <td width="10%" class="text-center">
-
-                                                    @if ($c->status == 'Y')
-                                                        @php
-                                                            $ustatus = 'Active';
-                                                        @endphp
-                                                    @else
-                                                        @php
-                                                            $ustatus = 'Inctive';
-                                                        @endphp
-                                                    @endif
-
-
-                                                    {{-- <span
+                                                {{-- <span
                                                     class="badge p-2 {{ $c->status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
                                                     {{ $c->status === 'Y' ? 'Active' : 'Inactive' }}
                                                 </span> --}}
 
-                                                    {{ $ustatus }}
-                                                </td>
-                                                <td width="15%" class="text-center">
+                                                {{ $ustatus }}
+                                            </td>
+                                            <td width="15%" class="text-center">
 
-                                                    @if ($c->approval_status == 'Y')
-                                                        @php
-                                                            $uapproved = 'Approved';
-                                                        @endphp
-                                                    @else
-                                                        @php
-                                                            $uapproved = 'Not Approved';
-                                                        @endphp
-                                                    @endif
+                                                @if ($c->approval_status == 'Y')
+                                                    @php
+                                                        $uapproved = 'Approved';
+                                                    @endphp
+                                                @else
+                                                    @php
+                                                        $uapproved = 'Not Approved';
+                                                    @endphp
+                                                @endif
 
 
-                                                    {{ $uapproved }}
-                                                    {{-- <span
+                                                {{ $uapproved }}
+                                                {{-- <span
                                                     class="badge p-2 {{ $c->approval_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
                                                     {{ $c->approval_status === 'Y' ? 'Approved' : 'Not Approved' }}
                                                 </span> --}}
-                                                </td>
-                                                <td width="10%" class="text-center">
-                                                    {{-- {{ $c->id }} --}}
-                                                    <div class="btn-group mb-2 mb-md-0">
-                                                        <button type="button" class="btn view_btn dropdown-toggle"
-                                                            data-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false">Action <i
-                                                                class="mdi mdi-chevron-down"></i></button>
-                                                        <div class="dropdown-menu">
+                                            </td>
+                                            <td width="10%" class="text-center">
+                                                {{-- {{ $c->id }} --}}
+                                                <div class="btn-group mb-2 mb-md-0">
+                                                    <button type="button" class="btn view_btn dropdown-toggle"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">Action <i
+                                                            class="mdi mdi-chevron-down"></i></button>
+                                                    <div class="dropdown-menu">
 
-                                                            @if (session('roleid') == 1 || session('roleid') == 11 || session('user_id') == $c->created_by)
-                                                                <a class="dropdown-item view_btn1 d-none" id="editBtn"
-                                                                    href="{{ route('edit.category', $c->category_slug) }}">Edit/View</a>
-                                                            @endif
-                                                            @if (session('roleid') == 1 || session('roleid') == 11)
-                                                                <a class="dropdown-item approve_btn " id="approvalBtn"
-                                                                    href="{{ route('approved.category', $c->category_slug) }}">Activation/Approval</a>
-                                                            @endif
-                                                            @if (session('roleid') == 1 || session('roleid') == 11)
-                                                                <a class="dropdown-item delete_btn" id="deleteBtn"
-                                                                    href="{{ route('delete.category', $c->category_slug) }}"
-                                                                    onclick="return confirm('Are you sure you want to delete?')">Delete</a>
-                                                            @endif
-                                                        </div>
+                                                        @if (session('roleid') == 1 || session('roleid') == 11 || session('user_id') == $c->created_by)
+                                                            <a class="dropdown-item view_btn1 d-none" id="editBtn"
+                                                                href="{{ route('edit.category', $c->category_slug) }}">Edit/View</a>
+                                                        @endif
+                                                        @if (session('roleid') == 1 || session('roleid') == 11)
+                                                            <a class="dropdown-item approve_btn " id="approvalBtn"
+                                                                href="{{ route('approved.category', $c->category_slug) }}">Activation/Approval</a>
+                                                        @endif
+                                                        @if (session('roleid') == 1 || session('roleid') == 11)
+                                                            <a class="dropdown-item delete_btn" id="deleteBtn"
+                                                                href="{{ route('delete.category', $c->category_slug) }}"
+                                                                onclick="return confirm('Are you sure you want to delete?')">Delete</a>
+                                                        @endif
                                                     </div>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                                <input type="hidden" value="{{ $totalCategories }}" id="totalservicecnt">
-                                @if ($totalCategories > 0)
-                                    <div class="col text-center">
-                                        <button class="btn btn-primary px-5 approve_all_btn"
-                                            onclick="category_approvedall();">Approve
-                                            All</button>
-                                    </div>
-                                @endif
-                            @else
-                                <table>
-                                    <tr>
-                                        <td colspan="13" align="center">
-                                            <img src="{{ asset('backend/assets/images/notfoundimg.png') }}"
-                                                alt="notfound" class="rounded-circle" style="width: 30%;" />
-                                        </td>
-                                    </tr>
-                                </table>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            <input type="hidden" value="{{ $totalCategories }}" id="totalservicecnt">
+                            @if ($totalCategories > 0)
+                                <div class="col text-center">
+                                    <button class="btn btn-primary px-5 approve_all_btn"
+                                        onclick="category_approvedall();">Approve
+                                        All</button>
+                                </div>
                             @endif
-
                         </div>
                     </div>
                 </div>
@@ -329,7 +316,7 @@
                 },
                 "columnDefs": [{
                     "targets": 0,
-                    "orderable": false
+                    "orderable": true
                 }]
             });
         });

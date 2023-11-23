@@ -15,7 +15,7 @@ class UseraccountSeeder extends Seeder
      */
     public function run(): void
     {
-        $pass = Hash::make('123456@adm');
+        $pass = Hash::make('123456@admin');
       for($j=1; $j <= 1; $j++)
       {
           $data = [];
