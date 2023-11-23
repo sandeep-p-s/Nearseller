@@ -473,6 +473,7 @@ Route::middleware(['role'])->group(function () {
     });
 
 
+
     Route::controller(AffiliateController::class)->group(function () {
         Route::get('affdashboard', 'affiliatedashboard')->name('affiliate.dashboard');
         Route::get('newaffiliate', 'AffiliateAddNew')->name('newaffiliate');
