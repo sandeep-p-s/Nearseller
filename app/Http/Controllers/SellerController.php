@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use App\Models\UserAccount;
+use App\Models\User;
 use App\Models\LogDetails;
 use App\Models\Affiliate;
 use App\Models\SellerDetails;
@@ -23,9 +23,9 @@ class SellerController extends Controller
         {
             return redirect()->route('logout');
         }
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        $countShops     = DB::table('user_account')->where('role_id', 2)->where('id', $userId)->count();
+        $loggeduser     = User::sessionValuereturn($userRole);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
+        $countShops     = DB::table('users')->where('role_id', 2)->where('id', $userId)->count();
         return view('seller.dashboard',compact('userdetails','countShops','userRole','loggeduser'));
     }
 
@@ -38,8 +38,8 @@ class SellerController extends Controller
         {
             return redirect()->route('logout');
         }
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser     = User::sessionValuereturn($userRole);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $activeAttributes= DB::table('attributes')->where('status', 'Y')->count();
         $NotactiveAttributes= DB::table('attributes')->where('status', 'N')->count();
         $attributeslist  = DB::table('attributes')->get();

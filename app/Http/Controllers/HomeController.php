@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Carbon;
-use App\Models\UserAccount;
+use App\Models\User;
 use App\Models\LogDetails;
 use App\Models\OTPGenerate;
 use App\Models\SellerDetails;
@@ -36,8 +36,8 @@ class HomeController extends Controller
             if ($userId == '') {
                 return redirect()->route('logout');
             }
-            $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-            $userdetails = DB::table('user_account')
+            $loggeduser = User::sessionValuereturn_s($roleid);
+            $userdetails = DB::table('users')
                 ->where('id', $userId)
                 ->get();
             $product = DB::table('product_details')->select('id','product_name','product_images')->where('is_approved','Y')->get();
@@ -53,7 +53,7 @@ class HomeController extends Controller
          $countries      = DB::table('country')->get();
          $business       = DB::table('business_type')->where('status','Y')->get();
         //  $servicecategory = DB::table('service_categories')->where('status','Y')->get();
-         $executives     = DB::table('user_account')->where(['role_id' => 10])->where(['user_status' => 'Y'])->get();
+         $executives     = DB::table('users')->where(['role_id' => 10])->where(['user_status' => 'Y'])->get();
 
         return view('user.login',compact('countries','business','executives'));
     }
@@ -124,8 +124,8 @@ class HomeController extends Controller
         $request->validate([
             'u_name'    => 'required|min:3|max:50',
             'mobcntrycode'=> 'required',
-            'u_emid'    => 'required|email|unique:user_account,email',
-            'u_mobno'   => 'required|numeric|digits:10|unique:user_account,mobno',
+            'u_emid'    => 'required|email|unique:users,email',
+            'u_mobno'   => 'required|numeric|digits:10|unique:users,mobno',
             'u_paswd'   => 'required|min:6',
             'u_rpaswd' => 'required|same:u_paswd',
         ]);
@@ -137,7 +137,7 @@ class HomeController extends Controller
             return response()->json(['message' => 'Email ID / Mobile Number not verified'], 200);
         }
 
-        $user = new UserAccount();
+        $user = new User();
         $regval=$request->regval;
         $loggedUserIp=$_SERVER['REMOTE_ADDR'];
         $time=date('Y-m-d H:i:s');
@@ -192,7 +192,7 @@ class HomeController extends Controller
     public function ExistEmailCheck(Request $request)
     {
         $u_emid = $request->input('u_emid');
-        $user = UserAccount::where('email', $u_emid)->get();
+        $user = User::where('email', $u_emid)->get();
         $count = $user->count();
         if ($count > 0) {
             return response()->json(['result' => 1]);
@@ -205,7 +205,7 @@ class HomeController extends Controller
     public function ExistMobnoCheck(Request $request)
     {
         $u_mobno = $request->input('u_mobno');
-        $user = UserAccount::where('mobno', $u_mobno)->get();
+        $user = User::where('mobno', $u_mobno)->get();
         $count = $user->count();
         if ($count > 0) {
             return response()->json(['result' => 1]);
@@ -217,7 +217,7 @@ class HomeController extends Controller
     public function ExistShopNameCheck(Request $request)
     {
         $u_shop = $request->input('u_shop');
-        $user = UserAccount::where('name', $u_shop)->get();
+        $user = User::where('name', $u_shop)->get();
         $count = $user->count();
         if ($count > 0) {
             return response()->json(['result' => 1]);
@@ -230,7 +230,7 @@ class HomeController extends Controller
     {
         $u_shop = $request->input('u_shop');
         $roleidcheck = $request->input('roleidcheck');
-        $user = UserAccount::where('name', $u_shop)->where('role_id', $roleidcheck)->get();
+        $user = User::where('name', $u_shop)->where('role_id', $roleidcheck)->get();
         $count = $user->count();
         if ($count > 0) {
             return response()->json(['result' => 1]);
@@ -282,13 +282,13 @@ class HomeController extends Controller
         if (strpos($emailmob, '@') !== false) {
             $email = $emailmob;
             $mobile = null;
-            $userAccuntData = UserAccount::where('email', $email)->get();
+            $userAccuntData = User::where('email', $email)->get();
             $cnt = count($userAccuntData);
         }
         else{
             $email = null;
             $mobile = $emailmob;
-            $userAccuntData = UserAccount::where('mobno', $mobile)->get();
+            $userAccuntData = User::where('mobno', $mobile)->get();
             $cnt = count($userAccuntData);
         }
         if ($cnt == 0) {
@@ -305,7 +305,7 @@ class HomeController extends Controller
         $numr = $request->input('numr');
         // if($numr==1)
         // {
-        //     $userAccuntData = UserAccount::where('referal_id', $referalno)->get();
+        //     $userAccuntData = User::where('referal_id', $referalno)->get();
         // }
         // else if($numr==2)
         // {
@@ -333,7 +333,7 @@ class HomeController extends Controller
         $username = $exlodval[1];
         $loggedUserIp = $_SERVER['REMOTE_ADDR'];
         $time=date('Y-m-d H:i:s');
-        $userAccuntModel = new UserAccount();
+        $userAccuntModel = new User();
         $LogDetails = new LogDetails();
         $userAccuntData = $userAccuntModel->select('id','user_status')->where(['id' => $userregid, 'email' => $username])->get();
         $countm = $userAccuntData->count();
@@ -382,14 +382,14 @@ class HomeController extends Controller
         $emal_mob = $request->input('emal_mob');
         $loggedUserIp = $_SERVER['REMOTE_ADDR'];
         $time=date('Y-m-d H:i:s');
-        $UserAccount = new UserAccount();
+        $User = new User();
         $LogDetails = new LogDetails();
         $OTPGenModel = new OTPGenerate();
         $random_chars = '';
         if (strpos($emal_mob, '@') !== false) {
             $email = $emal_mob;
             $mobile = null;
-            $userAccuntData = UserAccount::where('email', $email)->get();
+            $userAccuntData = User::where('email', $email)->get();
             $cnt = count($userAccuntData);
             if($cnt>0)
              {
@@ -487,7 +487,7 @@ class HomeController extends Controller
         {
             $email = null;
             $mobile = $emal_mob;
-            $userAccuntData = UserAccount::where('mobno', $mobile)->get();
+            $userAccuntData = User::where('mobno', $mobile)->get();
             $cnt = count($userAccuntData);
             if($cnt>0)
             {
@@ -585,14 +585,14 @@ class HomeController extends Controller
         $emal_mob = $request->input('sentoval');
         $loggedUserIp = $_SERVER['REMOTE_ADDR'];
         $time=date('Y-m-d H:i:s');
-        $UserAccount = new UserAccount();
+        $User = new User();
         $LogDetails = new LogDetails();
         $OTPGenModel = new OTPGenerate();
         $random_chars = '';
         if (strpos($emal_mob, '@') !== false) {
             $email = $emal_mob;
             $mobile = null;
-            $userAccuntData = UserAccount::where('email', $email)->get();
+            $userAccuntData = User::where('email', $email)->get();
             $cnt = count($userAccuntData);
             if($cnt>0)
              {
@@ -672,7 +672,7 @@ class HomeController extends Controller
         {
             $email = null;
             $mobile = $emal_mob;
-            $userAccuntData = UserAccount::where('mobno', $mobile)->get();
+            $userAccuntData = User::where('mobno', $mobile)->get();
             $cnt = count($userAccuntData);
             if($cnt>0)
             {
@@ -753,14 +753,14 @@ class HomeController extends Controller
         $otpval = $request->input('otpval');
         $loggedUserIp = $_SERVER['REMOTE_ADDR'];
         $time=date('Y-m-d H:i:s');
-        $UserAccount = new UserAccount();
+        $User = new User();
         $LogDetails = new LogDetails();
         $OTPGenModel = new OTPGenerate();
         $random_chars = '';
         if (strpos($emal_mob, '@') !== false) {
             $email = $emal_mob;
             $mobile = null;
-            $userAccuntData = UserAccount::where('email', $email)->get();
+            $userAccuntData = User::where('email', $email)->get();
             $cnt = count($userAccuntData);
             if($cnt>0)
              {
@@ -782,7 +782,7 @@ class HomeController extends Controller
                         $data = [
                             'email_verify' => 'Y',
                         ];
-                        UserAccount::where('id', $id)->update($data);
+                        User::where('id', $id)->update($data);
                         $msg = "Email ID : " . $email . " User Reg ID " . $id. " Verify OTP is " . $otpval;
                         $logdata = [
                             'user_id'       => $email,
@@ -806,7 +806,7 @@ class HomeController extends Controller
         {
             $email = null;
             $mobile = $emal_mob;
-            $userAccuntData = UserAccount::where('mobno', $mobile)->get();
+            $userAccuntData = User::where('mobno', $mobile)->get();
             $cnt = count($userAccuntData);
             if($cnt>0)
             {
@@ -827,7 +827,7 @@ class HomeController extends Controller
                     $data = [
                         'mobile_verify' => 'Y',
                     ];
-                    UserAccount::where('id', $id)->update($data);
+                    User::where('id', $id)->update($data);
                     $msg = "Mobile Number : " . $mobno . " User Reg ID " . $id. " Verify OTP is " . $otpval;
                     $logdata = [
                         'user_id'       => $email,
@@ -861,12 +861,12 @@ class HomeController extends Controller
         $emal_mob = $request->input('sentovalhid');
         $loggedUserIp = $_SERVER['REMOTE_ADDR'];
         $time=date('Y-m-d H:i:s');
-        $UserAccount = new UserAccount();
+        $User = new User();
         $LogDetails = new LogDetails();
         if (strpos($emal_mob, '@') !== false) {
             $email = $emal_mob;
             $mobile = null;
-            $userAccuntData = UserAccount::where('email', $email)->get();
+            $userAccuntData = User::where('email', $email)->get();
             $cnt = count($userAccuntData);
             if($cnt>0)
              {
@@ -883,7 +883,7 @@ class HomeController extends Controller
                     'forgot_pass' => $request->newpaswd,
                     'password' => Hash::make($request->newpaswd),
                 ];
-                UserAccount::where('id', $id)->update($data);
+                User::where('id', $id)->update($data);
                 $checkval="3";
                 $verificationToken = base64_encode($id . '-' . $email.'-,-');
                 $emailid = new EmailVerification($verificationToken, $fname, $email, $checkval, $request->newpaswd);
@@ -907,7 +907,7 @@ class HomeController extends Controller
         {
             $email = null;
             $mobile = $emal_mob;
-            $userAccuntData = UserAccount::where('mobno', $mobile)->get();
+            $userAccuntData = User::where('mobno', $mobile)->get();
             $cnt = count($userAccuntData);
             if($cnt>0)
             {
@@ -924,7 +924,7 @@ class HomeController extends Controller
                     'forgot_pass' => $request->newpaswd,
                     'password' => Hash::make($request->newpaswd),
                 ];
-                UserAccount::where('id', $id)->update($data);
+                User::where('id', $id)->update($data);
                 $checkval="3";
                 $verificationToken = base64_encode($id . '-' . $email.'-,-');
                 $emailid = new EmailVerification($verificationToken, $fname, $email, $checkval, $request->newpaswd);
@@ -953,7 +953,7 @@ class HomeController extends Controller
         $logn_mob = $request->input('logn_mob');
         $loggedUserIp = $_SERVER['REMOTE_ADDR'];
         $time=date('Y-m-d H:i:s');
-        $UserAccount = new UserAccount();
+        $User = new User();
         $LogDetails = new LogDetails();
         $OTPGenModel = new OTPGenerate();
         $random_chars = '';
@@ -961,7 +961,7 @@ class HomeController extends Controller
         if (strpos($emailmob, '@') !== false) {
             $email = $emailmob;
             $mobile = null;
-            $userAccuntData = UserAccount::where('email', $email)->get();
+            $userAccuntData = User::where('email', $email)->get();
             $cnt = count($userAccuntData);
             if($cnt>0)
             {
@@ -1068,7 +1068,7 @@ class HomeController extends Controller
         else{
             $email = null;
             $mobile = $emailmob;
-            $userAccuntData = UserAccount::where('mobno', $mobile)->get();
+            $userAccuntData = User::where('mobno', $mobile)->get();
             $cnt = count($userAccuntData);
             if($cnt>0)
             {
@@ -1167,7 +1167,7 @@ class HomeController extends Controller
                 return response()->json(['result' => 2]);
             }
         }
-        //$userAccuntData = UserAccount::where('mobno', $mobile)->get();
+        //$userAccuntData = User::where('mobno', $mobile)->get();
 
 
 
@@ -1183,18 +1183,18 @@ class HomeController extends Controller
 
             $emailmob = $request->input('emailid');
             $password = $request->input('passwd');
-            //$user = DB::table('user_account')->where('email', $email)->first();
+            //$user = DB::table('users')->where('email', $email)->first();
 
 
             if (strpos($emailmob, '@') !== false) {
                 $email = $emailmob;
                 $mobile = null;
-                $user = DB::table('user_account')->where('email', $email)->first();
+                $user = DB::table('users')->where('email', $email)->first();
             }
             else{
                 $email = null;
                 $mobile = $emailmob;
-                $user = DB::table('user_account')->where('mobno', $mobile)->first();
+                $user = DB::table('users')->where('mobno', $mobile)->first();
             }
 
             //echo "<pre>";print_r($user);exit;
@@ -1276,7 +1276,7 @@ class HomeController extends Controller
                 }
 
             }
-            $user = new UserAccount();
+            $user = new User();
             $user->name = ucfirst($request->s_name);
             $user->mob_countrycode = $request->s_mobcntrycode;
             $user->email = $request->s_email;
@@ -1421,7 +1421,7 @@ class HomeController extends Controller
                 'a_rpaswd' => 'required|same:a_paswd',
                 'a_termcondtn' => 'accepted',
             ]);
-            $user = new UserAccount();
+            $user = new User();
             $user->name = $request->a_name;
             $user->email = $request->a_email;
             $user->mobno = $request->a_mobno;
@@ -1513,7 +1513,7 @@ class HomeController extends Controller
             $u_emid = $request->input('u_emid');
             $loggedUserIp = $_SERVER['REMOTE_ADDR'];
             $time=date('Y-m-d H:i:s');
-            $UserAccount = new UserAccount();
+            $User = new User();
             $LogDetails = new LogDetails();
             $OTPGenModel = new OTPGenerate();
             $random_chars = '';
@@ -1635,7 +1635,7 @@ class HomeController extends Controller
             $otpval = $request->input('otpval');
             $loggedUserIp = $_SERVER['REMOTE_ADDR'];
             $time=date('Y-m-d H:i:s');
-            $UserAccount = new UserAccount();
+            $User = new User();
             $LogDetails = new LogDetails();
             $OTPGenModel = new OTPGenerate();
             $random_chars = '';
@@ -1683,7 +1683,7 @@ class HomeController extends Controller
             $u_mobno = $request->input('u_mobno');
             $loggedUserIp = $_SERVER['REMOTE_ADDR'];
             $time=date('Y-m-d H:i:s');
-            $UserAccount = new UserAccount();
+            $User = new User();
             $LogDetails = new LogDetails();
             $OTPGenModel = new OTPGenerate();
             $random_chars = '';
@@ -1796,7 +1796,7 @@ class HomeController extends Controller
             $otpval = $request->input('otpval');
             $loggedUserIp = $_SERVER['REMOTE_ADDR'];
             $time=date('Y-m-d H:i:s');
-            $UserAccount = new UserAccount();
+            $User = new User();
             $LogDetails = new LogDetails();
             $OTPGenModel = new OTPGenerate();
             $random_chars = '';
@@ -1851,7 +1851,7 @@ class HomeController extends Controller
             $username = $exlodval[1];
             $loggedUserIp = $_SERVER['REMOTE_ADDR'];
             $time=date('Y-m-d H:i:s');
-            $userAccuntModel = new UserAccount();
+            $userAccuntModel = new User();
             $LogDetails = new LogDetails();
             $userAccuntData = $userAccuntModel->select('id','user_status')->where(['id' => $userregid, 'email' => $username])->get();
             $countm = $userAccuntData->count();

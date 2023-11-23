@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Builder;
-use App\Models\UserAccount;
+use App\Models\User;
 use App\Models\LogDetails;
 use App\Models\SellerDetails;
 use App\Models\Affiliate;
@@ -14,6 +14,13 @@ use App\Models\MenuMaster;
 use App\Models\ServiceCategory;
 use App\Models\ServiceSubCategory;
 use App\Models\ServiceType;
+use App\Models\ServiceDetails;
+use App\Models\ServiceAppointment;
+use App\Models\NotAvailableDate;
+use App\Models\AppointmentAvailableDayTime;
+use App\Models\SetQuestion;
+use App\Models\AddServiceAttribute;
+use App\Models\ServiceEmployee;
 use App\Models\OpenCloseDayTime;
 use App\Mail\EmailVerification;
 use Illuminate\Support\Facades\Mail;
@@ -30,30 +37,30 @@ class AdminController extends Controller
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        //$loggeduser = UserAccount::sessionValuereturn($userRole);
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
+        //$loggeduser = User::sessionValuereturn($userRole);
+        $loggeduser = User::sessionValuereturn_s($roleid);
 
-        $userdetails = DB::table('user_account')
+        $userdetails = DB::table('users')
             ->where('id', $userId)
             ->get();
-        $countUsers = DB::table('user_account')
+        $countUsers = DB::table('users')
             ->where('role_id', 4)
             ->count();
-        $countAffiliate = DB::table('user_account')
+        $countAffiliate = DB::table('users')
             ->where('role_id', 3)
             ->count();
-        $countShops = DB::table('user_account')
+        $countShops = DB::table('users')
             ->where('role_id', 2)
             ->count();
-        $countservices = DB::table('user_account')
+        $countservices = DB::table('users')
             ->where('role_id', 9)
             ->count();
 
-        $countInactiveShops = DB::table('user_account')
+        $countInactiveShops = DB::table('users')
             ->where('role_id', 2)
             ->where('user_status', '<>', 'Y')
             ->count();
-        $countInactiveservices = DB::table('user_account')
+        $countInactiveservices = DB::table('users')
             ->where('role_id', 9)
             ->where('user_status', '<>', 'Y')
             ->count();
@@ -72,7 +79,7 @@ class AdminController extends Controller
         } elseif (in_array('9', $roleIdsArray)) {
             $countproductuser = 0;
             $countserviceuser = DB::table('service_details')
-                ->where('service_id', $userId)
+                ->where('service_provider_id', $userId)
                 ->count();
 
         } else {
@@ -114,8 +121,8 @@ class AdminController extends Controller
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails = DB::table('user_account')
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails = DB::table('users')
             ->where('id', $userId)
             ->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
@@ -215,7 +222,7 @@ class AdminController extends Controller
             'bank_dist' => 'required',
             'branch_name' => 'required',
         ]);
-        $user = new UserAccount();
+        $user = new User();
         $user->name = $request->a_name;
         $user->email = $request->a_email;
         $user->mobno = $request->a_mobno;
@@ -249,7 +256,7 @@ class AdminController extends Controller
         $user->ip = $loggedUserIp;
         $user->parent_id = $userId;
         if ($roleid == 3) {
-            $Affiliatereferal_id = DB::table('user_account')
+            $Affiliatereferal_id = DB::table('users')
                 ->select('referal_id')
                 ->where('id', $userId)
                 ->get();
@@ -396,7 +403,7 @@ class AdminController extends Controller
             return redirect()->route('logout');
         }
         $id = $request->input('affiliateid');
-        $Affiliate = Affiliate::select('affiliate.*', 'professions.profession_name', 'marital_statuses.mr_name', 'religions.religion_name', 'country.country_name', 'state.state_name', 'district.district_name', 'bank_types.bank_name', 'bank_details.branch_name', 'bank_details.ifsc_code', 'bank_details.branch_address', 'user_account.user_status')
+        $Affiliate = Affiliate::select('affiliate.*', 'professions.profession_name', 'marital_statuses.mr_name', 'religions.religion_name', 'country.country_name', 'state.state_name', 'district.district_name', 'bank_types.bank_name', 'bank_details.branch_name', 'bank_details.ifsc_code', 'bank_details.branch_address', 'users.user_status')
             ->leftJoin('professions', 'professions.id', 'affiliate.profession')
             ->leftJoin('marital_statuses', 'marital_statuses.id', 'affiliate.marital_status')
             ->leftJoin('religions', 'religions.id', 'affiliate.religion')
@@ -405,7 +412,7 @@ class AdminController extends Controller
             ->leftJoin('district', 'district.id', 'affiliate.district')
             ->leftJoin('bank_types', 'bank_types.id', 'affiliate.bank_type')
             ->leftJoin('bank_details', 'bank_details.id', 'affiliate.branch_code')
-            ->leftJoin('user_account', 'user_account.id', 'affiliate.user_id')
+            ->leftJoin('users', 'users.id', 'affiliate.user_id')
             ->where('affiliate.id', $id)
             ->first();
         //echo $lastRegId = $Affiliate->toSql();exit;
@@ -437,7 +444,7 @@ class AdminController extends Controller
         $branchdetails = DB::table('bank_details')
             ->where('id', $Affiliate->branch_code)
             ->get();
-        $userstatus = DB::table('user_account')
+        $userstatus = DB::table('users')
             ->where('id', $Affiliate->user_id)
             ->get();
         return view('admin.affiliate_viewedit_dets', compact('Affiliate', 'countries', 'states', 'districts', 'professions', 'matstatus', 'religions', 'bank_types', 'bankstates', 'bankdistricts', 'branchdetails', 'userstatus'));
@@ -745,7 +752,7 @@ class AdminController extends Controller
         }
 
         $affiliatereg = $Affiliate->save();
-        $user = UserAccount::findOrFail($affuserhid);
+        $user = User::findOrFail($affuserhid);
         if ($user->email !== $request->input('ea_email') || $user->mobno !== $request->input('ea_mobno')) {
             $user->email = $request->ea_email;
             $user->mobno = $request->ea_mobno;
@@ -789,7 +796,7 @@ class AdminController extends Controller
             ->where('affiliate.id', $id)
             ->first();
         //echo $lastRegId = $Affiliate->toSql();exit;
-        $userdets = DB::table('user_account')
+        $userdets = DB::table('users')
             ->where('id', $Affiliate->user_id)
             ->get();
         $countries = DB::table('country')->get();
@@ -837,7 +844,7 @@ class AdminController extends Controller
         ]);
         $aaffiliateid = $request->aaffiliateidhid;
         $aaffiliateuserid = $request->aaffiliateuseridhid;
-        $user = UserAccount::find($aaffiliateuserid);
+        $user = User::find($aaffiliateuserid);
         $userstatus = $user->user_status;
         if ($userstatus == 'Y') {
             $user->approved = $request->approvedstatus;
@@ -881,7 +888,7 @@ class AdminController extends Controller
         $time = date('Y-m-d H:i:s');
         $affliateid = $request->input('userid');
         $Affiliate = Affiliate::find($affliateid);
-        $user = UserAccount::find($Affiliate->user_id);
+        $user = User::find($Affiliate->user_id);
         $delteaffliatDetail = $Affiliate->delete();
         $delteuser = $user->delete();
         $msg = 'Affiliate Deleted =  ' . $user->email . ' affiliate updated id : ' . $Affiliate->user_id;
@@ -908,8 +915,8 @@ class AdminController extends Controller
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails = DB::table('user_account')
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails = DB::table('users')
             ->where('id', $userId)
             ->get();
         if ($typeid == 1) {
@@ -949,8 +956,8 @@ class AdminController extends Controller
         $referalid = $request->input('referalid');
         $typeid = $request->input('typeid');
 
-        $query = SellerDetails::select('seller_details.*', 'user_account.user_status', 'business_type.business_name', 'service_categories.service_category_name', 'service_sub_categories.sub_category_name', 'service_types.service_name', 'executives.executive_name', 'country.country_name', 'state.state_name', 'district.district_name')
-            ->leftJoin('user_account', 'user_account.id', 'seller_details.user_id')
+        $query = SellerDetails::select('seller_details.*', 'users.user_status', 'business_type.business_name', 'service_categories.service_category_name', 'service_sub_categories.sub_category_name', 'service_types.service_name', 'executives.executive_name', 'country.country_name', 'state.state_name', 'district.district_name')
+            ->leftJoin('users', 'users.id', 'seller_details.user_id')
             ->leftJoin('business_type', 'business_type.id', 'seller_details.busnes_type')
             ->leftJoin('service_categories', 'service_categories.id', 'seller_details.shop_service_type')
             ->leftJoin('service_sub_categories', 'service_sub_categories.id', 'seller_details.service_subcategory_id')
@@ -1022,7 +1029,7 @@ class AdminController extends Controller
         $executives  ='';
         $shopavailable='';
         if ($roleid == 1 || $roleid == 11) {
-        $executives             = DB::table('user_account')->where(['role_id' => 10])->where(['user_status' => 'Y'])->get();
+        $executives             = DB::table('users')->where(['role_id' => 10])->where(['user_status' => 'Y'])->get();
         $shopavailable='';
         }
         else{
@@ -1031,29 +1038,29 @@ class AdminController extends Controller
             {
                 if($sellr->shop_executive!='')
                 {
-                    $executives  = DB::table('user_account')->where(['role_id' => 10])->where(['id' => $sellr->shop_executive])->first();
+                    $executives  = DB::table('users')->where(['role_id' => 10])->where(['id' => $sellr->shop_executive])->first();
                 }
                 else{
                     $executives=0;
                 }
-            //$executives  = DB::table('user_account')->where(['role_id' => 10])->where(['id' => $sellr->shop_executive])->first();
+            //$executives  = DB::table('users')->where(['role_id' => 10])->where(['id' => $sellr->shop_executive])->first();
             $shopavailable = DB::table('open_close_day_times')
             ->where('seller_id', $sellr->id)
             ->get();
             }
         }
 
-        $queryactivecounts = UserAccount::select([
+        $queryactivecounts = User::select([
             DB::raw('SUM(CASE WHEN user_status = "Y" THEN 1 ELSE 0 END) AS user_status_y_count'),
             DB::raw('SUM(CASE WHEN user_status != "Y" THEN 1 ELSE 0 END) AS user_status_not_y_count'),
             DB::raw('SUM(CASE WHEN approved = "Y" THEN 1 ELSE 0 END) AS approved_y_count'),
             DB::raw('SUM(CASE WHEN approved != "Y" THEN 1 ELSE 0 END) AS approved_not_y_count'),
         ])
-        ->leftJoin('seller_details', 'user_account.id', '=', 'seller_details.user_id')
+        ->leftJoin('seller_details', 'users.id', '=', 'seller_details.user_id')
         ->where('seller_details.busnes_type', $typeid);
 
         if ($roleid != 1 && $roleid != 11) {
-            $queryactivecounts->where('user_account.id', $userId);
+            $queryactivecounts->where('users.id', $userId);
         }
         $activecounts = $queryactivecounts->first();
 
@@ -1112,7 +1119,7 @@ class AdminController extends Controller
         } else {
             $emailivalue = $request->s_email;
         }
-        $user = new UserAccount();
+        $user = new User();
         $user->name = ucwords($request->s_name);
         $user->email = $request->s_email;
         $user->mobno = $request->s_mobno;
@@ -1326,7 +1333,7 @@ class AdminController extends Controller
         }
         $id = $request->input('shopid');
         $typeid = $request->input('typeid');
-        $sellerDetails = SellerDetails::select('seller_details.*', 'business_type.business_name', 'service_categories.service_category_name', 'service_sub_categories.sub_category_name', 'service_types.service_name', 'executives.executive_name', 'country.country_name', 'state.state_name', 'district.district_name', 'user_account.user_status')
+        $sellerDetails = SellerDetails::select('seller_details.*', 'business_type.business_name', 'service_categories.service_category_name', 'service_sub_categories.sub_category_name', 'service_types.service_name', 'executives.executive_name', 'country.country_name', 'state.state_name', 'district.district_name', 'users.user_status')
             ->leftJoin('business_type', 'business_type.id', 'seller_details.busnes_type')
             ->leftJoin('service_categories', 'service_categories.id', 'seller_details.shop_service_type')
             ->leftJoin('service_sub_categories', 'service_sub_categories.id', 'seller_details.service_subcategory_id')
@@ -1335,7 +1342,7 @@ class AdminController extends Controller
             ->leftJoin('country', 'country.id', 'seller_details.country')
             ->leftJoin('state', 'state.id', 'seller_details.state')
             ->leftJoin('district', 'district.id', 'seller_details.district')
-            ->leftJoin('user_account', 'user_account.id', 'seller_details.user_id')
+            ->leftJoin('users', 'users.id', 'seller_details.user_id')
             ->where('seller_details.id', $id)
             ->where('seller_details.busnes_type', $typeid)
             ->first();
@@ -1363,8 +1370,8 @@ class AdminController extends Controller
         //     ->where(['executive_type' => $typeid])
         //     ->get();
 
-        $executives  = DB::table('user_account')->where(['role_id' => 10])->where(['user_status' => 'Y'])->get();
-        $userstus = DB::table('user_account')
+        $executives  = DB::table('users')->where(['role_id' => 10])->where(['user_status' => 'Y'])->get();
+        $userstus = DB::table('users')
             ->where('id', $sellerDetails->user_id)
             ->get();
         $shopavailable = DB::table('open_close_day_times')
@@ -1474,7 +1481,7 @@ class AdminController extends Controller
             //'es_termcondtn' => 'accepted',
         ]);
         $shopid = $request->shopidhid;
-        //$user   = UserAccount::find($shopid);
+        //$user   = User::find($shopid);
         $sellerDetail = SellerDetails::find($shopid);
         $sellerDetail->fill($validatedData);
         $sellerDetail->shop_name = ucwords($request->input('es_name'));
@@ -1608,7 +1615,7 @@ class AdminController extends Controller
             dd($e->getMessage());
         }
 
-        $user = UserAccount::findOrFail($sellerDetail->user_id);
+        $user = User::findOrFail($sellerDetail->user_id);
         if ($user->email !== $request->input('es_email') || $user->mobno !== $request->input('es_mobno')) {
             $user->email = $request->es_email;
             $user->mobno = $request->es_mobno;
@@ -1640,7 +1647,7 @@ class AdminController extends Controller
         }
         $id = $request->input('shopid');
         $typeid = $request->input('typeid');
-        $sellerDetails = SellerDetails::select('seller_details.*', 'business_type.business_name', 'service_categories.service_category_name', 'service_sub_categories.sub_category_name', 'service_types.service_name', 'executives.executive_name', 'country.country_name', 'state.state_name', 'district.district_name', 'user_account.user_status')
+        $sellerDetails = SellerDetails::select('seller_details.*', 'business_type.business_name', 'service_categories.service_category_name', 'service_sub_categories.sub_category_name', 'service_types.service_name', 'executives.executive_name', 'country.country_name', 'state.state_name', 'district.district_name', 'users.user_status')
             ->leftJoin('business_type', 'business_type.id', 'seller_details.busnes_type')
             ->leftJoin('service_categories', 'service_categories.id', 'seller_details.shop_service_type')
             ->leftJoin('service_sub_categories', 'service_sub_categories.id', 'seller_details.service_subcategory_id')
@@ -1649,7 +1656,7 @@ class AdminController extends Controller
             ->leftJoin('country', 'country.id', 'seller_details.country')
             ->leftJoin('state', 'state.id', 'seller_details.state')
             ->leftJoin('district', 'district.id', 'seller_details.district')
-            ->leftJoin('user_account', 'user_account.id', 'seller_details.user_id')
+            ->leftJoin('users', 'users.id', 'seller_details.user_id')
 
             ->where('seller_details.id', $id)
             ->where('seller_details.busnes_type', $typeid)
@@ -1679,13 +1686,13 @@ class AdminController extends Controller
         //     ->get();
         if($sellerDetails->shop_executive!='')
         {
-            $executives  = DB::table('user_account')->where(['role_id' => 10])->where(['id' => $sellerDetails->shop_executive])->first();
+            $executives  = DB::table('users')->where(['role_id' => 10])->where(['id' => $sellerDetails->shop_executive])->first();
         }
         else{
             $executives=0;
         }
 
-        $userstus = DB::table('user_account')
+        $userstus = DB::table('users')
             ->where('id', $sellerDetails->user_id)
             ->get();
         $shopavailable = DB::table('open_close_day_times')
@@ -1713,7 +1720,7 @@ class AdminController extends Controller
         ]);
         $shopid = $request->shopidhidapp;
         $shopselrid = $request->shopidhidselapp;
-        $user = UserAccount::find($shopid);
+        $user = User::find($shopid);
         $userstatus = $user->user_status;
         $usermail=$user->email;
         if (!empty($usermail)) {
@@ -1918,7 +1925,7 @@ class AdminController extends Controller
                 $shopserviceid=$shops_user[0];
                 $shopserviceuserid=$shops_user[1];
                 $SellerDetails = SellerDetails::find($shopserviceid);
-                $user = UserAccount::find($shopserviceuserid);
+                $user = User::find($shopserviceuserid);
                 if($user->approved == 'R' || $SellerDetails->seller_approved == 'R' || $SellerDetails->term_condition=='' || $SellerDetails->term_condition=='0') {
                 }
                 else{
@@ -1959,12 +1966,27 @@ class AdminController extends Controller
         $time = date('Y-m-d H:i:s');
         $shopid = $request->input('userid');
         $sellerDetail = SellerDetails::find($shopid);
-        $user = UserAccount::find($sellerDetail->user_id);
+        $user = User::find($sellerDetail->user_id);
         if ($user) {
             $user->delete();
         }
         $deltesellerDetail = $sellerDetail->delete();
         $delteuser = $user->delete();
+        $ProductDetails = ServiceDetails::where('service_provider_id', $shopid)->get();
+        //echo count($ProductDetails);exit;
+        if(count($ProductDetails)>0)
+        {
+            foreach($ProductDetails as $prodservice)
+            {
+                $ServiceDetails                 = ServiceDetails::where('service_provider_id', $shopid)->delete();
+                $ServiceEmployee                = ServiceEmployee::where('user_id', $shopid)->delete();
+                $delteProductAttributesDetail   = AddServiceAttribute::where('service_id', $prodservice->id)->delete();
+                $appointmentDetail              = ServiceAppointment::where('service_id', $prodservice->id)->delete();
+                $notavailabledateDetail         = NotAvailableDate::where('service_id', $prodservice->id)->delete();
+                $AppointmentAvailableDayTime    = AppointmentAvailableDayTime::where('service_id', $prodservice->id)->delete();
+                $AppointmentSetQuestion         = SetQuestion::where('service_id', $prodservice->id)->delete();
+            }
+        }
         $msg = 'Shop Deleted =  ' . $user->email . ' shop deleted id : ' . $sellerDetail->user_id;
         $LogDetails = new LogDetails();
         $LogDetails->user_id = $user->email;
@@ -1987,8 +2009,8 @@ class AdminController extends Controller
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails = DB::table('user_account')
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails = DB::table('users')
             ->where('id', $userId)
             ->get();
         if ($typeid == 1) {
@@ -2028,8 +2050,8 @@ class AdminController extends Controller
         $referalid = $request->input('referalid');
         $typeid = $request->input('typeid');
 
-        $query = SellerDetails::select('seller_details.*', 'user_account.user_status', 'business_type.business_name', 'service_categories.service_category_name', 'service_sub_categories.sub_category_name', 'service_types.service_name', 'executives.executive_name', 'country.country_name', 'state.state_name', 'district.district_name')
-            ->leftJoin('user_account', 'user_account.id', 'seller_details.user_id')
+        $query = SellerDetails::select('seller_details.*', 'users.user_status', 'business_type.business_name', 'service_categories.service_category_name', 'service_sub_categories.sub_category_name', 'service_types.service_name', 'executives.executive_name', 'country.country_name', 'state.state_name', 'district.district_name')
+            ->leftJoin('users', 'users.id', 'seller_details.user_id')
             ->leftJoin('business_type', 'business_type.id', 'seller_details.busnes_type')
             ->leftJoin('service_categories', 'service_categories.id', 'seller_details.shop_service_type')
             ->leftJoin('service_sub_categories', 'service_sub_categories.id', 'seller_details.service_subcategory_id')
@@ -2058,7 +2080,7 @@ class AdminController extends Controller
         }
         //$perPage = 5; // Number of records per page
         //$sellerDetails = $query->paginate($perPage);
-        $query->where('user_account.user_status','N');
+        $query->where('users.user_status','N');
         $sellerDetails = $query->get();
         //echo $lastRegId = $query->toSql();
 
@@ -2098,8 +2120,8 @@ class AdminController extends Controller
         $referalid = $request->input('referalid');
         $typeid = $request->input('typeid');
 
-        $query = SellerDetails::select('seller_details.*', 'user_account.user_status', 'business_type.business_name', 'service_categories.service_category_name', 'service_sub_categories.sub_category_name', 'service_types.service_name', 'executives.executive_name', 'country.country_name', 'state.state_name', 'district.district_name')
-            ->leftJoin('user_account', 'user_account.id', 'seller_details.user_id')
+        $query = SellerDetails::select('seller_details.*', 'users.user_status', 'business_type.business_name', 'service_categories.service_category_name', 'service_sub_categories.sub_category_name', 'service_types.service_name', 'executives.executive_name', 'country.country_name', 'state.state_name', 'district.district_name')
+            ->leftJoin('users', 'users.id', 'seller_details.user_id')
             ->leftJoin('business_type', 'business_type.id', 'seller_details.busnes_type')
             ->leftJoin('service_categories', 'service_categories.id', 'seller_details.shop_service_type')
             ->leftJoin('service_sub_categories', 'service_sub_categories.id', 'seller_details.service_subcategory_id')
@@ -2127,7 +2149,7 @@ class AdminController extends Controller
         // if (in_array('9', $roleIdsArray)) {
 
         // }
-        $query->where('user_account.user_status','N');
+        $query->where('users.user_status','N');
         if ($roleid == 1  || $roleid == 11) {
         } else {
             $query->where('seller_details.user_id', $userId);
@@ -2172,7 +2194,7 @@ class AdminController extends Controller
         $executives  ='';
         $shopavailable='';
         if ($roleid == 1 || $roleid == 11) {
-        $executives             = DB::table('user_account')->where(['role_id' => 10])->where(['user_status' => 'Y'])->get();
+        $executives             = DB::table('users')->where(['role_id' => 10])->where(['user_status' => 'Y'])->get();
         $shopavailable='';
         }
         else{
@@ -2181,12 +2203,12 @@ class AdminController extends Controller
             {
                 if($sellr->shop_executive!='')
                 {
-                    $executives  = DB::table('user_account')->where(['role_id' => 10])->where(['id' => $sellr->shop_executive])->first();
+                    $executives  = DB::table('users')->where(['role_id' => 10])->where(['id' => $sellr->shop_executive])->first();
                 }
                 else{
                     $executives=0;
                 }
-            //$executives  = DB::table('user_account')->where(['role_id' => 10])->where(['id' => $sellr->shop_executive])->first();
+            //$executives  = DB::table('users')->where(['role_id' => 10])->where(['id' => $sellr->shop_executive])->first();
             $shopavailable = DB::table('open_close_day_times')
             ->where('seller_id', $sellr->id)
             ->get();
@@ -2218,8 +2240,8 @@ class AdminController extends Controller
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails = DB::table('user_account')
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails = DB::table('users')
             ->where('id', $userId)
             ->get();
         if ($typeid == 1) {
@@ -2259,8 +2281,8 @@ class AdminController extends Controller
         $referalid = $request->input('referalid');
         $typeid = $request->input('typeid');
 
-        $query = SellerDetails::select('seller_details.*', 'user_account.user_status', 'business_type.business_name', 'service_categories.service_category_name', 'service_sub_categories.sub_category_name', 'service_types.service_name', 'executives.executive_name', 'country.country_name', 'state.state_name', 'district.district_name')
-            ->leftJoin('user_account', 'user_account.id', 'seller_details.user_id')
+        $query = SellerDetails::select('seller_details.*', 'users.user_status', 'business_type.business_name', 'service_categories.service_category_name', 'service_sub_categories.sub_category_name', 'service_types.service_name', 'executives.executive_name', 'country.country_name', 'state.state_name', 'district.district_name')
+            ->leftJoin('users', 'users.id', 'seller_details.user_id')
             ->leftJoin('business_type', 'business_type.id', 'seller_details.busnes_type')
             ->leftJoin('service_categories', 'service_categories.id', 'seller_details.shop_service_type')
             ->leftJoin('service_sub_categories', 'service_sub_categories.id', 'seller_details.service_subcategory_id')
@@ -2332,7 +2354,7 @@ class AdminController extends Controller
         $executives  ='';
         $shopavailable='';
         if ($roleid == 1 || $roleid == 11) {
-        $executives             = DB::table('user_account')->where(['role_id' => 10])->where(['user_status' => 'Y'])->get();
+        $executives             = DB::table('users')->where(['role_id' => 10])->where(['user_status' => 'Y'])->get();
         $shopavailable='';
         }
         else{
@@ -2341,29 +2363,29 @@ class AdminController extends Controller
             {
                 if($sellr->shop_executive!='')
                 {
-                    $executives  = DB::table('user_account')->where(['role_id' => 10])->where(['id' => $sellr->shop_executive])->first();
+                    $executives  = DB::table('users')->where(['role_id' => 10])->where(['id' => $sellr->shop_executive])->first();
                 }
                 else{
                     $executives=0;
                 }
-            //$executives  = DB::table('user_account')->where(['role_id' => 10])->where(['id' => $sellr->shop_executive])->first();
+            //$executives  = DB::table('users')->where(['role_id' => 10])->where(['id' => $sellr->shop_executive])->first();
             $shopavailable = DB::table('open_close_day_times')
             ->where('seller_id', $sellr->id)
             ->get();
             }
         }
 
-        $queryactivecounts = UserAccount::select([
+        $queryactivecounts = User::select([
             DB::raw('SUM(CASE WHEN user_status = "Y" THEN 1 ELSE 0 END) AS user_status_y_count'),
             DB::raw('SUM(CASE WHEN user_status != "Y" THEN 1 ELSE 0 END) AS user_status_not_y_count'),
             DB::raw('SUM(CASE WHEN approved = "Y" THEN 1 ELSE 0 END) AS approved_y_count'),
             DB::raw('SUM(CASE WHEN approved != "Y" THEN 1 ELSE 0 END) AS approved_not_y_count'),
         ])
-        ->leftJoin('seller_details', 'user_account.id', '=', 'seller_details.user_id')
+        ->leftJoin('seller_details', 'users.id', '=', 'seller_details.user_id')
         ->where('seller_details.busnes_type', $typeid);
 
         if ($roleid != 1 && $roleid != 11) {
-            $queryactivecounts->where('user_account.id', $userId);
+            $queryactivecounts->where('users.id', $userId);
         }
         $activecounts = $queryactivecounts->first();
 

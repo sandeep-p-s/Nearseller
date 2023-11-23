@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Masters;
 use DB;
 use App\Models\masters\Attribute;
 use App\Http\Controllers\Controller;
-use App\Models\UserAccount;
+use App\Models\User;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 
@@ -15,8 +15,8 @@ class AttributeController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser     = User::sessionValuereturn($userRole);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $attributes = DB::table('attributes')->get();
         $total_attributes = DB::table('attributes')->count();
         $inactive_attributes = DB::table('attributes as a')->where('a.status','N')->count();
@@ -28,8 +28,8 @@ class AttributeController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser     = User::sessionValuereturn($userRole);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         return view('admin.masters.attribute.addAttribute',compact('loggeduser','userdetails'));
     }
 

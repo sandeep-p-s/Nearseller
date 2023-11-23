@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use App\Models\UserAccount;
+use App\Models\User;
 use App\Models\LogDetails;
 use App\Models\SellerDetails;
 use App\Models\Affiliate;
@@ -31,12 +31,12 @@ class ProductController extends Controller
         if ($userId == '') {
             return redirect()->route('logout');
         }
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails = DB::table('user_account')
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails = DB::table('users')
             ->where('id', $userId)
             ->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        $usershopdets = DB::table('user_account')
+        $usershopdets = DB::table('users')
             ->select('id', 'name')
             ->where('role_id', 2)
             ->get();
@@ -56,17 +56,17 @@ class ProductController extends Controller
     function AdmShopNameSearch(Request $request)
     {
         $shopname = $request->input('shopname');
-        // $UserAccount = ProductDetails::select('user_account.id', 'user_account.name as shopname')
-        //     ->leftJoin('user_account', 'user_account.id', 'product_details.shop_id')
-        //     ->where('user_account.name', 'LIKE', $shopname . '%')->distinct()
+        // $User = ProductDetails::select('users.id', 'users.name as shopname')
+        //     ->leftJoin('users', 'users.id', 'product_details.shop_id')
+        //     ->where('users.name', 'LIKE', $shopname . '%')->distinct()
         //     ->get();
-        $UserAccount = UserAccount::select('id', 'name as shopname')
+        $User = User::select('id', 'name as shopname')
             ->where('name', 'LIKE', $shopname . '%')
             ->distinct()
             ->get();
-        //echo $lastRegId = $UserAccount->toSql();exit;
+        //echo $lastRegId = $User->toSql();exit;
         header('Content-Type: application/json');
-        echo json_encode($UserAccount);
+        echo json_encode($User);
     }
 
     function ProductNameSearch(Request $request)
@@ -76,7 +76,7 @@ class ProductController extends Controller
             ->where('product_name', 'LIKE', $prodname . '%')
             ->distinct()
             ->get();
-        //echo $lastRegId = $UserAccount->toSql();exit;
+        //echo $lastRegId = $User->toSql();exit;
         header('Content-Type: application/json');
         echo json_encode($ProductDetails);
     }
@@ -85,7 +85,7 @@ class ProductController extends Controller
     {
         $existprodid = $request->input('existprodid');
         $ProductDetails = ProductDetails::find($existprodid);
-        //echo $lastRegId = $UserAccount->toSql();exit;
+        //echo $lastRegId = $User->toSql();exit;
         return response()->json(['result' => 3, 'mesge' => 'Total stock and attribute stock must be equal.']);
     }
 
@@ -117,7 +117,7 @@ class ProductController extends Controller
         //                 ->orWhere('product_details.attribute_4', 'LIKE', '%' . $atribute . '%');
         // }
 
-        $query = ProductDetails::select('product_details.*', 'user_account.name as shopname')->leftJoin('user_account', 'user_account.id', 'product_details.shop_id');
+        $query = ProductDetails::select('product_details.*', 'users.name as shopname')->leftJoin('users', 'users.id', 'product_details.shop_id');
         if ($prodname) {
             $query->where('product_details.product_name', 'LIKE', '%' . $prodname . '%');
         }
@@ -127,7 +127,7 @@ class ProductController extends Controller
 
         if ($roleid == 1  || $roleid == 11) {
         } else {
-            $query->where('user_account.id', $userId);
+            $query->where('users.id', $userId);
         }
         $query->orderBy('product_details.product_name');
         $ProductDetails = $query->get();
@@ -137,7 +137,7 @@ class ProductController extends Controller
         $filteredCategories = $categories->filter(function ($category) {
             return $category->category_level != 5;
         });
-        $usershopdets = DB::table('user_account')
+        $usershopdets = DB::table('users')
             ->select('id', 'name')
             ->where('role_id', 2)
             ->get();
@@ -527,7 +527,7 @@ class ProductController extends Controller
         $filteredCategories = $categories->filter(function ($category) {
             return $category->category_level != 5;
         });
-        $usershopdets = DB::table('user_account')
+        $usershopdets = DB::table('users')
             ->select('id', 'name')
             ->where('role_id', 2)
             ->get();
@@ -778,7 +778,7 @@ class ProductController extends Controller
         $filteredCategories = $categories->filter(function ($category) {
             return $category->category_level != 5;
         });
-        $usershopdets = DB::table('user_account')
+        $usershopdets = DB::table('users')
             ->select('id', 'name')
             ->where('role_id', 2)
             ->get();
@@ -880,7 +880,7 @@ class ProductController extends Controller
         $filteredCategories = $categories->filter(function ($category) {
             return $category->category_level != 5;
         });
-        $usershopdets = DB::table('user_account')
+        $usershopdets = DB::table('users')
             ->select('id', 'name')
             ->where('role_id', 2)
             ->get();

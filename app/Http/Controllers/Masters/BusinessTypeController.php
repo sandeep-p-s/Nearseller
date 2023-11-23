@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Masters;
 
 use DB;
 use App\Models\MenuMaster;
-use App\Models\UserAccount;
+use App\Models\User;
 use App\Models\BusinessType;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -19,9 +19,9 @@ class BusinessTypeController extends Controller
         $userId = session('user_id');
         $userRole = session('roleid');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        //$loggeduser     = UserAccount::sessionValuereturn($userRole);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        //$loggeduser     = User::sessionValuereturn($userRole);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $businesstype = DB::table('business_type')->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         return view('admin.masters.business_type.list', compact('businesstype', 'loggeduser', 'userdetails','structuredMenu'));
@@ -32,8 +32,8 @@ class BusinessTypeController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         return view('admin.masters.business_type.add', compact('loggeduser', 'userdetails','structuredMenu'));
     }
@@ -67,9 +67,9 @@ class BusinessTypeController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
+        $loggeduser = User::sessionValuereturn_s($roleid);
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $businesstype = BusinessType::find($id);
 
         if (!$businesstype) {

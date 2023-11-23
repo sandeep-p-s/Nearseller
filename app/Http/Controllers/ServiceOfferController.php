@@ -7,7 +7,7 @@ use Validator;
 use App\Models\Offer;
 use App\Models\LogDetails;
 use App\Models\MenuMaster;
-use App\Models\UserAccount;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\ServiceDetails;
 
@@ -18,8 +18,8 @@ class ServiceOfferController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $service_offer = DB::table('offers')->where('type',2)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $roleIdsArray = explode(',', $roleid);
@@ -40,10 +40,10 @@ class ServiceOfferController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        $userservicedets = DB::table('user_account')
+        $userservicedets = DB::table('users')
             ->select('id', 'name')
             ->where('role_id', 9)
             ->get();
@@ -125,14 +125,14 @@ class ServiceOfferController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $productid = $request->input('productid');
         $ServiceDetails = ServiceDetails::select('service_details.*')
             ->where('service_details.id', $productid)
             ->first();
-        $userservicedets = DB::table('user_account')
+        $userservicedets = DB::table('users')
             ->select('id', 'name')
             ->where('role_id', 9)
             ->get();

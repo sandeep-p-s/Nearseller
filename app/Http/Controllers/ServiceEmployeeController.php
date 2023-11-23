@@ -6,22 +6,22 @@ use DB;
 use Validator;
 use App\Models\LogDetails;
 use App\Models\MenuMaster;
-use App\Models\UserAccount;
+use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Models\ServiceEmployee;
 
 class ServiceEmployeeController extends Controller
 {
-    public function list_service_employee()
+    public function list_service_employee($serviceid)
     {
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
+        $loggeduser = User::sessionValuereturn_s($roleid);
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        $service_emp = DB::table('service_employees')->get();
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
+        $service_emp = DB::table('service_employees')->where('user_id',$serviceid)->get();
         $roleIdsArray = explode(',', $roleid);
         if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
         {
@@ -32,16 +32,16 @@ class ServiceEmployeeController extends Controller
         else{
             $selrdetails='';
         }
-        return view('seller.service.employee.list_employee', compact('service_emp', 'loggeduser', 'userdetails','structuredMenu','selrdetails'));
+        return view('seller.service.employee.list_employee', compact('service_emp', 'loggeduser', 'userdetails','structuredMenu','selrdetails','serviceid'));
     }
-    public function add_service_employee()
+    public function add_service_employee($serviceid)
     {
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
+        $loggeduser = User::sessionValuereturn_s($roleid);
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $countries = DB::table('country as ct')
         ->orderByRaw('ct.id = ? desc', [1])
         ->orderBy('ct.country_name', 'asc')
@@ -49,7 +49,7 @@ class ServiceEmployeeController extends Controller
         $userservicedets = DB::table('seller_details')
         ->select('id', 'shop_name')
         ->where('busnes_type', 2)
-        ->where('seller_approved','Y')
+        ->where('seller_approved','Y')->where('id',$serviceid)
         ->get();
         $roleIdsArray = explode(',', $roleid);
         if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
@@ -61,7 +61,7 @@ class ServiceEmployeeController extends Controller
         else{
             $selrdetails='';
         }
-        return view('seller.service.employee.add_employee', compact('loggeduser', 'userdetails', 'countries','structuredMenu','userservicedets','selrdetails'));
+        return view('seller.service.employee.add_employee', compact('loggeduser', 'userdetails', 'countries','structuredMenu','userservicedets','selrdetails','serviceid'));
     }
     // public function getStates($country)
     // {
@@ -84,28 +84,28 @@ class ServiceEmployeeController extends Controller
         $loggedUserIp = $_SERVER['REMOTE_ADDR'];
         $time = date('Y-m-d H:i:s');
         $validator = Validator::make($request->all(), [
-            'serviceuser_name' => 'required',
+            'serviceproviderid' => 'required',
             'employee_name' => 'required|string|max:50',
             'employee_id' => 'required|string|max:50|unique:service_employees',
             'designation' => 'required|string|max:80',
             'joining_date' => 'required|date',
-            'aadhar_no' => 'required|string|max:14|regex:/^[2-9]\d{3}\s\d{4}\s\d{4}$/',
+            'aadhar_no' => 'required|numeric',
             'permanent_address' => 'required|string',
             'country' => 'required|exists:country,id',
             'state' => 'required|exists:state,id',
             'district' => 'required|exists:district,id',
-            'pincode' => 'required|string|max:6',
+            'pincode' => 'required|string|min:6|max:6',
             'present_address' => 'required|string',
             'present_country' => 'required|exists:country,id',
             'present_state' => 'required|exists:state,id',
             'present_district' => 'required|exists:district,id',
-            'present_pincode' => 'required|string|max:6',
-            'image' => 'required|mimes:jpeg,png,jpg,gif|max:2048',
+            'present_pincode' => 'required|string|min:6|max:6',
+            'image' => 'required|mimes:jpeg,png,jpg|max:2048',
 
         ]);
 
         $messages = [
-            'serviceuser_name.required' => 'Please select Service user in the list',
+            'serviceproviderid.required' => 'Please select Service user in the list',
             'country.required' => 'Please select country in the list',
             'state.required' => 'Please select state in the list',
             'district.required' => 'Please select district in the list',
@@ -123,8 +123,8 @@ class ServiceEmployeeController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $service_emp = new ServiceEmployee;
-        $service_emp->user_id = $request->serviceuser_name;
-        $service_emp->employee_name = $request->employee_name;
+        $service_emp->user_id = $request->serviceproviderid;
+        $service_emp->employee_name = ucwords($request->employee_name);
         $service_emp->employee_id = $request->employee_id;
         $service_emp->designation = $request->designation;
         $service_emp->joining_date = $request->joining_date;
@@ -159,7 +159,7 @@ class ServiceEmployeeController extends Controller
             $LogDetails->status = $msg;
             $LogDetails->save();
 
-        return redirect()->route('list.service_employee')->with('success', 'Employee added successfully.');
+        return redirect()->route('list.service_employee',$request->serviceproviderid)->with('success', 'Employee added successfully.');
     }
 
     public function edit_service_employee($id)
@@ -168,9 +168,9 @@ class ServiceEmployeeController extends Controller
         $userId = session('user_id');
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
-        $userservicedets = DB::table('user_account')
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
+        $userservicedets = DB::table('users')
         ->select('id', 'name')
         ->where('role_id', 9)
         ->get();
@@ -213,28 +213,28 @@ class ServiceEmployeeController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'serviceuser_name' => 'required',
+            'Serviceproviderid' => 'required',
             'employee_name' => 'required|string|max:50',
-            'employee_id' => 'required|string|max:50',
-            'designation' => 'required|string|max:80',
+            'employee_id' => 'required|string|min:3|max:50',
+            'designation' => 'required|string|min:3|max:80',
             'joining_date' => 'required|date',
-            'aadhar_no' => 'required|string|max:12',
+            'aadhar_no' => 'required|numeric|max:12',
             'permanent_address' => 'required|string',
             'country' => 'required|exists:country,id',
             'state' => 'required|exists:state,id',
             'district' => 'required|exists:district,id',
-            'pincode' => 'required|string|max:6',
+            'pincode' => 'required|string|min:6|max:6',
             'present_address' => 'required|string',
             'present_country' => 'required|exists:country,id',
             'present_state' => 'required|exists:state,id',
             'present_district' => 'required|exists:district,id',
-            'present_pincode' => 'required|string|max:6',
-            'image' => 'required|mimes:jpeg,png,jpg,gif|max:2048',
+            'present_pincode' => 'required|string|min:6|max:6',
+            'image' => 'required|mimes:jpeg,png,jpg|max:2048',
         ]);
 
 
         $messages = [
-            'serviceuser_name.required' => 'Please select Service user in the list',
+            'Serviceproviderid.required' => 'Please select Service user in the list',
             'country.required' => 'Please select country in the list',
             'state.required' => 'Please select state in the list',
             'district.required' => 'Please select district in the list',
@@ -250,7 +250,7 @@ class ServiceEmployeeController extends Controller
         //     return redirect()->back()->withErrors($validator)->withInput();
         // }
 
-        $service_emp->employee_name = $request->employee_name;
+        $service_emp->employee_name = ucwords($request->employee_name);
         $service_emp->employee_id = $request->employee_id;
         $service_emp->designation = $request->designation;
         $service_emp->joining_date = $request->joining_date;
@@ -293,7 +293,7 @@ class ServiceEmployeeController extends Controller
         $LogDetails->log_time = $time;
         $LogDetails->status = $msg;
         $LogDetails->save();
-        return redirect()->route('list.service_employee')->with('success', 'Employee updated successfully.');
+        return redirect()->route('list.service_employee',$request->Serviceproviderid)->with('success', 'Employee updated successfully.');
     }
 
 
@@ -308,7 +308,7 @@ class ServiceEmployeeController extends Controller
         $service_emp = ServiceEmployee::find($id);
 
         if (!$service_emp) {
-            return redirect()->route('list.shop_offer')->with('error', 'Shop offer not found.');
+            return redirect()->route('list.service_employee',$service_emp->user_id)->with('error', 'Shop offer not found.');
         }
         $upload_path = 'uploads/service_employee/';
         $file_path = $service_emp->image;
@@ -326,6 +326,6 @@ class ServiceEmployeeController extends Controller
         $LogDetails->log_time = $time;
         $LogDetails->status = $msg;
         $LogDetails->save();
-        return redirect()->route('list.service_employee')->with('success', 'Employee deleted successfully.');
+        return redirect()->route('list.service_employee',$service_emp->user_id)->with('success', 'Employee deleted successfully.');
     }
 }

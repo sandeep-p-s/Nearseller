@@ -6,7 +6,7 @@ use DB;
 use Validator;
 use App\Models\LogDetails;
 use App\Models\MenuMaster;
-use App\Models\UserAccount;
+use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Models\ServiceDetails;
@@ -18,9 +18,9 @@ class ServiceController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
+        $loggeduser     = User::sessionValuereturn($userRole);
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $services = DB::table('service_details')
             ->leftJoin('add_service_attributes', 'service_details.id', '=', 'add_service_attributes.service_id')
             ->select(
@@ -36,7 +36,7 @@ class ServiceController extends Controller
                 'add_service_attributes.mrp_price'
             )
             ->get();
-        $userservicedets = DB::table('user_account')
+        $userservicedets = DB::table('users')
             ->select('id', 'name')
             ->where('role_id', 9)
             ->get();
@@ -46,10 +46,10 @@ class ServiceController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser     = User::sessionValuereturn($userRole);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        $userservicedets = DB::table('user_account')
+        $userservicedets = DB::table('users')
             ->select('id', 'name')
             ->where('role_id', 9)
             ->get();
@@ -137,8 +137,8 @@ class ServiceController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser     = User::sessionValuereturn($userRole);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $service = ServiceDetails::find($id);
 
@@ -335,8 +335,8 @@ class ServiceController extends Controller
     {
         $userRole = session('user_role');
         $userId = session('user_id');
-        $loggeduser     = UserAccount::sessionValuereturn($userRole);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser     = User::sessionValuereturn($userRole);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $loggedUserIp = $_SERVER['REMOTE_ADDR'];
         $time = date('Y-m-d H:i:s');

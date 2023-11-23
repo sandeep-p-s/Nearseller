@@ -47,7 +47,7 @@
                     <div class="card">
 
                         <div class="card-body">
-                            <table id="datatable" class="table table-bordered dt-responsive nowrap"
+                            <table id="datatable3" class="table table-bordered dt-responsive nowrap"
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr>
@@ -69,9 +69,21 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                <span class="badge p-2  {{ $srt->status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
+                                                {{-- <span class="badge p-2  {{ $srt->status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
                                                     {{ $srt->status === 'Y' ? 'Approved' : 'Not Approved' }}
-                                                </span>
+                                                </span> --}}
+                                                @if ($srt->status === 'Y')
+                                                    @php
+                                                        $selser_status = 'Active';
+                                                    @endphp
+                                                @else
+                                                    @php
+                                                        $selser_status = 'Inctive';
+                                                    @endphp
+                                                @endif
+
+
+                                                {{ $selser_status }}
                                             </td>
 
                                             <td>
@@ -101,4 +113,104 @@
             </div> <!-- end row -->
 
         </div><!-- container -->
+        <script>
+            $(document).ready(function() {
+
+                function cbDropdown(column) {
+                    return $('<ul>', {
+                        'class': 'cb-dropdown form-control'
+                    }).appendTo($('<div>', {
+                        'class': 'cb-dropdown-wrap '
+                    }).appendTo(column));
+                }
+
+                $('#datatable3').DataTable({
+                    initComplete: function() {
+                        this.api().columns().every(function() {
+                            var column = this;
+                            var colIndex = column[0][0];
+                            var excludeColumns = [0, , 4];
+                            var textColumns = [1, 2];
+
+                            if (jQuery.inArray(colIndex, excludeColumns) !== -1)
+                                return;
+
+                            if (jQuery.inArray(colIndex, textColumns) !== -1) {
+
+                                var mainDiv = $('<div>', {
+                                    'class': 'cb-textBox-wrap'
+                                }).appendTo($(column.header()));
+
+                                let input = $('<input placeholder="Search" class="form-control">');
+                                input.className = "";
+                                input.type = "text";
+                                mainDiv.append(input);
+
+                                input.on('keyup', () => {
+                                    if (column.search() !== this.value) {
+                                        column.search(input.val()).draw();
+                                    }
+                                });
+                                return;
+
+                            }
+
+                            var ddmenu = cbDropdown($(column.header()))
+                                .on('change', ':checkbox', function() {
+                                    var active;
+                                    var vals = $(':checked', ddmenu).map(function(index,
+                                        element) {
+                                        active = true;
+                                        return $.fn.dataTable.util.escapeRegex($(
+                                            element).val());
+                                    }).toArray().join('|');
+
+                                    column
+                                        .search(vals.length > 0 ? '^(' + vals + ')$' : '', true,
+                                            false)
+                                        .draw();
+
+                                    // Highlight the current item if selected.
+                                    if (this.checked) {
+                                        $(this).closest('li').addClass('active');
+                                    } else {
+                                        $(this).closest('li').removeClass('active');
+                                    }
+
+                                    // Highlight the current filter if selected.
+                                    var active2 = ddmenu.parent().is('.active');
+                                    if (active && !active2) {
+                                        ddmenu.parent().addClass('active');
+                                    } else if (!active && active2) {
+                                        ddmenu.parent().removeClass('active');
+                                    }
+                                });
+
+                            column.data().unique().sort().each(function(d, j) {
+                                var
+                                    $label = $('<label>'),
+                                    $text = $('<span>', {
+                                        text: d
+                                    }),
+                                    $cb = $('<input>', {
+                                        type: 'checkbox',
+                                        value: d
+                                    });
+
+                                $text.appendTo($label);
+                                $cb.appendTo($label);
+
+
+                                ddmenu.append($('<li>').append($label));
+                            });
+                        });
+                    },
+                    "order": [],
+                    "columnDefs": [{
+                        "targets": 0,
+                        "orderable": true
+                    }]
+                });
+            });
+        </script>
     @endsection

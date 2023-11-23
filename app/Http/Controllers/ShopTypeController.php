@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use App\Models\ShopType;
 use App\Models\MenuMaster;
-use App\Models\UserAccount;
+use App\Models\User;
 use Illuminate\Http\Request;
 class ShopTypeController extends Controller
 {
@@ -14,8 +14,8 @@ class ShopTypeController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $shoptype = DB::table('shop_type')->get();
         $total_shoptypes = DB::table('shop_type')->count();
         $inactive_shoptypes = DB::table('shop_type as st')->where('st.status','N')->count();
@@ -38,8 +38,8 @@ class ShopTypeController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $roleIdsArray = explode(',', $roleid);
         if ((in_array('2', $roleIdsArray)) || (in_array('9', $roleIdsArray)))
@@ -72,8 +72,8 @@ class ShopTypeController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $loggeduser = User::sessionValuereturn_s($roleid);
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $structuredMenu = MenuMaster::UserPageMenu($userId);
         $shoptype = ShopType::find($id);
 

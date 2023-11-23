@@ -1,5 +1,5 @@
 @if ($ProductCount > 0)
-    <style>
+    {{-- <style>
         tfoot {
             display: table-header-group;
         }
@@ -9,31 +9,33 @@
             padding: 3px;
             box-sizing: border-box;
         }
-    </style>
+    </style> --}}
+    <input type="hidden" id="hidroleid" name="hidroleid" value="{{ session('roleid') }}" />
+
     @if (session('roleid') == '1' || session('roleid') == '11')
         <div class="text-center">
             <span class="badge badge-soft-info p-2">
-                 Available Products : {{ $approvedproductcounts->prod_status_y_count }}
+                Available Products : {{ $approvedproductcounts->prod_status_y_count }}
             </span>
             <span class="badge badge-soft-danger p-2">
-                 Not Available Products : {{ $approvedproductcounts->prod_status_not_y_count }}
+                Not Available Products : {{ $approvedproductcounts->prod_status_not_y_count }}
             </span>
 
             <span class="badge badge-soft-info p-2">
-                 Approved Products : {{ $approvedproductcounts->approved_y_count }}
+                Approved Products : {{ $approvedproductcounts->approved_y_count }}
             </span>
             <span class="badge badge-soft-danger p-2">
-                 Not Approved Products : {{ $approvedproductcounts->approved_not_y_count }}
+                Not Approved Products : {{ $approvedproductcounts->approved_not_y_count }}
             </span>
             <span class="badge badge-soft-danger p-2">
-                 Rejected Products : {{ $approvedproductcounts->approved_reject_y_count }}
+                Rejected Products : {{ $approvedproductcounts->approved_reject_y_count }}
             </span>
 
 
         </div>
     @endif
     <table id="datatable3" class="table table-striped table-bordered" style="width: 100%">
-        <tfoot>
+        {{-- <tfoot>
             <tr>
                 @if (session('roleid') == '1' || session('roleid') == '11')
                     <th style="border: 0px solid #eaf0f7"></th>
@@ -46,7 +48,7 @@
                 <th style="border: 0px solid #eaf0f7">Approval Status</th>
                 <th style="border: 0px solid #eaf0f7"></th>
             </tr>
-        </tfoot>
+        </tfoot> --}}
         <thead>
             <tr>
                 {{-- <th>Approved all<input type='checkbox' name='checkbox1' id='checkbox1' onclick='check();' /></th> --}}
@@ -77,15 +79,41 @@
                     <td>PRD{{ str_pad($prodDetails->id, 9, '0', STR_PAD_LEFT) }}</td>
                     <td>{{ $prodDetails->product_name }}</td>
                     <td>{{ $prodDetails->shopname }}</td>
-                    <td><span
+                    <td>
+                        {{-- <span
                             class="badge p-2 {{ $prodDetails->product_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
                             {{ $prodDetails->product_status === 'Y' ? 'Available' : 'Not Available' }}
-                        </span></td>
+                        </span> --}}
+                        @if ($prodDetails->product_status == 'Y')
+                            @php
+                                $prd_status = 'Available';
+                            @endphp
+                        @else
+                            @php
+                                $prd_status = 'Not Available';
+                            @endphp
+                        @endif
+
+
+                        {{ $prd_status }}
+                    </td>
                     <td>
-                        <span
+                        {{-- <span
                             class="badge p-2 {{ $prodDetails->is_approved === 'Y' ? 'badge badge-success' : ($prodDetails->is_approved === 'N' ? 'badge badge-info' : 'badge badge-danger') }}">
                             {{ $prodDetails->is_approved === 'Y' ? 'Yes' : ($prodDetails->is_approved === 'N' ? 'No' : 'Rejected') }}
-                        </span>
+                        </span> --}}
+                        @php
+                            if ($prodDetails->is_approved == 'Y') {
+                                $prd_aprv_status = 'Yes';
+                            } elseif ($prodDetails->is_approved == 'N') {
+                                $prd_aprv_status = 'No';
+                            } else {
+                                $prd_aprv_status = 'Rejected';
+                            }
+                        @endphp
+
+
+                        {{ $prd_aprv_status }}
                     </td>
                     <td>
                         <div class="btn-group mb-2 mb-md-0">
@@ -127,8 +155,8 @@
 @if (session('roleid') == '1' || session('roleid') == '11')
     @if ($ProductCount > 0)
         <div class="col text-center">
-            <button class="btn btn-primary" style="cursor:pointer"
-                onclick="productapprovedall();" id="approveAllBtn">Approve All</button>
+            <button class="btn btn-primary" style="cursor:pointer" onclick="productapprovedall();"
+                id="approveAllBtn">Approve All</button>
         </div>
     @endif
 @endif
@@ -489,12 +517,12 @@
         //console.log("Current Page URL:", currentPageUrl);
 
         // Check if the current page is the "listshopproduct" page
-        if (currentPagePath ==="/listshopproduct") {
+        if (currentPagePath === "/listshopproduct") {
             $(".view_btn1").addClass("d-none");
             $(".approve_btn, .delete_btn").removeClass("d-none");
             $(".checkboxcol").removeClass("d-none");
             $("#approveAllBtn").removeClass("d-none");
-        } else if (currentPagePath ==="/listshopproductadd") {
+        } else if (currentPagePath === "/listshopproductadd") {
             $(".view_btn1").removeClass("d-none");
             $(".approve_btn").addClass("d-none");
             $(".checkboxcol").addClass("d-none");
@@ -532,36 +560,137 @@
 
     $(document).ready(function() {
 
-        var table = $('#datatable3').DataTable({
-            initComplete: function() {
-                this.api()
-                    .columns()
-                    .every(function() {
-                        let column = this;
-                        let title = column.footer().textContent;
-                        if (title == "")
-                            return;
-                        // Create input element
-                        let input = document.createElement('input');
-                        input.className = "form-control form-control-lg";
-                        input.type = "text";
-                        input.placeholder = title;
-                        column.footer().replaceChildren(input);
+        // var table = $('#datatable3').DataTable({
+        //     initComplete: function() {
+        //         this.api()
+        //             .columns()
+        //             .every(function() {
+        //                 let column = this;
+        //                 let title = column.footer().textContent;
+        //                 if (title == "")
+        //                     return;
+        //                 // Create input element
+        //                 let input = document.createElement('input');
+        //                 input.className = "form-control form-control-lg";
+        //                 input.type = "text";
+        //                 input.placeholder = title;
+        //                 column.footer().replaceChildren(input);
 
-                        // Event listener for user input
-                        input.addEventListener('keyup', () => {
+        //                 // Event listener for user input
+        //                 input.addEventListener('keyup', () => {
+        //                     if (column.search() !== this.value) {
+        //                         column.search(input.value).draw();
+        //                     }
+        //                 });
+        //             });
+        //     },
+        //     "columnDefs": [{
+        //         "targets": 0,
+        //         "orderable": false
+        //     }]
+        // });
+        function cbDropdown(column) {
+            return $('<ul>', {
+                'class': 'cb-dropdown form-control'
+            }).appendTo($('<div>', {
+                'class': 'cb-dropdown-wrap '
+            }).appendTo(column));
+        }
+
+        $('#datatable3').DataTable({
+            initComplete: function() {
+                this.api().columns().every(function() {
+                    var column = this;
+                    var colIndex = column[0][0];
+                    var hidroleid = $('#hidroleid').val();
+                    if (hidroleid == 1 || hidroleid == 11) {
+                            var excludeColumns = [0, 1, 7];
+                            var textColumns = [2, 3, 4  ];
+                        } else {
+                            var excludeColumns = [0, 6];
+                            var textColumns = [1,2,3];
+
+                        }
+
+
+                    if (jQuery.inArray(colIndex, excludeColumns) !== -1)
+                        return;
+
+                    if (jQuery.inArray(colIndex, textColumns) !== -1) {
+
+                        var mainDiv = $('<div>', {
+                            'class': 'cb-textBox-wrap'
+                        }).appendTo($(column.header()));
+
+                        let input = $('<input placeholder="Search" class="form-control">');
+                        input.className = "";
+                        input.type = "text";
+                        mainDiv.append(input);
+
+                        input.on('keyup', () => {
                             if (column.search() !== this.value) {
-                                column.search(input.value).draw();
+                                column.search(input.val()).draw();
                             }
                         });
+                        return;
+
+                    }
+
+                    var ddmenu = cbDropdown($(column.header()))
+                        .on('change', ':checkbox', function() {
+                            var active;
+                            var vals = $(':checked', ddmenu).map(function(index,
+                                element) {
+                                active = true;
+                                return $.fn.dataTable.util.escapeRegex($(
+                                    element).val());
+                            }).toArray().join('|');
+
+                            column
+                                .search(vals.length > 0 ? '^(' + vals + ')$' : '', true,
+                                    false)
+                                .draw();
+
+                            // Highlight the current item if selected.
+                            if (this.checked) {
+                                $(this).closest('li').addClass('active');
+                            } else {
+                                $(this).closest('li').removeClass('active');
+                            }
+
+                            // Highlight the current filter if selected.
+                            var active2 = ddmenu.parent().is('.active');
+                            if (active && !active2) {
+                                ddmenu.parent().addClass('active');
+                            } else if (!active && active2) {
+                                ddmenu.parent().removeClass('active');
+                            }
+                        });
+
+                    column.data().unique().sort().each(function(d, j) {
+                        var
+                            $label = $('<label>'),
+                            $text = $('<span>', {
+                                text: d
+                            }),
+                            $cb = $('<input>', {
+                                type: 'checkbox',
+                                value: d
+                            });
+
+                        $text.appendTo($label);
+                        $cb.appendTo($label);
+
+
+                        ddmenu.append($('<li>').append($label));
                     });
+                });
             },
             "columnDefs": [{
                 "targets": 0,
                 "orderable": false
             }]
         });
-
 
 
         $(".selectAll").on("click", function(event) {

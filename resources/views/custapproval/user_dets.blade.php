@@ -1,5 +1,5 @@
 @if ($allusercount > 0)
-    <style>
+    {{-- <style>
         tfoot {
             display: table-header-group;
         }
@@ -9,7 +9,7 @@
             padding: 3px;
             box-sizing: border-box;
         }
-    </style>
+    </style> --}}
     <div class="card">
         <div class="card-body">
 
@@ -25,7 +25,7 @@
             @endif
 
             <table id="datatable3" class="table table-striped table-bordered" style="width: 100%">
-                <tfoot>
+                {{-- <tfoot>
                     <tr>
                         <th style="border: 0px solid #eaf0f7"></th>
                         <th style="border: 0px solid #eaf0f7"></th>
@@ -36,7 +36,7 @@
                         <th style="border: 0px solid #eaf0f7">Active Status</th>
                         <th style="border: 0px solid #eaf0f7"></th>
                     </tr>
-                </tfoot>
+                </tfoot> --}}
                 <thead>
                     <tr>
                         {{-- <th width="5px"><input type='checkbox' name='checkbox1' id='checkbox1' onclick='check();' /></th> --}}
@@ -45,7 +45,7 @@
                         <th>S.No.</th>
                         <th>Customer ID</th>
                         <th>Customer Name</th>
-                        <th>Email</th>
+                        {{-- <th>Email</th> --}}
                         <th>Mobile</th>
                         <th>Active Status</th>
                         <th>Action</th>
@@ -60,12 +60,26 @@
                             <td>{{ $index + 1 }}</td>
                             <td>{{ 'CUST' }}{{ str_pad($userDets->id, 9, '0', STR_PAD_LEFT) }}</td>
                             <td>{{ $userDets->name }}</td>
-                            <td>{{ $userDets->email }}</td>
+                            {{-- <td>{{ $userDets->email }}</td> --}}
                             <td>{{ $userDets->mobno }}</td>
-                            <td><span
+                            <td>
+                                {{-- <span
                                     class="badge p-2 {{ $userDets->user_status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
                                     {{ $userDets->user_status === 'Y' ? 'Active' : 'Suspend User' }}
-                                </span></td>
+                                </span> --}}
+                                @if ($userDets->user_status == 'Y')
+                                    @php
+                                        $us_status = 'Active';
+                                    @endphp
+                                @else
+                                    @php
+                                        $us_status = 'Suspend User';
+                                    @endphp
+                                @endif
+
+
+                                {{ $us_status }}
+                            </td>
 
                             <td>
                                 <div class="btn-group mb-2 mb-md-0">
@@ -204,29 +218,123 @@
 
 <script>
     $(document).ready(function() {
-        var table = $('#datatable3').DataTable({
-            initComplete: function() {
-                this.api()
-                    .columns()
-                    .every(function() {
-                        let column = this;
-                        let title = column.footer().textContent;
-                        if (title == "")
-                            return;
-                        // Create input element
-                        let input = document.createElement('input');
-                        input.className = "form-control form-control-lg";
-                        input.type = "text";
-                        input.placeholder = title;
-                        column.footer().replaceChildren(input);
+        // var table = $('#datatable3').DataTable({
+        //     initComplete: function() {
+        //         this.api()
+        //             .columns()
+        //             .every(function() {
+        //                 let column = this;
+        //                 let title = column.footer().textContent;
+        //                 if (title == "")
+        //                     return;
+        //                 // Create input element
+        //                 let input = document.createElement('input');
+        //                 input.className = "form-control form-control-lg";
+        //                 input.type = "text";
+        //                 input.placeholder = title;
+        //                 column.footer().replaceChildren(input);
 
-                        // Event listener for user input
-                        input.addEventListener('keyup', () => {
+        //                 // Event listener for user input
+        //                 input.addEventListener('keyup', () => {
+        //                     if (column.search() !== this.value) {
+        //                         column.search(input.value).draw();
+        //                     }
+        //                 });
+        //             });
+        //     },
+        //     "columnDefs": [{
+        //         "targets": 0,
+        //         "orderable": false
+        //     }]
+        // });
+        function cbDropdown(column) {
+            return $('<ul>', {
+                'class': 'cb-dropdown form-control'
+            }).appendTo($('<div>', {
+                'class': 'cb-dropdown-wrap '
+            }).appendTo(column));
+        }
+
+        $('#datatable3').DataTable({
+            initComplete: function() {
+                this.api().columns().every(function() {
+                    var column = this;
+                    var colIndex = column[0][0];
+                    var excludeColumns = [0, 1, 6];
+                    var textColumns = [2, 3, 4];
+
+                    if (jQuery.inArray(colIndex, excludeColumns) !== -1)
+                        return;
+
+                    if (jQuery.inArray(colIndex, textColumns) !== -1) {
+
+                        var mainDiv = $('<div>', {
+                            'class': 'cb-textBox-wrap'
+                        }).appendTo($(column.header()));
+
+                        let input = $('<input placeholder="Search" class="form-control">');
+                        input.className = "";
+                        input.type = "text";
+                        mainDiv.append(input);
+
+                        input.on('keyup', () => {
                             if (column.search() !== this.value) {
-                                column.search(input.value).draw();
+                                column.search(input.val()).draw();
                             }
                         });
+                        return;
+
+                    }
+
+                    var ddmenu = cbDropdown($(column.header()))
+                        .on('change', ':checkbox', function() {
+                            var active;
+                            var vals = $(':checked', ddmenu).map(function(index,
+                                element) {
+                                active = true;
+                                return $.fn.dataTable.util.escapeRegex($(
+                                    element).val());
+                            }).toArray().join('|');
+
+                            column
+                                .search(vals.length > 0 ? '^(' + vals + ')$' : '', true,
+                                    false)
+                                .draw();
+
+                            // Highlight the current item if selected.
+                            if (this.checked) {
+                                $(this).closest('li').addClass('active');
+                            } else {
+                                $(this).closest('li').removeClass('active');
+                            }
+
+                            // Highlight the current filter if selected.
+                            var active2 = ddmenu.parent().is('.active');
+                            if (active && !active2) {
+                                ddmenu.parent().addClass('active');
+                            } else if (!active && active2) {
+                                ddmenu.parent().removeClass('active');
+                            }
+                        });
+
+                    column.data().unique().sort().each(function(d, j) {
+                        var
+                            $label = $('<label>'),
+                            $text = $('<span>', {
+                                text: d
+                            }),
+                            $cb = $('<input>', {
+                                type: 'checkbox',
+                                value: d
+                            });
+
+                        $text.appendTo($label);
+                        $cb.appendTo($label);
+
+
+                        ddmenu.append($('<li>').append($label));
                     });
+                });
             },
             "columnDefs": [{
                 "targets": 0,

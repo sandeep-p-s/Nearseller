@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Masters;
 
 use DB;
 use App\Models\MenuMaster;
-use App\Models\UserAccount;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\masters\District;
@@ -17,9 +17,9 @@ class DistrictController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
+        $loggeduser = User::sessionValuereturn_s($roleid);
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $districts = DB::table('district as d')
             ->select('d.district_name', 'd.id', 'st.state_name', 'ct.country_name', 'd.status as d_status', 'st.status as st_status', 'ct.status as ct_status')
             ->join('state as st', 'd.state_id', 'st.id')
@@ -39,9 +39,9 @@ class DistrictController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
+        $loggeduser = User::sessionValuereturn_s($roleid);
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $states = DB::table('state as st')
             ->select('st.state_name', 'st.id', 'ct.country_name as country_name', 'st.status')
             ->join('country as ct', 'ct.id', 'st.country_id')
@@ -87,9 +87,9 @@ class DistrictController extends Controller
         $userRole = session('user_role');
         $userId = session('user_id');
         $roleid = session('roleid');
-        $loggeduser = UserAccount::sessionValuereturn_s($roleid);
+        $loggeduser = User::sessionValuereturn_s($roleid);
         $structuredMenu = MenuMaster::UserPageMenu($userId);
-        $userdetails    = DB::table('user_account')->where('id', $userId)->get();
+        $userdetails    = DB::table('users')->where('id', $userId)->get();
         $states = DB::table('state as st')
             ->select('st.state_name', 'st.id', 'ct.country_name as country_name', 'st.status')
             ->join('country as ct', 'ct.id', 'st.country_id')

@@ -48,6 +48,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
+                        <input type="hidden" id="hidroleid" name="hidroleid" value="{{ session('roleid') }}" />
                         <div class="card-body">
                             <div class="d-flex justify-content-center align-items-center mb-2">
                                 <span class="badge badge-soft-info p-2 ml-2">Active Categories :
@@ -117,9 +118,7 @@
                                                 @else
                                                     @php
                                                         $categorystatus = 'Inctive';
-                                                    @endphp
-                                                @endif
-
+                                                        @endphp
 
                                                 {{-- <span
                                                     class="badge p-2 {{ $c->status === 'Y' ? 'badge badge-success' : 'badge badge-danger' }}">
@@ -241,6 +240,26 @@
                                 'class': 'cb-textBox-wrap'
                             }).appendTo($(column.header()));
 
+                        var hidroleid = $('#hidroleid').val();
+                        if (hidroleid == 1 || hidroleid == 11) {
+                            var excludeColumns = [0, 1, 5];
+                            var textColumns = [2];
+                        } else {
+                            var excludeColumns = [0, 4];
+                            var textColumns = [1];
+
+                        }
+
+
+                        if (jQuery.inArray(colIndex, excludeColumns) !== -1)
+                            return;
+
+                        if (jQuery.inArray(colIndex, textColumns) !== -1) {
+
+                            var mainDiv = $('<div>', {
+                                'class': 'cb-textBox-wrap'
+                            }).appendTo($(column.header()));
+
                             let input = $('<input placeholder="Search" class="form-control">');
                             input.className = "";
                             input.type = "text";
@@ -312,6 +331,10 @@
             });
         });
 
+                    "orderable": true
+                }]
+            });
+        });
         $(document).ready(function() {
             $(".selectAll").on("click", function(event) {
                 var isChecked = $(this).is(":checked");
