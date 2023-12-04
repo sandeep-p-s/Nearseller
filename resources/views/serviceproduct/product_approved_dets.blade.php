@@ -190,9 +190,9 @@
             <div class="card">
                 <div class="card-body">
                     <div class="form-group">
-                        <label>Service Description <span class="text-danger">*</span></label>
+                        <label>Service Description <span class="text-danger"></span></label>
                         <textarea id="prod_descriptions" name="prod_descriptions" placeholder="Service Description" class="form-control"
-                            maxlength="7000" tabindex="4" required rows="3">{{ $ServiceDetails->service_description }}</textarea>
+                            maxlength="7000" tabindex="4"  rows="3">{{ $ServiceDetails->service_description }}</textarea>
                         <label for="prod_descriptions"></label>
                     </div>
 
@@ -275,7 +275,7 @@
 
 
 
-                    <div class="form-group mb-0 row">
+                    {{--  <div class="form-group mb-0 row">
                         <label class="col-md-3">Service Point </label>
                         <div class="col-md-9">
                             <div class="form-group">
@@ -296,7 +296,31 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>  --}}
+
+                    <div class="form-group mb-0 row">
+                        <label class="col-md-3 my-2 control-label">Service Point </label>
+                        <div class="col-md-9">
+
+                            <div class="form-check-inline my-2">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck6" name="servicepoint1" data-parsley-multiple="groups" data-parsley-mincheck="2">
+                                    <label class="custom-control-label" for="customCheck6">At Customer Location</label>
+                                </div>
+                            </div>
+                            <div class="form-check-inline my-2">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck7" name="servicepoint2" data-parsley-multiple="groups" data-parsley-mincheck="2">
+                                    <label class="custom-control-label" for="customCheck7">At Service Provider Location</label>
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div><!--end row--> 
+
+
+
+
 
 
 
@@ -536,7 +560,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="form-group">
-                        <div class="form-group mb-0 row">
+                        {{--  <div class="form-group mb-0 row">
                             <label class="col-md-6 my-1 control-label">Do you want to select
                                 attributes?</label>
                             <div class="col-md-6">
@@ -560,11 +584,11 @@
                                 </div>
 
                             </div>
-                        </div>
-                        <hr>
+                        </div>  --}}
+                        {{--  <hr>  --}}
 
                         <div id="ifYess"
-                            style="display: {{ $ServiceDetails->is_attribute == 'Y' ? 'block' : 'none' }};">
+                            {{--  style="display: {{ $ServiceDetails->is_attribute == 'Y' ? 'block' : 'none' }};">  --}}
                             <fieldset>
                                 <div class="repeater-defaults">
                                     <div data-repeater-list="attributedatas">
@@ -586,17 +610,17 @@
                                                     </div>
                                                     <div class="col">
                                                         <input type="text" id="attatibutes1" name="attatibutes1"
-                                                            placeholder="Attribute1" class="form-control" required
+                                                            placeholder="Attribute1" class="form-control" 
                                                             value="{{ $attribte->attribute_1 }}">
                                                     </div>
                                                     <div class="col">
                                                         <input type="text" id="attatibutes2" name="attatibutes2"
-                                                            placeholder="Attribute2" class="form-control" required
+                                                            placeholder="Attribute2" class="form-control" 
                                                             value="{{ $attribte->attribute_2 }}">
                                                     </div>
                                                     <div class="col">
                                                         <input type="text" id="attatibutes3" name="attatibutes3"
-                                                            placeholder="Attribute3" class="form-control" required
+                                                            placeholder="Attribute3" class="form-control" 
                                                             value="{{ $attribte->attribute_3 }}">
                                                     </div>
                                                     <div class="col">
@@ -639,15 +663,15 @@
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" id="attatibutes1" name="attatibutes1"
-                                                        placeholder="Attribute" class="form-control" required />
+                                                        placeholder="Attribute" class="form-control"  />
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" id="attatibutes2" name="attatibutes2"
-                                                        placeholder="Attribute" class="form-control" required />
+                                                        placeholder="Attribute" class="form-control" />
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" id="attatibutes3" name="attatibutes3"
-                                                        placeholder="Attribute" class="form-control" required />
+                                                        placeholder="Attribute" class="form-control" />
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" id="attatibutes4" name="attatibutes4"

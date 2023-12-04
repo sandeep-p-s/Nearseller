@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('user_pages', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('menu_id')->nullable();
-            $table->string('user_id')->nullable();
-            $table->bigInteger('user_role')->nullable();
+            $table->bigInteger('menu_id')->nullable()->index();
+            $table->string('user_id')->nullable()->index();
+            $table->bigInteger('user_role')->nullable()->index();
             $table->string('privilage', 2)->nullable()->comment('A-All Privilages,V-View Only');
             $table->string('updated_by')->nullable();
             $table->timestamps();

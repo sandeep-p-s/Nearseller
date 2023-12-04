@@ -29,13 +29,18 @@
                 @csrf
                 <div class="row">
 
+
                     <div class="col-12">
                         <div class="card">
+
+                            @php
+                                $shopshowhide = session('roleid') == 1 || session('roleid') == 3 ? 'style=display:block;' : 'style=display:none;';
+                            @endphp
 
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        <div class="form-group">
+                                        <div class="form-group" {{ $shopshowhide }}>
                                             <label for="service_name">Shop User <span class="text-danger">*</span></label>
                                             <select class="selectshop form-select form-control form-control-lg"
                                                 id="serviceuser_name" name="shopeuser_name" required tabindex="1">
@@ -49,7 +54,7 @@
                                             @enderror
                                         </div>
                                         <div class="form-group">
-                                            <label class="control-label">Offer to Display</label>
+                                            <label class="control-label">Offer to Display<span class="text-danger">*</span></label>
                                             <input type="text" class="form-control" id="offer"
                                                 name="offer_to_display" placeholder="Enter offer"
                                                 value="{{ $shopoffer->offer_to_display }}">
@@ -82,7 +87,8 @@
                                                             <div class="form-group">
                                                                 <label class="control-label">Conditions</label>
                                                                 <input type="text" class="form-control" id="conditions"
-                                                                    name="car[0][conditions]" placeholder="Enter conditions"
+                                                                    name="car[0][conditions]"
+                                                                    placeholder="Enter conditions"
                                                                     value="">
                                                             </div>
                                                         </div>
@@ -101,7 +107,7 @@
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="form-group">
-                                                    <label class="control-label">From Date & Time</label>
+                                                    <label class="control-label">From Date & Time<span class="text-danger">*</span></label>
                                                     <input type="datetime-local" class="form-control" id="from_time"
                                                         name="from_date_time" placeholder="Enter offer"
                                                         value="{{ $shopoffer->from_date_time }}">
@@ -113,7 +119,7 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="form-group">
-                                                    <label class="control-label">To Date & Time</label>
+                                                    <label class="control-label">To Date & Time<span class="text-danger">*</span></label>
                                                     <input type="datetime-local" class="form-control" id="to_time"
                                                         name="to_date_time" placeholder="Enter offer"
                                                         value="{{ $shopoffer->to_date_time }}"
@@ -137,7 +143,7 @@
                                     <div class="col-lg-6">
                                         <div class="card">
                                             <div class="card-header">
-                                                <h4 class="card-title">Upload Image</h4>
+                                                <h4 class="card-title">Upload Image<span class="text-danger">*</span></h4>
 
                                             </div><!--end card-header-->
                                             <div class="card-body">

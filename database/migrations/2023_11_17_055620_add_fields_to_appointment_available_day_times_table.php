@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('appointment_available_day_times', function (Blueprint $table) {
-            $table->integer('service_id')->nullable()->after('grace_time');
+            $table->integer('service_id')->nullable()->after('grace_time')->index();
         });
     }
 

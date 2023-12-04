@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('seller_details', function (Blueprint $table) {
-            $table->string('latitude')->after('manufactoring_details')->nullable();
-            $table->string('longitude')->after('latitude')->nullable();
+            $table->string('latitude')->after('manufactoring_details')->nullable()->index();
+            $table->string('longitude')->after('latitude')->nullable()->index();
         });
     }
 

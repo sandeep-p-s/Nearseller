@@ -170,8 +170,8 @@ class ServiceNewController extends Controller
         $validatedData = $request->validate([
             'shop_name' => 'required',
             'prod_name' => 'required',
-            'prod_description' => 'required',
-            'customRadio' => 'required|in:Y,N',
+            // 'prod_description' => 'required',
+            // 'customRadio' => 'required|in:Y,N',
         ]);
 
 
@@ -429,8 +429,8 @@ class ServiceNewController extends Controller
         $validatedData = $request->validate([
             'serviceprovider' => 'required',
             'prod_names' => 'required',
-            'prod_descriptions' => 'required',
-            'customRadios' => 'required|in:Y,N',
+            // 'prod_descriptions' => 'required',
+            // 'customRadios' => 'required|in:Y,N',
         ]);
 
         $service_id = $request->serprod_id;

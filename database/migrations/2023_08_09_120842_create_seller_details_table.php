@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('seller_details', function (Blueprint $table) {
             $table->id();
-            $table->string('shop_name', 100)->nullable();
-            $table->string('owner_name', 100)->nullable();
-            $table->string('shop_email', 50)->nullable();
-            $table->string('shop_mobno', 10)->nullable();
+            $table->string('shop_name', 100)->nullable()->index();
+            $table->string('owner_name', 100)->nullable()->index();
+            $table->string('shop_email', 50)->nullable()->index();
+            $table->string('shop_mobno', 10)->nullable()->index();
             $table->string('referal_id')->nullable();
-            $table->integer('busnes_type')->nullable();
+            $table->integer('busnes_type')->nullable()->index();
             $table->integer('shop_executive')->nullable();
             $table->integer('term_condition')->nullable();
             $table->string('shop_licence', 20)->nullable();
@@ -32,9 +32,9 @@ return new class extends Migration
             $table->integer('district')->nullable();
             $table->integer('pincode')->nullable();
             $table->longText('googlemap')->nullable();
-            $table->string('shop_photo')->nullable();
+            $table->longText('shop_photo')->nullable();
             $table->date('establish_date')->nullable();
-            $table->string('user_id')->nullable();
+            $table->string('user_id')->nullable()->index();
             $table->timestamps();
         });
     }

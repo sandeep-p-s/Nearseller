@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('open_close_day_times', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id')->nullable();
+            $table->integer('user_id')->nullable()->index();
             $table->integer('is_set_time')->nullable();
-            $table->string('open_close_days')->nullable();
-            $table->string('from_time')->nullable();
-            $table->string('to_time')->nullable();
+            $table->string('open_close_days',25)->nullable();
+            $table->string('from_time',25)->nullable();
+            $table->string('to_time',25)->nullable();
             $table->timestamps();
         });
     }

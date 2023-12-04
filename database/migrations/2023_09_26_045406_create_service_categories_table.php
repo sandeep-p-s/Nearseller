@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('service_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('service_category_name')->nullable();
-            $table->integer('business_type_id');
-            $table->string('status')->default('Y')->nullable();
+            $table->string('service_category_name',100)->nullable()->index();
+            $table->integer('business_type_id')->index();
+            $table->integer('status')->default(1)->nullable()->index();
             $table->timestamps();
         });
     }

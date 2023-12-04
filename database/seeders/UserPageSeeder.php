@@ -15,15 +15,6 @@ class UserPageSeeder extends Seeder
     {
         $now = now();
         $data = [
-            ['menu_id' => '1','user_id' => '2','user_role' => '2','privilage' => 'A','updated_by' => '1','created_at' => $now, 'updated_at' => $now],
-            ['menu_id' => '3','user_id' => '2','user_role' => '2','privilage' => '','updated_by' => '1','created_at' => $now, 'updated_at' => $now],
-            ['menu_id' => '6','user_id' => '2','user_role' => '2','privilage' => 'A','updated_by' => '1','created_at' => $now, 'updated_at' => $now],
-            ['menu_id' => '7','user_id' => '2','user_role' => '2','privilage' => 'A','updated_by' => '1','created_at' => $now, 'updated_at' => $now],
-            ['menu_id' => '8','user_id' => '2','user_role' => '2','privilage' => 'A','updated_by' => '1','created_at' => $now, 'updated_at' => $now],
-            ['menu_id' => '15','user_id' => '2','user_role' => '2','privilage' => 'A','updated_by' => '1','created_at' => $now, 'updated_at' => $now],
-            ['menu_id' => '38','user_id' => '2','user_role' => '2','privilage' => 'A','updated_by' => '1','created_at' => $now, 'updated_at' => $now],
-            ['menu_id' => '39','user_id' => '2','user_role' => '2','privilage' => 'A','updated_by' => '1','created_at' => $now, 'updated_at' => $now],
-
             ['menu_id' => '1','user_id' => '1','user_role' => '1','privilage' => 'A','updated_by' => '1','created_at' => $now, 'updated_at' => $now],
             ['menu_id' => '2','user_id' => '1','user_role' => '1','privilage' => 'A','updated_by' => '1','created_at' => $now, 'updated_at' => $now],
             ['menu_id' => '3','user_id' => '1','user_role' => '1','privilage' => 'A','updated_by' => '1','created_at' => $now, 'updated_at' => $now],
@@ -56,24 +47,11 @@ class UserPageSeeder extends Seeder
             ['menu_id' => '30','user_id' => '1','user_role' => '1','privilage' => 'A','updated_by' => '1','created_at' => $now, 'updated_at' => $now],
             ['menu_id' => '31','user_id' => '1','user_role' => '1','privilage' => 'A','updated_by' => '1','created_at' => $now, 'updated_at' => $now],
             ['menu_id' => '32','user_id' => '1','user_role' => '1','privilage' => 'A','updated_by' => '1','created_at' => $now, 'updated_at' => $now],
-            ['menu_id' => '33','user_id' => '1','user_role' => '1','privilage' => 'A','updated_by' => '1','created_at' => $now, 'updated_at' => $now],
-            ['menu_id' => '34','user_id' => '1','user_role' => '1','privilage' => 'A','updated_by' => '1','created_at' => $now, 'updated_at' => $now],
-            ['menu_id' => '35','user_id' => '1','user_role' => '1','privilage' => 'A','updated_by' => '1','created_at' => $now, 'updated_at' => $now],
-            ['menu_id' => '36','user_id' => '1','user_role' => '1','privilage' => 'A','updated_by' => '1','created_at' => $now, 'updated_at' => $now],
-            ['menu_id' => '37','user_id' => '1','user_role' => '1','privilage' => 'A','updated_by' => '1','created_at' => $now, 'updated_at' => $now],
-            ['menu_id' => '38','user_id' => '1','user_role' => '1','privilage' => 'A','updated_by' => '1','created_at' => $now, 'updated_at' => $now],
-            ['menu_id' => '39','user_id' => '1','user_role' => '1','privilage' => 'A','updated_by' => '1','created_at' => $now, 'updated_at' => $now],
-            ['menu_id' => '40','user_id' => '1','user_role' => '1','privilage' => 'A','updated_by' => '1','created_at' => $now, 'updated_at' => $now],
-            ['menu_id' => '41','user_id' => '1','user_role' => '1','privilage' => 'A','updated_by' => '1','created_at' => $now, 'updated_at' => $now],
-            ['menu_id' => '42','user_id' => '1','user_role' => '1','privilage' => 'A','updated_by' => '1','created_at' => $now, 'updated_at' => $now],
-            ['menu_id' => '43','user_id' => '1','user_role' => '1','privilage' => 'A','updated_by' => '1','created_at' => $now, 'updated_at' => $now],
-            ['menu_id' => '44','user_id' => '1','user_role' => '1','privilage' => 'A','updated_by' => '1','created_at' => $now, 'updated_at' => $now],
-            ['menu_id' => '45','user_id' => '1','user_role' => '1','privilage' => 'A','updated_by' => '1','created_at' => $now, 'updated_at' => $now],
-            ['menu_id' => '46','user_id' => '1','user_role' => '1','privilage' => 'A','updated_by' => '1','created_at' => $now, 'updated_at' => $now],
+
 
         ];
         foreach ($data as $item){
-            DB::table('roles')->insert(['userpages' => $item['role_name'],'is_active' => $item['is_active']], $item);
+            DB::table('user_pages')->insert(['menu_id' => $item['menu_id'],'user_id' => $item['user_id'],'user_role' => $item['user_role'],'privilage' => $item['privilage'],'updated_by' => $item['updated_by'],'created_at' => $item['created_at'],'updated_at' => $item['updated_at']], $item);
         }
     }
 }

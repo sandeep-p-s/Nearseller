@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('service_employees', function (Blueprint $table) {
             $table->id();
-            $table->string('employee_name');
-            $table->string('employee_id');
-            $table->string('designation');
-            $table->date('joining_date')->nullable();
-            $table->bigInteger('aadhar_no')->nullable();
+            $table->string('employee_name')->nullable()->index();
+            $table->string('employee_id')->nullable()->index();
+            $table->string('designation')->nullable();
+            $table->date('joining_date')->nullable()->index();
+            $table->bigInteger('aadhar_no')->nullable()->index();
             $table->longText('permanent_address')->nullable();
             $table->string('district')->nullable();
             $table->string('state')->nullable();
@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('present_state')->nullable();
             $table->string('present_country')->nullable();
             $table->string('present_pincode')->nullable();
-            $table->string('image');
+            $table->string('image')->nullable()->index();
             $table->timestamps();
         });
     }

@@ -349,7 +349,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="form-group">
-                                    <div class="form-group mb-0 row">
+                                    {{-- <div class="form-group mb-0 row">
                                         <label class="col-md-6 my-1 control-label">Do you want to select
                                             attributes?</label>
                                         <div class="col-md-6">
@@ -375,7 +375,7 @@
                                         </div>
                                     </div>
                                     <hr>
-                                    <div id="ifYes">
+                                    <div id="ifYes"> --}}
                                         {{-- style="display:none" --}}
                                         <fieldset>
                                             <div class="repeater-default">

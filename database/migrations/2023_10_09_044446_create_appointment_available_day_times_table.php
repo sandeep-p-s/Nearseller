@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('appointment_available_day_times', function (Blueprint $table) {
             $table->id();
-            $table->integer('appointment_id')->nullable();
-            $table->integer('is_set_time')->nullable();
-            $table->string('appt_days')->nullable();
-            $table->string('from_time')->nullable();
-            $table->string('to_time')->nullable();
+            $table->integer('appointment_id')->nullable()->index();
+            $table->integer('is_set_time')->nullable()->index();
+            $table->string('appt_days',20)->nullable()->index();
+            $table->string('from_time',25)->nullable()->index();
+            $table->string('to_time',25)->nullable()->index();
             $table->timestamps();
         });
     }

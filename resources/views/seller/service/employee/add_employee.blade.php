@@ -81,6 +81,16 @@
                                 @enderror
                             </div>
                             <div class="form-group">
+                                <label for="exampleFormControlInput1">Experience <span
+                                        class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="experience"
+                                    placeholder="Enter Experience" name="experience"
+                                    value="{{ old('experience') }}">
+                                @error('designation')
+                                    <div class="text-danger mb15">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
                                 <label for="exampleFormControlInput1">Joining Date <span
                                         class="text-danger">*</span></label>
                                 <input type="date" class="form-control" id="exampleFormControlInput1"
@@ -93,7 +103,7 @@
                                 <label for="exampleFormControlInput1">Aadhar Number <span
                                         class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="aadhar_no" placeholder="Enter aadhar number"
-                                    name="aadhar_no" value="{{ old('aadhar_no') }}" maxlength="12">
+                                    name="aadhar_no" value="{{ old('aadhar_no') }}" >
                                 @error('aadhar_no')
                                     <div class="text-danger mb15">{{ $message }}</div>
                                 @enderror

@@ -1,6 +1,6 @@
 <?php
 return[
-    'categorydir' => 'categories_image',
+    'nearsellerdir' => 'nearsellers',
     'category' => [
         'image' => "category_image/",
         'imagethumb' => "category_image/thumbs/",

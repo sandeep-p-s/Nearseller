@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('set_questions', function (Blueprint $table) {
             $table->id();
-            $table->integer('appointment_id')->nullable();
+            $table->integer('appointment_id')->nullable()->index();
             $table->longtext('questions')->nullable();
             $table->timestamps();
         });

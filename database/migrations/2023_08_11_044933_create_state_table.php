@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('state', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('country_id'); // Remove the length parameter
-            $table->string('state_name')->nullable();
-            $table->string('status', 1)->default('Y')->nullable();
+            $table->unsignedBigInteger('country_id')->index(); // Remove the length parameter
+            $table->string('state_name',50)->nullable()->index();
+            $table->integer('status')->default(1)->nullable()->index();
             $table->timestamps();
 
         });

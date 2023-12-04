@@ -41,7 +41,7 @@
                                         <div class="form-group" {{ $shopshowhide }}>
                                             <label for="service_name">Shop User <span class="text-danger">*</span></label>
                                             <select class="selectshop  form-control"
-                                                id="serviceuser_name" name="shopeuser_name" tabindex="1" required>
+                                                id="serviceuser_name" name="shopeuser_name" tabindex="1">
                                                 <option value="">Select Shop User</option><br />
                                                 @foreach ($usershopdets as $shopeuser)
                                                     <option value="{{ $shopeuser->id }}">{{ $shopeuser->name }}</option>
@@ -70,8 +70,7 @@
 
                                                             <label class="control-label">Conditions</label>
                                                             <input type="text" class="form-control" id="conditions"
-                                                                name="car[conditions]" placeholder="Enter conditions"
-                                                                value="{{ old('car.conditions') }}">
+                                                                name="conditions" placeholder="Enter conditions">
                                                             @error('conditions')
                                                                 <div class="text-danger mb15">{{ $message }}</div>
                                                             @enderror

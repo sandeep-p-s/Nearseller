@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('set_customer_answers', function (Blueprint $table) {
             $table->id();
-            $table->integer('question_id')->nullable();
+            $table->integer('question_id')->nullable()->index();
             $table->longtext('answers')->nullable();
             $table->timestamps();
         });

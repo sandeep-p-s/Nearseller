@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->string('role_name');
+            $table->string('role_name',50)->nullable()->index();
             $table->unsignedBigInteger('role_created_by')->default(0)->index();
             $table->unsignedBigInteger('role_last_updated_by')->default('0')->index();
-            $table->tinyInteger('is_deleted')->default(0);
+            $table->tinyInteger('is_deleted')->default(0)->index();
             $table->timestamps();
         });
     }

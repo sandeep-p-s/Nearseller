@@ -82,6 +82,15 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
+                                    <label for="exampleFormControlInput1">Experience</label>
+                                    <input type="text" class="form-control" id="experience"
+                                        placeholder="Enter Experience" name="experience"
+                                        value="{{ $service_emp->experience }}">
+                                    @error('experience')
+                                        <div class="text-danger mb15">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
                                     <label for="exampleFormControlInput1">Joining Date</label>
                                     <input type="date" class="form-control" id="joining_date" placeholder="Enter date"
                                         name="joining_date" value="{{ $service_emp->joining_date }}">

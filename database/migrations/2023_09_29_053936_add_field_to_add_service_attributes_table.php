@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('add_service_attributes', function (Blueprint $table) {
-            $table->string('show_status')->default('0')->nullable()->after('attribute_4');
+            $table->integer('show_status')->default(0)->nullable()->after('attribute_4')->index();
 
         });
     }

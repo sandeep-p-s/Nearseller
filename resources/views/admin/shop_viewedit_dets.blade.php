@@ -215,102 +215,6 @@
                         class="form-control" />
 
                 </div>
-            </div>
-
-            <div class="col-md-4">
-
-
-                <div class="form-outline mb-3"><label>Building/House Name & Number<span
-                            class="text-danger">*</span></label>
-                    <input type="text" id="es_buldingorhouseno" name="es_buldingorhouseno"
-                        value="{{ $sellerDetails->house_name_no }}" maxlength="100"
-                        class="form-control form-control-lg" placeholder="Building/House Name & Number" required
-                        tabindex="11" />
-                    <div for="es_buldingorhouseno" class="error"></div>
-                </div>
-                <div class="form-outline mb-3"><label>Locality<span class="text-danger">*</span></label>
-                    <input type="text" id="es_locality" name="es_locality"
-                        value="{{ $sellerDetails->locality }}" maxlength="100" class="form-control form-control-lg"
-                        placeholder="Locality" required tabindex="12" />
-                    <div for="es_locality" class="error"></div>
-                </div>
-                <div class="form-outline mb-3"><label>Village/Town/Municipality<span
-                            class="text-danger">*</span></label>
-                    <input type="text" id="es_villagetown" name="es_villagetown"
-                        value="{{ $sellerDetails->village }}" maxlength="100" class="form-control form-control-lg"
-                        placeholder="Village/Town/Municipality" required tabindex="13" />
-                    <div for="es_villagetown" class="error"></div>
-                </div>
-                <div class="form-outline mb-3"><label>Country<span class="text-danger">*</span></label>
-                    <select class="form-select form-control form-control-lg" name="ecountry"
-                        aria-label="Default select example" id="ecountry" required tabindex="14">
-                        <option value="">Select country</option>
-                        @foreach ($countries as $country)
-                            <option value="{{ $country->id }}" @if ($country->id == $sellerDetails->country) selected @endif>
-                                {{ $country->country_name }}</option>
-                        @endforeach
-                    </select>
-                    <div for="ecountry" class="error"></div>
-                </div>
-                <div class="form-outline mb-3"><label>State<span class="text-danger">*</span></label>
-                    <select class="form-select form-control form-control-lg" name="estate"
-                        aria-label="Default select example" id="estate" required tabindex="15">
-                        @foreach ($states as $state)
-                            <option value="{{ $state->id }}" @if ($state->id == $sellerDetails->state) selected @endif>
-                                {{ $state->state_name }}</option>
-                        @endforeach
-                    </select>
-                    <div for="estate" class="error"></div>
-                </div>
-                <div class="form-outline mb-3"><label>District<span class="text-danger">*</span></label>
-                    <select class="form-select form-control form-control-lg" aria-label="Default select example"
-                        id="edistrict" name="edistrict" required tabindex="16">
-                        @foreach ($districts as $dist)
-                            <option value="{{ $dist->id }}" @if ($dist->id == $sellerDetails->district && $dist->state_id == $sellerDetails->state) selected @endif>
-                                {{ $dist->district_name }}</option>
-                        @endforeach
-                    </select>
-                    <div for="edistrict" class="error"></div>
-                </div>
-
-                <div class="form-outline mb-3"><label>Pincode<span class="text-danger">*</span></label>
-                    <input type="text" id="es_pincode" name="es_pincode" value="{{ $sellerDetails->pincode }}"
-                        maxlength="6" class="form-control form-control-lg" placeholder="Pin Code" required
-                        tabindex="17" oninput="numberOnlyAllowed(this)" />
-                    <div for="es_pincode" class="error"></div>
-                </div>
-
-
-
-
-                {{-- <div class="form-outline mb-3"><label>Google map link location</label>
-                    <input type="text" id="es_googlelink" name="es_googlelink"
-                        value="{{ $sellerDetails->googlemap }}" id class="form-control form-control-lg"
-                        placeholder="Google map link location" required tabindex="18" />
-                    <label for="es_googlelink" class="error"></label>
-                </div> --}}
-
-
-                <div class="form-outline mb-3"><label>Latitude (Google map location)<span
-                            class="text-danger">*</span></label>
-                    <input type="text" id="es_googlelatitude" name="es_googlelatitude"
-                        value="{{ $sellerDetails->latitude }}" class="form-control form-control-lg"
-                        placeholder="Latitude (Google map location)" required tabindex="18" pattern="^-?([1-8]?\d(\.\d{1,6})?|90(\.0{1,6})?)" />
-                    <div for="es_googlelatitude" class="error"></div>
-                </div>
-
-
-
-                <div class="form-outline mb-3"><label>Longitude (Google map location)<span
-                            class="text-danger">*</span></label>
-                    <input type="text" id="es_googlelongitude" name="es_googlelongitude"
-                        value="{{ $sellerDetails->longitude }}" class="form-control form-control-lg"
-                        placeholder="Longitude (Google map location)" required tabindex="18" pattern="^-?([1-8]?\d(\.\d{1,6})?|90(\.0{1,6})?)" />
-                    <div for="es_googlelongitude" class="error"></div>
-                </div>
-
-
-
                 <div class="form-outline mb-3"><label>{{ $shoporservice }} Photo's<span
                             class="text-danger">*</span></label>
                     <input type="file" id="es_photo" multiple="" name="es_photo[]"
@@ -417,6 +321,105 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="col-md-4">
+
+
+                <div class="form-outline mb-3"><label>Building/House Name & Number<span
+                            class="text-danger">*</span></label>
+                    <input type="text" id="es_buldingorhouseno" name="es_buldingorhouseno"
+                        value="{{ $sellerDetails->house_name_no }}" maxlength="100"
+                        class="form-control form-control-lg" placeholder="Building/House Name & Number" required
+                        tabindex="11" />
+                    <div for="es_buldingorhouseno" class="error"></div>
+                </div>
+                <div class="form-outline mb-3"><label>Locality<span class="text-danger">*</span></label>
+                    <input type="text" id="es_locality" name="es_locality"
+                        value="{{ $sellerDetails->locality }}" maxlength="100" class="form-control form-control-lg"
+                        placeholder="Locality" required tabindex="12" />
+                    <div for="es_locality" class="error"></div>
+                </div>
+                <div class="form-outline mb-3"><label>Village/Town/Municipality<span
+                            class="text-danger">*</span></label>
+                    <input type="text" id="es_villagetown" name="es_villagetown"
+                        value="{{ $sellerDetails->village }}" maxlength="100" class="form-control form-control-lg"
+                        placeholder="Village/Town/Municipality" required tabindex="13" />
+                    <div for="es_villagetown" class="error"></div>
+                </div>
+                <div class="form-outline mb-3"><label>Country<span class="text-danger">*</span></label>
+                    <select class="form-select form-control form-control-lg" name="ecountry"
+                        aria-label="Default select example" id="ecountry" required tabindex="14">
+                        <option value="">Select country</option>
+                        @foreach ($countries as $country)
+                            <option value="{{ $country->id }}" @if ($country->id == $sellerDetails->country) selected @endif>
+                                {{ $country->country_name }}</option>
+                        @endforeach
+                    </select>
+                    <div for="ecountry" class="error"></div>
+                </div>
+                <div class="form-outline mb-3"><label>State<span class="text-danger">*</span></label>
+                    <select class="form-select form-control form-control-lg" name="estate"
+                        aria-label="Default select example" id="estate" required tabindex="15">
+                        @foreach ($states as $state)
+                            <option value="{{ $state->id }}" @if ($state->id == $sellerDetails->state) selected @endif>
+                                {{ $state->state_name }}</option>
+                        @endforeach
+                    </select>
+                    <div for="estate" class="error"></div>
+                </div>
+                <div class="form-outline mb-3"><label>District<span class="text-danger">*</span></label>
+                    <select class="form-select form-control form-control-lg" aria-label="Default select example"
+                        id="edistrict" name="edistrict" required tabindex="16">
+                        @foreach ($districts as $dist)
+                            <option value="{{ $dist->id }}" @if ($dist->id == $sellerDetails->district && $dist->state_id == $sellerDetails->state) selected @endif>
+                                {{ $dist->district_name }}</option>
+                        @endforeach
+                    </select>
+                    <div for="edistrict" class="error"></div>
+                </div>
+
+                <div class="form-outline mb-3"><label>Pincode<span class="text-danger">*</span></label>
+                    <input type="text" id="es_pincode" name="es_pincode" value="{{ $sellerDetails->pincode }}"
+                        maxlength="6" class="form-control form-control-lg" placeholder="Pin Code" required
+                        tabindex="17" oninput="numberOnlyAllowed(this)" />
+                    <div for="es_pincode" class="error"></div>
+                </div>
+
+
+
+
+                {{-- <div class="form-outline mb-3"><label>Google map link location</label>
+                    <input type="text" id="es_googlelink" name="es_googlelink"
+                        value="{{ $sellerDetails->googlemap }}" id class="form-control form-control-lg"
+                        placeholder="Google map link location" required tabindex="18" />
+                    <label for="es_googlelink" class="error"></label>
+                </div> --}}
+
+
+                <div class="form-outline mb-3"><label>Latitude (Google map location)<span
+                            class="text-danger">*</span></label>
+                    <input type="text" id="es_googlelatitude" name="es_googlelatitude"
+                        value="{{ $sellerDetails->latitude }}" class="form-control form-control-lg"
+                        placeholder="Latitude (Google map location)" required tabindex="18" />
+                    <div for="es_googlelatitude" class="error"></div>
+                </div>
+
+
+
+                <div class="form-outline mb-3"><label>Longitude (Google map location)<span
+                            class="text-danger">*</span></label>
+                    <input type="text" id="es_googlelongitude" name="es_googlelongitude"
+                        value="{{ $sellerDetails->longitude }}" class="form-control form-control-lg"
+                        placeholder="Longitude (Google map location)" required tabindex="18" />
+                    <div for="es_googlelongitude" class="error"></div>
+                </div>
+                <div class="form-outline mb-3"><label>Location<span class="text-danger">*</span></label>
+                    <div id="map" style="height:300px"></div>
+                </div>
+
+
+
                 <div class="form-outline mb-3" style="display: none;"><label>{{ $shoporservice }} Background
                         Color</label>
                     <input type="color" id="es_bgcolor" name="es_bgcolor" id class="form-control"
@@ -716,9 +719,49 @@
 </form>
 
 <!-- Modal Add new Close -->
+    {{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNkVXa7u-yL7RyGHTtOnMHcAIu69HGClM&callback=initMap&v=weekly&libraries=places"></script> --}}
 
 
 
+<script>
+    // Initialize and add the map
+    function initMap() {
+
+        var myLatlng = {
+            lat: 0,
+            lng: 0
+        };
+
+        var map = new google.maps.Map(
+            document.getElementById('map'), {
+                zoom: 13,
+                center: myLatlng
+            });
+
+        // Create the initial InfoWindow.
+        var infoWindow = new google.maps.InfoWindow({
+            content: 'Click the map to get Lat/Lng!',
+            position: myLatlng
+        });
+        infoWindow.open(map);
+
+        // Configure the click listener.
+        map.addListener('click', function(mapsMouseEvent) {
+            // Close the current InfoWindow.
+            infoWindow.close();
+
+            // Create a new InfoWindow.
+            infoWindow = new google.maps.InfoWindow({
+                position: mapsMouseEvent.latLng
+            });
+            infoWindow.setContent(mapsMouseEvent.latLng.toString());
+            $("#es_googlelatitude").val(mapsMouseEvent.latLng.lat());
+            $("#es_googlelongitude").val(mapsMouseEvent.latLng.lng());
+            infoWindow.open(map);
+        });
+
+    }
+</script>
 <script>
     $('#es_locality').on('input', function() {
         var inputText = $(this).val();
@@ -1350,7 +1393,6 @@
             },
             es_googlelongitude: {
                 required: true,
-                pattern: /^-?([1-8]?\d(\.\d{1,6})?|90(\.0{1,6})?)$/,
             },
             es_gstno: {
                 //     required: true,

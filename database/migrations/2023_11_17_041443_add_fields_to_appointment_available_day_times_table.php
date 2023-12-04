@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('appointment_available_day_times', function (Blueprint $table) {
-            $table->integer('employee_id')->after('to_time')->nullable();
-            $table->string('grace_time')->after('employee_id')->nullable();
+            $table->integer('employee_id')->after('to_time')->nullable()->index();
+            $table->string('grace_time')->after('employee_id')->nullable()->index();
         });
     }
 

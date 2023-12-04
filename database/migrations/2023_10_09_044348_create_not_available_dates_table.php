@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('not_available_dates', function (Blueprint $table) {
             $table->id();
-            $table->integer('appointment_id')->nullable();
-            $table->date('not_available_date')->nullable();
+            $table->integer('appointment_id')->nullable()->index();
+            $table->date('not_available_date')->nullable()->index();
             $table->timestamps();
         });
     }

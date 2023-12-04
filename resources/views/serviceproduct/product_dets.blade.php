@@ -294,9 +294,9 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <label>Service Description <span class="text-danger">*</span></label>
+                                        <label>Service Description <span class="text-danger"></span></label>
                                         <textarea id="prod_description" name="prod_description" placeholder="Service Description" class="form-control"
-                                            maxlength="7000" tabindex="4" required rows="3"></textarea>
+                                            maxlength="7000" tabindex="4" rows="3"></textarea>
                                         <label for="prod_description"></label>
                                     </div>
                                     <div class="form-group">
@@ -340,12 +340,39 @@
                                             </div>
                                         </fieldset>
                                     </div>
+
+                                    <div class="form-group"><label>Suggestions</label>
+                                        <textarea id="sugection" name="sugection" placeholder="Suggestions" class="form-control" maxlength="500"
+                                            tabindex="6"></textarea>
+                                        <label for="sugection" class="error"></label>
+                                    </div>
+
+                                    <div class="form-group mb-0 row">
+                                        <label class="col-md-3 my-2 control-label">Service Point </label>
+                                        <div class="col-md-9">
+
+                                            <div class="form-check-inline my-2">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="customCheck6" name="servicepoint1" data-parsley-multiple="groups" data-parsley-mincheck="2">
+                                                    <label class="custom-control-label" for="customCheck6">At Customer Location</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-check-inline my-2">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="customCheck7" name="servicepoint2" data-parsley-multiple="groups" data-parsley-mincheck="2">
+                                                    <label class="custom-control-label" for="customCheck7">At Service Provider Location</label>
+                                                </div>
+                                            </div>
+                                           
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
 
 
-                        <div class="col-lg-6">
+                        {{--  <div class="col-lg-6">
                             <div class="card">
                                 <div class="card-body">
 
@@ -377,13 +404,9 @@
                                         <label for="service_employe_id" class="error"></label>
                                     </div> --}}
 
-                                    <div class="form-group"><label>Suggestions</label>
-                                        <textarea id="sugection" name="sugection" placeholder="Suggestions" class="form-control" maxlength="500"
-                                            tabindex="6"></textarea>
-                                        <label for="sugection" class="error"></label>
-                                    </div>
+                                   
 
-                                    <div class="form-group mb-0 row">
+                                    {{--  <div class="form-group mb-0 row">
                                         <label class="col-md-3">Service Point </label>
                                         <div class="col-md-9">
                                             <div class="form-group">
@@ -403,13 +426,12 @@
 
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>  
+
                                 </div>
                             </div>
 
-                        </div>
-
-
+                        </div>  --}}
 
 
                         <div class="col-md-12">
@@ -525,13 +547,13 @@
 
 
 
-
-
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <div class="form-group mb-0 row">
+
+
+                                        {{--  <div class="form-group mb-0 row">
                                             <label class="col-md-6 my-1 control-label">Do you want to select
                                                 attributes?</label>
                                             <div class="col-md-6">
@@ -555,9 +577,12 @@
                                                 </div>
 
                                             </div>
-                                        </div>
-                                        <hr>
-                                        <div id="ifYes" style="display:none">
+                                        </div>  --}}
+
+
+
+                                        {{--  <hr>  --}}
+                                        {{--  <div id="ifYes" style="display:none">  --}}
                                             <fieldset>
                                                 <div class="repeater-default">
                                                     <div data-repeater-list="attributedata">
@@ -579,17 +604,17 @@
                                                                 <div class="col">
                                                                     <input type="text" id="attatibute1"
                                                                         name="attatibute1" placeholder="Attribute1"
-                                                                        required class="form-control">
+                                                                        class="form-control">
                                                                 </div>
                                                                 <div class="col">
                                                                     <input type="text" id="attatibute2"
                                                                         name="attatibute2" placeholder="Attribute2"
-                                                                        required class="form-control">
+                                                                      class="form-control">
                                                                 </div>
                                                                 <div class="col">
                                                                     <input type="text" id="attatibute3"
                                                                         name="attatibute3" placeholder="Attribute3"
-                                                                        required class="form-control">
+                                                                        class="form-control">
                                                                 </div>
                                                                 <div class="col">
                                                                     <input type="text" id="attatibute4"
@@ -661,7 +686,7 @@
                             <div id="product_del-message" class="text-center" style="display: none;"></div>
                         </div>
 
-
+                    </div>
 
                 </form>
             </div>
@@ -1021,7 +1046,7 @@
                 required: true,
             },
             prod_description: {
-                required: true,
+                {{--  required: true,  --}}
             },
             customRadio: {
                 required: true,
@@ -1063,11 +1088,11 @@
             },
             setavailbledate: "Availability date is mandatory.",
             setavailblefromdate: {
-                required: "From date is mandatory when Set Availability Dates is selected.",
+                required: "From date is mandatory.",
                 date: "Please enter a valid date."
             },
             setavailbletodate: {
-                required: "To date is mandatory when Set Availability Dates is selected.",
+                required: "To date is mandatory.",
                 date: "Please enter a valid date."
             },
             "notavailabledate_data[][setavailblesingledate]": {
@@ -1158,25 +1183,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     $(document).ready(function() {
 
         function initializeTimepicker(element) {
@@ -1212,12 +1218,14 @@
             var firstDayTimingRow = repeater.find('[data-repeater-item]').first();
             var timing = {
                 from: firstDayTimingRow.find('[id^="setfrom_time"]').val(),
-                to: firstDayTimingRow.find('[id^="setto_time"]').val()
+                to: firstDayTimingRow.find('[id^="setto_time"]').val(),
+                time: firstDayTimingRow.find('[id^="gracetime"]').val(),
             };
 
             repeater.find('[data-repeater-item]').not(':first').each(function() {
                 $(this).find('[id^="setfrom_time"]').val(timing.from);
                 $(this).find('[id^="setto_time"]').val(timing.to);
+                $(this).find('[id^="gracetime"]').val(timing.time);
             });
         });
 

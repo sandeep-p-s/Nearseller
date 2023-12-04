@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('categories', function (Blueprint $table) {
-            $table->integer('category_level')->nullable()->after('parent_id');
-            $table->string('category_image')->after('category_level')->nullable();
+            $table->integer('category_level')->nullable()->after('parent_id')->index();
+            $table->string('category_image')->after('category_level')->nullable()->index();
 
         });
     }

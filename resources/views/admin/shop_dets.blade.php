@@ -39,12 +39,12 @@
 
                 </div>
             @endif
-            @if ($typeid== '2')
+            @if ($typeid == '2')
                 <div class="col text-left">
-                    <a class="btn add_btn" id="viewbtn" href="{{ route('list.service_employee', $sellerDetailh->id) }}"
-                        >Employee</a>
-                    <a class="btn add_btn" id="viewbtn" href="{{ route('user.listallservice', $sellerDetailh->id) }}"
-                        >Add Product Details</a>
+                    <a class="btn add_btn" id="viewbtn"
+                        href="{{ route('list.service_employee', $sellerDetailh->id) }}">Employee</a>
+                    <a class="btn add_btn" id="viewbtn" href="{{ route('user.listallservice', $sellerDetailh->id) }}">Add
+                        Product Details</a>
                 </div>
             @endif
 
@@ -398,16 +398,16 @@
         @if (session('roleid') == '1' || session('roleid') == '11')
             <div class="text-center">
                 <span class="badge badge-soft-info p-2">
-                     Active {{ $shoporservice }} : {{ $activecounts->user_status_y_count }}
+                    Active {{ $shoporservice }} : {{ $activecounts->user_status_y_count }}
                 </span>
                 <span class="badge badge-soft-danger p-2">
-                     Inactive {{ $shoporservice }} : {{ $activecounts->user_status_not_y_count }}
+                    Inactive {{ $shoporservice }} : {{ $activecounts->user_status_not_y_count }}
                 </span>
                 <span class="badge badge-soft-info p-2">
-                     Approved {{ $shoporservice }} : {{ $activecounts->approved_y_count }}
+                    Approved {{ $shoporservice }} : {{ $activecounts->approved_y_count }}
                 </span>
                 <span class="badge badge-soft-danger p-2">
-                     Not Approved {{ $shoporservice }} : {{ $activecounts->approved_not_y_count }}
+                    Not Approved {{ $shoporservice }} : {{ $activecounts->approved_not_y_count }}
                 </span>
             </div>
         @endif
@@ -508,12 +508,13 @@
                                             onclick="shopvieweditdet({{ $sellerDetail->id }},{{ $typeid }})">View/Edit</a>
                                         <a class="dropdown-item approve_btn" href="#"
                                             onclick="shopapprovedet({{ $sellerDetail->id }},{{ $typeid }})">Activation/Approval</a>
-                                        @if($typeid == 2)
-                                        <a class="dropdown-item view_btn1" id="viewbtn" href="{{ route('list.service_employee', $sellerDetail->id) }}"
-                                            >Employee</a>
-                                        <a class="dropdown-item view_btn1" id="viewbtn" href="{{ route('user.listallservice', $sellerDetail->id) }}"
-                                            >Add Product Details</a>
-                                            @endif
+                                        @if ($typeid == 2)
+                                            <a class="dropdown-item view_btn1" id="viewbtn"
+                                                href="{{ route('list.service_employee', $sellerDetail->id) }}">Employee</a>
+                                            <a class="dropdown-item view_btn1" id="viewbtn"
+                                                href="{{ route('user.listallservice', $sellerDetail->id) }}">Add
+                                                Product Details</a>
+                                        @endif
                                         <a class="dropdown-item delete_btn" href="#"
                                             onclick="shopdeletedet({{ $sellerDetail->id }})">Delete</a>
                                     @else
@@ -573,7 +574,8 @@
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-md-4">
-                                    <div class="form-outline mb-3"><label>{{ $shoporservice }} Name<span
+                                    <div class="form-outline mb-3">
+                                        <label for="s_name">{{ $shoporservice }} Name<span
                                                 class="text-danger">*</span></label>
                                         <input type="text" id="s_name" name="s_name"
                                             class="form-control form-control-lg" maxlength="50"
@@ -584,14 +586,15 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-outline mb-3"><label>Owner Name<span
+                                    <div class="form-outline mb-3">
+                                        <label for="s_ownername">Owner Name<span
                                                 class="text-danger">*</span></label>
                                         <input type="text" id="s_ownername" name="s_ownername"
                                             class="form-control form-control-lg" maxlength="50"
                                             placeholder="Owner Name" required tabindex="2" />
                                         <div for="s_ownername" class="error"></div>
                                     </div>
-                                    <label>Mobile Number<span class="text-danger">*</span></label>
+                                    <label for="s_mobno">Mobile Number<span class="text-danger">*</span></label>
                                     <div class="form-outline mb-3 d-flex">
                                         <select name="s_mobcntrycode" id="s_mobcntrycode" class="form-control"
                                             style="width: 20%;" required>
@@ -604,7 +607,8 @@
                                         <div for="s_mobno" class="error"></div>
                                         <div id="smob-message" class="text-center" style="display: none;"></div>
                                     </div>
-                                    <div class="form-outline mb-3"><label>Email ID</label>
+                                    <div class="form-outline mb-3">
+                                        <label for="s_email">Email ID</label>
                                         <input type="email" id="s_email" name="s_email"
                                             class="form-control form-control-lg" maxlength="35"
                                             placeholder="Email ID" tabindex="4"
@@ -613,7 +617,8 @@
                                         <div for="s_email" class="error"></div>
                                         <div id="semil-message" class="text-center" style="display: none;"></div>
                                     </div>
-                                    <div class="form-outline mb-3"><label>Referral ID</label>
+                                    <div class="form-outline mb-3">
+                                        <label for="s_refralid">Referral ID</label>
                                         <input type="text" id="s_refralid" name="s_refralid"
                                             class="form-control form-control-lg" maxlength="50"
                                             placeholder="Referral ID" tabindex="5"
@@ -621,7 +626,8 @@
                                         <div id="s_refralid-message" class="text-center" style="display: none;">
                                         </div>
                                     </div>
-                                    <div class="form-outline mb-3" style="display: none;"><label>Business Type<span
+                                    <div class="form-outline mb-3" style="display: none;">
+                                        <label for="s_busnestype">Business Type<span
                                                 class="text-danger">*</span></label>
                                         <select class="form-select form-control form-control-lg" id="s_busnestype"
                                             name="s_busnestype" required tabindex="6">
@@ -632,7 +638,8 @@
                                         </select>
                                         <div for="s_busnestype" class="error"></div>
                                     </div>
-                                    <div class="form-outline mb-3"><label>Business Category<span
+                                    <div class="form-outline mb-3">
+                                        <label for="s_shopservice">Business Category<span
                                                 class="text-danger">*</span></label>
                                         <select class="form-select form-control form-control-lg" id="s_shopservice"
                                             name="s_shopservice" required tabindex="7">
@@ -659,7 +666,8 @@
                                 </div> --}}
 
 
-                                    <div class="form-outline mb-3"><label>{{ $shoporservice }} Provider Type<span
+                                    <div class="form-outline mb-3">
+                                        <label for="s_shopservicetype">{{ $shoporservice }} Provider Type<span
                                                 class="text-danger">*</span></label>
                                         <select class="form-select form-control form-control-lg"
                                             id="s_shopservicetype" name="s_shopservicetype" required tabindex="7">
@@ -673,7 +681,8 @@
                                     </div>
 
 
-                                    <div class="form-outline mb-3"><label>{{ $shoporservice }} Executive Name</label>
+                                    <div class="form-outline mb-3">
+                                        <label for="s_shopexectename">{{ $shoporservice }} Executive Name</label>
                                         <select class="form-select form-control form-control-lg" id="s_shopexectename"
                                             name="s_shopexectename" tabindex="8">
                                             <option value="">{{ $shoporservice }} Executive Name</option><br />
@@ -684,7 +693,8 @@
                                         <div for="s_shopexectename" class="error"></div>
                                     </div>
 
-                                    <div class="form-outline mb-3"><label>Social Media</label>
+                                    <div class="form-outline mb-3">
+                                        <label for="mediatype">Social Media</label>
                                         <div class="row mb-5">
                                             <div class="col-md-3 fv-row fv-plugins-icon-container">
                                                 <select class="form-select form-control form-control-lg"
@@ -712,32 +722,61 @@
                                         </div>
                                         <div id="addedUrls"></div>
                                     </div>
+                                    <div class="form-outline mb-3">
+                                        <label for="s_photo">{{ $shoporservice }} Photo's<span class="text-danger">*</span></label>
+                                        <input type="file" id="s_photo" multiple="" name="s_photo[]"
+                                            class="form-control form-control-lg" placeholder="Shop Photo" required
+                                            tabindex="19" accept="image/jpeg, image/png" />
+                                        <div for="s_photo" class="error"></div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group" align="left">
+                                            <div id="image-preview" class="row"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-outline mb-3">
+                                        <label for="s_logo">{{ $shoporservice }} Logo</label>
+                                        <input type="file" id="s_logo" name="s_logo[]"
+                                            class="form-control form-control-lg" placeholder="Shop Logo"
+                                            tabindex="19" accept="image/jpeg, image/png" />
+                                        <div for="s_logo" class="error"></div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group" align="left">
+                                            <div id="image-preview-logo" class="row"></div>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="col-md-4">
 
-                                    <div class="form-outline mb-3"><label>Building/House Name & Number<span
+                                    <div class="form-outline mb-3">
+                                        <label for="s_buldingorhouseno">Building/House Name & Number<span
                                                 class="text-danger">*</span></label>
                                         <input type="text" id="s_buldingorhouseno" name="s_buldingorhouseno"
                                             maxlength="100" class="form-control form-control-lg"
                                             placeholder="Building/House Name & Number" required tabindex="11" />
                                         <div for="s_buldingorhouseno" class="error"></div>
                                     </div>
-                                    <div class="form-outline mb-3"><label>Locality<span
+                                    <div class="form-outline mb-3">
+                                        <label for="s_locality">Locality<span
                                                 class="text-danger">*</span></label>
                                         <input type="text" id="s_locality" name="s_locality" maxlength="100"
                                             class="form-control form-control-lg"placeholder="Locality" required
                                             tabindex="12" />
                                         <div for="s_locality" class="error"></div>
                                     </div>
-                                    <div class="form-outline mb-3"><label>Village/Town/Municipality<span
+                                    <div class="form-outline mb-3">
+                                        <label for="s_villagetown">Village/Town/Municipality<span
                                                 class="text-danger">*</span></label>
                                         <input type="text" id="s_villagetown" name="s_villagetown"
                                             maxlength="100" class="form-control form-control-lg"
                                             placeholder="Village/Town/Municipality" required tabindex="13" />
                                         <div for="s_villagetown" class="error"></div>
                                     </div>
-                                    <div class="form-outline mb-3"><label>Country<span
+                                    <div class="form-outline mb-3">
+                                        <label for="country">Country<span
                                                 class="text-danger">*</span></label>
                                         <select class="form-select form-control form-control-lg" name="country"
                                             aria-label="Default select example" id="country" required
@@ -750,7 +789,8 @@
                                         </select>
                                         <div for="country" class="error"></div>
                                     </div>
-                                    <div class="form-outline mb-3"><label>State<span
+                                    <div class="form-outline mb-3">
+                                        <label for="state">State<span
                                                 class="text-danger">*</span></label>
                                         <select class="form-select form-control form-control-lg" name="state"
                                             aria-label="Default select example" id="state" required
@@ -759,7 +799,8 @@
                                         </select>
                                         <div for="state" class="error"></div>
                                     </div>
-                                    <div class="form-outline mb-3"><label>District<span
+                                    <div class="form-outline mb-3">
+                                        <label for="district">District<span
                                                 class="text-danger">*</span></label>
                                         <select class="form-select form-control form-control-lg"
                                             aria-label="Default select example" id="district" name="district"
@@ -768,7 +809,8 @@
                                         </select>
                                         <div for="district" class="error"></div>
                                     </div>
-                                    <div class="form-outline mb-3"><label>Pincode<span
+                                    <div class="form-outline mb-3">
+                                        <label for="s_pincode">Pincode<span
                                                 class="text-danger">*</span></label>
                                         <input type="text" id="s_pincode" name="s_pincode" maxlength="6"
                                             class="form-control form-control-lg" placeholder="Pin Code" required
@@ -777,53 +819,34 @@
                                     </div>
 
 
-                                    <div class="form-outline mb-3"><label>Latitude (Google map location)<span
+                                    <div class="form-outline mb-3">
+                                        <label for="s_googlelatitude">Latitude (Google map location)<span
                                                 class="text-danger">*</span></label>
                                         <input type="text" id="s_googlelatitude" name="s_googlelatitude"
                                             class="form-control form-control-lg"
-                                            placeholder="Latitude (Google map location)" required tabindex="18"
-                                            pattern="^-?([1-8]?\d(\.\d{1,6})?|90(\.0{1,6})?)" />
+                                            placeholder="Latitude (Google map location)" required tabindex="18" />
                                         <div for="s_googlelatitude" class="error"></div>
                                     </div>
 
 
 
-                                    <div class="form-outline mb-3"><label>Longitude (Google map location)<span
+                                    <div class="form-outline mb-3">
+                                        <label for="s_googlelongitude">Longitude (Google map location)<span
                                                 class="text-danger">*</span></label>
                                         <input type="text" id="s_googlelongitude" name="s_googlelongitude"
                                             class="form-control form-control-lg"
-                                            placeholder="Longitude (Google map location)" required tabindex="18"
-                                            pattern="^-?([1-8]?\d(\.\d{1,6})?|90(\.0{1,6})?)" />
+                                            placeholder="Longitude (Google map location)" required tabindex="18" />
                                         <div for="s_googlelongitude" class="error"></div>
                                     </div>
-
-
-
-                                    <div class="form-outline mb-3"><label>{{ $shoporservice }} Photo's<span
+                                    <div class="form-outline mb-3"><label>Location<span
                                                 class="text-danger">*</span></label>
-                                        <input type="file" id="s_photo" multiple="" name="s_photo[]"
-                                            class="form-control form-control-lg" placeholder="Shop Photo" required
-                                            tabindex="19" accept="image/jpeg, image/png" />
-                                        <div for="s_photo" class="error"></div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group" align="left">
-                                            <div id="image-preview" class="row"></div>
-                                        </div>
+                                        <div id="map" style="height:300px"></div>
                                     </div>
 
-                                    <div class="form-outline mb-3"><label>{{ $shoporservice }} Logo</label>
-                                        <input type="file" id="s_logo" name="s_logo[]"
-                                            class="form-control form-control-lg" placeholder="Shop Logo"
-                                            tabindex="19" accept="image/jpeg, image/png" />
-                                        <div for="s_logo" class="error"></div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group" align="left">
-                                            <div id="image-preview-logo" class="row"></div>
-                                        </div>
-                                    </div>
-                                    <div class="form-outline mb-3" style="display: none;"><label>{{ $shoporservice }}
+
+
+                                    <div class="form-outline mb-3" style="display: none;">
+                                        <label>{{ $shoporservice }}
                                             Background Color</label>
                                         <input type="color" id="s_bgcolor" name="s_bgcolor" id
                                             class="form-control" placeholder="{{ $shoporservice }} Background Color"
@@ -834,7 +857,8 @@
                                 </div>
                                 <div class="col-md-4">
 
-                                    <div class="form-outline mb-3"><label>{{ $shoporservice }} License Number</label>
+                                    <div class="form-outline mb-3">
+                                        <label for="s_lisence">{{ $shoporservice }} License Number</label>
                                         <input type="text" id="s_lisence" name="s_lisence"
                                             class="form-control form-control-lg" maxlength="15"
                                             placeholder="{{ $shoporservice }} License Number" tabindex="10"
@@ -842,14 +866,16 @@
                                         <div for="s_lisence" class="error"></div>
                                     </div>
 
-                                    <div class="form-outline mb-3"><label>GST Number</label>
+                                    <div class="form-outline mb-3">
+                                        <label for="s_gstno">GST Number</label>
                                         <input type="text" id="s_gstno" name="s_gstno" maxlength="15"
                                             class="form-control form-control-lg" placeholder="GST Number"
                                             tabindex="20" />
                                         <div for="s_gstno" class="error"></div>
                                         <div id="gst-error-message" style="color: red;"></div>
                                     </div>
-                                    <div class="form-outline mb-3"><label>PAN Number</label>
+                                    <div class="form-outline mb-3">
+                                        <label for="s_panno">PAN Number</label>
                                         <input type="text" id="s_panno" name="s_panno" maxlength="10"
                                             class="form-control form-control-lg" placeholder="PAN Number"
                                             tabindex="21" />
@@ -858,7 +884,8 @@
                                     </div>
 
 
-                                    <div class="form-outline mb-3"><label> Establishment Date @if ($typeid == 1)
+                                    <div class="form-outline mb-3">
+                                        <label for="s_establishdate"> Establishment Date @if ($typeid == 1)
                                                 <span class="text-danger">*</span>
                                             @endif
                                         </label>
@@ -1130,8 +1157,46 @@
     <!-- Modal Add new Close -->
 
 @endif
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNkVXa7u-yL7RyGHTtOnMHcAIu69HGClM&callback=initMap&v=weekly&libraries=places"></script>
 
+<script>
+    // Initialize and add the map
+    function initMap() {
 
+        var myLatlng = {
+            lat: 8.5241,
+            lng: 76.9366
+        };
+
+        var map = new google.maps.Map(
+            document.getElementById('map'), {
+                zoom: 13,
+                center: myLatlng
+            });
+
+        // Create the initial InfoWindow.
+        var infoWindow = new google.maps.InfoWindow({
+            content: 'Click the map to get Lat/Lng!',
+            position: myLatlng
+        });
+        infoWindow.open(map);
+
+        // Configure the click listener.
+        map.addListener('click', function(mapsMouseEvent) {
+            // Close the current InfoWindow.
+            infoWindow.close();
+
+            // Create a new InfoWindow.
+            infoWindow = new google.maps.InfoWindow({
+                position: mapsMouseEvent.latLng
+            });
+            infoWindow.setContent(mapsMouseEvent.latLng.toString());
+            $("#s_googlelatitude").val(mapsMouseEvent.latLng.lat());
+            $("#s_googlelongitude").val(mapsMouseEvent.latLng.lng());
+            infoWindow.open(map);
+        });
+    }
+</script>
 <script>
     $(document).ready(function() {
         var currentPageUrl = window.location.href;
@@ -1940,11 +2005,11 @@
             // },
             s_googlelatitude: {
                 required: true,
-                pattern: /^-?([1-8]?\d(\.\d{1,6})?|90(\.0{1,6})?)$/
+                // pattern: /^-?([1-8]?\d(\.\d{1,6})?|90(\.0{1,6})?)$/
             },
             s_googlelongitude: {
                 required: true,
-                pattern: /^-?([1-8]?\d(\.\d{1,6})?|90(\.0{1,6})?)$/
+                // pattern: /^-?([1-8]?\d(\.\d{1,6})?|90(\.0{1,6})?)$/
             },
 
             s_establishdate: {

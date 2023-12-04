@@ -12,20 +12,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('mobno', 10)->unique()->after('email');
-            $table->string('user_status',1)->default('N')->after('remember_token');
+            $table->string('mobno', 10)->unique()->after('email')->index();
+            $table->integer('user_status')->default(0)->after('remember_token')->nullable();
             $table->string('forgot_pass',25)->nullable()->after('user_status');
-            $table->string('role_id',25)->after('forgot_pass')->nullable();
+            $table->string('role_id',25)->after('forgot_pass')->nullable()->index();
             $table->date('active_date')->nullable()->after('role_id');
-            $table->string('approved',1)->default('N')->after('active_date');
+            $table->integer('approved')->default(0)->after('active_date')->index();
             $table->string('approved_by')->nullable()->after('approved');
             $table->dateTime('approved_at')->nullable()->after('approved_by');
             $table->string('ip')->nullable()->after('approved_at');
             $table->string('parent_id',25)->nullable()->after('ip');
-            $table->string('email_verify',1)->default('N')->after('parent_id');
-            $table->string('mobile_verify',1)->default('N')->after('email_verify');
+            $table->integer('email_verify')->default(0)->after('parent_id');
+            $table->integer('mobile_verify')->default(0)->after('email_verify');
             $table->string('referal_id')->after('mobile_verify')->nullable();
-            $table->string('photo_file')->after('referal_id')->nullable();
+            $table->string('photo_file')->after('referal_id')->nullable()->index();
             $table->date('user_dob')->after('photo_file')->nullable();
             $table->string('user_house_name')->after('user_dob')->nullable();
             $table->string('user_locality')->after('user_house_name')->nullable();
@@ -34,7 +34,7 @@ return new class extends Migration
             $table->string('user_state')->after('user_country')->nullable();
             $table->string('user_dist')->after('user_state')->nullable();
             $table->string('user_pincode')->after('user_dist')->nullable();
-            $table->string('mob_countrycode',5)->after('user_pincode')->nullable();
+            $table->string('mob_countrycode',5)->after('user_pincode')->nullable()->index();
         });
     }
 

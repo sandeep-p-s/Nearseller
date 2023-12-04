@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('add_service_attributes', function (Blueprint $table) {
             $table->id();
-            $table->integer('service_id')->nullable();
-            $table->string('attribute_1')->nullable();
-            $table->string('attribute_2')->nullable();
-            $table->string('attribute_3')->nullable();
-            $table->string('attribute_4')->nullable();
-            $table->string('call_shop')->nullable();
+            $table->integer('service_id')->nullable()->index();
+            $table->string('attribute_1')->nullable()->index();
+            $table->string('attribute_2')->nullable()->index();
+            $table->string('attribute_3')->nullable()->index();
+            $table->string('attribute_4')->nullable()->index();
+            $table->string('call_shop')->nullable()->index();
             $table->timestamps();
         });
     }

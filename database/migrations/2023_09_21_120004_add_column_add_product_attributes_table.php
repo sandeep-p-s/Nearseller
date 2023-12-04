@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('add_product_attributes', function (Blueprint $table) {
-            $table->string('attribute_1')->nullable()->after('product_id');
-            $table->string('attribute_2')->nullable()->after('attribute_1');
-            $table->string('attribute_3')->nullable()->after('attribute_2');
-            $table->string('attribute_4')->nullable()->after('attribute_3');
-            $table->string('stock_status')->default('0')->after('attribute_4')->nullable();
+            $table->string('attribute_1')->nullable()->after('product_id')->index();
+            $table->string('attribute_2')->nullable()->after('attribute_1')->index();
+            $table->string('attribute_3')->nullable()->after('attribute_2')->index();
+            $table->string('attribute_4')->nullable()->after('attribute_3')->index();
+            $table->integer('stock_status')->default(0)->after('attribute_4')->nullable()->index();
         });
     }
 

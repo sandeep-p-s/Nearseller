@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('roles', function (Blueprint $table) {
-            $table->tinyInteger('is_active')->default('0')->comment("0 -> Inactive ,1 -> Active");
+            $table->tinyInteger('is_active')->default('0')->comment("0 -> Inactive ,1 -> Active")->nullable()->index();
 
         });
     }

@@ -128,6 +128,13 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <label for="exampleFormControlSelect1">Status</label>
+                                            <select class="form-control" id="exampleFormControlSelect1" name="status">
+                                                <option value="Active" @if($serviceoffer->status === 'Y') selected @endif>Active</option>
+                                                <option value="Inactive" @if($serviceoffer->status === 'N') selected @endif>Inactive</option>
+                                            </select>
+                                        </div>
                                         <div class="form-group"><label>Approval Status</label>
                                             <select class="form-control" id="serviceofferapproved"
                                                 name="serviceofferapproved">

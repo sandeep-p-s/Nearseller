@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('menu_masters', function (Blueprint $table) {
             $table->id();
-            $table->string('menu_desc')->nullable();
-            $table->bigInteger('menu_level_1')->nullable();
-            $table->bigInteger('menu_level_2')->nullable();
-            $table->bigInteger('menu_level_3')->nullable();
-            $table->string('url')->nullable();
-            $table->integer('status')->default(1)->nullable();
+            $table->string('menu_desc')->nullable()->index();
+            $table->bigInteger('menu_level_1')->nullable()->index();
+            $table->bigInteger('menu_level_2')->nullable()->index();
+            $table->bigInteger('menu_level_3')->nullable()->index();
+            $table->string('url')->nullable()->index();
+            $table->integer('status')->default(1)->nullable()->index();
             $table->timestamps();
         });
     }

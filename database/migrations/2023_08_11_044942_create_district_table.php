@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('district', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('state_id');
-            $table->string('district_name')->nullable();
-            $table->string('status',1)->default('Y')->nullable();
+            $table->unsignedBigInteger('state_id')->index();
+            $table->string('district_name',50)->nullable()->index();
+            $table->integer('status')->default(1)->nullable()->index();
             $table->timestamps();
 
         });

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('logdetails', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id')->nullable();
+            $table->string('user_id',10)->nullable()->index();
             $table->string('ip_address')->nullable();
             $table->dateTime('log_time')->nullable();
             $table->longText('status')->nullable();

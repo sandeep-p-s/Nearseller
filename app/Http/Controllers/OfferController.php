@@ -124,8 +124,8 @@ class OfferController extends Controller
         $shop_offer = new Offer;
         $shop_offer->user_id = $request->shopeuser_name;
         $shop_offer->type = 1;
-        $shop_offer->offer_to_display = $request->offer_to_display;
-        $shop_offer->conditions = json_encode($request->input('car.conditions'));
+        $shop_offer->offer_to_display = ucwords($request->offer_to_display);
+        $shop_offer->conditions = json_encode($request->car);
         $shop_offer->from_date_time = $request->from_date_time;
         $shop_offer->to_date_time = $request->to_date_time;
         $upload_path = 'uploads/shop_offer/';
@@ -194,7 +194,7 @@ class OfferController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'offer_to_display' => 'required|string',
+                'offer_to_display' => 'required|string|unique:offers,offer_to_display,' . $id,
                 'car.conditions' => 'required|array',
                 'car.conditions.*' => 'required|string|max:255',
                 'from_date_time' => 'required|date',
@@ -203,6 +203,7 @@ class OfferController extends Controller
             ],
             [
                 'offer_to_display.required' => 'The Display offer field is required',
+                'offer_to_display.unique' => 'This Offer name is already in use.',
                 'conditions.required' => 'The conditions field is required.',
                 'conditions.string' => 'The conditions field must be a string.',
                 'conditions.max' => 'The conditions field may not be greater than :max characters.',
@@ -213,8 +214,8 @@ class OfferController extends Controller
         //     return redirect()->back()->withErrors($validator)->withInput();
         // }
         $shopoffer->user_id = $request->shopeuser_name;
-        $shopoffer->offer_to_display = $request->offer_to_display;
-        $shopoffer->conditions = json_encode($request->input('car.conditions'));
+        $shopoffer->offer_to_display = ucwords($request->offer_to_display);
+        $shopoffer->conditions = json_encode($request->car);
         $shopoffer->from_date_time = $request->from_date_time;
         $shopoffer->to_date_time = $request->to_date_time;
         $upload_path = 'uploads/shop_offer/';
@@ -318,7 +319,7 @@ class OfferController extends Controller
         if (!$shopoffer) {
             return redirect()->route('list.shopoffer')->with('error', 'Seller offer not found.');
         }
-
+        //dd($request->all());
         $validator = Validator::make(
             $request->all(),
             [
@@ -495,7 +496,7 @@ class OfferController extends Controller
         $service_offer = new Offer;
         $service_offer->type = 2;
         $service_offer->user_id = $request->serviceuser_name;
-        $service_offer->offer_to_display = $request->offer_to_display;
+        $service_offer->offer_to_display = ucwords($request->offer_to_display);
         $service_offer->conditions = json_encode($request->car);
         $service_offer->from_date_time = $request->from_date_time;
         $service_offer->to_date_time = $request->to_date_time;
@@ -577,7 +578,7 @@ class OfferController extends Controller
         //     return redirect()->back()->withErrors($validator)->withInput();
         // }
         $serviceoffer->user_id = $request->serviceuser_name;
-        $serviceoffer->offer_to_display = $request->offer_to_display;
+        $serviceoffer->offer_to_display = ucwords($request->offer_to_display);
         $serviceoffer->conditions = json_encode($request->car);
         $serviceoffer->from_date_time = $request->from_date_time;
         $serviceoffer->to_date_time = $request->to_date_time;
@@ -701,6 +702,11 @@ class OfferController extends Controller
 
             ]
         );
+        if ($request->status === 'Active') {
+            $serviceoffer->status = 'Y';
+        } else {
+            $serviceoffer->status = 'N';
+        }
         $serviceoffer->approval_status = $request->serviceofferapproved;
         $serviceoffer->approved_by = $userId;
         $serviceoffer->approved_time = $time;
@@ -722,7 +728,7 @@ class OfferController extends Controller
         $LogDetails->log_time = $time;
         $LogDetails->status = $msg;
         $LogDetails->save();
-        return redirect()->route('list.service_offer')->with('success', $appstatus);
+        return redirect()->route('list.shop_offer')->with('success', $appstatus);
     }
     public function AdmServiceOfferApprovedAll(Request $request)
     {

@@ -22,13 +22,13 @@ return new class extends Migration
             $table->longText('product_document')->nullable();
             $table->longText('manufacture_details')->nullable();
             $table->string('brand_name', 100)->nullable();
-            $table->string('paying_mode', 10)->nullable();
-            $table->string('product_stock', 12)->nullable();
-            $table->string('is_attribute',10)->nullable();
+            $table->string('paying_mode', 10)->nullable()->index();
+            $table->string('product_stock', 12)->nullable()->index();
+            $table->string('is_attribute',10)->nullable()->index();
             $table->string('created_by')->nullable();
             $table->timestamp('created_time')->nullable();
-            $table->string('product_status')->default('Y')->nullable();
-            $table->string('is_approved',1)->default('N')->nullable();
+            $table->integer('product_status')->default(1)->nullable()->index();
+            $table->integer('is_approved')->default(0)->nullable()->index();
             $table->string('approved_by',10)->nullable();
             $table->timestamp('approved_time')->nullable();
             $table->timestamps();

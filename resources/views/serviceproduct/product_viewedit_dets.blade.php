@@ -190,12 +190,11 @@
             <div class="card">
                 <div class="card-body">
                     <div class="form-group">
-                        <label>Service Description <span class="text-danger">*</span></label>
+                        <label>Service Description <span class="text-danger"></span></label>
                         <textarea id="prod_descriptions" name="prod_descriptions" placeholder="Service Description" class="form-control"
-                            maxlength="7000" tabindex="4" required rows="3">{{ $ServiceDetails->service_description }}</textarea>
+                            maxlength="7000" tabindex="4" rows="3">{{ $ServiceDetails->service_description }}</textarea>
                         <label for="prod_descriptions"></label>
                     </div>
-
                     <div class="form-group">
                         <fieldset>
                             <div class="repeater-default-questions">
@@ -247,7 +246,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                                 <div class="form-group mb-0 row">
                                     <div class="col-sm-12 text-right">
@@ -266,6 +264,7 @@
                         <label for="sugections" class="error"></label>
                     </div>
 
+
                     @php
                         $servicepoint = $ServiceAppointment->service_point;
                         $explodeservice = explode(',', $servicepoint);
@@ -273,9 +272,8 @@
                         $servicepointb = $explodeservice[1];
                     @endphp
 
-
-
-                    <div class="form-group mb-0 row">
+                    
+                    {{--  <div class="form-group mb-0 row">
                         <label class="col-md-3">Service Point </label>
                         <div class="col-md-9">
                             <div class="form-group">
@@ -285,18 +283,41 @@
                                         name="servicepointa" value="1"
                                         {{ $servicepointa == 1 ? 'checked' : '' }} style="width: 18%;">
                                     <label class="form-check-label" for="servicepointa">At
-                                        Home</label>
+                                        Customer Location</label>
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-control" type="checkbox" id="servicepointb"
                                         name="servicepointb" value="1"
-                                        {{ $servicepointb == 1 ? 'checked' : '' }} style="width: 19%;">
+                                        {{ $servicepointb == 1 ? 'checked' : '' }} style="width: 18%;">
                                     <label class="form-check-label" for="servicepointb">At
-                                        Shop</label>
+                                        Service Provider Location</label>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>  --}}
+
+
+                    <div class="form-group mb-0 row">
+                        <label class="col-md-3 my-2 control-label">Service Point </label>
+                        <div class="col-md-9">
+
+                            <div class="form-check-inline my-2">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck6" name="servicepoint1" data-parsley-multiple="groups" data-parsley-mincheck="2">
+                                    <label class="custom-control-label" for="customCheck6">At Customer Location</label>
+                                </div>
+                            </div>
+                            <div class="form-check-inline my-2">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck7" name="servicepoint2" data-parsley-multiple="groups" data-parsley-mincheck="2">
+                                    <label class="custom-control-label" for="customCheck7">At Service Provider Location</label>
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div><!--end row-->
+
+
 
 
 
@@ -354,9 +375,11 @@
                                         </div>
                                     </div>
                                     <!-- Dynamic Rows -->
+
                                     @php
                                         $countavialabletime = count($appointmentavailable);
                                     @endphp
+
                                     @if ($countavialabletime > 0)
 
                                         @foreach ($appointmentavailable as $availdatetime)
@@ -437,6 +460,7 @@
                                         @endforeach
                                     @endif
 
+
                                     <div data-repeater-item="" id="availabletime_no" style="display: none;">
                                         <div class="form-group row d-flex align-items-end">
                                             <div class="col">
@@ -497,23 +521,9 @@
                             </div>
                         </fieldset>
                     </div>
-
-
                 </div>
             </div>
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -522,7 +532,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="form-group">
-                        <div class="form-group mb-0 row">
+                        {{--  <div class="form-group mb-0 row">
                             <label class="col-md-6 my-1 control-label">Do you want to select
                                 attributes?</label>
                             <div class="col-md-6">
@@ -547,10 +557,11 @@
 
                             </div>
                         </div>
-                        <hr>
+                        <hr>  --}}
+
 
                         <div id="ifYess"
-                            style="display: {{ $ServiceDetails->is_attribute == 'Y' ? 'block' : 'none' }};">
+                            {{--  style="display: {{ $ServiceDetails->is_attribute == 'Y' ? 'block' : 'none' }};">  --}}
                             <fieldset>
                                 <div class="repeater-defaults">
                                     <div data-repeater-list="attributedatas">
@@ -672,8 +683,6 @@
                                 </div>
                             </fieldset>
                         </div>
-
-
                     </div>
                 </div>
             </div>
@@ -687,14 +696,14 @@
             </div>
         </div>
 
-
         <div class="col-md-12">
             <div id="productsubs-message" class="text-center" style="display: none;"></div>
         </div>
-
-
-
+    </div>
 </form>
+
+
+
 
 
 
@@ -806,9 +815,6 @@
 
 
 
-
-
-
     var maxQuestions = 8;
     $('.repeater-default-questions').repeater({
         show: function() {
@@ -834,6 +840,7 @@
 
 
 
+
     function updateFieldIdss(row) {
         var rowIndex = row.index() + 1;
         row.find('[id]').each(function() {
@@ -852,8 +859,9 @@
             document.getElementById('ifYess').style.display = 'none';
             $('#errorstocks-message').hide();
         }
-
     }
+
+
 
     function numberOnlyAllowed(inputElement) {
         let value = inputElement.value.replace(/\D/g, '');
@@ -863,6 +871,8 @@
         inputElement.value = value;
     }
 
+
+
     function numberOnlyAllowedDot(inputElement) {
         let value = inputElement.value.replace(/[^0-9.]/g, '');
         if (value.length > 10) {
@@ -870,7 +880,6 @@
         }
         inputElement.value = value;
     }
-
 
 
 
@@ -944,7 +953,6 @@
 
 
 
-
     function FileListItem(file) {
         file = [].slice.call(Array.isArray(file) ? file : arguments);
         var b = file.length;
@@ -964,8 +972,6 @@
 
 
 
-
-
     $("#ProductRegFormEdit").validate({
 
         rules: {
@@ -976,7 +982,7 @@
                 required: true,
             },
             prod_descriptions: {
-                required: true,
+                {{--  required: true,  --}}
             },
 
             customRadio: {

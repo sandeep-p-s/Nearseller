@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('otp_generate', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id')->nullable();
-            $table->string('otpmsgtype')->nullable();
-            $table->string('otp', 8)->nullable();
+            $table->string('user_id',50)->nullable()->index();
+            $table->string('otpmsgtype',50)->nullable()->index();
+            $table->string('otp', 8)->nullable()->index();
             $table->dateTime('created_time')->nullable();
             $table->string('updated_by')->nullable();
             $table->timestamps();

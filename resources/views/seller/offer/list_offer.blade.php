@@ -71,8 +71,8 @@
                                         @if (session('roleid') == 1 || session('roleid') == 11)
                                             {{-- <th data-sortable="false"><input type='checkbox' name='checkbox1' id='checkbox1'
                                                 onclick='check();' /></th> --}}
-                                            <th width="5px" class="checkboxcol"><input type='checkbox' name='checkbox1' id='checkbox1'
-                                                    class="selectAll" onclick='' /></th>
+                                            <th width="5px" class="checkboxcol"><input type='checkbox' name='checkbox1'
+                                                    id='checkbox1' class="selectAll" onclick='' /></th>
                                         @endif
                                         <th>S.No.</th>
                                         <th>Offers</th>
@@ -90,8 +90,8 @@
                                         @foreach ($shop_offer as $index => $so)
                                             <tr>
                                                 @if (session('roleid') == 1 || session('roleid') == 11)
-                                                    <td width="8%" class="checkboxcol"><input name="shopofferid[]" type="checkbox"
-                                                            id="shopofferid{{ $loop->iteration }}"
+                                                    <td width="8%" class="checkboxcol"><input name="shopofferid[]"
+                                                            type="checkbox" id="shopofferid{{ $loop->iteration }}"
                                                             value="{{ $so->id }}"
                                                             {{ $so->approval_status === 'Y' ? '' : '' }} />
                                                     </td>
@@ -153,8 +153,13 @@
                                                             @if (session('roleid') == '1' || session('roleid') == '11')
                                                                 <a class="dropdown-item view_btn1 d-none"
                                                                     href="{{ route('edit.shop_offer', $so->id) }}">View/Edit</a>
-                                                                <a class="dropdown-item approve_btn"
-                                                                    href="{{ route('approved.shopoffer', $so->id) }}">Activation/Approved</a>
+                                                                @if ($so->type == 1)
+                                                                    <a class="dropdown-item approve_btn"
+                                                                        href="{{ route('approved.shopoffer', $so->id) }}">Activation/Approved</a>
+                                                                @elseif ($so->type == 2)
+                                                                    <a class="dropdown-item approve_btn"
+                                                                        href="{{ route('approved.serviceoffer', $so->id) }}">Activation/Approved</a>
+                                                                @endif
                                                                 <a class="dropdown-item delete_btn"
                                                                     href="{{ route('delete.shop_offer', $so->id) }}"
                                                                     onclick="return confirm('Are you sure you want to delete?')">Delete</a>
@@ -221,13 +226,11 @@
                         this.api().columns().every(function() {
                             var column = this;
                             var colIndex = column[0][0];
-                            var hidroleid=$('#hidroleid').val();
-                            if(hidroleid==1 || hidroleid==11)
-                            {
-                            var excludeColumns = [0, 1, 6];
-                            var textColumns = [1, 2];
-                            }
-                            else{
+                            var hidroleid = $('#hidroleid').val();
+                            if (hidroleid == 1 || hidroleid == 11) {
+                                var excludeColumns = [0, 1, 6];
+                                var textColumns = [1, 2];
+                            } else {
                                 var excludeColumns = [0, 5];
                                 var textColumns = [1];
 

@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('service_appointments', function (Blueprint $table) {
             $table->id();
-            $table->date('available_from_date')->nullable();
-            $table->date('available_to_date')->nullable();
-            $table->integer('is_not_available')->nullable();
+            $table->date('available_from_date')->nullable()->index();
+            $table->date('available_to_date')->nullable()->index();
+            $table->integer('is_not_available')->nullable()->index();
             $table->longtext('not_available_dates')->nullable();
             $table->longtext('working_hours')->nullable();
-            $table->integer('service_id')->nullable();
-            $table->integer('employee_id')->nullable();
+            $table->integer('service_id')->nullable()->index();
+            $table->integer('employee_id')->nullable()->index();
             $table->longtext('suggestion')->nullable();
-            $table->integer('service_point')->nullable();
+            $table->string('service_point')->nullable()->index();
             $table->timestamps();
         });
     }

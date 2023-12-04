@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('seller_details', function (Blueprint $table) {
-            $table->string('shoplogo')->after('updated_at')->nullable();
+            $table->string('shoplogo')->after('updated_at')->nullable()->index();
             $table->string('colorpicks')->after('shoplogo')->nullable();
         });
     }

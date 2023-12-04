@@ -4,18 +4,18 @@ namespace App\Http\Controllers\Admin;
 
 use DB;
 use File;
+use Storage;
+use Carbon\Carbon;
 use App\Models\User;
+use App\Models\LogDetails;
+use App\Models\MenuMaster;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-//use Image;
+use Intervention\Image\ImageManagerStatic as Image;
 use App\Models\admin\Category;
-use App\Models\MenuMaster;
-use App\Models\LogDetails;
-use App\Http\Controllers\Controller;
-use Storage;
 use Illuminate\Validation\Rule;
 use App\Rules\CategoryLevelRule;
-use Carbon\Carbon;
+use App\Http\Controllers\Controller;
 class CategoryController extends Controller
 {
     public function list_category()
@@ -143,33 +143,35 @@ class CategoryController extends Controller
             $newcategory->approved_time = Carbon::now();
             }
 
-            if ($request->hasFile('category_image')) {
-                $upload_imgpath = 'uploads/categoryimages/';
-                if (!is_dir($upload_imgpath)) {
-                    mkdir($upload_imgpath, 0777, true);
-                }
-                foreach ($request->file('category_image') as $fimg) {
-                    if ($fimg->isValid()) {
-                        $imgfile_name = time() . '_' . $fimg->getClientOriginalName();
-                        $fimg->move($upload_imgpath, $imgfile_name);
-                        $imgfilename = $upload_imgpath . $imgfile_name;
-                        $newcategory->category_image = $imgfilename;
-                    }
-                }
-            }
-
-            // $newcategory->category_image = '';
-            // if (!empty($request->category_image)) {
-            //     $fileName = time() . '_' . Str::random(8) . '.' . $request->category_image->extension();
-            //     $img = Image::make($request->category_image->path());
-            //     $img->fit(config('imageupload.category.thumb_width'), config('imageupload.category.thumb_height'), function ($constraint) {
-            //         //$constraint->upsize();
-            //     });
-            //     $img->save(Storage::disk('public')->path(config('imageupload.categorydir') . "/" . config('imageupload.category.imagethumb') . $fileName), 100);
-            //     Storage::disk('public')->put(config('imageupload.categorydir') . "/" . config('imageupload.category.image') . $fileName, File::get($request->category_image));
-            //     $newcategory->category_image = $fileName;
+            // if ($request->hasFile('category_image')) {
+            //     $upload_imgpath = 'uploads/categoryimages/';
+            //     if (!is_dir($upload_imgpath)) {
+            //         mkdir($upload_imgpath, 0777, true);
+            //     }
+            //     foreach ($request->file('category_image') as $fimg) {
+            //         if ($fimg->isValid()) {
+            //             $imgfile_name = time() . '_' . $fimg->getClientOriginalName();
+            //             $fimg->move($upload_imgpath, $imgfile_name);
+            //             $imgfilename = $upload_imgpath . $imgfile_name;
+            //             $newcategory->category_image = $imgfilename;
+            //         }
+            //     }
             // }
-            // $newcategory->category_type = $request->select_type;
+
+            $newcategory->category_image = '';
+
+            if (!empty($request->category_image)) {
+                $fileName = time() . '_' . Str::random(8) . '.' . $request->category_image->extension();
+                $img = Image::make($request->category_image->path());
+                $img->fit(config('imageupload.category.thumb_width'), config('imageupload.category.thumb_height'), function ($constraint) {
+
+                    //$constraint->upsize();
+                });
+                $img->save(Storage::disk('public')->path(config('imageupload.nearsellerdir') . "/" . config('imageupload.category.imagethumb') . $fileName), 100);
+                Storage::disk('public')->put(config('imageupload.nearsellerdir') . "/" . config('imageupload.category.image') . $fileName, File::get($request->category_image));
+                $newcategory->category_image = $fileName;
+            }
+            //$newcategory->category_type = $request->select_type;
             $newcategory->created_by = $userId;
             $newcategory->save();
             $loggedUserIp = $_SERVER['REMOTE_ADDR'];
@@ -265,40 +267,40 @@ class CategoryController extends Controller
             $current_category->category_slug = trim($request->category_slug);
             $current_category->category_level = $request->category_level;
 
-            // if (!empty($request->category_image)) {
-            //     if ($current_category->category_image != null) {
-            //         if (Storage::disk('public')->exists(config('imageupload.categorydir') . "/" . config('imageupload.category.image') .$current_category->category_image)) {
-            //             Storage::disk('public')->delete(config('imageupload.categorydir') . "/" . config('imageupload.category.image') . $current_category->category_image);
-            //         }
-            //         if (Storage::disk('public')->exists(config('imageupload.categorydir') . "/" . config('imageupload.category.imagethumb') .$current_category->category_image)) {
-            //             Storage::disk('public')->delete(config('imageupload.categorydir') . "/" . config('imageupload.category.imagethumb') . $current_category->category_image);
-            //         }
-            //     }
-            //     $fileName = time() . '_' . Str::random(8) . '.' . $request->category_image->extension();
-            //     $img = Image::make($request->category_image->path());
-            //     $img->fit(config('imageupload.category.thumb_width'), config('imageupload.category.thumb_height'), function ($constraint) {
-            //         //$constraint->upsize();
-            //     });
-            //     $img->save(Storage::disk('public')->path(config('imageupload.categorydir') . "/" . config('imageupload.category.imagethumb') . $fileName), 100);
-            //     Storage::disk('public')->put(config('imageupload.categorydir') . "/" . config('imageupload.category.image') . $fileName, File::get($request->category_image));
-            //     $current_category->category_image = $fileName;
-            // }
-
-
-            if ($request->hasFile('category_image')) {
-                $upload_imgpath = 'uploads/categoryimages/';
-                if (!is_dir($upload_imgpath)) {
-                    mkdir($upload_imgpath, 0777, true);
-                }
-                foreach ($request->file('category_image') as $fimg) {
-                    if ($fimg->isValid()) {
-                        $imgfile_name = time() . '_' . $fimg->getClientOriginalName();
-                        $fimg->move($upload_imgpath, $imgfile_name);
-                        $imgfilename = $upload_imgpath . $imgfile_name;
-                        $current_category->category_image = $imgfilename;
+            if (!empty($request->category_image)) {
+                if ($current_category->category_image != null) {
+                    if (Storage::disk('public')->exists(config('imageupload.nearsellerdir') . "/" . config('imageupload.category.image') .$current_category->category_image)) {
+                        Storage::disk('public')->delete(config('imageupload.nearsellerdir') . "/" . config('imageupload.category.image') . $current_category->category_image);
+                    }
+                    if (Storage::disk('public')->exists(config('imageupload.nearsellerdir') . "/" . config('imageupload.category.imagethumb') .$current_category->category_image)) {
+                        Storage::disk('public')->delete(config('imageupload.nearsellerdir') . "/" . config('imageupload.category.imagethumb') . $current_category->category_image);
                     }
                 }
+                $fileName = time() . '_' . Str::random(8) . '.' . $request->category_image->extension();
+                $img = Image::make($request->category_image->path());
+                $img->fit(config('imageupload.category.thumb_width'), config('imageupload.category.thumb_height'), function ($constraint) {
+                    //$constraint->upsize();
+                });
+                $img->save(Storage::disk('public')->path(config('imageupload.nearsellerdir') . "/" . config('imageupload.category.imagethumb') . $fileName), 100);
+                Storage::disk('public')->put(config('imageupload.nearsellerdir') . "/" . config('imageupload.category.image') . $fileName, File::get($request->category_image));
+                $current_category->category_image = $fileName;
             }
+
+
+            // if ($request->hasFile('category_image')) {
+            //     $upload_imgpath = 'uploads/categoryimages/';
+            //     if (!is_dir($upload_imgpath)) {
+            //         mkdir($upload_imgpath, 0777, true);
+            //     }
+            //     foreach ($request->file('category_image') as $fimg) {
+            //         if ($fimg->isValid()) {
+            //             $imgfile_name = time() . '_' . $fimg->getClientOriginalName();
+            //             $fimg->move($upload_imgpath, $imgfile_name);
+            //             $imgfilename = $upload_imgpath . $imgfile_name;
+            //             $current_category->category_image = $imgfilename;
+            //         }
+            //     }
+            // }
             if($roleid==1 || $roleid==11)
             {$current_category->status = $request->status;}
             //$current_category->category_type = $request->select_type;
